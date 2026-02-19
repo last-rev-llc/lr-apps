@@ -1,0 +1,26 @@
+[
+  {
+    "id": "security-audit",
+    "title": "Security Audit Prompt",
+    "category": "Code Review",
+    "icon": "🛡️",
+    "prompt": "Review this codebase for security vulnerabilities. Focus on: XSS via innerHTML/insertAdjacentHTML without escaping, missing escapeAttr() on dynamic HTML attributes, unsafe eval/Function constructors, prototype pollution vectors, insecure target='_blank' links missing rel='noopener'. For each finding, provide severity (high/medium/low), the file and line, a description, and a fix.",
+    "tags": ["security", "xss", "audit"]
+  },
+  {
+    "id": "pattern-review",
+    "title": "Pattern Consistency Review",
+    "category": "Code Review",
+    "icon": "🔄",
+    "prompt": "Review this codebase for pattern consistency. Check: Are all event handlers using data-attribute pattern (not inline onclick with interpolation)? Are all dynamic values escaped with _esc()? Are CSS variables used instead of hardcoded colors? Are shared components used instead of custom implementations? List each inconsistency with file, description, and suggested fix.",
+    "tags": ["patterns", "consistency", "standards"]
+  },
+  {
+    "id": "nightly-summary",
+    "title": "Nightly Review Summary Generator",
+    "category": "Reporting",
+    "icon": "📋",
+    "prompt": "Generate a concise summary of tonight's code review findings. Include: total files reviewed, critical findings count, patterns discovered, and key learnings. Format as a brief paragraph suitable for a dashboard card, followed by a bullet list of the top 3 most important findings.",
+    "tags": ["summary", "reporting", "nightly"]
+  }
+]

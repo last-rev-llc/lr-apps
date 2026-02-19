@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Minimal - Command Center Design System</title>
+    <style>
+        /* CSS Custom Properties for Neon Minimal */
+        :root {
+            --bg-primary: #09090b;
+            --bg-secondary: #0f0f10;
+            --bg-elevated: #141415;
+            --border-subtle: #1a1a1c;
+            --border-default: #2a2a2d;
+            --accent-primary: #06b6d4;
+            --accent-glow: #06b6d440;
+            --text-primary: #fafafa;
+            --text-secondary: var(--muted);
+            --text-muted: var(--muted);
+            --status-success: #14b8a6;
+            --status-warning: var(--accent);
+            --status-error: #f43f5e;
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-weight: 300;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        h1 { font-size: 48px; font-weight: 300; margin-bottom: 16px; letter-spacing: -0.02em; }
+        h2 { font-size: 32px; font-weight: 400; margin: 80px 0 32px 0; color: var(--accent-primary); }
+        h3 { font-size: 24px; font-weight: 400; margin: 48px 0 24px 0; }
+        h4 { font-size: 18px; font-weight: 400; margin: 32px 0 16px 0; }
+        p { font-size: 16px; color: var(--text-secondary); margin-bottom: 24px; }
+
+        .philosophy {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 80px;
+            max-width: 800px;
+            line-height: 1.8;
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 32px 0 80px 0;
+        }
+
+        .color-swatch {
+            padding: 0;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .color-preview {
+            height: 80px;
+            width: 100%;
+        }
+
+        .color-info {
+            padding: 16px;
+            background: var(--bg-secondary);
+        }
+
+        .color-name {
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+
+        .color-hex {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+        }
+
+        .type-scale {
+            margin: 32px 0 80px 0;
+        }
+
+        .type-example {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: baseline;
+            gap: 32px;
+        }
+
+        .type-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 48px;
+            margin: 32px 0 80px 0;
+        }
+
+        .component-section {
+            min-height: fit-content;
+        }
+
+        .component-title {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            gap: 48px;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 300;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 32px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: transparent;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-glow);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-default);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn-danger {
+            background: transparent;
+            border: 1px solid var(--status-error);
+            color: var(--status-error);
+        }
+
+        .btn-small {
+            padding: 8px 20px;
+            font-size: 12px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            padding: 32px;
+            transition: background 0.2s ease;
+            border: none;
+        }
+
+        .card:hover {
+            background: var(--bg-elevated);
+        }
+
+        /* Badges */
+        .badge {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 400;
+            display: inline-block;
+        }
+
+        .badge-app { background: var(--accent-glow); color: var(--accent-primary); }
+        .badge-automation { background: #14b8a620; color: var(--status-success); }
+        .badge-skill { background: var(--accent)20; color: var(--status-warning); }
+        .badge-integration { background: #f43f5e20; color: var(--status-error); }
+
+        /* Pills */
+        .pill {
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 300;
+            border: 1px solid var(--border-default);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pill.active {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+
+        /* Search */
+        .search-input {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        /* Code */
+        .code-block {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: var(--text-secondary);
+            overflow-x: auto;
+        }
+
+        /* <cc-empty-state message="Empty" icon="📭"></cc-empty-state> State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+            color: var(--text-muted);
+        }
+
+        /* Toast */
+        .toast {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 400px;
+        }
+
+        /* Table */
+        .table-row {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Example Layouts */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .detail-page {
+            max-width: 800px;
+            margin: 40px 0;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        @media print {
+            body {
+                font-size: 12px;
+                padding: 20px;
+                max-width: none;
+            }
+            .section {
+                break-inside: avoid;
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+</head>
+<body>
+<cc-topbar></cc-topbar>
+<cc-nav></cc-nav>
+<cc-auth></cc-auth>
+
+    <h1>Neon Minimal</h1>
+    <div class="philosophy">
+        A design system built on the principle that less is exponentially more, where every pixel serves a purpose and silence speaks louder than noise. Clean geometries and electric cyan accents cut through the darkness with surgical precision.
+    </div>
+
+    <h2>Color Palette</h2>
+    <div class="color-palette">
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #09090b;"></div>
+            <div class="color-info">
+                <div class="color-name">Primary Background</div>
+                <div class="color-hex">#09090b</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #06b6d4;"></div>
+            <div class="color-info">
+                <div class="color-name">Accent Cyan</div>
+                <div class="color-hex">#06b6d4</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #0f0f10;"></div>
+            <div class="color-info">
+                <div class="color-name">Surface</div>
+                <div class="color-hex">#0f0f10</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #fafafa;"></div>
+            <div class="color-info">
+                <div class="color-name">Text Primary</div>
+                <div class="color-hex">#fafafa</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #14b8a6;"></div>
+            <div class="color-info">
+                <div class="color-name">Success</div>
+                <div class="color-hex">#14b8a6</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: var(--accent);"></div>
+            <div class="color-info">
+                <div class="color-name">Warning</div>
+                <div class="color-hex">var(--accent)</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #f43f5e;"></div>
+            <div class="color-info">
+                <div class="color-name">Error</div>
+                <div class="color-hex">#f43f5e</div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Typography</h2>
+    <div class="type-scale">
+        <div class="type-example">
+            <div class="type-label">48px/300</div>
+            <div style="font-size: 48px; font-weight: 300;">Display Headline</div>
+        </div>
+        <div class="type-example">
+            <div class="type-label">32px/400</div>
+            <div style="font-size: 32px; font-weight: 400;">Section Header</div>
+        </div>
+        <div class="type-example">
+            <div class="type-label">24px/400</div>
+            <div style="font-size: 24px; font-weight: 400;">Page Title</div>
+        </div>
+        <div class="type-example">
+            <div class="type-label">18px/400</div>
+            <div style="font-size: 18px; font-weight: 400;">Subheading</div>
+        </div>
+        <div class="type-example">
+            <div class="type-label">16px/300</div>
+            <div style="font-size: 16px; font-weight: 300;">Body Text</div>
+        </div>
+        <div class="type-example">
+            <div class="type-label">14px/300</div>
+            <div style="font-size: 14px; font-weight: 300;">Small Text</div>
+        </div>
+    </div>
+
+    <h2>Component Showcase</h2>
+    <div class="components-grid">
+        <div class="component-section">
+            <div class="component-title">Navigation</div>
+            <nav class="nav">
+                <a href="#" class="nav-link active">Dashboard</a>
+                <a href="#" class="nav-link">Automations</a>
+                <a href="#" class="nav-link">Skills</a>
+                <a href="#" class="nav-link">Settings</a>
+            </nav>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">Buttons</div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button class="btn btn-primary">Primary Action</button>
+                <button class="btn btn-secondary">Secondary</button>
+                <button class="btn btn-danger">Danger</button>
+                <button class="btn btn-primary btn-small">Small</button>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">Cards</div>
+            <div class="card">
+                <h4>Dashboard Card</h4>
+                <p style="margin: 0;">Hover to see the subtle background transition that adds depth without visual noise.</p>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">Badges</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <span class="badge badge-app">App</span>
+                <span class="badge badge-automation">Automation</span>
+                <span class="badge badge-skill">Skill</span>
+                <span class="badge badge-integration">Integration</span>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">Pills/Filters</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <button class="pill active">Active</button>
+                <button class="pill">Inactive</button>
+                <button class="pill">Filter</button>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">Search Input</div>
+            <input type="text" class="search-input" placeholder="Search commands...">
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">Code Block</div>
+            <div class="code-block">
+const config = {
+  theme: 'neon-minimal',
+  accent: '#06b6d4'
+};</div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">Toast Notification</div>
+            <div class="toast">
+                <span>✓</span>
+                <span>Action completed successfully</span>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">Table Row</div>
+            <div class="table-row">
+                <span>Morning Routine</span>
+                <span class="badge badge-automation">Active</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>Example Dashboard</h2>
+    <div class="dashboard">
+        <div class="card">
+            <h4>System Status</h4>
+            <p style="color: var(--status-success); margin: 16px 0 0 0;">All systems operational</p>
+        </div>
+        <div class="card">
+            <h4>Active Automations</h4>
+            <div style="margin-top: 16px;">
+                <div class="table-row" style="padding: 8px 0; border: none;">
+                    <span style="font-size: 14px;">Coffee Routine</span>
+                    <span class="badge badge-automation">Running</span>
+                </div>
+                <div class="table-row" style="padding: 8px 0; border: none;">
+                    <span style="font-size: 14px;">Light Control</span>
+                    <span class="badge badge-automation">Running</span>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <h4>Recent Commands</h4>
+            <div style="margin-top: 16px; color: var(--text-muted); font-size: 13px; line-height: 1.8;">
+                > lights off bedroom<br>
+                > play jazz playlist<br>
+                > set temperature 72°
+            </div>
+        </div>
+    </div>
+
+    <h2>Example Detail Page</h2>
+    <div class="detail-page">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+            <div>
+                <h3 style="margin: 0;">Morning Coffee Automation</h3>
+                <p style="margin: 8px 0 0 0;">Automated coffee brewing sequence</p>
+            </div>
+            <button class="btn btn-primary">Edit</button>
+        </div>
+        
+        <div class="card" style="margin-bottom: 24px;">
+            <h4>Configuration</h4>
+            <div style="margin-top: 16px;">
+                <div class="table-row" style="padding: 12px 0;">
+                    <span>Trigger Time</span>
+                    <span style="color: var(--text-secondary);">7:00 AM</span>
+                </div>
+                <div class="table-row" style="padding: 12px 0;">
+                    <span>Coffee Strength</span>
+                    <span style="color: var(--text-secondary);">Medium</span>
+                </div>
+                <div class="table-row" style="padding: 12px 0; border: none;">
+                    <span>Status</span>
+                    <span class="badge badge-automation">Active</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>Action Sequence</h4>
+            <div style="margin-top: 16px; color: var(--text-secondary); font-size: 14px; line-height: 2;">
+                1. Turn on coffee maker<br>
+                2. Set grinder to medium<br>
+                3. Start brewing cycle<br>
+                4. Send notification when complete
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

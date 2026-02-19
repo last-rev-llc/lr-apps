@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>Cringe Rizzler — Docs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/cringe-rizzler-summary.js"></script>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<script src="db.js"></script>
+</head>
+<body>
+<style>
+.showcase-layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+.showcase-sidebar{background:var(--card);border-right:1px solid var(--border);padding:24px 0;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.showcase-sidebar .nav-title{padding:0 20px 16px;border-bottom:1px solid var(--border);margin-bottom:12px;}
+.showcase-sidebar .nav-title h2{font-size:1.1rem;margin:0;font-family:var(--serif);}
+.showcase-sidebar .nav-group{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:16px 20px 6px;font-weight:600;}
+.showcase-sidebar a{display:block;padding:8px 20px;color:var(--text);text-decoration:none;font-size:14px;transition:background .15s,color .15s;}
+.showcase-sidebar a:hover{background:rgba(var(--accent-rgb,245,158,11),.08);color:var(--accent);}
+.showcase-content{padding:40px 48px;max-width:900px;}
+.showcase-content h1{font-family:var(--serif);font-size:2rem;margin:0 0 8px;}
+.showcase-content h2{font-family:var(--serif);font-size:1.5rem;margin:48px 0 12px;}
+.showcase-content h3{font-size:1rem;margin:24px 0 8px;color:var(--heading);}
+.showcase-section{border-top:1px solid var(--border);padding-top:32px;margin-top:32px;}
+.component-summary{color:var(--muted);margin:0 0 20px;}
+.prompt-block{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:monospace;font-size:13px;white-space:pre-wrap;margin:12px 0;overflow-x:auto;}
+@media(max-width:768px){
+  .showcase-layout{grid-template-columns:1fr;}
+  .showcase-sidebar{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border);}
+  .showcase-content{padding:24px 16px;}
+}
+</style>
+<cc-app-nav app="cringe-rizzler" title="Cringe Rizzler" active="docs" position="bottom"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div class="showcase-layout">
+  <div class="showcase-sidebar">
+    <div class="sidebar-nav">
+      <div class="nav-title"><h2>Cringe Rizzler Docs</h2></div>
+      <div class="nav-group">Embeddable Modules</div>
+      <a href="#summary-widget">Summary Widget</a>
+      <div class="nav-group">Reference</div>
+      <a href="#data-format">Data Format</a>
+      <a href="#api-integration">API Integration</a>
+      <a href="#slang-glossary">Slang Glossary</a>
+      <div class="nav-group">Links</div>
+      <a href="https://shared.adam-harris.alphaclaw.app" target="_blank" rel="noopener">Shared Library</a>
+    </div>
+  </div>
+
+  <div class="showcase-content">
+    <cc-fade-in>
+      <h1>Cringe Rizzler — Module Docs</h1>
+      <p>Embeddable modules and technical reference for the Cringe Rizzler app.</p>
+    </cc-fade-in>
+
+    <section id="summary-widget" class="showcase-section">
+      <h2>Summary Widget</h2>
+      <p class="component-summary">A compact dashboard widget showing saved phrase and meme counts.</p>
+
+      <h3>Usage</h3>
+      <div class="prompt-block">&lt;cringe-rizzler-summary&gt;&lt;/cringe-rizzler-summary&gt;</div>
+
+      <h3>Live Example</h3>
+      <div class="card" style="padding:20px;">
+        <cringe-rizzler-summary></cringe-rizzler-summary>
+      </div>
+
+      <h3>Embed in Your Command Center</h3>
+      <div class="prompt-block">&lt;script src="https://cringe-rizzler.adam-harris.alphaclaw.app/db.js"&gt;&lt;/script&gt;
+&lt;script src="https://cringe-rizzler.adam-harris.alphaclaw.app/modules/cringe-rizzler-summary.js"&gt;&lt;/script&gt;
+&lt;cringe-rizzler-summary&gt;&lt;/cringe-rizzler-summary&gt;</div>
+    </section>
+
+    <section id="data-format" class="showcase-section">
+      <h2>Data Format</h2>
+      <p>Each saved item in the <code>cringe_rizzler</code> Supabase table has the following fields:</p>
+      <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <thead><tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Field</th>
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Type</th>
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Description</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>id</code></td><td style="padding:8px;">Text</td><td style="padding:8px;">Unique ID (phrase-timestamp or meme-timestamp)</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>type</code></td><td style="padding:8px;">Text</td><td style="padding:8px;">"phrase" or "meme"</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>content</code></td><td style="padding:8px;">Text</td><td style="padding:8px;">The phrase text or meme caption</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>slang_terms</code></td><td style="padding:8px;">JSONB</td><td style="padding:8px;">Array of slang terms used</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>scenario</code></td><td style="padding:8px;">Text</td><td style="padding:8px;">Meme scenario (memes only)</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>image_url</code></td><td style="padding:8px;">Text</td><td style="padding:8px;">Canvas-rendered meme image as data URL (memes only)</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>created_at</code></td><td style="padding:8px;">Timestamp</td><td style="padding:8px;">When the item was saved</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="api-integration" class="showcase-section">
+      <h2>API Integration</h2>
+      <p>The app uses the following APIs:</p>
+      <div class="prompt-block">Phrase Generation: POST /v1/chat/completions (gpt-4o-mini)
+Meme Captions: POST /v1/chat/completions (gpt-4o-mini)
+Meme Templates: GET https://api.imgflip.com/get_memes (top 100 templates)</div>
+      <p>OpenAI API key is read from a <code>&lt;meta name="openai-key"&gt;</code> tag in the page head. Meme images use classic imgflip templates with AI-generated caption text overlaid via canvas.</p>
+    </section>
+
+    <section id="slang-glossary" class="showcase-section">
+      <h2>Slang Glossary</h2>
+      <p>The app includes 40+ Gen Alpha slang terms with definitions, used to generate cringe phrases:</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;">
+        <span class="badge" style="background:rgba(var(--amber-rgb,245,158,11),.15);color:var(--amber,#f59e0b);padding:6px 14px;border-radius:8px;">rizz</span>
+        <span class="badge" style="background:rgba(var(--violet-rgb,139,92,246),.15);color:var(--violet,#8b5cf6);padding:6px 14px;border-radius:8px;">sigma</span>
+        <span class="badge" style="background:rgba(var(--blue-rgb,59,130,246),.15);color:var(--blue,#3b82f6);padding:6px 14px;border-radius:8px;">skibidi</span>
+        <span class="badge" style="background:rgba(var(--green-rgb,34,197,94),.15);color:var(--green,#22c55e);padding:6px 14px;border-radius:8px;">bussin</span>
+        <span class="badge" style="background:rgba(var(--pink-rgb,236,72,153),.15);color:var(--pink,#ec4899);padding:6px 14px;border-radius:8px;">no cap</span>
+        <span class="badge" style="background:rgba(var(--cyan-rgb,6,182,212),.15);color:var(--cyan,#06b6d4);padding:6px 14px;border-radius:8px;">brainrot</span>
+        <span class="badge" style="background:rgba(var(--amber-rgb,245,158,11),.15);color:var(--amber,#f59e0b);padding:6px 14px;border-radius:8px;">gyatt</span>
+        <span class="badge" style="background:rgba(var(--red-rgb,239,68,68),.15);color:var(--danger,var(--red,#ef4444));padding:6px 14px;border-radius:8px;">mewing</span>
+      </div>
+      <p style="color:var(--muted);font-size:13px;">...and 30+ more. See the full list in <code>modules/cringe-rizzler.js</code>.</p>
+    </section>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦍 Age of Apes Guide — Docs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/age-of-apes-summary.js"></script>
+</head>
+<body>
+<cc-app-nav app="age-of-apes" title="🦍 Age of Apes Guide" active="docs"></cc-app-nav>
+<cc-toast></cc-toast>
+<style>
+.showcase-layout{display:grid;grid-template-columns:240px 1fr;gap:2rem;max-width:1100px;margin:40px auto;padding:0 20px;}
+@media(max-width:768px){.showcase-layout{grid-template-columns:1fr;}}
+.showcase-sidebar{position:sticky;top:80px;align-self:start;}
+.showcase-sidebar h2{font-size:1rem;margin:0 0 .75rem;color:var(--muted);}
+.showcase-sidebar ul{list-style:none;padding:0;margin:0;}
+.showcase-sidebar li{margin:0 0 .25rem;}
+.showcase-sidebar a{display:block;padding:6px 12px;border-radius:8px;color:var(--text);text-decoration:none;font-size:.9rem;transition:background .15s;}
+.showcase-sidebar a:hover,.showcase-sidebar a.active{background:var(--card);color:var(--heading);}
+.showcase-content{min-width:0;}
+.showcase-content section{margin-bottom:3rem;}
+</style>
+<div style="max-width:960px;margin:40px auto;padding:0 20px;">
+  <h1 style="font-family:var(--serif);margin-bottom:8px;">Documentation</h1>
+  <p style="color:var(--muted);margin-bottom:2rem;">Embeddable modules for the Age of Apes Guide app.</p>
+
+  <div class="panel" style="margin-bottom:2rem;">
+    <h2 style="margin:0 0 .5rem;font-size:1.2rem;">age-of-apes-summary</h2>
+    <p style="color:var(--muted);font-size:.9rem;margin:0 0 1rem;">Compact dashboard widget showing app overview. Embed in any page.</p>
+    <h3 style="font-size:.95rem;margin:0 0 .5rem;">Usage</h3>
+    <pre style="background:var(--prompt-bg);padding:12px;border-radius:8px;overflow-x:auto;font-size:.85rem;"><code>&lt;script src="https://age-of-apes.adam-harris.alphaclaw.app/modules/age-of-apes-summary.js"&gt;&lt;/script&gt;
+&lt;age-of-apes-summary&gt;&lt;/age-of-apes-summary&gt;</code></pre>
+    <h3 style="font-size:.95rem;margin:1rem 0 .5rem;">Live Example</h3>
+    <age-of-apes-summary></age-of-apes-summary>
+  </div>
+
+  <div class="panel">
+    <h2 style="margin:0 0 .5rem;font-size:1.2rem;">Game Data Files</h2>
+    <p style="color:var(--muted);font-size:.9rem;margin:0 0 1rem;">JSON data files available for integration:</p>
+    <ul style="color:var(--muted);font-size:.9rem;line-height:1.8;">
+      <li><code>data/buildings.json</code> — Building upgrade costs and times (City Hall, Research Lab, Warehouse)</li>
+      <li><code>data/fighters.json</code> — Fighter XP tables (Rare/Epic/Legendary), medals, and fighter types</li>
+      <li><code>data/troops.json</code> — Troop training costs and power per tier (T1-T6)</li>
+      <li><code>data/research.json</code> — Research trees (Civil, Military, Electronic, Weapons)</li>
+      <li><code>data/mechs.json</code> — Mech upgrade costs (chips, cores, manuals, power)</li>
+      <li><code>data/equipment.json</code> — Equipment material requirements by rarity and level</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

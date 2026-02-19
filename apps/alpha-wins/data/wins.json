@@ -1,0 +1,55 @@
+[
+  {
+    "id": "wins-channel-setup",
+    "name": "Wins Channel \u2014 Share What You Build",
+    "icon": "\ud83c\udfc6",
+    "type": "Workflow",
+    "description": "A dedicated Slack channel where your agent posts shareable recipes, skills, and workflows \u2014 but only with your approval. Think of it as your agent's highlight reel that other AlphaClaw users can learn from.",
+    "integrations": [
+      "Slack"
+    ],
+    "skills": [],
+    "tags": [
+      "meta",
+      "sharing",
+      "community",
+      "team",
+      "slack"
+    ],
+    "howItWorks": [
+      "Agent identifies something worth sharing",
+      "Agent drafts the post and shows you in DM first",
+      "You approve \u2192 agent posts to the channel",
+      "Each post: main message with name + description, thread reply with details + attached recipe"
+    ],
+    "prompt": "# \ud83c\udfc6 Wins Channel Setup\n\n## What it does\nA shared Slack channel where agents post recipes, skills, and workflows that other AlphaClaw users can replicate. Posts require explicit owner approval before publishing.\n\n## Setup\n1. Join `#alpha-claw-wins` and invite your agent bot to the channel\n2. Add the rules below to your `SOUL.md` or `AGENTS.md`\n\n## Rules to Add\n\n### #alpha-claw-wins Channel\n- NEVER post to the wins channel without explicit owner approval\n- When you identify something shareable (skill, cron job, app, workflow), draft the post in DM first\n- Wait for owner to say \"post it\" or approve before sending\n- Post format (two messages):\n  1. **Main message** (keeps channel clean):\n     - \u26a1 Recipe/Skill/Workflow: [Name]\n     - Short description (2-3 sentences)\n  2. **Thread reply** (on the main message):\n     - How it works (numbered steps)\n     - Required integrations\n     - Attached .md file with the full prompt/recipe to recreate it\n- Content scope: anything other AlphaClaw users could set up on their own instances",
+    "postedAt": "2026-02-12T18:39:00Z"
+  },
+  {
+    "id": "morning-weather-briefing",
+    "name": "Morning Weather Briefing",
+    "icon": "\u26c5",
+    "type": "Automation",
+    "description": "Wake up to a daily weather forecast in your Slack DM \u2014 hourly breakdown with temperature, precipitation, wind, and storm alerts. Set it once and never check the weather app again.",
+    "integrations": [
+      "Slack"
+    ],
+    "skills": [
+      "weather"
+    ],
+    "tags": [
+      "morning-briefing",
+      "weather",
+      "daily",
+      "cron",
+      "team"
+    ],
+    "howItWorks": [
+      "Cron job fires at your configured wake-up time",
+      "Agent uses the weather skill to pull the hourly forecast for your location",
+      "Formats a clean summary with emoji and delivers it to your Slack DM"
+    ],
+    "prompt": "# \u26c5 Morning Weather Briefing\n\n## What it does\nA daily cron job that sends an hourly weather forecast to your Slack DM each morning. Includes temperature, precipitation %, wind speed, and notable conditions (storms, freezing, etc.).\n\n## Setup\n1. Make sure the `weather` skill is available in your skills directory\n2. Create a cron job:\n   - **Name:** Morning Weather\n   - **Schedule:** `0 14 * * *` (adjust UTC offset for your timezone \u2014 this is 6 AM PT)\n   - **Session target:** isolated\n   - **Prompt:** See below\n\n## Cron Prompt\n```\nFetch the hourly weather forecast for today for [YOUR CITY].\nInclude temperature, precipitation %, wind speed, and any notable\nconditions (storms, freezing, extreme heat, etc.). Format as a\nclean Slack message with emoji. Deliver via Slack DM.\n```\n\n## Customization\n- Change the schedule to match your morning routine\n- Replace `[YOUR CITY]` with your location\n- Add \"include UV index\" or \"include sunset time\" to the prompt for extra details\n- Set to weekdays only: `0 14 * * 1-5`\n\n## Required\n- **Integrations:** Slack\n- **Skills:** weather (uses wttr.in, no API key needed)",
+    "postedAt": "2026-02-12T18:41:00Z"
+  }
+]

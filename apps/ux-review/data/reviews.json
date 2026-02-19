@@ -1,0 +1,105 @@
+{
+  "lastRun": "2026-02-16T05:30:00Z",
+  "appScores": [
+    {"app": "command-center", "hierarchy": 7, "flow": 7, "feedback": 6, "responsiveness": 7, "polish": 7, "overall": 6.8, "topIssue": "Uses old sticky-header+cc-topbar pattern instead of cc-app-nav; My Apps grid cards lack hover micro-interactions"},
+    {"app": "accounts", "hierarchy": 7, "flow": 6, "feedback": 5, "responsiveness": 7, "polish": 6, "overall": 6.2, "topIssue": "No cc-fade-in/cc-stagger animations; uses old cc-topbar+cc-nav; dense inline styles; no empty states"},
+    {"app": "standup", "hierarchy": 7, "flow": 7, "feedback": 4, "responsiveness": 7, "polish": 5, "overall": 6.0, "topIssue": "No shared animation components; no interaction feedback; no cc-app-nav; missing empty state handling"},
+    {"app": "cc-leads", "hierarchy": 7, "flow": 7, "feedback": 7, "responsiveness": 7, "polish": 6, "overall": 6.8, "topIssue": "Floating docs link instead of cc-app-nav; old sticky-header pattern"},
+    {"app": "cc-ideas", "hierarchy": 8, "flow": 8, "feedback": 7, "responsiveness": 7, "polish": 8, "overall": 7.6, "topIssue": "Good reference app; minor spacing tweaks possible"},
+    {"app": "cc-recipes", "hierarchy": 7, "flow": 7, "feedback": 7, "responsiveness": 7, "polish": 6, "overall": 6.8, "topIssue": "Uses old sticky-header+floating docs link instead of cc-app-nav"},
+    {"app": "cc-gallery", "hierarchy": 7, "flow": 6, "feedback": 5, "responsiveness": 7, "polish": 6, "overall": 6.2, "topIssue": "Old nav pattern; no card-based layout; missing type badges and filter UX; no hover states on media items"},
+    {"app": "cc-crons", "hierarchy": 7, "flow": 7, "feedback": 7, "responsiveness": 7, "polish": 7, "overall": 7.0, "topIssue": "Has cc-app-nav; good card/timeline views; could use cc-stagger on card grid"},
+    {"app": "cc-agents", "hierarchy": 7, "flow": 7, "feedback": 5, "responsiveness": 7, "polish": 6, "overall": 6.4, "topIssue": "No fleet overview stats; no kind badges; no animations; no sql-sync for live updates; card structure could be more informative"},
+    {"app": "cc-users", "hierarchy": 8, "flow": 7, "feedback": 7, "responsiveness": 7, "polish": 7, "overall": 7.2, "topIssue": "Uses cc-app-nav correctly — clean"},
+    {"app": "cc-client-health", "hierarchy": 7, "flow": 6, "feedback": 5, "responsiveness": 7, "polish": 5, "overall": 6.0, "topIssue": "100% inline styles; no animations; no fleet summary; basic card layout without structured metrics; no alert severity levels"},
+    {"app": "cc-contentful", "hierarchy": 7, "flow": 6, "feedback": 5, "responsiveness": 7, "polish": 5, "overall": 6.0, "topIssue": "Massive inline styles throughout; table-heavy layout for stale drafts; no animations; select dropdowns instead of filter pills; no visual content type breakdown"},
+    {"app": "meeting-summaries", "hierarchy": 8, "flow": 7, "feedback": 7, "responsiveness": 7, "polish": 7, "overall": 7.2, "topIssue": "Old nav pattern; lots of inline styles but well-structured"},
+    {"app": "travel-collection", "hierarchy": 8, "flow": 8, "feedback": 8, "responsiveness": 7, "polish": 8, "overall": 7.8, "topIssue": "Custom app-nav instead of cc-app-nav; otherwise very polished"},
+    {"app": "sales", "hierarchy": 6, "flow": 5, "feedback": 4, "responsiveness": 7, "polish": 4, "overall": 5.2, "topIssue": "Reuses cc-leads component with no unique identity; no pipeline stages; no stats"},
+    {"app": "uptime", "hierarchy": 8, "flow": 8, "feedback": 7, "responsiveness": 7, "polish": 7, "overall": 7.4, "topIssue": "Well-built; could benefit from cc-stagger on site cards"},
+    {"app": "client-scorecard", "hierarchy": 8, "flow": 7, "feedback": 7, "responsiveness": 7, "polish": 7, "overall": 7.2, "topIssue": "Old nav; floating docs link; otherwise solid card design"},
+    {"app": "sprint-planning", "hierarchy": 7, "flow": 7, "feedback": 5, "responsiveness": 7, "polish": 6, "overall": 6.4, "topIssue": "Old nav; no health metrics summary; items lack priority visual cues"},
+    {"app": "superstars", "hierarchy": 9, "flow": 9, "feedback": 8, "responsiveness": 7, "polish": 9, "overall": 8.4, "topIssue": "Unique design — very polished; mobile nav could be tighter"},
+    {"app": "lighthouse", "hierarchy": 8, "flow": 8, "feedback": 7, "responsiveness": 7, "polish": 7, "overall": 7.4, "topIssue": "Good chart integration; old nav pattern"},
+    {"app": "lastrev-redesign", "hierarchy": 7, "flow": 7, "feedback": 7, "responsiveness": 7, "polish": 7, "overall": 7.0, "topIssue": "Clean gallery/viewer pattern; uses old nav"},
+    {"app": "roblox-dances", "hierarchy": 8, "flow": 8, "feedback": 8, "responsiveness": 7, "polish": 8, "overall": 7.8, "topIssue": "Great card design with preview animations; solid"},
+    {"app": "alpha-wins", "hierarchy": 8, "flow": 8, "feedback": 7, "responsiveness": 7, "polish": 7, "overall": 7.4, "topIssue": "Has cc-app-nav now; well-designed card grid"},
+    {"app": "hspt-tutor", "hierarchy": 8, "flow": 8, "feedback": 8, "responsiveness": 7, "polish": 8, "overall": 7.8, "topIssue": "Good quiz interaction design; solid progress indicators"},
+    {"app": "sentiment", "hierarchy": 5, "flow": 4, "feedback": 3, "responsiveness": 5, "polish": 3, "overall": 4.0, "topIssue": "No index.html — app is incomplete; only has ideas.html and db.js"},
+    {"app": "dad-joke-of-the-day", "hierarchy": 7, "flow": 8, "feedback": 7, "responsiveness": 7, "polish": 7, "overall": 7.2, "topIssue": "Simple and effective; good use of animation"}
+  ],
+  "variations": [
+    {
+      "app": "command-center",
+      "file": "command-center-v1.html",
+      "url": "https://ux-review.adam-harris.alphaclaw.app/command-center-v1.html",
+      "description": "Refreshed dashboard with cc-app-nav, improved My Apps grid with gradient accent borders, staggered card reveals, better whitespace rhythm, and a status summary bar",
+      "implementationPrompt": "Update command-center/index.html: Replace sticky-header+cc-topbar+cc-nav with cc-app-nav. Add 2px gradient left-border to My Apps cards. Add cc-stagger with delay=80 on the grid. Add a status summary row above tabs.",
+      "date": "2026-02-14"
+    },
+    {
+      "app": "standup",
+      "file": "standup-v1.html",
+      "url": "https://ux-review.adam-harris.alphaclaw.app/standup-v1.html",
+      "description": "Modernized standup with cc-app-nav, cc-fade-in on header, cc-stagger on day cards, hover elevation, improved source group styling, and empty state",
+      "implementationPrompt": "Update standup/index.html: Replace cc-topbar+cc-nav with cc-app-nav. Wrap header in cc-fade-in. Wrap day-cards in cc-stagger. Add hover transform. Add cc-empty-state.",
+      "date": "2026-02-14"
+    },
+    {
+      "app": "accounts",
+      "file": "accounts-v1.html",
+      "url": "https://ux-review.adam-harris.alphaclaw.app/accounts-v1.html",
+      "description": "Refreshed accounts with cc-app-nav, animated card entrance, improved client selector with search, better section card spacing, and hover micro-interactions",
+      "implementationPrompt": "Update accounts/index.html: Replace cc-topbar+cc-nav with cc-app-nav. Add cc-fade-in on client-selector. Wrap grid in cc-stagger. Add hover border-color transition.",
+      "date": "2026-02-14"
+    },
+    {
+      "app": "sales",
+      "file": "sales-v1.html",
+      "url": "https://ux-review.adam-harris.alphaclaw.app/sales-v1.html",
+      "description": "Complete redesign: pipeline-stage grouping, stats summary bar, avatar initials, temperature tags, hover slide-right",
+      "implementationPrompt": "Rebuild sales/index.html with its own identity. Replace nav with cc-app-nav. Add stats bar. Group by pipeline stage. Each lead card gets avatar initials and temperature tag.",
+      "date": "2026-02-15"
+    },
+    {
+      "app": "cc-gallery",
+      "file": "cc-gallery-v1.html",
+      "url": "https://ux-review.adam-harris.alphaclaw.app/cc-gallery-v1.html",
+      "description": "Card-based grid with type badges, filter pills, hover elevation with accent box-shadow, tag pills, staggered entrance",
+      "implementationPrompt": "Rebuild cc-gallery/index.html: Replace old nav with cc-app-nav. Add hero + filter pills. Replace gallery with card-based layout. Wrap in cc-stagger.",
+      "date": "2026-02-15"
+    },
+    {
+      "app": "sprint-planning",
+      "file": "sprint-planning-v1.html",
+      "url": "https://ux-review.adam-harris.alphaclaw.app/sprint-planning-v1.html",
+      "description": "Health metrics bar, client sections as rounded cards with stat badges, priority color bars on items, hover slide-right",
+      "implementationPrompt": "Update sprint-planning/index.html: Replace old nav with cc-app-nav. Add sprint health summary. Wrap client sections in rounded cards. Add priority color bars.",
+      "date": "2026-02-15"
+    },
+    {
+      "app": "cc-contentful",
+      "file": "cc-contentful-v1.html",
+      "url": "https://ux-review.adam-harris.alphaclaw.app/cc-contentful-v1.html",
+      "description": "Card-based stale drafts (replacing table), horizontal bar chart for content types, sparkline velocity, filter pills instead of dropdowns, staggered animations throughout",
+      "implementationPrompt": "Rebuild cc-contentful: Remove all inline styles. Replace stale drafts table with card grid with border-left accents. Replace content type table with horizontal bar chart. Add sparkline to velocity. Use filter pills. Wrap in cc-stagger/cc-fade-in.",
+      "date": "2026-02-16"
+    },
+    {
+      "app": "cc-client-health",
+      "file": "cc-client-health-v1.html",
+      "url": "https://ux-review.adam-harris.alphaclaw.app/cc-client-health-v1.html",
+      "description": "Fleet summary bar (total/healthy/warning/critical), gradient avatar cards with structured metric grid, color-coded alert pills, expandable repo details, staggered entrance",
+      "implementationPrompt": "Rebuild cc-client-health: Remove all inline styles. Add fleet summary row. Restructure cards with gradient avatars, 4-col metric grid, alert pills (warn/danger/info). Add expandable repo section. Wrap in cc-stagger.",
+      "date": "2026-02-16"
+    },
+    {
+      "app": "cc-agents",
+      "file": "cc-agents-v1.html",
+      "url": "https://ux-review.adam-harris.alphaclaw.app/cc-agents-v1.html",
+      "description": "Fleet overview stats (total/active/completed/failed/cost), kind badges (main/cron/sub-agent), live pulse dots on active sessions, structured stat grid per card, filter pills",
+      "implementationPrompt": "Rebuild cc-agents: Remove inline styles. Add fleet overview row with computed stats. Add kind badges with distinct colors. Restructure cards: icon, name, kind, task (2-line clamp), 3-col stats, footer with status dot. Active sessions get pulse animation. Add sql-sync. Wrap in cc-stagger.",
+      "date": "2026-02-16"
+    }
+  ]
+}

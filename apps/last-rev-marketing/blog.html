@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./js/lr-head.js"></script>
+  <script src="./js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI & Automation Blog — Last Rev Tech Insights"
+    description="Deep dives on AI agents, automation strategies, CMS architecture, and intelligent business applications. Expert insights from Last Rev's engineering team."
+    canonical="https://lastrev.com/blog"
+    og-title="AI & Automation Blog — Last Rev Tech Insights"
+    og-description="Deep dives on AI agents, automation strategies, CMS architecture, and intelligent business applications. Expert insights from Last Rev's engineering team."
+    og-image="https://lastrev.com/images/og-default.png"
+    og-url="https://lastrev.com/blog"
+    og-type="website"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="index.html#contact">
+<!-- Blog Hero -->
+  <section class="hero-inner">
+    <cc-fade-in distance="60" scale="0.95" blur="5" duration="1100">
+      <h1 style="position:absolute;left:-9999px;">AI & Automation Blog - Last Rev Tech Insights</h1>
+      <cc-hero variant="glow" height="fit" overline="Last Rev Blog" title="Ideas Worth Building" subtitle="Deep dives on AI agents, automation strategies, CMS architecture, and the craft of building intelligent business applications.">
+        <div slot="actions" class="hero-ctas">
+          <a href="#blog-listing" class="btn-primary">Read Latest →</a>
+        </div>
+      </cc-hero>
+    </cc-fade-in>
+  </section>
+
+  <div class="lp-divider"></div>
+
+  <!-- Blog Listing -->
+  <section class="lp-section" style="padding-top:48px;max-width:1140px">
+    <cc-blog id="blog-listing" mode="listing" columns="3" variant="cards" show-featured="true" show-categories="true" show-search="true">
+    </cc-blog>
+  </section>
+
+  <script>
+    fetch('./data/blog-posts.json')
+      .then(r => r.json())
+      .then(posts => {
+        const el = document.getElementById('blog-listing');
+        el.setAttribute('data-posts', JSON.stringify(posts));
+      });
+  </script>
+
+  <style>.lp-footer > .lp-divider:first-child { display: none; }</style>
+  <!-- Footer -->
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "AI & Automation Blog - Last Rev Tech Insights",
+    "description": "Deep dives on AI agents, automation strategies, CMS architecture, and intelligent business applications. Expert insights from Last Rev's engineering team.",
+    "url": "https://lastrev.com/blog",
+    "mainEntity": {
+      "@type": "Blog",
+      "name": "Last Rev Blog",
+      "description": "Technical insights on AI, automation, and modern web development",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Last Rev",
+        "url": "https://lastrev.com"
+      }
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://lastrev.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://lastrev.com/blog"
+        }
+      ]
+    }
+  }
+  </script>
+
+</body>
+</html><!-- trigger deploy 20260218175551 -->

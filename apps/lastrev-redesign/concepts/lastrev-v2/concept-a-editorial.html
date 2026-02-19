@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Last Rev — Editorial Concept</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#1a1a18;--paper:#f5f0e8;--red:#c23616;--rule:rgba(26,26,24,.15);--col-gap:2rem}
+html{font-size:18px;scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;line-height:1.6;overflow-x:hidden}
+::selection{background:var(--red);color:#fff}
+
+/* Grain overlay */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;opacity:.04;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");z-index:9999}
+
+.container{max-width:1200px;margin:0 auto;padding:0 2rem}
+
+/* Masthead */
+.masthead{border-bottom:3px double var(--ink);padding:1rem 0;text-align:center;position:relative}
+.masthead-date{font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.3em;color:rgba(26,26,24,.5)}
+.masthead h1{font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;letter-spacing:-.02em;margin:.2rem 0;line-height:1}
+.masthead-tagline{font-style:italic;font-size:.9rem;color:rgba(26,26,24,.6)}
+.masthead-rule{height:1px;background:var(--ink);margin-top:1rem}
+.masthead nav{display:flex;justify-content:center;gap:2rem;padding:.6rem 0;font-family:'JetBrains Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.2em;border-bottom:1px solid var(--rule)}
+.masthead nav a{color:var(--ink);text-decoration:none;transition:color .2s}
+.masthead nav a:hover{color:var(--red)}
+
+/* Hero — editorial spread */
+.hero-editorial{display:grid;grid-template-columns:1fr 1fr;gap:var(--col-gap);padding:3rem 0;border-bottom:1px solid var(--rule)}
+.hero-left .overline{font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.35em;color:var(--red);margin-bottom:1rem}
+.hero-left h2{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:900;line-height:1.05;margin-bottom:1.2rem}
+.hero-left .drop-cap::first-letter{font-family:'Playfair Display',serif;font-size:4rem;float:left;line-height:.8;margin-right:.4rem;font-weight:900;color:var(--red)}
+.hero-right{display:flex;flex-direction:column;justify-content:center;padding-left:2rem;border-left:1px solid var(--rule)}
+.hero-right blockquote{font-family:'Playfair Display',serif;font-style:italic;font-size:1.6rem;line-height:1.4;color:rgba(26,26,24,.7);position:relative;padding-left:1.5rem;border-left:3px solid var(--red)}
+.hero-right .cta-row{margin-top:2rem;display:flex;gap:1rem}
+.btn-ed{display:inline-block;padding:.7rem 1.8rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:.15em;text-decoration:none;border:2px solid var(--ink);color:var(--ink);transition:all .25s}
+.btn-ed:hover{background:var(--ink);color:var(--paper)}
+.btn-ed.fill{background:var(--red);border-color:var(--red);color:#fff}
+.btn-ed.fill:hover{background:#a02010;border-color:#a02010}
+
+/* Section headers — newspaper style */
+.section-head{text-align:center;padding:2.5rem 0 1.5rem;position:relative}
+.section-head::before{content:'§';display:block;font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--red);margin-bottom:.3rem}
+.section-head h3{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.section-head p{font-style:italic;color:rgba(26,26,24,.55);margin-top:.3rem;font-size:.9rem}
+
+/* Services — 3 column editorial */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.service-col{padding:1.5rem var(--col-gap);border-right:1px solid var(--rule)}
+.service-col:last-child{border-right:none}
+.service-col h4{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:.6rem}
+.service-col p{font-size:.85rem;color:rgba(26,26,24,.7);line-height:1.7}
+
+/* Stats — large type band */
+.stats-band{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;padding:2.5rem 0;border-bottom:1px solid var(--rule)}
+.stat-item .num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:var(--red);line-height:1}
+.stat-item .label{font-family:'JetBrains Mono',monospace;font-size:.55rem;text-transform:uppercase;letter-spacing:.3em;color:rgba(26,26,24,.5);margin-top:.3rem}
+
+/* AI Products — featured columns */
+.products-spread{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-bottom:1px solid var(--rule)}
+.product-item{padding:2rem;border-right:1px solid var(--rule);position:relative;overflow:hidden;transition:background .3s}
+.product-item:last-child{border-right:none}
+.product-item:hover{background:rgba(194,54,22,.04)}
+.product-item .badge{font-family:'JetBrains Mono',monospace;font-size:.55rem;text-transform:uppercase;letter-spacing:.25em;color:var(--red);display:inline-block;border:1px solid var(--red);padding:.15rem .5rem;margin-bottom:.8rem}
+.product-item h4{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:.5rem}
+.product-item .subtitle{font-style:italic;color:rgba(26,26,24,.55);font-size:.85rem;margin-bottom:.8rem}
+.product-item p{font-size:.82rem;line-height:1.7;color:rgba(26,26,24,.7)}
+
+/* Industries — two col with rule */
+.industries{display:grid;grid-template-columns:1fr 1fr;gap:2rem;padding:2rem 0;border-bottom:1px solid var(--rule)}
+.industry{padding:.8rem 0;border-bottom:1px solid var(--rule)}
+.industry:last-child{border-bottom:none}
+.industry h5{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
+.industry p{font-size:.8rem;color:rgba(26,26,24,.6);margin-top:.2rem}
+
+/* CTA */
+.cta-section{text-align:center;padding:4rem 2rem;background:var(--ink);color:var(--paper);margin:3rem 0 0}
+.cta-section h3{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;margin-bottom:.5rem}
+.cta-section p{font-style:italic;opacity:.7;margin-bottom:1.5rem;font-size:1rem}
+.cta-section .btn-ed{border-color:var(--paper);color:var(--paper)}
+.cta-section .btn-ed:hover{background:var(--paper);color:var(--ink)}
+.cta-section .btn-ed.fill{background:var(--red);border-color:var(--red);color:#fff}
+
+/* Footer */
+.ed-footer{text-align:center;padding:1.5rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.25em;color:rgba(26,26,24,.4);border-top:1px solid var(--rule)}
+
+/* Animations */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  .hero-editorial,.services-grid,.products-spread,.stats-band,.industries{grid-template-columns:1fr}
+  .hero-right{border-left:none;padding-left:0;padding-top:1.5rem;border-top:1px solid var(--rule)}
+  .service-col,.product-item{border-right:none;border-bottom:1px solid var(--rule)}
+  .masthead h1{font-size:2.5rem}
+  .hero-left h2{font-size:2rem}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead container">
+  <div class="masthead-date">Est. 2015 · Chicago, IL · Vol. XI, No. 2</div>
+  <h1>LAST REV</h1>
+  <div class="masthead-tagline">AI, Automation & Business Application Development</div>
+  <div class="masthead-rule"></div>
+  <nav>
+    <a href="#services">Services</a>
+    <a href="#products">AI Suite</a>
+    <a href="#industries">Industries</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- Hero -->
+  <section class="hero-editorial reveal">
+    <div class="hero-left">
+      <div class="overline">Lead Story</div>
+      <h2>Build Smarter.<br>Ship Faster.</h2>
+      <p class="drop-cap">Last Rev helps companies build intelligent business applications with AI, automation, and modern web architecture. We turn complex problems into elegant, scalable solutions — from custom AI agents to production-grade web platforms. Over 200 projects delivered for 50+ enterprise clients with a 99% retention rate.</p>
+    </div>
+    <div class="hero-right">
+      <blockquote>"Whether you need a full product build, AI integration, or team augmentation — we're ready to help you ship."</blockquote>
+      <div class="cta-row">
+        <a href="#contact" class="btn-ed fill">Start a Project</a>
+        <a href="#services" class="btn-ed">Read More →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-band reveal">
+    <div class="stat-item"><div class="num">200+</div><div class="label">Projects Delivered</div></div>
+    <div class="stat-item"><div class="num">50+</div><div class="label">Enterprise Clients</div></div>
+    <div class="stat-item"><div class="num">10+</div><div class="label">Years Experience</div></div>
+    <div class="stat-item"><div class="num">99%</div><div class="label">Client Retention</div></div>
+  </section>
+
+  <!-- Services -->
+  <div class="section-head reveal" id="services">
+    <h3>Full-Stack Intelligence</h3>
+    <p>From AI-powered workflows to production-grade web apps</p>
+  </div>
+
+  <div class="services-grid reveal">
+    <div class="service-col">
+      <h4>AI & Automation</h4>
+      <p>Custom AI agents, workflow automation, and intelligent integrations that eliminate manual work and accelerate decision-making across every layer of your organization.</p>
+    </div>
+    <div class="service-col">
+      <h4>Web Applications</h4>
+      <p>Modern, performant web apps built with React, Next.js, and headless CMS platforms like Contentful and Sanity. Designed for scale from day one with composable architecture.</p>
+    </div>
+    <div class="service-col">
+      <h4>Business Applications</h4>
+      <p>Internal tools, dashboards, and operational platforms that streamline your team's workflow and unlock data-driven insights. Performance engineering and DevOps included.</p>
+    </div>
+  </div>
+
+  <!-- AI Products -->
+  <div class="section-head reveal" id="products">
+    <h3>The AI Suite</h3>
+    <p>Three products, one intelligent ecosystem</p>
+  </div>
+
+  <div class="products-spread reveal">
+    <div class="product-item">
+      <div class="badge">Infrastructure</div>
+      <h4>AlphaClaw</h4>
+      <div class="subtitle">Enterprise AI Deployment</div>
+      <p>Deploy personal AI assistants for your entire team in one command. Built on OpenClaw — zero inbound ports, SSM-only access, per-user dashboards. Enterprise-grade security with zero attack surface.</p>
+    </div>
+    <div class="product-item">
+      <div class="badge">Personal AI</div>
+      <h4>Alpha Agent</h4>
+      <div class="subtitle">Your AI Operations Partner</div>
+      <p>Memory, tools, automation, and web apps — all from a chat message. Your personal AI operations partner that learns your workflows, manages your projects, and builds what you need.</p>
+    </div>
+    <div class="product-item">
+      <div class="badge">Customer AI</div>
+      <h4>Answer Agent</h4>
+      <div class="subtitle">Customer-Facing Automation</div>
+      <p>Build and deploy customer-facing AI agents for sales, support, and marketing — no code required. Trained on your content, deployed in minutes, scales infinitely.</p>
+    </div>
+  </div>
+
+  <!-- Industries -->
+  <div class="section-head reveal" id="industries">
+    <h3>Industries & Use Cases</h3>
+    <p>Solutions across sectors, from startups to Fortune 500</p>
+  </div>
+
+  <div class="industries reveal">
+    <div>
+      <div class="industry"><h5>Healthcare</h5><p>Patient portals, compliance-ready platforms, HIPAA-ready data integration systems.</p></div>
+      <div class="industry"><h5>E-Commerce</h5><p>Headless commerce, personalization engines, high-performance storefronts.</p></div>
+      <div class="industry"><h5>Financial Services</h5><p>Secure dashboards, automated reporting, real-time data visualization.</p></div>
+    </div>
+    <div>
+      <div class="industry"><h5>Education</h5><p>Learning management, content delivery, student engagement tools.</p></div>
+      <div class="industry"><h5>Manufacturing</h5><p>Operational dashboards, supply chain visibility, IoT-connected apps.</p></div>
+      <div class="industry"><h5>SaaS & Tech</h5><p>Multi-tenant platforms, developer tools, AI-powered product features.</p></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- CTA -->
+<section class="cta-section reveal" id="contact">
+  <h3>Let's Create Something Extraordinary</h3>
+  <p>A battle-tested process refined across hundreds of projects.</p>
+  <div style="display:flex;gap:1rem;justify-content:center">
+    <a href="mailto:hello@lastrev.com" class="btn-ed fill">hello@lastrev.com</a>
+    <a href="https://lastrev.com" class="btn-ed">Visit lastrev.com →</a>
+  </div>
+</section>
+
+<footer class="ed-footer">© 2026 Last Rev · Chicago, IL · All rights reserved</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, {threshold: 0.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

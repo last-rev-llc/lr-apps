@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>Meeting Summaries — AI-Powered Zoom Meeting Intelligence</title>
+<meta name="description" content="Automatically transcribe, summarize, and extract action items from every Zoom meeting. Never miss a decision again.">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/landing.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+</head>
+<body class="lp">
+<cc-auth></cc-auth>
+<div class="lp-bg-fixed"></div>
+<cc-app-nav app="cc-meeting-summaries" title="📝 Meeting Summaries" active="landing" position="bottom"></cc-app-nav>
+
+<section class="lp-hero">
+  <cc-fade-in>
+    <div class="lp-hero-badge">🎯 Meeting Intelligence</div>
+    <h1 class="lp-hero-title">Never Miss a<br><span class="lp-gradient-text">Decision</span> Again</h1>
+    <p class="lp-hero-sub">AI-powered Zoom meeting summaries, action items, and follow-ups — automatically extracted from every call.</p>
+    <div class="lp-hero-cta">
+      <a href="index.html" class="btn btn-primary btn-lg">View Summaries →</a>
+    </div>
+  </cc-fade-in>
+</section>
+
+<section class="lp-section">
+  <cc-fade-in>
+    <h2 class="lp-section-title">How It Works</h2>
+    <div class="lp-grid lp-grid-3">
+      <cc-slide-in direction="left">
+        <div class="card" style="text-align:center;padding:2rem;">
+          <div style="font-size:3rem;">🎥</div>
+          <h3>Record on Zoom</h3>
+          <p style="color:var(--muted);">Your Zoom meetings are automatically captured with cloud recording enabled.</p>
+        </div>
+      </cc-slide-in>
+      <cc-slide-in>
+        <div class="card" style="text-align:center;padding:2rem;">
+          <div style="font-size:3rem;">🤖</div>
+          <h3>AI Processes</h3>
+          <p style="color:var(--muted);">Transcripts are analyzed to extract summaries, decisions, action items, and sentiment.</p>
+        </div>
+      </cc-slide-in>
+      <cc-slide-in direction="right">
+        <div class="card" style="text-align:center;padding:2rem;">
+          <div style="font-size:3rem;">⚡</div>
+          <h3>Take Action</h3>
+          <p style="color:var(--muted);">Create tickets, send follow-ups, and track every action item to completion.</p>
+        </div>
+      </cc-slide-in>
+    </div>
+  </cc-fade-in>
+</section>
+
+<section class="lp-section" style="background:var(--surface);">
+  <cc-fade-in>
+    <h2 class="lp-section-title">Key Features</h2>
+    <div class="lp-grid lp-grid-2" style="max-width:800px;margin:0 auto;">
+      <div class="card" style="padding:1.5rem;"><strong>📝 Auto-Summaries</strong><br><span style="color:var(--muted);font-size:14px;">Concise meeting summaries generated from full transcripts</span></div>
+      <div class="card" style="padding:1.5rem;"><strong>⚡ Action Items</strong><br><span style="color:var(--muted);font-size:14px;">Extracted with owner, priority, and deadline</span></div>
+      <div class="card" style="padding:1.5rem;"><strong>🎯 Client Tagging</strong><br><span style="color:var(--muted);font-size:14px;">Meetings auto-tagged to client accounts</span></div>
+      <div class="card" style="padding:1.5rem;"><strong>😊 Sentiment Analysis</strong><br><span style="color:var(--muted);font-size:14px;">Know the tone of every meeting at a glance</span></div>
+    </div>
+  </cc-fade-in>
+</section>
+
+<footer class="lp-footer">
+  <p>📝 Meeting Summaries · Part of the Command Center suite</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>Last Rev — Clean & Enterprise Concept</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: #fff; color: var(--bg); line-height: 1.6; width: 1440px; }
+.serif { font-family: 'DM Serif Display', serif; }
+
+/* Nav */
+nav { display: flex; justify-content: space-between; align-items: center; padding: 24px 80px; border-bottom: 1px solid #eee; }
+nav .logo { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--bg); }
+nav .logo span { color: #2563eb; }
+nav ul { display: flex; gap: 32px; list-style: none; }
+nav ul li a { color: #555; text-decoration: none; font-size: 15px; font-weight: 500; }
+nav .cta-btn { background: #2563eb; color: #fff; padding: 10px 28px; border-radius: 100px; font-weight: 600; font-size: 14px; text-decoration: none; }
+
+/* Hero */
+.hero { padding: 100px 80px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.hero-content h1 { font-family: 'DM Serif Display', serif; font-size: 58px; line-height: 1.1; color: var(--bg); margin-bottom: 24px; }
+.hero-content h1 span { color: #2563eb; }
+.hero-content p { font-size: 18px; color: #666; line-height: 1.8; margin-bottom: 36px; max-width: 480px; }
+.hero-buttons { display: flex; gap: 16px; align-items: center; }
+.btn-blue { background: #2563eb; color: #fff; padding: 14px 36px; border-radius: 100px; font-weight: 600; font-size: 15px; text-decoration: none; }
+.btn-outline { border: 2px solid #e0e0e0; color: var(--bg); padding: 12px 36px; border-radius: 100px; font-weight: 600; font-size: 15px; text-decoration: none; }
+.hero-image { background: linear-gradient(135deg, #f0f4ff 0%, #e8eeff 100%); border-radius: 24px; height: 440px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 48px; }
+.hero-image .award-badge { background: #fff; border-radius: 16px; padding: 24px 32px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 20px; text-align: center; }
+.hero-image .award-badge .icon { font-size: 36px; margin-bottom: 8px; }
+.hero-image .award-badge h4 { font-size: 14px; font-weight: 600; color: var(--bg); }
+.hero-image .award-badge p { font-size: 12px; color: #888; }
+
+/* Trust Bar */
+.trust-bar { padding: 48px 80px; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; background: #fafafa; }
+.trust-label { text-align: center; font-size: 13px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 24px; }
+.trust-logos { display: flex; justify-content: center; gap: 64px; align-items: center; }
+.trust-logos span { font-size: 18px; font-weight: 700; color: #ccc; letter-spacing: 1px; }
+
+/* Services */
+.services { padding: 100px 80px; }
+.services .section-header { text-align: center; max-width: 640px; margin: 0 auto 64px; }
+.label { font-size: 13px; font-weight: 600; color: #2563eb; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+.services .section-header h2 { font-family: 'DM Serif Display', serif; font-size: 44px; color: var(--bg); margin-bottom: 16px; }
+.services .section-header p { font-size: 17px; color: #777; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.s-card { background: #fafbff; border: 1px solid #eef0f8; border-radius: 16px; padding: 40px; transition: box-shadow 0.3s; }
+.s-card:hover { box-shadow: 0 8px 32px rgba(37,99,235,0.08); }
+.s-card .icon { width: 56px; height: 56px; background: #2563eb; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 24px; }
+.s-card h3 { font-size: 20px; font-weight: 700; color: var(--bg); margin-bottom: 12px; }
+.s-card p { font-size: 15px; color: #777; line-height: 1.7; }
+
+/* Case Studies */
+.case-studies { padding: 100px 80px; background: #f7f8fc; }
+.case-studies .section-header { text-align: center; max-width: 640px; margin: 0 auto 64px; }
+.case-studies .section-header h2 { font-family: 'DM Serif Display', serif; font-size: 44px; color: var(--bg); margin-bottom: 16px; }
+.cases-list { display: flex; flex-direction: column; gap: 32px; max-width: 1000px; margin: 0 auto; }
+.case-item { background: #fff; border-radius: 20px; padding: 48px; display: grid; grid-template-columns: 2fr 1fr; gap: 48px; align-items: center; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+.case-item .label { font-size: 12px; font-weight: 600; color: #2563eb; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+.case-item h3 { font-size: 24px; font-weight: 700; color: var(--bg); margin-bottom: 12px; }
+.case-item p { font-size: 15px; color: #777; line-height: 1.7; }
+.case-results { display: flex; gap: 32px; }
+.result-box { text-align: center; }
+.result-box .value { font-size: 36px; font-weight: 700; color: #2563eb; }
+.result-box .desc { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* About */
+.about { padding: 100px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.about-content .label { margin-bottom: 16px; }
+.about-content h2 { font-family: 'DM Serif Display', serif; font-size: 40px; color: var(--bg); margin-bottom: 20px; }
+.about-content p { font-size: 16px; color: #666; line-height: 1.8; margin-bottom: 16px; }
+.about-visual { background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); border-radius: 24px; height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #fff; text-align: center; padding: 48px; }
+.about-visual .big-num { font-size: 72px; font-weight: 700; }
+.about-visual .sub { font-size: 18px; opacity: 0.8; }
+
+/* CTA */
+.cta { padding: 100px 80px; text-align: center; background: linear-gradient(180deg, #fff 0%, #f0f4ff 100%); }
+.cta h2 { font-family: 'DM Serif Display', serif; font-size: 48px; color: var(--bg); margin-bottom: 20px; }
+.cta p { font-size: 18px; color: #777; max-width: 480px; margin: 0 auto 40px; }
+.cta a { display: inline-block; background: #2563eb; color: #fff; padding: 16px 48px; border-radius: 100px; font-weight: 700; font-size: 16px; text-decoration: none; }
+
+/* Footer */
+footer { padding: 48px 80px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+footer .logo { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--bg); }
+footer .logo span { color: #2563eb; }
+footer p { font-size: 13px; color: #aaa; }
+</style>
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+</head>
+<body>
+<cc-topbar></cc-topbar>
+<cc-nav></cc-nav>
+<cc-auth></cc-auth>
+
+
+<nav>
+  <div class="logo">Last<span>Rev</span></div>
+  <ul>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Case Studies</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Insights</a></li>
+  </ul>
+  <a href="#" class="cta-btn">Get in Touch</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>AI-powered digital solutions for <span>enterprise growth</span></h1>
+    <p>We partner with forward-thinking organizations to design, build, and scale AI-driven platforms that transform operations and accelerate business outcomes.</p>
+    <div class="hero-buttons">
+      <a href="#" class="btn-blue">Schedule a Consultation</a>
+      <a href="#" class="btn-outline">View Case Studies</a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="award-badge"><div class="icon">🏆</div><h4>Contentful Partner</h4><p>Certified implementation experts</p></div>
+    <div class="award-badge"><div class="icon">⭐</div><h4>Top Rated on Clutch</h4><p>5.0 average client rating</p></div>
+    <div class="award-badge"><div class="icon">🚀</div><h4>Vercel Partner</h4><p>Next.js deployment specialists</p></div>
+  </div>
+</section>
+
+<section class="trust-bar">
+  <div class="trust-label">Trusted by industry leaders</div>
+  <div class="trust-logos">
+    <span>COMPANY A</span>
+    <span>COMPANY B</span>
+    <span>COMPANY C</span>
+    <span>COMPANY D</span>
+    <span>COMPANY E</span>
+    <span>COMPANY F</span>
+  </div>
+</section>
+
+<section class="services">
+  <div class="section-header">
+    <div class="label">Our Expertise</div>
+    <h2>End-to-end digital transformation</h2>
+    <p>From strategy to implementation, we deliver solutions that drive measurable business impact.</p>
+  </div>
+  <div class="services-grid">
+    <div class="s-card">
+      <div class="icon">🤖</div>
+      <h3>AI & Intelligent Automation</h3>
+      <p>Custom AI agents, chatbots, and automation systems powered by the latest in LLM technology and enterprise-grade orchestration frameworks.</p>
+    </div>
+    <div class="s-card">
+      <div class="icon">🌐</div>
+      <h3>Enterprise Web Platforms</h3>
+      <p>High-performance marketing sites, knowledge bases, and e-commerce platforms built on Next.js, Contentful, and modern composable architectures.</p>
+    </div>
+    <div class="s-card">
+      <div class="icon">📋</div>
+      <h3>Content Operations</h3>
+      <p>Streamlined editorial workflows, automated publishing pipelines, and content governance systems that empower marketing teams at scale.</p>
+    </div>
+    <div class="s-card">
+      <div class="icon">⚙️</div>
+      <h3>Systems Integration</h3>
+      <p>Unified data layers connecting your CMS, CRM, analytics, and business tools through custom APIs and middleware solutions.</p>
+    </div>
+    <div class="s-card">
+      <div class="icon">📈</div>
+      <h3>Performance Optimization</h3>
+      <p>Core Web Vitals improvement, infrastructure optimization, and scalability engineering that delivers measurable speed and efficiency gains.</p>
+    </div>
+    <div class="s-card">
+      <div class="icon">🎯</div>
+      <h3>Strategic Consulting</h3>
+      <p>Technology roadmap development, architecture reviews, and digital maturity assessments to align your tech investment with business goals.</p>
+    </div>
+  </div>
+</section>
+
+<section class="case-studies">
+  <div class="section-header">
+    <div class="label">Proven Results</div>
+    <h2>Client success stories</h2>
+  </div>
+  <div class="cases-list">
+    <div class="case-item">
+      <div>
+        <div class="label">Enterprise AI Implementation</div>
+        <h3>AI-Powered Customer Support Transformation</h3>
+        <p>Deployed an intelligent support agent for a major SaaS provider, integrating with their Contentful knowledge base to deliver instant, context-aware customer responses around the clock.</p>
+      </div>
+      <div class="case-results">
+        <div class="result-box"><div class="value">85%</div><div class="desc">Auto-resolution</div></div>
+        <div class="result-box"><div class="value">-60%</div><div class="desc">Ticket volume</div></div>
+      </div>
+    </div>
+    <div class="case-item">
+      <div>
+        <div class="label">Composable Web Platform</div>
+        <h3>Global Marketing Site Modernization</h3>
+        <p>Migrated a Fortune 500 company from legacy CMS to a composable Next.js + Contentful architecture, achieving exceptional performance and editorial agility across 12 markets.</p>
+      </div>
+      <div class="case-results">
+        <div class="result-box"><div class="value">95+</div><div class="desc">Lighthouse</div></div>
+        <div class="result-box"><div class="value">4x</div><div class="desc">Faster publish</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="about-content">
+    <div class="label">About Last Rev</div>
+    <h2>A boutique agency with enterprise-grade capability</h2>
+    <p>Founded by technology leaders with deep roots in enterprise consulting, Last Rev brings the strategic rigor and technical excellence of a large firm with the agility, transparency, and partnership of a boutique agency.</p>
+    <p>Our team combines expertise in AI, modern web architectures, and content platforms to deliver digital solutions that genuinely transform how businesses operate and grow.</p>
+  </div>
+  <div class="about-visual">
+    <div class="big-num">10+</div>
+    <div class="sub">Years of combined enterprise<br>consulting experience</div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Let's discuss your next project</h2>
+  <p>Schedule a complimentary strategy session to explore how AI and modern architecture can accelerate your business.</p>
+  <a href="#">Book a Free Consultation →</a>
+</section>
+
+<footer>
+  <div class="logo">Last<span>Rev</span></div>
+  <p>© 2026 Last Rev. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

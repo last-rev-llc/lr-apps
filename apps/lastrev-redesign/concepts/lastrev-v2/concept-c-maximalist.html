@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Last Rev — Maximalist Concept</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Fraunces:opsz,wght,SOFT@9..144,300;9..144,700;9..144,900;9..144,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#faf7f2;--ink:#1e1b18;--orange:#ff6b2c;--purple:#6c3ce0;--teal:#0ac5a8;--yellow:#ffd23f;--pink:#ff5da0}
+html{font-size:17px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;line-height:1.6;overflow-x:hidden}
+::selection{background:var(--purple);color:#fff}
+
+.container{max-width:1200px;margin:0 auto;padding:0 2.5rem}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(16px);background:rgba(250,247,242,.85);border-bottom:2px solid var(--ink)}
+.nav .logo{font-weight:900;font-size:1.4rem;letter-spacing:-.02em}
+.nav .logo span{color:var(--orange)}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;text-decoration:none;color:var(--ink);transition:color .2s}
+.nav-links a:hover{color:var(--orange)}
+.nav-links .nav-cta{background:var(--ink);color:var(--bg);padding:.5rem 1.2rem;border-radius:99px;font-size:.7rem}
+.nav-links .nav-cta:hover{background:var(--orange);color:#fff}
+
+/* Hero — big, overlapping, energetic */
+.hero{min-height:100vh;display:flex;align-items:center;padding:8rem 0 4rem;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:center}
+.hero .overline{font-family:'Fira Code',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.3em;color:var(--orange);background:rgba(255,107,44,.1);display:inline-block;padding:.3rem .8rem;border-radius:99px;margin-bottom:1rem}
+.hero h1{font-family:'Fraunces',serif;font-size:5rem;font-weight:900;line-height:.95;margin-bottom:1rem;position:relative}
+.hero h1 .accent{color:var(--orange);position:relative}
+.hero h1 .accent::after{content:'';position:absolute;bottom:0;left:0;right:0;height:12px;background:var(--yellow);opacity:.5;z-index:-1;transform:skewX(-3deg)}
+.hero p{font-size:1.1rem;color:rgba(30,27,24,.6);max-width:480px;margin-bottom:2rem}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap}
+
+.btn-max{display:inline-flex;align-items:center;gap:.4rem;padding:.8rem 2rem;font-family:'Outfit',sans-serif;font-weight:600;font-size:.8rem;text-decoration:none;border-radius:99px;transition:all .25s;border:2px solid transparent}
+.btn-max.primary{background:var(--orange);color:#fff;border-color:var(--orange)}
+.btn-max.primary:hover{background:#e05520;transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,107,44,.3)}
+.btn-max.outline{border-color:var(--ink);color:var(--ink)}
+.btn-max.outline:hover{background:var(--ink);color:var(--bg)}
+
+/* Floating shapes */
+.hero-shapes{position:relative}
+.shape{position:absolute;border-radius:20px;z-index:0}
+.shape-1{width:280px;height:280px;background:var(--yellow);top:-20px;right:0;transform:rotate(12deg);opacity:.7}
+.shape-2{width:200px;height:200px;background:var(--teal);top:120px;right:180px;transform:rotate(-8deg);opacity:.6;border-radius:50%}
+.shape-3{width:160px;height:160px;background:var(--purple);bottom:-40px;right:60px;transform:rotate(5deg);opacity:.5}
+.stat-float{position:relative;z-index:2;background:#fff;border:2px solid var(--ink);border-radius:16px;padding:1.2rem 1.5rem;display:inline-block;box-shadow:6px 6px 0 var(--ink);margin:.5rem}
+.stat-float .val{font-family:'Fraunces',serif;font-size:2rem;font-weight:900;line-height:1}
+.stat-float .lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.15em;color:rgba(30,27,24,.5);font-weight:600}
+
+/* Section */
+.section{padding:5rem 0}
+.section-tag{display:inline-block;font-family:'Fira Code',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.3em;padding:.25rem .8rem;border-radius:99px;margin-bottom:.8rem}
+.section-tag.orange{background:rgba(255,107,44,.1);color:var(--orange)}
+.section-tag.purple{background:rgba(108,60,224,.1);color:var(--purple)}
+.section-tag.teal{background:rgba(10,197,168,.1);color:var(--teal)}
+.section h2{font-family:'Fraunces',serif;font-size:2.8rem;font-weight:900;margin-bottom:.4rem;line-height:1.1}
+.section .sub{color:rgba(30,27,24,.5);font-size:1rem;margin-bottom:2.5rem;max-width:500px}
+
+/* Service cards — colorful, bold borders */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.svc-card{background:#fff;border:2px solid var(--ink);border-radius:16px;padding:1.8rem;position:relative;overflow:hidden;transition:all .3s;cursor:default}
+.svc-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px}
+.svc-card:nth-child(1)::before{background:var(--orange)}
+.svc-card:nth-child(2)::before{background:var(--purple)}
+.svc-card:nth-child(3)::before{background:var(--teal)}
+.svc-card:nth-child(4)::before{background:var(--yellow)}
+.svc-card:nth-child(5)::before{background:var(--pink)}
+.svc-card:nth-child(6)::before{background:var(--orange)}
+.svc-card:hover{transform:translateY(-4px);box-shadow:6px 6px 0 var(--ink)}
+.svc-card h4{font-weight:800;font-size:1.1rem;margin-bottom:.4rem}
+.svc-card p{font-size:.82rem;color:rgba(30,27,24,.6);line-height:1.6}
+
+/* Products — horizontal scroll cards */
+.products-scroll{display:flex;gap:1.5rem;overflow-x:auto;padding:1rem 0 2rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.products-scroll::-webkit-scrollbar{height:4px}
+.products-scroll::-webkit-scrollbar-track{background:rgba(0,0,0,.05);border-radius:99px}
+.products-scroll::-webkit-scrollbar-thumb{background:var(--orange);border-radius:99px}
+.prod-card{min-width:340px;scroll-snap-align:start;border:2px solid var(--ink);border-radius:20px;padding:2rem;background:#fff;position:relative;flex-shrink:0;transition:all .3s}
+.prod-card:hover{box-shadow:8px 8px 0 var(--ink);transform:translateY(-3px)}
+.prod-card .prod-badge{font-family:'Fira Code',monospace;font-size:.55rem;text-transform:uppercase;letter-spacing:.2em;padding:.2rem .6rem;border-radius:99px;display:inline-block;margin-bottom:1rem}
+.prod-card:nth-child(1) .prod-badge{background:rgba(255,107,44,.1);color:var(--orange)}
+.prod-card:nth-child(2) .prod-badge{background:rgba(108,60,224,.1);color:var(--purple)}
+.prod-card:nth-child(3) .prod-badge{background:rgba(10,197,168,.1);color:var(--teal)}
+.prod-card h4{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:900;margin-bottom:.3rem}
+.prod-card .prod-sub{font-style:italic;color:rgba(30,27,24,.4);font-size:.85rem;margin-bottom:.8rem}
+.prod-card p{font-size:.82rem;color:rgba(30,27,24,.6);line-height:1.7}
+
+/* Industries grid */
+.ind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.ind-item{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:1.2rem;transition:all .2s}
+.ind-item:hover{transform:scale(1.02);box-shadow:4px 4px 0 var(--ink)}
+.ind-item h5{font-weight:800;font-size:.95rem;margin-bottom:.2rem}
+.ind-item p{font-size:.78rem;color:rgba(30,27,24,.55);line-height:1.5}
+
+/* CTA */
+.cta-mega{background:var(--ink);color:var(--bg);border-radius:32px;padding:4rem;text-align:center;margin:3rem 0;position:relative;overflow:hidden}
+.cta-mega::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:var(--orange);opacity:.15;top:-80px;right:-80px}
+.cta-mega::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:var(--purple);opacity:.1;bottom:-60px;left:-40px}
+.cta-mega h2{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:900;margin-bottom:.5rem;position:relative;z-index:1}
+.cta-mega p{opacity:.6;margin-bottom:2rem;font-size:1rem;position:relative;z-index:1}
+.cta-mega .btn-max.primary{background:var(--orange);position:relative;z-index:1}
+.cta-mega .btn-max.outline{border-color:rgba(250,247,242,.3);color:var(--bg);position:relative;z-index:1}
+.cta-mega .btn-max.outline:hover{border-color:var(--bg);background:rgba(250,247,242,.1)}
+
+footer{text-align:center;padding:2rem;font-size:.7rem;color:rgba(30,27,24,.3);font-weight:600;text-transform:uppercase;letter-spacing:.15em}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero h1{font-size:3rem}
+  .hero-shapes{display:none}
+  .services-grid,.ind-grid{grid-template-columns:1fr}
+  .cta-mega{padding:2.5rem 1.5rem;border-radius:20px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo">LAST<span>REV</span></div>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#products">AI Suite</a>
+    <a href="#industries">Industries</a>
+    <a href="#contact" class="nav-cta">Get in Touch</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="reveal">
+        <div class="overline">AI-Powered Development</div>
+        <h1>Build <span class="accent">Smarter</span>.<br>Ship Faster.</h1>
+        <p>Last Rev helps companies build intelligent business applications with AI, automation, and modern web architecture. Complex problems → elegant, scalable solutions.</p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn-max primary">Start a Project →</a>
+          <a href="#services" class="btn-max outline">Our Services</a>
+        </div>
+      </div>
+      <div class="hero-shapes reveal">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div style="position:relative;z-index:2;display:flex;flex-wrap:wrap;justify-content:center;padding-top:2rem">
+          <div class="stat-float"><div class="val">200+</div><div class="lbl">Projects</div></div>
+          <div class="stat-float"><div class="val">50+</div><div class="lbl">Clients</div></div>
+          <div class="stat-float"><div class="val">10yr</div><div class="lbl">Experience</div></div>
+          <div class="stat-float"><div class="val">99%</div><div class="lbl">Retention</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+  <!-- Services -->
+  <section class="section reveal" id="services">
+    <div class="section-tag orange">What We Do</div>
+    <h2>Full-Stack Intelligence</h2>
+    <div class="sub">From AI-powered workflows to production-grade web apps — end-to-end solutions that scale.</div>
+    <div class="services-grid">
+      <div class="svc-card"><h4>AI & Automation</h4><p>Custom AI agents, workflow automation, intelligent integrations that eliminate manual work.</p></div>
+      <div class="svc-card"><h4>Web Applications</h4><p>React, Next.js, headless CMS platforms like Contentful. Designed for scale from day one.</p></div>
+      <div class="svc-card"><h4>Business Applications</h4><p>Internal tools, dashboards, operational platforms that unlock data-driven insights.</p></div>
+      <div class="svc-card"><h4>Headless CMS</h4><p>Contentful, Sanity, composable architecture. Expert implementation for flexible content.</p></div>
+      <div class="svc-card"><h4>Performance & DevOps</h4><p>CI/CD, cloud infrastructure, optimization. Your apps stay fast, reliable, always on.</p></div>
+      <div class="svc-card"><h4>Team Augmentation</h4><p>Embedded engineers with deep JS, AI, and cloud expertise. Seamless integration with your team.</p></div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="section reveal" id="products">
+    <div class="section-tag purple">AI Product Suite</div>
+    <h2>Three Products. One Ecosystem.</h2>
+    <div class="sub">Personal AI → Enterprise deployment → Customer-facing automation.</div>
+    <div class="products-scroll">
+      <div class="prod-card">
+        <div class="prod-badge">Infrastructure</div>
+        <h4>AlphaClaw</h4>
+        <div class="prod-sub">Enterprise AI Deployment</div>
+        <p>Deploy personal AI assistants for your entire team in one command. Zero inbound ports, SSM-only access, per-user dashboards. Enterprise-grade security, zero attack surface.</p>
+      </div>
+      <div class="prod-card">
+        <div class="prod-badge">Personal AI</div>
+        <h4>Alpha Agent</h4>
+        <div class="prod-sub">Your AI Ops Partner</div>
+        <p>Memory, tools, automation, and web apps — all from a chat message. Learns your workflows, manages projects, builds what you need. Your personal AI operations partner.</p>
+      </div>
+      <div class="prod-card">
+        <div class="prod-badge">Customer AI</div>
+        <h4>Answer Agent</h4>
+        <div class="prod-sub">Customer-Facing AI</div>
+        <p>Build and deploy customer-facing AI agents for sales, support, marketing — no code required. Trained on your content, deployed in minutes, scales infinitely.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries -->
+  <section class="section reveal" id="industries">
+    <div class="section-tag teal">Industries</div>
+    <h2>Built for Every Challenge</h2>
+    <div class="sub">Startups to Fortune 500, across every sector.</div>
+    <div class="ind-grid">
+      <div class="ind-item"><h5>🏥 Healthcare</h5><p>Patient portals, HIPAA-ready platforms, data integration.</p></div>
+      <div class="ind-item"><h5>🛒 E-Commerce</h5><p>Headless commerce, personalization, high-perf storefronts.</p></div>
+      <div class="ind-item"><h5>💼 Finance</h5><p>Secure dashboards, automated reporting, real-time viz.</p></div>
+      <div class="ind-item"><h5>🎓 Education</h5><p>LMS, content delivery, student engagement tools.</p></div>
+      <div class="ind-item"><h5>🏭 Manufacturing</h5><p>Ops dashboards, supply chain, IoT-connected apps.</p></div>
+      <div class="ind-item"><h5>📡 SaaS & Tech</h5><p>Multi-tenant platforms, dev tools, AI-powered features.</p></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-mega reveal" id="contact">
+    <h2>Let's Create Something Extraordinary</h2>
+    <p>Full product builds, AI integration, or team augmentation — we're ready to help you ship.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+      <a href="mailto:hello@lastrev.com" class="btn-max primary">hello@lastrev.com</a>
+      <a href="https://lastrev.com" class="btn-max outline">Visit lastrev.com →</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>© 2026 Last Rev · Chicago, IL</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

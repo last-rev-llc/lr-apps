@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="COO Command Center: AI Operations Dashboard — Last Rev"
+    description="How one dashboard replaced 5 roles: 63 cron jobs, client health scores, PR reviews, and AI briefings give a COO the situational awareness of an entire ops team."
+    canonical="https://lastrev.com/blog/alphaclaw-coo-command-center"
+    og-title="COO Command Center: AI Operations Dashboard — Last Rev"
+    og-description="How one dashboard replaced 5 roles: 63 cron jobs, client health scores, PR reviews, and AI briefings give a COO the situational awareness of an entire ops team."
+    og-image="/images/og-default.png"
+    og-url="https://lastrev.com/blog/alphaclaw-coo-command-center"
+    og-type="article"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="The COO's Command Center: How I Run a Company From One Dashboard" author="Adam Harris" date="2026-01-06" category="AI Operations" read-time="10 min" back-href="../blog.html" image="../images/blog/alphaclaw-coo-command-center.webp">
+        <div slot="content">
+<p class="lead">Before I've had my first cup of coffee, my AI agent has already reviewed every open PR across 8 client repos, summarized overnight Slack threads by client, checked uptime on all our production sites, audited over 7,000 Contentful entries for stale drafts, and dropped a prioritized briefing in my DMs. I sit down and I already know what's going on. That used to take a PM, a DevOps person, and someone whose entire job was monitoring Slack.</p>
+
+<p>I call it the <strong>Command Center</strong>. I built it with <a href="https://alphaclaw.com" target="_blank" rel="noopener">AlphaClaw</a> to actually run Last Rev's operations — not as a proof of concept, not as a demo for a sales deck. This is what I open every morning to manage our agency, our clients, our engineering team, and our pipeline. Mostly by myself.</p>
+
+<p>If you run ops at a small company, or you're a founder doing way too many jobs at once, this is what I'd tell you to build.</p>
+
+<h2>The Problem: Too Many Tabs, Not Enough Hours</h2>
+
+<p>You know the drill. GitHub for code. Slack for everything else. Contentful for CMS stuff. GA4 for traffic. Zoom for meetings. Some kind of CRM. Uptime monitoring. Deployment dashboards. Calendar. Every single one has its own notifications, its own UI, its own way of showing you things.</p>
+
+<p>At some point you realize you're not actually <em>doing</em> ops — you're just <em>checking</em> things. Qatalog and Cornell did a study that found people spend about an hour a day just searching for information across their tools.<sup>1</sup> If you're managing 8+ platforms, it's way more than that.</p>
+
+<p>I needed one place to look. Not a BI tool where I have to manually set up reports — something that pulls from everywhere, figures out what matters, and just shows me.</p>
+
+<h2>What It Actually Does</h2>
+
+<p>It's a web app — Web Components, Supabase for the data, AlphaClaw running the analysis in the background. Five tabs. Here's what's in each one.</p>
+
+<h3>🗂️ Admin — Where I Start Every Morning</h3>
+
+<p>Four things I check first:</p>
+
+<ul>
+  <li><strong>Queue Summary</strong> — AlphaClaw processes tasks every 60 seconds from a Supabase queue. Client needs follow-up? PR needs review? Content audit flagged something? It all lands here. I can see what's pending, what's processing, and what's done.</li>
+  <li><strong>Daily Feed</strong> — Everything that happened in the last 24 hours, summarized by the AI. Deploys, PR merges, Slack highlights, meeting notes, anything weird. It's like a newspaper for the company.</li>
+  <li><strong>Slack Summaries</strong> — At 6:30 AM, a cron job pulls all the Slack conversations from the past day and writes up summaries by client. Instead of scrolling through hundreds of messages, I read a few paragraphs. If someone mentioned a blocker or a client wants to move a meeting — it's right there.</li>
+  <li><strong>Calendar</strong> — Today's meetings with AI-generated prep notes. Before a client call, the system has already pulled their health score, recent PRs, and Slack context. I walk in knowing what's going on.</li>
+</ul>
+
+<h3>💻 Code — I Can See What Engineering Is Doing Without a Standup</h3>
+
+<ul>
+  <li><strong>PR Dashboard</strong> — Every open PR across all our repos. Right now there are about 30, including Dependabot bumps and feature work from our team. A cron runs hourly during business hours and flags anything that's been sitting open for more than 48 hours.</li>
+  <li><strong>Ideas Pipeline</strong> — The AI generates product and content ideas every hour, scored by revenue impact, client relevance, and how hard they'd be to build. They're not random — they're based on actual client conversations, analytics data, and competitive research.</li>
+  <li><strong>Lighthouse Audits</strong> — Performance scores for every client site. If a deploy kills Core Web Vitals, I know before the client does.</li>
+  <li><strong>DRY Audit</strong> — A nightly pass that checks all our apps for duplicate code, missed shared components, and design system consistency.</li>
+</ul>
+
+<h3>💓 Client Health — This Is the One That Pays for Itself</h3>
+
+<p>Each client gets a health score pulled from multiple sources:</p>
+
+<ul>
+  <li><strong>Uptime</strong> — Real-time status for every production site.</li>
+  <li><strong>Health Scores</strong> — Composite score based on commits, PR staleness, open issues, last deploy, and Slack activity. If a client has zero commits, 13 stale PRs, and nobody's talked to them in a week — it goes <span style="color:#ef4444;font-weight:bold;">red</span>. That's exactly what happened with one of our accounts recently. I saw it, reached out, and handled it before they had to come to us.</li>
+  <li><strong>Contentful Health</strong> — Full audit of CMS content. 7,247 entries, how many are published, how many are in draft, how many haven't been touched in years. The system found drafts from 2021 that nobody remembered existed.</li>
+  <li><strong>GA4 Alerts</strong> — When traffic drops 28% vs. the weekly average, I get an alert. When a blog post spikes 316%, I know to do something with it. No more logging into GA4 and squinting at line charts.</li>
+  <li><strong>Community Activity</strong> — Engagement tracking across our ecosystem.</li>
+</ul>
+
+<h3>💰 Financial — Pipeline Without Paying for a CRM</h3>
+
+<ul>
+  <li><strong>Lead Pipeline</strong> — Every inbound lead gets enriched automatically. Company data, tech stack, and a fit score. When a digital health company on Contentful + Next.js came in, the system scored them 9/10 and generated talking points before I even opened the email. That kind of prep used to take 30 minutes of manual research.</li>
+  <li><strong>Nightly Calendar Scan</strong> — At 9 PM every night, a cron scans tomorrow's calendar and pre-researches every external contact. By the time I take a meeting, I have context on the company and the person.</li>
+</ul>
+
+<h3>👤 Personal — Yes, There's a Personal Tab</h3>
+
+<p>News feed, weather at 6 AM, and a daily journal at 6 PM that captures what got done, what's still pending, and what needs attention tomorrow. It's basically a standup I give to myself.</p>
+
+<h2>63 Cron Jobs Running in the Background</h2>
+
+<p>The dashboard is just the front end. Behind it are 63 scheduled jobs that keep everything fed with data:</p>
+
+<table style="width:100%;border-collapse:collapse;margin:24px 0;">
+  <thead>
+    <tr style="border-bottom:2px solid #334155;">
+      <th style="text-align:left;padding:8px 12px;color:#94a3b8;">Category</th>
+      <th style="text-align:left;padding:8px 12px;color:#94a3b8;">Jobs</th>
+      <th style="text-align:left;padding:8px 12px;color:#94a3b8;">Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">🔄 Nightly Reviews</td>
+      <td style="padding:8px 12px;">35</td>
+      <td style="padding:8px 12px;">PR/Review/Merge cycle, DRY audit, UX review, per-app code reviews for 20+ apps</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">⚡ System</td>
+      <td style="padding:8px 12px;">5</td>
+      <td style="padding:8px 12px;">Trigger queue processor (every 1 min), Command Center refresh (every 30 min), Kanban worker</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">📊 Monitoring</td>
+      <td style="padding:8px 12px;">4</td>
+      <td style="padding:8px 12px;">GitHub PR review check (hourly), weekly PR triage &amp; stale nudger, backlog meeting prep</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">💡 Content Generation</td>
+      <td style="padding:8px 12px;">4</td>
+      <td style="padding:8px 12px;">Hourly idea generation, skill ideas, weekly web search discovery</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">🌅 Morning Briefings</td>
+      <td style="padding:8px 12px;">4</td>
+      <td style="padding:8px 12px;">Weather (6 AM), Slack summary by client (6:30 AM), today's meetings (7 AM), daily dev journal (6 PM)</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">🔍 Research</td>
+      <td style="padding:8px 12px;">2</td>
+      <td style="padding:8px 12px;">Lead research calendar scan, DMC research</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">🧹 Maintenance</td>
+      <td style="padding:8px 12px;">1</td>
+      <td style="padding:8px 12px;">Weekly memory hygiene — consolidates AI context files</td>
+    </tr>
+    <tr>
+      <td style="padding:8px 12px;">🍳 Other</td>
+      <td style="padding:8px 12px;">8</td>
+      <td style="padding:8px 12px;">Recipe audit &amp; discovery, nightly brainstorm, meme trend refresh, reminders</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The most important one is the <strong>Trigger Queue Processor</strong>. Runs every 60 seconds. Picks up tasks — "summarize this Zoom recording," "research this lead," "deploy this app" — processes one per cycle, and sends results to Slack. It's what connects everything together.</p>
+
+<h2>What a Real Morning Looks Like</h2>
+
+<p>Here's an actual morning — February 18, 2026:</p>
+
+<ol>
+  <li><strong>6:00 AM</strong> — Nightly PR review finished. It scanned every app with a git remote, checked for uncommitted changes, created PRs, ran code review. DRY audit ran at the same time.</li>
+  <li><strong>6:30 AM</strong> — Slack summary drops. Yesterday's highlights: Krista mentioned a client wants to use tomorrow's meeting for SEO work instead. A developer flagged a race condition in the blog listing — which the AI already fixed and pushed.</li>
+  <li><strong>7:00 AM</strong> — Calendar cron pulls today's meetings. I've got a client sync at 10. The system already loaded their health score, recent PRs, and deployment status.</li>
+  <li><strong>7:15 AM</strong> — I open the Command Center. One tab. Client health shows one account in <span style="color:#ef4444;">red</span> — 13 stale PRs, no commits this week. I note it for the sync. GA4 shows a traffic spike on the blog. Lead pipeline has a new healthcare prospect scored 9/10.</li>
+  <li><strong>Total time to know everything I need to know: about 4 minutes.</strong></li>
+</ol>
+
+<h2>How It's Built</h2>
+
+<p>The tech stack is simple on purpose:</p>
+
+<ul>
+  <li><strong>Frontend</strong> — Vanilla Web Components. No React, no build step. Each module (<code>cc-prs</code>, <code>cc-client-health</code>, <code>cc-ga4-alerts</code>, etc.) is its own custom element. Fetches data, renders itself. 27 modules total.</li>
+  <li><strong>Data</strong> — Supabase for real-time stuff (queue, daily updates, crons) and JSON files for snapshots (PRs, leads, client health, GA4 data).</li>
+  <li><strong>AI</strong> — AlphaClaw cron jobs write JSON files and Supabase rows. The dashboard reads them. No fancy API layer. Just files and a database.</li>
+  <li><strong>Hosting</strong> — Static files. No server. No SSR. Loads in under a second.</li>
+</ul>
+
+<p>The nice thing about this architecture: it's basically indestructible. If a cron fails, the dashboard shows stale data with a timestamp — it doesn't crash. If Supabase goes down, the JSON files still work. If the AI agent is offline, you still see the last-known-good state.</p>
+
+<h2>What This Replaces</h2>
+
+<p>Here's the honest math. To get this level of awareness without the Command Center, you'd need:</p>
+
+<table style="width:100%;border-collapse:collapse;margin:24px 0;">
+  <thead>
+    <tr style="border-bottom:2px solid #334155;">
+      <th style="text-align:left;padding:8px 12px;color:#94a3b8;">Role</th>
+      <th style="text-align:left;padding:8px 12px;color:#94a3b8;">What It Handles</th>
+      <th style="text-align:right;padding:8px 12px;color:#94a3b8;">Annual Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">Project Manager</td>
+      <td style="padding:8px 12px;">Client health, PR triage, blocker escalation, meeting prep</td>
+      <td style="text-align:right;padding:8px 12px;">$85K–$110K</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">DevOps Engineer (part-time)</td>
+      <td style="padding:8px 12px;">Uptime monitoring, deploy tracking, Lighthouse, dependency updates</td>
+      <td style="text-align:right;padding:8px 12px;">$60K–$80K</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">Marketing Analyst</td>
+      <td style="padding:8px 12px;">GA4, content audits, traffic anomalies, lead enrichment</td>
+      <td style="text-align:right;padding:8px 12px;">$65K–$85K</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b;">
+      <td style="padding:8px 12px;">Sales Ops</td>
+      <td style="padding:8px 12px;">Lead research, CRM, meeting prep, pipeline reports</td>
+      <td style="text-align:right;padding:8px 12px;">$55K–$70K</td>
+    </tr>
+    <tr>
+      <td style="padding:8px 12px;">Executive Assistant</td>
+      <td style="padding:8px 12px;">Calendar, Slack monitoring, briefings, follow-ups</td>
+      <td style="text-align:right;padding:8px 12px;">$50K–$65K</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr style="border-top:2px solid #334155;">
+      <td colspan="2" style="padding:8px 12px;font-weight:bold;">Total</td>
+      <td style="text-align:right;padding:8px 12px;font-weight:bold;">$315K–$410K/yr</td>
+    </tr>
+  </tfoot>
+</table>
+
+<p>I'm not saying you should fire anyone. I'm saying if you're running a 10-person shop or you're a founder wearing too many hats, you probably <em>can't hire</em> for all five of those roles. But you still need that coverage. This gives it to you.</p>
+
+<h2>What I'd Tell You If You're Building Something Like This</h2>
+
+<h3>1. Start with the morning briefing</h3>
+<p>Don't try to build the whole thing at once. Set up one cron job that summarizes your Slack channels every morning. Once you see how much time that saves, you'll want to add more.</p>
+
+<h3>2. Use boring tech</h3>
+<p>We use vanilla Web Components. No framework. No build step. Each module is a single JS file that fetches JSON and renders HTML. Sounds basic, but any module can be written and deployed in 15 minutes. All 27 of ours are under 200 lines each.</p>
+
+<h3>3. Not everything needs to be real-time</h3>
+<p>Client health updates every 30 minutes. PR data refreshes hourly. GA4 runs daily. The only thing that's truly real-time is the trigger queue at 60 seconds. Match your refresh rate to how fast you actually make decisions.</p>
+
+<h3>4. Have the AI write files, not call APIs</h3>
+<p>Simplest pattern there is: cron runs, AI does its thing, writes a JSON file. Dashboard reads the file. No API auth, no webhooks, no error handling for network failures. Just files. Old-school and it works great.</p>
+
+<h3>5. Keep the color scheme dead simple</h3>
+<p>Three colors: <span style="color:#22c55e;">green</span> (good), <span style="color:#f59e0b;">amber</span> (look at this), <span style="color:#ef4444;">red</span> (fix now). Every module uses the same language. When I glance at the dashboard, I'm not reading — I'm looking for color. All green? Move on. Red anywhere? That gets my full attention.</p>
+
+<h2>It Gets Better Over Time</h2>
+
+<p>The thing that surprised me most: it compounds. Every new cron job feeds more data in. Every new module gives you another angle on the business. The nightly brainstorm agent generates ideas based on patterns the client health module spotted. The lead enrichment pulls from findings in the Contentful audit. Everything starts connecting to everything else.</p>
+
+<p>After three months:</p>
+<ul>
+  <li>63 automated jobs running on schedule</li>
+  <li>27 dashboard modules</li>
+  <li>7,247 content entries continuously audited</li>
+  <li>30+ PRs tracked across 8+ repos</li>
+  <li>Leads auto-enriched with fit scores and talking points</li>
+  <li>Zero missed client escalations</li>
+  <li>4-minute mornings instead of 45-minute review sessions</li>
+</ul>
+
+<h2>Is This Where Ops Is Headed?</h2>
+
+<p>I think so. The old model — hire specialists, have meetings, manually pull data together — just doesn't work for small teams. And most dashboard tools (Datadog, Grafana, Tableau) need you to already know what to look for. The difference here is the AI decides what to surface. I didn't write a rule that says "alert me when a client has 13 stale PRs." The system noticed the pattern and told me.</p>
+
+<p>That's the real shift. Going from dashboards where <em>you</em> have to look and find things, to a system that looks <em>for</em> you and tells you what needs attention. And this isn't some future thing — it's what I'm using right now.</p>
+
+<p>If you're drowning in tabs and you've been putting off hiring because the budget isn't there — <a href="../index.html#contact">let's talk about building yours</a>.</p>
+
+<hr style="margin:40px 0;border-color:#334155;">
+
+<h3>Footnotes</h3>
+<ol style="font-size:14px;color:#94a3b8;">
+  <li id="fn1">Qatalog &amp; Cornell University, <em>"Workgeist Report 2021: The impact of tool overload on workers,"</em> 2021. Found that knowledge workers spend 59 minutes/day searching for information and 36% say finding information across apps is their biggest friction point. <a href="https://assets.qatalog.com/language.work/qatalog-2021-workgeist-report.pdf" target="_blank" rel="noopener" style="color:#6366f1;">PDF</a></li>
+</ol>
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The COO's Command Center: How I Run a Company From One Dashboard",
+    "description": "How one dashboard replaced 5 roles: 63 cron jobs, client health scores, PR reviews, and AI briefings give a COO the situational awareness of an entire ops team.",
+    "author": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lastrev.com/images/logo.png"
+      }
+    },
+    "datePublished": "2026-01-06",
+    "dateModified": "2026-01-06",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/alphaclaw-coo-command-center"
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://lastrev.com/images/og-default.png"
+    }
+  }
+  </script>
+
+</body>
+</html>

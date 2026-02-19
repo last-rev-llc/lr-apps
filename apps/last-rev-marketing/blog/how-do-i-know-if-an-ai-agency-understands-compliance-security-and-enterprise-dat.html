@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI Agency Compliance Guide: Enterprise Security Check"
+    description="Get the questions to ask and red flags to watch for when evaluating AI agencies. Separate those who truly understand enterprise compliance from pretenders."
+    canonical="https://lastrev.com/blog/how-do-i-know-if-an-ai-agency-understands-compliance-security-and-enterprise-dat"
+    og:title="AI Agency Compliance Guide: Enterprise Security Check"
+    og:description="Get the questions to ask and red flags to watch for when evaluating AI agencies. Separate those who truly understand enterprise compliance from pretenders."
+    og:image="https://lastrev.com/assets/images/default-blog-og.jpg"
+    og:url="https://lastrev.com/blog/how-do-i-know-if-an-ai-agency-understands-compliance-security-and-enterprise-dat"
+    og:type="article"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="How Do I Know If an AI Agency Understands Compliance, Security, and Enterprise Data Concerns?" author="Adam Harris" date="2025-12-27" category="Hiring an AI Agency" read-time="12 min" back-href="../blog.html" image="../images/blog/how-do-i-know-if-an-ai-agency-understands-compliance-security-and-enterprise-dat.webp" image-alt="Enterprise security team reviewing AI compliance documentation with security frameworks, audit trails, and data flow diagrams on multiple screens">
+        <div slot="content">
+
+<p>You're evaluating AI agencies. They all claim to "take security seriously." Their pitch decks have lock icons and compliance badges. But when your CISO asks pointed questions about data residency or model training opt-outs, the room goes quiet.</p>
+
+<p>This is the gap that kills enterprise AI projects — not technical capability, but a fundamental misunderstanding of how regulated organizations actually operate. And it's widening: a <a href="https://www.gartner.com/en/newsroom/press-releases/2026-02-05-gartner-identifies-the-top-cybersecurity-trends-for-2026" target="_blank" rel="noopener">Gartner survey of 175 employees (May–November 2025)</a> found that over 57% use personal GenAI accounts for work and 33% admit inputting sensitive information into unapproved tools. Your agency needs to understand why that's terrifying, not just technically interesting.</p>
+
+<p>Here's how to separate the agencies that actually get it from the ones performing security theater.</p>
+
+<h2>1. They Can Name the Frameworks That Apply to You</h2>
+
+<p>A competent agency doesn't wait for you to explain your compliance landscape. They ask what industry you're in and immediately start mapping obligations.</p>
+
+<p>At minimum, they should be fluent in:</p>
+<ul>
+  <li><strong>SOC 2 Type II</strong> — the table-stakes audit framework for any SaaS or cloud-based AI system handling customer data</li>
+  <li><strong>HIPAA</strong> — if you're in healthcare, they need to understand Business Associate Agreements and PHI handling, not just spell the acronym</li>
+  <li><strong>The EU AI Act</strong> — which began enforcing <a href="https://artificialintelligenceact.eu/" target="_blank" rel="noopener">transparency and documentation requirements for general-purpose AI providers in 2025</a>, with high-risk system obligations following in August 2026</li>
+  <li><strong>NIST AI RMF</strong> — the <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener">AI Risk Management Framework</a> that provides a voluntary but increasingly expected structure for governing AI risk across design, development, and deployment</li>
+  <li><strong>Industry-specific regulations</strong> — GLBA and SEC guidelines for financial services, FedRAMP for government, FERPA for education</li>
+</ul>
+
+<p>The red flag isn't that they don't hold every certification. It's that they don't know which ones matter for your use case.</p>
+
+<h2>2. They Have Opinions About Data Architecture — Strong Ones</h2>
+
+<p>Ask an agency: "Where does our data go when it enters your AI system?" If the answer is vague or they defer to "the model provider handles that," walk away.</p>
+
+<p>An agency that understands enterprise data concerns will proactively address:</p>
+<ul>
+  <li><strong>Data residency.</strong> Where is data stored and processed? Can it stay within a specific geographic region? This isn't optional for companies subject to GDPR, data sovereignty laws, or internal governance policies.</li>
+  <li><strong>Training data isolation.</strong> Will your data be used to train or fine-tune models? Every major provider — OpenAI, Anthropic, Google — offers enterprise agreements with training opt-outs. A good agency has already negotiated these.</li>
+  <li><strong>Data lifecycle management.</strong> How long is data retained? When and how is it purged? Can you get a data processing agreement (DPA) that specifies retention windows?</li>
+  <li><strong>In-transit and at-rest encryption.</strong> TLS 1.2+ minimum in transit, AES-256 at rest. If they can't specify their encryption standards without looking it up, that tells you something.</li>
+</ul>
+
+<p>The best agencies will sketch a data flow diagram on the whiteboard unprompted. They'll show you exactly which systems touch your data, what crosses network boundaries, and where the trust boundaries are.</p>
+
+<h2>3. They Talk About AI-Specific Risks, Not Just Generic InfoSec</h2>
+
+<p>Traditional security practices are necessary but insufficient for AI systems. An agency that truly understands AI compliance will raise risks that most IT security teams haven't encountered before:</p>
+
+<ul>
+  <li><strong>Prompt injection.</strong> Can adversarial inputs manipulate the model into leaking data or performing unauthorized actions? What defenses are in place?</li>
+  <li><strong>Model output validation.</strong> Are there guardrails preventing the AI from generating toxic, biased, or factually incorrect outputs that create liability?</li>
+  <li><strong>Shadow AI proliferation.</strong> Gartner's research shows this is already endemic. Does the agency's architecture reduce the incentive for employees to use unsanctioned tools?</li>
+  <li><strong>Supply chain risk.</strong> Which third-party models, embeddings, and vector databases are in the stack? What happens when a model provider changes their terms of service or data handling practices?</li>
+</ul>
+
+<p>Forrester has formalized this thinking with their <a href="https://www.carahsoft.com/blog/forrester-building-a-security-strategy-for-agentic-ai-blog-2025" target="_blank" rel="noopener">AEGIS framework (Agentic AI Enterprise Guardrails for Information Security)</a>, which addresses security across six critical domains for autonomous AI systems. An agency worth hiring should be familiar with frameworks like this — or have built their own equivalent.</p>
+
+<h2>4. They Can Show You an Audit Trail</h2>
+
+<p>Compliance isn't a one-time checkbox. It's an ongoing practice that requires evidence. Ask to see:</p>
+<ul>
+  <li><strong>Logging and observability.</strong> Every AI interaction — prompts, completions, tool calls, decisions — should be logged to an immutable audit trail. Not just for debugging. For compliance, incident response, and regulatory examination.</li>
+  <li><strong>Access controls.</strong> Role-based access to AI systems with the principle of least privilege. Who can access what data through the AI? How is that enforced?</li>
+  <li><strong>Model cards or system documentation.</strong> What model is being used, what it was trained on, what its known limitations are. The EU AI Act and NIST AI RMF both emphasize this kind of transparency documentation.</li>
+  <li><strong>Incident response plans.</strong> What happens when the AI produces a harmful output? When there's a data breach involving the AI pipeline? There should be a documented, tested playbook.</li>
+</ul>
+
+<p>Organizations that deploy AI governance platforms are <a href="https://www.gartner.com/en/newsroom/press-releases/2026-02-17-gartner-global-ai-regulations-fuel-billion-dollar-market-for-ai-governance-platforms" target="_blank" rel="noopener">3.4 times more likely to achieve high effectiveness in AI governance</a> than those that don't, according to a 2025 Gartner survey of 360 organizations. Your agency should either use these tools or have built equivalent capabilities into their delivery process.</p>
+
+<h2>5. They've Done This Before — and Can Prove It</h2>
+
+<p>Theory is great. Shipping compliant AI systems in regulated industries is better. Ask for specifics:</p>
+<ul>
+  <li>Have they worked with healthcare organizations navigating HIPAA for AI-powered patient interactions?</li>
+  <li>Have they built systems for financial services companies where model explainability is a regulatory requirement?</li>
+  <li>Have they handled enterprise procurement processes that required security questionnaires, penetration testing, and vendor risk assessments?</li>
+  <li>Can they provide references from clients whose compliance and security teams were involved in the engagement?</li>
+</ul>
+
+<p>An agency that has done real enterprise work won't flinch at these questions. They'll have war stories about BAA negotiations, security review boards, and the three-month vendor onboarding processes that large organizations require.</p>
+
+<h2>6. They Push Back on You (Respectfully)</h2>
+
+<p>This is the counterintuitive one. The best sign that an agency understands compliance is when they tell you something you're doing is risky.</p>
+
+<p>"You want to feed customer support tickets directly into a fine-tuned model? Let's talk about what PII is in those tickets first."</p>
+
+<p>"Your team is using a shared API key for the production LLM? That makes access auditing impossible."</p>
+
+<p>"You're planning to deploy this without a human review step? For this use case, that's a liability exposure you should understand."</p>
+
+<p>An agency that says yes to everything is an agency that hasn't thought through the consequences. Genuine expertise shows up as informed friction — they slow you down in the right places so you don't get burned later.</p>
+
+<h2>The Practical Checklist</h2>
+
+<p>Before you sign with any AI agency, get satisfactory answers to these questions:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Question</th>
+      <th>Red Flag Answer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Data handling</td>
+      <td>Where does our data go, and who can access it?</td>
+      <td>"The cloud provider handles that"</td>
+    </tr>
+    <tr>
+      <td>Model training</td>
+      <td>Will our data be used to train models?</td>
+      <td>"I'd have to check"</td>
+    </tr>
+    <tr>
+      <td>Compliance</td>
+      <td>Which regulatory frameworks apply to this project?</td>
+      <td>"We're compliant with everything"</td>
+    </tr>
+    <tr>
+      <td>Audit trail</td>
+      <td>How do you log and monitor AI system behavior?</td>
+      <td>"We use standard application logging"</td>
+    </tr>
+    <tr>
+      <td>Incident response</td>
+      <td>What's your plan when the AI produces a harmful output?</td>
+      <td>"That won't happen with our system"</td>
+    </tr>
+    <tr>
+      <td>Access control</td>
+      <td>How is access to the AI system and its data governed?</td>
+      <td>"Everyone on the team has access"</td>
+    </tr>
+    <tr>
+      <td>Third-party risk</td>
+      <td>What model providers are in the stack, and what are their data terms?</td>
+      <td>"We use the best available model"</td>
+    </tr>
+    <tr>
+      <td>Experience</td>
+      <td>Show me a past project where compliance was a primary constraint.</td>
+      <td>Silence, or only startup/consumer examples</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>How We Think About This at Last Rev</h2>
+
+<p>We work with enterprise organizations that have real compliance requirements — not theoretical ones. That means every AI system we build starts with the constraints, not the capabilities. Data flow diagrams before prompt engineering. Security architecture reviews before sprint planning. DPAs and BAAs before code commits.</p>
+
+<p>We've learned that compliance isn't a phase at the end of a project. It's an architectural decision that shapes every technical choice from day one. The agencies that bolt it on later are the ones whose projects stall in security review for months — or worse, ship and create liability.</p>
+
+<p>The question isn't whether an AI agency can build something impressive. It's whether they can build something impressive that your CISO, your legal team, and your regulators will let you actually deploy.</p>
+
+<section class="blog-sources">
+  <h3>Sources</h3>
+  <ol>
+    <li><a href="https://www.gartner.com/en/newsroom/press-releases/2026-02-05-gartner-identifies-the-top-cybersecurity-trends-for-2026" target="_blank" rel="noopener">Gartner — "Gartner Identifies the Top Cybersecurity Trends for 2026" (2026)</a></li>
+    <li><a href="https://www.gartner.com/en/newsroom/press-releases/2026-02-17-gartner-global-ai-regulations-fuel-billion-dollar-market-for-ai-governance-platforms" target="_blank" rel="noopener">Gartner — "Global AI Regulations Fuel Billion-Dollar Market for AI Governance Platforms" (2026)</a></li>
+    <li><a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank" rel="noopener">NIST — "AI Risk Management Framework" (2023)</a></li>
+    <li><a href="https://artificialintelligenceact.eu/" target="_blank" rel="noopener">EU Artificial Intelligence Act — Official Resource Hub (2025)</a></li>
+    <li><a href="https://www.carahsoft.com/blog/forrester-building-a-security-strategy-for-agentic-ai-blog-2025" target="_blank" rel="noopener">Forrester / Carahsoft — "Building a Security Strategy for Agentic AI" (2025)</a></li>
+  </ol>
+</section>
+
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How Do I Know If an AI Agency Understands Compliance, Security, and Enterprise Data Concerns?",
+  "description": "The questions to ask, the red flags to watch for, and the concrete proof points that separate AI agencies who understand enterprise compliance from those who just say they do.",
+  "author": {
+    "@type": "Person",
+    "name": "Adam Harris"
+  },
+  "datePublished": "2025-12-27",
+  "dateModified": "2025-12-27",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Last Rev",
+    "url": "https://lastrev.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lastrev.com/assets/images/logo.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lastrev.com/blog/how-do-i-know-if-an-ai-agency-understands-compliance-security-and-enterprise-dat"
+  },
+  "image": "https://lastrev.com/assets/images/default-blog-og.jpg",
+  "articleSection": "Hiring an AI Agency",
+  "keywords": ["AI agency", "compliance", "enterprise security", "AI compliance", "security evaluation", "enterprise data"]
+}
+</script>
+
+</body>
+</html>

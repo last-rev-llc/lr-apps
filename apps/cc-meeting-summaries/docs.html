@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>📝 Meeting Summaries — Docs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  .docs-layout { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+  .docs-layout h2 { color: var(--accent); margin-top: 2rem; }
+  .docs-layout code { background: var(--surface); padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+  .docs-layout pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; overflow-x: auto; }
+  .docs-layout table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  .docs-layout th, .docs-layout td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; font-size: 14px; }
+  .docs-layout th { background: var(--surface); font-weight: 700; }
+</style>
+</head>
+<body>
+<cc-app-nav app="cc-meeting-summaries" title="📝 Meeting Summaries" active="docs"></cc-app-nav>
+<cc-auth></cc-auth>
+
+<div class="docs-layout">
+  <h1>📝 Meeting Summaries — Documentation</h1>
+
+  <h2>Overview</h2>
+  <p>Meeting Summaries automatically processes Zoom cloud recordings into structured intelligence: summaries, decisions, action items, and sentiment analysis.</p>
+
+  <h2>Data Pipeline</h2>
+  <ol>
+    <li><strong>Zoom Recording</strong> — Meetings recorded via Zoom cloud</li>
+    <li><strong>Transcript Download</strong> — VTT transcripts fetched via Zoom API (Server-to-Server OAuth)</li>
+    <li><strong>AI Processing</strong> — Claude analyzes transcripts for summaries, decisions, action items</li>
+    <li><strong>Storage</strong> — Results stored in Supabase <code>zoom_transcripts</code> table</li>
+    <li><strong>Display</strong> — This app renders the data with search, filters, and action buttons</li>
+  </ol>
+
+  <h2>Database Schema</h2>
+  <table>
+    <tr><th>Column</th><th>Type</th><th>Description</th></tr>
+    <tr><td><code>id</code></td><td>text (PK)</td><td>Zoom meeting ID</td></tr>
+    <tr><td><code>topic</code></td><td>text</td><td>Meeting topic/title</td></tr>
+    <tr><td><code>host_email</code></td><td>text</td><td>Host email address</td></tr>
+    <tr><td><code>start_time</code></td><td>timestamptz</td><td>Meeting start time</td></tr>
+    <tr><td><code>duration</code></td><td>integer</td><td>Duration in minutes</td></tr>
+    <tr><td><code>attendees</code></td><td>jsonb</td><td>Array of attendee names</td></tr>
+    <tr><td><code>summary</code></td><td>text</td><td>AI-generated summary</td></tr>
+    <tr><td><code>decisions</code></td><td>jsonb</td><td>Array of decisions made</td></tr>
+    <tr><td><code>action_items</code></td><td>jsonb</td><td>Array of action items with owner/priority</td></tr>
+    <tr><td><code>sentiment</code></td><td>text</td><td>Meeting sentiment (productive/tense/neutral)</td></tr>
+    <tr><td><code>key_topics</code></td><td>jsonb</td><td>Array of discussed topics</td></tr>
+    <tr><td><code>client_id</code></td><td>text</td><td>Matched client identifier</td></tr>
+  </table>
+
+  <h2>Processing Meetings</h2>
+  <p>To process new meetings, use the <code>zoom-meeting-intelligence</code> skill via Slack:</p>
+  <pre><code>/summarize yesterday's meetings
+/summarize the Diligent call from last week</code></pre>
+
+  <h2>Action Items</h2>
+  <p>Action items extracted from meetings include:</p>
+  <ul>
+    <li><strong>Owner</strong> — Person responsible</li>
+    <li><strong>Priority</strong> — High / Medium / Low</li>
+    <li><strong>Deadline</strong> — When it's due</li>
+    <li><strong>Create Ticket</strong> — Generates a JIRA ticket command</li>
+    <li><strong>Follow-up</strong> — Generates a follow-up email prompt</li>
+  </ul>
+</div>
+</body>
+</html>

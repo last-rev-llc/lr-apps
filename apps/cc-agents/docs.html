@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f59e0b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <title>🤖 Agents — Docs</title>
+  <meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+  <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+  <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+  <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+  <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+  <script src="https://shared.adam-harris.alphaclaw.app/trigger.js"></script>
+  <script src="modules/cc-agents.js"></script>
+</head>
+<body>
+<cc-app-nav app="cc-agents" title="🤖 Agents" active="docs"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<cc-docs title="Agents" icon="🤖" subtitle="Multi-agent fleet manager — component documentation and integration guide.">
+{
+  "sections": [
+    {
+      "title": "Agents Component",
+      "icon": "📦",
+      "id": "cc-agents",
+      "content": "Multi-agent fleet manager with status cards, config viewer, and run controls.\n\n```html\n<cc-agents src=\"data/example.json\"></cc-agents>\n```",
+      "attributes": [
+        { "name": "src", "type": "string", "default": "—", "description": "URL to agents.json data file" },
+        { "name": "layout", "type": "string", "default": "full", "description": "\"list\" for compact widget mode, omit for full page" }
+      ],
+      "subsections": [
+        {
+          "title": "What It Shows",
+          "content": "- Agent status cards with health indicators\n- Configuration viewer for each agent\n- Run history and controls\n- Real-time status updates via Supabase\n- Compact list mode for embedding in dashboards"
+        },
+        {
+          "title": "Embed in Another App",
+          "content": "```html\n<!-- 1. Load shared components -->\n<link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n<script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n\n<!-- 2. Load this module -->\n<script src=\"https://cc-agents.adam-harris.alphaclaw.app/modules/cc-agents.js\"></script>\n\n<!-- 3. Use it -->\n<cc-agents src=\"data/example.json\"></cc-agents>\n```\n\n> **Tip:** Use `layout=\"list\"` for a compact widget suitable for sidebars and dashboards."
+        }
+      ]
+    },
+    {
+      "title": "Theming",
+      "icon": "🎨",
+      "content": "The component inherits all shared design tokens.\n\n```css\n--card, --border, --bg, --accent, --muted, --heading, --serif\n```\n\n> **Note:** Agent status colors (green/yellow/red) are derived from the shared `--green`, `--yellow`, and `--red` CSS variables."
+    }
+  ],
+  "links": [
+    { "label": "Back to App", "url": "index.html", "icon": "←" },
+    { "label": "Shared Library", "url": "https://shared.adam-harris.alphaclaw.app", "icon": "↗" }
+  ]
+}
+</cc-docs>
+</body>
+</html>

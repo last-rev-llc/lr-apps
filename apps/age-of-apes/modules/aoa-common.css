@@ -1,0 +1,8 @@
+/* Age of Apes — Shared app styles */
+.aoa-table { width:100%; border-collapse:collapse; font-size:.85rem; }
+.aoa-table th, .aoa-table td { padding:6px 10px; border-bottom:1px solid var(--border); text-align:right; white-space:nowrap; }
+.aoa-table th { color:var(--muted); font-weight:600; position:sticky; top:0; background:var(--card); }
+.aoa-table td:first-child, .aoa-table th:first-child { text-align:left; }
+.aoa-table tr:hover td { background:rgba(245,158,11,.05); }
+.aoa-select, .aoa-input { width:100%; padding:8px 12px; background:var(--card); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:.9rem; }
+.aoa-select:focus, .aoa-input:focus { outline:none; border-color:var(--orange); }

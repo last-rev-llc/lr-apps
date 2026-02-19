@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI CRM Enrichment: Contact Research in 60 Seconds"
+    description="Transform bare contact names into rich dossiers with LinkedIn profiles, communication styles, and conversation starters—all automated in under 60 seconds."
+    canonical="https://lastrev.com/blog/alphaclaw-crm-enrichment"
+    og-title="AI CRM Enrichment: Contact Research in 60 Seconds"
+    og-description="Transform bare contact names into rich dossiers with LinkedIn profiles, communication styles, and conversation starters—all automated in under 60 seconds."
+    og-url="https://lastrev.com/blog/alphaclaw-crm-enrichment"
+    og-type="article"
+    og-image="/images/og-default.png"
+  ></lr-head>
+  <meta name="robots" content="index, follow">
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="From Contact Name to Full Dossier in 60 Seconds: AI-Powered CRM Enrichment" author="Adam Harris" date="2026-02-03" category="AI Operations" read-time="10 min" back-href="../blog.html" image="../images/blog/alphaclaw-crm-enrichment.webp">
+        <div slot="content">
+<p class="lead">Your BDR has a call in 15 minutes. The only thing in the CRM is a name: <em>"Sarah Chen — VP Engineering."</em> No LinkedIn. No context. No idea what she cares about or how she likes to communicate. Sound familiar?</p>
+
+<p>We built a pipeline inside <a href="../index.html">AlphaClaw</a> that takes a bare contact name and returns a comprehensive dossier — verified social profiles, communication style analysis, personality insights, conversation starters, and full company context — in about 60 seconds. We've enriched <strong>46 contacts across 5+ client accounts</strong> so far, with 21 of those receiving deep personality analysis. Here's how it works, and why it's changing the way we approach sales prep and account management.</p>
+
+<h2>The Problem: CRM Graveyards</h2>
+
+<p>Every professional services firm has the same disease. Contact records start as a name and an email. Maybe a job title if someone was feeling diligent. Over months, those sparse records multiply into a CRM full of ghosts — hundreds of contacts where you know <em>who</em> but have no idea <em>what they care about</em>, <em>how they like to communicate</em>, or <em>what connects them</em> to your other relationships.</p>
+
+<p>The consequences are real:</p>
+<ul>
+  <li><strong>Cold outreach stays cold.</strong> Generic "Hope you're doing well" emails with no hook. No reference to their recent conference talk, their open-source project, or the fact that they just changed companies.</li>
+  <li><strong>Meeting prep is a scramble.</strong> Before every call, someone spends 15-20 minutes frantically Googling, checking LinkedIn, and trying to piece together who this person is and what they've been working on.</li>
+  <li><strong>Relationship context lives in people's heads.</strong> When your account manager goes on PTO, nobody knows that the VP of Engineering prefers Slack DMs over email, or that the CTO is passionate about accessibility and that's a great rapport builder.</li>
+  <li><strong>Renewal conversations start flat.</strong> You're supposed to demonstrate deep understanding of the client's world, but your CRM tells you nothing about the humans on the other side.</li>
+</ul>
+
+<p>According to Salesforce's 2025 State of Sales report, sales reps spend only 28% of their week actually selling — the rest goes to admin, research, and data entry.<sup>[1]</sup> A significant chunk of that research time is manually enriching contact records that should have been populated months ago.</p>
+
+<h2>The Pipeline: Three Skills Working in Concert</h2>
+
+<p>AlphaClaw's CRM enrichment isn't a single feature — it's three specialized AI skills that chain together, each with its own data sources, verification logic, and output format. Here's the architecture:</p>
+
+<h3>Skill 1: People Research</h3>
+
+<p>The <strong>people-research</strong> skill is the foundation. Given a name (and optionally a company, email domain, or Slack profile), it systematically searches and verifies across platforms:</p>
+
+<ul>
+  <li><strong>LinkedIn</strong> (highest priority) — verified against 2+ matching signals: name + company + role + location + profile photo comparison</li>
+  <li><strong>GitHub</strong> — cross-referenced against known handles, commit emails, org membership</li>
+  <li><strong>Twitter/X</strong> — bio must mention company or matching role</li>
+  <li><strong>Other platforms</strong> (YouTube, Instagram, etc.) — only searched when context suggests relevance</li>
+</ul>
+
+<p>The key principle: <strong>never guess.</strong> Every social profile gets a confidence score based on weighted verification signals:</p>
+
+<div style="background: #1e293b; border-radius: 8px; padding: 16px 20px; margin: 20px 0; font-family: monospace; font-size: 14px; color: #e2e8f0; overflow-x: auto;">
+<span style="color: #94a3b8;">// Verification scoring</span><br>
+Name exact match: <span style="color: #f59e0b;">+30</span><br>
+Company matches: <span style="color: #f59e0b;">+25</span><br>
+Role/title similar: <span style="color: #f59e0b;">+15</span><br>
+Location/timezone aligns: <span style="color: #f59e0b;">+10</span><br>
+Profile photo matches (image analysis): <span style="color: #f59e0b;">+20</span><br>
+Email domain matches: <span style="color: #f59e0b;">+15</span><br>
+Mutual connections: <span style="color: #f59e0b;">+10</span><br>
+<br>
+<span style="color: #22c55e;">90-100 → Auto-add (high confidence)</span><br>
+<span style="color: #f59e0b;">50-89 → Queue for human review</span><br>
+<span style="color: #ef4444;"> &lt;50 → Skip entirely</span>
+</div>
+
+<p>Medium-confidence matches go to a verification queue where a human can approve or reject with side-by-side photo comparison. Rejected matches are permanently stored — the system never re-suggests them. This prevents the annoying false-positive loop that plagues most enrichment tools.</p>
+
+<h3>Skill 2: Company Research</h3>
+
+<p>In parallel, the <strong>company-research</strong> skill builds rich profiles of each contact's employer. For our client accounts — including <strong>Lively</strong>, <strong>Diligent</strong>, <strong>WOW! (WideOpenWest)</strong>, <strong>Integral Ad Science (IAS)</strong>, and <strong>Impossible Foods</strong> — we pull:</p>
+
+<ul>
+  <li>Industry, size, funding, and competitive landscape</li>
+  <li>Tech stack (critical for a technology consultancy — knowing they use Contentful or Next.js immediately signals fit)</li>
+  <li>Key people and organizational structure</li>
+  <li>Social presence and content activity</li>
+  <li>Relationship history from our own Slack channels, GitHub repos, and meeting notes</li>
+</ul>
+
+<p>This means when you pull up a contact, you don't just see <em>who they are</em> — you see the full context of <em>where they work</em>, what technology decisions they're making, and how their company is positioned in the market.</p>
+
+<h3>Skill 3: Personality Insights</h3>
+
+<p>This is where it gets interesting. The <strong>personality-insights</strong> skill analyzes every data source we have for a person — Slack messages, Zoom meeting transcripts, social media posts, Jira activity — and synthesizes a communication profile that tells you <em>how</em> to talk to them.</p>
+
+<p>The output is structured across four dimensions:</p>
+
+<h4>Communication Style Profile</h4>
+<div style="background: #1e293b; border-radius: 8px; padding: 16px 20px; margin: 20px 0; font-family: monospace; font-size: 13px; color: #e2e8f0; overflow-x: auto;">
+{
+  <span style="color: #06b6d4;">"formality"</span>: "casual",
+  <span style="color: #06b6d4;">"verbosity"</span>: "concise",
+  <span style="color: #06b6d4;">"tone"</span>: "direct",
+  <span style="color: #06b6d4;">"emojiUse"</span>: "occasional",
+  <span style="color: #06b6d4;">"responseSpeed"</span>: "quick",
+  <span style="color: #06b6d4;">"preferredChannel"</span>: "slack",
+  <span style="color: #06b6d4;">"bestTimeToReach"</span>: "morning",
+  <span style="color: #06b6d4;">"timezone"</span>: "America/Los_Angeles"
+}
+</div>
+
+<h4>Personality Signals</h4>
+<div style="background: #1e293b; border-radius: 8px; padding: 16px 20px; margin: 20px 0; font-family: monospace; font-size: 13px; color: #e2e8f0; overflow-x: auto;">
+{
+  <span style="color: #06b6d4;">"decisionStyle"</span>: "quick-decisive",
+  <span style="color: #06b6d4;">"detailOrientation"</span>: "big-picture",
+  <span style="color: #06b6d4;">"conflictStyle"</span>: "direct-confrontational",
+  <span style="color: #06b6d4;">"motivators"</span>: ["efficiency", "quality"],
+  <span style="color: #06b6d4;">"stressors"</span>: ["missed deadlines", "unclear requirements"]
+}
+</div>
+
+<h4>Actionable Conversation Starters</h4>
+<p>Not generic icebreakers — specific, researched hooks:</p>
+<ul>
+  <li><em>"They recently posted about distributed systems on LinkedIn — ask about their migration."</em></li>
+  <li><em>"Shared interest in TypeScript performance with Adam — mention the recent Deno benchmarks."</em></li>
+  <li><em>"They mentioned frustration with their current CMS in last week's standup — good opening for the Contentful conversation."</em></li>
+</ul>
+
+<h4>Approach Notes</h4>
+<p>The system generates a plain-language guide: <em>"Keep messages concise, lead with action items. They respond faster to Slack than email. Prefer morning PT. When they go quiet, they may be frustrated — check in proactively."</em></p>
+
+<h2>Data Sources: Deeper Than You'd Expect</h2>
+
+<p>What makes this pipeline powerful isn't any single data source — it's the combination. Here's what feeds into the analysis:</p>
+
+<table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+  <thead>
+    <tr style="border-bottom: 2px solid #334155;">
+      <th style="text-align: left; padding: 8px; color: #06b6d4;">Source</th>
+      <th style="text-align: left; padding: 8px; color: #06b6d4;">What It Reveals</th>
+      <th style="text-align: left; padding: 8px; color: #06b6d4;">Richness</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom: 1px solid #1e293b;">
+      <td style="padding: 8px;"><strong>Slack messages</strong></td>
+      <td style="padding: 8px;">Tone, emoji use, response patterns, topics, frustration/enthusiasm signals</td>
+      <td style="padding: 8px;">⭐⭐⭐⭐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #1e293b;">
+      <td style="padding: 8px;"><strong>Zoom transcripts</strong></td>
+      <td style="padding: 8px;">Speaking style, meeting behavior, decision-making patterns, conflict handling</td>
+      <td style="padding: 8px;">⭐⭐⭐⭐⭐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #1e293b;">
+      <td style="padding: 8px;"><strong>LinkedIn activity</strong></td>
+      <td style="padding: 8px;">Professional interests, thought leadership, career trajectory</td>
+      <td style="padding: 8px;">⭐⭐⭐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #1e293b;">
+      <td style="padding: 8px;"><strong>GitHub</strong></td>
+      <td style="padding: 8px;">Technical interests, open-source involvement, coding activity</td>
+      <td style="padding: 8px;">⭐⭐⭐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #1e293b;">
+      <td style="padding: 8px;"><strong>Twitter/X</strong></td>
+      <td style="padding: 8px;">Personal interests, opinions, real-time engagement</td>
+      <td style="padding: 8px;">⭐⭐⭐</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px;"><strong>Jira/Project tools</strong></td>
+      <td style="padding: 8px;">Work style, communication in tickets, blocker patterns</td>
+      <td style="padding: 8px;">⭐⭐</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Zoom transcripts are the secret weapon. Extended natural conversation reveals far more about someone's personality and communication style than short Slack messages. Through our Zoom server-to-server OAuth integration, AlphaClaw can pull and analyze meeting transcripts automatically — no manual upload required.</p>
+
+<h2>Real Results: 46 Contacts, 21 Deep Profiles</h2>
+
+<p>Here's where we stand after running this pipeline across our CRM:</p>
+
+<ul>
+  <li><strong>46 contacts</strong> in the Supabase <code>users</code> table with enriched profiles — names, companies, titles, handles, and social links verified</li>
+  <li><strong>21 contacts</strong> with full personality insights in the <code>research_insights</code> table — communication style, interests, personality signals, conversation starters, and approach notes</li>
+  <li><strong>All 21 deep profiles rated "high confidence"</strong> — meaning 50+ Slack messages analyzed, social data verified, and multiple data sources corroborated</li>
+  <li><strong>5+ client accounts</strong> with company research — Lively, Diligent, WOW!, IAS, Impossible Foods — each with tech stack, key people, relationship history, and competitive context</li>
+</ul>
+
+<p>The pipeline runs incrementally. It tracks <code>lastResearchedAt</code>, <code>lastSlackPulledAt</code>, and <code>lastZoomPulledAt</code> timestamps per contact. On subsequent runs, it only pulls new data since the last analysis, merges it with existing insights, and updates the profile. This means the first enrichment takes ~60 seconds per contact, and refreshes take ~15 seconds.</p>
+
+<h2>What This Changes: Before and After</h2>
+
+<h3>Before: The 15-Minute Scramble</h3>
+<ol>
+  <li>Check CRM — see name and email. Nothing else.</li>
+  <li>Open LinkedIn in new tab. Search. Find 12 people with that name. Try to figure out which one.</li>
+  <li>Open their company's website. Skim the About page. Try to remember what they do.</li>
+  <li>Search Slack for recent messages. Find a few, but no pattern emerges in 3 minutes of scrolling.</li>
+  <li>Give up and wing it on the call.</li>
+</ol>
+
+<h3>After: The 10-Second Lookup</h3>
+<ol>
+  <li>Open CRM contact card.</li>
+  <li>See verified LinkedIn, GitHub, and social profiles. Read the 2-paragraph personality summary. Note the conversation starters. Check the approach notes.</li>
+  <li>Walk into the call knowing they prefer concise communication, care deeply about developer experience, recently posted about their company's migration to a headless CMS (your specialty), and that they respond fastest on Slack in the mornings.</li>
+</ol>
+
+<p>The difference isn't just time saved — it's confidence. You're not faking familiarity; you actually understand who you're talking to.</p>
+
+<h2>For BDRs: Cold Outreach That Isn't Cold</h2>
+
+<p>The enrichment pipeline is especially powerful for business development. When you're reaching out to a prospect for the first time, the personality insights give you an unfair advantage:</p>
+
+<ul>
+  <li><strong>Personalized opening lines</strong> based on their actual interests and recent activity, not templated "I noticed you work at {Company}" filler</li>
+  <li><strong>Channel selection</strong> — some people respond to email, others to LinkedIn InMail, others to Twitter DMs. The insights tell you which.</li>
+  <li><strong>Tone matching</strong> — if they're casual and emoji-heavy, your stiff formal email will feel off. If they're detail-oriented, your two-sentence pitch will feel lazy.</li>
+  <li><strong>Timing optimization</strong> — the system knows their timezone and when they're most responsive</li>
+</ul>
+
+<p>Research from Gong.io indicates that personalized outreach generates 2.5x higher response rates than generic messaging.<sup>[2]</sup> When your personalization is informed by actual communication pattern analysis rather than just "I see you're based in San Francisco," the gap widens further.</p>
+
+<h2>For Account Managers: Institutional Memory</h2>
+
+<p>This is where the long-term value compounds. The personality insights become institutional memory that survives personnel changes:</p>
+
+<ul>
+  <li><strong>New account manager onboarding</strong> — instead of weeks of "getting to know" each contact, they can read the profiles and be conversationally competent on day one</li>
+  <li><strong>Relationship continuity</strong> — when your main contact at a client leaves and you need to build rapport with their replacement, the enrichment pipeline runs on the new person immediately</li>
+  <li><strong>Proactive account health</strong> — the warning signals in the personality profile ("when they go quiet, check in proactively") prevent small frustrations from becoming churn events</li>
+  <li><strong>Renewal prep</strong> — pull up every stakeholder's profile before the renewal conversation, know exactly how to frame the value conversation for each person's priorities and communication style</li>
+</ul>
+
+<h2>The Ethics Guardrails</h2>
+
+<p>We built this with clear ethical boundaries:</p>
+
+<ul>
+  <li><strong>Only data we already have access to.</strong> Slack messages in shared channels, public social posts, meeting transcripts from calls we were on. No scraping private profiles.</li>
+  <li><strong>Internal use only.</strong> Personality insights are never shared externally. They're tools for building better working relationships, not dossiers to be used manipulatively.</li>
+  <li><strong>The discomfort test.</strong> If the person being analyzed would be uncomfortable knowing we'd done this analysis, we reconsider. The goal is to be a better partner, not a surveillance apparatus.</li>
+  <li><strong>Verification over assumption.</strong> The scoring system's refusal to guess means we'd rather have gaps than inaccurate data. A CRM with 5 verified fields beats one with 20 hallucinated ones.</li>
+</ul>
+
+<h2>Technical Architecture</h2>
+
+<p>For teams considering a similar approach, here's the stack:</p>
+
+<ul>
+  <li><strong>Data storage:</strong> Supabase (PostgreSQL) — <code>users</code> table for contact profiles, <code>research_insights</code> for personality analysis, <code>zoom_transcripts</code> for meeting data, <code>clients</code> for company profiles</li>
+  <li><strong>Orchestration:</strong> AlphaClaw AI agent with three specialized skills — people-research, personality-insights, company-research</li>
+  <li><strong>Search &amp; verification:</strong> Brave Search API for web research, GitHub CLI for developer profiles, Slack API for message analysis</li>
+  <li><strong>Meeting transcripts:</strong> Zoom server-to-server OAuth for automatic transcript pull and processing</li>
+  <li><strong>Incremental processing:</strong> Timestamp tracking per contact per data source to avoid redundant work</li>
+  <li><strong>Human-in-the-loop:</strong> Verification queue for medium-confidence matches, rejection memory to prevent re-suggestion</li>
+</ul>
+
+<p>The entire pipeline runs as conversation-driven AI — tell AlphaClaw "research Sarah Chen" and it chains the three skills automatically, stores everything in Supabase, and returns a formatted summary. No manual data entry. No switching between tabs and copy-pasting URLs.</p>
+
+<h2>What's Next: Relationship Intelligence</h2>
+
+<p>We're extending this in three directions:</p>
+
+<ol>
+  <li><strong>Relationship mapping</strong> — automatically identifying connections between contacts ("Jane from Acme used to work at Lively with your primary contact there") by analyzing company history overlaps</li>
+  <li><strong>Refresh cadence</strong> — key contacts get monthly insight refreshes, others quarterly. Before important meetings, a targeted refresh pulls the latest Slack messages and social activity.</li>
+  <li><strong>Meeting briefings</strong> — before every calendar event, AlphaClaw generates a one-page briefing with every attendee's profile, conversation starters, and approach notes. The 15-minute scramble becomes a 30-second skim.</li>
+</ol>
+
+<h2>The Bottom Line</h2>
+
+<p>CRM enrichment tools aren't new. Apollo, ZoomInfo, Clearbit — they all sell contact data. But they give you <em>facts</em>: job title, company size, email address. Useful, but not differentiated.</p>
+
+<p>What they don't give you is <em>understanding</em>: how this person communicates, what motivates them, what frustrates them, what they care about right now, and how to build genuine rapport. That's the gap this pipeline fills.</p>
+
+<p>For a 15-person professional services firm like Last Rev, where every client relationship is high-touch and every sales conversation matters, the difference between "I know their name" and "I understand how they think" is the difference between winning and losing work.</p>
+
+<p>Sixty seconds per contact. Twenty-one deep personality profiles and counting. Zero guesswork.</p>
+
+<p><a href="../index.html#contact">Want to build your own AI-powered CRM enrichment pipeline? Let's talk.</a></p>
+
+<hr style="border: none; border-top: 1px solid #334155; margin: 40px 0 20px;">
+
+<p style="font-size: 13px; color: #94a3b8;"><strong>Footnotes &amp; Sources</strong></p>
+<ol style="font-size: 12px; color: #64748b;">
+  <li id="fn1">Salesforce, <em>State of Sales</em>, 6th Edition (2025). Sales reps spend 72% of their time on non-selling activities. <a href="https://www.salesforce.com/resources/research-reports/state-of-sales/" style="color: #06b6d4;" target="_blank" rel="noopener">salesforce.com/resources/research-reports/state-of-sales</a></li>
+  <li id="fn2">Gong.io, <em>The State of Personalization in Sales Outreach</em> (2025). Personalized emails see 2-3x higher response rates vs. generic templates. <a href="https://www.gong.io/resources/" style="color: #06b6d4;" target="_blank" rel="noopener">gong.io/resources</a></li>
+  <li>Contact enrichment data from Last Rev's internal Supabase CRM — <code>users</code> table (46 records), <code>research_insights</code> table (21 records), <code>clients</code> table (5+ accounts). Data as of February 2026.</li>
+  <li>AlphaClaw skill definitions: <code>people-research</code> v1.0.0, <code>personality-insights</code> v1.0.0, <code>company-research</code> v1.0.0.</li>
+</ol>
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "From Contact Name to Full Dossier in 60 Seconds: AI-Powered CRM Enrichment",
+    "description": "Transform bare contact names into rich dossiers with LinkedIn profiles, communication styles, and conversation starters—all automated in under 60 seconds.",
+    "author": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lastrev.com/images/logo.png"
+      }
+    },
+    "datePublished": "2026-02-03",
+    "dateModified": "2026-02-03",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/alphaclaw-crm-enrichment"
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://lastrev.com/images/og-default.png"
+    }
+  }
+  </script>
+
+</body>
+</html>

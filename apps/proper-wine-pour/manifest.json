@@ -1,0 +1,12 @@
+{
+  "name": "Proper Wine Pour",
+  "short_name": "Wine Pour",
+  "description": "Every glass deserves a proper pour. It goes against nature.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d1a",
+  "theme_color": "#722F37",
+  "icons": [
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍷</text></svg>", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "What Tech Stack Is Typically Used for Enterprise AI Applications?",
+    "description": "Practical breakdown of infrastructure, models, and tooling for enterprise AI stacks in 2026. Learn what separates prototypes from production systems.",
+    "author": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lastrev.com/images/logo.png"
+      }
+    },
+    "datePublished": "2026-01-21",
+    "dateModified": "2026-02-19",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/what-tech-stack-is-typically-used-for-enterprise-ai-applications"
+    },
+    "image": "https://lastrev.com/images/default-blog-og.jpg",
+    "articleSection": "AI Software & Custom Apps",
+    "keywords": ["enterprise AI stack", "AI architecture", "production AI systems", "AI infrastructure", "enterprise technology", "AI development"],
+    "wordCount": 3200,
+    "timeRequired": "PT10M"
+  }
+  </script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="Enterprise AI Tech Stack Guide: 7 Layers for Production Success"
+    description="Practical breakdown of infrastructure, models, and tooling for enterprise AI stacks in 2026. Learn what separates prototypes from production systems."
+    canonical="https://lastrev.com/blog/what-tech-stack-is-typically-used-for-enterprise-ai-applications"
+    og-title="Enterprise AI Tech Stack Guide: 7 Layers for Production Success"
+    og-description="Practical breakdown of infrastructure, models, and tooling for enterprise AI stacks in 2026. Learn what separates prototypes from production systems."
+    og-image="https://lastrev.com/images/default-blog-og.jpg"
+    og-url="https://lastrev.com/blog/what-tech-stack-is-typically-used-for-enterprise-ai-applications"
+    og-type="article"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="What Tech Stack Is Typically Used for Enterprise AI Applications?" author="Last Rev Team" date="2026-01-21" category="AI Software & Custom Apps" read-time="10 min" back-href="../blog.html">
+        <div slot="content">
+
+<h1>What Tech Stack Is Typically Used for Enterprise AI Applications?</h1>
+
+<p>Everyone wants to "add AI" to their enterprise. Fewer people can articulate what that actually means in terms of infrastructure, tooling, and architecture. The result? Teams either over-engineer with every framework on Hacker News, or under-engineer with a single OpenAI API call wrapped in a Flask app.</p>
+
+<p>Neither approach survives contact with production. Here's what an enterprise AI tech stack actually looks like in 2026 — layer by layer, with opinions on what works and what's hype.</p>
+
+<h2>Why the Stack Matters More Than the Model</h2>
+
+<p>It's tempting to think the "AI part" of an AI application is the model. It's not. The model is maybe 10-15% of the system. The rest is data pipelines, orchestration, retrieval, monitoring, security, and the application layer that users actually interact with.</p>
+
+<p><a href="https://www.gartner.com/en/newsroom/press-releases/2025-08-26-gartner-predicts-40-percent-of-enterprise-apps-will-feature-task-specific-ai-agents-by-2026-up-from-less-than-5-percent-in-2025" target="_blank" rel="noopener">Gartner predicts 40% of enterprise applications will feature task-specific AI agents by the end of 2026</a>, up from less than 5% in 2025. That's an enormous shift. And the teams that succeed won't be the ones with the best model access — they'll be the ones with the best engineering around the model.</p>
+
+<p>Here's the stack, broken into the layers that matter.</p>
+
+<h2>Layer 1: Foundation Models (The Reasoning Engine)</h2>
+
+<p>This is where most conversations start, but it's the layer you have the least control over. The practical reality in 2026:</p>
+
+<ul>
+  <li><strong>OpenAI (GPT-4o, o1, o3)</strong> — Still the default for most enterprise use cases. Broad capabilities, strong tool use, good balance of speed and quality.</li>
+  <li><strong>Anthropic (Claude)</strong> — Our go-to for complex reasoning tasks, long-context work, and anything requiring nuanced instruction following. Claude's 200K context window is genuinely useful for document-heavy workflows.</li>
+  <li><strong>Open-source models (Llama, Mistral, DeepSeek)</strong> — For high-volume, lower-stakes tasks where you need cost control or data residency. Running these requires GPU infrastructure (more on that below).</li>
+  <li><strong>Google (Gemini)</strong> — Strong for multimodal use cases, especially when you're already in the Google Cloud ecosystem.</li>
+</ul>
+
+<p><strong>Our take:</strong> Don't bet on one provider. Build your orchestration layer to be model-agnostic. We've seen enterprise clients switch primary models three times in 18 months as capabilities and pricing shift. The abstraction layer that lets you swap models without rewriting your application is worth its weight in gold.</p>
+
+<h2>Layer 2: The Orchestration Layer</h2>
+
+<p>This is the layer that turns a model API call into an actual application. It handles prompt management, tool calling, agent loops, memory, and control flow.</p>
+
+<h3>Framework options</h3>
+
+<ul>
+  <li><strong>LangChain / LangGraph</strong> — The most widely adopted framework. LangGraph adds proper state machine semantics for agent workflows. Good ecosystem, but the abstraction can be heavy for simple use cases.</li>
+  <li><strong>LlamaIndex</strong> — Best-in-class for retrieval-focused applications. If your AI app is primarily about searching and synthesizing enterprise documents, start here.</li>
+  <li><strong>Custom lightweight orchestration</strong> — What we typically recommend for production. A thin layer over the model APIs that handles retries, fallbacks, prompt versioning, and tool execution without the overhead of a full framework.</li>
+</ul>
+
+<p><strong>Our take:</strong> For prototyping and internal tools, LangChain is fine. For production enterprise applications, we increasingly build custom orchestration layers. The reason is simple: when something goes wrong at 2 AM, you need to understand every line of code between the user's input and the model's output. Framework magic makes that harder, not easier.</p>
+
+<p><a href="https://www.forrester.com/blogs/predictions-2026-ai-agents-changing-business-models-and-workplace-culture-impact-enterprise-software/" target="_blank" rel="noopener">Forrester's 2026 predictions</a> note that 30% of enterprise app vendors will launch their own MCP (Model Context Protocol) servers — a sign that orchestration is becoming standardized, but also that the tooling is still in flux.</p>
+
+<h2>Layer 3: Retrieval & Data (RAG Infrastructure)</h2>
+
+<p>Almost every enterprise AI application needs to work with proprietary data. Retrieval-Augmented Generation (RAG) is how you get there without fine-tuning a model on your data.</p>
+
+<h3>Vector databases</h3>
+
+<p>The storage layer for embeddings — the numerical representations of your documents that enable semantic search:</p>
+
+<ul>
+  <li><strong>pgvector (PostgreSQL extension)</strong> — Our default recommendation for most enterprise teams. You already have PostgreSQL. Adding vector search to your existing database means one less system to operate, one less vendor to manage, and your vectors live alongside your relational data. For collections under ~10M vectors, it handles the job well.</li>
+  <li><strong>Pinecone</strong> — Fully managed, easy to start with, good performance. The trade-off is vendor lock-in and cost at scale.</li>
+  <li><strong>Weaviate / Qdrant</strong> — Open-source options with strong hybrid search (combining vector + keyword). Good choices when you need more control over deployment.</li>
+</ul>
+
+<p><strong>Our take:</strong> Start with pgvector unless you have a specific reason not to. As <a href="https://www.infoq.com/news/2025/12/pinecone-drn-vector-workloads/" target="_blank" rel="noopener">InfoQ reported</a>, the vector database landscape is consolidating, with traditional databases adding vector support. PostgreSQL with pgvector handles the majority of enterprise RAG workloads without adding operational complexity.</p>
+
+<h3>Embedding models</h3>
+
+<p>You need a model to convert text into vectors. OpenAI's <code>text-embedding-3-large</code> is the common default, but open-source options like Cohere's Embed and sentence-transformers models offer strong performance with more deployment flexibility.</p>
+
+<h3>Document processing</h3>
+
+<p>The unglamorous but critical part: getting your enterprise data into a format the AI can work with. This means PDF parsing, OCR, chunking strategies, metadata extraction. Tools like Unstructured, LlamaParse, and Apache Tika handle the heavy lifting. Expect to spend more time here than you think.</p>
+
+<h2>Layer 4: Application Backend</h2>
+
+<p>The runtime that ties everything together — APIs, authentication, business logic, and integration with existing systems.</p>
+
+<h3>Language: Python dominates, but it's not the whole story</h3>
+
+<p>According to the <a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">2025 Stack Overflow Developer Survey</a>, Python saw a 7 percentage point increase in adoption from 2024 to 2025, driven largely by AI and data science use cases. It's the default language for AI application backends, and for good reason: every model SDK, every framework, every ML library has Python as a first-class citizen.</p>
+
+<p>But enterprise applications aren't just AI backends. You also need:</p>
+
+<ul>
+  <li><strong>TypeScript / Node.js</strong> — For the API layer and any real-time features. Many teams run a TypeScript API gateway that routes to Python AI services.</li>
+  <li><strong>Go or Rust</strong> — For performance-critical components like streaming proxies or high-throughput data processors.</li>
+</ul>
+
+<p><strong>Common pattern we see:</strong> TypeScript API layer (Next.js or Express) → Python AI service (FastAPI) → model APIs. This gives you the best of both worlds: TypeScript's ecosystem for web APIs and Python's ecosystem for AI.</p>
+
+<h3>Key backend components</h3>
+
+<ul>
+  <li><strong>FastAPI</strong> — The standard Python web framework for AI services. Async-native, automatic OpenAPI docs, excellent performance.</li>
+  <li><strong>Redis / Valkey</strong> — For caching model responses, rate limiting, and session state. The 2025 Stack Overflow survey noted an 8% increase in Redis usage, reflecting its growing role in modern stacks.</li>
+  <li><strong>PostgreSQL</strong> — Your primary datastore. With pgvector, it doubles as your vector database. With JSONB, it handles semi-structured AI outputs.</li>
+  <li><strong>Message queues (SQS, RabbitMQ, or Redis Streams)</strong> — For async AI processing. Many AI tasks take 10-60 seconds — you don't want users staring at a spinner.</li>
+</ul>
+
+<h2>Layer 5: Infrastructure & Deployment</h2>
+
+<p>Where your code runs, and how you manage it.</p>
+
+<h3>Cloud providers</h3>
+
+<p>AWS, Google Cloud, and Azure all offer managed AI services. The choice usually follows your existing cloud footprint. What matters more than the provider is the architecture:</p>
+
+<ul>
+  <li><strong>Containerized services (Docker + Kubernetes or ECS)</strong> — The 2025 Stack Overflow survey showed Docker usage jumped 17 percentage points year-over-year. Containers are now the default deployment unit for AI services.</li>
+  <li><strong>Serverless (Lambda, Cloud Functions)</strong> — Good for lightweight API endpoints and event-driven processing. Not great for AI inference (cold starts kill latency).</li>
+  <li><strong>GPU instances</strong> — Required if you're running open-source models. AWS (p4d/p5), GCP (A100/H100), or Azure (ND series). Expensive — budget $2-10K/month per inference endpoint.</li>
+</ul>
+
+<h3>CI/CD and observability</h3>
+
+<ul>
+  <li><strong>GitHub Actions</strong> — Standard for CI/CD pipelines.</li>
+  <li><strong>Terraform / Pulumi</strong> — Infrastructure as code. Non-negotiable for enterprise.</li>
+  <li><strong>Datadog / Grafana / custom dashboards</strong> — Standard monitoring, extended with AI-specific metrics (token usage, latency per model, cost per request, hallucination rate).</li>
+</ul>
+
+<h2>Layer 6: The Frontend</h2>
+
+<p>The layer users actually see. Enterprise AI applications need thoughtful UIs that surface AI capabilities without overwhelming users.</p>
+
+<ul>
+  <li><strong>Next.js + React</strong> — Our standard for enterprise frontends. Server-side rendering for performance, React for rich interactivity, and the ecosystem to move fast.</li>
+  <li><strong>Streaming UI patterns</strong> — Users expect to see AI responses appear token-by-token. Server-Sent Events (SSE) or WebSockets are required for a good experience.</li>
+  <li><strong>Vercel / Netlify</strong> — For deployment and edge computing. Vercel's AI SDK makes streaming particularly straightforward.</li>
+</ul>
+
+<p><strong>Critical design principle:</strong> Show the AI's work. Cite sources. Let users verify. Enterprise users don't trust black boxes — they trust systems that explain themselves.</p>
+
+<h2>Layer 7: Security & Governance</h2>
+
+<p>The layer that enterprise buyers care about most and developers think about least.</p>
+
+<ul>
+  <li><strong>Authentication / Authorization</strong> — SSO via SAML or OIDC. Row-level security on your data so the AI only retrieves what the user is allowed to see.</li>
+  <li><strong>Data residency</strong> — Where does your data go when it hits a model API? Enterprise clients in regulated industries need answers. This sometimes means running open-source models on your own infrastructure.</li>
+  <li><strong>Prompt injection protection</strong> — Input sanitization and output validation. Your AI application is an attack surface — treat it like one.</li>
+  <li><strong>Audit logging</strong> — Every AI interaction logged: who asked what, what the model returned, what actions were taken. Non-negotiable for compliance.</li>
+  <li><strong>Cost controls</strong> — Per-user and per-team token budgets. Without guardrails, a single power user can run up a $50K monthly bill.</li>
+</ul>
+
+<h2>Putting It All Together: A Reference Architecture</h2>
+
+<p>Here's what a production enterprise AI application stack looks like in practice:</p>
+
+<pre><code>┌─────────────────────────────────────────┐
+│           Frontend (Next.js)            │
+│     Streaming UI · Auth · SSE/WS        │
+├─────────────────────────────────────────┤
+│         API Gateway (TypeScript)        │
+│   Rate limiting · Auth · Routing        │
+├─────────────────────────────────────────┤
+│        AI Service Layer (Python)        │
+│  FastAPI · Orchestration · Tool calls   │
+├──────────┬──────────┬───────────────────┤
+│ Vector DB│ Postgres │  Cache (Redis)    │
+│(pgvector)│ (data)   │  Queues           │
+├──────────┴──────────┴───────────────────┤
+│        Model Providers (APIs)           │
+│  OpenAI · Anthropic · Open-source       │
+├─────────────────────────────────────────┤
+│     Infrastructure (AWS/GCP/Azure)      │
+│  Docker · K8s · Terraform · CI/CD       │
+└─────────────────────────────────────────┘</code></pre>
+
+<p>Every layer communicates through well-defined APIs. Every layer can be swapped independently. That's the point — the AI landscape moves too fast to be locked into any single vendor or framework.</p>
+
+<h2>What We've Learned Building These Stacks</h2>
+
+<p>After building enterprise AI applications across multiple industries, here are the patterns that keep repeating:</p>
+
+<ol>
+  <li><strong>Start with the data, not the model.</strong> The quality of your RAG pipeline determines 80% of your output quality. Garbage in, hallucinations out.</li>
+  <li><strong>Build the abstraction layer early.</strong> Model-agnostic orchestration pays for itself within months when pricing changes or better models launch.</li>
+  <li><strong>PostgreSQL is your friend.</strong> pgvector for embeddings, JSONB for AI outputs, standard tables for everything else. One database to operate, not three.</li>
+  <li><strong>Invest in observability from day one.</strong> You can't improve what you can't measure. Token costs, latency, error rates, and user satisfaction should all be dashboarded before you launch.</li>
+  <li><strong>Security isn't a feature — it's a prerequisite.</strong> Enterprise buyers will walk away if you can't answer questions about data residency, access control, and audit logging.</li>
+</ol>
+
+<h2>Key Takeaways</h2>
+
+<ul>
+  <li>The tech stack for enterprise AI is multi-layered: models, orchestration, retrieval, backend, infrastructure, frontend, and security.</li>
+  <li>Python dominates the AI service layer; TypeScript dominates the API and frontend layers. Most production stacks use both.</li>
+  <li>pgvector (PostgreSQL) is sufficient for most enterprise RAG workloads — don't add infrastructure complexity you don't need.</li>
+  <li>Build model-agnostic from the start. The model landscape shifts too fast to lock in.</li>
+  <li>Security, governance, and observability aren't afterthoughts — they're what separate a prototype from production software.</li>
+  <li>Custom orchestration layers outperform heavy frameworks in production, where debuggability and control matter most.</li>
+</ul>
+
+<p>Building an enterprise AI application isn't about picking the right model — it's about building the right system around it. The teams that get the stack right ship faster, iterate faster, and sleep better at night.</p>
+
+<p>If you're evaluating your AI tech stack or planning a new enterprise AI application, <a href="mailto:hello@lastrev.com">we'd love to talk through the architecture</a>.</p>
+
+<section class="blog-sources">
+  <h3>Sources</h3>
+  <ol>
+    <li><a href="https://www.gartner.com/en/newsroom/press-releases/2025-08-26-gartner-predicts-40-percent-of-enterprise-apps-will-feature-task-specific-ai-agents-by-2026-up-from-less-than-5-percent-in-2025" target="_blank" rel="noopener">Gartner — "Gartner Predicts 40% of Enterprise Apps Will Feature Task-Specific AI Agents by 2026" (2025)</a></li>
+    <li><a href="https://www.forrester.com/blogs/predictions-2026-ai-agents-changing-business-models-and-workplace-culture-impact-enterprise-software/" target="_blank" rel="noopener">Forrester — "Predictions 2026: AI Agents, Changing Business Models, And Workplace Culture Impact Enterprise Software" (2025)</a></li>
+    <li><a href="https://survey.stackoverflow.co/2025/technology" target="_blank" rel="noopener">Stack Overflow — "2025 Developer Survey: Technology" (2025)</a></li>
+    <li><a href="https://www.infoq.com/news/2025/12/pinecone-drn-vector-workloads/" target="_blank" rel="noopener">InfoQ — "Pinecone Introduces Dedicated Read Nodes in Public Preview for Predictable Vector Workloads" (2025)</a></li>
+  </ol>
+</section>
+
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+</body>
+</html>

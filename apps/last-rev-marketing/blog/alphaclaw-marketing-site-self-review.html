@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI Agent Reviews Its Own Marketing Site Code Nightly"
+    description="Last Rev's marketing site is AI-generated and self-maintaining. Declarative web components, auto-analytics, and nightly code reviews that fix bugs automatically."
+    canonical="https://lastrev.com/blog/alphaclaw-marketing-site-self-review"
+    og-title="AI Agent Reviews Its Own Marketing Site Code Nightly"
+    og-description="Last Rev's marketing site is AI-generated and self-maintaining. Declarative web components, auto-analytics, and nightly code reviews that fix bugs automatically."
+    og-url="https://lastrev.com/blog/alphaclaw-marketing-site-self-review"
+    og-type="article"
+    og-image="/images/og-default.png"
+  ></lr-head>
+  <meta name="robots" content="index, follow">
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="An AI Agent Built Our Marketing Website — Then It Reviews Its Own Code Every Night" author="Adam Harris" date="2026-02-12" category="AI Engineering" read-time="10 min" back-href="../blog.html" image="../images/blog/alphaclaw-marketing-site-self-review.webp">
+        <div slot="content">
+<p>The Last Rev marketing site — the one you might be reading this on — was built almost entirely by an AI agent. Not "AI-assisted" in the way people usually mean, where a developer prompts Copilot for a function and tweaks the output. I mean the agent wrote the HTML, designed the component architecture, implemented the analytics layer, built the blog system you're reading this through, and now reviews its own work every single night while we sleep.</p>
+
+        <p>This isn't a stunt. It's the result of a conviction we've been testing at Last Rev: if your AI agent is good enough to build production software, it should be good enough to maintain it too. Ship and self-correct. Here's how it works.</p>
+
+        <h2>The Architecture: Declarative Components All the Way Down</h2>
+
+        <p>The marketing site is a static site — no React, no Next.js, no build-time framework. Just HTML files, CSS custom properties, and Web Components. The entire page structure for any page on the site looks like this:</p>
+
+        <pre><code>&lt;lr-head
+  title="Page Title — Last Rev"
+  description="SEO description"
+  extra-css="./css/page-specific.css"
+&gt;&lt;/lr-head&gt;
+
+&lt;lr-layout active="services" subnav="Overview:#overview,Approach:#approach"&gt;
+  &lt;section class="lp-section"&gt;
+    &lt;!-- Page content --&gt;
+  &lt;/section&gt;
+&lt;/lr-layout&gt;</code></pre>
+
+        <p>That's it. Two custom elements handle everything a page needs to be a fully-formed, SEO-friendly, analytics-tracked marketing page.</p>
+
+        <h3>&lt;lr-head&gt;: The Invisible Orchestrator</h3>
+
+        <p><code>&lt;lr-head&gt;</code> is a Web Component that runs in <code>connectedCallback</code>, injects everything a page's <code>&lt;head&gt;</code> needs, then removes itself from the DOM. It's a one-shot setup element. Here's what it handles:</p>
+
+        <ul>
+          <li><strong>Document title and meta description</strong> — set from attributes, with sensible defaults</li>
+          <li><strong>Open Graph and Twitter Card meta tags</strong> — so every page is share-ready on social without manual meta tag wrangling</li>
+          <li><strong>Core stylesheets</strong> — <code>theme.css</code>, <code>landing.css</code>, and the site-specific stylesheet, loaded in order</li>
+          <li><strong>Optional extra CSS</strong> — via the <code>extra-css</code> attribute (comma-separated), resolved relative to the site root</li>
+          <li><strong>All shared scripts</strong> — nav, subnav, footer, layout, analytics, contact form — loaded automatically</li>
+          <li><strong>Canonical URLs</strong> — when provided, both the <code>&lt;link rel="canonical"&gt;</code> and <code>og:url</code> are set</li>
+          <li><strong>FOUC prevention</strong> — the body is hidden via <code>opacity: 0</code> until all stylesheets have loaded, then revealed with a CSS transition. A safety timeout at 800ms guarantees the page always becomes visible.</li>
+        </ul>
+
+        <p>The brilliance of this pattern — which the agent arrived at organically — is that page authors (human or AI) never need to think about infrastructure. You declare what's unique about your page (title, description, maybe an extra stylesheet) and <code>&lt;lr-head&gt;</code> handles the rest. No boilerplate to copy, no scripts to forget, no meta tags to miss.</p>
+
+        <h3>&lt;lr-layout&gt;: Structure as Declaration</h3>
+
+        <p><code>&lt;lr-layout&gt;</code> takes a similar approach to page structure. Drop your content sections inside it and specify which nav item is active, what the CTA button says, and whether you want a floating subnav. The component handles:</p>
+
+        <ul>
+          <li>Injecting the full-width background</li>
+          <li>Rendering the navigation bar with the correct active state</li>
+          <li>Adding the floating subnav (if configured) for in-page section jumping</li>
+          <li>Appending the footer after your content</li>
+        </ul>
+
+        <p>The pattern is declarative to the point of being boring — which is exactly the point. Every page on the site follows the same structure because the structure is enforced by the components, not by convention. When the agent generates a new page, it can't get the structure wrong because there's nothing to get wrong. Declare the attributes, drop in the content, done.</p>
+
+        <h2>Analytics: 400 Lines of Event Tracking That Nobody Wrote By Hand</h2>
+
+        <p>The analytics layer is where things get interesting. The agent generated a comprehensive GA4 tracking module — <code>analytics.js</code> — that auto-instruments the entire site without any per-page configuration. It tracks fourteen categories of user behavior:</p>
+
+        <ul>
+          <li><strong>CTA clicks</strong> — any element matching <code>.btn-primary</code>, <code>.lr-nav-cta</code>, or the <code>data-track-cta</code> attribute</li>
+          <li><strong>Navigation clicks</strong> — header, subnav, and footer links, with section attribution</li>
+          <li><strong>Outbound link clicks</strong> — any link leaving the domain</li>
+          <li><strong>Scroll depth</strong> — 25/50/75/100% thresholds</li>
+          <li><strong>Card interactions</strong> — clicks and hover-with-intent (500ms+ dwell, filtered for scroll-through)</li>
+          <li><strong>Section dwell time</strong> — bucketed into short (1-2s), medium (2-10s), long (10-20s), and extended (20s+), with proper handling for tab visibility changes</li>
+          <li><strong>Video engagement</strong> — play, pause, progress milestones, mute toggles, fullscreen, even YouTube embeds via postMessage</li>
+          <li><strong>Form funnel</strong> — start, field focus order, field abandon, submit, and validation errors</li>
+          <li><strong>Rage clicks</strong> — 3+ clicks within 50px and 1 second (a UX distress signal)</li>
+          <li><strong>Text copy events</strong> — when users copy content (signals high-value content)</li>
+          <li><strong>Exit intent</strong> — cursor leaving viewport on desktop, rapid scroll-up on mobile</li>
+          <li><strong>Scroll velocity</strong> — classified as reading, scanning, or seeking based on px/s</li>
+          <li><strong>Return visitor detection</strong> — visit count and days-since-last via localStorage</li>
+          <li><strong>Device orientation changes</strong> — mid-session rotations</li>
+        </ul>
+
+        <p>All of this is loaded by <code>&lt;lr-head&gt;</code> automatically. There's zero per-page analytics configuration. The public API — <code>LR.track('event_name', { params })</code> — is exposed for custom events, but the auto-tracking handles everything a marketing site needs out of the box.</p>
+
+        <p>The section dwell tracking deserves a special callout. It uses <code>IntersectionObserver</code> at 40% visibility threshold, accumulates time across multiple intersections, pauses when the tab is hidden (via the Visibility API), and fires events at bucketed thresholds. The agent even added a <code>beforeunload</code> handler to fire remaining dwell events when the user leaves. This is the kind of careful, edge-case-aware implementation that typically requires a senior frontend developer thinking through every state transition.</p>
+
+        <h2>The Blog Build System</h2>
+
+        <p>The blog you're reading this on is generated from JSON data files. Each post is a JSON file in <code>blog/data/</code> with a defined schema:</p>
+
+        <pre><code>{
+  "slug": "post-slug",
+  "title": "Post Title",
+  "pageTitle": "Post Title — Last Rev",
+  "description": "SEO description",
+  "author": "Author Name",
+  "date": "2026-02-18",
+  "category": "AI Engineering",
+  "readTime": "10 min",
+  "featured": false,
+  "promoImage": "data:image/svg+xml,...",
+  "content": "&lt;p&gt;HTML content...&lt;/p&gt;"
+}</code></pre>
+
+        <p>A build script (<code>scripts/build-blogs.js</code>) reads every JSON file, generates fully static HTML pages using the <code>&lt;lr-head&gt;</code> and <code>&lt;lr-layout&gt;</code> components, and syncs a <code>blog-posts.json</code> index for the listing page. The generated HTML is minimal — under 30 lines — because the components handle all the structural complexity.</p>
+
+        <p>This means the agent can write a new blog post by creating a single JSON file and running <code>npm run build</code>. No CMS login, no Markdown compilation, no template engine. The source of truth is a directory of JSON files, and the output is static HTML that any CDN can serve.</p>
+
+        <p>The promo images are even inline SVGs — data URIs embedded directly in the JSON. No image pipeline, no asset management, no CDN configuration. Each post carries its own visual identity as a self-contained data structure.</p>
+
+        <h2>GTM and GA4: Wired In From Day One</h2>
+
+        <p>Google Tag Manager and GA4 aren't afterthoughts bolted on post-launch. The agent built them into the foundation. The analytics module bootstraps <code>gtag.js</code> on every page load, configures the measurement ID (<code>G-CJNGJ1LG7J</code>), and auto-sends page views. Every subsequent event flows through the same pipeline.</p>
+
+        <p>Because the tracking is centralized in one module and loaded by <code>&lt;lr-head&gt;</code>, there's no risk of pages shipping without analytics. It's structurally impossible to create a page on this site that doesn't track user behavior — the same component that sets up your meta tags also wires up the analytics. This is a design choice the agent made that I'd argue is better than what most human teams achieve, where analytics is typically a checkbox someone forgets during launch week.</p>
+
+        <h2>The Nightly Review: An Agent Auditing Itself</h2>
+
+        <p>Here's where the story gets recursive. Every night at 10 PM Pacific, a cron job spawns a fresh agent session to review the marketing site. Not a linter. Not a test suite. A full AI-powered code review that reads every file in the codebase and evaluates it against a comprehensive checklist.</p>
+
+        <p>The review process follows a 13-step lifecycle:</p>
+
+        <ol>
+          <li><strong>Load context</strong> — Read shared component specs, DEC (Declarative Error Correction) patterns, and accumulated learnings from previous reviews</li>
+          <li><strong>Full codebase audit</strong> — Read every HTML page, every JS module, every supporting file. Not the diff — the whole thing</li>
+          <li><strong>Sync and PR</strong> — Push the current state to the GitHub repo and create a pull request <em>before any fixes</em>, establishing the audit trail</li>
+          <li><strong>Categorize findings</strong> — Two-pass review: first draft findings, then re-read and drop anything the agent isn't confident about. Issues are tagged 🔴 (bugs, security), 🟡 (improvements), or 📝 (nits)</li>
+          <li><strong>Post review comments</strong> — Every finding is posted as a line-level comment on the PR with <code>REQUEST_CHANGES</code> status</li>
+          <li><strong>Fix everything</strong> — Not "file a ticket for later." Fix it. Every finding. In the same PR. If it requires refactoring a module, refactor it. If it requires migrating data storage, migrate it.</li>
+          <li><strong>Resolve comments</strong> — Reply to each review comment explaining the fix</li>
+          <li><strong>Approve and merge</strong> — Submit an approving review, update the PR description with a summary, and merge to main</li>
+          <li><strong>Update learnings</strong> — New patterns get appended to a shared memory file that compounds across all app reviews</li>
+        </ol>
+
+        <p>The audit checklist itself is extensive. It covers:</p>
+
+        <ul>
+          <li><strong>DEC pattern compliance</strong> — Verifying that every custom element is used according to its specification</li>
+          <li><strong>Shared component compliance</strong> — Ensuring pages load the right stylesheets, use CSS variables instead of hardcoded colors, and leverage shared components instead of reinventing them</li>
+          <li><strong>DRY violations</strong> — Duplicated code blocks across pages, copy-pasted CSS, inconsistent data access patterns</li>
+          <li><strong>Security</strong> — No exposed API keys in client code, XSS prevention (textContent over innerHTML for user input), proper input sanitization</li>
+          <li><strong>Accessibility</strong> — Button labels, image alt text, color contrast, focus states, touch targets ≥44px</li>
+          <li><strong>Mobile responsiveness</strong> — Layouts at 320px, 768px, and 1024px breakpoints, no horizontal scroll</li>
+          <li><strong>Performance</strong> — No DOM queries in loops, proper event listener management, optimized images</li>
+          <li><strong>Error handling</strong> — Every API call wrapped in try/catch with user-visible feedback</li>
+        </ul>
+
+        <p>The critical design decision here is that <strong>nothing gets deferred</strong>. The skill documentation is explicit: "There is no 'deferred' category." If the agent found it, the agent fixes it. The only exception is when a fix requires infrastructure changes outside the app's scope — and those get filed as GitHub issues, not ignored.</p>
+
+        <h2>The Compounding Knowledge Loop</h2>
+
+        <p>The most interesting architectural choice isn't any single component — it's the feedback loop. Every nightly review reads from a shared <code>code-review-learnings.md</code> file before starting. Every review appends to it after finishing. Patterns discovered in one app's review become checklist items for every subsequent review across every app.</p>
+
+        <p>This is where the agent transcends simple automation. A linter checks rules that a human wrote. This agent discovers new rules from its own reviews and applies them going forward. It's not just executing a checklist — it's evolving the checklist.</p>
+
+        <p>After a few weeks of nightly reviews, the learnings file contains dozens of specific, battle-tested patterns:</p>
+
+        <ul>
+          <li>"Cards with hover effects need <code>will-change: transform</code> to avoid repaint jank on Safari"</li>
+          <li>"Forms using <code>cc-contact-form</code> must handle the <code>contact-form-submit</code> custom event, not just native <code>submit</code>"</li>
+          <li>"Intersection Observer callbacks fire during initial layout — guard against false positives on page load"</li>
+        </ul>
+
+        <p>Each of these started as a bug found during a nightly review. Now they're permanent knowledge that prevents the same class of bug from ever recurring.</p>
+
+        <h2>Why Static? Why Web Components?</h2>
+
+        <p>A reasonable question: why not use a modern framework? The answer is that the architecture was chosen to optimize for AI maintainability, not developer ergonomics.</p>
+
+        <p>Static HTML with Web Components has properties that make it unusually well-suited for AI-generated and AI-maintained code:</p>
+
+        <ul>
+          <li><strong>No build pipeline complexity.</strong> The agent doesn't need to understand Webpack configs, Babel transforms, or module resolution. A file is a file. The output is the source.</li>
+          <li><strong>Declarative composition.</strong> Custom elements with attribute-based configuration are trivially easy for an AI to generate and reason about. There's no JSX mental model, no hooks lifecycle, no state management layer.</li>
+          <li><strong>Full readability.</strong> When the nightly review reads every file, it reads exactly what the browser renders. No transpilation step means the code the agent audits is the code that runs.</li>
+          <li><strong>Atomic deployability.</strong> Every page is self-contained. The agent can modify one page without risk of breaking another (assuming the shared components maintain their contracts).</li>
+          <li><strong>Zero dependency drift.</strong> No <code>package-lock.json</code> with 800 transitive dependencies that need security patches. The dependency surface is the browser itself.</li>
+        </ul>
+
+        <p>This doesn't mean Web Components are better than React for every use case. It means that when your primary maintainer is an AI agent, the simplest possible architecture wins. The agent spends zero time fighting build tools and 100% of its time on the actual code.</p>
+
+        <h2>What We've Learned</h2>
+
+        <p>Running this system for several months has produced some non-obvious insights:</p>
+
+        <h3>1. The agent is more consistent than a human team</h3>
+        <p>Every page follows the same structure because the components enforce it. Every page has analytics because it's structurally impossible not to. Every page gets reviewed nightly because the cron doesn't take vacation. The baseline quality floor is higher than what most human teams maintain across a full site.</p>
+
+        <h3>2. The nightly review catches drift, not just bugs</h3>
+        <p>The most valuable findings aren't crashes — they're subtle drift. A page that was using hardcoded colors instead of CSS variables. A section that lost its tracking ID during a content update. An accessibility label that got deleted in a refactor. These are the issues that accumulate silently on human-maintained sites and degrade quality over months. The nightly review catches them within 24 hours.</p>
+
+        <h3>3. The PR audit trail is invaluable</h3>
+        <p>Every nightly review produces a GitHub PR with line-level review comments, fixes, and resolution notes. This creates a complete audit trail of every change and every decision. When a question comes up about why something works the way it does, the answer is in the PR history — with the agent's reasoning attached.</p>
+
+        <h3>4. The "fix everything, defer nothing" policy works</h3>
+        <p>The most counterintuitive rule is that the nightly review fixes every issue it finds, no exceptions. No "we'll get to it in the next sprint." This sounds aggressive, but it means the codebase never accumulates tech debt. Every morning, the site is as clean as it's ever been.</p>
+
+        <h3>5. Shared component discovery is a side effect</h3>
+        <p>Because the agent reviews multiple apps nightly, it naturally notices when the same UI pattern appears across different codebases. These become candidates for extraction into shared components. The component library grows organically from real usage patterns rather than speculative abstraction.</p>
+
+        <h2>The Bigger Picture</h2>
+
+        <p>This marketing site is a proof of concept for something we believe will become standard practice: <strong>AI systems that own their entire lifecycle</strong>. Not just generation. Not just assistance. Full ownership — creation, deployment, monitoring, review, correction, and evolution.</p>
+
+        <p>The agent that built this site doesn't need a human to tell it what to review. It doesn't need a human to approve its fixes (they're there in the PR trail if someone wants to look). It doesn't need a human to deploy the changes. It runs, it audits, it fixes, it ships. Every night. Without being asked.</p>
+
+        <p>That's not the future of software development. It's what we're running right now, on the site you're reading.</p>
+
+        <p>If you're interested in how we're applying these patterns to enterprise software — not just marketing sites — <a href="mailto:hello@lastrev.com">we should talk</a>.</p>
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "An AI Agent Built Our Marketing Website — Then It Reviews Its Own Code Every Night",
+    "description": "Last Rev's marketing site is AI-generated and self-maintaining. Declarative web components, auto-analytics, and nightly code reviews that fix bugs automatically.",
+    "author": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lastrev.com/images/logo.png"
+      }
+    },
+    "datePublished": "2026-02-12",
+    "dateModified": "2026-02-12",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/alphaclaw-marketing-site-self-review"
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://lastrev.com/images/og-default.png"
+    }
+  }
+  </script>
+
+</body>
+</html>

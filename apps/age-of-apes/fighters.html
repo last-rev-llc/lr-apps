@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<title>🦍 Age of Apes Guide - Fighters</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<link rel="stylesheet" href="modules/aoa-common.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/utils.js"></script>
+<style>
+  .fighter-type-section { margin-bottom:2rem; }
+  .fighter-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+  .rarity-rare { border-left:4px solid var(--green); }
+  .rarity-epic { border-left:4px solid var(--accent); }
+  .rarity-legendary { border-left:4px solid var(--orange); }
+</style>
+</head>
+<body>
+<cc-app-nav app="age-of-apes" title="🦍 Age of Apes Guide" active="fighters"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div style="max-width:1400px;margin:0 auto;padding:1rem;">
+  <div class="page-header">
+    <h1>⚔️ Fighters Database</h1>
+    <div class="header-right">
+      <span class="badge badge-app" id="total-fighters">Loading...</span>
+    </div>
+  </div>
+
+  <cc-tabs active="overview">
+    <cc-tab name="overview" label="Overview" icon="users">
+      <div id="fighters-overview" style="padding:1rem 0;"></div>
+    </cc-tab>
+    <cc-tab name="medals" label="Medals" icon="award">
+      <div style="padding:1rem 0;">
+        <div class="panel">
+          <h3 style="margin:0 0 1rem;">Fighter Medal Requirements</h3>
+          <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-size:.9rem;">
+              <thead>
+                <tr style="border-bottom:2px solid var(--border);">
+                  <th style="padding:8px 12px;text-align:left;color:var(--muted);font-weight:600;">Rarity</th>
+                  <th style="padding:8px 12px;text-align:center;color:var(--muted);font-weight:600;">Skill 1</th>
+                  <th style="padding:8px 12px;text-align:center;color:var(--muted);font-weight:600;">Skill 2</th>
+                  <th style="padding:8px 12px;text-align:center;color:var(--muted);font-weight:600;">Skill 3</th>
+                  <th style="padding:8px 12px;text-align:center;color:var(--muted);font-weight:600;">Skill 4</th>
+                  <th style="padding:8px 12px;text-align:center;color:var(--muted);font-weight:600;">Total 5/5/5/5</th>
+                  <th style="padding:8px 12px;text-align:center;color:var(--muted);font-weight:600;">Leap Medals</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:8px 12px;"><span class="badge rarity-rare" style="background:var(--green);color:#000;">Rare</span></td>
+                  <td style="padding:8px 12px;text-align:center;">100</td>
+                  <td style="padding:8px 12px;text-align:center;">75</td>
+                  <td style="padding:8px 12px;text-align:center;">75</td>
+                  <td style="padding:8px 12px;text-align:center;">75</td>
+                  <td style="padding:8px 12px;text-align:center;font-weight:600;">325</td>
+                  <td style="padding:8px 12px;text-align:center;">800</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:8px 12px;"><span class="badge rarity-epic" style="background:var(--accent);color:#fff;">Epic</span></td>
+                  <td style="padding:8px 12px;text-align:center;">150</td>
+                  <td style="padding:8px 12px;text-align:center;">100</td>
+                  <td style="padding:8px 12px;text-align:center;">100</td>
+                  <td style="padding:8px 12px;text-align:center;">100</td>
+                  <td style="padding:8px 12px;text-align:center;font-weight:600;">450</td>
+                  <td style="padding:8px 12px;text-align:center;">1,180</td>
+                </tr>
+                <tr>
+                  <td style="padding:8px 12px;"><span class="badge rarity-legendary" style="background:var(--orange);color:#000;">Legendary</span></td>
+                  <td style="padding:8px 12px;text-align:center;">240</td>
+                  <td style="padding:8px 12px;text-align:center;">150</td>
+                  <td style="padding:8px 12px;text-align:center;">150</td>
+                  <td style="padding:8px 12px;text-align:center;">150</td>
+                  <td style="padding:8px 12px;text-align:center;font-weight:600;">690</td>
+                  <td style="padding:8px 12px;text-align:center;">700</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </cc-tab>
+    <cc-tab name="experience" label="Experience" icon="trending-up">
+      <div style="padding:1rem 0;">
+        <div class="panel">
+          <h3 style="margin:0 0 1rem;">Max Experience by Rarity</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;">
+            <div class="stat-box rarity-rare">
+              <div class="stat-box-value" style="font-size:1.2rem;">32,748,403</div>
+              <div class="stat-box-label">Rare (Lv 50)</div>
+            </div>
+            <div class="stat-box rarity-epic">
+              <div class="stat-box-value" style="font-size:1.2rem;">41,314,000</div>
+              <div class="stat-box-label">Epic (Lv 50)</div>
+            </div>
+            <div class="stat-box rarity-legendary">
+              <div class="stat-box-value" style="font-size:1.2rem;">50,213,100</div>
+              <div class="stat-box-label">Legendary (Lv 50)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </cc-tab>
+    <cc-tab name="calculator" label="XP Calculator" icon="calculator">
+      <div class="panel">
+        <h3 style="margin:0 0 1rem;">Fighter XP Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Rarity</label><select id="fc-rarity" class="aoa-select">
+            <option value="rare">Rare</option><option value="epic">Epic</option><option value="legendary">Legendary</option>
+          </select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Current Level</label><input type="number" id="fc-start" class="aoa-input" value="1" min="1" max="50"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Target Level</label><input type="number" id="fc-end" class="aoa-input" value="50" min="1" max="50"></div>
+        </div>
+        <button class="btn btn-primary" id="fc-calc">Calculate XP Required</button>
+        <div id="fc-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+  </cc-tabs>
+</div>
+
+<script>
+const { fmt, esc } = AOA;
+let gameData = {};
+
+async function loadData() {
+  try {
+    const fighters = await fetch('data/fighters.json').then(r=>r.json());
+    gameData = { fighters };
+    renderFighters();
+    setupCalculator();
+  } catch(e) {
+    console.error('Error loading data:', e);
+  }
+}
+
+function renderFighters() {
+  const fd = gameData.fighters;
+  
+  // Count total fighters
+  let totalFighters = 0;
+  Object.values(fd.types).forEach(names => totalFighters += names.length);
+  document.getElementById('total-fighters').textContent = `${totalFighters} Fighters`;
+
+  // Fighter type sections
+  const fighterTypesHtml = Object.entries(fd.types).map(([type, names]) => {
+    const displayType = type.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+    return `
+      <div class="fighter-type-section">
+        <h3 style="margin:0 0 1rem;">${esc(displayType)}</h3>
+        <div class="fighter-grid">
+          ${names.map(name => `
+            <div class="card">
+              <div class="card-top">
+                <div class="card-title" style="font-size:.95rem;">${esc(name)}</div>
+              </div>
+              <div class="card-desc">${esc(displayType)} fighter with specialized combat abilities</div>
+              <div class="card-meta">
+                <span class="badge" style="background:var(--blue);color:#fff;">${esc(displayType)}</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('fighters-overview').innerHTML = `
+    ${fighterTypesHtml}
+    <div class="panel" style="margin-top:2rem;">
+      <h3 style="margin:0 0 .5rem;">Fighter Stats</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+        <div class="stat-box"><div class="stat-box-value">${totalFighters}</div><div class="stat-box-label">Total Fighters</div></div>
+        <div class="stat-box"><div class="stat-box-value">${Object.keys(fd.types).length}</div><div class="stat-box-label">Fighter Types</div></div>
+        <div class="stat-box"><div class="stat-box-value">50</div><div class="stat-box-label">Max Level</div></div>
+        <div class="stat-box"><div class="stat-box-value">3</div><div class="stat-box-label">Rarities</div></div>
+      </div>
+    </div>`;
+}
+
+function setupCalculator() {
+  document.getElementById('fc-calc').addEventListener('click', () => {
+    const rarity = document.getElementById('fc-rarity').value;
+    const start = +document.getElementById('fc-start').value;
+    const end = +document.getElementById('fc-end').value;
+    
+    if (start >= end) {
+      window.showToast('Start level must be less than target level ⚠️', 3000);
+      return;
+    }
+    
+    const data = gameData.fighters.experience[rarity];
+    const startXP = data.find(d=>d.level===start)?.cumulative || 0;
+    const endXP = data.find(d=>d.level===end)?.cumulative || 0;
+    const needed = endXP - startXP;
+    
+    // Calculate approximate medal cost (rough estimate)
+    const levelDiff = end - start;
+    const approxMedals = Math.round(levelDiff * 100 * (rarity === 'legendary' ? 1.5 : rarity === 'epic' ? 1.2 : 1));
+    
+    document.getElementById('fc-results').innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${rarity.charAt(0).toUpperCase()+rarity.slice(1)}</div><div class="stat-box-label">Rarity</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${start} → ${end}</div><div class="stat-box-label">Levels</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(needed)}</div><div class="stat-box-label">XP Needed</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(startXP)}</div><div class="stat-box-label">Start Cumulative</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(endXP)}</div><div class="stat-box-label">End Cumulative</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(approxMedals)}</div><div class="stat-box-label">Approx Medals</div></div>
+      </div>`;
+
+    window.showToast(`Calculated XP for ${rarity} fighter ✅`, 3000);
+  });
+}
+
+loadData();
+</script>
+</body>
+</html>

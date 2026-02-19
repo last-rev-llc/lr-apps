@@ -1,0 +1,11 @@
+{
+  "types": ["Pilots","Hitters","Shooters","Wall Breakers"],
+  "tiers": {
+    "T1": {"power":2,"food":50,"iron":50,"nuApeCaps":0,"trainTime":15,"name":"Recruit"},
+    "T2": {"power":8,"food":100,"iron":100,"nuApeCaps":0,"trainTime":30,"name":"Soldier"},
+    "T3": {"power":24,"food":200,"iron":200,"nuApeCaps":0,"trainTime":60,"name":"Veteran"},
+    "T4": {"power":56,"food":500,"iron":500,"nuApeCaps":0,"trainTime":120,"name":"Elite"},
+    "T5": {"power":112,"food":1000,"iron":1000,"nuApeCaps":50,"trainTime":240,"name":"Master"},
+    "T6": {"power":200,"food":2000,"iron":2000,"nuApeCaps":150,"trainTime":480,"name":"Apex"}
+  }
+}

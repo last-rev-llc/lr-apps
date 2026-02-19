@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <title>Daily Standup — Adam Harris</title>
+  <meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+  <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+  <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+  <style>
+    body { margin: 0; padding: 0; }
+    .day-cards { display: flex; flex-direction: column; gap: 16px; padding: 16px 24px; }
+    .day-card { border-radius: var(--radius, 12px); background: var(--surface, var(--bg)); padding: 20px 24px; }
+    .day-card h2 { margin: 0 0 16px; font-size: 20px; color: var(--text); }
+    .day-card h2 .dow { color: var(--accent, #60a5fa); }
+    .source-group { margin-bottom: 14px; }
+    .source-group:last-child { margin-bottom: 0; }
+    .source-label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .activity-list { list-style: none; margin: 0; padding: 0; }
+    .activity-list li { display: flex; align-items: baseline; gap: 10px; padding: 4px 0; font-size: 14px; color: var(--text); line-height: 1.4; }
+    .activity-time { font-family: monospace; font-size: 12px; color: var(--muted); white-space: nowrap; min-width: 48px; }
+    .activity-desc { flex: 1; }
+    .source-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; background: var(--surface-alt, #262640); color: var(--muted); white-space: nowrap; }
+    .footer-note { padding: 16px 24px 32px; font-size: 12px; color: var(--muted); text-align: center; }
+  </style>
+</head>
+<body>
+  <cc-app-nav app="standup" title="📋 Daily Standup" active="standup"></cc-app-nav>
+  <cc-auth></cc-auth>
+
+  <cc-page-header icon="📋" title="Daily Standup" description="Team standup notes & updates">
+    <div class="updated" id="updated"></div>
+  </cc-page-header>
+
+  <div class="day-cards" id="days"></div>
+
+  <div class="footer-note">Sources: Slack, GitHub, Git commits. Jira integration pending re-auth.</div>
+
+  <cc-toast></cc-toast>
+  <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+  <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+  <script src="https://shared.adam-harris.alphaclaw.app/sql-sync.js"></script>
+  <script src="db.js"></script>
+  <script>
+    const SOURCE_META = {
+      slack:     { icon: '💬', label: 'Slack' },
+      github:    { icon: '🔧', label: 'GitHub' },
+      workspace: { icon: '📝', label: 'Workspace' },
+      jira:      { icon: '📋', label: 'Jira' }
+    };
+
+    function esc(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+
+    function formatDate(dateStr, dow) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      return `<span class="dow">${esc(dow)}</span>, ${months[m-1]} ${d}`;
+    }
+
+    function renderDay(day) {
+      const card = document.createElement('div');
+      card.className = 'day-card';
+      card.innerHTML = `<h2>${formatDate(day.date, day.dayOfWeek)}</h2>`;
+
+      // Group by source
+      const groups = {};
+      day.activities.forEach(a => {
+        (groups[a.source] = groups[a.source] || []).push(a);
+      });
+
+      // Sort each group by time
+      const order = ['slack', 'workspace', 'github', 'jira'];
+      order.forEach(src => {
+        const items = groups[src];
+        if (!items) return;
+        items.sort((a, b) => a.time.localeCompare(b.time));
+        const meta = SOURCE_META[src] || { icon: '📌', label: src };
+        const group = document.createElement('div');
+        group.className = 'source-group';
+        group.innerHTML = `<div class="source-label">${esc(meta.icon)} ${esc(meta.label)}</div>
+          <ul class="activity-list">${items.map(a =>
+            `<li><span class="activity-time">${esc(a.time)}</span><span class="activity-desc">${esc(a.description)}</span></li>`
+          ).join('')}</ul>`;
+        card.appendChild(group);
+      });
+
+      return card;
+    }
+
+    (async function() {
+      const db = await SyncDB.init(STANDUP_DB_CONFIG);
+      const days = db.all('days');
+      if (days.length) {
+        const latest = days.reduce((a, b) => a.updatedAt > b.updatedAt ? a : b);
+        document.getElementById('updated').textContent =
+          'Last updated: ' + new Date(latest.updatedAt).toLocaleString('en-US', { timeZone: 'America/Los_Angeles', dateStyle: 'medium', timeStyle: 'short' });
+      }
+      const container = document.getElementById('days');
+      days.sort((a, b) => b.date.localeCompare(a.date));
+      if (!days.length) {
+        container.innerHTML = '<cc-empty-state message="No standup entries yet" icon="📋"></cc-empty-state>';
+        return;
+      }
+      days.forEach(day => container.appendChild(renderDay(day)));
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <title>📋 Sprint Planning — Docs</title>
+  <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+  <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+  <style>
+    .showcase-layout { display: flex; min-height: 100vh; }
+    .showcase-sidebar {
+      width: 260px; background: var(--card); border-right: 1px solid var(--border);
+      position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0;
+    }
+    .showcase-content { flex: 1; padding: 40px; max-width: calc(100vw - 260px); overflow-x: hidden; }
+    .sidebar-nav { padding: 24px 16px; }
+    .sidebar-nav .nav-title { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .sidebar-nav .nav-title h2 { font-family: var(--serif); font-size: 18px; font-weight: 700; margin: 0; }
+    .sidebar-nav .nav-group { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin: 18px 0 6px 8px; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 10px; color: var(--muted); text-decoration: none; font-size: 12px;
+      font-weight: 500; border-radius: 6px; margin-bottom: 1px; transition: all 0.15s;
+    }
+    .sidebar-nav a:hover { background: rgba(245,158,11,0.12); color: var(--accent); }
+    .showcase-section { margin-bottom: 56px; scroll-margin-top: 24px; }
+    .showcase-section > h2 {
+      font-family: var(--serif); font-size: 24px; font-weight: 700;
+      border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 20px;
+    }
+    .showcase-section h3 { font-size: 16px; font-weight: 600; margin: 24px 0 10px; }
+    .component-summary { color: var(--muted); font-size: 13px; margin: -12px 0 16px; }
+    .prompt-block { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; white-space: pre-wrap; overflow-x: auto; line-height: 1.6; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; margin-bottom: 16px; }
+    .back-link:hover { text-decoration: underline; }
+    @media (max-width: 768px) {
+      .showcase-layout { flex-direction: column; }
+      .showcase-sidebar { width: 100%; height: auto; position: relative; }
+      .showcase-content { padding: 20px; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<cc-app-nav app="sprint-planning" title="📋 Sprint Planning" active="docs"></cc-app-nav>
+
+  <cc-toast></cc-toast>
+
+  <div class="showcase-layout">
+    <div class="showcase-sidebar">
+      <div class="sidebar-nav">
+        <div class="nav-title"><span>📋</span> <h2>Sprint Planning Docs</h2></div>
+        <a href="index.html" class="back-link">← Back to App</a>
+
+      <div class="nav-group">App Components</div>
+      <a href="#bm-client">Client Group</a>
+      <a href="#bm-status-group">Status Groups</a>
+      <a href="#bm-item">Item Card</a>
+      <a href="#bm-done-toggle">Done Toggle</a>
+      <a href="#arch-card">Archive Card</a>
+      <a href="#arch-filters">Archive Filters</a>
+      <div class="nav-group">Data</div>
+      <a href="#data-format">Data Format</a>
+      <div class="nav-group">Shared Components</div>
+      <a href="https://shared.adam-harris.alphaclaw.app" target="_blank">↗ Shared Library</a>
+      </div>
+    </div>
+
+    <div class="showcase-content">
+      <cc-fade-in>
+        <h1 style="font-family:var(--serif);margin-bottom:8px;">📋 Sprint Planning</h1>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:40px;">Backlog meeting and sprint planning board with client grouping, status tracking, and archive history.</p>
+      </cc-fade-in>
+
+    <section id="bm-client" class="showcase-section">
+      <h2>Client Group</h2>
+      <p class="component-summary">Groups items by client with header stats (outstanding, blocked, done counts)</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.bm-client</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="bm-client" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.bm-client — Groups items by client with header stats (outstanding, blocked, done counts)</span>
+        </div>
+      </div>
+    </section>
+    <section id="bm-status-group" class="showcase-section">
+      <h2>Status Groups</h2>
+      <p class="component-summary">Groups within a client by status: blocked, in-progress, in-review, not-started, discussion</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.bm-status-group</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="bm-status-group" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.bm-status-group — Groups within a client by status: blocked, in-progress, in-review, not-started, discussion</span>
+        </div>
+      </div>
+    </section>
+    <section id="bm-item" class="showcase-section">
+      <h2>Item Card</h2>
+      <p class="component-summary">Individual backlog item with title, assignees, sources, priority badge, and due date</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.bm-item</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="bm-item" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.bm-item — Individual backlog item with title, assignees, sources, priority badge, and due date</span>
+        </div>
+      </div>
+    </section>
+    <section id="bm-done-toggle" class="showcase-section">
+      <h2>Done Toggle</h2>
+      <p class="component-summary">Collapsible "completed this week" section</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.bm-done-toggle</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="bm-done-toggle" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.bm-done-toggle — Collapsible "completed this week" section</span>
+        </div>
+      </div>
+    </section>
+    <section id="arch-card" class="showcase-section">
+      <h2>Archive Card</h2>
+      <p class="component-summary">Expandable archive entry with type badge (digest/overview/weekly)</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.arch-card</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="arch-card" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.arch-card — Expandable archive entry with type badge (digest/overview/weekly)</span>
+        </div>
+      </div>
+    </section>
+    <section id="arch-filters" class="showcase-section">
+      <h2>Archive Filters</h2>
+      <p class="component-summary">Filter bar with type, service, and date range pill filters</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.arch-filters</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="arch-filters" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.arch-filters — Filter bar with type, service, and date range pill filters</span>
+        </div>
+      </div>
+    </section>
+    <section id="data-format" class="showcase-section">
+      <h2>Data Format</h2>
+      <p class="component-summary">Expected JSON structure for this app</p>
+      <div class="prompt-block">// backlog-meeting.json
+{
+  "lastUpdated": "2025-02-13T...",
+  "clients": [
+    {
+      "name": "Client Name",
+      "items": [
+        {
+          "title": "Task title",
+          "status": "in-progress|blocked|in-review|not-started|discussion|done",
+          "priority": "high|medium|low",
+          "assignees": ["Name"],
+          "dueDate": "2025-02-20",
+          "summary": "Brief description",
+          "sources": [{ "type": "jira|slack|zoom", "url": "...", "label": "PROJ-123" }]
+        }
+      ]
+    }
+  ]
+}</div>
+    </section>
+    </div>
+  </div>
+</body>
+</html>

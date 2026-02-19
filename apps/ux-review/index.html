@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>🎨 UX Review Gallery</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font, system-ui, -apple-system, sans-serif); background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px; }
+
+  h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  .sub { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-bottom: 48px; }
+
+  .review-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; transition: border-color .2s, transform .2s; }
+  .review-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .review-card h2 { font-size: 20px; margin-bottom: 6px; }
+  .review-card .app-name { color: var(--accent); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 12px; }
+
+  .score { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .score-bar { height: 6px; border-radius: 3px; background: var(--border); width: 100px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 3px; }
+  .score-fill.low { background: var(--red, #ef4444); }
+  .score-fill.mid { background: var(--accent); }
+  .score-fill.high { background: var(--green, #22c55e); }
+
+  .recs { list-style: none; padding: 0; margin: 0 0 16px; }
+  .recs li { font-size: 13px; color: var(--muted); padding: 4px 0; display: flex; gap: 8px; }
+  .recs li::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+
+  .preview-btn { display: inline-block; padding: 10px 20px; border-radius: 8px; background: var(--accent); color: #000; font-weight: 700; font-size: 14px; text-decoration: none; transition: opacity .2s; }
+  .preview-btn:hover { opacity: .85; }
+
+  .section-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
+  .all-scores { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .mini-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; display: flex; justify-content: space-between; align-items: center; }
+  .mini-card .name { font-weight: 600; font-size: 14px; }
+  .mini-card .mini-score { font-size: 24px; font-weight: 800; }
+  .mini-card .mini-score.s5 { color: var(--red, #ef4444); }
+  .mini-card .mini-score.s6 { color: var(--accent); }
+  .mini-card .mini-score.s7 { color: var(--accent); }
+  .mini-card .mini-score.s8 { color: var(--green, #22c55e); }
+
+  @media (max-width: 640px) { body { padding: 16px; } .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<cc-app-nav app="ux-review" title="🎨 UX Review" active="home"></cc-app-nav>
+<cc-auth></cc-auth>
+
+<h1>🎨 UX Review Gallery</h1>
+<p class="sub">Design variations for the top 3 improvement opportunities — Feb 17, 2026</p>
+
+<div class="grid">
+  <div class="review-card">
+    <div class="app-name">Standup</div>
+    <h2>📋 Daily Standup v1</h2>
+    <div class="score">
+      Score: 5/10
+      <div class="score-bar"><div class="score-fill low" style="width:50%"></div></div>
+    </div>
+    <ul class="recs">
+      <li>Added search + source filter toolbar</li>
+      <li>Collapsible day cards (older auto-collapsed)</li>
+      <li>Source count pills for quick scanning</li>
+      <li>Improved mobile spacing & density</li>
+    </ul>
+    <a href="standup-v1.html" class="preview-btn">Preview Variation</a>
+  </div>
+
+  <div class="review-card">
+    <div class="app-name">Meeting Summaries</div>
+    <h2>📝 Meeting Summaries v1</h2>
+    <div class="score">
+      Score: 6/10
+      <div class="score-bar"><div class="score-fill mid" style="width:60%"></div></div>
+    </div>
+    <ul class="recs">
+      <li>Sentiment color strips on card edges</li>
+      <li>Action item count badges</li>
+      <li>Chip-based filters for mobile</li>
+      <li>Dedicated Summaries/Actions/Calendar tabs</li>
+    </ul>
+    <a href="meeting-summaries-v1.html" class="preview-btn">Preview Variation</a>
+  </div>
+
+  <div class="review-card">
+    <div class="app-name">Uptime</div>
+    <h2>📡 Uptime Status v1</h2>
+    <div class="score">
+      Score: 7/10
+      <div class="score-bar"><div class="score-fill mid" style="width:70%"></div></div>
+    </div>
+    <ul class="recs">
+      <li>Animated pulse on global status banner</li>
+      <li>Quick-stats summary row</li>
+      <li>Incident timeline section</li>
+      <li>Top-edge color strips per service card</li>
+    </ul>
+    <a href="uptime-v1.html" class="preview-btn">Preview Variation</a>
+  </div>
+</div>
+
+<div class="section-title">All App Scores</div>
+<div class="all-scores">
+  <div class="mini-card"><span class="name">Command Center</span><span class="mini-score s8">8</span></div>
+  <div class="mini-card"><span class="name">CC Leads</span><span class="mini-score s7">7</span></div>
+  <div class="mini-card"><span class="name">CC Recipes</span><span class="mini-score s7">7</span></div>
+  <div class="mini-card"><span class="name">CC Gallery</span><span class="mini-score s7">7</span></div>
+  <div class="mini-card"><span class="name">CC Ideas</span><span class="mini-score s7">7</span></div>
+  <div class="mini-card"><span class="name">Uptime</span><span class="mini-score s7">7</span></div>
+  <div class="mini-card"><span class="name">Sprint Planning</span><span class="mini-score s6">6</span></div>
+  <div class="mini-card"><span class="name">Meeting Summaries</span><span class="mini-score s6">6</span></div>
+  <div class="mini-card"><span class="name">Sales</span><span class="mini-score s6">6</span></div>
+  <div class="mini-card"><span class="name">Standup</span><span class="mini-score s5">5</span></div>
+</div>
+
+<cc-toast></cc-toast>
+</body>
+</html>

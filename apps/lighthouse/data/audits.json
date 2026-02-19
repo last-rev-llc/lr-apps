@@ -1,0 +1,149 @@
+[
+  {
+    "id": "wow-marketing",
+    "site": "WOW Marketing",
+    "url": "https://wow.lastrev.com",
+    "audits": [
+      {"date": "2025-12-15", "performance": 92, "accessibility": 96, "seo": 94, "bestPractices": 91, "details": {"fcp": 1.2, "lcp": 2.1, "tbt": 120, "cls": 0.03, "si": 2.4}},
+      {"date": "2025-12-29", "performance": 90, "accessibility": 97, "seo": 93, "bestPractices": 92, "details": {"fcp": 1.3, "lcp": 2.3, "tbt": 130, "cls": 0.02, "si": 2.5}},
+      {"date": "2026-01-05", "performance": 88, "accessibility": 95, "seo": 92, "bestPractices": 90, "details": {"fcp": 1.4, "lcp": 2.5, "tbt": 150, "cls": 0.04, "si": 2.7}},
+      {"date": "2026-01-12", "performance": 91, "accessibility": 96, "seo": 95, "bestPractices": 93, "details": {"fcp": 1.2, "lcp": 2.0, "tbt": 110, "cls": 0.02, "si": 2.3}},
+      {"date": "2026-01-19", "performance": 93, "accessibility": 98, "seo": 96, "bestPractices": 94, "details": {"fcp": 1.1, "lcp": 1.9, "tbt": 100, "cls": 0.01, "si": 2.1}},
+      {"date": "2026-01-26", "performance": 94, "accessibility": 97, "seo": 95, "bestPractices": 92, "details": {"fcp": 1.0, "lcp": 1.8, "tbt": 95, "cls": 0.02, "si": 2.0}},
+      {"date": "2026-02-02", "performance": 95, "accessibility": 98, "seo": 97, "bestPractices": 95, "details": {"fcp": 0.9, "lcp": 1.7, "tbt": 85, "cls": 0.01, "si": 1.9}},
+      {"date": "2026-02-09", "performance": 94, "accessibility": 99, "seo": 96, "bestPractices": 94, "details": {"fcp": 1.0, "lcp": 1.8, "tbt": 90, "cls": 0.01, "si": 2.0}}
+    ]
+  },
+  {
+    "id": "ias-intranet",
+    "site": "IAS Intranet",
+    "url": "https://ias-intranet.lastrev.com",
+    "audits": [
+      {"date": "2025-12-15", "performance": 62, "accessibility": 78, "seo": 80, "bestPractices": 75, "details": {"fcp": 2.8, "lcp": 4.5, "tbt": 450, "cls": 0.15, "si": 4.8}},
+      {"date": "2025-12-29", "performance": 58, "accessibility": 76, "seo": 78, "bestPractices": 72, "details": {"fcp": 3.1, "lcp": 5.0, "tbt": 520, "cls": 0.18, "si": 5.2}},
+      {"date": "2026-01-05", "performance": 65, "accessibility": 80, "seo": 82, "bestPractices": 78, "details": {"fcp": 2.5, "lcp": 4.2, "tbt": 400, "cls": 0.12, "si": 4.5}},
+      {"date": "2026-01-12", "performance": 60, "accessibility": 77, "seo": 79, "bestPractices": 74, "details": {"fcp": 2.9, "lcp": 4.8, "tbt": 480, "cls": 0.16, "si": 5.0}},
+      {"date": "2026-01-19", "performance": 63, "accessibility": 79, "seo": 81, "bestPractices": 76, "details": {"fcp": 2.7, "lcp": 4.4, "tbt": 440, "cls": 0.14, "si": 4.7}},
+      {"date": "2026-01-26", "performance": 68, "accessibility": 82, "seo": 84, "bestPractices": 80, "details": {"fcp": 2.3, "lcp": 3.9, "tbt": 380, "cls": 0.10, "si": 4.2}},
+      {"date": "2026-02-02", "performance": 70, "accessibility": 84, "seo": 83, "bestPractices": 81, "details": {"fcp": 2.2, "lcp": 3.7, "tbt": 350, "cls": 0.09, "si": 4.0}},
+      {"date": "2026-02-09", "performance": 72, "accessibility": 85, "seo": 85, "bestPractices": 82, "details": {"fcp": 2.1, "lcp": 3.5, "tbt": 320, "cls": 0.08, "si": 3.8}}
+    ]
+  },
+  {
+    "id": "lively-marketing",
+    "site": "Lively Marketing",
+    "url": "https://lively.lastrev.com",
+    "audits": [
+      {"date": "2025-12-15", "performance": 85, "accessibility": 92, "seo": 90, "bestPractices": 88, "details": {"fcp": 1.6, "lcp": 2.8, "tbt": 180, "cls": 0.05, "si": 3.0}},
+      {"date": "2025-12-29", "performance": 82, "accessibility": 90, "seo": 88, "bestPractices": 86, "details": {"fcp": 1.8, "lcp": 3.1, "tbt": 210, "cls": 0.06, "si": 3.3}},
+      {"date": "2026-01-05", "performance": 80, "accessibility": 91, "seo": 89, "bestPractices": 87, "details": {"fcp": 1.9, "lcp": 3.2, "tbt": 220, "cls": 0.07, "si": 3.4}},
+      {"date": "2026-01-12", "performance": 78, "accessibility": 89, "seo": 87, "bestPractices": 84, "details": {"fcp": 2.0, "lcp": 3.4, "tbt": 250, "cls": 0.08, "si": 3.6}},
+      {"date": "2026-01-19", "performance": 76, "accessibility": 88, "seo": 86, "bestPractices": 83, "details": {"fcp": 2.1, "lcp": 3.5, "tbt": 270, "cls": 0.09, "si": 3.8}},
+      {"date": "2026-01-26", "performance": 79, "accessibility": 91, "seo": 88, "bestPractices": 86, "details": {"fcp": 1.9, "lcp": 3.1, "tbt": 230, "cls": 0.06, "si": 3.3}},
+      {"date": "2026-02-02", "performance": 81, "accessibility": 93, "seo": 91, "bestPractices": 88, "details": {"fcp": 1.7, "lcp": 2.9, "tbt": 200, "cls": 0.05, "si": 3.1}},
+      {"date": "2026-02-09", "performance": 83, "accessibility": 94, "seo": 92, "bestPractices": 89, "details": {"fcp": 1.6, "lcp": 2.7, "tbt": 185, "cls": 0.04, "si": 2.9}}
+    ]
+  },
+  {
+    "id": "contentful-starter",
+    "site": "Contentful Starter",
+    "url": "https://starter.lastrev.com",
+    "audits": [
+      {"date": "2025-12-15", "performance": 96, "accessibility": 100, "seo": 98, "bestPractices": 96, "details": {"fcp": 0.8, "lcp": 1.4, "tbt": 50, "cls": 0.01, "si": 1.5}},
+      {"date": "2025-12-29", "performance": 97, "accessibility": 100, "seo": 99, "bestPractices": 97, "details": {"fcp": 0.7, "lcp": 1.3, "tbt": 45, "cls": 0.00, "si": 1.4}},
+      {"date": "2026-01-05", "performance": 95, "accessibility": 100, "seo": 97, "bestPractices": 95, "details": {"fcp": 0.9, "lcp": 1.5, "tbt": 55, "cls": 0.01, "si": 1.6}},
+      {"date": "2026-01-12", "performance": 96, "accessibility": 100, "seo": 98, "bestPractices": 96, "details": {"fcp": 0.8, "lcp": 1.4, "tbt": 48, "cls": 0.01, "si": 1.5}},
+      {"date": "2026-01-19", "performance": 97, "accessibility": 100, "seo": 99, "bestPractices": 97, "details": {"fcp": 0.7, "lcp": 1.3, "tbt": 42, "cls": 0.00, "si": 1.4}},
+      {"date": "2026-02-02", "performance": 98, "accessibility": 100, "seo": 99, "bestPractices": 98, "details": {"fcp": 0.6, "lcp": 1.2, "tbt": 38, "cls": 0.00, "si": 1.3}},
+      {"date": "2026-02-09", "performance": 97, "accessibility": 100, "seo": 98, "bestPractices": 97, "details": {"fcp": 0.7, "lcp": 1.3, "tbt": 40, "cls": 0.00, "si": 1.4}}
+    ]
+  },
+  {
+    "id": "graphql-ce",
+    "site": "GraphQL CE",
+    "url": "https://graphql-ce.lastrev.com",
+    "audits": [
+      {"date": "2025-12-15", "performance": 45, "accessibility": 72, "seo": 68, "bestPractices": 65, "details": {"fcp": 3.8, "lcp": 6.2, "tbt": 800, "cls": 0.25, "si": 6.5}},
+      {"date": "2025-12-29", "performance": 42, "accessibility": 70, "seo": 65, "bestPractices": 62, "details": {"fcp": 4.1, "lcp": 6.8, "tbt": 900, "cls": 0.28, "si": 7.0}},
+      {"date": "2026-01-05", "performance": 48, "accessibility": 74, "seo": 70, "bestPractices": 68, "details": {"fcp": 3.5, "lcp": 5.8, "tbt": 720, "cls": 0.22, "si": 6.0}},
+      {"date": "2026-01-12", "performance": 52, "accessibility": 76, "seo": 72, "bestPractices": 70, "details": {"fcp": 3.2, "lcp": 5.5, "tbt": 650, "cls": 0.20, "si": 5.7}},
+      {"date": "2026-01-19", "performance": 55, "accessibility": 78, "seo": 75, "bestPractices": 73, "details": {"fcp": 3.0, "lcp": 5.2, "tbt": 600, "cls": 0.18, "si": 5.4}},
+      {"date": "2026-01-26", "performance": 58, "accessibility": 80, "seo": 77, "bestPractices": 75, "details": {"fcp": 2.8, "lcp": 4.9, "tbt": 550, "cls": 0.15, "si": 5.1}},
+      {"date": "2026-02-02", "performance": 60, "accessibility": 82, "seo": 79, "bestPractices": 77, "details": {"fcp": 2.6, "lcp": 4.6, "tbt": 500, "cls": 0.13, "si": 4.8}},
+      {"date": "2026-02-09", "performance": 63, "accessibility": 83, "seo": 80, "bestPractices": 78, "details": {"fcp": 2.5, "lcp": 4.4, "tbt": 470, "cls": 0.12, "si": 4.6}}
+    ]
+  },
+  {
+    "id": "chefai-marketing",
+    "site": "ChefAI Marketing",
+    "url": "https://chefai.lastrev.com",
+    "audits": [
+      {"date": "2025-12-15", "performance": 88, "accessibility": 94, "seo": 92, "bestPractices": 90, "details": {"fcp": 1.4, "lcp": 2.4, "tbt": 140, "cls": 0.04, "si": 2.6}},
+      {"date": "2025-12-29", "performance": 86, "accessibility": 93, "seo": 91, "bestPractices": 89, "details": {"fcp": 1.5, "lcp": 2.6, "tbt": 160, "cls": 0.05, "si": 2.8}},
+      {"date": "2026-01-05", "performance": 84, "accessibility": 92, "seo": 90, "bestPractices": 87, "details": {"fcp": 1.6, "lcp": 2.8, "tbt": 180, "cls": 0.06, "si": 3.0}},
+      {"date": "2026-01-12", "performance": 87, "accessibility": 95, "seo": 93, "bestPractices": 91, "details": {"fcp": 1.4, "lcp": 2.3, "tbt": 130, "cls": 0.03, "si": 2.5}},
+      {"date": "2026-01-19", "performance": 89, "accessibility": 96, "seo": 94, "bestPractices": 92, "details": {"fcp": 1.3, "lcp": 2.2, "tbt": 120, "cls": 0.03, "si": 2.4}},
+      {"date": "2026-02-02", "performance": 90, "accessibility": 97, "seo": 95, "bestPractices": 93, "details": {"fcp": 1.2, "lcp": 2.0, "tbt": 105, "cls": 0.02, "si": 2.2}},
+      {"date": "2026-02-09", "performance": 91, "accessibility": 96, "seo": 94, "bestPractices": 92, "details": {"fcp": 1.1, "lcp": 2.1, "tbt": 110, "cls": 0.02, "si": 2.3}}
+    ]
+  },
+  {
+    "id": "kenvue-hub",
+    "site": "Kenvue Hub",
+    "url": "https://kenvue.lastrev.com",
+    "audits": [
+      {"date": "2025-12-15", "performance": 74, "accessibility": 86, "seo": 88, "bestPractices": 82, "details": {"fcp": 2.2, "lcp": 3.8, "tbt": 320, "cls": 0.10, "si": 4.0}},
+      {"date": "2025-12-29", "performance": 72, "accessibility": 84, "seo": 86, "bestPractices": 80, "details": {"fcp": 2.4, "lcp": 4.0, "tbt": 350, "cls": 0.12, "si": 4.3}},
+      {"date": "2026-01-05", "performance": 70, "accessibility": 83, "seo": 85, "bestPractices": 79, "details": {"fcp": 2.5, "lcp": 4.2, "tbt": 380, "cls": 0.13, "si": 4.5}},
+      {"date": "2026-01-12", "performance": 73, "accessibility": 85, "seo": 87, "bestPractices": 81, "details": {"fcp": 2.3, "lcp": 3.9, "tbt": 340, "cls": 0.11, "si": 4.1}},
+      {"date": "2026-01-19", "performance": 75, "accessibility": 87, "seo": 89, "bestPractices": 83, "details": {"fcp": 2.1, "lcp": 3.7, "tbt": 310, "cls": 0.09, "si": 3.9}},
+      {"date": "2026-01-26", "performance": 77, "accessibility": 88, "seo": 90, "bestPractices": 85, "details": {"fcp": 2.0, "lcp": 3.5, "tbt": 290, "cls": 0.08, "si": 3.7}},
+      {"date": "2026-02-02", "performance": 76, "accessibility": 87, "seo": 89, "bestPractices": 84, "details": {"fcp": 2.1, "lcp": 3.6, "tbt": 300, "cls": 0.09, "si": 3.8}},
+      {"date": "2026-02-09", "performance": 78, "accessibility": 89, "seo": 91, "bestPractices": 86, "details": {"fcp": 1.9, "lcp": 3.4, "tbt": 280, "cls": 0.07, "si": 3.6}}
+    ]
+  },
+  {
+    "id": "bynder-docs",
+    "site": "Bynder Docs",
+    "url": "https://bynder-docs.lastrev.com",
+    "audits": [
+      {"date": "2025-12-15", "performance": 55, "accessibility": 80, "seo": 76, "bestPractices": 70, "details": {"fcp": 3.2, "lcp": 5.5, "tbt": 600, "cls": 0.20, "si": 5.8}},
+      {"date": "2025-12-29", "performance": 52, "accessibility": 78, "seo": 74, "bestPractices": 68, "details": {"fcp": 3.5, "lcp": 5.9, "tbt": 680, "cls": 0.22, "si": 6.1}},
+      {"date": "2026-01-05", "performance": 50, "accessibility": 76, "seo": 72, "bestPractices": 66, "details": {"fcp": 3.7, "lcp": 6.1, "tbt": 720, "cls": 0.24, "si": 6.4}},
+      {"date": "2026-01-12", "performance": 54, "accessibility": 79, "seo": 75, "bestPractices": 69, "details": {"fcp": 3.3, "lcp": 5.7, "tbt": 640, "cls": 0.21, "si": 5.9}},
+      {"date": "2026-01-19", "performance": 57, "accessibility": 81, "seo": 78, "bestPractices": 72, "details": {"fcp": 3.0, "lcp": 5.3, "tbt": 580, "cls": 0.18, "si": 5.5}},
+      {"date": "2026-02-02", "performance": 60, "accessibility": 83, "seo": 80, "bestPractices": 75, "details": {"fcp": 2.8, "lcp": 5.0, "tbt": 530, "cls": 0.16, "si": 5.2}},
+      {"date": "2026-02-09", "performance": 62, "accessibility": 84, "seo": 82, "bestPractices": 77, "details": {"fcp": 2.6, "lcp": 4.8, "tbt": 500, "cls": 0.14, "si": 4.9}}
+    ]
+  },
+  {
+    "id": "netlify-template",
+    "site": "Netlify Template",
+    "url": "https://netlify-tpl.lastrev.com",
+    "audits": [
+      {"date": "2025-12-15", "performance": 93, "accessibility": 98, "seo": 96, "bestPractices": 95, "details": {"fcp": 0.9, "lcp": 1.6, "tbt": 70, "cls": 0.02, "si": 1.8}},
+      {"date": "2025-12-29", "performance": 94, "accessibility": 99, "seo": 97, "bestPractices": 96, "details": {"fcp": 0.8, "lcp": 1.5, "tbt": 60, "cls": 0.01, "si": 1.7}},
+      {"date": "2026-01-05", "performance": 92, "accessibility": 97, "seo": 95, "bestPractices": 94, "details": {"fcp": 1.0, "lcp": 1.7, "tbt": 80, "cls": 0.02, "si": 1.9}},
+      {"date": "2026-01-12", "performance": 93, "accessibility": 98, "seo": 96, "bestPractices": 95, "details": {"fcp": 0.9, "lcp": 1.6, "tbt": 68, "cls": 0.01, "si": 1.8}},
+      {"date": "2026-01-19", "performance": 95, "accessibility": 99, "seo": 97, "bestPractices": 96, "details": {"fcp": 0.8, "lcp": 1.4, "tbt": 55, "cls": 0.01, "si": 1.6}},
+      {"date": "2026-01-26", "performance": 94, "accessibility": 98, "seo": 96, "bestPractices": 95, "details": {"fcp": 0.9, "lcp": 1.5, "tbt": 62, "cls": 0.01, "si": 1.7}},
+      {"date": "2026-02-02", "performance": 96, "accessibility": 99, "seo": 98, "bestPractices": 97, "details": {"fcp": 0.7, "lcp": 1.3, "tbt": 45, "cls": 0.00, "si": 1.5}},
+      {"date": "2026-02-09", "performance": 95, "accessibility": 99, "seo": 97, "bestPractices": 96, "details": {"fcp": 0.8, "lcp": 1.4, "tbt": 50, "cls": 0.01, "si": 1.6}}
+    ]
+  },
+  {
+    "id": "vp-commerce",
+    "site": "VP Commerce",
+    "url": "https://vp-commerce.lastrev.com",
+    "audits": [
+      {"date": "2025-12-15", "performance": 68, "accessibility": 82, "seo": 84, "bestPractices": 78, "details": {"fcp": 2.4, "lcp": 4.2, "tbt": 380, "cls": 0.12, "si": 4.4}},
+      {"date": "2025-12-29", "performance": 65, "accessibility": 80, "seo": 82, "bestPractices": 76, "details": {"fcp": 2.6, "lcp": 4.5, "tbt": 420, "cls": 0.14, "si": 4.7}},
+      {"date": "2026-01-05", "performance": 70, "accessibility": 84, "seo": 86, "bestPractices": 80, "details": {"fcp": 2.2, "lcp": 3.9, "tbt": 340, "cls": 0.10, "si": 4.1}},
+      {"date": "2026-01-12", "performance": 72, "accessibility": 85, "seo": 87, "bestPractices": 82, "details": {"fcp": 2.1, "lcp": 3.7, "tbt": 310, "cls": 0.09, "si": 3.9}},
+      {"date": "2026-01-19", "performance": 69, "accessibility": 83, "seo": 85, "bestPractices": 79, "details": {"fcp": 2.3, "lcp": 4.1, "tbt": 360, "cls": 0.11, "si": 4.3}},
+      {"date": "2026-01-26", "performance": 71, "accessibility": 85, "seo": 87, "bestPractices": 81, "details": {"fcp": 2.2, "lcp": 3.8, "tbt": 330, "cls": 0.10, "si": 4.0}},
+      {"date": "2026-02-02", "performance": 74, "accessibility": 87, "seo": 89, "bestPractices": 84, "details": {"fcp": 2.0, "lcp": 3.5, "tbt": 290, "cls": 0.08, "si": 3.7}},
+      {"date": "2026-02-09", "performance": 73, "accessibility": 86, "seo": 88, "bestPractices": 83, "details": {"fcp": 2.1, "lcp": 3.6, "tbt": 300, "cls": 0.09, "si": 3.8}}
+    ]
+  }
+]

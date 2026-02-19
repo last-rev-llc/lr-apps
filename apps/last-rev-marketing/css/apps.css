@@ -1,0 +1,72 @@
+/* Category sections (subnav now uses standard lr-subnav component) */
+.cat-section{scroll-margin-top:140px}
+.cat-header{display:flex;align-items:center;gap:14px;margin-bottom:32px}
+.cat-emoji{font-size:32px}
+.cat-title{font-family:var(--serif,Georgia,serif);font-size:clamp(1.4rem,3vw,2rem);font-weight:800;color:#fff}
+.cat-desc{color:rgba(255,255,255,.5);font-size:15px;margin-top:4px}
+
+/* App cards grid */
+.apps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;margin-bottom:64px}
+@media(max-width:400px){.apps-grid{grid-template-columns:1fr}}
+
+a.app-card-link{text-decoration:none;color:inherit;display:block;border-radius:16px}
+.app-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:28px;transition:all .3s;position:relative;overflow:hidden}
+.app-card:hover{border-color:rgba(245,158,11,.2);transform:translateY(-2px);box-shadow:0 8px 40px rgba(245,158,11,.08)}
+.app-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent-grad);opacity:0;transition:opacity .3s}
+.app-card:hover::before{opacity:1}
+
+.app-icon{font-size:36px;margin-bottom:12px;line-height:1}
+.app-icon svg{width:36px;height:36px;color:rgba(245,158,11,.8)}
+.cat-icon svg{width:32px;height:32px;color:rgba(245,158,11,.9)}
+.app-name{font-family:var(--serif,Georgia,serif);font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
+.app-desc{color:rgba(255,255,255,.55);font-size:14px;line-height:1.6;margin-bottom:16px}
+.app-features{display:flex;flex-wrap:wrap;gap:6px}
+.app-tag{font-size:11px;padding:4px 10px;border-radius:999px;background:rgba(245,158,11,.08);color:rgba(245,158,11,.8);border:1px solid rgba(245,158,11,.12);font-weight:500}
+
+/* ── lr-app-card (glass, category-colored) ── */
+.lr-app-card{display:block;text-decoration:none;color:inherit;border-radius:16px;padding:24px 28px;transition:all .3s;position:relative;overflow:hidden;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.lr-app-card:hover{transform:translateY(-2px)}
+.lr-app-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .3s}
+.lr-app-card:hover::before{opacity:1}
+.lr-app-card__name{font-family:var(--serif,Georgia,serif);font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
+.lr-app-card__desc{font-size:14px;line-height:1.6;margin-bottom:16px}
+.lr-app-card__tags{display:flex;flex-wrap:wrap;gap:6px}
+.lr-app-tag{font-size:11px;padding:4px 10px;border-radius:999px;font-weight:500}
+
+/* Category: business — amber/gold */
+.cat-business{background:rgba(245,158,11,.05);border:1px solid rgba(245,158,11,.12)}
+.cat-business:hover{border-color:rgba(245,158,11,.3);box-shadow:0 8px 40px rgba(245,158,11,.1)}
+.cat-business::before{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.cat-business .lr-app-card__desc{color:rgba(245,158,11,.55)}
+.cat-business .lr-app-tag{background:rgba(245,158,11,.1);color:rgba(245,158,11,.85);border:1px solid rgba(245,158,11,.15)}
+
+/* Category: client — cyan/teal */
+.cat-client{background:rgba(6,182,212,.05);border:1px solid rgba(6,182,212,.12)}
+.cat-client:hover{border-color:rgba(6,182,212,.3);box-shadow:0 8px 40px rgba(6,182,212,.1)}
+.cat-client::before{background:linear-gradient(90deg,#06b6d4,#22d3ee)}
+.cat-client .lr-app-card__desc{color:rgba(6,182,212,.55)}
+.cat-client .lr-app-tag{background:rgba(6,182,212,.1);color:rgba(6,182,212,.85);border:1px solid rgba(6,182,212,.15)}
+
+/* Category: fun — violet/purple */
+.cat-fun{background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.12)}
+.cat-fun:hover{border-color:rgba(139,92,246,.3);box-shadow:0 8px 40px rgba(139,92,246,.1)}
+.cat-fun::before{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
+.cat-fun .lr-app-card__desc{color:rgba(139,92,246,.55)}
+.cat-fun .lr-app-tag{background:rgba(139,92,246,.1);color:rgba(139,92,246,.85);border:1px solid rgba(139,92,246,.15)}
+
+/* Category: education — emerald/green */
+.cat-education{background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.12)}
+.cat-education:hover{border-color:rgba(16,185,129,.3);box-shadow:0 8px 40px rgba(16,185,129,.1)}
+.cat-education::before{background:linear-gradient(90deg,#10b981,#34d399)}
+.cat-education .lr-app-card__desc{color:rgba(16,185,129,.55)}
+.cat-education .lr-app-tag{background:rgba(16,185,129,.1);color:rgba(16,185,129,.85);border:1px solid rgba(16,185,129,.15)}
+
+/* How it works */
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;margin-top:40px}
+.how-step{text-align:center;padding:32px 24px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px}
+.how-num{font-size:48px;font-weight:800;font-family:var(--serif,Georgia,serif);background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px}
+.how-label{font-size:18px;font-weight:700;color:#fff;margin-bottom:8px}
+.how-text{color:rgba(255,255,255,.5);font-size:14px;line-height:1.6}
+
+/* Stats row */
+.apps-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:20px;margin:48px 0}

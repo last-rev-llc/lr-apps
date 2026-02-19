@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎭 Meme Generator — Docs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  .docs-layout{display:flex;min-height:100vh}
+  .docs-sidebar{width:240px;background:var(--card);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;padding:24px 16px}
+  .docs-content{flex:1;padding:40px;max-width:calc(100vw - 240px)}
+  .docs-sidebar h2{font-family:var(--serif);font-size:18px;margin:0 0 20px}
+  .docs-sidebar .nav-group{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin:18px 0 6px 8px}
+  .docs-sidebar a{display:block;padding:5px 10px;color:var(--muted);text-decoration:none;font-size:12px;font-weight:500;border-radius:6px;margin-bottom:1px}
+  .docs-sidebar a:hover{background:rgba(236,72,153,.12);color:var(--accent)}
+  .docs-section{margin-bottom:48px;scroll-margin-top:24px}
+  .docs-section>h2{font-family:var(--serif);font-size:24px;border-bottom:2px solid var(--accent);padding-bottom:10px;margin-bottom:16px}
+  .docs-section h3{font-size:16px;font-weight:600;margin:20px 0 8px}
+  .code-block{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:monospace;font-size:12px;white-space:pre-wrap;overflow-x:auto;line-height:1.6}
+  .attr-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+  .attr-table th{text-align:left;padding:6px 10px;background:var(--card);border:1px solid var(--border);color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase}
+  .attr-table td{padding:6px 10px;border:1px solid var(--border)}
+  .attr-table td:first-child{font-family:monospace;color:var(--accent);font-weight:600}
+  .showcase-layout{display:grid;grid-template-columns:280px 1fr;gap:32px;margin-top:24px}
+  .showcase-sidebar{display:flex;flex-direction:column;gap:12px}
+  .showcase-sidebar .card{padding:14px 16px;cursor:pointer;border:1px solid var(--border);transition:border-color .2s}
+  .showcase-sidebar .card:hover,.showcase-sidebar .card.active{border-color:var(--accent)}
+  .showcase-sidebar .card h3{margin:0 0 4px;font-size:14px}
+  .showcase-sidebar .card p{margin:0;font-size:12px;color:var(--muted)}
+  .showcase-content{min-height:300px}
+  @media(max-width:768px){.docs-layout{flex-direction:column}.docs-sidebar{width:100%;height:auto;position:relative}.docs-content{padding:20px;max-width:100%}.showcase-layout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<cc-app-nav app="cc-meme-generator" title="🎭 Meme Generator" active="docs"></cc-app-nav>
+<cc-toast></cc-toast>
+
+<div class="docs-layout">
+  <div class="docs-sidebar">
+    <h2>🎭 Docs</h2>
+    <div class="nav-group">Component</div>
+    <a href="#cc-meme-generator">cc-meme-generator</a>
+    <div class="nav-group">Reference</div>
+    <a href="#api">Imgflip API</a>
+    <a href="#canvas">Canvas Rendering</a>
+    <a href="#cors">CORS Notes</a>
+    <div class="nav-group">Links</div>
+    <a href="https://shared.adam-harris.alphaclaw.app" target="_blank" rel="noopener">Shared Library</a>
+  </div>
+
+  <div class="docs-content">
+    <cc-fade-in>
+      <h1 style="font-family:var(--serif);margin-bottom:8px;">Meme Generator — Docs</h1>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:40px;">Technical documentation for the meme generator component.</p>
+    </cc-fade-in>
+
+    <section id="cc-meme-generator" class="docs-section">
+      <h2>cc-meme-generator</h2>
+      <p style="color:var(--muted);font-size:13px;">The main web component that powers the meme generator. Fetches templates, renders text on canvas, and exports PNGs.</p>
+
+      <h3>Usage</h3>
+      <div class="code-block">&lt;cc-meme-generator&gt;&lt;/cc-meme-generator&gt;</div>
+
+      <h3>Features</h3>
+      <ul style="color:var(--muted);font-size:13px;line-height:2;">
+        <li>Loads 100 popular meme templates from Imgflip API</li>
+        <li>Search/filter templates by name</li>
+        <li>HTML5 Canvas-based text rendering</li>
+        <li>Impact font with white fill and black stroke</li>
+        <li>Adjustable font size (16–80px)</li>
+        <li>Auto text wrapping for long captions</li>
+        <li>One-click PNG download</li>
+      </ul>
+    </section>
+
+    <section id="api" class="docs-section">
+      <h2>Imgflip API</h2>
+      <p style="color:var(--muted);font-size:13px;">Templates are fetched from the free Imgflip API. No authentication required for the template list endpoint.</p>
+      <h3>Endpoint</h3>
+      <div class="code-block">GET https://api.imgflip.com/get_memes
+
+Response: { success: true, data: { memes: [...] } }
+
+Each meme object:
+  - id: string
+  - name: string (e.g. "Drake Hotline Bling")
+  - url: string (image URL)
+  - width: number
+  - height: number
+  - box_count: number (number of text boxes)</div>
+    </section>
+
+    <section id="canvas" class="docs-section">
+      <h2>Canvas Rendering</h2>
+      <p style="color:var(--muted);font-size:13px;">Text is rendered directly onto an HTML5 Canvas element overlaid on the template image.</p>
+      <h3>Text Style</h3>
+      <table class="attr-table">
+        <tr><th>Property</th><th>Value</th></tr>
+        <tr><td>font</td><td>Impact, Arial Black, sans-serif (bold)</td></tr>
+        <tr><td>fillStyle</td><td>#ffffff (white)</td></tr>
+        <tr><td>strokeStyle</td><td>#000000 (black outline)</td></tr>
+        <tr><td>lineWidth</td><td>fontSize / 12</td></tr>
+        <tr><td>textAlign</td><td>center</td></tr>
+        <tr><td>lineJoin</td><td>round</td></tr>
+      </table>
+    </section>
+
+    <section id="cors" class="docs-section">
+      <h2>CORS Notes</h2>
+      <p style="color:var(--muted);font-size:13px;">Imgflip images are loaded with <code>crossOrigin="anonymous"</code>. If CORS headers are present, the canvas can be exported as PNG. If CORS is blocked, the image loads as a fallback but canvas export (toDataURL) may throw a security error. In that case, users can right-click the canvas to save.</p>
+    </section>
+  </div>
+</div>
+</body>
+</html>

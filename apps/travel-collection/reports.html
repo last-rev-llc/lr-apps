@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>📋 Travel Reports — Travel Collection</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  .reports-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 16px; padding: 0 24px 40px; }
+  .report-card { border-radius: 16px; padding: 20px; background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(12px); cursor: pointer; transition: all .3s; }
+  .report-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .report-card h3 { font-family: var(--serif); margin: 0 0 4px; font-size: 1.1rem; }
+  .report-card .subtitle { color: var(--muted); font-size: 0.85rem; margin-bottom: 10px; }
+  .report-card .req-list { font-size: 0.85rem; color: var(--text); line-height: 1.6; }
+  .report-card .match-count { color: var(--accent); font-weight: 600; font-size: 0.9rem; margin-top: 10px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--glass); color: var(--text); font-size: 0.9rem; box-sizing: border-box; }
+  .form-group textarea { min-height: 80px; resize: vertical; font-family: inherit; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+  .match-card { padding: 16px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 10px; }
+  .match-card h4 { margin: 0 0 4px; font-family: var(--serif); }
+  .match-card .match-loc { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
+  .match-card .match-reason { font-size: 0.85rem; color: var(--accent); }
+  .match-score { display: inline-flex; align-items: center; gap: 4px; background: var(--accent); color: #000; padding: 2px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
+  .filters-bar { display: flex; flex-wrap: wrap; gap: 12px; padding: 0 24px 20px; align-items: center; }
+  @media (max-width: 640px) { .reports-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<cc-app-nav app="travel-collection" title="Travel Collection" active="reports"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div class="page-header">
+  <h1>📋 <span>Travel Reports</span></h1>
+  <button class="btn btn-primary btn-sm" onclick="openNewReport()">+ New Report</button>
+</div>
+
+<div class="filters-bar">
+  <cc-search id="search" placeholder="Search reports..."></cc-search>
+</div>
+
+<div class="reports-grid" id="reports-grid"></div>
+
+<!-- New Report Modal -->
+<cc-modal id="report-modal" title="New Travel Report" size="md">
+    <input type="hidden" id="edit-id">
+    <div class="form-group">
+      <label>Report Title</label>
+      <input type="text" id="f-title" placeholder="e.g., Johnson Family Caribbean Trip">
+    </div>
+    <div class="form-group">
+      <label>Client / Contact</label>
+      <select id="f-contact">
+        <option value="">— Select contact (optional) —</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Travel Dates</label>
+        <input type="text" id="f-dates" placeholder="e.g., March 15-22, 2026">
+      </div>
+      <div class="form-group">
+        <label>Group Size</label>
+        <input type="text" id="f-group" placeholder="e.g., 2 adults, 3 kids">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Budget Range</label>
+        <select id="f-budget">
+          <option value="">Any budget</option>
+          <option value="moderate">Moderate ($200-$500/night)</option>
+          <option value="luxury">Luxury ($500-$1,500/night)</option>
+          <option value="ultra">Ultra-Luxury ($1,500-$5,000/night)</option>
+          <option value="exclusive">Exclusive ($5,000+/night)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Trip Style</label>
+        <select id="f-style" multiple style="min-height:80px;">
+          <option value="beach">Beach & Sun</option>
+          <option value="adventure">Adventure & Nature</option>
+          <option value="cultural">Cultural & Historic</option>
+          <option value="wellness">Wellness & Spa</option>
+          <option value="romantic">Romantic</option>
+          <option value="family">Family-Friendly</option>
+          <option value="private">Ultra-Private</option>
+          <option value="culinary">Culinary</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Preferred Regions</label>
+      <select id="f-regions" multiple style="min-height:80px;">
+        <option value="Americas">Americas</option>
+        <option value="Europe">Europe</option>
+        <option value="Asia & Middle East">Asia & Middle East</option>
+        <option value="South Pacific">South Pacific</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Preferred Property Types</label>
+      <select id="f-types" multiple style="min-height:80px;">
+        <option value="Hotel">Hotel</option>
+        <option value="Resort">Resort</option>
+        <option value="Villa">Villa</option>
+        <option value="Private Island">Private Island</option>
+        <option value="Estate">Estate</option>
+        <option value="Cruise">Cruise</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Special Requirements / Notes</label>
+      <textarea id="f-notes" placeholder="Any specific requirements, preferences, dietary needs, accessibility, etc."></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-sm" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="generateReport()">Generate Report</button>
+    </div>
+</cc-modal>
+
+<!-- Detail Modal -->
+<cc-modal id="detail-modal" title="" size="lg">
+  <div id="detail-panel"></div>
+</cc-modal>
+
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<script src="db.js"></script>
+<script>
+let reports = [];
+let properties = [];
+let contacts = [];
+let db = null;
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; }
+function escAttr(s) { return (s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function load() {
+  try {
+    db = await TravelDB.init();
+    properties = await db.getProperties();
+    contacts = await db.getContacts();
+    reports = await db.getReports();
+
+    populateContactSelect();
+    renderReports();
+    document.getElementById('reports-grid').addEventListener('click', e => {
+      const card = e.target.closest('[data-report-id]');
+      if (card) showReport(card.dataset.reportId);
+    });
+    document.addEventListener('cc-search', renderReports);
+  } catch (err) {
+    console.error(err);
+    window.showToast?.('Failed to load reports', 4000);
+  }
+}
+
+function populateContactSelect() {
+  const sel = document.getElementById('f-contact');
+  sel.innerHTML = '<option value="">— Select contact (optional) —</option>' +
+    contacts.map(c => `<option value="${escAttr(c.id)}">${esc(c.firstName)} ${esc(c.lastName)}${c.company ? ' · ' + esc(c.company) : ''}</option>`).join('');
+}
+
+function renderReports() {
+  const q = (document.getElementById('search').getAttribute('value') || '').toLowerCase();
+  let filtered = reports.filter(r => !q || r.title.toLowerCase().includes(q) || (r.notes||'').toLowerCase().includes(q));
+  filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  const grid = document.getElementById('reports-grid');
+  if (filtered.length === 0) {
+    grid.innerHTML = '<cc-empty-state icon="📋" message="No reports yet — click + New Report to create one."></cc-empty-state>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(r => {
+    const contact = r.contactId ? contacts.find(c => c.id === r.contactId) : null;
+    return `
+      <div class="report-card" data-report-id="${escAttr(r.id)}">
+        <h3>${esc(r.title)}</h3>
+        <div class="subtitle">
+          ${contact ? `👤 ${esc(contact.firstName)} ${esc(contact.lastName)} · ` : ''}
+          ${esc(r.dates || 'Dates TBD')} · ${esc(r.groupSize || '')}
+        </div>
+        <div class="meta" style="margin-bottom:8px;">
+          ${(r.styles || []).map(s => `<span class="pill">${esc(s)}</span>`).join('')}
+          ${r.budget ? `<span class="pill">${esc(r.budget)}</span>` : ''}
+        </div>
+        <div class="match-count">🏨 ${(r.matches || []).length} recommended properties</div>
+        <div style="color:var(--muted);font-size:0.75rem;margin-top:6px;">${new Date(r.createdAt).toLocaleDateString('en-US', { dateStyle: 'medium' })}</div>
+      </div>`;
+  }).join('');
+}
+
+function openNewReport() {
+  document.getElementById('report-modal').setAttribute('title', 'New Travel Report');
+  document.getElementById('edit-id').value = '';
+  document.getElementById('f-title').value = '';
+  document.getElementById('f-contact').value = '';
+  document.getElementById('f-dates').value = '';
+  document.getElementById('f-group').value = '';
+  document.getElementById('f-budget').value = '';
+  document.getElementById('f-notes').value = '';
+  Array.from(document.getElementById('f-style').options).forEach(o => o.selected = false);
+  Array.from(document.getElementById('f-regions').options).forEach(o => o.selected = false);
+  Array.from(document.getElementById('f-types').options).forEach(o => o.selected = false);
+  document.getElementById('report-modal').open();
+}
+
+function closeModal() { document.getElementById('report-modal').close(); }
+function closeDetailModal() { document.getElementById('detail-modal').close(); }
+
+function matchProperties(report) {
+  const budgetRanges = {
+    'moderate': [0, 500],
+    'luxury': [500, 1500],
+    'ultra': [1500, 5000],
+    'exclusive': [5000, Infinity]
+  };
+
+  return properties.map(p => {
+    let score = 0;
+    let reasons = [];
+
+    // Region match
+    if (report.regions.length === 0 || report.regions.includes(p.region)) {
+      score += 20;
+      if (report.regions.includes(p.region)) reasons.push(`Region: ${p.region}`);
+    }
+
+    // Type match
+    if (report.types.length === 0 || report.types.includes(p.type)) {
+      score += 15;
+      if (report.types.includes(p.type)) reasons.push(`Type: ${p.type}`);
+    }
+
+    // Budget match (rough — parse pricing)
+    if (report.budget && p.pricing) {
+      const priceMatch = p.pricing.match(/[\$€][\d,]+/);
+      if (priceMatch) {
+        const price = parseInt(priceMatch[0].replace(/[\$€,]/g, ''));
+        const range = budgetRanges[report.budget];
+        if (range && price >= range[0] && price <= range[1]) {
+          score += 25;
+          reasons.push(`Budget fit: ${p.pricing}`);
+        }
+      }
+    }
+
+    // Style matching via tags/amenities/highlights
+    const allText = [p.description, ...(p.amenities||[]), ...(p.highlights||[]), ...(p.tags||[])].join(' ').toLowerCase();
+    (report.styles || []).forEach(style => {
+      const keywords = {
+        'beach': ['beach', 'ocean', 'sea', 'coastal', 'waterfront', 'snorkel', 'dive'],
+        'adventure': ['adventure', 'nature', 'safari', 'hiking', 'explore', 'wildlife', 'eco'],
+        'cultural': ['cultural', 'historic', 'museum', 'art', 'architecture', 'heritage'],
+        'wellness': ['spa', 'wellness', 'yoga', 'health', 'retreat', 'meditation', 'longevity'],
+        'romantic': ['romantic', 'intimate', 'couples', 'honeymoon', 'boutique'],
+        'family': ['family', 'kids', 'children', 'activities'],
+        'private': ['private', 'exclusive', 'island', 'secluded', 'villa'],
+        'culinary': ['culinary', 'dining', 'restaurant', 'chef', 'farm-to-table', 'michelin', 'wine']
+      };
+      if (keywords[style] && keywords[style].some(k => allText.includes(k))) {
+        score += 10;
+        reasons.push(`${style} match`);
+      }
+    });
+
+    // Researched bonus
+    if (p.researched) score += 5;
+
+    return { property: p, score, reasons };
+  })
+  .filter(m => m.score > 15)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 10);
+}
+
+async function generateReport() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { window.showToast?.('Title is required', 3000); return; }
+
+  const report = {
+    id: 'report-' + Date.now(),
+    title,
+    contactId: document.getElementById('f-contact').value || null,
+    dates: document.getElementById('f-dates').value.trim(),
+    groupSize: document.getElementById('f-group').value.trim(),
+    budget: document.getElementById('f-budget').value,
+    styles: Array.from(document.getElementById('f-style').selectedOptions).map(o => o.value),
+    regions: Array.from(document.getElementById('f-regions').selectedOptions).map(o => o.value),
+    types: Array.from(document.getElementById('f-types').selectedOptions).map(o => o.value),
+    notes: document.getElementById('f-notes').value.trim(),
+    createdAt: new Date().toISOString()
+  };
+
+  report.matches = matchProperties(report).map(m => ({
+    propertyId: m.property.id,
+    score: m.score,
+    reasons: m.reasons
+  }));
+
+  try {
+    await db.upsertReport(report);
+    reports = await db.getReports();
+    closeModal();
+    renderReports();
+    showReport(report.id);
+    window.showToast?.('Report generated ✅', 2000);
+  } catch (err) {
+    console.error(err);
+    window.showToast?.('Failed to generate report', 4000);
+  }
+}
+
+function showReport(id) {
+  const r = reports.find(x => x.id === id);
+  if (!r) return;
+  const contact = r.contactId ? contacts.find(c => c.id === r.contactId) : null;
+  const modal = document.getElementById('detail-modal');
+  modal.setAttribute('title', r.title);
+
+  const matchesHtml = (r.matches || []).map(m => {
+    const p = properties.find(x => x.id === m.propertyId);
+    if (!p) return '';
+    const photoHtml = p.photos && p.photos.length > 0
+      ? `<img src="${escAttr(p.photos[0])}" style="width:80px;height:60px;object-fit:cover;border-radius:8px;flex-shrink:0;" onerror="this.style.display='none'">`
+      : '';
+    return `
+      <div class="match-card" style="display:flex;gap:14px;align-items:flex-start;">
+        ${photoHtml}
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <h4>${esc(p.name)}</h4>
+            <span class="match-score">${m.score}pts</span>
+          </div>
+          <div class="match-loc">📍 ${esc(p.location)} · ${esc(p.type)}</div>
+          ${p.pricing ? `<div style="color:var(--accent);font-size:0.85rem;margin-bottom:4px;">${esc(p.pricing)}</div>` : ''}
+          <div class="match-reason">${m.reasons.map(r => esc(r)).join(' · ')}</div>
+          ${p.highlights && p.highlights.length ? `<ul style="margin:6px 0 0;padding-left:18px;font-size:0.8rem;color:var(--muted);">${p.highlights.slice(0,3).map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('detail-panel').innerHTML = `
+    <div style="color:var(--muted);margin-bottom:16px;">
+      ${contact ? `👤 ${esc(contact.firstName)} ${esc(contact.lastName)} · ` : ''}
+      ${esc(r.dates || 'Dates TBD')}${r.groupSize ? ` · ${esc(r.groupSize)}` : ''}
+    </div>
+    <div class="meta" style="margin-bottom:16px;">
+      ${(r.styles || []).map(s => `<span class="pill">${esc(s)}</span>`).join('')}
+      ${r.budget ? `<span class="pill">${esc(r.budget)}</span>` : ''}
+      ${(r.regions || []).map(reg => `<span class="pill">${esc(reg)}</span>`).join('')}
+      ${(r.types || []).map(t => `<span class="pill">${esc(t)}</span>`).join('')}
+    </div>
+    ${r.notes ? `<div style="padding:14px;background:var(--glass);border-radius:10px;border:1px solid var(--glass-border);margin-bottom:20px;font-size:0.9rem;line-height:1.6;">${esc(r.notes)}</div>` : ''}
+    <h3 style="font-family:var(--serif);margin-bottom:14px;">🏨 Recommended Properties (${(r.matches||[]).length})</h3>
+    ${matchesHtml || '<cc-empty-state icon="🏨" message="No matching properties found. Try broadening your criteria."></cc-empty-state>'}
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:0.8rem;color:var(--muted);">
+      Report generated ${new Date(r.createdAt).toLocaleDateString('en-US', { dateStyle: 'long' })}
+    </div>
+  `;
+  modal.open();
+}
+
+// cc-modal handles Escape internally
+document.addEventListener('DOMContentLoaded', load);
+</script>
+</body>
+</html>

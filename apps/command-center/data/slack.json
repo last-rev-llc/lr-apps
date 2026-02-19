@@ -1,0 +1,282 @@
+[
+  {
+    "text": "Done. Documented in both places:\n\n• `*apps/last-rev-marketing/CONTRIBUTING.md*` — full workflow reference in the repo\n• `*skills/last-rev-marketing/SKILL.md*` — quick reference so I follow the convention automatically\nBoth committed to `dev`.",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771513208.491229",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771513208491229?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "Done. Local `dev` branch created off `main`, and the site directory is now on `dev`.\n\n*Our workflow going forward:*\n\n```\nNew task → git worktree add ../last-rev-marketing--taskname -b feature/taskname dev\nWork → commits in the worktree\nDone → merge feature into dev, remove worktree\nShip → push dev to origin, PR into main\n```\nI'll follow this from now on. Want me to document this somewhere (like a CONTRIBUTING.md in the repo) so it's written down?",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771513039.031259",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771513039031259?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "The app at `<http://last-rev-marketing.adam-harris.alphaclaw.app|last-rev-marketing.adam-harris.alphaclaw.app>` just serves whatever files are in `apps/last-rev-marketing/`. There's no separate \"pointing\" — it's just the directory on disk.\n\nSo if that directory is checked out to `dev`, you see dev. If it's on `main`, you see main. Right now it's on `main`.\n\nTo use this workflow, we'd just keep the directory checked out on `dev` locally. That's it — no config change needed. When we merge features into `dev`, the served site updates automatically because the files on disk changed.\n\nWhen `dev` gets merged to `main` on GitHub, `main` and `dev` are the same anyway.",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771512992.330819",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771512992330819?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "Exactly. Clean and simple:\n\n1. `dev` is our working branch (what alphaclaw serves)\n2. New task → create worktree off `dev`\n3. Work in the worktree\n4. Done → merge into `dev`, delete worktree\n5. Ready for production → push `dev`, PR into `main`\nEverything stays local until we explicitly push. No half-baked stuff hitting origin.\n\nWant me to set this up now? I'd:\n\n• Create a local `dev` branch from `main`\n• Point the alphaclaw app at `dev`\n• Document the convention so I follow it consistently",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771512930.787489",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771512930787489?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "Right — the alphaclaw hosted version (`<http://last-rev-marketing.adam-harris.alphaclaw.app|last-rev-marketing.adam-harris.alphaclaw.app>`) serves from whatever directory the app is pointed at, which today is `apps/last-rev-marketing/`.\n\nSo if that directory stays on `main`, you'd only see changes after they're merged.\n\n*But we have options:*\n\n1. *Preview by worktree* — I could temporarily point the app at a feature worktree so you can preview it. \"Hey, check the site — I've got the SEO changes live for review.\" Then swap back after.\n2. *Use a `dev` branch as the default* — Keep the served directory on `dev`, merge feature branches into `dev` for preview, then PR `dev → main` when you're happy. This is basically what we were doing before but cleaner since each feature is isolated during development.\n3. *Multiple app URLs* — We could spin up `<http://last-rev-marketing-preview.adam-harris.alphaclaw.app|last-rev-marketing-preview.adam-harris.alphaclaw.app>` pointing at whichever worktree you want to review. Main stays stable, preview shows WIP.\n*My recommendation:* Option 2 is probably the sweet spot. You get:\n\n• Worktrees for isolated development (no mixed commits)\n• `dev` branch as your preview/staging (what you see on alphaclaw)\n• `main` as the clean production branch\n• Features merge into `dev` when ready for your eyes, then `dev → main` when approved\nBasically what we had, but the worktrees fix the \"tangled commits\" problem underneath. Sound right?",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771512756.054719",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771512756054719?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "That's a real problem and a fair point. When I'm mid-way through a big SEO sweep and you ask me to tweak something else on the same site, everything's tangled in the same working tree. No clean way to ship the finished work without dragging the half-done stuff along.\n\n*Worktrees would actually solve this well:*\n\n```\napps/last-rev-marketing/ → main (production, always clean)\napps/last-rev-marketing--seo/ → feature/seo-fixes\napps/last-rev-marketing--layout/ → feature/homepage-layout\n```\nEach feature gets its own directory branched from main. When SEO fixes are done, PR and merge that one — doesn't matter that the layout work is half-finished in its own worktree.\n\n*The workflow would be:*\n\n1. New task → `git worktree add ../last-rev-marketing--taskname -b feature/taskname`\n2. Work happens in that directory\n3. When done → push, PR, merge, then `git worktree remove` to clean up\n4. Half-finished work stays isolated in its own worktree\n*What I like about this for us:*\n\n• No more \"mixed commits\" problem — each feature is physically separated\n• I can context-switch between tasks without stashing or making messy commits\n• You get cleaner PRs that are actually reviewable\n• Main stays deployable at all times\n*One thing to figure out:*\nThe parent repo (`workspace/adam-harris`) tracks `last-rev-marketing` as a submodule. We'd need a convention for which worktree the submodule pointer tracks (probably always `main`). The feature worktrees would live outside the submodule path.\n\nWant me to set this up? I can restructure the workflow and document the convention so it's consistent going forward.",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771512575.957899",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771512575957899?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "Good question. Here's my honest take on what we just did and where workspaces could help:\n\n*What we did today was fine but clunky:*\n\n• We had a `dev` branch with ~100 commits, pushed it, made a PR, merged, then cleaned up the branch. Standard flow, no issues.\n*The \"workspaces\" idea (probably Git worktrees):*\nWorktrees let you have multiple branches checked out simultaneously in different directories. So instead of switching branches, you'd have:\n\n```\napps/last-rev-marketing/ → always on main\napps/last-rev-marketing-dev/ → working branch\n```\n*My opinion — we don't need that here.* Here's why:\n\n1. *This is a static site, not a monorepo with builds.* There's no compile step or dependency tree that makes branch-switching expensive.\n2. *We're the only ones working on it.* Worktrees shine when you need to context-switch between branches constantly (hotfix on main while feature work continues). We don't have that pressure.\n3. *It adds complexity* — more directories to track, more submodule pointers to manage in the parent repo.\n*What I'd actually improve instead:*\n\n• *Smaller, more frequent PRs* instead of 100-commit batches. Easier to review, less merge risk.\n• *Keep working directly on `main`* for low-risk changes like SEO fixes — they don't really need a PR gate since I'm the one making them and they're mechanical.\n• *Use feature branches + PRs* only when the changes are significant enough to warrant review (new pages, design changes, etc.)\nIf the person who mentioned workspaces was thinking about something else — like Nx workspaces, npm workspaces, or a monorepo tool — that's a different conversation. Want me to dig into what they meant?",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771512290.397869",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771512290397869?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "Already done — pulled main when I switched branches. We're up to date at `13838ed`.",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771512243.596209",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771512243596209?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "All clean :white_check_mark: Switched to `main`, deleted remote `dev` and local `dev`.",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771512215.563539",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771512215563539?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "got it!",
+    "username": "camilo",
+    "channel": "U0150M6GYF4",
+    "ts": "1771512176.304599",
+    "permalink": "https://lastrev.slack.com/archives/D015B3J7FEE/p1771512176304599"
+  },
+  {
+    "text": "Yep, when I created that PoC I sent you the other way, I tried to follow that same idea",
+    "username": "camilo",
+    "channel": "U0150M6GYF4",
+    "ts": "1771512089.106369",
+    "permalink": "https://lastrev.slack.com/archives/D015B3J7FEE/p1771512089106369"
+  },
+  {
+    "text": "100%, more components is a lot easier to maintain than variants",
+    "username": "camilo",
+    "channel": "U0150M6GYF4",
+    "ts": "1771511912.999039",
+    "permalink": "https://lastrev.slack.com/archives/D015B3J7FEE/p1771511912999039"
+  },
+  {
+    "text": "Got it! I will keep that in mind. I will try to maybe move one component so we can review it, and if it makes sense we can move the rest",
+    "username": "camilo",
+    "channel": "U0150M6GYF4",
+    "ts": "1771511902.333849",
+    "permalink": "https://lastrev.slack.com/archives/D015B3J7FEE/p1771511902333849"
+  },
+  {
+    "text": "Got it! Let me think of a path forward between now and standup. I will not consider moving away from GQL, but try to simplify things a little bit",
+    "username": "camilo",
+    "channel": "U0150M6GYF4",
+    "ts": "1771511749.004299",
+    "permalink": "https://lastrev.slack.com/archives/D015B3J7FEE/p1771511749004299"
+  },
+  {
+    "text": "Merged :white_check_mark:",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771511427.622009",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771511427622009?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "Or even try to move away from GQL, which also is a huge pain and consumes a lot of time",
+    "username": "camilo",
+    "channel": "U0150M6GYF4",
+    "ts": "1771511378.391509",
+    "permalink": "https://lastrev.slack.com/archives/D015B3J7FEE/p1771511378391509"
+  },
+  {
+    "text": "I'm struggling a little bit with the CSS stuff. I started fixing the small issues, but it is a rabbit hole with the grid stuff :smiling_face_with_tear:. I will continue with this, but wanted to ask you two things:\n• Which goal are we trying to get out of this change? (this is just to keep the moral up :sweat_smile:)\n• Will it make sense to move away from MUI in favor of something like Tailwind? We are already behind several versions with MUI, and it might be better for the long term to move to a simpler library (AI also seems to like better those libraries instead of MUI)",
+    "username": "camilo",
+    "channel": "U0150M6GYF4",
+    "ts": "1771511321.405659",
+    "permalink": "https://lastrev.slack.com/archives/D015B3J7FEE/p1771511321405659"
+  },
+  {
+    "text": "Done. Pushed to origin and created the PR:\n\n*<https://github.com/last-rev-llc/ah-last-rev-marketing/pull/3*>\n\n~100+ commits fixing meta tags and structured data across all pages.",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771511261.888469",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771511261888469?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "That's a lot of SEO commits. Let me create the PR.",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771511261.737999",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771511261737999?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "Pushed. Now creating the PR:",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771511261.567889",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771511261567889?thread_ts=1771511039.564299"
+  },
+  {
+    "text": "<@UH1NCNA81|Adam Harris> FYI - after watching the video from Susan and Rahila's call with the customer this morning. I have a huge concern that we're not \"logging in\" the customer automatically into HC when they come to help center from Signal.\n\nThe customer was definitely logged into Signal. Susan had her log in and log out. However, the user never clicked into an article.\n\nThe chatbot bubble never appeared for them on HC even after logging in/out of Signal 2 times.",
+    "username": "krista",
+    "channel": "ias-internal",
+    "ts": "1771439675.172709",
+    "permalink": "https://lastrev.slack.com/archives/C02KN72UBGU/p1771439675172709?thread_ts=1771439675.172709"
+  },
+  {
+    "text": "I think the problem is actually that you are saying you are adding things to the queue, but you are adding them to YOUR queue.   This thread is a good example.   I don't see this in any of the filtered views on the queues : <https://lastrev.slack.com/archives/D0AE22LRE1J/p1771357053874419>",
+    "username": "adam",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771357933.026839",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771357933026839?thread_ts=1771357243.368419"
+  },
+  {
+    "text": "The updates have been made and I have rebased the branch. <https://github.com/integralads/ias-knowledge-base/pull/545> FYI <@UH1NCNA81|Adam Harris> <@ULH6GM1LP|Cam>",
+    "username": "jaime",
+    "channel": "daily-standup",
+    "ts": "1771348375.204189",
+    "permalink": "https://lastrev.slack.com/archives/C04UTHPC0PQ/p1771348375204189?thread_ts=1771346261.055929"
+  },
+  {
+    "text": "<@UH1NCNA81|Adam Harris> <@U01V9VBB7TL|Krista> I won't be able to make standup today. Working on DIL-114. Have a few questions that I will just send to Adam on Slack.",
+    "username": "jaime",
+    "channel": "daily-standup",
+    "ts": "1771346037.730969",
+    "permalink": "https://lastrev.slack.com/archives/C04UTHPC0PQ/p1771346037730969"
+  },
+  {
+    "text": "Found it. The Queue Processor cron job (Step C) explicitly sends messages to `to=UH1NCNA81` (your DM). I need to update it to send to the `#alphaclaw-queue` channel instead. Let me update the cron job prompt:",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771311496.745549",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771311496745549?thread_ts=1771311115.282699"
+  },
+  {
+    "text": "Here is the conversation we had in this thread: <https://lastrev.slack.com/archives/D0AE22LRE1J/p1771255258048999>\n\nIt was a VERY important conversation so we need to ensure this is in our memory",
+    "username": "adam",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771272695.788799",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771272695788799?thread_ts=1771270703.774089"
+  },
+  {
+    "text": "REview the thread at <https://lastrev.slack.com/archives/D0AE22LRE1J/p1771265323431969>.   You never finished",
+    "username": "adam",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771270703.774089",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771270703774089?thread_ts=1771270703.774089"
+  },
+  {
+    "text": "You're having issues completing the task we chatted about in the thread <https://lastrev.slack.com/archives/D0AE22LRE1J/p1771263916760339>",
+    "username": "adam",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771265323.431969",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771265323431969?thread_ts=1771265323.431969"
+  },
+  {
+    "text": "<@UH1NCNA81|Adam Harris> that looks massive",
+    "username": "max",
+    "channel": "mpdm-adam--max--max-1",
+    "ts": "1771256332.536869",
+    "permalink": "https://lastrev.slack.com/archives/C0A1UHCCRRV/p1771256332536869?thread_ts=1771027953.578199"
+  },
+  {
+    "text": "Can you read this other thread?  I'm trying to combine this CI/CD a bit more with some of our other nightly reviews.   <https://lastrev.slack.com/archives/D0AE22LRE1J/p1771113185049339>",
+    "username": "adam",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1771113645.775749",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1771113645775749?thread_ts=1771110817.154179"
+  },
+  {
+    "text": "<@UH1NCNA81|Adam Harris> <@U012ZAD29S4|Jaime> the cookies we have set for chatbot terms - do those expire when the user closes their browser, or do they expire after 30 days?",
+    "username": "krista",
+    "channel": "ias-internal",
+    "ts": "1771001047.883669",
+    "permalink": "https://lastrev.slack.com/archives/C02KN72UBGU/p1771001047883669?thread_ts=1771001047.883669"
+  },
+  {
+    "text": "<@ULH6GM1LP|Cam> <@UH1NCNA81|Adam Harris> setup a monitoring channel for AlphaClaw",
+    "username": "brad",
+    "channel": "alphaclaw-monitoring-alerts",
+    "ts": "1770998579.225639",
+    "permalink": "https://lastrev.slack.com/archives/C0AF0HGDNCC/p1770998579225639"
+  },
+  {
+    "text": "<@UH1NCNA81|Adam Harris> check them both now",
+    "username": "brad",
+    "channel": "general",
+    "ts": "1770996470.714279",
+    "permalink": "https://lastrev.slack.com/archives/CHAD1M11A/p1770996470714279?thread_ts=1770974398.369129"
+  },
+  {
+    "text": "<@UH81PPNDN|Brad Taylor> <@U09L1K4RPF0> <@UH1NCNA81|Adam Harris> positive note from call w/IAS today. I was digging/asking questions about where the current interest in langfuse came from. What discussions are happening internally, etc.\n\n“Well, it's I don't know if it's related, but there was a board meeting yesterday. And somebody asked about our, you know, AI and internal use, not so much like who's using it and what and who how many people are using, stuff like that. But actual, like, how's it working? Is it good? And one of the SLT members pulled up <http://Answer.ai|Answer.ai>, threw in a question, and it gave a very good response. And this was like live, no prep, on the spot, in front of the board of the SLT. Yeah, yeah. So it was really, really good because it was, I think it was kind of unexpected. And now the board composition's a little different. It's got the private equity people. So it was super good, but I think it's like probably peaked interest.”",
+    "username": "krista",
+    "channel": "mpdm-brad--adam--brad--krista-1",
+    "ts": "1770936160.780049",
+    "permalink": "https://lastrev.slack.com/archives/C0225EVTS07/p1770936160780049"
+  },
+  {
+    "text": ":rotating_light: _SUPPORT-5342: /save page routing — Root Cause Found_\n\n<@U0150M6GYF4> <@U01V9VBB7TL> <@UH1NCNA81> — Cam asked me to dig into this. Here's what I found:\n\n_Root Cause:_ PR #311 (\"Show serviceable notices for active address\"), merged today at 1:21 PM UTC by Camilo, introduced new logic in `CheckServiceability.tsx` that intercepts the serviceability response _before_ it reaches the existing `onSuccess` handler.\n\n_What's happening:_\n• When a serviceable residential address is entered (`dwellingCategory === 'R'`), the new code hard-redirects to `<http://sales.wowway.com|sales.wowway.com>` with a session ID\n• This _bypasses_ `handleCheckServiceabilitySuccess` in `DynamicForm.tsx`, which is responsible for setting the market and advancing to the `SelectPlan` step (where users pick a package)\n• That's why users end up on <http://sales.wowway.com|sales.wowway.com> with a processing error instead of seeing plan options\n\n_What worked before PR #311:_\n\n1. User enters address → API returns serviceability result\n2. `onSuccess` → `handleCheckServiceabilitySuccess` sets the market, shows `SelectPlan`\n3. User picks a plan on the correct regional page\n_The fix:_\nThe `dwellingCategory === 'R'` block (lines ~291-313 in `CheckServiceability.tsx`) should either be removed or changed to call `onSuccess(serviceAddressList, email, phone)` instead of redirecting to <http://sales.wowway.com|sales.wowway.com>. The `status === 'A'` (active address) handling looks intentional and fine — it's only the residential redirect that's breaking things.\n\n_Confirmed:_ JD noted routing still works from regional pages (`/r1`, etc.) — only `/save` is affected, which aligns perfectly since PR #311 only modified the `/save` page flow.\n\n— :chipmunk: Ultron (Cam's AI assistant)",
+    "username": "alphaclaw",
+    "channel": "wow-internal",
+    "ts": "1770928157.617659",
+    "permalink": "https://lastrev.slack.com/archives/C04U2V6RDGR/p1770928157617659?thread_ts=1770928157.617659"
+  },
+  {
+    "text": "<@UH1NCNA81|Adam Harris> - lets see what happens",
+    "username": "cameron",
+    "channel": "alpha-claw-wins",
+    "ts": "1770926460.558449",
+    "permalink": "https://lastrev.slack.com/archives/C0AET9C19KN/p1770926460558449?thread_ts=1770923665.207349"
+  },
+  {
+    "text": "Very odd, should've already been in there previously  when I was onboarding people and needing them to login :man-shrugging:\n\nThanks for the assist, <@UH1NCNA81|Adam Harris>",
+    "username": "cameron",
+    "channel": "aai-internal",
+    "ts": "1770923766.760029",
+    "permalink": "https://lastrev.slack.com/archives/C07H39T5PTQ/p1770923766760029?thread_ts=1770917604.502479"
+  },
+  {
+    "text": "Done. New shared `&lt;cc-slack-msg&gt;` component that properly formats Slack messages:\n\n*Fixes the `&lt;@UH1NCNA81|Adam Harris&gt;` problem* — now renders as a styled *@Adam Harris* mention pill instead of raw markup.\n\n*Handles all Slack formatting:*\n\n• `<@UH1NCNA81>` → *@Adam Harris* (resolves IDs to names)\n• `&lt;@UH1NCNA81|Adam Harris&gt;` → *@Adam Harris* (pipe syntax)\n• `<#C123>` → *#general*\n• `<!here>` → *@here*\n• `<https://url|label>` → clickable link\n• `*bold*`, `_italic_`, ``code``, `~strikethrough~`, `&gt; quotes`\n*Two ways to use:*\n\n```\n&lt;cc-slack-msg text=\"Hey &lt;@UH1NCNA81&gt; check this\" max=\"200\"&gt;&lt;/cc-slack-msg&gt;\n```\n```\nCCSlack.format(text, 200)  // returns formatted HTML\nCCSlack.plain(text, 200)   // returns plain text\n```\nBoth cc-slack (dashboard) and cc-users (CRM) now use it. The user lookup auto-populates from `users.json`.\n\nGood call — Slack message rendering is used in cc-slack (dashboard), cc-users (CRM Slack tab), and standup. Let me check what formatting exists:\n\nTwo separate `_strip` methods doing the same thing. Let me check them both:\n\nThe `_strip` in cc-users is similar but truncates at 120. Both have the same bug — `&lt;@UH1NCNA81|Adam Harris&gt;` with the pipe syntax isn't handled. Let me create a proper shared formatter:\n\nAdd CSS for Slack message formatting:\n\nRegister it:\n\nNow refactor cc-users to use `CCSlack.format()` instead of `_strip()`:\n\nNow refactor cc-slack to use CCSlack too:\n\nAlso feed the users data into CCSlack when cc-slack loads users:\n\nDone. New shared `&lt;cc-slack-msg&gt;` component that properly formats Slack messages:\n\n*Fixes the `&lt;@UH1NCNA81|Adam Harris&gt;` problem* — now renders as a styled *@Adam Harris* mention pill instead of raw markup.\n\n*Handles all Slack formatting:*\n\n• `<@UH1NCNA81>` → *@Adam Harris* (resolves IDs to names)\n• `&lt;@UH1NCNA81|Adam Harris&gt;` → *@Adam Harris* (pipe syntax)\n• `<#C123>` → *#general*\n• `<!here>` → *@here*\n• `<https://url|label>` → clickable link\n• `*bold*`, `_italic_`, ``code``, `~strikethrough~`, `&gt; quotes`\n*Two ways to use:*\n\n```\n&lt;cc-slack-msg text=\"Hey &lt;@UH1NCNA81&gt; check this\" max=\"200\"&gt;&lt;/cc-slack-msg&gt;\n```\n```\nCCSlack.format(text, 200)  // returns formatted HTML\nCCSlack.plain(text, 200)   // returns plain text\n```\nBoth cc-slack (dashboard) and cc-users (CRM) now use it. The user lookup auto-populates from `users.json`.",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1770912844.999489",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1770912844999489"
+  },
+  {
+    "text": "• We should probably have a shared component for a slack message.   I believe we've fixed an issue already with the names showing up weird (<@UH1NCNA81|Adam Harris> will you be prepared to show or talk through the Gold standard question responses for IAS in ~2.",
+    "username": "adam",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1770912682.542129",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1770912682542129"
+  },
+  {
+    "text": "That's my core config file — controls how OpenClaw runs. Here's what's in yours:\n\n*Agents*\n\n• Workspace: `/home/ubuntu/workspace/adam-harris`\n• Context pruning: cache-TTL mode, 1 hour\n• Compaction: safeguard mode (auto-compacts when context gets large)\n• Heartbeat: every 1 hour\n• Max concurrent: 4 agent runs, 8 sub-agents\n*Channels → Slack*\n\n• HTTP mode with signing secret\n• DMs enabled, allowlist policy (only your user ID: `UH1NCNA81`)\n• Group policy: open\n• User token: read-only\n*Messages*\n\n• Ack reaction scope: group-mentions\n*Commands*\n\n• Native commands + native skills: auto\n*Gateway*\n\n• Local mode with token auth\n*Talk (TTS)*\n\n• ElevenLabs API key configured\n*Plugins*\n\n• Slack: enabled\nNothing exotic — pretty standard setup. Want me to tweak anything? The main levers would be things like concurrent limits, heartbeat frequency, compaction behavior, or adding more Slack capabilities.",
+    "username": "alphaclaw",
+    "channel": "U0ADGHGFDSR",
+    "ts": "1770760816.579449",
+    "permalink": "https://lastrev.slack.com/archives/D0AE22LRE1J/p1770760816579449?thread_ts=1770760802.977919"
+  }
+]

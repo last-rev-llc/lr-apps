@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏗️ Architecture Viewer — Documentation</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<style>
+.showcase-layout { display: flex; gap: 24px; max-width: 1400px; margin: 0 auto; padding: 24px; }
+.showcase-sidebar { width: 280px; flex-shrink: 0; }
+.showcase-content { flex: 1; min-width: 0; }
+.showcase-nav { position: sticky; top: 24px; }
+.showcase-nav ul { list-style: none; padding: 0; margin: 0; }
+.showcase-nav li { margin-bottom: 8px; }
+.showcase-nav a { display: block; padding: 8px 16px; color: var(--muted); text-decoration: none; border-radius: 4px; transition: all 0.2s; }
+.showcase-nav a:hover, .showcase-nav a.active { background: var(--card); color: var(--text); }
+.showcase-section { margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+.showcase-section:last-child { border-bottom: none; }
+h1, h2, h3 { color: var(--accent); }
+.code-block { background: var(--card); border-radius: 8px; padding: 16px; overflow-x: auto; margin: 16px 0; }
+</style>
+</head>
+<body>
+<cc-app-nav active="docs"></cc-app-nav>
+<cc-toast></cc-toast>
+
+<div class="showcase-layout">
+  <div class="showcase-sidebar">
+    <div class="showcase-nav">
+      <ul>
+        <li><a href="#overview" class="nav-link">Overview</a></li>
+        <li><a href="#slide-deck" class="nav-link">Slide Deck Component</a></li>
+        <li><a href="#stats" class="nav-link">Architecture Stats</a></li>
+        <li><a href="#layers" class="nav-link">System Layers</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="showcase-content">
+    <div class="showcase-section" id="overview">
+      <h1>🏗️ Architecture Viewer Documentation</h1>
+      <p>Interactive presentation showcasing the OpenClaw Command Center architecture — 48 apps, 69 components, 37 skills, and 63 database tables working in harmony.</p>
+      
+      <h3>Features</h3>
+      <ul>
+        <li>Interactive slide deck with architectural deep dive</li>
+        <li>Live statistics and metrics</li>
+        <li>Component library catalog</li>
+        <li>Database layer visualization</li>
+        <li>Skills and automation overview</li>
+      </ul>
+    </div>
+
+    <div class="showcase-section" id="slide-deck">
+      <h2>&lt;cc-slide-deck&gt; Component</h2>
+      <p>The main interface uses a custom slide deck component with smooth transitions:</p>
+      
+      <div class="code-block">
+        <pre>&lt;cc-slide-deck transition="slide"&gt;
+  &lt;cc-slide&gt;
+    &lt;h1&gt;Slide Title&lt;/h1&gt;
+    &lt;p&gt;Slide content...&lt;/p&gt;
+  &lt;/cc-slide&gt;
+&lt;/cc-slide-deck&gt;</pre>
+      </div>
+      
+      <p><strong>Navigation:</strong> Use arrow keys or swipe gestures to navigate between slides.</p>
+    </div>
+
+    <div class="showcase-section" id="stats">
+      <h2>Architecture Statistics</h2>
+      <p>Real-time metrics showcasing the scale of the system:</p>
+      
+      <div class="code-block">
+        <pre>&lt;cc-stat-card value="48" label="Web Apps Deployed"&gt;&lt;/cc-stat-card&gt;
+&lt;cc-stat-card value="69" label="Shared Components"&gt;&lt;/cc-stat-card&gt;
+&lt;cc-stat-card value="37" label="Custom Skills"&gt;&lt;/cc-stat-card&gt;</pre>
+      </div>
+      
+      <p>Stats are updated regularly through nightly automation and app reviews.</p>
+    </div>
+
+    <div class="showcase-section" id="layers">
+      <h2>System Layers</h2>
+      <p>Visualizes the 8-layer architecture stack using the &lt;cc-layer-stack&gt; component:</p>
+      
+      <ul>
+        <li><strong>Web Apps Layer:</strong> 48 static sites deployed to *.adam-harris.alphaclaw.app</li>
+        <li><strong>Component Library:</strong> 69 shared web components</li>
+        <li><strong>Design System:</strong> theme.css + landing.css + glass morphism</li>
+        <li><strong>Database:</strong> Supabase with 63 tables, RLS, and Auth</li>
+        <li><strong>Skills Engine:</strong> 37 automation skills and orchestrators</li>
+        <li><strong>Cron System:</strong> 8 batch jobs + trigger_queue processor</li>
+        <li><strong>Memory:</strong> 24 markdown files + DB dual-write</li>
+        <li><strong>Runtime:</strong> OpenClaw agent with Claude and 20+ integrations</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script>
+// Simple nav highlighting
+document.addEventListener('DOMContentLoaded', () => {
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('.showcase-section');
+  
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      target.scrollIntoView({ behavior: 'smooth' });
+      
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+});
+</script>
+</body>
+</html>

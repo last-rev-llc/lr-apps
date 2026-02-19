@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e040fb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>💅 Gen Z Slang — Docs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<style>
+.showcase-layout{display:flex;min-height:100vh;}
+.showcase-sidebar{width:260px;border-right:1px solid var(--border);padding:24px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0;}
+.showcase-content{flex:1;padding:40px 48px;max-width:900px;}
+.sidebar-nav{display:flex;flex-direction:column;gap:4px;}
+.nav-title{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.nav-title h2{margin:0;font-size:1.1rem;}
+.nav-title span{font-size:1.4rem;}
+.nav-group{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:16px 0 4px;font-weight:600;}
+.sidebar-nav a{display:block;padding:8px 12px;border-radius:8px;color:var(--text);text-decoration:none;font-size:14px;transition:background .15s;}
+.sidebar-nav a:hover{background:var(--card);}
+.showcase-section{margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid var(--border);}
+.showcase-section:last-child{border-bottom:none;}
+.component-summary{color:var(--muted);font-size:15px;line-height:1.6;margin:8px 0 24px;}
+.prompt-block{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 20px;font-family:var(--mono);font-size:13px;line-height:1.6;overflow-x:auto;white-space:pre;margin:12px 0 20px;}
+@media(max-width:768px){.showcase-layout{flex-direction:column;}.showcase-sidebar{width:100%;height:auto;position:relative;border-right:none;border-bottom:1px solid var(--border);}.showcase-content{padding:24px 16px;}}
+</style>
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/gen-z-summary.js"></script>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+</head>
+<body>
+<cc-app-nav app="gen-z" title="💅 Gen Z Slang" active="docs"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div class="showcase-layout">
+  <div class="showcase-sidebar">
+    <div class="sidebar-nav">
+      <div class="nav-title"><span>💅</span> <h2>Gen Z Docs</h2></div>
+      <div class="nav-group">Embeddable Modules</div>
+      <a href="#summary-widget">📊 Summary Widget</a>
+      <div class="nav-group">Reference</div>
+      <a href="#data-format">📄 Data Format</a>
+      <a href="#categories">🏷️ Categories</a>
+      <a href="#theming">🎨 Theming</a>
+      <div class="nav-group">Links</div>
+      <a href="https://shared.adam-harris.alphaclaw.app" target="_blank" rel="noopener">↗ Shared Library</a>
+    </div>
+  </div>
+
+  <div class="showcase-content">
+    <cc-fade-in>
+      <h1>💅 Gen Z Slang — Module Docs</h1>
+      <p>Embeddable modules for your command center dashboard.</p>
+    </cc-fade-in>
+
+    <section id="summary-widget" class="showcase-section">
+      <h2>📊 Summary Widget</h2>
+      <p class="component-summary">A compact dashboard widget showing term count, average vibe score, top terms, and category breakdown.</p>
+
+      <h3>Usage</h3>
+      <div class="prompt-block">&lt;gen-z-summary src="data/slang.json"&gt;&lt;/gen-z-summary&gt;</div>
+
+      <h3>Attributes</h3>
+      <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <thead><tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Attribute</th>
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Type</th>
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Description</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;"><code>src</code></td>
+            <td style="padding:8px;">String</td>
+            <td style="padding:8px;">Path to slang JSON data file</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Live Example</h3>
+      <div class="card" style="padding:20px;">
+        <gen-z-summary src="data/slang.json"></gen-z-summary>
+      </div>
+
+      <h3>Embed in Your Command Center</h3>
+      <div class="prompt-block">&lt;script src="https://gen-z.adam-harris.alphaclaw.app/modules/gen-z-summary.js"&gt;&lt;/script&gt;
+&lt;gen-z-summary src="https://gen-z.adam-harris.alphaclaw.app/data/slang.json"&gt;&lt;/gen-z-summary&gt;</div>
+    </section>
+
+    <section id="data-format" class="showcase-section">
+      <h2>📄 Data Format</h2>
+      <p>Each slang term in <code>data/slang.json</code> has the following fields:</p>
+      <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <thead><tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Field</th>
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Type</th>
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Description</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>id</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Unique slug identifier</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>term</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Display name of the slang term</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>definition</code></td><td style="padding:8px;">String</td><td style="padding:8px;">What the term means</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>example</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Example sentence using the term</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>category</code></td><td style="padding:8px;">String</td><td style="padding:8px;">One of: compliment, insult, reaction, lifestyle, internet culture, dating</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>vibeScore</code></td><td style="padding:8px;">Number</td><td style="padding:8px;">1-10 rating of how hard the term hits</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>origin</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Where the term originated</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>aliases</code></td><td style="padding:8px;">Array</td><td style="padding:8px;">Alternative spellings or variations</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>era</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Time period the term emerged</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>generation</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Always "genz" for this app</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>equivalents</code></td><td style="padding:8px;">Object</td><td style="padding:8px;">Cross-generational translations {millennial, boomer}</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="categories" class="showcase-section">
+      <h2>🏷️ Categories</h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;">
+        <span class="badge" style="background:rgba(34,197,94,.15);color:#22c55e;padding:6px 14px;border-radius:8px;">💚 compliment</span>
+        <span class="badge" style="background:rgba(239,68,68,.15);color:#ef4444;padding:6px 14px;border-radius:8px;">💀 insult</span>
+        <span class="badge" style="background:rgba(234,179,8,.15);color:#eab308;padding:6px 14px;border-radius:8px;">⚡ reaction</span>
+        <span class="badge" style="background:rgba(224,64,251,.15);color:#e040fb;padding:6px 14px;border-radius:8px;">✨ lifestyle</span>
+        <span class="badge" style="background:rgba(6,182,212,.15);color:#06b6d4;padding:6px 14px;border-radius:8px;">🌐 internet culture</span>
+        <span class="badge" style="background:rgba(244,114,182,.15);color:#f472b6;padding:6px 14px;border-radius:8px;">💕 dating</span>
+      </div>
+    </section>
+
+    <section id="theming" class="showcase-section">
+      <h2>🎨 Theming</h2>
+      <p>The component uses standard theme.css variables. Theme color: <code>#e040fb</code> (bright purple/pink — TikTok energy).</p>
+      <div class="prompt-block">compliment: #22c55e
+insult: #ef4444
+reaction: #eab308
+lifestyle: #e040fb
+internet culture: #06b6d4
+dating: #f472b6</div>
+      <p>Vibe score bars use a 10-color gradient scale from red (1) to green (10).</p>
+    </section>
+  </div>
+</div>
+</body>
+</html>

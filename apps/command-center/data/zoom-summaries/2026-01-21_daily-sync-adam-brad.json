@@ -1,0 +1,45 @@
+{
+  "meetingId": "unknown",
+  "topic": "Daily Sync - Adam & Brad",
+  "date": "2026-01-21",
+  "duration": 44,
+  "attendees": ["Adam Harris", "Brad Taylor"],
+  "client": null,
+  "summary": "Adam reported the Diligent categorization agent flow is built and working well using GPT-4o Mini, processing ~20K tokens per request. He noticed his LangFuse wasn't working and checked costs. Brad confirmed Max is aligned on sunsetting Flowwise and pivoting away from drag-and-drop node builders. Adam's primary use of Flowwise was piggybacking on API keys and tracking via LangFuse, not the chat interface itself.\n\nBrad raised concerns about timezone coverage gaps - by the time Max and Diego start work, it's already 2PM their time, leaving no support during US morning working hours. This becomes more critical if SBI Builders closes. They discussed financials: Diligent is the primary revenue source with ~$300K outstanding, IAS is in discussions, and costs need to be managed as SBI Builders closes.\n\nIAS updates: waiting on Rahila's final approval for search rollout to whitelist users. Susan continues to be indecisive. IAS is also discussing a new project for next week and evaluating CMS alternatives to Contentful (Salesforce Knowledge Base mentioned internally), though they just re-signed with Contentful. Adam noted Contentful's localization is best-in-class, and Jamie has a ticket for Sanity field-level localization plugin research. Adam also wants Jamie to research simplifying the Sanity-to-Contentful content normalization layer.\n\nBrad showed Mobbin.com for design inspiration, and they discussed Last Rev website priorities: customer stories, services pages, homepage video with AI assessment CTA. Brad made significant Alpha Agent updates over the weekend including full task lifecycle, work tree workflow, and 13,000+ tests (11K unit, 1.2K API, 100 E2E). Adam tried running the latest version but hit database migration/node version compatibility issues.",
+  "keyDiscussionPoints": [
+    "Diligent categorization agent flow built and working with GPT-4o Mini",
+    "Max aligned on sunsetting Flowwise",
+    "Timezone coverage gap - no US morning support from AnswerAgent team",
+    "Financials: Diligent primary revenue, ~$300K outstanding invoices",
+    "IAS search rollout waiting on Rahila approval, new project upcoming",
+    "IAS evaluating CMS alternatives to Contentful",
+    "Alpha Agent: 13,000+ tests, full task lifecycle, work tree workflow",
+    "Alpha Agent database migration issues on Adam's machine",
+    "Last Rev website priorities: customer stories, services, video, AI assessment",
+    "Mobbin.com for design inspiration"
+  ],
+  "decisions": [
+    "All three founders agree Flowwise needs to be sunset",
+    "Push clients toward recurring support contracts",
+    "Diligent categorization uses direct API (not Flowwise)",
+    "Jamie to research Sanity normalization simplification and field-level localization"
+  ],
+  "actionItems": [
+    {"action": "Get IAS search rollout approved by Rahila", "owner": "Adam Harris", "deadline": null, "priority": "high"},
+    {"action": "Create ticket for Jamie to research simplifying Sanity-Contentful normalization", "owner": "Adam Harris", "deadline": null, "priority": "medium"},
+    {"action": "Fix Alpha Agent database migration/node version compatibility", "owner": "Brad Taylor", "deadline": null, "priority": "medium"},
+    {"action": "Get Last Rev website customer stories written", "owner": "Adam Harris", "deadline": null, "priority": "medium"},
+    {"action": "Send out Lively invoice (check if recurring is set up)", "owner": "Adam Harris", "deadline": null, "priority": "medium"},
+    {"action": "Address timezone coverage gap for AnswerAgent support", "owner": "Brad Taylor", "deadline": null, "priority": "medium"}
+  ],
+  "followUp": [
+    "IAS search rollout approval",
+    "IAS new project discussion next week",
+    "IAS CMS evaluation outcome",
+    "Diligent outstanding invoices payment timeline",
+    "Alpha Agent migration fix for Adam",
+    "Last Rev website launch"
+  ],
+  "sentiment": "productive",
+  "jiraNote": "JIRA credentials not configured - unable to search for related tickets"
+}

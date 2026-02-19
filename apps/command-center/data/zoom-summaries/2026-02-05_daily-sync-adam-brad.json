@@ -1,0 +1,31 @@
+{
+  "meetingId": "2026-02-05_Daily-Sync-Adam-_-Brad",
+  "topic": "Daily Sync - Adam & Brad",
+  "date": "2026-02-05",
+  "duration": 39,
+  "attendees": ["Adam Harris", "Brad Taylor"],
+  "client": null,
+  "summary": "A brief daily sync where Adam mentioned he was trying to send out Max's payment but couldn't find his physical LastPass fob, locking him out and needing a reset. Brad reported that Pedro finally replied about SBI — Pedro woke up sick but Brad demanded an answer by end of week. Brad noted he gave more concessions than SBI requested (waiving the license fee entirely for Phase 1) and suspects their hesitation is more about excuses than real objections.\n\nBrad mentioned that if SBI doesn't go through, he'd finish the bid app and pitch it to Pro Corp instead. They briefly discussed the NDA situation — Brad signed an NMDA with Pedro (not affiliated with SBI directly), and the contract covered code written but not reuse restrictions. Adam was also trying to set up payments for Max but needed to verify account information.",
+  "keyDiscussionPoints": [
+    "SBI still hasn't responded despite additional concessions",
+    "Pedro replied after being sick, Brad set end-of-week deadline for answer",
+    "Fallback plan: finish bid app and pitch to Pro Corp if SBI doesn't close",
+    "Adam locked out of LastPass due to missing physical fob",
+    "Setting up Max's payment from AnswerAI"
+  ],
+  "decisions": [
+    "End of week deadline set for SBI response",
+    "If SBI doesn't close, pivot bid app to Pro Corp"
+  ],
+  "actionItems": [
+    {"action": "Reset LastPass access (lost physical fob)", "owner": "Adam Harris", "deadline": "2026-02-05", "priority": "high"},
+    {"action": "Set up Max's payment", "owner": "Adam Harris", "deadline": "2026-02-05", "priority": "high"},
+    {"action": "Follow up on SBI response by end of week", "owner": "Brad Taylor", "deadline": "2026-02-07", "priority": "high"}
+  ],
+  "followUp": [
+    "SBI Builder response — deadline end of week",
+    "Pro Corp as backup pitch target for bid app",
+    "Max payment setup verification"
+  ],
+  "sentiment": "casual"
+}

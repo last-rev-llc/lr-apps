@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI Team Directory | Know Your People | Last Rev"
+    description="AI-enriched team profiles with personality insights from Slack & Zoom. Social discovery, GitHub activity, meeting prep. Go beyond the org chart."
+    canonical="https://lastrev.com/apps/cc-users"
+    og-title="AI Team Directory | Know Your People | Last Rev"
+    og-description="AI-enriched team profiles with personality insights from Slack & Zoom. Social discovery, GitHub activity, meeting prep. Go beyond the org chart."
+    og-image="/images/og-default.png"
+    og-url="https://lastrev.com/apps/cc-users"
+    og-type="website"
+    robots="index, follow"
+  ></lr-head>
+
+  <lr-layout active="apps" cta-text="Get in Touch" cta-href="./index.html#contact">
+<!-- Imported content from cc-users/landing.html -->
+  <!-- Hero: Video Background + Overlay Text -->
+<section id="hero-wrap" style="position:relative;width:100vw;margin-left:calc(-50vw + 50%);height:100vh;overflow:hidden;background:#000;">
+  <!-- Video BG -->
+  <div id="yt-player-wrap" style="position:absolute;top:50%;left:50%;width:180%;height:180%;transform:translate(-50%,-50%);pointer-events:none;"></div>
+  <!-- Dark-blue overlay (fades in at end of video) -->
+  <div id="hero-bg-overlay" style="position:absolute;inset:0;background:rgb(10,14,26);opacity:0;transition:opacity 3s ease;z-index:1;"></div>
+  <!-- Hero content (hidden until video ends) -->
+  <div id="hero-text" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;text-align:center;padding:2rem;opacity:0;transition:opacity 3s ease;">
+    <cc-fade-in>
+      <div class="neon-icon-lg neon-amber"><i data-lucide="users"></i></div>
+    </cc-fade-in>
+    <cc-fade-in delay="80">
+      <span class="lp-eyebrow">Team Intelligence Platform</span>
+    </cc-fade-in>
+    <cc-fade-in delay="160">
+      <h1 class="lp-h1">Know Your Team.<br>Beyond the Org Chart.</h1>
+    </cc-fade-in>
+    <cc-fade-in delay="240">
+      <p class="lp-body-lg" style="margin:0 auto;max-width:700px;">AI-enriched profiles with personality insights, social discovery, and relationship context from Slack, GitHub, and Zoom.</p>
+    </cc-fade-in>
+    <cc-fade-in delay="320">
+      <div class="hero-ctas">
+        <a href="index.html" class="btn-primary">Meet Your Team →</a>
+        <a href="docs.html" class="btn-ghost">Read Docs</a>
+      </div>
+    </cc-fade-in>
+  </div>
+</section>
+
+<script>
+(function(){
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+
+  var player, poll;
+  window.onYouTubeIframeAPIReady = function(){
+    player = new YT.Player('yt-player-wrap', {
+      videoId: 'wJ5LiXOuPbE',
+      playerVars: {
+        autoplay:1, mute:1, loop:0, controls:0, showinfo:0, rel:0,
+        modestbranding:1, playsinline:1, disablekb:1, iv_load_policy:3
+      },
+      events: {
+        onReady: function(e){ e.target.playVideo(); startPoll(); },
+        onStateChange: function(e){
+          if(e.data === YT.PlayerState.PLAYING) startPoll();
+        }
+      }
+    });
+  };
+
+  var textFaded = false;
+  function startPoll(){
+    if(poll) return;
+    poll = setInterval(function(){
+      if(!player || !player.getDuration) return;
+      var dur = player.getDuration();
+      var cur = player.getCurrentTime();
+      if(!dur) return;
+      var remaining = dur - cur;
+      if(remaining <= 3 && !textFaded){
+        textFaded = true;
+        document.getElementById('hero-text').style.opacity = '1';
+        document.getElementById('hero-bg-overlay').style.opacity = '0.65';
+      }
+      if(remaining <= 0.15){
+        player.pauseVideo();
+        clearInterval(poll);
+      }
+    }, 250);
+  }
+})();
+</script>
+
+<!-- Features -->
+<div class="lp-divider"></div>
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">What it does</span>
+    <h2 class="lp-h2">Everything you need to know<br>about your people</h2>
+    <p class="lp-body">Deep profiles built from real signals — not just job titles and headshots.</p>
+  </cc-fade-in>
+  <cc-stagger delay="60">
+    <div class="features-grid">
+      <div class="feature-card glass">
+        <div class="neon-icon neon-violet"><i data-lucide="brain"></i></div>
+        <h3>AI Personality Insights</h3>
+        <p>Communication style, interests, and conversation starters generated from real Slack and Zoom data.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-blue"><i data-lucide="search"></i></div>
+        <h3>Social Discovery</h3>
+        <p>Auto-find LinkedIn, Twitter, GitHub, and Instagram profiles with confidence scoring and pending approvals.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-cyan"><i data-lucide="message-square"></i></div>
+        <h3>Slack Activity</h3>
+        <p>Recent messages, channel participation, and communication patterns across your workspace.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-green"><i data-lucide="git-branch"></i></div>
+        <h3>GitHub Repos</h3>
+        <p>Code activity, languages, recent commits, and pull requests — see what they're building.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-pink"><i data-lucide="file-text"></i></div>
+        <h3>PDF Profile Export</h3>
+        <p>Full-bleed professional dossier with everything in one click. Perfect for meeting prep.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-amber"><i data-lucide="notebook-pen"></i></div>
+        <h3>CRM Notes</h3>
+        <p>Private notes, aliases, nicknames, and custom tags per person. Your personal context layer.</p>
+      </div>
+    </div>
+  </cc-stagger>
+</section>
+
+<!-- How It Works -->
+<div class="lp-divider"></div>
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.15" height="auto">
+  <div class="lp-section">
+    <cc-fade-in>
+      <span class="lp-eyebrow">How it works</span>
+      <h2 class="lp-h2">From Slack import to<br>actionable intelligence</h2>
+      <p class="lp-body">Four steps from raw workspace data to rich, shareable team profiles.</p>
+    </cc-fade-in>
+    <div class="steps-list">
+      <cc-fade-in delay="0">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Import from Slack</h3>
+            <p>Auto-sync your team roster from your Slack workspace. Names, avatars, and roles populate instantly.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="80">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>AI Research</h3>
+            <p>An agent discovers social profiles, web presence, and background information for each person.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="160">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Enrich & Score</h3>
+            <p>Personality insights synthesized from Slack messages, Zoom transcripts, and GitHub activity.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="240">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Export & Share</h3>
+            <p>Download PDF profiles or share context with your team before meetings and 1:1s.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+    </div>
+  </div>
+</cc-parallax>
+
+<!-- Use Cases -->
+<div class="lp-divider"></div>
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">Who it's for</span>
+    <h2 class="lp-h2">Built for people who<br>work with people</h2>
+    <p class="lp-body">Whether you're managing a team, closing a deal, or just getting started.</p>
+  </cc-fade-in>
+  <cc-stagger delay="80">
+    <div class="use-cases-grid">
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-violet"><i data-lucide="code"></i></div>
+        <h3>Engineering Managers</h3>
+        <p>Know your team's communication style before 1:1s. Understand who collaborates with whom, and what motivates each person.</p>
+      </div>
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-blue"><i data-lucide="target"></i></div>
+        <h3>Sales & BD</h3>
+        <p>Meeting prep with contact research and relationship context. Walk into every call knowing the person behind the title.</p>
+      </div>
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-green"><i data-lucide="rocket"></i></div>
+        <h3>New Hires</h3>
+        <p>Get up to speed on who's who and how they work. Skip the awkward first months of figuring out the team dynamics.</p>
+      </div>
+    </div>
+  </cc-stagger>
+</section>
+
+<!-- Final CTA -->
+<div class="lp-divider"></div>
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.18" height="auto">
+  <div class="cta-final">
+    <div class="cta-glow"></div>
+    <cc-fade-in>
+      <span class="lp-eyebrow">Get started</span>
+      <h2 class="lp-h2">Your team is more than<br>a list of names</h2>
+      <p class="lp-body" style="margin:0 auto 44px;">Start building richer relationships with the people you work with every day.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;">
+        <a href="index.html" class="btn-primary">Meet Your Team →</a>
+        <a href="prompts.html" class="btn-ghost">AI Prompts</a>
+        <a href="docs.html" class="btn-ghost">Read Docs</a>
+      </div>
+    </cc-fade-in>
+  </div>
+</cc-parallax>
+
+  <!-- Footer -->
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AI Team Directory",
+    "description": "AI-enriched team profiles with personality insights from Slack & Zoom. Social discovery, GitHub activity, meeting prep. Go beyond the org chart.",
+    "url": "https://lastrev.com/apps/cc-users.html",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "featureList": [
+      "AI personality insights",
+      "Social profile discovery",
+      "Slack activity tracking",
+      "GitHub integration",
+      "PDF profile export",
+      "Private CRM notes and tags"
+    ]
+  }
+  </script>
+
+</body>
+</html>

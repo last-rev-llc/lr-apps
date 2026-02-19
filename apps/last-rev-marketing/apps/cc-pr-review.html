@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="PR Review Dashboard | Nightly Code Reviews | Last Rev"
+    description="Browse automated nightly code reviews across all your apps. See security findings, patterns, GitHub PR tracking, and learnings from overnight scans."
+    canonical="https://lastrev.com/apps/cc-pr-review"
+    og-title="PR Review Dashboard | Nightly Code Reviews | Last Rev"
+    og-description="Browse automated nightly code reviews across all your apps. See security findings, patterns, GitHub PR tracking, and learnings from overnight scans."
+    og-image="/images/og-default.png"
+    og-url="https://lastrev.com/apps/cc-pr-review"
+    og-type="website"
+    robots="index, follow"
+  ></lr-head>
+
+  <lr-layout active="apps" cta-text="Get in Touch" cta-href="./index.html#contact">
+<!-- Imported content from cc-pr-review/landing.html -->
+  <!-- Hero -->
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.2" height="100vh">
+  <div class="hero-inner">
+    <cc-fade-in>
+      <div class="neon-icon-lg neon-blue"><i data-lucide="search-code"></i></div>
+    </cc-fade-in>
+    <cc-fade-in delay="80">
+      <span class="lp-eyebrow">Nightly Code Review Dashboard</span>
+    </cc-fade-in>
+    <cc-fade-in delay="160">
+      <h1 class="lp-h1">Every Review.<br>Every Finding.</h1>
+    </cc-fade-in>
+    <cc-fade-in delay="240">
+      <p class="lp-body-lg" style="margin:0 auto;">Browse summaries and learnings from automated nightly code reviews across all your apps. See what was found, what was fixed, and what patterns emerged.</p>
+    </cc-fade-in>
+    <cc-fade-in delay="320">
+      <div class="hero-ctas">
+        <a href="index.html" class="btn-primary">View Reviews →</a>
+        <a href="docs.html" class="btn-ghost">Read Docs</a>
+      </div>
+    </cc-fade-in>
+  </div>
+</cc-parallax>
+
+<!-- Features -->
+<div class="lp-divider"></div>
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">What it does</span>
+    <h2 class="lp-h2">Your Overnight Reviews, Organized</h2>
+    <p class="lp-body">Claudia reviews your apps every night. This dashboard lets you see everything she found — vulnerabilities, patterns, improvements — all in one place.</p>
+  </cc-fade-in>
+  <cc-stagger delay="60">
+    <div class="features-grid">
+      <div class="feature-card glass">
+        <div class="neon-icon neon-blue"><i data-lucide="shield-check"></i></div>
+        <h3>Security Findings</h3>
+        <p>XSS vulnerabilities, missing escaping, unsafe innerHTML — every security issue caught and categorized by severity.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-violet"><i data-lucide="git-pull-request"></i></div>
+        <h3>PR Tracking</h3>
+        <p>Direct links to GitHub PRs with file counts, line diffs, and merge status for every review.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-amber"><i data-lucide="lightbulb"></i></div>
+        <h3>Pattern Learning</h3>
+        <p>Key takeaways from each review — recurring patterns, best practices, and architectural insights.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-green"><i data-lucide="bar-chart-3"></i></div>
+        <h3>Dashboard Stats</h3>
+        <p>Total reviews, findings count, most-reviewed apps, and average file changes at a glance.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-pink"><i data-lucide="filter"></i></div>
+        <h3>Smart Filters</h3>
+        <p>Filter by app, status, review type. Search across summaries and learnings. Three view modes.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-cyan"><i data-lucide="layout-grid"></i></div>
+        <h3>Multiple Views</h3>
+        <p>Cards, list, or expanded view with full findings detail. Pick the density that works for you.</p>
+      </div>
+    </div>
+  </cc-stagger>
+</section>
+
+<!-- How It Works -->
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.15" height="auto">
+  <div class="lp-section">
+    <cc-fade-in>
+      <span class="lp-eyebrow">How it works</span>
+      <h2 class="lp-h2">Automated Review Pipeline</h2>
+      <p class="lp-body">From overnight scan to actionable dashboard — no manual effort required.</p>
+    </cc-fade-in>
+    <div class="steps-list">
+      <cc-fade-in delay="0">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Nightly Scan</h3>
+            <p>Claudia runs automated code reviews on all apps overnight, checking for security issues, code quality, and patterns.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="100">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Findings Stored</h3>
+            <p>Review results — findings, learnings, file diffs — are saved to Supabase with full metadata.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="200">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Browse & Learn</h3>
+            <p>Open the dashboard in the morning. Filter, search, and drill into any review to see exactly what changed.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+    </div>
+  </div>
+</cc-parallax>
+
+<!-- Use Cases -->
+<div class="lp-divider"></div>
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">Who it's for</span>
+    <h2 class="lp-h2">Built for Morning Reviews</h2>
+    <p class="lp-body">Start your day knowing exactly what happened overnight.</p>
+  </cc-fade-in>
+  <cc-stagger delay="80">
+    <div class="use-cases-grid">
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-blue"><i data-lucide="coffee"></i></div>
+        <h3>Morning Check-in</h3>
+        <p>Quick scan of overnight reviews with your coffee. See what Claudia found and fixed while you slept.</p>
+      </div>
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-violet"><i data-lucide="trending-up"></i></div>
+        <h3>Pattern Tracking</h3>
+        <p>Spot recurring issues across apps. Build better habits by learning from review patterns over time.</p>
+      </div>
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-green"><i data-lucide="check-circle"></i></div>
+        <h3>Quality Assurance</h3>
+        <p>Verify that security fixes were applied, PRs were merged, and no critical findings remain open.</p>
+      </div>
+    </div>
+  </cc-stagger>
+</section>
+
+<!-- Final CTA -->
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.18" height="auto">
+  <div class="cta-final">
+    <div class="cta-glow"></div>
+    <cc-fade-in>
+      <span class="lp-eyebrow">Get started</span>
+      <h2 class="lp-h2">See What Claudia Found</h2>
+      <p class="lp-body" style="margin:0 auto 44px;">Your nightly reviews are waiting. Browse findings, learn patterns, ship better code.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;">
+        <a href="index.html" class="btn-primary">View Reviews →</a>
+        <a href="docs.html" class="btn-ghost">Read Docs</a>
+      </div>
+    </cc-fade-in>
+  </div>
+</cc-parallax>
+
+  <!-- Footer -->
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "PR Review Dashboard | Nightly Code Reviews",
+    "description": "Browse automated nightly code reviews across all your apps. See security findings, patterns, GitHub PR tracking, and learnings from overnight scans.",
+    "url": "https://lastrev.com/apps/cc-pr-review",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/apps/cc-pr-review"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    }
+  }
+  </script>
+
+</body>
+</html>

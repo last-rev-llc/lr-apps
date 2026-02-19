@@ -1,0 +1,49 @@
+{
+  "meetingId": "2026-02-12_Daily-Sync-Adam-_-Brad",
+  "topic": "Daily Sync - Adam & Brad",
+  "date": "2026-02-12",
+  "duration": 32,
+  "attendees": ["Adam Harris", "Brad Taylor"],
+  "client": null,
+  "summary": "A shorter sync where Adam shared more Alpha Claw usage including building a 'Superstar' research app for a friend's gala event (found deep YouTube videos and old photos that even the subject had forgotten about), and setting up Supabase for persistent data storage. Brad shared that he set up monitoring for Alpha Claw at 50 cents/month and built an automated Google Ads manager while riding in a car in LA that creates ads, manages budgets, and optimizes based on statistically significant results.\n\nThey discussed Cameron finding a bug where OpenClaw was spawning multiple instances of itself, jamming up ports. Brad mentioned security updates including Docker-in-Docker sandboxing were deployed and wanted to ensure Adam could still build apps. They briefly discussed needing clear pricing/FAQ communication on the Alpha Agent website regarding API costs (e.g., $200/month for heavy usage could be a blocker for individual users like Diana). Brad had to jump to a demo call.",
+  "keyDiscussionPoints": [
+    "Superstar research app demo - deep web research on individuals",
+    "Supabase integration set up for persistent data",
+    "Alpha Claw monitoring set up at $0.50/month",
+    "Automated Google Ads manager built by Brad",
+    "OpenClaw spawning multiple instances bug found by Cameron",
+    "Security updates: Docker-in-Docker sandboxing deployed",
+    "Pricing/FAQ clarity needed on Alpha Agent website for API costs",
+    "Alpha Claw as 'new dopamine fix' - highly engaging tool"
+  ],
+  "decisions": [
+    "Need FAQ/pricing page on Alpha Agent website to clarify API costs",
+    "Brad heading to LA, off Monday (Presidents Day)"
+  ],
+  "actionItems": [
+    {
+      "action": "Investigate and fix OpenClaw port-jamming/multi-instance spawning bug",
+      "owner": "Brad Taylor",
+      "deadline": "",
+      "priority": "high"
+    },
+    {
+      "action": "Add pricing FAQ to Alpha Agent website",
+      "owner": "Brad Taylor",
+      "deadline": "",
+      "priority": "medium"
+    },
+    {
+      "action": "Prepare Alpha Claw demo for IAS Tuesday call",
+      "owner": "Adam Harris",
+      "deadline": "Tuesday 2026-02-17",
+      "priority": "medium"
+    }
+  ],
+  "followUp": [
+    "OpenClaw multi-instance bug fix",
+    "Alpha Agent pricing page",
+    "Tuesday IAS call demo preparation"
+  ],
+  "sentiment": "casual"
+}

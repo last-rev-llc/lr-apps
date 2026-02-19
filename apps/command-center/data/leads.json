@@ -1,0 +1,1848 @@
+{
+  "companies": {
+    "acmehealth.io": {
+      "name": "Acme Health",
+      "domain": "acmehealth.io",
+      "description": "Digital health platform providing telemedicine and patient engagement solutions for mid-size hospital networks.",
+      "industry": "Healthcare Tech",
+      "size": "200-500",
+      "location": "Austin, TX",
+      "techStack": {
+        "cms": "Contentful",
+        "framework": "Next.js",
+        "hosting": "Vercel",
+        "other": [
+          "React",
+          "GraphQL",
+          "Tailwind CSS"
+        ]
+      },
+      "lastRevFit": {
+        "score": 9,
+        "reasons": [
+          "Already on Contentful + Next.js stack",
+          "Needs headless CMS expertise for multi-site rollout",
+          "Budget approved for Q1 replatform"
+        ],
+        "talkingPoints": [
+          "Ask about their patient portal redesign timeline",
+          "Mention Last Rev's healthcare client wins",
+          "Discuss composable architecture benefits for HIPAA compliance"
+        ]
+      },
+      "recentNews": [
+        {
+          "title": "Acme Health Raises $30M Series B",
+          "url": "https://techcrunch.com/example",
+          "date": "2026-01-28"
+        },
+        {
+          "title": "New CTO Hired from Epic Systems",
+          "url": "https://linkedin.com/example",
+          "date": "2026-01-15"
+        }
+      ],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/company/acmehealth",
+        "twitter": "https://twitter.com/acmehealth",
+        "crunchbase": "https://crunchbase.com/organization/acmehealth"
+      },
+      "researchedAt": "2026-02-08T14:30:00Z",
+      "source": "calendar-scan"
+    },
+    "brightedge.com": {
+      "name": "BrightEdge Learning",
+      "domain": "brightedge.com",
+      "description": "Enterprise e-learning platform with 500+ corporate clients. Expanding their marketing site and content hub.",
+      "industry": "EdTech",
+      "size": "100-200",
+      "location": "San Francisco, CA",
+      "techStack": {
+        "cms": "WordPress",
+        "framework": "React",
+        "hosting": "AWS",
+        "other": [
+          "Node.js",
+          "PostgreSQL"
+        ]
+      },
+      "lastRevFit": {
+        "score": 7,
+        "reasons": [
+          "Looking to migrate from WordPress to headless",
+          "React already in their stack",
+          "Mid-size budget, competitive deal"
+        ],
+        "talkingPoints": [
+          "WordPress pain points \u2014 content modeling limitations",
+          "Show Contentful migration case study",
+          "Discuss incremental migration strategy"
+        ]
+      },
+      "recentNews": [
+        {
+          "title": "BrightEdge Partners with Microsoft Teams",
+          "url": "https://edtechdigest.com/example",
+          "date": "2026-02-01"
+        }
+      ],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/company/brightedge-learning",
+        "twitter": "",
+        "crunchbase": ""
+      },
+      "researchedAt": "2026-02-06T10:00:00Z",
+      "source": "manual"
+    },
+    "novafinancial.com": {
+      "name": "Nova Financial Group",
+      "domain": "novafinancial.com",
+      "description": "Wealth management firm with 12 regional offices. Needs unified digital presence across all branches.",
+      "industry": "Financial Services",
+      "size": "500-1000",
+      "location": "Chicago, IL",
+      "techStack": {
+        "cms": "Sitecore",
+        "framework": "Angular",
+        "hosting": "Azure",
+        "other": [
+          ".NET",
+          "SQL Server"
+        ]
+      },
+      "lastRevFit": {
+        "score": 5,
+        "reasons": [
+          "Not on modern JS stack yet",
+          "Large enterprise \u2014 long sales cycle",
+          "Budget exists but tech team prefers .NET"
+        ],
+        "talkingPoints": [
+          "Focus on content velocity improvements",
+          "Discuss Contentful vs Sitecore TCO",
+          "Bring up regulatory compliance features"
+        ]
+      },
+      "recentNews": [],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/company/novafinancial",
+        "twitter": "",
+        "crunchbase": ""
+      },
+      "researchedAt": "2026-02-03T16:45:00Z",
+      "source": "slack"
+    },
+    "peakoutdoors.co": {
+      "name": "Peak Outdoors",
+      "domain": "peakoutdoors.co",
+      "description": "DTC outdoor gear brand with rapid e-commerce growth. Exploring headless commerce + CMS integration.",
+      "industry": "E-Commerce / Retail",
+      "size": "50-100",
+      "location": "Denver, CO",
+      "techStack": {
+        "cms": "Contentful",
+        "framework": "Next.js",
+        "hosting": "Netlify",
+        "other": [
+          "React",
+          "Shopify",
+          "Algolia"
+        ]
+      },
+      "lastRevFit": {
+        "score": 8,
+        "reasons": [
+          "Already on Contentful + Next.js",
+          "Needs help scaling headless commerce",
+          "Fast-moving team, short sales cycle"
+        ],
+        "talkingPoints": [
+          "Discuss composable commerce architecture",
+          "Show e-commerce case studies",
+          "Mention Shopify + Contentful integration expertise"
+        ]
+      },
+      "recentNews": [
+        {
+          "title": "Peak Outdoors Expands to European Markets",
+          "url": "https://retaildive.com/example",
+          "date": "2026-02-05"
+        }
+      ],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/company/peakoutdoors",
+        "twitter": "https://twitter.com/peakoutdoors",
+        "crunchbase": ""
+      },
+      "researchedAt": "2026-02-09T09:15:00Z",
+      "source": "calendar-scan"
+    },
+    "diligent.com": {
+      "name": "Diligent",
+      "domain": "diligent.com",
+      "description": "AI-powered GRC (Governance, Risk & Compliance) and board management SaaS platform. Named a 'Leader' by top 5 analyst firms (Chartis, Forrester, Gartner, IDC, Verdantix). Serves boards and executive teams in 130+ countries for nearly 30 years.",
+      "industry": "Enterprise SaaS / GRC",
+      "size": "1000+",
+      "location": "New York, NY",
+      "techStack": {
+        "cms": "Unknown",
+        "framework": "Unknown",
+        "hosting": "Cloud",
+        "other": [
+          "AI/ML",
+          "SaaS Platform"
+        ]
+      },
+      "lastRevFit": {
+        "score": 6,
+        "reasons": [
+          "Large enterprise with significant web presence needs",
+          "Existing client relationship (recurring project syncs)",
+          "May need headless CMS for marketing/content sites",
+          "Enterprise budget available"
+        ],
+        "talkingPoints": [
+          "Ask about their marketing site architecture and content needs",
+          "Discuss how headless CMS can support their multi-country presence",
+          "Explore if their marketing team has content velocity pain points",
+          "Leverage existing relationship \u2014 focus on expanding scope"
+        ]
+      },
+      "recentNews": [],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/company/diligent-board-member-services",
+        "twitter": "",
+        "crunchbase": ""
+      },
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "source": "calendar-scan"
+    },
+    "kumello.com": {
+      "name": "Kumello",
+      "domain": "kumello.com",
+      "description": "AI-powered medtech partnership platform. Helps manufacturers and distributors of medical, dental & veterinary devices find quality partners with verified contacts and personalized outreach. Analyzes 45,000+ medtech companies.",
+      "industry": "MedTech / AI Platform",
+      "size": "10-50",
+      "location": "Unknown",
+      "techStack": {
+        "cms": "Unknown",
+        "framework": "Unknown",
+        "hosting": "Unknown",
+        "other": [
+          "AI/ML",
+          "SaaS"
+        ]
+      },
+      "lastRevFit": {
+        "score": 4,
+        "reasons": [
+          "Existing AnswerAgent AI client (weekly syncs)",
+          "Small startup \u2014 likely limited web budget",
+          "AI-focused product, not primarily a content/web play",
+          "Could benefit from modern marketing site"
+        ],
+        "talkingPoints": [
+          "Focus on AnswerAgent AI deliverables and relationship",
+          "If web needs arise, offer Last Rev marketing site expertise",
+          "Understand their growth trajectory and funding status"
+        ]
+      },
+      "recentNews": [],
+      "socialLinks": {
+        "linkedin": "",
+        "twitter": "",
+        "crunchbase": ""
+      },
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "source": "calendar-scan"
+    },
+    "integralads.com": {
+      "name": "Integral Ad Science (IAS)",
+      "domain": "integralads.com",
+      "description": "Global leader in digital media measurement and optimization. Provides ad verification, brand safety, fraud detection, and viewability solutions for advertisers, publishers, and platforms. Publicly traded (NASDAQ: IAS).",
+      "industry": "AdTech / Digital Media",
+      "size": "1000+",
+      "location": "New York, NY",
+      "techStack": {
+        "cms": "Unknown",
+        "framework": "Unknown",
+        "hosting": "Cloud",
+        "other": [
+          "AI/ML",
+          "Big Data",
+          "Ad Tech Platform"
+        ]
+      },
+      "lastRevFit": {
+        "score": 7,
+        "reasons": [
+          "Major existing client with multiple recurring syncs (weekly sync, exec alignment, AnswerAgent)",
+          "Large enterprise with significant web/content needs",
+          "Active AnswerAgent AI engagement shows trust in Last Rev",
+          "Public company with enterprise budget"
+        ],
+        "talkingPoints": [
+          "Deepen existing relationship \u2014 ask about web platform roadmap",
+          "Discuss content management for their marketing site and help center",
+          "Explore headless CMS for their multi-product content needs",
+          "Leverage AnswerAgent success to expand into web services"
+        ]
+      },
+      "recentNews": [
+        {
+          "title": "IAS 2026 Industry Pulse Report Released",
+          "url": "https://integralads.com/insider/the-2026-industry-pulse-report/",
+          "date": "2026-02-01"
+        }
+      ],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/company/integralads",
+        "twitter": "",
+        "crunchbase": ""
+      },
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "source": "calendar-scan"
+    },
+    "livelyme.com": {
+      "name": "Lively",
+      "domain": "livelyme.com",
+      "description": "Modern employee benefits platform specializing in HSA (Health Savings Accounts), FSA, and flexible benefits for employers and brokers. Top-rated on G2, 98% employer retention rate. Features AI chatbot support.",
+      "industry": "FinTech / Benefits",
+      "size": "100-500",
+      "location": "San Francisco, CA",
+      "techStack": {
+        "cms": "Unknown",
+        "framework": "Unknown",
+        "hosting": "Unknown",
+        "other": [
+          "AI Chatbot",
+          "FinTech Platform"
+        ]
+      },
+      "lastRevFit": {
+        "score": 6,
+        "reasons": [
+          "Existing client relationship (recurring bi-weekly syncs)",
+          "Growing fintech with modern tech sensibility",
+          "Marketing site could benefit from headless CMS",
+          "AI chatbot interest aligns with Last Rev AI capabilities"
+        ],
+        "talkingPoints": [
+          "Explore their marketing site and content management pain points",
+          "Discuss headless CMS for their employer/broker/individual audience segments",
+          "Ask about their content team's workflow and publishing speed",
+          "Leverage existing relationship to propose site improvements"
+        ]
+      },
+      "recentNews": [],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/company/livelyme",
+        "twitter": "",
+        "crunchbase": ""
+      },
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "source": "calendar-scan"
+    },
+    "impossiblefoods.com": {
+      "name": "Impossible Foods",
+      "domain": "impossiblefoods.com",
+      "description": "Plant-based meat company producing alternatives to animal-derived foods. Major consumer brand with products in thousands of grocery stores and restaurants. Uses technologies including NGINX, Amazon/AWS, Cloudflare.",
+      "industry": "Food Tech / CPG",
+      "size": "500-1000",
+      "location": "Redwood City, CA",
+      "techStack": {
+        "cms": "Unknown",
+        "framework": "Unknown",
+        "hosting": "AWS + Cloudflare",
+        "other": [
+          "NGINX",
+          "Adobe Creative Suite"
+        ]
+      },
+      "lastRevFit": {
+        "score": 7,
+        "reasons": [
+          "Major consumer brand with complex content needs",
+          "Multi-channel marketing (recipes, retail locator, brand storytelling)",
+          "Likely needs modern CMS for content velocity",
+          "Enterprise budget available"
+        ],
+        "talkingPoints": [
+          "Ask about their website platform and content management challenges",
+          "Discuss how headless CMS enables faster content publishing for CPG brands",
+          "Mention experience with consumer brand websites and e-commerce",
+          "Explore recipe content, store locator, and brand storytelling needs"
+        ]
+      },
+      "recentNews": [],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/company/impossible-foods",
+        "twitter": "",
+        "crunchbase": "https://crunchbase.com/organization/impossible-foods"
+      },
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "source": "calendar-scan"
+    },
+    "wowinc.com": {
+      "name": "WOW! (WideOpenWest)",
+      "domain": "wowinc.com",
+      "description": "8th largest cable operator in the US. Provides internet, cable TV, and phone services. Network passes 1.9 million homes/businesses with 538K+ subscribers. ~2,200 employees, ~$719M revenue.",
+      "industry": "Telecommunications",
+      "size": "2000+",
+      "location": "Englewood, CO",
+      "techStack": {
+        "cms": "Unknown",
+        "framework": "Unknown",
+        "hosting": "Unknown",
+        "other": [
+          "Telecom Infrastructure"
+        ]
+      },
+      "lastRevFit": {
+        "score": 6,
+        "reasons": [
+          "Existing client (bi-weekly status and demo calls)",
+          "Large telecom with significant web presence",
+          "Consumer-facing site needs modern performance",
+          "Enterprise budget available"
+        ],
+        "talkingPoints": [
+          "Focus on current project deliverables and expanding scope",
+          "Discuss website performance and customer experience improvements",
+          "Explore headless CMS for their multi-product content (internet, TV, phone)",
+          "Ask about their digital marketing team's content workflow"
+        ]
+      },
+      "recentNews": [],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/company/waboroadband",
+        "twitter": "",
+        "crunchbase": ""
+      },
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "source": "calendar-scan"
+    },
+    "theanswer.ai": {
+      "name": "AnswerAI (AnswerAgentAI)",
+      "domain": "theanswer.ai",
+      "description": "AI agent platform that connects enterprise data, builds agents, and delivers insights. Products include AnswerAgent for automated ticket triage, daily briefings, and OKR dashboards. Co-founded by Brad Taylor. Sister product/company to Last Rev.",
+      "industry": "AI / SaaS",
+      "size": "2-10",
+      "location": "San Francisco, CA",
+      "techStack": {
+        "cms": "Unknown",
+        "framework": "Flowise / Node.js",
+        "hosting": "AWS (S3, custom infra)",
+        "other": [
+          "AI/ML",
+          "Langfuse",
+          "Okta",
+          "SaaS Platform"
+        ]
+      },
+      "lastRevFit": {
+        "score": 10,
+        "reasons": [
+          "Internal/sister product \u2014 Brad Taylor is co-founder and LR team member",
+          "LR engineers actively build and maintain the platform",
+          "Shared infrastructure and team"
+        ],
+        "talkingPoints": [
+          "Internal product sync \u2014 focus on roadmap and deliverables",
+          "Client deployment status (IAS, Kumello, WOW, etc.)",
+          "Platform engineering priorities"
+        ]
+      },
+      "recentNews": [],
+      "socialLinks": {
+        "linkedin": "https://linkedin.com/company/answerai",
+        "twitter": "",
+        "crunchbase": ""
+      },
+      "researchedAt": "2026-02-12T19:25:00Z",
+      "source": "calendar-scan"
+    }
+  },
+  "people": {
+    "sarah.chen@acmehealth.io": {
+      "name": "Sarah Chen",
+      "email": "sarah.chen@acmehealth.io",
+      "company": "acmehealth.io",
+      "title": "VP of Engineering",
+      "linkedinUrl": "https://linkedin.com/in/sarahchen",
+      "background": "15 years in healthcare tech, previously at Epic Systems. Led migration to microservices architecture.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Headless CMS scalability",
+        "HIPAA-compliant content delivery",
+        "Multi-site architecture"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-08T14:30:00Z",
+      "slackContext": "No Slack mentions found \u2014 prospective lead, no existing relationship.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Net-new prospect. No prior interactions found across Slack, Drive, or Zoom. First contact will be the upcoming intro call."
+    },
+    "mike.rodriguez@acmehealth.io": {
+      "name": "Mike Rodriguez",
+      "email": "mike.rodriguez@acmehealth.io",
+      "company": "acmehealth.io",
+      "title": "Director of Digital Products",
+      "linkedinUrl": "https://linkedin.com/in/mikerodriguez",
+      "background": "Product leader focused on patient experience. Advocates for modern web stack.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Content personalization",
+        "A/B testing with headless",
+        "Patient portal UX"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-08T14:30:00Z",
+      "slackContext": "No Slack mentions found \u2014 prospective lead.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Net-new prospect. No prior interactions found."
+    },
+    "lisa.park@acmehealth.io": {
+      "name": "Lisa Park",
+      "email": "lisa.park@acmehealth.io",
+      "company": "acmehealth.io",
+      "title": "CTO",
+      "linkedinUrl": "https://linkedin.com/in/lisapark",
+      "background": "Newly hired from Epic Systems. Strong advocate for cloud-native architecture.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Cloud architecture",
+        "Platform modernization",
+        "Vendor evaluation criteria"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-08T14:30:00Z",
+      "slackContext": "No Slack mentions found \u2014 prospective lead.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Net-new prospect. No prior interactions found."
+    },
+    "james.wright@brightedge.com": {
+      "name": "James Wright",
+      "email": "james.wright@brightedge.com",
+      "company": "brightedge.com",
+      "title": "Head of Marketing",
+      "linkedinUrl": "https://linkedin.com/in/jameswright",
+      "background": "Marketing leader driving content strategy overhaul. Frustrated with WordPress limitations.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Content operations efficiency",
+        "WordPress migration path",
+        "Marketing site performance"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-06T10:00:00Z",
+      "slackContext": "No Slack mentions found \u2014 prospective lead.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Net-new prospect. No prior interactions found."
+    },
+    "anna.kim@brightedge.com": {
+      "name": "Anna Kim",
+      "email": "anna.kim@brightedge.com",
+      "company": "brightedge.com",
+      "title": "Senior Frontend Developer",
+      "linkedinUrl": "https://linkedin.com/in/annakim",
+      "background": "React specialist. Building internal component library. Would be key technical evaluator.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "React component architecture",
+        "Contentful SDK",
+        "Developer experience"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-06T10:00:00Z",
+      "slackContext": "2 Slack mentions \u2014 referenced in Google Drive context only, no direct conversations.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Minimal presence. 2 incidental Slack mentions. No substantive interactions found."
+    },
+    "david.chen@novafinancial.com": {
+      "name": "David Chen",
+      "email": "david.chen@novafinancial.com",
+      "company": "novafinancial.com",
+      "title": "Chief Digital Officer",
+      "linkedinUrl": "https://linkedin.com/in/davidchen",
+      "background": "Driving digital transformation initiative. Reports directly to CEO.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Digital transformation ROI",
+        "Multi-brand management",
+        "Compliance content workflows"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-03T16:45:00Z",
+      "slackContext": "No Slack mentions found \u2014 prospective lead.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Net-new prospect. No prior interactions found."
+    },
+    "rachel.green@novafinancial.com": {
+      "name": "Rachel Green",
+      "email": "rachel.green@novafinancial.com",
+      "company": "novafinancial.com",
+      "title": "IT Director",
+      "linkedinUrl": "https://linkedin.com/in/rachelgreen",
+      "background": "Manages all web properties. Concerned about migration complexity from Sitecore.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Sitecore to headless migration",
+        "Azure integration",
+        "Training and onboarding"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-03T16:45:00Z",
+      "slackContext": "No Slack mentions found \u2014 prospective lead.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Net-new prospect. No prior interactions found."
+    },
+    "tom.baker@peakoutdoors.co": {
+      "name": "Tom Baker",
+      "email": "tom.baker@peakoutdoors.co",
+      "company": "peakoutdoors.co",
+      "title": "CTO",
+      "linkedinUrl": "https://linkedin.com/in/tombaker",
+      "background": "Full-stack engineer turned CTO. Built current Next.js + Contentful stack. Looking for help scaling.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Scaling headless commerce",
+        "Performance optimization",
+        "ISR and edge caching"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-09T09:15:00Z",
+      "slackContext": "No Slack mentions found \u2014 prospective lead.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Net-new prospect. No prior interactions found."
+    },
+    "emily.jones@peakoutdoors.co": {
+      "name": "Emily Jones",
+      "email": "emily.jones@peakoutdoors.co",
+      "company": "peakoutdoors.co",
+      "title": "Head of E-Commerce",
+      "linkedinUrl": "https://linkedin.com/in/emilyjones",
+      "background": "Manages Shopify integration and product catalog. Key stakeholder for commerce features.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Shopify headless integration",
+        "Product content management",
+        "International commerce"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-09T09:15:00Z",
+      "slackContext": "No Slack mentions found \u2014 prospective lead.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Net-new prospect. No prior interactions found."
+    },
+    "dnorton@diligent.com": {
+      "name": "Derek Norton",
+      "email": "dnorton@diligent.com",
+      "company": "diligent.com",
+      "title": "Web Manager",
+      "linkedinUrl": "",
+      "background": "Diligent team member attending LR office hours and project sync meetings. Regular touchpoint with Last Rev.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Current project status",
+        "Upcoming deliverables",
+        "Expand engagement scope"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "18 Slack mentions. Identified as Web Manager at Diligent. Active in #diligent-lr-external and #diligent-internal. Invited LR team to Sanity.io for diligent-marketing-web. Key web operations contact.",
+      "driveRefs": [
+        "billing---all-3-months-ago-worklogs (16uCZdST0Ukz_FMqRAov1fO5p0sGNZiwm)"
+      ],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Active client contact. Web Manager at Diligent \u2014 manages Sanity CMS and web properties. Invited LR team to Sanity.io. Regular attendee of LR office hours and project syncs."
+    },
+    "acrehan@diligent.com": {
+      "name": "Alan Crehan",
+      "email": "acrehan@diligent.com",
+      "company": "diligent.com",
+      "title": "Brand/Design Lead",
+      "linkedinUrl": "",
+      "background": "Diligent team member on weekly project sync. Accepted meeting invites \u2014 likely active project stakeholder.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Project deliverables",
+        "Timeline and milestones"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "7 Slack mentions. Invited LR team to Figma for Diligent Brand design system. Involved in training/transition discussions. Key design/brand stakeholder.",
+      "driveRefs": [
+        "billing---all-2-months-ago-worklogs (1wp2G7yBqXWFXNWvR7l7tLLnJlnQnKPDV)"
+      ],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Active client contact. Owns Diligent Brand in Figma \u2014 design/brand stakeholder. Involved in training discussions with LR team."
+    },
+    "adcohen@diligent.com": {
+      "name": "Adam Cohen",
+      "email": "adcohen@diligent.com",
+      "company": "diligent.com",
+      "title": "Project Lead / Migration Coordinator",
+      "linkedinUrl": "",
+      "background": "Diligent team member on weekly project sync. Accepted meeting invites.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Project deliverables",
+        "Technical requirements"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "110 Slack mentions. Very active in #diligent-lr-external \u2014 primary client communicator. Discusses migration to-do list, UKI region expansion, adding team members. Coordinates with Sarah Freedman on UKI. Prefers email alongside Slack.",
+      "driveRefs": [
+        "redirects.csv (1YyLE-y5GiiiY48SCbGkC6BSwV1mq1lmp)"
+      ],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [
+          "Leading UKI region expansion",
+          "Primary migration coordinator",
+          "Prefers multi-channel communication"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Most active Diligent contact (110+ Slack messages). Primary coordinator for the Diligent-LR relationship \u2014 manages migration tasks, coordinates team access, and drives UKI region expansion."
+    },
+    "jhabib@diligent.com": {
+      "name": "John Habib",
+      "email": "jhabib@diligent.com",
+      "company": "diligent.com",
+      "title": "Content/Video Specialist",
+      "linkedinUrl": "",
+      "background": "Diligent team member on weekly project sync. Tentative RSVP \u2014 may attend selectively.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Project status",
+        "Requirements gathering"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "8 Slack mentions. Added to project invites by Adam Cohen. Provided Vidyard video content for Diligent AI Risk Essentials.",
+      "driveRefs": [
+        "redirects.csv (1YyLE-y5GiiiY48SCbGkC6BSwV1mq1lmp)"
+      ],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [
+          "Manages video content for AI Risk Essentials product"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Diligent content/video contributor. Provides Vidyard videos for product pages. Selective meeting attendee."
+    },
+    "abryon@diligent.com": {
+      "name": "Aled Bryon",
+      "email": "abryon@diligent.com",
+      "company": "diligent.com",
+      "title": "Content Strategist / Taxonomy Lead",
+      "linkedinUrl": "",
+      "background": "Diligent team member on weekly project sync.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Project deliverables"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "69 Slack mentions. Very active in #diligent-lr-external \u2014 drives taxonomy/tagging strategy, content categorization, and industry page creation. Shares Google Docs and spreadsheets. Friendly, professional tone.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Professional, detail-oriented. Proactive follow-ups on bugs and content tasks.",
+        "keyPositions": [
+          "Owns taxonomy and content categorization strategy",
+          "Drives industry page creation"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Highly active Diligent contact (69 Slack messages). Owns content taxonomy and categorization. Regularly shares docs and follows up on deliverables. Strong working relationship with Krista."
+    },
+    "robert.bast@kumello.com": {
+      "name": "Robert Bast",
+      "email": "robert.bast@kumello.com",
+      "company": "kumello.com",
+      "title": "Founder/Executive",
+      "linkedinUrl": "",
+      "background": "Kumello team member on weekly AnswerAgent AI sync. Accepted meeting invites \u2014 likely key stakeholder.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "AnswerAgent AI progress and roadmap",
+        "Platform development milestones",
+        "Partnership expansion opportunities"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "30 Slack mentions. Active in #kumello-lasrev-external. Communicates directly with Brad Taylor and Adam Harris. Discusses system prompt changes, LLM training docs, and timeline expectations.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Business-focused, collaborative. Sends documents proactively. Sets clear timeline expectations.",
+        "keyPositions": [
+          "Leads system prompt and LLM training direction",
+          "Primary AI product decision-maker"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Key Kumello stakeholder and likely founder (30 Slack mentions). Direct line to Adam and Brad. Drives AnswerAgent AI direction including system prompts, LLM training, and feature priorities."
+    },
+    "roberto.ramesar@kumello.com": {
+      "name": "Roberto Ramesar",
+      "email": "roberto.ramesar@kumello.com",
+      "company": "kumello.com",
+      "title": "Unknown",
+      "linkedinUrl": "",
+      "background": "Kumello team member on weekly AnswerAgent AI sync.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "AnswerAgent AI deliverables",
+        "Technical requirements"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "Minimal Slack presence (1 mention). Handles scheduling/logistics.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Kumello operations contact. Handles meeting scheduling. Limited direct technical involvement."
+    },
+    "eugene.gusarov@kumello.com": {
+      "name": "Eugene Gusarov",
+      "email": "eugene.gusarov@kumello.com",
+      "company": "kumello.com",
+      "title": "Technical Lead",
+      "linkedinUrl": "",
+      "background": "Kumello team member on weekly AnswerAgent AI sync.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Technical implementation",
+        "AI platform architecture"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "37 Slack mentions. Technical contributor \u2014 discusses MDX response format, streaming UI, custom fields, and API integration with AnswerAgent.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Technical, solution-oriented. Asks specific implementation questions.",
+        "keyPositions": [
+          "Primary technical implementer on Kumello side",
+          "Drives API integration decisions"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Key technical contact at Kumello (37 mentions). Implements AnswerAgent integration \u2014 MDX responses, streaming UI, company ID mapping. Direct counterpart to LR engineering."
+    },
+    "nadia.merola@kumello.com": {
+      "name": "Nadia Merola",
+      "email": "nadia.merola@kumello.com",
+      "company": "kumello.com",
+      "title": "QA / Evaluation Lead",
+      "linkedinUrl": "",
+      "background": "Kumello team member on weekly AnswerAgent AI sync.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Project updates",
+        "Deliverable review"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "26 Slack mentions. Reports QA issues (save/revert bugs, annotation problems). Leads scoring evaluation. Raised concerns about limited training data producing poor results.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Detail-oriented QA mindset. Reports issues with clear reproduction steps.",
+        "keyPositions": [
+          "Leads AI quality scoring and evaluation",
+          "Primary QA and feedback provider"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "QA and evaluation lead at Kumello (26 mentions). Tests AnswerAgent outputs, reports bugs, evaluates quality. Flagged that limited training data (7 companies) produces poor results."
+    },
+    "mark.bailey@kumello.com": {
+      "name": "Mark Bailey",
+      "email": "mark.bailey@kumello.com",
+      "company": "kumello.com",
+      "title": "Unknown",
+      "linkedinUrl": "",
+      "background": "Kumello team member on weekly AnswerAgent AI sync. Needs action on RSVP.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Project updates"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "Referenced in Kumello context but no direct messages found.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Kumello team member on weekly syncs. Limited direct engagement \u2014 participates primarily in meetings."
+    },
+    "arelan@integralads.com": {
+      "name": "Aakash Relan",
+      "email": "arelan@integralads.com",
+      "company": "integralads.com",
+      "title": "Director, Business Transformation",
+      "linkedinUrl": "https://www.linkedin.com/in/arelan/",
+      "background": "Results-oriented leader focused on business transformation through technology. Dedicated to advancing structured program management and operational improvement. Previously at PMI, CERTIFi by Mercy University, Deel, and Tripadvisor. Education: University of Connecticut. Certifications: Cornell program, PMP (likely), ITIL Foundation (EXIN), Six Sigma (AIGPE). Member of Harvard Business Review Advisory Council (since Aug 2024). Volunteer mentor at UConn Husky Mentor Network.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Strategic alignment on AnswerAgent AI",
+        "Business transformation / process improvement",
+        "Program management methodology",
+        "Expanding Last Rev engagement",
+        "IAS web platform needs"
+      ],
+      "socialLinks": {
+        "linkedin": "https://www.linkedin.com/in/arelan/"
+      },
+      "researchedAt": "2026-02-13T17:50:00Z",
+      "slackContext": "326 mentions in IAS context. Active in #answeragent-ias-lr-external. Asks detailed questions about Langfuse data (traces, analytics). References Jira tickets. Key exec stakeholder.",
+      "driveRefs": [
+        "AAI Backlog (1kOwUPMpLcLc4XUxNkvil_vyDOWz4RvFQge0MM8Qjic4)",
+        "AAI Plan (1zdB87r7ctwZjnwAKG8FcdWHP7ntIwtl-Yrr-kU_0UhE)",
+        "Fiddler Guardrails Prd.docx (1_Pnq4T_oPP92T8GEyoueANRh9A6oeQ13)",
+        "KMO Transition - Working Document (1228YUcFkDoT8ramc_8O-Cwd2rj3WmiGyLMgtaX1FnKU)"
+      ],
+      "zoomInsights": {
+        "meetingCount": 1,
+        "communicationStyle": "Analytical, data-driven. Asks precise questions about metrics and definitions.",
+        "keyPositions": [
+          "Drives AnswerAgent AI strategy at IAS",
+          "Focused on analytics/Langfuse data",
+          "Key decision-maker for AI direction"
+        ],
+        "lastMeetingDate": "2026-02-05"
+      },
+      "relationshipHistory": "Top IAS stakeholder (326 mentions, 4 Drive docs). Attends exec strategic alignment AND weekly calls. Data-driven leader. Central to the IAS-LR AI partnership.",
+      "location": "Austin, TX",
+      "education": "University of Connecticut",
+      "certifications": [
+        "Cornell University program",
+        "PMP (likely)",
+        "ITIL Foundation (EXIN)",
+        "Six Sigma (AIGPE)"
+      ],
+      "careerHistory": [
+        {
+          "company": "Integral Ad Science",
+          "role": "Director, Business Transformation",
+          "current": true
+        },
+        {
+          "company": "Project Management Institute (PMI)",
+          "role": "Previous"
+        },
+        {
+          "company": "CERTIFi by Mercy University",
+          "role": "Previous"
+        },
+        {
+          "company": "Deel",
+          "role": "Previous"
+        },
+        {
+          "company": "Tripadvisor",
+          "role": "Previous"
+        }
+      ]
+    },
+    "nflores@integralads.com": {
+      "name": "Nicole Flores",
+      "email": "nflores@integralads.com",
+      "company": "integralads.com",
+      "title": "Project Manager / Operations",
+      "linkedinUrl": "",
+      "background": "IAS team member on weekly sync calls. Accepted invites \u2014 regular project touchpoint.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Weekly project status",
+        "Deliverable review"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "835 mentions in IAS context. Active in #answeragent-ias-lr-external. Shares IT ticket links, helps with access/security issues.",
+      "driveRefs": [
+        "KMO Backlog & Ideas - H2 2024 (1Eo4cku12xcPfl3GiW7XV3SpSj2V7R2ajr7EiHFKC9-k)",
+        "IAS - AAI POC Evaluation (1Hkl3BLzPTvqJvigYUT1RYLOe6Rr-F2XU9A62n3lb9t0)",
+        "IAS - Sidekick POC Setup Instructions.docx (1gxnKsetw_R_EQJazhT5pR_L7EV7I_0iL)"
+      ],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Operational, action-oriented. Shares links and facilitates access.",
+        "keyPositions": [
+          "Manages IAS IT/security coordination",
+          "Involved in POC evaluation"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Highest-volume IAS contact (835 mentions). PM/ops role \u2014 handles IT access, security, POC evaluation. Essential for day-to-day execution."
+    },
+    "sinman@integralads.com": {
+      "name": "Santhosh Inman",
+      "email": "sinman@integralads.com",
+      "company": "integralads.com",
+      "title": "Product User / Technical Contact",
+      "linkedinUrl": "",
+      "background": "IAS team member on weekly sync and AnswerAgent calls. Accepted invites.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Project updates",
+        "Technical requirements"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "585 mentions in IAS context. Helps with access issues (password resets, Studio access). Requests feature enablement. Hands-on product user.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Direct, action-oriented. Makes clear feature requests.",
+        "keyPositions": [
+          "Hands-on AnswerAgent product user",
+          "Requests feature enablement"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Very active IAS contact (585 mentions). Hands-on product user who reports issues and requests features. Key voice for product feedback."
+    },
+    "bdegenaars@integralads.com": {
+      "name": "Brad Degenaars",
+      "email": "bdegenaars@integralads.com",
+      "company": "integralads.com",
+      "title": "Stakeholder (ramping up)",
+      "linkedinUrl": "",
+      "background": "IAS team member on exec strategic alignment and AnswerAgent weekly calls.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Strategic alignment",
+        "Project deliverables"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "4 Slack mentions. Relatively new to bi-weekly meetings. Active in #answeragent-ias-lr-external and #ias-aai-support.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 1,
+        "communicationStyle": "New stakeholder, still ramping up.",
+        "keyPositions": [],
+        "lastMeetingDate": "2026-02-05"
+      },
+      "relationshipHistory": "Newer IAS stakeholder. Recently joined bi-weekly meetings. Attends exec strategic alignment calls. Building relationship with LR team."
+    },
+    "emily.wolfe@livelyme.com": {
+      "name": "Emily Wolfe",
+      "email": "emily.wolfe@livelyme.com",
+      "company": "livelyme.com",
+      "title": "VP of Growth Marketing",
+      "linkedinUrl": "https://linkedin.com/in/emilywolfe",
+      "background": "Digital marketing leader with analytics focus. Previously Senior Director of Growth Marketing and Analytics at Collective Health. Based in Boston. Boston University alum.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Marketing site performance and conversion optimization",
+        "Content management workflow for growth marketing",
+        "Analytics and A/B testing infrastructure",
+        "Headless CMS benefits for marketing agility"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "437 mentions in Lively context. Referenced extensively in #lively-internal. Krista escalates her requests to Cam. Expressed 'sticker shock' at pricing \u2014 price sensitivity is a key factor.",
+      "driveRefs": [
+        "Lively slide deck master template (1nTGP5XbSAo9zp8IF4sv4x5rbL3adcEtT6OnxnrTgbBE)",
+        "AnswerAI Target Accounts (1O0pz8CiTlKIWc6SGzn3I-Z8GsbrXIzRSrkFYjgyhvPw)"
+      ],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Results-oriented, budget-conscious. Quick email responder.",
+        "keyPositions": [
+          "Price-sensitive \u2014 expressed sticker shock at proposals",
+          "Key decision-maker for Lively marketing spend"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Primary Lively decision-maker (437 mentions). VP Growth Marketing who expressed sticker shock at LR pricing \u2014 handle budget discussions carefully. Quick email responder. Strong relationship with Krista."
+    },
+    "carlos.hergueta@livelyme.com": {
+      "name": "Carlos Hergueta",
+      "email": "carlos.hergueta@livelyme.com",
+      "company": "livelyme.com",
+      "title": "Marketing/Analytics Implementation",
+      "linkedinUrl": "",
+      "background": "Lively team member on recurring Last Rev sync calls.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Project deliverables",
+        "Technical requirements"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "483 mentions in Lively context. Reaches out directly for technical issues. Involved in head tag placement and tracking code discussions.",
+      "driveRefs": [
+        "Marketing Strategy FY 2024 (1JmPr17AK2sYuGMgFJvhJiflHQzoeMShOVNj750Ruj6k)"
+      ],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Technical, proactive about issues.",
+        "keyPositions": [
+          "Manages website tracking and analytics implementation"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Very active Lively contact (483 mentions). Handles tracking codes, head tags, analytics setup. Direct communicator. Referenced in Marketing Strategy FY 2024."
+    },
+    "ashley.meyer@livelyme.com": {
+      "name": "Ashley Meyer",
+      "email": "ashley.meyer@livelyme.com",
+      "company": "livelyme.com",
+      "title": "Unknown",
+      "linkedinUrl": "",
+      "background": "Lively team member on recurring Last Rev sync calls.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Project updates",
+        "Content and design needs"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "Referenced in Lively context. Part of recurring LR sync calls.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Lively team member on recurring sync calls. Limited direct Slack engagement."
+    },
+    "caitlyn.hatman@impossiblefoods.com": {
+      "name": "Caitlyn Hatman",
+      "email": "caitlyn.hatman@impossiblefoods.com",
+      "company": "impossiblefoods.com",
+      "title": "Director, Integrated Marketing",
+      "linkedinUrl": "https://linkedin.com/in/caitlyn-hatman-90481828",
+      "background": "Marketing leader at Impossible Foods, previously held Growth Marketing Manager role. Prior experience at Grand Rounds, Inc. Based in San Francisco Bay Area. Michigan State University alum.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Website content management and publishing speed",
+        "Integrated marketing campaign needs across channels",
+        "Headless CMS for recipe content and brand storytelling",
+        "Marketing technology stack modernization"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "40 Slack mentions. Wants background info before committing to changes (cautious decision-maker). Kim Stephens coordinates with her on approvals.",
+      "driveRefs": [
+        "Q1 2020 Web Priorities - Status Tracker (1yqnlyftH9CBJ1REQ0tCVKUny_vlRPlFEzqa9aW3bPtI)",
+        "Air Traffic Control / Company Moments Calendar (194lidPctXrmMZjaKm8xx2cBK__daEPmb-AgifqQOD7I)"
+      ],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Cautious, wants full context before decisions.",
+        "keyPositions": [
+          "Final approver for web changes",
+          "Wants background info before committing"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Key IF decision-maker (40 mentions). Cautious approver \u2014 wants full background before changes. Kim Stephens acts as her coordinator."
+    },
+    "kim.stephens2@impossiblefoods.com": {
+      "name": "Kim Stephens",
+      "email": "kim.stephens2@impossiblefoods.com",
+      "company": "impossiblefoods.com",
+      "title": "Project Coordinator",
+      "linkedinUrl": "",
+      "background": "Impossible Foods team member on Last Rev sync calls.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Project requirements",
+        "Content and marketing needs"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "167 Slack mentions. Active coordinator between IF and LR. Relays Caitlyn's direction. Works closely with Krista on support tickets.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Operational, clear communicator. Relays decisions efficiently.",
+        "keyPositions": [
+          "Primary day-to-day coordinator",
+          "Relays Caitlyn's decisions to LR"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Primary IF operational contact (167 mentions). Coordinates between Caitlyn and LR. Clear communicator. Strong relationship with Krista."
+    },
+    "jd.belshe@wowinc.com": {
+      "name": "JD Belshe",
+      "email": "jd.belshe@wowinc.com",
+      "company": "wowinc.com",
+      "title": "Director, Digital Marketing",
+      "linkedinUrl": "https://linkedin.com/in/jd-belshe-a21a6a87",
+      "background": "Digital marketing leader at WOW! (WideOpenWest). Previously Senior Manager, Digital Marketing at WOW!. Based in Denver. University of Colorado Denver alum.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Digital marketing platform and CMS needs",
+        "Website performance and conversion optimization",
+        "Content management for multi-product offerings",
+        "Marketing automation and personalization"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "1,119 Slack mentions \u2014 highest volume across ALL contacts. Active across #wow-internal, #wow-lastrev-external, and support. Reports address lookup issues, AnswerAI dashboard access. Very hands-on.",
+      "driveRefs": [
+        "AnswerAI Target Accounts (1O0pz8CiTlKIWc6SGzn3I-Z8GsbrXIzRSrkFYjgyhvPw)",
+        "tickets_data.csv (1l086WXzpqdh-m0q8yZBZjQOHowQgLN0L)",
+        "Website Fonts (1RcpkDmnbHacJ74r3QztpPbdcSuHmhFwH)",
+        "Business LPs Updates (1bOhVX6THatWUBUfuan2o2lmcAUObf2spu7NRfyfqh-c)"
+      ],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Hands-on, detail-oriented. Reports specific issues. Proactive communicator.",
+        "keyPositions": [
+          "Primary WOW stakeholder for all web/digital",
+          "AnswerAI power user",
+          "Drives landing page updates"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Most active contact across ALL clients (1,119 mentions). Deeply engaged in day-to-day ops \u2014 address lookups, AnswerAI, landing pages, fonts, support. Long-standing relationship."
+    },
+    "bethany.chuang@wowinc.com": {
+      "name": "Bethany Chuang",
+      "email": "bethany.chuang@wowinc.com",
+      "company": "wowinc.com",
+      "title": "Digital Marketing Manager",
+      "linkedinUrl": "",
+      "background": "Digital Marketing Manager at WOW! Internet, Cable & Phone. Based in Denver area. Works in telecommunications industry.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Day-to-day content management workflow",
+        "Campaign landing page needs",
+        "Content publishing speed and efficiency"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "slackContext": "13 Slack mentions. Handles invoicing \u2014 CRITICAL: send WOW invoices ONLY to Bethany, not to AP.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [
+          "Controls WOW invoice processing \u2014 must receive all LR invoices directly"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "WOW operations/finance contact (13 mentions). Key detail: all LR invoices must go to Bethany directly, NOT to AP. Attends bi-weekly status calls."
+    },
+    "skabotra@diligent.com": {
+      "name": "Simran Kabotra",
+      "email": "skabotra@diligent.com",
+      "company": "diligent.com",
+      "title": "Content Team Member",
+      "linkedinUrl": "",
+      "background": "Diligent content team member. Had Sanity CMS access previously, works on populating role pages. Reports content entry issues.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Content entry workflow",
+        "Sanity CMS usage"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-12T07:21:00Z",
+      "slackContext": "4 Slack mentions. Colleague of Aled Bryon in content team. Had Sanity access issues. Reports video URL and content entry errors. Declined current project sync.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Diligent content team member. Works on role pages in Sanity. Has had access/error issues. Declined most recent project sync."
+    },
+    "amorris@diligent.com": {
+      "name": "A. Morris",
+      "email": "amorris@diligent.com",
+      "company": "diligent.com",
+      "title": "Unknown",
+      "linkedinUrl": "",
+      "background": "Diligent team member invited to project sync. Declined attendance.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Project deliverables"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-12T07:21:00Z",
+      "slackContext": "Minimal Slack presence. Referenced in Diligent context but limited direct engagement.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Diligent team member. Declined recent project sync meetings. Limited direct interaction with LR."
+    },
+    "patrick@livelyme.com": {
+      "name": "Patrick",
+      "email": "patrick@livelyme.com",
+      "company": "livelyme.com",
+      "title": "Web/Content Team",
+      "linkedinUrl": "",
+      "background": "Lively team member. Reports blog/website bugs and provides QA feedback on livelyme.com.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Blog and search functionality",
+        "Website QA and bugs"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-12T07:21:00Z",
+      "slackContext": "Multiple Slack mentions. Reports specific website bugs \u2014 blog author hyperlinks, search result issues. Hands-on QA contributor. Declined current Lively <> LR sync.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Lively web/content team. Active bug reporter for livelyme.com. Declined most recent sync meeting."
+    },
+    "max@theanswer.ai": {
+      "name": "Max Techera",
+      "email": "max@theanswer.ai",
+      "company": "theanswer.ai",
+      "title": "Engineer / Platform Lead",
+      "linkedinUrl": "",
+      "background": "Technical team member at AnswerAI. Works on Flowise platform, studio.theanswer.ai, Okta integration, S3/CORS configuration, and client deployments (IAS staging/prod). Slack ID: U016EJ5H1SA.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Platform engineering updates",
+        "Client deployment status",
+        "Infrastructure and DevOps items"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-12T19:25:00Z",
+      "slackContext": "Active in #aai-internal and #answeragent-ias-lr-external. Works on studio.theanswer.ai, Flowise, Okta SSO setup, S3 CORS. Handles IAS staging/prod deployments. Collaborates closely with Cameron and Brad Taylor.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Technical, hands-on. Shares URLs and code snippets. Direct communicator.",
+        "keyPositions": [
+          "Platform infrastructure owner",
+          "Handles client environment deployments"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Internal team member at AnswerAI. Works daily with LR engineering team (Cameron, Camilo, Brad). Technical platform lead handling deployments and infrastructure."
+    },
+    "tharada@integralads.com": {
+      "name": "Takumi Harada",
+      "email": "tharada@integralads.com",
+      "company": "integralads.com",
+      "title": "Director, Salesforce Engineering",
+      "linkedinUrl": "https://www.linkedin.com/in/takumi-harada/",
+      "background": "Salesforce Architect/Developer/Manager with 10+ years experience. Previously at Shutterstock. NJIT alum. At IAS since Sep 2020. Manages Salesforce engineering, involved in auth/callback logic and helpcenter integrations.",
+      "decisionMaker": true,
+      "suggestedTopics": [
+        "Salesforce engineering and integration architecture",
+        "AnswerAgent SFDC testing next steps",
+        "Helpcenter and Signal2 platform status"
+      ],
+      "socialLinks": {
+        "linkedin": "https://www.linkedin.com/in/takumi-harada/"
+      },
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "slackContext": "136 Slack mentions \u2014 very active across #aai-internal, #ias-internal, #ias-lastrev-external. Discusses SFDC testing, helpcenter builds, auth/callback logic. Coordinates with Cam and Jaime on technical issues.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "Technical, hands-on. Drives Salesforce integration work.",
+        "keyPositions": [
+          "Owns SFDC integration at IAS",
+          "Active in helpcenter/Signal2 work"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Highly active IAS technical contact (136 mentions). Director of Salesforce Engineering \u2014 owns SFDC integration, helpcenter builds, auth logic. Works directly with Cam and Jaime."
+    },
+    "jahmad@integralads.com": {
+      "name": "J. Ahmad",
+      "email": "jahmad@integralads.com",
+      "company": "integralads.com",
+      "title": "AnswerAgent User",
+      "linkedinUrl": "",
+      "background": "IAS team member recently added to AnswerAgent support portal by Cameron.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "AnswerAgent onboarding and usage",
+        "Support portal access"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "slackContext": "6 Slack mentions. Added to #answeragent-ias-lr-external. Recently onboarded to support portal \u2014 invitation sent.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "Newer IAS contact. Recently added to AnswerAgent support portal. Still ramping up."
+    },
+    "msharpe@integralads.com": {
+      "name": "M. Sharpe",
+      "email": "msharpe@integralads.com",
+      "company": "integralads.com",
+      "title": "Unknown",
+      "linkedinUrl": "",
+      "background": "IAS team member on AnswerAgent weekly call. Tentative RSVP.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "AnswerAgent weekly updates"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "slackContext": "No Slack mentions found.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "IAS attendee on AnswerAgent weekly. Limited direct engagement."
+    },
+    "tkyon@integralads.com": {
+      "name": "Thai Kyon",
+      "email": "tkyon@integralads.com",
+      "company": "integralads.com",
+      "title": "IT / Slack Admin",
+      "linkedinUrl": "",
+      "background": "IAS team member who manages Slack Connect channel access. Added Cameron to #ias-ask-aai-support.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Slack Connect channel management",
+        "IT access coordination"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "slackContext": "3 Slack mentions. Added Cameron to #ias-ask-aai-support Slack Connect channel. Manages channel invitations.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [
+          "Manages IAS Slack Connect access"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "IAS IT/admin contact. Manages Slack Connect channel invitations for the AAI support channel."
+    },
+    "amittal@integralads.com": {
+      "name": "A. Mittal",
+      "email": "amittal@integralads.com",
+      "company": "integralads.com",
+      "title": "Unknown",
+      "linkedinUrl": "",
+      "background": "IAS team member on AnswerAgent weekly call.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "AnswerAgent weekly updates"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "slackContext": "No Slack mentions found.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "IAS attendee on AnswerAgent weekly. No direct interactions found."
+    },
+    "cjones@integralads.com": {
+      "name": "C. Jones",
+      "email": "cjones@integralads.com",
+      "company": "integralads.com",
+      "title": "IT / Infrastructure",
+      "linkedinUrl": "",
+      "background": "IAS IT contact involved in npm blocking and infrastructure access issues.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Infrastructure and access coordination",
+        "npm/build pipeline unblocking"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "slackContext": "10 Slack mentions. Key IT contact \u2014 was blocking npm which caused build issues. Cameron communicated directly with them to resolve.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": "IT operations focused.",
+        "keyPositions": [
+          "Controls npm/package access at IAS"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "IAS IT/infrastructure contact (10 mentions). Involved in npm blocking issue that affected builds. Direct communication with Cameron."
+    },
+    "sguduru@integralads.com": {
+      "name": "S. Guduru",
+      "email": "sguduru@integralads.com",
+      "company": "integralads.com",
+      "title": "Unknown",
+      "linkedinUrl": "",
+      "background": "IAS team member on AnswerAgent weekly call.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "AnswerAgent weekly updates"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "slackContext": "No Slack mentions found.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "IAS attendee on AnswerAgent weekly. No direct interactions found."
+    },
+    "spemparthi@integralads.com": {
+      "name": "S. Pemparthi",
+      "email": "spemparthi@integralads.com",
+      "company": "integralads.com",
+      "title": "AnswerAgent User",
+      "linkedinUrl": "",
+      "background": "IAS team member who uses AnswerAgent and files support tickets.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "AnswerAgent support issues",
+        "Product feedback"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "slackContext": "5 Slack mentions in #support-tickets-agents-only. Filed support issues and received escalation responses. Active product user.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [
+          "Active AnswerAgent support user"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "IAS AnswerAgent user. Files support tickets and interacts with support team."
+    },
+    "mdauer@integralads.com": {
+      "name": "M. Dauer",
+      "email": "mdauer@integralads.com",
+      "company": "integralads.com",
+      "title": "Data / Analytics",
+      "linkedinUrl": "",
+      "background": "IAS team member involved in Snowflake database work.",
+      "decisionMaker": false,
+      "suggestedTopics": [
+        "Snowflake database integration",
+        "Data pipeline and analytics"
+      ],
+      "socialLinks": {},
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "slackContext": "5 Slack mentions. Reached out about Snowflake database needs. Referenced in #aai-internal and DM context.",
+      "driveRefs": [],
+      "zoomInsights": {
+        "meetingCount": 0,
+        "communicationStyle": null,
+        "keyPositions": [
+          "Drives Snowflake/data integration at IAS"
+        ],
+        "lastMeetingDate": null
+      },
+      "relationshipHistory": "IAS data/analytics contact. Involved in Snowflake database integration work."
+    }
+  },
+  "meetings": {
+    "cal-acme-intro": {
+      "title": "Intro Call \u2014 Acme Health Platform Reboot",
+      "start": "2026-02-13T17:00:00Z",
+      "attendees": [
+        "sarah.chen@acmehealth.io",
+        "lisa.park@acmehealth.io"
+      ],
+      "companies": [
+        "acmehealth.io"
+      ],
+      "researchedAt": "2026-02-08T14:30:00Z",
+      "briefPosted": true
+    },
+    "cal-peak-discovery": {
+      "title": "Discovery \u2014 Peak Outdoors Commerce Scale",
+      "start": "2026-02-14T20:00:00Z",
+      "attendees": [
+        "tom.baker@peakoutdoors.co",
+        "emily.jones@peakoutdoors.co"
+      ],
+      "companies": [
+        "peakoutdoors.co"
+      ],
+      "researchedAt": "2026-02-09T09:15:00Z",
+      "briefPosted": false
+    },
+    "5che28dlattf1a7q3b5n3ocfrg": {
+      "title": "LR office hours",
+      "start": "2026-02-11T15:30:00Z",
+      "attendees": [
+        "dnorton@diligent.com"
+      ],
+      "companies": [
+        "diligent.com"
+      ],
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "briefPosted": false
+    },
+    "a1cqjmu43k2i7c0lgtqdl3kq75_20260211T170000Z": {
+      "title": "Kumello <> AnswerAgentAI - weekly sync",
+      "start": "2026-02-11T17:00:00Z",
+      "attendees": [
+        "robert.bast@kumello.com",
+        "roberto.ramesar@kumello.com",
+        "eugene.gusarov@kumello.com",
+        "nadia.merola@kumello.com",
+        "mark.bailey@kumello.com"
+      ],
+      "companies": [
+        "kumello.com"
+      ],
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "briefPosted": false
+    },
+    "0gpi9fupgk0ksvni6fbae4pbok_20260212T160000Z": {
+      "title": "Diligent <> Last Rev - Projects Sync",
+      "start": "2026-02-12T16:00:00Z",
+      "attendees": [
+        "acrehan@diligent.com",
+        "abryon@diligent.com",
+        "jhabib@diligent.com",
+        "adcohen@diligent.com",
+        "dnorton@diligent.com",
+        "skabotra@diligent.com",
+        "amorris@diligent.com"
+      ],
+      "companies": [
+        "diligent.com"
+      ],
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "briefPosted": false
+    },
+    "jloratv7pcplco6vkna3vvuj5s_20260205T173000Z": {
+      "title": "IAS / AnswerAgent Exec Strategic Alignment",
+      "start": "2026-02-12T17:30:00Z",
+      "attendees": [
+        "arelan@integralads.com",
+        "bdegenaars@integralads.com"
+      ],
+      "companies": [
+        "integralads.com"
+      ],
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "briefPosted": false
+    },
+    "aq8dktpb7bvk3hsf3v27vlf3ng_20260212T183000Z": {
+      "title": "Lively <> Last Rev",
+      "start": "2026-02-12T18:30:00Z",
+      "attendees": [
+        "emily.wolfe@livelyme.com",
+        "carlos.hergueta@livelyme.com",
+        "ashley.meyer@livelyme.com",
+        "patrick@livelyme.com"
+      ],
+      "companies": [
+        "livelyme.com"
+      ],
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "briefPosted": false
+    },
+    "agq6q7sltvj8apud1il5eauf3i_20260212T210000Z": {
+      "title": "IAS <> Last Rev: Weekly Sync",
+      "start": "2026-02-12T21:00:00Z",
+      "attendees": [
+        "nflores@integralads.com",
+        "sinman@integralads.com"
+      ],
+      "companies": [
+        "integralads.com"
+      ],
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "briefPosted": false
+    },
+    "26e47390q7uqdhbaq3q8utc78v_20260216T203000Z": {
+      "title": "Impossible Foods <> Last Rev",
+      "start": "2026-02-16T12:30:00-08:00",
+      "attendees": [
+        "caitlyn.hatman@impossiblefoods.com",
+        "kim.stephens2@impossiblefoods.com"
+      ],
+      "companies": [
+        "impossiblefoods.com"
+      ],
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "briefPosted": false
+    },
+    "13qsalq9q2qha4kaig30mk9n74_20260206T193000Z": {
+      "title": "LR <> IAS - AAI strat",
+      "start": "2026-02-17T11:00:00-08:00",
+      "attendees": [
+        "arelan@integralads.com"
+      ],
+      "companies": [
+        "integralads.com"
+      ],
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "briefPosted": false
+    },
+    "7adon5ec322k8adplhbg69scum_20260217T203000Z": {
+      "title": "IAS <> AnswerAgent weekly",
+      "start": "2026-02-17T12:30:00-08:00",
+      "attendees": [
+        "tharada@integralads.com",
+        "arelan@integralads.com",
+        "bdegenaars@integralads.com",
+        "sinman@integralads.com",
+        "jahmad@integralads.com",
+        "msharpe@integralads.com",
+        "tkyon@integralads.com",
+        "amittal@integralads.com",
+        "cjones@integralads.com",
+        "sguduru@integralads.com",
+        "spemparthi@integralads.com",
+        "mdauer@integralads.com",
+        "nflores@integralads.com"
+      ],
+      "companies": [
+        "integralads.com"
+      ],
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "briefPosted": false
+    },
+    "es171cn7jok8i7pjnb4s6ro1uc_20260218T190000Z": {
+      "title": "Wow Bi-weekly status and demo",
+      "start": "2026-02-18T19:00:00Z",
+      "attendees": [
+        "jd.belshe@wowinc.com",
+        "bethany.chuang@wowinc.com"
+      ],
+      "companies": [
+        "wowinc.com"
+      ],
+      "researchedAt": "2026-02-11T00:07:00Z",
+      "briefPosted": false
+    },
+    "aai_sync_20260213": {
+      "title": "AAI Sync",
+      "start": "2026-02-13T19:00:00Z",
+      "attendees": [
+        "max@theanswer.ai"
+      ],
+      "companies": [
+        "theanswer.ai"
+      ],
+      "researchedAt": "2026-02-12T19:25:00Z",
+      "briefPosted": false
+    },
+    "0gpi9fupgk0ksvni6fbae4pbok_20260217T160000Z": {
+      "title": "Diligent <> Last Rev - Projects Sync",
+      "start": "2026-02-17T08:00:00-08:00",
+      "attendees": [
+        "acrehan@diligent.com",
+        "abryon@diligent.com",
+        "jhabib@diligent.com",
+        "adcohen@diligent.com",
+        "dnorton@diligent.com",
+        "skabotra@diligent.com",
+        "amorris@diligent.com"
+      ],
+      "companies": [
+        "diligent.com"
+      ],
+      "researchedAt": "2026-02-16T05:00:00Z",
+      "briefPosted": false
+    }
+  }
+}

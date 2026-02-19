@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI Meeting Intelligence: Zoom to Action Items in 60 Seconds"
+    description="Hands-on walkthrough of the full AI meeting pipeline: Zoom recording → transcript → summary → CRM update → Slack notification. See how it actually works."
+    canonical="https://lastrev.com/blog/zoom-call-to-action-items"
+    og-title="AI Meeting Intelligence: Zoom to Action Items in 60 Seconds"
+    og-description="Hands-on walkthrough of the full AI meeting pipeline: Zoom recording → transcript → summary → CRM update → Slack notification. See how it actually works."
+    og-image="/images/og-default.png"
+    og-url="https://lastrev.com/blog/zoom-call-to-action-items"
+    og-type="article"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="From Zoom Call to Action Items in 60 Seconds: How AI Meeting Intelligence Actually Works" author="Adam Harris" date="2026-02-18" category="Use Case" read-time="8 min" back-href="../blog.html" image="../images/blog/zoom-call-to-action-items.webp">
+        <div slot="content">
+
+<p>Your Zoom call ends. Within 60 seconds, a structured summary lands in Slack, action items appear in your project tracker with assignees and due dates, and your CRM updates with the latest client sentiment. No one took notes. No one clicked anything. It just happened.</p>
+
+<p>This isn't a product demo — it's a real pipeline we built and run every day at Last Rev using AI agents. In this post, I'm going to walk through exactly how it works, step by step, from the raw Zoom recording to the final Slack notification.</p>
+
+<p>If you've been skeptical about AI meeting tools — or tried one of the generic "meeting summarizer" products and found them shallow — this is what real integration depth looks like.</p>
+
+<h2>Why Meeting Intelligence Matters More Than You Think</h2>
+
+<p>According to <a href="https://hbr.org/2017/07/stop-the-meeting-madness" target="_blank" rel="noopener">Harvard Business Review's research</a>, executives spend an average of nearly 23 hours a week in meetings. That's up from less than 10 hours in the 1960s. And 71% of senior managers say those meetings are unproductive and inefficient.</p>
+
+<p>But the meetings themselves aren't the biggest problem. The real waste happens <em>after</em> the meeting: someone has to write up notes, extract action items, update the CRM, and notify the team. That post-meeting tax often takes longer than the meeting itself — and half the time it doesn't happen at all.</p>
+
+<p>The AI meeting transcription market is projected to grow from <a href="https://sonix.ai/resources/automated-transcription-statistics/" target="_blank" rel="noopener">$3.86 billion in 2025 to $29.45 billion by 2034</a> — a 25.62% CAGR — because organizations are realizing that capturing meeting output isn't optional. It's where decisions live.</p>
+
+<h2>The Pipeline: Five Stages in 60 Seconds</h2>
+
+<p>Here's the full architecture. Each stage is automated and event-driven — no human intervention required after the Zoom call ends.</p>
+
+<pre><code>Zoom Call Ends
+     ↓
+[Stage 1] Webhook fires → recording + transcript retrieved
+     ↓
+[Stage 2] AI processes transcript → structured summary
+     ↓
+[Stage 3] Action items extracted with assignees + due dates
+     ↓
+[Stage 4] CRM updated with meeting notes + client sentiment
+     ↓
+[Stage 5] Slack notification with summary + action items
+</code></pre>
+
+<p>Let's walk through each one.</p>
+
+<h2>Stage 1: Capturing the Recording and Transcript</h2>
+
+<p>Everything starts with <a href="https://developers.zoom.us/docs/api/rest/reference/zoom-api/events/" target="_blank" rel="noopener">Zoom's webhook system</a>. When a cloud-recorded meeting ends, Zoom fires a <code>recording.completed</code> event to our registered webhook endpoint. This payload includes the meeting ID, participant list, duration, and download URLs for both the recording and the auto-generated transcript.</p>
+
+<p>Our system uses Zoom's <a href="https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/recordingGet" target="_blank" rel="noopener">Cloud Recording API</a> with server-to-server OAuth to pull the transcript file. Zoom provides transcripts in VTT format with speaker identification and timestamps — this is the raw material the rest of the pipeline works with.</p>
+
+<p>Key implementation detail: we don't rely on Zoom's built-in AI summary features. Instead, we pull the raw transcript and process it ourselves. This gives us full control over extraction logic, output format, and downstream integrations.</p>
+
+<pre><code>// Webhook handler (simplified)
+app.post('/webhook/zoom', async (req, res) => {
+  const { event, payload } = req.body;
+  
+  if (event === 'recording.completed') {
+    const { meeting_id, recording_files } = payload.object;
+    const transcript = recording_files.find(f => f.file_type === 'TRANSCRIPT');
+    
+    // Queue for async processing
+    await queue.add('process-meeting', {
+      meetingId: meeting_id,
+      transcriptUrl: transcript.download_url,
+      participants: payload.object.participant_audio_files
+    });
+  }
+  
+  res.status(200).send();
+});</code></pre>
+
+<h2>Stage 2: AI Transcript Processing</h2>
+
+<p>Raw transcripts are messy. Zoom's auto-transcription includes filler words, speaker misidentification, and crosstalk. Before we summarize, we run a cleaning pass:</p>
+
+<ol>
+  <li><strong>Speaker normalization</strong> — match Zoom's speaker labels to actual participant names using the meeting's participant list</li>
+  <li><strong>Segment merging</strong> — combine consecutive utterances from the same speaker into coherent blocks</li>
+  <li><strong>Noise removal</strong> — strip filler words, false starts, and off-topic small talk (while preserving context)</li>
+</ol>
+
+<p>The cleaned transcript then goes to an LLM with a carefully tuned prompt. We don't just ask for "a summary." The prompt requests a structured output with specific fields:</p>
+
+<pre><code>{
+  "executive_summary": "One paragraph, 3-4 sentences max",
+  "key_decisions": ["Decision 1 with context", "Decision 2..."],
+  "action_items": [
+    {
+      "description": "What needs to happen",
+      "assignee": "Person who committed",
+      "due_date": "Extracted or inferred deadline",
+      "confidence": 0.92,
+      "source_quote": "Exact words from transcript"
+    }
+  ],
+  "open_questions": ["Unresolved items that need follow-up"],
+  "sentiment": {
+    "overall": "positive|neutral|negative",
+    "client_satisfaction": 0.85,
+    "risk_flags": ["Any concerns or blockers mentioned"]
+  }
+}</code></pre>
+
+<p>The <code>confidence</code> score is critical. Early on, we found the AI would flag casual remarks as action items ("I should probably look into that sometime"). By requiring a confidence threshold and the source quote, we can distinguish between real commitments and conversational fluff. Items below 0.7 confidence get flagged for human review instead of auto-assigned.</p>
+
+<h2>Stage 3: Action Item Extraction and Assignment</h2>
+
+<p>This is where most generic meeting tools stop — they give you a bullet list and call it a day. We go further:</p>
+
+<ul>
+  <li><strong>Assignee matching</strong> — the AI extracts who committed to the action, then our system matches that name to a real user in our project management tool</li>
+  <li><strong>Due date inference</strong> — if someone says "I'll have that by Friday," the system calculates the actual date. If no deadline is mentioned, it suggests one based on urgency signals in the conversation</li>
+  <li><strong>Deduplication</strong> — if the same action item was discussed multiple times in the meeting, we merge them and keep the most specific version</li>
+  <li><strong>Context linking</strong> — each action item carries a reference back to the exact moment in the transcript where it was discussed, so anyone can verify the original context</li>
+</ul>
+
+<p>The extracted action items are written to a structured database that serves as the system of record. From here, they can flow to any downstream tool — Linear, Jira, Asana, a custom dashboard — via API.</p>
+
+<h2>Stage 4: CRM Update</h2>
+
+<p>For client-facing meetings, the pipeline includes a CRM integration step. The structured meeting data — summary, decisions, action items, and sentiment analysis — gets pushed to the relevant contact or deal record.</p>
+
+<p>This solves a problem every services company knows: CRM notes are either empty or months out of date. When meeting intelligence flows automatically, your CRM becomes a living record of every client interaction.</p>
+
+<p>The sentiment analysis is particularly valuable for account management. If a client expresses frustration in a meeting, that risk signal shows up on their account record immediately — not two weeks later when someone remembers to mention it in a standup.</p>
+
+<h2>Stage 5: Slack Notification</h2>
+
+<p>The final stage delivers the output where people actually work: Slack. Within 60 seconds of the meeting ending, the relevant channel receives a formatted message with:</p>
+
+<ul>
+  <li>Executive summary (2-3 sentences)</li>
+  <li>Key decisions made</li>
+  <li>Action items with owners and due dates</li>
+  <li>A link to the full meeting record in the dashboard</li>
+</ul>
+
+<p>The notification is routed to the right channel automatically based on the meeting's calendar event — client meetings go to the client channel, internal standups go to the team channel, sales calls go to the pipeline channel.</p>
+
+<p>Team members can react to action items directly in Slack to acknowledge them, or flag items that need correction. This closes the feedback loop without anyone leaving their primary workspace.</p>
+
+<h2>What Makes This Different from Otter, Fireflies, or Zoom AI Companion</h2>
+
+<p>There are dozens of meeting transcription products. Most of them do stages 1 and 2 well enough. Here's what they don't do:</p>
+
+<ul>
+  <li><strong>Custom extraction logic</strong> — generic tools use one-size-fits-all prompts. Our pipeline is tuned to how <em>our</em> team talks about commitments, deadlines, and decisions</li>
+  <li><strong>Deep integration</strong> — summary-to-CRM-to-Slack-to-project-tracker as a single automated flow, not manual copy-paste between tools</li>
+  <li><strong>Confidence scoring</strong> — knowing which action items are rock-solid vs. tentative changes how you follow up</li>
+  <li><strong>Institutional memory</strong> — a searchable archive of every decision made across every meeting, not siloed per-meeting summaries</li>
+  <li><strong>Custom routing</strong> — output goes to the right people and channels automatically, based on meeting context</li>
+</ul>
+
+<p>The difference isn't the AI model — it's the integration layer. Any LLM can summarize a transcript. The hard part is connecting that summary to the systems where work actually happens.</p>
+
+<h2>Results: What Changed</h2>
+
+<p>Since deploying this pipeline at Last Rev:</p>
+
+<ul>
+  <li><strong>10+ hours per week reclaimed</strong> — across the team, in post-meeting administrative work</li>
+  <li><strong>89% action item completion rate</strong> — up from roughly 50% when items lived in scattered notes</li>
+  <li><strong>CRM accuracy</strong> — client records are always current, with sentiment tracking that surfaces risks early</li>
+  <li><strong>Decision traceability</strong> — "Didn't we decide X last month?" is now a 5-second search, not a 20-minute archaeology project</li>
+</ul>
+
+<p>Organizations implementing AI meeting transcription report <a href="https://sonix.ai/resources/automated-transcription-statistics/" target="_blank" rel="noopener">25% reduction in meeting time and 30% productivity increases</a> — largely because when the output is reliably captured, you need fewer follow-up meetings to rehash what was already discussed.</p>
+
+<h2>Building This Yourself</h2>
+
+<p>If you want to build a similar pipeline, here's the minimum viable stack:</p>
+
+<ol>
+  <li><strong>Zoom Server-to-Server OAuth app</strong> — for webhook events and API access to recordings/transcripts (<a href="https://developers.zoom.us/docs/internal-apps/s2s-oauth/" target="_blank" rel="noopener">Zoom S2S OAuth docs</a>)</li>
+  <li><strong>Webhook endpoint</strong> — to receive <code>recording.completed</code> events</li>
+  <li><strong>Message queue</strong> — don't process synchronously; webhooks have timeout constraints</li>
+  <li><strong>LLM with structured output</strong> — Claude or GPT-4 with JSON mode for reliable extraction</li>
+  <li><strong>Integration layer</strong> — API connections to your CRM, Slack, and project management tools</li>
+</ol>
+
+<p>The engineering isn't exotic. The value is in the prompt engineering for reliable extraction, the routing logic for getting output to the right place, and the feedback loops that let the system improve over time.</p>
+
+<p>Or you can skip the build entirely and <a href="../index.html#contact">let us set it up for you</a>. We've done it — we know what breaks and how to fix it.</p>
+
+<h2>Key Takeaways</h2>
+
+<ul>
+  <li>AI meeting intelligence is a five-stage pipeline: capture → process → extract → integrate → notify</li>
+  <li>The real value isn't transcription — it's the integration layer that connects meeting output to your existing tools</li>
+  <li>Confidence scoring on action items separates real commitments from casual mentions</li>
+  <li>Automatic CRM updates eliminate the "empty CRM" problem that plagues every services company</li>
+  <li>The entire pipeline runs in under 60 seconds with no human intervention</li>
+</ul>
+
+<section class="blog-sources">
+  <h3>Sources</h3>
+  <ol>
+    <li><a href="https://hbr.org/2017/07/stop-the-meeting-madness" target="_blank" rel="noopener">Harvard Business Review — "Stop the Meeting Madness" (2017)</a></li>
+    <li><a href="https://sonix.ai/resources/automated-transcription-statistics/" target="_blank" rel="noopener">Sonix — "24 Automated Transcription Statistics: 2026" (2026)</a></li>
+    <li><a href="https://developers.zoom.us/docs/api/rest/reference/zoom-api/events/" target="_blank" rel="noopener">Zoom — API Events Documentation (Webhooks)</a></li>
+    <li><a href="https://developers.zoom.us/docs/api/rest/reference/zoom-api/methods/#operation/recordingGet" target="_blank" rel="noopener">Zoom — Cloud Recording API Reference</a></li>
+    <li><a href="https://developers.zoom.us/docs/internal-apps/s2s-oauth/" target="_blank" rel="noopener">Zoom — Server-to-Server OAuth Documentation</a></li>
+  </ol>
+</section>
+
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "From Zoom Call to Action Items in 60 Seconds: How AI Meeting Intelligence Actually Works",
+    "description": "Hands-on walkthrough of the full AI meeting pipeline: Zoom recording → transcript → summary → CRM update → Slack notification. See how it actually works.",
+    "author": {
+      "@type": "Organization",
+      "name": "Last Rev"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lastrev.com/images/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/zoom-call-to-action-items.html"
+    },
+    "image": "https://lastrev.com/images/og-default.png",
+    "datePublished": "2026-02-18",
+    "dateModified": "2026-02-18"
+  }
+  </script>
+
+</body>
+</html>

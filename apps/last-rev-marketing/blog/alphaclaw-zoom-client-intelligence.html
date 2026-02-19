@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI Turned 129 Zoom Recordings Into Client Intelligence"
+    description="We connected Zoom's API and had AlphaClaw process 129 meeting recordings — auto-transcribing, tagging by client, extracting action items, and surfacing patterns across conversations. What used to be lost meeting context is now searchable, client-tagged institutional knowledge."
+    canonical="https://lastrev.com/blog/alphaclaw-zoom-client-intelligence"
+    og-title="AI Turned 129 Zoom Recordings Into Client Intelligence"
+    og-description="We connected Zoom's API and had AlphaClaw process 129 meeting recordings — auto-transcribing, tagging by client, extracting action items, and surfacing patterns across conversations."
+    og-image="/images/og-default.png"
+    og-url="https://lastrev.com/blog/alphaclaw-zoom-client-intelligence"
+    og-type="article"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="How AI Turned 129 Zoom Recordings Into Actionable Client Intelligence" author="Adam Harris" date="2026-01-29" category="AI Operations" read-time="10 min" back-href="../blog.html" image="../images/blog/alphaclaw-zoom-client-intelligence.webp">
+        <div slot="content">
+<p class="lead">Every professional services firm has the same dirty secret: the most valuable conversations in the company — client calls, strategy sessions, scope negotiations — evaporate the moment someone clicks "Leave Meeting." We decided to fix that. We connected AlphaClaw to the Zoom API, pointed it at 13 months of meeting recordings, and turned 129 calls into a searchable, client-tagged knowledge base. Here's exactly how we did it, what we found, and why it matters for any firm that bills by the hour.</p>
+
+<h2>The Problem: $106 Hours of Conversations, Zero Institutional Memory</h2>
+
+<p>Last Rev is a digital engineering consultancy. We build headless CMS platforms, design systems, and AI-powered applications for clients like Diligent, Integral Ad Science, Procore, and SmartNews. On any given week, our team runs 25–30 Zoom calls: client syncs, sprint planning, design reviews, SOW negotiations, and internal standups.</p>
+
+<p>Each of those meetings generates decisions, commitments, and context. And almost none of it was being captured systematically. We had a patchwork of meeting notes in Google Docs, Slack messages that scrolled off-screen, and the occasional "can someone remind me what we agreed to?" message that no one could answer confidently.</p>
+
+<p>The cost wasn't abstract. Consider:</p>
+
+<ul>
+  <li>An account manager joins a client relationship mid-stream and has zero context on what's been discussed in the previous six months of weekly calls</li>
+  <li>A client asks "didn't we decide X on our last call?" and no one can confirm or deny with certainty</li>
+  <li>Action items from a meeting get lost because they were spoken but never written down</li>
+  <li>The same topic gets re-debated across three meetings because no one remembers it was already resolved</li>
+</ul>
+
+<p>We're a 29-person shop with meetings spanning 14 active clients.<sup>1</sup> The problem isn't that people don't care about documentation — it's that manually capturing meeting output is tedious, inconsistent, and always the first thing that gets dropped when people are busy doing actual work.</p>
+
+<h2>The Approach: Server-to-Server OAuth + Structured AI Processing</h2>
+
+<p>AlphaClaw is our internal AI operations platform — an autonomous agent that can connect to APIs, process data, build applications, and take action across our tool stack. We built a <strong>Zoom Meeting Intelligence</strong> skill that works like this:</p>
+
+<ol>
+  <li><strong>Authenticate via Zoom server-to-server OAuth</strong> — no per-user consent flows. The agent has account-level access to recordings and transcripts across the organization.</li>
+  <li><strong>Pull recordings in 30-day windows</strong> — Zoom's API limits date range queries, so the agent iterates month-by-month to build a complete picture. For our initial run, this meant scanning January 2025 through February 2026.</li>
+  <li><strong>Download VTT transcripts</strong> — Zoom auto-generates WebVTT transcripts for most recordings. For the handful without one, AlphaClaw falls back to downloading the M4A audio and running it through OpenAI's Whisper API.</li>
+  <li><strong>Run each transcript through a structured intelligence extraction pipeline</strong> — a carefully tuned prompt that outputs a one-paragraph summary, a list of key decisions, structured action items with owners and priorities, sentiment analysis, and topic tags.</li>
+  <li><strong>Store everything in Supabase</strong> — each processed meeting becomes a row in our <code>zoom_transcripts</code> table with the raw VTT, structured summary, action items as JSONB, client tags, and processing timestamps.</li>
+  <li><strong>Tag by client</strong> — the agent matches meeting topics and attendee lists against known client names ("Diligent Weekly Sync" → Diligent, "IAS Sprint Review" → Integral Ad Science).</li>
+</ol>
+
+<p>The entire pipeline runs incrementally. Before pulling any recording, AlphaClaw checks <code>SELECT MAX(start_time) FROM zoom_transcripts</code> and only fetches meetings after that watermark. No duplicate processing, no wasted API calls.</p>
+
+<h2>The Numbers: What 129 Meetings Revealed</h2>
+
+<p>After processing completed, here's what our Supabase table contained:</p>
+
+<table>
+  <thead>
+    <tr><th>Metric</th><th>Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Total meetings processed</td><td><strong>133</strong> (129 with full transcripts, 4 pending)</td></tr>
+    <tr><td>Date range covered</td><td>January 14, 2025 – February 17, 2026</td></tr>
+    <tr><td>Total meeting time</td><td><strong>6,400 minutes</strong> (~106.7 hours)</td></tr>
+    <tr><td>Unique participants identified</td><td><strong>29 people</strong></td></tr>
+    <tr><td>Action items extracted</td><td><strong>620</strong></td></tr>
+    <tr><td>Decisions captured</td><td><strong>232</strong></td></tr>
+    <tr><td>Clients auto-tagged</td><td><strong>14</strong> (Diligent, IAS, Procore, SmartNews, WOW, Lively, Orix, AnswerAI, and more)</td></tr>
+    <tr><td>Meeting sentiment breakdown</td><td>72% productive · 10% casual · 8% tense · 7% neutral</td></tr>
+  </tbody>
+</table>
+
+<p>Let those numbers sink in. <strong>620 action items</strong> were spoken into existence across those meetings. Before this system, the vast majority of them lived only in the memories of the people on the call — memories that fade, conflict, and eventually disappear.</p>
+
+<h2>What the Intelligence Actually Looks Like</h2>
+
+<p>Each processed meeting produces a structured record. Here's a real example from a contract review call:</p>
+
+<blockquote>
+  <p><strong>Topic:</strong> MSA &amp; SOW Contract Structure Review<br>
+  <strong>Date:</strong> February 6, 2025 · <strong>Duration:</strong> 14 min<br>
+  <strong>Attendees:</strong> Adam Harris, Krista Schlumpberger<br>
+  <strong>Sentiment:</strong> Productive</p>
+  <p><strong>Summary:</strong> Reviewed contract documents including the MSA and SOW structure. Walked through how the SOW works as an addendum to the MSA. Discussed how each new support contract renewal overrides the previous SOW while the MSA remains the signed base document. Agreed to clarify with Susan that each new SOW is technically an addendum to the original MSA.</p>
+  <p><strong>Decisions:</strong></p>
+  <ul>
+    <li>New SOWs override previous ones as addendums to the MSA</li>
+    <li>MSA is valid for 12 months as the base contract</li>
+  </ul>
+  <p><strong>Action Items:</strong></p>
+  <ul>
+    <li>Krista Schlumpberger → Clarify with Susan that new SOWs are addendums to the MSA (priority: medium)</li>
+    <li>Krista Schlumpberger → Review and compare contract documents for consistency (priority: medium)</li>
+  </ul>
+</blockquote>
+
+<p>That 14-minute call produced two decisions and two action items with clear owners. Without this system, those decisions would live only in the heads of two people — and the next time someone asked "do we need a new MSA for this client?", the answer would be a shrug followed by 30 minutes of Dropbox archaeology.</p>
+
+<h2>Pattern Recognition Across Conversations</h2>
+
+<p>Individual meeting summaries are useful. But the real power is in <em>aggregate intelligence</em> — patterns that emerge only when you can query across all 129 conversations.</p>
+
+<h3>Topic Frequency Analysis</h3>
+
+<p>Our top discussion topics across all meetings tell a story about where the company's energy is going:</p>
+
+<ol>
+  <li><strong>AI features</strong> — 17 meetings (13%). AI is the dominant topic across client and internal conversations.</li>
+  <li><strong>Migration</strong> — 15 meetings (11%). CMS platform migrations (Contentful → Sanity, legacy → headless) are a core service line.</li>
+  <li><strong>AI/ML</strong> — 15 meetings. Combined with #1, AI-related topics appear in <strong>24% of all meetings</strong>.</li>
+  <li><strong>Design</strong> — 12 meetings. Design system work and component development are consistently discussed.</li>
+  <li><strong>API Development</strong> — 12 meetings. Integration work is a steady drumbeat.</li>
+  <li><strong>Deployment</strong> — 11 meetings. DevOps and release management surface regularly.</li>
+  <li><strong>Budget/Costs</strong> — 8 meetings. Financial discussions appear in 6% of calls — less than you'd expect.</li>
+</ol>
+
+<p>This data is immediately actionable. If AI topics dominate 24% of our conversations, that should be reflected in our hiring priorities, our marketing, and our service offerings. Before this analysis, that insight was a vague hunch. Now it's a number.</p>
+
+<h3>Sentiment as a Leading Indicator</h3>
+
+<p>The sentiment tagging is surprisingly informative. Across all meetings:</p>
+
+<ul>
+  <li><strong>72% productive</strong> — the meeting had clear outcomes and forward momentum</li>
+  <li><strong>10% casual</strong> — informal check-ins, quick syncs</li>
+  <li><strong>8% tense</strong> — scope disagreements, timeline pressure, difficult conversations</li>
+  <li><strong>7% neutral</strong> — status updates, information sharing</li>
+</ul>
+
+<p>That 8% "tense" figure is a goldmine for account management. When you can filter by client and see that the last three meetings with Client X were tagged as "tense," you've got an early warning system for churn risk — long before the client sends the dreaded "we need to talk" email. We can now see tension patterns weeks before they escalate.</p>
+
+<h3>Client Intelligence Profiles</h3>
+
+<p>By filtering the database by <code>client_id</code>, we can instantly generate a profile of any client relationship:</p>
+
+<ul>
+  <li><strong>Diligent:</strong> 18 meetings, predominantly focused on migration and component development, sentiment trending productive</li>
+  <li><strong>IAS / Integral Ad Science:</strong> 12 meetings, heavy on API development and testing/QA, action items concentrated around deployment timelines</li>
+  <li><strong>WOW:</strong> 8 meetings, design-heavy, consistently casual sentiment (a healthy relationship signal)</li>
+  <li><strong>Procore:</strong> 6 meetings, focused on database and deployment topics</li>
+</ul>
+
+<p>When an account manager needs to prep for a client call, they no longer need to ask five people "what have we been talking about with this client?" They query the database. Full context in seconds.</p>
+
+<h2>The Technical Architecture</h2>
+
+<p>For the technically inclined, here's how the pieces fit together:</p>
+
+<pre><code>Zoom Cloud Recordings
+      ↓ (Server-to-Server OAuth, account-level access)
+AlphaClaw Agent
+      ↓ (30-day window iteration, incremental processing)
+   ┌──┴──┐
+   VTT    M4A Audio
+   │         ↓
+   │    Whisper API (fallback)
+   │         ↓
+   └──→ Clean Transcript
+            ↓
+      Claude AI Pipeline
+      (structured extraction prompt)
+            ↓
+      ┌─────┼─────┐
+   Summary  Actions  Decisions
+   Tags     Owners   Sentiment
+            ↓
+      Supabase (zoom_transcripts table)
+            ↓
+   ┌────────┼────────┐
+   Query    Slack     Client
+   API      Posts     Profiles</code></pre>
+
+<p>Key architectural decisions:</p>
+
+<ul>
+  <li><strong>Supabase as the persistence layer</strong> — JSONB columns for action items and decisions give us flexible querying without a rigid schema. We can add fields without migrations.</li>
+  <li><strong>Incremental watermark processing</strong> — the agent checks <code>MAX(start_time)</code> before each run, so it never reprocesses meetings. This matters when you're paying per API call for both Zoom and the AI models.</li>
+  <li><strong>Client matching via topic + attendee heuristics</strong> — meeting topics like "Diligent Weekly Sync" are obvious, but the agent also cross-references attendee email domains against our CRM for ambiguous topics.</li>
+  <li><strong>VTT-first, Whisper as fallback</strong> — Zoom's native transcripts are free and instant. Whisper costs money and requires downloading large audio files. The agent only invokes Whisper when the VTT is missing.</li>
+</ul>
+
+<h2>What This Means for Account Managers</h2>
+
+<p>If you run a professional services firm — agency, consultancy, law firm, MSP — this capability changes how you do account management. Specifically:</p>
+
+<h3>1. Onboarding a new account manager takes minutes, not weeks</h3>
+<p>When someone takes over a client relationship, they need context. Traditionally, that means shadow-reading months of Slack threads, sitting in on calls, and asking "so what's the deal with this client?" Now, they query the database: "Show me all Diligent meetings, ordered by date." Eighteen meeting summaries, complete with decisions and action items, in a single page. Full context in 15 minutes.</p>
+
+<h3>2. "What did we agree to?" has an authoritative answer</h3>
+<p>Contract disputes, scope disagreements, and he-said-she-said situations evaporate when you have a timestamped, AI-generated summary of every conversation. We had a real case where a client questioned whether a particular feature was in scope. We searched the transcripts, found the exact meeting where it was discussed, and pulled up the summary showing it was explicitly deferred to Phase 3. Conversation over.</p>
+
+<h3>3. Action items don't fall through the cracks</h3>
+<p>620 action items across 129 meetings. That's an average of <strong>4.8 action items per meeting</strong>. Before this system, how many of those were being tracked? Generously, maybe half. The rest disappeared into the ether. Now every commitment is captured, attributed to an owner, and queryable.</p>
+
+<h3>4. Sentiment trending replaces gut feelings</h3>
+<p>Account health is usually assessed by gut feeling — "I think they're happy" or "something felt off in that last call." With sentiment tagging across every meeting, you can see the trend. Three productive meetings followed by two tense ones? That's a pattern worth investigating before the relationship deteriorates.</p>
+
+<h2>The Time Math</h2>
+
+<p>Let's do the ROI calculation:</p>
+
+<ul>
+  <li><strong>Manual meeting notes:</strong> Assume 15 minutes per meeting for a diligent note-taker (many meetings got zero notes). At 129 meetings, that's 32 hours of note-taking labor — if someone actually did it for every meeting.</li>
+  <li><strong>AlphaClaw processing time:</strong> The entire 129-meeting backlog was processed in approximately 4 hours of automated pipeline execution. Ongoing processing happens within minutes of each meeting ending.</li>
+  <li><strong>Quality difference:</strong> AI-generated summaries are consistent, structured, and complete. Human notes are variable, often incomplete, and formatted differently by every person.</li>
+  <li><strong>Retrieval time:</strong> Finding information in scattered Google Docs and Slack threads: 10–30 minutes per query. Finding it in a structured database: 10 seconds.</li>
+</ul>
+
+<p>The initial backlog processing alone saved roughly 28 hours of work that would have been needed to manually review and document those meetings. But the real savings are ongoing — every week, 25–30 meetings are automatically processed, saving approximately 6–8 hours of manual capture and making every meeting's content instantly accessible.<sup>2</sup></p>
+
+<h2>What Surprised Us</h2>
+
+<p>A few things we didn't expect:</p>
+
+<p><strong>The casual meetings were the most valuable to capture.</strong> The formal client presentations had agendas and follow-up emails. It was the 4-minute impromptu syncs — "hey, quick question about the deployment" — that contained critical decisions no one would have bothered documenting. One 4-minute call between two engineers resolved a JIRA configuration issue that had been blocking a sprint. Without automated capture, that decision would have lived in two people's heads and nowhere else.</p>
+
+<p><strong>Topic frequency analysis influenced our service strategy.</strong> Seeing that AI-related topics dominated 24% of all conversations gave us hard data to invest more aggressively in AI service offerings. It wasn't a guess — it was extracted from actual client and internal conversations.</p>
+
+<p><strong>Attendee patterns revealed meeting culture issues.</strong> We could see which meetings consistently had too many attendees (meetings with 6+ people that should have been 3), and which critical conversations were happening between only two people with no documentation trail.</p>
+
+<h2>Privacy and Ethics</h2>
+
+<p>A few important notes on how we handle this responsibly:</p>
+
+<ul>
+  <li>All recordings processed are from our own Zoom account — we don't process external recordings</li>
+  <li>Zoom displays recording consent notices to all participants at the start of each meeting</li>
+  <li>Transcripts and summaries are stored in our private Supabase instance, not shared externally</li>
+  <li>Individual meeting content is not posted to public channels without explicit approval</li>
+  <li>The system processes content for operational utility — it does not build individual performance profiles or scoring</li>
+</ul>
+
+<h2>How to Build This for Your Firm</h2>
+
+<p>The core components are straightforward:</p>
+
+<ol>
+  <li><strong>Zoom server-to-server OAuth app</strong> — set this up in the Zoom Marketplace. It gives you account-level API access without per-user consent flows. You need the <code>recording:read</code> and <code>user:read</code> scopes.</li>
+  <li><strong>A processing pipeline</strong> — something that can download VTT transcripts, parse them, and send them to an LLM for structured extraction. This can be a simple script or an AI agent like AlphaClaw.</li>
+  <li><strong>A structured storage layer</strong> — Supabase, Postgres, Airtable, whatever. The key is JSONB or similar flexible storage for action items and decisions, plus full-text search on summaries.</li>
+  <li><strong>Client matching logic</strong> — a mapping from meeting topics and attendee domains to your client/project taxonomy.</li>
+  <li><strong>Incremental processing</strong> — a watermark-based approach so you never reprocess meetings or waste API calls.</li>
+</ol>
+
+<p>Or you can skip all of that and let AlphaClaw do it. We built this skill in under a day and the agent handles everything autonomously — authentication, pagination, transcript download, AI processing, storage, and client tagging.</p>
+
+<h2>The Bigger Picture</h2>
+
+<p>This Zoom intelligence project is one piece of a larger pattern we're seeing in AI operations: <strong>the transformation of ephemeral business conversations into durable, queryable institutional knowledge.</strong></p>
+
+<p>Most companies have years of meeting recordings sitting in Zoom's cloud, untouched and unsearchable. Those recordings contain decisions, commitments, strategy discussions, and client context that could dramatically improve how the business operates — if anyone could access it in a useful format.</p>
+
+<p>The technology to unlock this has existed for a couple of years (transcription APIs, LLMs for extraction, structured databases for storage). What's been missing is the <em>orchestration</em> — something that connects all the pieces, handles the edge cases (missing transcripts, ambiguous client names, 30-day API windows), and runs reliably without human babysitting.</p>
+
+<p>That's what AlphaClaw provides. Not just the AI — the operational intelligence to deploy it against real business problems and extract real business value.</p>
+
+<p>129 meetings. 620 action items. 232 decisions. 14 clients tagged. 106 hours of conversations transformed from ephemeral audio into permanent, searchable institutional knowledge.</p>
+
+<p>Your firm's meetings contain the same untapped intelligence. The question is whether you're going to keep letting it evaporate, or start capturing it. <a href="../index.html#contact">Let's talk about building this for your team.</a></p>
+
+<hr>
+
+<h3>Footnotes</h3>
+<ol class="footnotes">
+  <li>Client count based on unique <code>client_id</code> values in our <code>zoom_transcripts</code> Supabase table as of February 2026. Clients include: Diligent, IAS/Integral Ad Science, Procore, SmartNews, WOW, Lively, Orix, AnswerAI, and internal projects.</li>
+  <li>Time savings estimates based on industry averages of 15–20 minutes per meeting for manual note-taking and summarization. See <a href="https://hbr.org/2022/03/dear-manager-youre-holding-too-many-meetings" target="_blank" rel="noopener">Harvard Business Review, "Dear Manager, You're Holding Too Many Meetings" (2022)</a> and <a href="https://otter.ai/blog/meeting-statistics" target="_blank" rel="noopener">Otter.ai Meeting Statistics Report</a> for supporting data on meeting time costs.</li>
+</ol>
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How AI Turned 129 Zoom Recordings Into Actionable Client Intelligence",
+    "description": "We connected Zoom's API and had AlphaClaw process 129 meeting recordings — auto-transcribing, tagging by client, extracting action items, and surfacing patterns across conversations. What used to be lost meeting context is now searchable, client-tagged institutional knowledge.",
+    "author": {
+      "@type": "Organization",
+      "name": "Last Rev"
+    },
+    "datePublished": "2026-01-29",
+    "dateModified": "2026-01-29",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/alphaclaw-zoom-client-intelligence.html"
+    },
+    "image": "https://lastrev.com/images/og-default.png"
+  }
+  </script>
+</body>
+</html>

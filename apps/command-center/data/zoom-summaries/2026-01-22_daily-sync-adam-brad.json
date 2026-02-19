@@ -1,0 +1,50 @@
+{
+  "meetingId": "unknown",
+  "topic": "Daily Sync - Adam & Brad",
+  "date": "2026-01-22",
+  "duration": 82,
+  "attendees": ["Adam Harris", "Brad Taylor"],
+  "client": null,
+  "summary": "Major strategic discussion about the future of Last Rev and AnswerAgent. The real estate prospect (referral from school) went well - estimated 80-100K for MVP with discovery (1-2 weeks) and build (6-7 weeks). They're not talking to anyone else. Alternative approach discussed: a hard-coded demo for ~10-20K to get homeowner feedback before seeking funding. The app concept is a platform where homeowners input project details, an AI voice bot calls contractors for bids, and homeowners choose. Similar concept to what SBI Builders wants but from the homeowner side.\n\nBrad raised fundamental questions about the relationship between Last Rev and AnswerAgent - are they building two competing businesses? Camelo wants an overreaching MNDA for code access that would restrict working on B2B matching businesses. This sparked a deep conversation about whether to merge the companies. Adam's position: keep them separate for now as the pressure drives accountability, especially for Max. Merging saves ~$2K/month (mainly insurance, ~$24K/year). Brad's concern: if Diligent goes away, Last Rev (his primary asset at 50% ownership) could collapse while AnswerAgent (where he has less ownership) survives.\n\nThey discussed three potential strategies: (1) get funding and grow AnswerAgent as SaaS, (2) slowly grow to $10M revenue over 10 years and sell, (3) package and sell within the next year. Adam leans toward option 3 for AnswerAgent. Both agreed the current Flowwise-based product is effectively dead and needs sunsetting. Brad proposed hiring a growth operator with skin-in-the-game compensation to scale the services business, which would eventually let both founders step back. Adam noted they need to talk to Max about the product pivot, and Max likely won't accept 33% of Last Rev given prior investment history. Brad wants to discuss all of this with Max tomorrow.",
+  "keyDiscussionPoints": [
+    "Real estate prospect: 80-100K MVP or 10-20K demo approach",
+    "Camelo MNDA concerns - overreaching NDA restricting B2B matching work",
+    "Fundamental question: merge Last Rev and AnswerAgent or keep separate?",
+    "Three exit/growth strategies discussed",
+    "Adam leans toward packaging AnswerAgent for sale within a year",
+    "Services vs product focus - services has immediate revenue opportunity",
+    "Hiring a growth operator to scale services and let founders step back",
+    "Max's role, compensation, and equity if companies merge",
+    "Mini-app strategy: small focused apps (Jira plugins, etc.) for recurring revenue",
+    "Cost savings of merging: ~$24K/year (mainly insurance)",
+    "Diligent as primary revenue risk - $300K outstanding",
+    "Adam built categorization tool while multitasking - proves mini-app velocity"
+  ],
+  "decisions": [
+    "Need to discuss product pivot and company structure with Max",
+    "Current Flowwise product is effectively sunset - all three founders agree",
+    "Services business is the primary value driver right now",
+    "Keep companies separate for now pending further discussion",
+    "Real estate prospect: wait for their decision on MVP vs demo approach"
+  ],
+  "actionItems": [
+    {"action": "Schedule three-way discussion with Max about product pivot and company structure", "owner": "Brad Taylor", "deadline": "tomorrow", "priority": "high"},
+    {"action": "Follow up with real estate prospects next week", "owner": "Adam Harris", "deadline": "next week", "priority": "high"},
+    {"action": "Call with SBI Builders tomorrow", "owner": "Brad Taylor", "deadline": "tomorrow", "priority": "high"},
+    {"action": "Review Camelo MNDA terms and push back on overreaching clauses", "owner": "Brad Taylor", "deadline": null, "priority": "high"},
+    {"action": "Explore hiring a growth operator for services scaling", "owner": "Adam Harris", "deadline": null, "priority": "medium"},
+    {"action": "Develop mini-app strategy for AnswerAgent (Jira plugins, etc.)", "owner": "Adam Harris", "deadline": null, "priority": "medium"},
+    {"action": "Invest in marketing funnel for services and mini-apps", "owner": "Brad Taylor", "deadline": null, "priority": "medium"}
+  ],
+  "followUp": [
+    "Three-way Max discussion on company structure and product pivot",
+    "SBI Builders contract closure",
+    "Real estate prospect decision",
+    "Camelo MNDA negotiation",
+    "Growth operator hiring exploration",
+    "Last Rev website and marketing push",
+    "Diligent invoice payments"
+  ],
+  "sentiment": "tense",
+  "jiraNote": "JIRA credentials not configured - unable to search for related tickets"
+}

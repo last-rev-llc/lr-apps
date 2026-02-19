@@ -1,0 +1,37 @@
+{
+  "lastChecked": "2026-02-10T22:59:43.400Z",
+  "period": "last 14 days",
+  "baseline": {
+    "avgSessions": 1240,
+    "avgPageviews": 3850,
+    "avgUsers": 980
+  },
+  "today": {
+    "sessions": 890,
+    "pageviews": 4100,
+    "users": 760
+  },
+  "alerts": [
+    {
+      "type": "traffic-drop",
+      "severity": "warning",
+      "metric": "sessions",
+      "baseline": 1240,
+      "current": 890,
+      "changePercent": -28,
+      "message": "Sessions dropped 28% vs 7-day average",
+      "page": null
+    },
+    {
+      "type": "page-spike",
+      "severity": "warning",
+      "metric": "pageviews",
+      "baseline": 45,
+      "current": 187,
+      "changePercent": 316,
+      "message": "/blog/nextjs-tips pageviews spiked 316%",
+      "page": "/blog/nextjs-tips"
+    }
+  ],
+  "status": "warning"
+}

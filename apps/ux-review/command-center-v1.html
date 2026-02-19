@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>⚡ Command Center — UX Variation</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  .ux-banner { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(245,158,11,0.15)); border: 1px solid rgba(99,102,241,0.3); border-radius: 12px; padding: 14px 20px; margin: 16px 24px; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+  .ux-banner strong { color: var(--accent); }
+
+  .status-bar { display: flex; gap: 12px; padding: 0 24px 16px; flex-wrap: wrap; }
+  .status-pill { background: var(--glass); border: 1px solid var(--border); border-radius: 10px; padding: 10px 18px; display: flex; align-items: center; gap: 8px; flex: 1; min-width: 140px; }
+  .status-pill .num { font-size: 22px; font-weight: 700; color: var(--text); }
+  .status-pill .lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .status-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-green { background: var(--green, var(--green)); }
+  .dot-yellow { background: var(--yellow, #eab308); }
+  .dot-blue { background: #3b82f6; }
+
+  .my-apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .my-apps-card {
+    padding: 16px 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 12px;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .my-apps-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    border-color: var(--accent);
+    background: rgba(245,158,11,0.06);
+  }
+  .my-apps-card .app-icon { font-size: 24px; flex-shrink: 0; }
+  .my-apps-card .app-name { font-weight: 600; font-size: 14px; color: var(--text); }
+  .my-apps-card .app-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .section-panel { background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin: 0 24px 16px; }
+  .section-panel h2 { font-size: 15px; font-weight: 600; margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
+
+  @media (max-width: 700px) {
+    .my-apps-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+    .my-apps-card { padding: 12px 14px; gap: 8px; }
+    .my-apps-card .app-icon { font-size: 20px; }
+    .my-apps-card .app-name { font-size: 12px; }
+    .status-bar { gap: 8px; padding: 0 16px 12px; }
+    .section-panel { margin: 0 16px 12px; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<cc-app-nav app="command-center" title="⚡ Command Center" active="home"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div class="ux-banner">
+  🎨 <strong>UX Review — Command Center — Variation 1 — Feb 14 2026</strong> — Upgraded nav to cc-app-nav, added status summary bar, improved card hover effects, better grid spacing
+</div>
+
+<cc-fade-in>
+<div class="page-header" style="padding:20px 24px 12px;">
+  <h1>⚡ <span>Command Center</span></h1>
+  <div style="color:var(--muted);font-size:13px;">Last updated: just now</div>
+</div>
+</cc-fade-in>
+
+<cc-fade-in delay="100">
+<div class="status-bar">
+  <div class="status-pill"><div class="dot dot-green"></div><div><div class="num">24</div><div class="lbl">Apps Live</div></div></div>
+  <div class="status-pill"><div class="dot dot-green"></div><div><div class="num">18</div><div class="lbl">Crons Active</div></div></div>
+  <div class="status-pill"><div class="dot dot-blue"></div><div><div class="num">12</div><div class="lbl">Integrations</div></div></div>
+  <div class="status-pill"><div class="dot dot-yellow"></div><div><div class="num">3</div><div class="lbl">Alerts</div></div></div>
+</div>
+</cc-fade-in>
+
+<div class="section-panel">
+  <h2>🚀 My Apps</h2>
+  <cc-stagger animation="fade-up" delay="60">
+  <div class="my-apps-grid">
+    <a href="#" class="my-apps-card"><span class="app-icon">👥</span><div><div class="app-name">Accounts</div><div class="app-desc">Client management</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">🏆</span><div><div class="app-name">Alpha Wins</div><div class="app-desc">Community recipes</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">🤖</span><div><div class="app-name">Agents</div><div class="app-desc">Agent management</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">💚</span><div><div class="app-name">Client Health</div><div class="app-desc">Health scores</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">📦</span><div><div class="app-name">Contentful</div><div class="app-desc">CMS health</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">⏰</span><div><div class="app-name">Crons</div><div class="app-desc">Scheduled jobs</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">🖼️</span><div><div class="app-name">Gallery</div><div class="app-desc">Media library</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">💡</span><div><div class="app-name">Ideas</div><div class="app-desc">Idea backlog</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">🎯</span><div><div class="app-name">Leads</div><div class="app-desc">Sales pipeline</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">🔦</span><div><div class="app-name">Lighthouse</div><div class="app-desc">Performance audits</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">📝</span><div><div class="app-name">Meetings</div><div class="app-desc">Meeting summaries</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">🧪</span><div><div class="app-name">Recipes</div><div class="app-desc">Automation recipes</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">📡</span><div><div class="app-name">Uptime</div><div class="app-desc">Status monitor</div></div></a>
+    <a href="#" class="my-apps-card"><span class="app-icon">🏨</span><div><div class="app-name">Travel</div><div class="app-desc">Travel collection</div></div></a>
+  </div>
+  </cc-stagger>
+</div>
+
+<cc-fade-in delay="200">
+<div class="section-panel">
+  <h2>📊 Recent Activity</h2>
+  <div style="color:var(--muted);font-size:13px;padding:24px 0;text-align:center;">
+    <cc-empty-state message="Activity feed loads from live data" icon="📊"></cc-empty-state>
+  </div>
+</div>
+</cc-fade-in>
+
+</body>
+</html>
+
+<!-- IMPLEMENTATION PROMPT: Update command-center/index.html: 1) Replace the sticky-header div containing cc-topbar+cc-nav with a single <cc-app-nav app="command-center" title="⚡ Command Center" active="home">. 2) Add a status summary bar below the page header showing counts for Apps Live, Crons Active, Integrations, Alerts — pull these from the existing data sources. 3) Change My Apps grid from flex to CSS grid with grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) and 12px gap. 4) Add border-left: 3px solid var(--accent) to each card. 5) Add hover transform translateY(-2px) + box-shadow + accent border-color. 6) Wrap the header in cc-fade-in, status bar in cc-fade-in delay=100, and apps grid in cc-stagger animation=fade-up delay=60. 7) Wrap the apps grid in a section-panel container with rounded border and glass background. 8) Use 8px spacing rhythm throughout. -->

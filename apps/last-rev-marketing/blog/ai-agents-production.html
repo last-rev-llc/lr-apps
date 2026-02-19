@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI Agents in Production: Architecture & Monitoring — Last Rev"
+    description="Architecture patterns, monitoring strategies, and failure modes for running AI agents in production."
+    canonical="https://lastrev.com/blog/ai-agents-production"
+    og-title="AI Agents in Production: Architecture & Monitoring — Last Rev"
+    og-description="Architecture patterns, monitoring strategies, and failure modes for running AI agents in production."
+    og-image="/images/og-default.png"
+    og-url="https://lastrev.com/blog/ai-agents-production"
+    og-type="article"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="Building AI Agents That Actually Work in Production" author="Brad Taylor" date="2025-12-11" category="AI Engineering" read-time="10 min" back-href="../blog.html" image="../images/blog/ai-agents-production.webp">
+        <div slot="content">
+<p>Everyone's building AI agents. The demos are impressive. The production deployments? Mostly a disaster. Here's what we've learned from running agents in production across multiple enterprise environments.</p>
+
+        <h2>The Demo-to-Production Gap</h2>
+        <p>An AI agent that works in a demo has exactly one thing going for it: a controlled environment. In production, you face:</p>
+        <ul>
+          <li>Unpredictable user inputs that break your carefully crafted prompts</li>
+          <li>API rate limits that cause cascading failures</li>
+          <li>Model latency spikes that timeout downstream systems</li>
+          <li>Hallucinations that corrupt real data</li>
+          <li>Cost runaway when agents loop or over-tool</li>
+        </ul>
+        <p>None of these show up in demos. All of them show up in production within the first week.</p>
+
+        <h2>Architecture Patterns That Work</h2>
+
+        <h3>1. The Guard Rail Pattern</h3>
+        <p>Every agent action should pass through a validation layer before execution. Not just input validation — output validation. Before an agent writes to a database, sends an email, or modifies a file, a deterministic guard rail checks:</p>
+        <ul>
+          <li>Is this action within the agent's authorized scope?</li>
+          <li>Does the output conform to expected schemas?</li>
+          <li>Is the magnitude of change reasonable? (Don't delete 10,000 rows when asked to clean up duplicates)</li>
+        </ul>
+
+        <h3>2. The Circuit Breaker Pattern</h3>
+        <p>Borrowed from microservices architecture: if an agent fails N times in a row, stop trying and alert a human. This prevents the nightmare scenario where an agent keeps retrying a broken operation, burning tokens and potentially corrupting state with each attempt.</p>
+        <p>We implement this at two levels: per-tool (if a specific API keeps failing) and per-task (if the overall goal isn't making progress).</p>
+
+        <h3>3. The Audit Trail Pattern</h3>
+        <p>Every agent action, every tool call, every decision point gets logged to an immutable audit trail. Not just for debugging — for compliance, for rollback, and for improving the agent over time.</p>
+        <p>We log: the prompt, the model's reasoning, the tool calls, the results, and the final output. This makes post-incident analysis actually possible.</p>
+
+        <h3>4. The Human-in-the-Loop Escalation</h3>
+        <p>Design your agent to know when it's uncertain. This sounds obvious, but most agent frameworks don't handle it well. We use confidence scoring: if the agent's certainty drops below a threshold for a high-stakes action, it pauses and asks a human.</p>
+        <p>The key is calibrating the threshold. Too low, and the agent escalates everything (defeating the purpose). Too high, and it confidently does the wrong thing.</p>
+
+        <h2>Monitoring: What to Watch</h2>
+        <p>Standard application monitoring isn't enough for AI agents. You need:</p>
+        <ul>
+          <li><strong>Token consumption per task.</strong> A sudden spike means the agent is looping or over-reasoning.</li>
+          <li><strong>Tool call patterns.</strong> If an agent is calling the same tool 10 times in a row, something is wrong.</li>
+          <li><strong>Completion rates.</strong> What percentage of tasks reach a successful end state vs. timeout, error, or escalation?</li>
+          <li><strong>Latency distribution.</strong> Not just average — the P95 and P99 matter because that's where users lose patience.</li>
+          <li><strong>Cost per task.</strong> Know your unit economics. If a task that should cost $0.05 is costing $5, investigate immediately.</li>
+        </ul>
+
+        <h2>Failure Modes You'll Hit</h2>
+
+        <h3>The Infinite Loop</h3>
+        <p>Agent tries action → gets error → tries slightly different action → gets same error → repeat forever. Solution: track action history within a session and hard-limit retries.</p>
+
+        <h3>The Confident Hallucination</h3>
+        <p>Agent generates a plausible-sounding answer that's completely wrong, and acts on it. Solution: fact-check critical outputs against ground truth before acting. Use retrieval, not generation, for factual claims.</p>
+
+        <h3>The Scope Creep</h3>
+        <p>User asks agent to "clean up the data" and it deletes half the database. Solution: explicit scope boundaries and magnitude limits on every destructive operation.</p>
+
+        <h3>The Token Bomb</h3>
+        <p>Agent encounters a large context (big file, long conversation) and costs spike 100x. Solution: context windowing, summarization, and hard token budgets per task.</p>
+
+        <h2>Our Stack</h2>
+        <p>After iterating through multiple frameworks, here's what we've settled on:</p>
+        <ul>
+          <li><strong>Orchestration:</strong> Custom lightweight layer (not LangChain — too much abstraction for production use)</li>
+          <li><strong>Models:</strong> Claude for reasoning-heavy tasks, GPT-4o for speed-sensitive ones, open-source for high-volume/low-stakes</li>
+          <li><strong>Tool execution:</strong> Sandboxed environments with resource limits</li>
+          <li><strong>Monitoring:</strong> Custom dashboards built on structured logs</li>
+          <li><strong>Evaluation:</strong> Weekly eval runs against regression test suites</li>
+        </ul>
+
+        <h2>The Honest Truth</h2>
+        <p>AI agents in production are hard. They're non-deterministic systems running in deterministic environments, and every edge case is a potential incident. But when they work — when they're properly guarded, monitored, and scoped — they're transformative.</p>
+        <p>The difference between a toy demo and a production system is about 10x the engineering effort. Budget for it.</p>
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Building AI Agents That Actually Work in Production",
+  "description": "Architecture patterns, monitoring strategies, and failure modes for running AI agents in production.",
+  "author": {
+    "@type": "Organization",
+    "name": "Last Rev"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Last Rev"
+  },
+  "datePublished": "2025-12-11",
+  "dateModified": "2025-12-11",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lastrev.com/blog/ai-agents-production.html"
+  },
+  "image": "https://lastrev.com/images/og-default.png"
+}
+</script>
+
+</body>
+</html>

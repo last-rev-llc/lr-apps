@@ -1,0 +1,241 @@
+[
+  {
+    "id": "push-pull-legs",
+    "name": "Push Pull Legs",
+    "description": "Classic 3-day split focusing on movement patterns",
+    "type": "push_pull_legs",
+    "difficulty": "intermediate",
+    "days_per_week": 6,
+    "exercises": [
+      {
+        "day": "Push A",
+        "exercises": [
+          {"exercise_id": "bench-press", "sets": 4, "reps": "6-8", "rest": 180},
+          {"exercise_id": "overhead-press", "sets": 3, "reps": "8-10", "rest": 120},
+          {"exercise_id": "incline-dumbbell-press", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "lateral-raises", "sets": 3, "reps": "12-15", "rest": 60},
+          {"exercise_id": "tricep-pushdowns", "sets": 3, "reps": "10-12", "rest": 60},
+          {"exercise_id": "close-grip-push-ups", "sets": 3, "reps": "8-12", "rest": 60}
+        ]
+      },
+      {
+        "day": "Pull A",
+        "exercises": [
+          {"exercise_id": "pull-ups", "sets": 4, "reps": "5-8", "rest": 180},
+          {"exercise_id": "bent-rows", "sets": 4, "reps": "6-8", "rest": 120},
+          {"exercise_id": "lat-pulldown", "sets": 3, "reps": "8-10", "rest": 90},
+          {"exercise_id": "dumbbell-rows", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "bicep-curls", "sets": 3, "reps": "10-12", "rest": 60},
+          {"exercise_id": "hammer-curls", "sets": 3, "reps": "10-12", "rest": 60}
+        ]
+      },
+      {
+        "day": "Legs A",
+        "exercises": [
+          {"exercise_id": "squats", "sets": 4, "reps": "6-8", "rest": 180},
+          {"exercise_id": "romanian-deadlift", "sets": 4, "reps": "8-10", "rest": 120},
+          {"exercise_id": "leg-press", "sets": 3, "reps": "12-15", "rest": 90},
+          {"exercise_id": "lunges", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "calf-raises", "sets": 4, "reps": "15-20", "rest": 60}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "upper-lower",
+    "name": "Upper Lower Split",
+    "description": "4-day split alternating upper and lower body",
+    "type": "upper_lower",
+    "difficulty": "intermediate",
+    "days_per_week": 4,
+    "exercises": [
+      {
+        "day": "Upper A",
+        "exercises": [
+          {"exercise_id": "bench-press", "sets": 4, "reps": "6-8", "rest": 180},
+          {"exercise_id": "bent-rows", "sets": 4, "reps": "6-8", "rest": 180},
+          {"exercise_id": "overhead-press", "sets": 3, "reps": "8-10", "rest": 120},
+          {"exercise_id": "pull-ups", "sets": 3, "reps": "6-10", "rest": 120},
+          {"exercise_id": "lateral-raises", "sets": 3, "reps": "12-15", "rest": 60},
+          {"exercise_id": "bicep-curls", "sets": 3, "reps": "10-12", "rest": 60},
+          {"exercise_id": "tricep-pushdowns", "sets": 3, "reps": "10-12", "rest": 60}
+        ]
+      },
+      {
+        "day": "Lower A",
+        "exercises": [
+          {"exercise_id": "squats", "sets": 4, "reps": "6-8", "rest": 180},
+          {"exercise_id": "romanian-deadlift", "sets": 4, "reps": "8-10", "rest": 120},
+          {"exercise_id": "leg-press", "sets": 3, "reps": "12-15", "rest": 90},
+          {"exercise_id": "lunges", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "calf-raises", "sets": 4, "reps": "15-20", "rest": 60}
+        ]
+      },
+      {
+        "day": "Upper B",
+        "exercises": [
+          {"exercise_id": "incline-dumbbell-press", "sets": 4, "reps": "8-10", "rest": 120},
+          {"exercise_id": "lat-pulldown", "sets": 4, "reps": "8-10", "rest": 120},
+          {"exercise_id": "dumbbell-shoulder-press", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "dumbbell-rows", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "front-raises", "sets": 3, "reps": "12-15", "rest": 60},
+          {"exercise_id": "hammer-curls", "sets": 3, "reps": "10-12", "rest": 60},
+          {"exercise_id": "tricep-dips", "sets": 3, "reps": "8-12", "rest": 60}
+        ]
+      },
+      {
+        "day": "Lower B",
+        "exercises": [
+          {"exercise_id": "goblet-squats", "sets": 4, "reps": "10-12", "rest": 90},
+          {"exercise_id": "deadlift", "sets": 3, "reps": "5-6", "rest": 180},
+          {"exercise_id": "lunges", "sets": 3, "reps": "12-15", "rest": 90},
+          {"exercise_id": "romanian-deadlift", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "calf-raises", "sets": 4, "reps": "15-20", "rest": 60}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "full-body-strength",
+    "name": "Full Body Strength",
+    "description": "3-day full body routine focusing on compound movements",
+    "type": "full_body",
+    "difficulty": "beginner",
+    "days_per_week": 3,
+    "exercises": [
+      {
+        "day": "Day A",
+        "exercises": [
+          {"exercise_id": "squats", "sets": 3, "reps": "8-10", "rest": 180},
+          {"exercise_id": "bench-press", "sets": 3, "reps": "8-10", "rest": 180},
+          {"exercise_id": "bent-rows", "sets": 3, "reps": "8-10", "rest": 120},
+          {"exercise_id": "overhead-press", "sets": 3, "reps": "10-12", "rest": 120},
+          {"exercise_id": "plank", "sets": 3, "reps": "30-60s", "rest": 60}
+        ]
+      },
+      {
+        "day": "Day B",
+        "exercises": [
+          {"exercise_id": "deadlift", "sets": 3, "reps": "6-8", "rest": 180},
+          {"exercise_id": "dumbbell-bench-press", "sets": 3, "reps": "10-12", "rest": 120},
+          {"exercise_id": "pull-ups", "sets": 3, "reps": "5-8", "rest": 120},
+          {"exercise_id": "lunges", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "bicycle-crunches", "sets": 3, "reps": "15-20", "rest": 60}
+        ]
+      },
+      {
+        "day": "Day C",
+        "exercises": [
+          {"exercise_id": "goblet-squats", "sets": 3, "reps": "12-15", "rest": 90},
+          {"exercise_id": "push-ups", "sets": 3, "reps": "10-15", "rest": 90},
+          {"exercise_id": "dumbbell-rows", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "dumbbell-shoulder-press", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "russian-twists", "sets": 3, "reps": "20-30", "rest": 60}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "full-body-hypertrophy",
+    "name": "Full Body Hypertrophy",
+    "description": "3-day full body routine focused on muscle building",
+    "type": "full_body",
+    "difficulty": "intermediate",
+    "days_per_week": 3,
+    "exercises": [
+      {
+        "day": "Day A",
+        "exercises": [
+          {"exercise_id": "squats", "sets": 4, "reps": "10-12", "rest": 120},
+          {"exercise_id": "incline-dumbbell-press", "sets": 4, "reps": "10-12", "rest": 120},
+          {"exercise_id": "lat-pulldown", "sets": 4, "reps": "10-12", "rest": 90},
+          {"exercise_id": "lateral-raises", "sets": 3, "reps": "15-20", "rest": 60},
+          {"exercise_id": "bicep-curls", "sets": 3, "reps": "12-15", "rest": 60},
+          {"exercise_id": "leg-raises", "sets": 3, "reps": "12-15", "rest": 60}
+        ]
+      },
+      {
+        "day": "Day B",
+        "exercises": [
+          {"exercise_id": "romanian-deadlift", "sets": 4, "reps": "10-12", "rest": 120},
+          {"exercise_id": "dumbbell-bench-press", "sets": 4, "reps": "10-12", "rest": 120},
+          {"exercise_id": "pull-ups", "sets": 4, "reps": "8-10", "rest": 120},
+          {"exercise_id": "dumbbell-shoulder-press", "sets": 3, "reps": "12-15", "rest": 90},
+          {"exercise_id": "tricep-pushdowns", "sets": 3, "reps": "12-15", "rest": 60},
+          {"exercise_id": "crunches", "sets": 3, "reps": "15-20", "rest": 60}
+        ]
+      },
+      {
+        "day": "Day C",
+        "exercises": [
+          {"exercise_id": "leg-press", "sets": 4, "reps": "12-15", "rest": 90},
+          {"exercise_id": "push-ups", "sets": 4, "reps": "12-15", "rest": 90},
+          {"exercise_id": "dumbbell-rows", "sets": 4, "reps": "10-12", "rest": 90},
+          {"exercise_id": "reverse-flyes", "sets": 3, "reps": "15-20", "rest": 60},
+          {"exercise_id": "hammer-curls", "sets": 3, "reps": "12-15", "rest": 60},
+          {"exercise_id": "plank", "sets": 3, "reps": "45-90s", "rest": 60}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bro-split",
+    "name": "Bro Split",
+    "description": "5-day body part split for advanced trainees",
+    "type": "custom",
+    "difficulty": "advanced",
+    "days_per_week": 5,
+    "exercises": [
+      {
+        "day": "Chest",
+        "exercises": [
+          {"exercise_id": "bench-press", "sets": 4, "reps": "6-8", "rest": 180},
+          {"exercise_id": "incline-dumbbell-press", "sets": 4, "reps": "8-10", "rest": 120},
+          {"exercise_id": "dumbbell-bench-press", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "chest-dips", "sets": 3, "reps": "8-12", "rest": 90},
+          {"exercise_id": "push-ups", "sets": 3, "reps": "12-15", "rest": 60}
+        ]
+      },
+      {
+        "day": "Back",
+        "exercises": [
+          {"exercise_id": "deadlift", "sets": 4, "reps": "5-6", "rest": 180},
+          {"exercise_id": "pull-ups", "sets": 4, "reps": "6-8", "rest": 120},
+          {"exercise_id": "bent-rows", "sets": 4, "reps": "8-10", "rest": 120},
+          {"exercise_id": "lat-pulldown", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "dumbbell-rows", "sets": 3, "reps": "10-12", "rest": 90}
+        ]
+      },
+      {
+        "day": "Shoulders",
+        "exercises": [
+          {"exercise_id": "overhead-press", "sets": 4, "reps": "6-8", "rest": 180},
+          {"exercise_id": "dumbbell-shoulder-press", "sets": 4, "reps": "8-10", "rest": 120},
+          {"exercise_id": "lateral-raises", "sets": 4, "reps": "12-15", "rest": 60},
+          {"exercise_id": "front-raises", "sets": 3, "reps": "12-15", "rest": 60},
+          {"exercise_id": "reverse-flyes", "sets": 4, "reps": "15-20", "rest": 60}
+        ]
+      },
+      {
+        "day": "Arms",
+        "exercises": [
+          {"exercise_id": "bicep-curls", "sets": 4, "reps": "10-12", "rest": 90},
+          {"exercise_id": "tricep-pushdowns", "sets": 4, "reps": "10-12", "rest": 90},
+          {"exercise_id": "hammer-curls", "sets": 3, "reps": "10-12", "rest": 60},
+          {"exercise_id": "tricep-dips", "sets": 3, "reps": "8-12", "rest": 90},
+          {"exercise_id": "close-grip-push-ups", "sets": 3, "reps": "10-15", "rest": 60}
+        ]
+      },
+      {
+        "day": "Legs",
+        "exercises": [
+          {"exercise_id": "squats", "sets": 4, "reps": "6-8", "rest": 180},
+          {"exercise_id": "romanian-deadlift", "sets": 4, "reps": "8-10", "rest": 120},
+          {"exercise_id": "leg-press", "sets": 4, "reps": "12-15", "rest": 90},
+          {"exercise_id": "lunges", "sets": 3, "reps": "10-12", "rest": 90},
+          {"exercise_id": "calf-raises", "sets": 4, "reps": "15-20", "rest": 60}
+        ]
+      }
+    ]
+  }
+]

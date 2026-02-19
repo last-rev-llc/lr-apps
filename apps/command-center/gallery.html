@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="var(--accent)">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>🖼️ Media Gallery — Command Center</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="modules/index.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/sql-sync.js"></script>
+<script src="db.js"></script>
+<script src="https://cc-gallery.adam-harris.alphaclaw.app/modules/cc-prompts-tab.js"></script>
+</head>
+<body>
+<div class="sticky-header">
+<cc-topbar></cc-topbar>
+<cc-nav active="gallery"></cc-nav>
+</div>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<cc-tabs active="gallery">
+  <cc-tab name="gallery" label="Gallery" icon="image">
+    <cc-gallery src="data/media.json"></cc-gallery>
+  </cc-tab>
+  <cc-tab name="prompts" label="Prompts" icon="sparkles">
+    <cc-prompts-tab></cc-prompts-tab>
+  </cc-tab>
+</cc-tabs>
+<script>if("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
+</body>
+</html>

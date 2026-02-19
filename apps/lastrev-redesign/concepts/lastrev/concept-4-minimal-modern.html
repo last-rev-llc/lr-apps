@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>Last Rev — Minimal & Modern Concept</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Space Grotesk', sans-serif; background: #fafafa; color: #111; line-height: 1.6; width: 1440px; }
+
+nav { display: flex; justify-content: space-between; align-items: center; padding: 32px 120px; }
+nav .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+nav ul { display: flex; gap: 40px; list-style: none; }
+nav ul li a { color: #999; text-decoration: none; font-size: 14px; font-weight: 500; }
+nav .cta-btn { color: #111; font-size: 14px; font-weight: 600; text-decoration: none; border-bottom: 2px solid #111; padding-bottom: 2px; }
+
+/* Hero */
+.hero { padding: 140px 120px 120px; max-width: 1000px; }
+.hero h1 { font-size: 80px; font-weight: 700; line-height: 1.0; letter-spacing: -4px; margin-bottom: 40px; color: #111; }
+.hero p { font-size: 22px; color: #777; max-width: 560px; line-height: 1.7; font-weight: 400; margin-bottom: 48px; }
+.hero a { color: #111; font-size: 16px; font-weight: 600; text-decoration: none; border-bottom: 2px solid #111; padding-bottom: 4px; }
+.hero a:hover { color: #555; border-color: #555; }
+
+/* Divider */
+.divider { height: 1px; background: #e5e5e5; margin: 0 120px; }
+
+/* What we do — minimal */
+.what { padding: 120px 120px; display: grid; grid-template-columns: 300px 1fr; gap: 120px; }
+.what .label { font-size: 12px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 3px; padding-top: 8px; }
+.what-list { display: flex; flex-direction: column; gap: 0; }
+.what-item { padding: 40px 0; border-bottom: 1px solid #e5e5e5; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.what-item:first-child { padding-top: 0; }
+.what-item h3 { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; }
+.what-item p { font-size: 16px; color: #777; line-height: 1.7; }
+
+/* Numbers */
+.numbers { padding: 120px 120px; background: #111; color: #fff; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+.num-item .value { font-size: 64px; font-weight: 700; letter-spacing: -3px; }
+.num-item .desc { font-size: 14px; color: #666; margin-top: 8px; }
+
+/* Work */
+.work { padding: 120px 120px; }
+.work-header { display: grid; grid-template-columns: 300px 1fr; gap: 120px; margin-bottom: 80px; }
+.work-header .label { font-size: 12px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 3px; padding-top: 8px; }
+.work-header h2 { font-size: 48px; font-weight: 700; letter-spacing: -2px; }
+.work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.work-card { background: #fff; border-radius: 16px; padding: 48px; border: 1px solid #eee; }
+.work-card .tag { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+.work-card h3 { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 12px; }
+.work-card p { font-size: 15px; color: #777; line-height: 1.7; margin-bottom: 24px; }
+.work-card .metric { display: inline-block; font-size: 32px; font-weight: 700; letter-spacing: -1px; }
+.work-card .metric-label { font-size: 13px; color: #999; margin-left: 8px; }
+
+/* About */
+.about { padding: 120px 120px; display: grid; grid-template-columns: 300px 1fr; gap: 120px; }
+.about .label { font-size: 12px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 3px; padding-top: 8px; }
+.about-content h2 { font-size: 40px; font-weight: 700; letter-spacing: -1.5px; margin-bottom: 24px; }
+.about-content p { font-size: 17px; color: #666; line-height: 1.8; margin-bottom: 16px; }
+
+/* Tech */
+.tech { padding: 80px 120px; border-top: 1px solid #e5e5e5; }
+.tech-row { display: flex; gap: 48px; justify-content: center; }
+.tech-row span { font-size: 15px; color: #bbb; font-weight: 500; }
+
+/* CTA */
+.cta { padding: 160px 120px; }
+.cta h2 { font-size: 72px; font-weight: 700; letter-spacing: -3px; line-height: 1.05; max-width: 700px; margin-bottom: 40px; }
+.cta a { color: #111; font-size: 18px; font-weight: 600; text-decoration: none; border-bottom: 2px solid #111; padding-bottom: 4px; }
+
+/* Footer */
+footer { padding: 48px 120px; border-top: 1px solid #e5e5e5; display: flex; justify-content: space-between; }
+footer .logo { font-size: 16px; font-weight: 700; }
+footer p { font-size: 13px; color: #bbb; }
+</style>
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+</head>
+<body>
+<cc-topbar></cc-topbar>
+<cc-nav></cc-nav>
+<cc-auth></cc-auth>
+
+
+<nav>
+  <div class="logo">Last Rev</div>
+  <ul>
+    <li><a href="#">Work</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <a href="#" class="cta-btn">Get in touch</a>
+</nav>
+
+<section class="hero">
+  <h1>AI, automation, and the modern web.</h1>
+  <p>We help ambitious companies build intelligent digital systems — from AI agents to composable web platforms.</p>
+  <a href="#">See our work →</a>
+</section>
+
+<div class="divider"></div>
+
+<section class="what">
+  <div class="label">What we do</div>
+  <div class="what-list">
+    <div class="what-item">
+      <h3>AI Agents</h3>
+      <p>Autonomous systems that handle customer support, content operations, and business workflows — powered by LLMs, RAG, and custom orchestration.</p>
+    </div>
+    <div class="what-item">
+      <h3>Automation</h3>
+      <p>Intelligent pipelines that connect your tools, eliminate manual work, and let your team focus on what matters.</p>
+    </div>
+    <div class="what-item">
+      <h3>Web Platforms</h3>
+      <p>High-performance sites on Next.js and Contentful. Composable architecture, blazing fast, editorial-team friendly.</p>
+    </div>
+    <div class="what-item">
+      <h3>Consulting</h3>
+      <p>Architecture reviews, AI readiness assessments, and technology roadmaps to align your stack with your ambitions.</p>
+    </div>
+  </div>
+</section>
+
+<section class="numbers">
+  <div class="num-item"><div class="value">150+</div><div class="desc">Projects shipped</div></div>
+  <div class="num-item"><div class="value">85%</div><div class="desc">AI auto-resolution</div></div>
+  <div class="num-item"><div class="value">95+</div><div class="desc">Lighthouse scores</div></div>
+  <div class="num-item"><div class="value">4x</div><div class="desc">Faster publishing</div></div>
+</section>
+
+<section class="work">
+  <div class="work-header">
+    <div class="label">Selected work</div>
+    <h2>Results that speak for themselves.</h2>
+  </div>
+  <div class="work-grid">
+    <div class="work-card">
+      <div class="tag">AI Agent</div>
+      <h3>Customer Support Transformation</h3>
+      <p>Built an AI agent for a major SaaS platform that handles tier-1 support with full context awareness and smart escalation.</p>
+      <span class="metric">-60%</span><span class="metric-label">support tickets</span>
+    </div>
+    <div class="work-card">
+      <div class="tag">Web Platform</div>
+      <h3>Enterprise Marketing Site</h3>
+      <p>Migrated from legacy CMS to Next.js + Contentful composable architecture across 12 international markets.</p>
+      <span class="metric">95+</span><span class="metric-label">lighthouse score</span>
+    </div>
+    <div class="work-card">
+      <div class="tag">Automation</div>
+      <h3>Content Operations Pipeline</h3>
+      <p>End-to-end automation connecting CMS, DAM, and localization — eliminating all manual publishing steps.</p>
+      <span class="metric">20h</span><span class="metric-label">saved weekly</span>
+    </div>
+    <div class="work-card">
+      <div class="tag">Knowledge Base</div>
+      <h3>AI-Powered Documentation</h3>
+      <p>Transformed static docs into semantic-search-powered knowledge system with RAG and embeddings.</p>
+      <span class="metric">3.2s</span><span class="metric-label">avg. resolution</span>
+    </div>
+  </div>
+</section>
+
+<section class="about">
+  <div class="label">About</div>
+  <div class="about-content">
+    <h2>Small team. Big thinking.</h2>
+    <p>Last Rev is a boutique technology agency founded by enterprise consulting veterans. We bring the strategic depth of a big firm with the speed, honesty, and craft of a small team.</p>
+    <p>We specialize in AI, automation, and modern web architectures — helping companies build systems that are fast, intelligent, and built to last.</p>
+  </div>
+</section>
+
+<section class="tech">
+  <div class="tech-row">
+    <span>Next.js</span>
+    <span>·</span>
+    <span>Contentful</span>
+    <span>·</span>
+    <span>TypeScript</span>
+    <span>·</span>
+    <span>LangChain</span>
+    <span>·</span>
+    <span>GraphQL</span>
+    <span>·</span>
+    <span>Vercel</span>
+    <span>·</span>
+    <span>AWS</span>
+    <span>·</span>
+    <span>Node.js</span>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Let's build something intelligent.</h2>
+  <a href="#">Start a conversation →</a>
+</section>
+
+<footer>
+  <div class="logo">Last Rev</div>
+  <p>© 2026 Last Rev. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

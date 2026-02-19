@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💡 Ideas App — Ad Creatives</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+.ads-page { max-width: 1600px; margin: 0 auto; padding: 2rem 1rem; }
+.ads-page h1 { font-size: 2rem; margin: 0; }
+.ads-page .subtitle { color: var(--text-muted); margin: .25rem 0 2rem; }
+.ad-group { margin-bottom: 3rem; }
+.ad-group h2 { font-size: 1.25rem; color: var(--amber); border-bottom: 1px solid rgba(245,158,11,.2); padding-bottom: .5rem; margin-bottom: 1.5rem; }
+.ad-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 1.25rem; margin-bottom: 2rem; }
+.ad-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.ad-card-header h3 { margin: 0; font-size: 1rem; }
+.ad-card-header .dims { color: var(--text-muted); font-size: .85rem; }
+.btn-copy { background: var(--amber); color: #000; border: none; padding: .4rem .8rem; border-radius: 6px; cursor: pointer; font-size: .8rem; font-weight: 600; }
+.btn-copy:hover { opacity: .85; }
+.ad-preview { overflow: auto; border: 1px dashed rgba(255,255,255,.1); border-radius: 8px; padding: 1rem; display: flex; justify-content: center; }
+.ad-preview > div { flex-shrink: 0; }
+</style>
+</head>
+<body>
+<cc-auth></cc-auth>
+
+<div class="sticky-header">
+<cc-topbar></cc-topbar>
+<cc-nav active="ideas"></cc-nav>
+</div>
+<cc-toast></cc-toast>
+
+<div class="ads-page">
+<h1>💡 Ideas App — Ad Creatives</h1>
+<p class="subtitle">Standard digital ad sizes ready for campaigns. Each ad is self-contained HTML — click "Copy HTML" to grab it.</p>
+
+<div id="ad-groups"></div>
+</div>
+
+<script>
+const ADS = [
+// Display Ads
+{ cat: "Display Ads", name: "Leaderboard", w: 728, h: 90, layout: "small" },
+{ cat: "Display Ads", name: "Medium Rectangle", w: 300, h: 250, layout: "medium" },
+{ cat: "Display Ads", name: "Wide Skyscraper", w: 160, h: 600, layout: "tall" },
+{ cat: "Display Ads", name: "Large Rectangle", w: 336, h: 280, layout: "medium" },
+{ cat: "Display Ads", name: "Mobile Banner", w: 320, h: 50, layout: "small" },
+// Social Media
+{ cat: "Social Media", name: "Social Square", w: 1080, h: 1080, layout: "large" },
+{ cat: "Social Media", name: "Social Story", w: 1080, h: 1920, layout: "story" },
+{ cat: "Social Media", name: "Twitter/X Header", w: 1500, h: 500, layout: "wide" },
+// Special Sizes
+{ cat: "Special Sizes", name: "Billboard", w: 970, h: 250, layout: "wide" },
+{ cat: "Special Sizes", name: "Square", w: 250, h: 250, layout: "medium" },
+];
+
+function adHTML(ad) {
+  const font = `font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;`;
+  const bg = `background:linear-gradient(135deg,var(--bg) 0%,#1a1d2e 100%);`;
+  const base = `${bg}${font}color:#fff;width:${ad.w}px;height:${ad.h}px;overflow:hidden;position:relative;box-sizing:border-box;`;
+
+  const cta = `<span style="display:inline-block;background:var(--accent);color:#000;padding:6px 14px;border-radius:6px;font-weight:700;font-size:${ad.layout==='small'?'11':'13'}px;white-space:nowrap;">Try Ideas Free →</span>`;
+  const url = `<span style="color:rgba(255,255,255,.4);font-size:10px;">ideas.adam-harris.alphaclaw.app</span>`;
+  const glass = `background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.15);border-radius:8px;backdrop-filter:blur(8px);`;
+
+  if (ad.layout === 'small') {
+    // 728x90 or 320x50
+    const fs = ad.h <= 50 ? 13 : 16;
+    return `<div style="${base}display:flex;align-items:center;justify-content:space-between;padding:0 ${ad.h<=50?12:20}px;">
+  <div style="display:flex;align-items:center;gap:${ad.h<=50?8:12}px;">
+    <span style="font-size:${ad.h<=50?18:26}px;">💡</span>
+    <span style="font-size:${fs}px;font-weight:700;color:var(--accent);">Never Run Out of Ideas</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    ${ad.h > 50 ? url : ''}
+    ${cta}
+  </div>
+</div>`;
+  }
+
+  if (ad.layout === 'medium') {
+    return `<div style="${base}display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;">
+  <div style="font-size:32px;margin-bottom:8px;">💡</div>
+  <div style="font-size:18px;font-weight:800;color:var(--accent);margin-bottom:6px;">Never Run Out of Ideas</div>
+  <div style="font-size:12px;color:rgba(255,255,255,.65);margin-bottom:12px;line-height:1.4;">Auto-generated ideas scored<br>by feasibility &amp; impact</div>
+  <div style="${glass}padding:8px 14px;margin-bottom:14px;font-size:11px;color:rgba(255,255,255,.7);">🤖 AI Generation · 🌐 Discovery · ⚡ Build</div>
+  ${cta}
+  <div style="margin-top:8px;">${url}</div>
+</div>`;
+  }
+
+  if (ad.layout === 'tall') {
+    return `<div style="${base}display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:24px 12px;text-align:center;">
+  <div>
+    <div style="font-size:36px;margin-bottom:10px;">💡</div>
+    <div style="font-size:16px;font-weight:800;color:var(--accent);line-height:1.3;">AI-Powered<br>Idea Pipeline</div>
+  </div>
+  <div style="width:100%;">
+    <div style="${glass}padding:10px;margin-bottom:10px;font-size:11px;text-align:left;color:rgba(255,255,255,.7);">🤖 AI Generation</div>
+    <div style="${glass}padding:10px;margin-bottom:10px;font-size:11px;text-align:left;color:rgba(255,255,255,.7);">🌐 Community Discovery</div>
+    <div style="${glass}padding:10px;margin-bottom:10px;font-size:11px;text-align:left;color:rgba(255,255,255,.7);">⚡ One-Click Build</div>
+    <div style="${glass}padding:10px;margin-bottom:10px;font-size:11px;text-align:left;color:rgba(255,255,255,.7);">📊 Feasibility × Impact</div>
+  </div>
+  <div>
+    ${cta}
+    <div style="margin-top:8px;">${url}</div>
+  </div>
+</div>`;
+  }
+
+  if (ad.layout === 'wide') {
+    return `<div style="${base}display:flex;align-items:center;padding:0 40px;gap:40px;">
+  <div style="flex:1;">
+    <div style="font-size:28px;font-weight:800;color:var(--accent);margin-bottom:6px;">💡 Score. Build. Ship.</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.65);margin-bottom:16px;">Auto-generated ideas scored by feasibility &amp; impact</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <span style="${glass}padding:8px 12px;font-size:12px;color:rgba(255,255,255,.7);">🤖 AI Generation</span>
+      <span style="${glass}padding:8px 12px;font-size:12px;color:rgba(255,255,255,.7);">🌐 Community Discovery</span>
+      <span style="${glass}padding:8px 12px;font-size:12px;color:rgba(255,255,255,.7);">⚡ One-Click Build</span>
+    </div>
+  </div>
+  <div style="text-align:center;">
+    ${cta}
+    <div style="margin-top:6px;">${url}</div>
+  </div>
+</div>`;
+  }
+
+  if (ad.layout === 'large') {
+    // 1080x1080
+    return `<div style="${base}display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px;text-align:center;">
+  <div style="font-size:72px;margin-bottom:20px;">💡</div>
+  <div style="font-size:42px;font-weight:800;color:var(--accent);margin-bottom:12px;line-height:1.2;">Never Run Out<br>of Ideas</div>
+  <div style="font-size:18px;color:rgba(255,255,255,.6);margin-bottom:36px;">AI-Powered Idea Generation, Scoring &amp; Management</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px;width:100%;max-width:600px;">
+    <div style="${glass}padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;margin-bottom:6px;">🤖</div><div style="font-size:14px;font-weight:600;">AI Generation</div><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;">Auto-generated ideas on demand</div></div>
+    <div style="${glass}padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;margin-bottom:6px;">🌐</div><div style="font-size:14px;font-weight:600;">Community Discovery</div><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;">Find trending concepts</div></div>
+    <div style="${glass}padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;margin-bottom:6px;">📊</div><div style="font-size:14px;font-weight:600;">Smart Scoring</div><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;">Feasibility × Impact matrix</div></div>
+    <div style="${glass}padding:20px;text-align:center;border-radius:12px;"><div style="font-size:28px;margin-bottom:6px;">⚡</div><div style="font-size:14px;font-weight:600;">One-Click Build</div><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;">Ship ideas instantly</div></div>
+  </div>
+  <span style="display:inline-block;background:var(--accent);color:#000;padding:14px 32px;border-radius:10px;font-weight:700;font-size:18px;">Start Building →</span>
+  <div style="margin-top:12px;">${url}</div>
+</div>`;
+  }
+
+  if (ad.layout === 'story') {
+    return `<div style="${base}display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:60px 40px;text-align:center;">
+  <div>
+    <div style="font-size:80px;margin-bottom:16px;">💡</div>
+    <div style="font-size:48px;font-weight:800;color:var(--accent);line-height:1.15;margin-bottom:16px;">Never Run<br>Out of<br>Ideas</div>
+    <div style="font-size:18px;color:rgba(255,255,255,.55);">AI-Powered Idea Pipeline</div>
+  </div>
+  <div style="width:100%;display:flex;flex-direction:column;gap:16px;">
+    <div style="${glass}padding:20px;border-radius:12px;text-align:left;display:flex;align-items:center;gap:14px;"><span style="font-size:32px;">🤖</span><div><div style="font-weight:600;font-size:16px;">AI Generation</div><div style="font-size:12px;color:rgba(255,255,255,.5);">Auto-generated ideas on demand</div></div></div>
+    <div style="${glass}padding:20px;border-radius:12px;text-align:left;display:flex;align-items:center;gap:14px;"><span style="font-size:32px;">🌐</span><div><div style="font-weight:600;font-size:16px;">Community Discovery</div><div style="font-size:12px;color:rgba(255,255,255,.5);">Find what's trending</div></div></div>
+    <div style="${glass}padding:20px;border-radius:12px;text-align:left;display:flex;align-items:center;gap:14px;"><span style="font-size:32px;">📊</span><div><div style="font-weight:600;font-size:16px;">Smart Scoring</div><div style="font-size:12px;color:rgba(255,255,255,.5);">Feasibility × Impact matrix</div></div></div>
+    <div style="${glass}padding:20px;border-radius:12px;text-align:left;display:flex;align-items:center;gap:14px;"><span style="font-size:32px;">⚡</span><div><div style="font-weight:600;font-size:16px;">One-Click Build</div><div style="font-size:12px;color:rgba(255,255,255,.5);">Ship ideas instantly</div></div></div>
+  </div>
+  <div>
+    <span style="display:inline-block;background:var(--accent);color:#000;padding:16px 40px;border-radius:12px;font-weight:700;font-size:20px;">Try Ideas Free →</span>
+    <div style="margin-top:12px;">${url}</div>
+  </div>
+</div>`;
+  }
+}
+
+function render() {
+  const groups = {};
+  ADS.forEach(ad => { (groups[ad.cat] = groups[ad.cat] || []).push(ad); });
+  const container = document.getElementById('ad-groups');
+  Object.entries(groups).forEach(([cat, ads]) => {
+    let html = `<div class="ad-group"><h2>${cat}</h2>`;
+    ads.forEach((ad, i) => {
+      const id = `ad-${cat.replace(/\s/g,'')}-${i}`;
+      const adContent = adHTML(ad);
+      html += `<div class="ad-card">
+        <div class="ad-card-header">
+          <div><h3>${ad.name}</h3><span class="dims">${ad.w}×${ad.h}</span></div>
+          <button class="btn-copy" onclick="copyAd('${id}')">📋 Copy HTML</button>
+        </div>
+        <div class="ad-preview"><div id="${id}">${adContent}</div></div>
+      </div>`;
+    });
+    html += '</div>';
+    container.innerHTML += html;
+  });
+}
+
+function copyAd(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  navigator.clipboard.writeText(el.innerHTML.trim()).then(() => {
+    window.showToast?.('Copied to clipboard!', 2000);
+  });
+}
+
+render();
+</script>
+</body>
+</html>

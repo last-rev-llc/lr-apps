@@ -1,0 +1,53 @@
+{
+  "meetingId": "2026-01-29_Zoom-Meeting",
+  "topic": "Diligent Migration Content Review & Bug Fixes",
+  "date": "2026-01-29",
+  "duration": 43,
+  "attendees": ["Adam Harris", "Krista Schlumpberger"],
+  "client": "Diligent",
+  "summary": "Adam and Krista conducted a detailed working session reviewing the Diligent website migration, going through specific content and technical issues. Krista had worked through about half of the 56 content items flagged by Diligent for missing images, content, and links. They identified several patterns: many items Diligent flagged as missing (forms, CTAs) didn't actually exist on the live site, and Diligent hadn't re-reviewed items Adam had already addressed. Table of contents components were missing from guides but weren't in the original Figma designs.\n\nA significant technical discussion covered the migration workflow - changes should NOT be made in the migration Sanity instance (they'd get overwritten). Instead: minor fixes noted for post-final-migration, pages needing full rebuild done in the Last Rev Sanity instance, and a content freeze period planned before go-live. They debugged a black border/scrollbar issue on the terms and conditions page (caused by overflow:scroll CSS), identified font size mismatches (15px vs 16px), and discussed AI background mapping issues where non-AI pages had AI-styled backgrounds.\n\nThey also covered pages needing full rebuilds (board-ready reporting LP, showcase page), the custom comparison table component that was added after migration started, and the plan for the Elevate 2026 page. Adam was in the middle of converting the header/footer from Tailwind to their style patterns for Sanity management.",
+  "keyDiscussionPoints": [
+    "Half of 56 flagged content items reviewed - many were false flags",
+    "Diligent not re-reviewing items Adam already fixed",
+    "Table of contents not in Figma designs - not missing, just not designed",
+    "Migration workflow: don't edit migration Sanity, use LR Sanity for rebuilds",
+    "Content freeze needed before final migration and go-live",
+    "Terms & conditions black border caused by overflow:scroll CSS",
+    "Font size mismatch: 15px vs 16px on TOC items",
+    "AI background mapping issue on non-AI pages",
+    "Pages needing full rebuild: board-ready reporting LP, showcase",
+    "Custom comparison table added after migration started - needs reimplementation",
+    "Header/footer Tailwind conversion to Sanity-managed styles in progress",
+    "Copy-paste between Sanity instances works for components",
+    "Elevate 2026 page and virtual summit pages still need work",
+    "Form variants and different form versions need verification"
+  ],
+  "decisions": [
+    "Do not make changes in migration Sanity instance - they'll be overwritten",
+    "Full page rebuilds go in Last Rev Sanity instance",
+    "Minor fixes noted as 'revisit after final migration'",
+    "Content freeze before go-live with dual-update period",
+    "Pages with wrong AI backgrounds: quick follow-up to change hero background after migration",
+    "Diligent team handles full page recreations where components don't align",
+    "Focus on fixing broken items, not adding scope (no TOC additions)"
+  ],
+  "actionItems": [
+    {"action": "Fix overflow:scroll CSS causing black border on terms page", "owner": "Adam Harris", "deadline": "", "priority": "high"},
+    {"action": "Continue Elevate 2026 page implementation", "owner": "Adam Harris", "deadline": "", "priority": "high"},
+    {"action": "Complete header/footer Tailwind-to-Sanity conversion", "owner": "Adam Harris", "deadline": "", "priority": "high"},
+    {"action": "Implement custom comparison table component", "owner": "Adam Harris", "deadline": "", "priority": "medium"},
+    {"action": "Continue content entry review for remaining 28 items", "owner": "Krista Schlumpberger", "deadline": "", "priority": "high"},
+    {"action": "Assign full-rebuild pages to Diligent team", "owner": "Krista Schlumpberger", "deadline": "", "priority": "medium"},
+    {"action": "Log security/support module banner bug (links not red, oversized)", "owner": "Krista Schlumpberger", "deadline": "", "priority": "medium"},
+    {"action": "Log 'Let's Make an Impact Together' module bug", "owner": "Krista Schlumpberger", "deadline": "", "priority": "medium"},
+    {"action": "Ask Diligent about AI background on non-AI pages mapping", "owner": "Krista Schlumpberger", "deadline": "", "priority": "medium"}
+  ],
+  "followUp": [
+    "Diligent's timeline question for bug fixes and content entry completion",
+    "Virtual summit page implementation",
+    "Forms verification across different variants",
+    "Showcase page rebuild",
+    "Logo garden issues investigation"
+  ],
+  "sentiment": "productive"
+}

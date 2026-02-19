@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Rizz Guide — Docs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<style>
+.showcase-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+  gap: 0;
+}
+.showcase-sidebar {
+  background: var(--glass);
+  border-right: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.showcase-content {
+  padding: 2rem;
+  max-width: 800px;
+}
+.showcase-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.showcase-nav li {
+  margin-bottom: 0.5rem;
+}
+.showcase-nav a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  color: var(--muted);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+.showcase-nav a:hover,
+.showcase-nav a.active {
+  background: var(--glass-hover);
+  color: var(--text);
+}
+@media (max-width: 768px) {
+  .showcase-layout {
+    grid-template-columns: 1fr;
+  }
+  .showcase-sidebar {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+</style>
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+</head>
+<body>
+<cc-app-nav app="cc-rizz-guide" title="The Rizz Guide" active="docs"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<cc-docs title="The Rizz Guide" icon="💜" subtitle="Documentation for the cc-rizz-guide web component.">
+{
+  "sections": [
+    {
+      "title": "cc-rizz-guide",
+      "icon": "💜",
+      "id": "main",
+      "content": "The main component renders a comprehensive, tabbed dating guide for college students. All content is hardcoded — no external data dependencies.\n\n```html\n<cc-rizz-guide></cc-rizz-guide>\n```",
+      "attributes": [],
+      "subsections": [
+        {
+          "title": "Tabs",
+          "content": "The component uses `<cc-tabs>` with 7 sections:\n\n| Tab | Content |\n|-----|----------|\n| The Landscape | Current dating culture overview |\n| IRL Approach | In-person approach scenarios |\n| Digital Game | Online/app-based strategies |\n| Playbook | Step-by-step situation guides |\n| Flags | Red/green/amber flag cards |\n| Reality Checks | Honest advice and pitfalls |\n| Quizzes | 3 interactive self-assessments |"
+        },
+        {
+          "title": "Quizzes",
+          "content": "Three interactive quizzes are built with a custom `_buildQuiz()` method:\n\n- **Flirting Style** — categorizes into direct, humor-based, slow-burn, or digital-first\n- **Green Flags Check** — self-assessment for relationship behavior\n- **Situationship or Relationship** — scenario-based diagnostic\n\nQuizzes use progress dots, animated transitions, and tally-based results."
+        },
+        {
+          "title": "Flag Cards",
+          "content": "The Flags tab uses interactive cards with `onclick` toggle to show/hide detail text. Three categories:\n\n- `.flag-red` — red flags (love bombing, breadcrumbing, etc.)\n- `.flag-green` — green flags (consistency, boundaries, etc.)\n- `.flag-amber` — amber/watch flags (ambiguity, passive behavior)"
+        }
+      ]
+    }
+  ],
+  "links": [
+    { "label": "Live App", "url": "https://cc-rizz-guide.adam-harris.alphaclaw.app/" },
+    { "label": "GitHub Repo", "url": "https://github.com/last-rev-llc/ah-cc-rizz-guide" }
+  ]
+}
+</cc-docs>
+</body>
+</html>

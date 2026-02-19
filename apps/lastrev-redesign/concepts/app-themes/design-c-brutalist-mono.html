@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brutalist Mono - Command Center Design System</title>
+    <style>
+        /* CSS Custom Properties for Brutalist Mono */
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #111111;
+            --bg-elevated: #1a1a1a;
+            --border-primary: #ffffff;
+            --border-secondary: #888888;
+            --accent-primary: #ff2d20;
+            --accent-secondary: #ff6b5a;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #888888;
+            --status-success: #00ff00;
+            --status-warning: #ffff00;
+            --status-error: #ff0000;
+            --font-mono: 'JetBrains Mono', 'Courier New', 'Consolas', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-mono);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.4;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+            font-weight: 400;
+        }
+
+        h1 { 
+            font-size: 48px; 
+            font-weight: 700; 
+            margin-bottom: 16px; 
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-primary);
+        }
+        h2 { 
+            font-size: 32px; 
+            font-weight: 700; 
+            margin: 80px 0 32px 0; 
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+        }
+        h3 { 
+            font-size: 24px; 
+            font-weight: 700; 
+            margin: 48px 0 24px 0; 
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        h4 { 
+            font-size: 18px; 
+            font-weight: 700; 
+            margin: 32px 0 16px 0; 
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        p { 
+            font-size: 14px; 
+            color: var(--text-secondary); 
+            margin-bottom: 24px; 
+            line-height: 1.6;
+        }
+
+        .philosophy {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 80px;
+            max-width: 800px;
+            line-height: 1.8;
+            border: 2px solid var(--border-primary);
+            padding: 32px;
+            background: var(--bg-secondary);
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 32px 0 80px 0;
+        }
+
+        .color-swatch {
+            border: 2px solid var(--border-primary);
+            background: var(--bg-secondary);
+        }
+
+        .color-preview {
+            height: 80px;
+            width: 100%;
+            border-bottom: 2px solid var(--border-primary);
+        }
+
+        .color-info {
+            padding: 16px;
+        }
+
+        .color-name {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .color-hex {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .type-scale {
+            margin: 32px 0 80px 0;
+            border: 2px solid var(--border-primary);
+            padding: 32px;
+            background: var(--bg-secondary);
+        }
+
+        .type-example {
+            margin-bottom: 24px;
+            display: flex;
+            align-items: baseline;
+            gap: 32px;
+        }
+
+        .type-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            width: 100px;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin: 32px 0 80px 0;
+        }
+
+        .component-section {
+            border: 2px solid var(--border-primary);
+            padding: 24px;
+            background: var(--bg-secondary);
+        }
+
+        .component-title {
+            font-size: 12px;
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+        }
+
+        /* Terminal Navigation */
+        .terminal-nav {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-primary);
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        .terminal-item {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 8px;
+            padding: 4px 0;
+        }
+
+        .terminal-item::before {
+            content: '> ';
+            color: var(--accent-primary);
+        }
+
+        .terminal-item.active {
+            color: var(--accent-primary);
+            font-weight: 700;
+        }
+
+        .terminal-item.active::before {
+            content: '>> ';
+        }
+
+        .terminal-item:hover {
+            color: var(--text-primary);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: 2px solid var(--border-primary);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: var(--font-mono);
+            transition: all 0.1s ease;
+        }
+
+        .btn:hover {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        .btn-secondary {
+            border-color: var(--border-secondary);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-secondary);
+            color: var(--bg-primary);
+        }
+
+        .btn-danger {
+            border-color: var(--status-error);
+            color: var(--status-error);
+        }
+
+        .btn-danger:hover {
+            background: var(--status-error);
+            color: var(--bg-primary);
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-primary);
+            padding: 24px;
+            transition: all 0.1s ease;
+        }
+
+        .card:hover {
+            background: var(--bg-elevated);
+            border-color: var(--accent-primary);
+        }
+
+        /* Badges */
+        .badge {
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: 700;
+            display: inline-block;
+            border: 1px solid;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .badge-app { 
+            background: var(--bg-primary); 
+            color: var(--accent-primary); 
+            border-color: var(--accent-primary);
+        }
+        .badge-automation { 
+            background: var(--bg-primary); 
+            color: var(--status-success); 
+            border-color: var(--status-success);
+        }
+        .badge-skill { 
+            background: var(--bg-primary); 
+            color: var(--status-warning); 
+            border-color: var(--status-warning);
+        }
+        .badge-integration { 
+            background: var(--bg-primary); 
+            color: var(--status-error); 
+            border-color: var(--status-error);
+        }
+
+        /* Pills */
+        .pill {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 2px solid var(--border-secondary);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: var(--font-mono);
+            transition: all 0.1s ease;
+        }
+
+        .pill.active {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            background: var(--bg-secondary);
+        }
+
+        .pill:hover {
+            background: var(--text-secondary);
+            color: var(--bg-primary);
+        }
+
+        /* Search */
+        .search-input {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-primary);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: var(--font-mono);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            background: var(--bg-elevated);
+        }
+
+        /* Code */
+        .code-block {
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-primary);
+            padding: 20px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-primary);
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        .code-block::before {
+            content: '$ ';
+            color: var(--accent-primary);
+        }
+
+        /* <cc-empty-state message="Empty" icon="📭"></cc-empty-state> State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 40px;
+            color: var(--text-muted);
+            border: 2px solid var(--border-secondary);
+            background: var(--bg-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Toast */
+        .toast {
+            background: var(--bg-elevated);
+            border: 2px solid var(--border-primary);
+            padding: 16px 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 400px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        /* Table */
+        .table-row {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+
+        .table-row:hover {
+            background: var(--bg-elevated);
+            color: var(--accent-primary);
+        }
+
+        /* Example Layouts */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .detail-page {
+            max-width: 800px;
+            margin: 40px 0;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        /* Terminal Styling */
+        .terminal-prefix {
+            color: var(--accent-primary);
+        }
+
+        .terminal-output {
+            color: var(--text-secondary);
+            margin-left: 20px;
+        }
+
+        @media print {
+            body {
+                font-size: 10px;
+                padding: 20px;
+                max-width: none;
+                background: white !important;
+                color: black !important;
+            }
+            .section {
+                break-inside: avoid;
+                margin-bottom: 40px;
+            }
+            .card, .philosophy, .component-section {
+                border: 2px solid black !important;
+                background: white !important;
+            }
+        }
+    </style>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+</head>
+<body>
+<cc-topbar></cc-topbar>
+<cc-nav></cc-nav>
+<cc-auth></cc-auth>
+
+    <h1>BRUTALIST MONO</h1>
+    <div class="philosophy">
+        FORM FOLLOWS FUNCTION IN ITS MOST UNCOMPROMISING EXPRESSION. NO DECORATIVE ELEMENTS EXIST WITHOUT PURPOSE. EVERY INTERFACE IS A TOOL, EVERY INTERACTION A COMMAND. BEAUTY IS FOUND IN THE STARK HONESTY OF MONOSPACE TYPE AND THE BINARY CERTAINTY OF BLACK AND WHITE.
+    </div>
+
+    <h2>COLOR PALETTE</h2>
+    <div class="color-palette">
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #000000;"></div>
+            <div class="color-info">
+                <div class="color-name">PRIMARY BG</div>
+                <div class="color-hex">#000000</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #ff2d20;"></div>
+            <div class="color-info">
+                <div class="color-name">ACCENT RED</div>
+                <div class="color-hex">#ff2d20</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #111111;"></div>
+            <div class="color-info">
+                <div class="color-name">SURFACE</div>
+                <div class="color-hex">#111111</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #ffffff;"></div>
+            <div class="color-info">
+                <div class="color-name">TEXT PRIMARY</div>
+                <div class="color-hex">#ffffff</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #00ff00;"></div>
+            <div class="color-info">
+                <div class="color-name">SUCCESS</div>
+                <div class="color-hex">#00ff00</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #ffff00;"></div>
+            <div class="color-info">
+                <div class="color-name">WARNING</div>
+                <div class="color-hex">#ffff00</div>
+            </div>
+        </div>
+        <div class="color-swatch">
+            <div class="color-preview" style="background: #ff0000;"></div>
+            <div class="color-info">
+                <div class="color-name">ERROR</div>
+                <div class="color-hex">#ff0000</div>
+            </div>
+        </div>
+    </div>
+
+    <h2>TYPOGRAPHY</h2>
+    <div class="type-scale">
+        <div class="type-example">
+            <div class="type-label">48PX/700</div>
+            <div style="font-size: 48px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">DISPLAY</div>
+        </div>
+        <div class="type-example">
+            <div class="type-label">32PX/700</div>
+            <div style="font-size: 32px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">SECTION HEADER</div>
+        </div>
+        <div class="type-example">
+            <div class="type-label">24PX/700</div>
+            <div style="font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">PAGE TITLE</div>
+        </div>
+        <div class="type-example">
+            <div class="type-label">18PX/700</div>
+            <div style="font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">SUBHEADING</div>
+        </div>
+        <div class="type-example">
+            <div class="type-label">14PX/400</div>
+            <div style="font-size: 14px; font-weight: 400;">Body text (lowercase permitted)</div>
+        </div>
+        <div class="type-example">
+            <div class="type-label">12PX/700</div>
+            <div style="font-size: 12px; font-weight: 700; text-transform: uppercase;">SMALL CAPS</div>
+        </div>
+    </div>
+
+    <h2>COMPONENT SHOWCASE</h2>
+    <div class="components-grid">
+        <div class="component-section">
+            <div class="component-title">TERMINAL NAV</div>
+            <div class="terminal-nav">
+                <a href="#" class="terminal-item active">DASHBOARD</a>
+                <a href="#" class="terminal-item">AUTOMATIONS</a>
+                <a href="#" class="terminal-item">SKILLS</a>
+                <a href="#" class="terminal-item">SETTINGS</a>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">BUTTONS</div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button class="btn btn-primary">PRIMARY ACTION</button>
+                <button class="btn btn-secondary">SECONDARY</button>
+                <button class="btn btn-danger">DANGER</button>
+                <button class="btn btn-primary btn-small">SMALL</button>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">CARDS</div>
+            <div class="card">
+                <h4 style="margin: 0 0 8px 0;">SYSTEM CARD</h4>
+                <p style="margin: 0; font-size: 12px;">Hover to see the aggressive red border highlight that demands attention through stark contrast.</p>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">BADGES</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <span class="badge badge-app">APP</span>
+                <span class="badge badge-automation">AUTO</span>
+                <span class="badge badge-skill">SKILL</span>
+                <span class="badge badge-integration">INTEG</span>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">PILLS/FILTERS</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <button class="pill active">ACTIVE</button>
+                <button class="pill">INACTIVE</button>
+                <button class="pill">FILTER</button>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">SEARCH INPUT</div>
+            <input type="text" class="search-input" placeholder="ENTER COMMAND...">
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">CODE BLOCK</div>
+            <div class="code-block">const brutalist = {<br>&nbsp;&nbsp;borders: '2px solid #fff',<br>&nbsp;&nbsp;corners: 0,<br>&nbsp;&nbsp;gradients: 'FORBIDDEN'<br>};</div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">TOAST NOTIFY</div>
+            <div class="toast">
+                <span style="color: var(--status-success);">[OK]</span>
+                <span>COMMAND EXECUTED</span>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <div class="component-title">TABLE ROW</div>
+            <div class="table-row">
+                <span>BACKUP_SYSTEM.EXE</span>
+                <span class="badge badge-automation">RUNNING</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>EXAMPLE DASHBOARD</h2>
+    <div class="dashboard">
+        <div class="card">
+            <h4 style="margin: 0 0 16px 0;">SYSTEM.STATUS</h4>
+            <div style="font-size: 12px;">
+                <div class="table-row" style="padding: 8px 0; border: none;">
+                    <span class="terminal-prefix">> </span>
+                    <span>CPU_USAGE: 23%</span>
+                </div>
+                <div class="table-row" style="padding: 8px 0; border: none;">
+                    <span class="terminal-prefix">> </span>
+                    <span>MEMORY: 4.2GB/16GB</span>
+                </div>
+                <div class="table-row" style="padding: 8px 0; border: none;">
+                    <span class="terminal-prefix">> </span>
+                    <span style="color: var(--status-success);">ALL_SYSTEMS: OPERATIONAL</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4 style="margin: 0 0 16px 0;">ACTIVE.PROCESSES</h4>
+            <div>
+                <div class="table-row" style="padding: 8px 0; border: none;">
+                    <span style="font-size: 12px;">LIGHTS.CTRL</span>
+                    <span class="badge badge-automation">EXEC</span>
+                </div>
+                <div class="table-row" style="padding: 8px 0; border: none;">
+                    <span style="font-size: 12px;">SECURITY.SYS</span>
+                    <span class="badge badge-automation">EXEC</span>
+                </div>
+                <div class="table-row" style="padding: 8px 0; border: none;">
+                    <span style="font-size: 12px;">CLIMATE.MGR</span>
+                    <span class="badge badge-automation">IDLE</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4 style="margin: 0 0 16px 0;">COMMAND.LOG</h4>
+            <div style="color: var(--text-muted); font-size: 11px; line-height: 1.8;">
+                <span class="terminal-prefix">$ </span>lights --zone bedroom --off<br>
+                <span class="terminal-prefix">$ </span>music --play --genre jazz<br>
+                <span class="terminal-prefix">$ </span>temp --set 72F --zone all<br>
+                <span class="terminal-prefix">$ </span>security --arm --mode away
+            </div>
+        </div>
+    </div>
+
+    <h2>EXAMPLE DETAIL PAGE</h2>
+    <div class="detail-page">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+            <div>
+                <h3 style="margin: 0;">AUTOMATION.MORNING_ROUTINE</h3>
+                <p style="margin: 8px 0 0 0;">DAILY EXECUTION SEQUENCE</p>
+            </div>
+            <button class="btn btn-primary">CONFIGURE</button>
+        </div>
+        
+        <div class="card" style="margin-bottom: 24px;">
+            <h4 style="margin: 0 0 20px 0;">PARAMETERS.CONFIG</h4>
+            <div>
+                <div class="table-row" style="padding: 12px 0;">
+                    <span>TRIGGER.TIME</span>
+                    <span style="color: var(--text-secondary);">07:00:00</span>
+                </div>
+                <div class="table-row" style="padding: 12px 0;">
+                    <span>EXEC.DAYS</span>
+                    <span style="color: var(--text-secondary);">MON-FRI</span>
+                </div>
+                <div class="table-row" style="padding: 12px 0;">
+                    <span>STATUS.CURRENT</span>
+                    <span class="badge badge-automation">ACTIVE</span>
+                </div>
+                <div class="table-row" style="padding: 12px 0; border: none;">
+                    <span>PRIORITY.LEVEL</span>
+                    <span style="color: var(--status-warning);">HIGH</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4 style="margin: 0 0 20px 0;">EXECUTION.SEQUENCE</h4>
+            <div style="color: var(--text-secondary); font-size: 12px; line-height: 2; font-family: var(--font-mono);">
+                <span class="terminal-prefix">[01] </span>LIGHTS.BEDROOM --gradual-on --duration 300s<br>
+                <span class="terminal-prefix">[02] </span>COFFEE.MAKER --brew --strength medium<br>
+                <span class="terminal-prefix">[03] </span>HVAC.SYSTEM --temp 70F --fan auto<br>
+                <span class="terminal-prefix">[04] </span>MUSIC.PLAYER --playlist "MORNING_JAZZ"<br>
+                <span class="terminal-prefix">[05] </span>NOTIFY.PHONE --message "ROUTINE_COMPLETE"<br>
+                <span class="terminal-prefix">[06] </span>LOG.EVENT --timestamp --status SUCCESS
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "viral-meme",
+    "title": "Viral Meme Caption",
+    "category": "Social Media",
+    "icon": "🔥",
+    "prompt": "Generate a funny, relatable meme caption for [TOPIC]. It should work as top/bottom text on a classic meme template. Keep it punchy — under 10 words per line. Make it shareable and universally funny.",
+    "tags": ["viral", "social", "caption"]
+  },
+  {
+    "id": "drake-format",
+    "title": "Drake Format Ideas",
+    "category": "Template-Specific",
+    "icon": "🎵",
+    "prompt": "Give me 5 Drake meme ideas about [TOPIC]. Format: Top panel (rejecting): [thing people do wrong]. Bottom panel (approving): [better alternative]. Keep each panel under 8 words.",
+    "tags": ["drake", "comparison", "format"]
+  },
+  {
+    "id": "expanding-brain",
+    "title": "Expanding Brain Levels",
+    "category": "Template-Specific",
+    "icon": "🧠",
+    "prompt": "Create an Expanding Brain meme about [TOPIC] with 4 levels going from basic to galaxy brain. Level 1: Normal take. Level 2: Slightly better. Level 3: Big brain move. Level 4: Absurdly overthought genius take.",
+    "tags": ["expanding-brain", "escalation", "levels"]
+  },
+  {
+    "id": "work-meme",
+    "title": "Workplace Humor",
+    "category": "Work & Career",
+    "icon": "💼",
+    "prompt": "Write a relatable workplace meme caption about [SITUATION]. It should resonate with anyone who's worked in an office or on a team. Use the [TEMPLATE] meme format. Keep it clean but painfully accurate.",
+    "tags": ["work", "office", "relatable"]
+  },
+  {
+    "id": "dev-meme",
+    "title": "Developer Meme",
+    "category": "Tech & Dev",
+    "icon": "💻",
+    "prompt": "Create a developer/programmer meme about [TOPIC]. Reference common dev frustrations like: debugging, production bugs, code reviews, legacy code, or 'it works on my machine'. Format for top/bottom text overlay.",
+    "tags": ["developer", "programming", "tech"]
+  },
+  {
+    "id": "change-my-mind",
+    "title": "Change My Mind Hot Takes",
+    "category": "Template-Specific",
+    "icon": "☕",
+    "prompt": "Give me 5 'Change My Mind' meme ideas about [TOPIC]. Each should be a mildly controversial but funny hot take that people will want to debate. Keep each one under 12 words.",
+    "tags": ["change-my-mind", "hot-take", "debate"]
+  }
+]

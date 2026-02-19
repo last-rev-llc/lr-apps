@@ -1,0 +1,482 @@
+[
+  {
+    "id": 1,
+    "setup": "Why don't scientists trust atoms?",
+    "punchline": "Because they make up everything!",
+    "category": "Science"
+  },
+  {
+    "id": 2,
+    "setup": "What do you call a fake noodle?",
+    "punchline": "An impasta!",
+    "category": "Food"
+  },
+  {
+    "id": 3,
+    "setup": "Why did the scarecrow win an award?",
+    "punchline": "He was outstanding in his field!",
+    "category": "Work"
+  },
+  {
+    "id": 4,
+    "setup": "What do you call a bear with no teeth?",
+    "punchline": "A gummy bear!",
+    "category": "Animals"
+  },
+  {
+    "id": 5,
+    "setup": "Why don't eggs tell jokes?",
+    "punchline": "They'd crack each other up!",
+    "category": "Food"
+  },
+  {
+    "id": 6,
+    "setup": "What did the ocean say to the beach?",
+    "punchline": "Nothing, it just waved.",
+    "category": "Classic"
+  },
+  {
+    "id": 7,
+    "setup": "Why did the bicycle fall over?",
+    "punchline": "Because it was two-tired!",
+    "category": "Classic"
+  },
+  {
+    "id": 8,
+    "setup": "What do you call a dog that does magic?",
+    "punchline": "A Labracadabrador!",
+    "category": "Animals"
+  },
+  {
+    "id": 9,
+    "setup": "Why can't you give Elsa a balloon?",
+    "punchline": "Because she will let it go!",
+    "category": "Holiday"
+  },
+  {
+    "id": 10,
+    "setup": "What did the coffee report to the police?",
+    "punchline": "A mugging!",
+    "category": "Food"
+  },
+  {
+    "id": 11,
+    "setup": "Why do programmers prefer dark mode?",
+    "punchline": "Because light attracts bugs!",
+    "category": "Tech"
+  },
+  {
+    "id": 12,
+    "setup": "What do you call a fish without eyes?",
+    "punchline": "A fsh!",
+    "category": "Animals"
+  },
+  {
+    "id": 13,
+    "setup": "Why did the math book look so sad?",
+    "punchline": "Because it had too many problems.",
+    "category": "Science"
+  },
+  {
+    "id": 14,
+    "setup": "What do you call cheese that isn't yours?",
+    "punchline": "Nacho cheese!",
+    "category": "Food"
+  },
+  {
+    "id": 15,
+    "setup": "Why couldn't the leopard play hide and seek?",
+    "punchline": "Because he was always spotted!",
+    "category": "Animals"
+  },
+  {
+    "id": 16,
+    "setup": "What did one wall say to the other wall?",
+    "punchline": "I'll meet you at the corner!",
+    "category": "Classic"
+  },
+  {
+    "id": 17,
+    "setup": "Why do chicken coops only have two doors?",
+    "punchline": "Because if they had four, they'd be chicken sedans!",
+    "category": "Animals"
+  },
+  {
+    "id": 18,
+    "setup": "What do you call a snowman with a six-pack?",
+    "punchline": "An abdominal snowman!",
+    "category": "Holiday"
+  },
+  {
+    "id": 19,
+    "setup": "Why did the golfer bring two pairs of pants?",
+    "punchline": "In case he got a hole in one!",
+    "category": "Classic"
+  },
+  {
+    "id": 20,
+    "setup": "What do you call a factory that makes okay products?",
+    "punchline": "A satisfactory!",
+    "category": "Work"
+  },
+  {
+    "id": 21,
+    "setup": "Why do Java developers wear glasses?",
+    "punchline": "Because they can't C#!",
+    "category": "Tech"
+  },
+  {
+    "id": 22,
+    "setup": "What did the buffalo say to his son when he left for college?",
+    "punchline": "Bison!",
+    "category": "Animals"
+  },
+  {
+    "id": 23,
+    "setup": "Why don't skeletons fight each other?",
+    "punchline": "They don't have the guts!",
+    "category": "Holiday"
+  },
+  {
+    "id": 24,
+    "setup": "What do you call a sleeping dinosaur?",
+    "punchline": "A dino-snore!",
+    "category": "Animals"
+  },
+  {
+    "id": 25,
+    "setup": "Why did the tomato turn red?",
+    "punchline": "Because it saw the salad dressing!",
+    "category": "Food"
+  },
+  {
+    "id": 26,
+    "setup": "What's the best thing about Switzerland?",
+    "punchline": "I don't know, but the flag is a big plus!",
+    "category": "Classic"
+  },
+  {
+    "id": 27,
+    "setup": "Why did the invisible man turn down the job offer?",
+    "punchline": "He couldn't see himself doing it!",
+    "category": "Work"
+  },
+  {
+    "id": 28,
+    "setup": "What do you call a belt made of watches?",
+    "punchline": "A waist of time!",
+    "category": "Classic"
+  },
+  {
+    "id": 29,
+    "setup": "Why do cows have hooves instead of feet?",
+    "punchline": "Because they lactose!",
+    "category": "Animals"
+  },
+  {
+    "id": 30,
+    "setup": "What did the grape do when he got stepped on?",
+    "punchline": "He let out a little wine!",
+    "category": "Food"
+  },
+  {
+    "id": 31,
+    "setup": "Why did the PowerPoint presentation cross the road?",
+    "punchline": "To get to the other slide!",
+    "category": "Tech"
+  },
+  {
+    "id": 32,
+    "setup": "What do you call a can opener that doesn't work?",
+    "punchline": "A can't opener!",
+    "category": "Classic"
+  },
+  {
+    "id": 33,
+    "setup": "Why don't oysters share?",
+    "punchline": "Because they're shellfish!",
+    "category": "Animals"
+  },
+  {
+    "id": 34,
+    "setup": "What did Santa say when he walked through a cactus patch?",
+    "punchline": "Ho ho ho!",
+    "category": "Holiday"
+  },
+  {
+    "id": 35,
+    "setup": "Why did the man put his money in the freezer?",
+    "punchline": "He wanted cold hard cash!",
+    "category": "Classic"
+  },
+  {
+    "id": 36,
+    "setup": "What do you call a pig that does karate?",
+    "punchline": "A pork chop!",
+    "category": "Animals"
+  },
+  {
+    "id": 37,
+    "setup": "Why did the computer go to the doctor?",
+    "punchline": "Because it had a virus!",
+    "category": "Tech"
+  },
+  {
+    "id": 38,
+    "setup": "What do you call a boomerang that won't come back?",
+    "punchline": "A stick!",
+    "category": "Classic"
+  },
+  {
+    "id": 39,
+    "setup": "Why did the cookie go to the hospital?",
+    "punchline": "Because he felt crummy!",
+    "category": "Food"
+  },
+  {
+    "id": 40,
+    "setup": "What do you call an alligator in a vest?",
+    "punchline": "An investigator!",
+    "category": "Animals"
+  },
+  {
+    "id": 41,
+    "setup": "Why did the employee get fired from the calendar factory?",
+    "punchline": "He took a couple of days off!",
+    "category": "Work"
+  },
+  {
+    "id": 42,
+    "setup": "What do you call a parade of rabbits hopping backwards?",
+    "punchline": "A receding hare-line!",
+    "category": "Animals"
+  },
+  {
+    "id": 43,
+    "setup": "Why don't Christmas trees knit?",
+    "punchline": "Because they always drop their needles!",
+    "category": "Holiday"
+  },
+  {
+    "id": 44,
+    "setup": "What did one hydrogen atom say to the other?",
+    "punchline": "I think I lost an electron. Are you positive?",
+    "category": "Science"
+  },
+  {
+    "id": 45,
+    "setup": "Why did the stadium get hot after the game?",
+    "punchline": "All the fans left!",
+    "category": "Classic"
+  },
+  {
+    "id": 46,
+    "setup": "What do you call a lazy kangaroo?",
+    "punchline": "A pouch potato!",
+    "category": "Animals"
+  },
+  {
+    "id": 47,
+    "setup": "Why did the developer go broke?",
+    "punchline": "Because he used up all his cache!",
+    "category": "Tech"
+  },
+  {
+    "id": 48,
+    "setup": "What did the sushi say to the bee?",
+    "punchline": "Wasabi!",
+    "category": "Food"
+  },
+  {
+    "id": 49,
+    "setup": "Why did the photo go to jail?",
+    "punchline": "Because it was framed!",
+    "category": "Classic"
+  },
+  {
+    "id": 50,
+    "setup": "What do you call a train carrying bubblegum?",
+    "punchline": "A chew-chew train!",
+    "category": "Classic"
+  },
+  {
+    "id": 51,
+    "setup": "Why did the Oreo go to the dentist?",
+    "punchline": "Because it lost its filling!",
+    "category": "Food"
+  },
+  {
+    "id": 52,
+    "setup": "What do computers snack on?",
+    "punchline": "Microchips!",
+    "category": "Tech"
+  },
+  {
+    "id": 53,
+    "setup": "Why can't you trust an atom?",
+    "punchline": "They make up literally everything!",
+    "category": "Science"
+  },
+  {
+    "id": 54,
+    "setup": "What did the janitor say when he jumped out of the closet?",
+    "punchline": "Supplies!",
+    "category": "Work"
+  },
+  {
+    "id": 55,
+    "setup": "Why did the turkey join a band?",
+    "punchline": "Because it had the drumsticks!",
+    "category": "Holiday"
+  },
+  {
+    "id": 56,
+    "setup": "Why did the Gen Alpha kid bring a phone to the dinner table?",
+    "punchline": "Because the food was bussin and they needed to get it on the gram. No cap.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 57,
+    "setup": "What did the sigma dad say to his son?",
+    "punchline": "You're not on that grindset, you're on that blindset \u2014 you left your glasses at school again.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 58,
+    "setup": "Why did the kid say his math test had rizz?",
+    "punchline": "Because it was giving him problems and he couldn't say no.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 59,
+    "setup": "My son told me I was an NPC.",
+    "punchline": "I said \"Have you tried turning me off and on again?\" Same response every time.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 60,
+    "setup": "What's the difference between a Gen Alpha kid and a dictionary?",
+    "punchline": "The dictionary's definition of \"mid\" doesn't hurt my feelings.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 61,
+    "setup": "My daughter said my cooking was \"giving Ohio.\"",
+    "punchline": "I said, \"Well, at least Ohio has good taste \u2014 they invented the hot dog.\"",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 62,
+    "setup": "Why did the skibidi toilet go to therapy?",
+    "punchline": "It had too much brainrot and couldn't process anything.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 63,
+    "setup": "My kid said I had no aura.",
+    "punchline": "I said, \"Son, I had aura before it was called aura. We called it 'dad energy.'\"",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 64,
+    "setup": "What do you call a dad who tries to use Gen Alpha slang?",
+    "punchline": "Delulu with a capital L. And the L isn't for \"Lucid.\"",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 65,
+    "setup": "My son said his sandwich was \"bussin.\"",
+    "punchline": "I said, \"It should be \u2014 it just took the bus from the kitchen.\"",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 66,
+    "setup": "Why did the Gen Alpha kid fail the driving test?",
+    "punchline": "They tried to ratio the instructor instead of making a ratio-nal turn.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 67,
+    "setup": "I told my kids I was the main character.",
+    "punchline": "They said I was more of a tutorial NPC that repeats the same three phrases.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 68,
+    "setup": "What did the dad say when his kid called him \"sus\"?",
+    "punchline": "I'm not sus, I'm your father. Though I did just eat the last cookie... that IS kinda sus.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 69,
+    "setup": "My daughter said \"slay\" when I made breakfast.",
+    "punchline": "I said, \"I didn't slay anything, these eggs came from a very alive chicken.\"",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 70,
+    "setup": "Why do Gen Alpha kids make bad poker players?",
+    "punchline": "They can't stop saying \"no cap\" \u2014 they keep showing their hand.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 71,
+    "setup": "My son said he was \"mewing\" at the dinner table.",
+    "punchline": "I said, \"In my day we just called that 'chewing with your mouth closed.' You're welcome.\"",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 72,
+    "setup": "I asked my kid what \"fanum tax\" means.",
+    "punchline": "Now I finally have a word for what I've been doing to their fries for 15 years.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 73,
+    "setup": "What's a Gen Alpha kid's favorite type of music?",
+    "punchline": "Whatever slaps. But not actual slapping \u2014 that's a timeout.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 74,
+    "setup": "My kid said \"bet\" when I told him to clean his room.",
+    "punchline": "It's been 3 hours. I think we have different definitions of \"bet.\"",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 75,
+    "setup": "Why did the dad start looksmaxxing?",
+    "punchline": "His kids said his fit was \"giving 2005.\" He said, \"That was a GREAT year.\"",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 76,
+    "setup": "I told my daughter she was \"ate\" at her recital.",
+    "punchline": "She said, \"Dad, it's 'ate and left no crumbs.' You left ALL the crumbs.\"",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 77,
+    "setup": "What did the Gen Alpha kid say about their dad's new car?",
+    "punchline": "\"It's giving... mid-life crisis.\" They're not wrong.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 78,
+    "setup": "My son said he was \"cooking\" on his homework.",
+    "punchline": "I checked. He had the stove on and his textbook next to a pot. We need to talk.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 79,
+    "setup": "I tried to be sigma at the parent-teacher conference.",
+    "punchline": "Turns out sitting alone in the corner not talking to anyone is called \"concerning behavior\" for adults.",
+    "category": "Gen Alpha"
+  },
+  {
+    "id": 80,
+    "setup": "Why did the W go to school?",
+    "punchline": "To avoid taking any more Ls. (My kids didn't laugh either. That's an L for me.)",
+    "category": "Gen Alpha"
+  }
+]

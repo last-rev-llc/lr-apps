@@ -1,0 +1,368 @@
+[
+  {
+    "id": "sam-reynolds",
+    "name": "Sam Reynolds",
+    "tagline": "Goalkeeper \u00b7 Agent \u00b7 Coach",
+    "born": "December 13, 1981",
+    "hometown": "Fortuna, California",
+    "height": "6'1\" (1.85 m)",
+    "position": "Goalkeeper",
+    "currentRole": "Assistant Coach & Goalkeeper Coach",
+    "currentOrg": "University of San Francisco Dons",
+    "currentOrgUrl": "https://usfdons.com/sports/mens-soccer",
+    "email": "sreynolds1@usfca.edu",
+    "education": [
+      {
+        "school": "Cal State Fullerton",
+        "degree": "Soccer \u2014 Goalkeeper",
+        "sport": "NCAA Division I",
+        "years": "2001\u20132004"
+      }
+    ],
+    "licenses": [
+      "UEFA B License"
+    ],
+    "photos": {
+      "headshot": "https://usfdons.com/images/2024/8/8/Sam_Reynolds_Head_Shot.jpg",
+      "action": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Sam_Reynolds_-_Austin_Aztex_6-7-09.JPG"
+    },
+    "wikiUrl": "https://en.wikipedia.org/wiki/Sam_Reynolds_(soccer)",
+    "mlsUrl": "https://www.mlssoccer.com/players/sam-reynolds/",
+    "transfermarktUrl": "https://www.transfermarkt.us/sam-reynolds/profil/spieler/113487",
+    "linkedinUrl": "https://www.linkedin.com/in/sam-reynolds-369224139/",
+    "bio": "Sam Reynolds is a former professional soccer goalkeeper who played five seasons across <strong>MLS</strong> and <strong>USL</strong> \u2014 earning his MLS debut with <strong>Toronto FC</strong> and training under legendary U.S. national team coach <strong>Bob Bradley</strong> at Chivas USA. He was invited to a <strong>U.S. Men's National Team</strong> training camp, won the <strong>George F. Donnelly Cup MVP</strong> award, and played international exhibitions against <strong>Sunderland</strong>, <strong>Chivas Guadalajara</strong>, and the <strong>Haiti national team</strong>. After retiring, he spent eight years as a professional soccer agent before joining the <strong>University of San Francisco</strong> in 2019, where he's developed a <strong>WCC Goalkeeper of the Year</strong> and serves as the primary recruiting coordinator.",
+    "timeline": [
+      {
+        "year": "1998\u20132000",
+        "title": "Davis Senior High School",
+        "detail": "Played for coach Ashley Yudin's Blue Devils \u2014 undefeated for two seasons with two CIF Section championships. Graduated in 2000.",
+        "icon": "\ud83c\udfeb"
+      },
+      {
+        "year": "2000",
+        "title": "California State Cup Champion (U-18)",
+        "detail": "Won the California State Cup Championship with the River City Rush (CYSL) under coach Marcos Mercado.",
+        "icon": "\ud83c\udfc6"
+      },
+      {
+        "year": "2001\u20132004",
+        "title": "Cal State Fullerton \u2014 Big West Honorable Mention",
+        "detail": "Four-time letter winner. 59 matches, 57 starts, 12 shutouts, 1.51 GAA under head coach Al Mistri. Red-shirted freshman year.",
+        "icon": "\ud83c\udf93"
+      },
+      {
+        "year": "2004",
+        "title": "George F. Donnelly Cup \u2014 MVP",
+        "detail": "Selected for the USASA California-South Region IV team. Won the national amateur championship. Named tournament MVP.",
+        "icon": "\u2b50"
+      },
+      {
+        "year": "2005",
+        "title": "Portland Timbers \u2014 First Pro Contract",
+        "detail": "Signed April 2, 2005. Played in a friendly against Sunderland of the English Premier League in July 2005.",
+        "icon": "\u26bd"
+      },
+      {
+        "year": "2006",
+        "title": "MLS Pool \u2192 Chivas USA",
+        "detail": "League Pool Goalkeeper under Bob Bradley and GK coach Zak Abdel. Exhibition matches vs. Necaxa in Aguascalientes, Mexico.",
+        "icon": "\u26bd"
+      },
+      {
+        "year": "2007",
+        "title": "MLS Debut \u2014 Toronto FC \u2b50",
+        "detail": "July 1: MLS debut in a 1\u20131 draw vs. Kansas City Wizards at Arrowhead Stadium. July 4: Started again, earned 2\u20131 win over Real Salt Lake. Exhibition vs. Chivas Guadalajara at Estadio Jalisco, November.",
+        "icon": "\ud83c\udf1f"
+      },
+      {
+        "year": "2008",
+        "title": "Miami FC \u2014 Shutout King",
+        "detail": "3 starts, 0.33 GAA. Two shutout victories (Rochester Rhinos, Atlanta Silverbacks). Friendly vs. Haiti national team. Invited to U.S. Men's National Team training camp in September.",
+        "icon": "\ud83e\udde4"
+      },
+      {
+        "year": "2009",
+        "title": "Austin Aztex \u2014 Final Season",
+        "detail": "12 appearances \u2014 his most in any single professional season. Released at end of year.",
+        "icon": "\u26bd"
+      },
+      {
+        "year": "2010\u20132011",
+        "title": "Cal State Fullerton \u2014 GK Coach",
+        "detail": "Returned to alma mater. Coached goalkeepers for both men's and women's programs.",
+        "icon": "\ud83d\udccb"
+      },
+      {
+        "year": "2012",
+        "title": "U.S. National Beach Soccer Team",
+        "detail": "Played goalkeeper at the Canc\u00fan Cup under coach Eddie Soto.",
+        "icon": "\ud83c\udfd6\ufe0f"
+      },
+      {
+        "year": "2012\u20132018",
+        "title": "Professional Soccer Agent \u2014 PROfc",
+        "detail": "Eight years working as a Professional Football Consultant with PROfc (co-founded by former Timbers/CSU Fullerton teammate Shaun Higgins). Worked with recruits, scouts, GMs, owners, and sponsors. Negotiated contracts and placed players from MLS to top leagues worldwide.",
+        "icon": "\ud83e\udd1d"
+      },
+      {
+        "year": "2019\u2013Present",
+        "title": "USF Dons \u2014 Assistant Coach & GK Coach",
+        "detail": "Named assistant by head coach Leonard Griffin. Primary recruiting coordinator. Developed Eric Waltz (WCC GK of the Year 2023), Alejandro Munoz, and Brandon Keniston. Holds UEFA B License.",
+        "icon": "\ud83c\udfdf\ufe0f"
+      }
+    ],
+    "stats": {
+      "proYears": 5,
+      "proTeams": 5,
+      "proApps": 17,
+      "mlsApps": 2,
+      "collegeApps": 59,
+      "collegeStarts": 57,
+      "collegeShutouts": 12,
+      "collegeGAA": "1.51",
+      "miamiGAA": "0.33",
+      "coachingYears": 7,
+      "agentYears": 8
+    },
+    "careerTeams": [
+      {
+        "name": "Portland Timbers",
+        "years": "2005",
+        "league": "USL First Division",
+        "color": "#004812"
+      },
+      {
+        "name": "Chivas USA",
+        "years": "2006",
+        "league": "MLS (loan)",
+        "color": "#CE1126"
+      },
+      {
+        "name": "Toronto FC",
+        "years": "2007",
+        "league": "MLS (loan)",
+        "color": "#E31837"
+      },
+      {
+        "name": "Miami FC",
+        "years": "2008",
+        "league": "USL First Division",
+        "color": "#f7941e"
+      },
+      {
+        "name": "Austin Aztex",
+        "years": "2009",
+        "league": "USL First Division",
+        "color": "#00a651"
+      }
+    ],
+    "coachingHighlights": [
+      {
+        "player": "Eric Waltz",
+        "achievement": "WCC Goalkeeper of the Year (2023)",
+        "stats": "6 shutouts \u00b7 .848 GAA \u00b7 .763 save %"
+      },
+      {
+        "player": "Brandon Keniston",
+        "achievement": "WCC 4th in saves (2021)",
+        "stats": "55 saves \u00b7 5.5 saves/match"
+      },
+      {
+        "player": "Alejandro Munoz",
+        "achievement": "WCC 3rd in saves \u00b7 2nd in GAA (2020)",
+        "stats": "28 saves \u00b7 .673 GAA"
+      }
+    ],
+    "videos": [
+      {
+        "id": "LH95yHrzOpc",
+        "title": "MLS Debut: Toronto FC @ Kansas City Wizards",
+        "date": "July 1, 2007",
+        "description": "Sam Reynolds makes his MLS debut in goal for Toronto FC \u2014 a 1\u20131 draw at Arrowhead Stadium against the Kansas City Wizards.",
+        "highlight": true
+      },
+      {
+        "id": "DBcSvws75ac",
+        "title": "USF Dons vs Saint Mary's College Highlights",
+        "date": "2021",
+        "description": "USF Dons men's soccer highlights featuring the program Sam Reynolds helps lead as assistant coach and goalkeeper coach.",
+        "highlight": false
+      }
+    ],
+    "internationalExhibitions": [
+      {
+        "year": "2005",
+        "match": "Portland Timbers vs Sunderland AFC",
+        "context": "Friendly \u2014 against the English Premier League side"
+      },
+      {
+        "year": "2006",
+        "match": "Chivas USA vs Necaxa",
+        "context": "Friendly \u2014 Aguascalientes, Mexico"
+      },
+      {
+        "year": "2007",
+        "match": "Chivas USA vs Chivas Guadalajara",
+        "context": "Friendly \u2014 Estadio Jalisco, Guadalajara"
+      },
+      {
+        "year": "2008",
+        "match": "Miami FC vs Haiti National Team",
+        "context": "Friendly \u2014 Miami"
+      },
+      {
+        "year": "2008",
+        "match": "U.S. Men's National Team Training Camp",
+        "context": "Invited \u2014 World Cup qualifier prep vs Cuba"
+      },
+      {
+        "year": "2012",
+        "match": "U.S. National Beach Soccer Team",
+        "context": "Canc\u00fan Cup \u2014 under coach Eddie Soto"
+      }
+    ],
+    "articles": [
+      {
+        "title": "Former Devil Reynolds continues in lofty soccer circles",
+        "url": "https://www.davisenterprise.com/sports/former-devil-reynolds-continues-in-lofty-soccer-circles/",
+        "source": "Davis Enterprise",
+        "date": "September 26, 2012"
+      },
+      {
+        "title": "Former Titan Stars in MLS Debuts",
+        "url": "https://www.fullertontitans.com/sports/m-soccer/spec-rel/070207aaa.html",
+        "source": "Cal State Fullerton Athletics",
+        "date": "July 2, 2007"
+      },
+      {
+        "title": "Samuel's PK vaults Toronto FC past Salt Lake 2-1",
+        "url": "https://www.usatoday.com/sports/soccer/mls/2007-07-05-tfc-rsl_N.htm",
+        "source": "USA Today",
+        "date": "July 5, 2007"
+      },
+      {
+        "title": "Throwback Thursday \u2014 Timbers vs Austin Aztex",
+        "url": "https://www.timbers.com/news/throwbackthursday-looking-back-when-portland-timbers-took-austin-aztex-and-futur",
+        "source": "Portland Timbers",
+        "date": "Throwback"
+      }
+    ],
+    "quotes": [
+      {
+        "text": "Known for his leadership, work ethic and character on and off the field.",
+        "source": "USF Dons Athletics"
+      },
+      {
+        "text": "I brought in Javier Ayala and Sam Reynolds as assistant coaches because we share the same vision for the future of USF soccer.",
+        "source": "Leonard Griffin, former USF Head Coach (2020)"
+      },
+      {
+        "text": "As a junior, Sam was behind two very good goalies. He waited patiently for his turn.",
+        "source": "Ashley Yudin, Davis HS Coach \u2014 Davis Enterprise"
+      }
+    ],
+    "theme": {
+      "primary": "#00543C",
+      "primaryLight": "#007A56",
+      "accent": "#FDBB30",
+      "accentDark": "#D49A1A",
+      "gradientStart": "#001a12",
+      "gradientMid": "#00261a",
+      "gradientEnd": "#0a0e1a"
+    }
+  },
+  {
+    "id": "carla-reynolds",
+    "name": "Carla Reynolds",
+    "tagline": "Athlete \u00b7 Educator \u00b7 Finance Executive",
+    "born": "",
+    "hometown": "Southern California",
+    "currentRole": "Managing Director, Client Service Field Operations & Development Executive",
+    "currentOrg": "Merrill Lynch (Bank of America)",
+    "currentOrgUrl": "https://www.ml.com/",
+    "education": [
+      {
+        "school": "Cal State Fullerton",
+        "degree": "B.A.",
+        "sport": "Women's Tennis (NCAA Division I)",
+        "years": "~2001\u20132005"
+      },
+      {
+        "school": "Pepperdine University",
+        "degree": "Ed.D. (Doctor of Education)",
+        "years": ""
+      }
+    ],
+    "photos": {
+      "headshot": ""
+    },
+    "linkedinUrl": "https://www.linkedin.com/in/carla-reynolds-ed-d-a270349b/",
+    "bio": "Carla Reynolds is a <strong>Managing Director</strong> at <strong>Merrill Lynch</strong> (Bank of America) in San Francisco, leading Client Service Field Operations and Development. A former <strong>NCAA Division I tennis player</strong> at <strong>Cal State Fullerton</strong>, she brings the same competitive drive to the world of finance. She holds a <strong>Doctor of Education (Ed.D.)</strong> from <strong>Pepperdine University</strong> and has spent <strong>16+ years</strong> building her career at one of the world's most prestigious financial institutions. Originally from <strong>Southern California</strong>, Carla now calls <strong>San Francisco</strong> home.",
+    "timeline": [
+      {
+        "year": "~2001\u20132005",
+        "title": "Cal State Fullerton \u2014 NCAA Division I Tennis",
+        "detail": "Competed on the Titans women's tennis team in the Big West Conference. The same school where her future husband Sam Reynolds played soccer.",
+        "icon": "\ud83c\udfbe"
+      },
+      {
+        "year": "",
+        "title": "Pepperdine University \u2014 Ed.D.",
+        "detail": "Earned a Doctor of Education degree from Pepperdine's Graduate School of Education and Psychology \u2014 one of the most prestigious education programs on the West Coast.",
+        "icon": "\ud83c\udf93"
+      },
+      {
+        "year": "~2010",
+        "title": "Joined Merrill Lynch",
+        "detail": "Began her career at Merrill Lynch, Pierce, Fenner & Smith Inc. in San Francisco. Passed the Series 66 examination, becoming a registered securities agent and investment advisor.",
+        "icon": "\ud83d\udcc8"
+      },
+      {
+        "year": "Present",
+        "title": "Managing Director \u2014 Merrill Lynch",
+        "detail": "Leads Client Service Field Operations and Development at Merrill Lynch (Bank of America). Over 16 years at the firm with a focus on service excellence, team development, and operational leadership.",
+        "icon": "\ud83d\udcbc"
+      }
+    ],
+    "stats": {
+      "yearsAtMerrill": "16+",
+      "sportsPlayed": "Tennis",
+      "ncaaDivision": "I",
+      "degrees": 3,
+      "certifications": "Series 66"
+    },
+    "careerHighlights": [
+      {
+        "title": "Managing Director",
+        "detail": "Senior leadership role at one of the world's largest wealth management firms"
+      },
+      {
+        "title": "Client Service Field Operations & Development",
+        "detail": "Leads operational excellence and professional development across the field organization"
+      },
+      {
+        "title": "Doctor of Education",
+        "detail": "Ed.D. from Pepperdine University \u2014 combining education expertise with financial leadership"
+      },
+      {
+        "title": "Series 66 Licensed",
+        "detail": "Registered securities agent and investment advisor in California"
+      },
+      {
+        "title": "NCAA Division I Athlete",
+        "detail": "Competed in women's tennis at Cal State Fullerton in the Big West Conference"
+      }
+    ],
+    "articles": [],
+    "quotes": [],
+    "theme": {
+      "primary": "#012169",
+      "primaryLight": "#1a3a8a",
+      "accent": "#C4A265",
+      "accentDark": "#a88845",
+      "gradientStart": "#001233",
+      "gradientMid": "#001845",
+      "gradientEnd": "#0a0e1a"
+    }
+  }
+]

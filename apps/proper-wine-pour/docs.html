@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍷 Proper Wine Pour — Docs</title>
+  <meta name="theme-color" content="#722F37">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+  <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+  <script src="modules/proper-wine-pour-summary.js"></script>
+  <meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+  <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+  <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<meta name="app-id" content="proper-wine-pour">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/components/cc-user-auth.js"></script>
+  <style>
+    .showcase-layout { display: flex; min-height: 100vh; }
+    .showcase-sidebar { width: 260px; background: var(--card); border-right: 1px solid var(--border); position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; }
+    .showcase-content { flex: 1; padding: 40px; max-width: calc(100vw - 260px); overflow-x: hidden; }
+    .sidebar-nav { padding: 24px 16px; }
+    .sidebar-nav .nav-title { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .sidebar-nav .nav-title h2 { font-family: var(--serif); font-size: 18px; font-weight: 700; margin: 0; }
+    .sidebar-nav .nav-group { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin: 18px 0 6px 8px; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 6px; padding: 5px 10px; color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 500; border-radius: 6px; margin-bottom: 1px; transition: all 0.15s; }
+    .sidebar-nav a:hover { background: rgba(114,47,55,0.12); color: #e74c6f; }
+    .showcase-section { margin-bottom: 56px; scroll-margin-top: 24px; }
+    .showcase-section > h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; border-bottom: 2px solid #722F37; padding-bottom: 10px; margin-bottom: 20px; }
+    .showcase-section h3 { font-size: 16px; font-weight: 600; margin: 24px 0 10px; }
+    .component-summary { color: var(--muted); font-size: 13px; margin: -12px 0 16px; }
+    .attr-table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 12px; }
+    .attr-table th { text-align: left; padding: 6px 10px; background: var(--card); border: 1px solid var(--border); color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; }
+    .attr-table td { padding: 6px 10px; border: 1px solid var(--border); }
+    .attr-table td:first-child { font-family: monospace; color: #722F37; font-weight: 600; }
+    .prompt-block { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; white-space: pre-wrap; overflow-x: auto; line-height: 1.6; }
+    .data-section { margin: 16px 0; }
+    .data-section summary { cursor: pointer; font-weight: 600; font-size: 14px; color: #722F37; padding: 8px 0; }
+    .data-section pre { background: #0d0d1a; border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-size: 11px; overflow-x: auto; margin-top: 8px; }
+    @media (max-width: 768px) { .showcase-layout { flex-direction: column; } .showcase-sidebar { width: 100%; height: auto; position: relative; } .showcase-content { padding: 20px; max-width: 100%; } }
+  </style>
+</head>
+<body>
+<cc-app-nav app="proper-wine-pour" title="🍷 Proper Wine Pour" active="docs"></cc-app-nav>
+<cc-user-auth mode="menu" providers="email"></cc-user-auth>
+<cc-toast></cc-toast>
+
+<div class="showcase-layout">
+  <div class="showcase-sidebar">
+    <div class="sidebar-nav">
+      <div class="nav-title"><span>🍷</span> <h2>Pour Docs</h2></div>
+      <div class="nav-group">Embeddable Modules</div>
+      <a href="#summary">📊 Pour Summary</a>
+      <div class="nav-group">Reference</div>
+      <a href="#data-format">📄 Data Format</a>
+      <a href="#theming">🎨 Theming</a>
+      <div class="nav-group">Links</div>
+      <a href="https://shared.adam-harris.alphaclaw.app" target="_blank" rel="noopener">↗ Shared Library</a>
+    </div>
+  </div>
+  <div class="showcase-content">
+    <cc-fade-in>
+      <h1 style="font-family:var(--serif);margin-bottom:8px;">🍷 Proper Wine Pour — Module Docs</h1>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:40px;">Embeddable modules you can add to your command center or any page.</p>
+    </cc-fade-in>
+
+    <section id="summary" class="showcase-section">
+      <h2>📊 Pour Summary</h2>
+      <p class="component-summary">Compact dashboard widget showing restaurant pour statistics at a glance.</p>
+
+      <h3>Usage</h3>
+      <div class="prompt-block">&lt;proper-wine-pour-summary src="data/restaurants.json"&gt;&lt;/proper-wine-pour-summary&gt;</div>
+
+      <h3>Attributes</h3>
+      <table class="attr-table">
+        <tr><th>Attribute</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        <tr><td>src</td><td><code>string</code></td><td>—</td><td>URL to restaurant JSON data file</td></tr>
+      </table>
+
+      <h3>What It Shows</h3>
+      <ul style="color:var(--muted);font-size:13px;line-height:2;">
+        <li>Count of generous restaurants</li>
+        <li>Count of stingy restaurants</li>
+        <li>Total tracked restaurants</li>
+        <li>Average glass price</li>
+      </ul>
+
+      <h3>Live Example</h3>
+      <div style="border:1px solid var(--border);border-radius:12px;padding:20px;background:var(--bg);">
+        <proper-wine-pour-summary src="data/restaurants.json"></proper-wine-pour-summary>
+      </div>
+
+      <h3>Embed in Your Command Center</h3>
+      <div class="prompt-block">&lt;!-- 1. Load shared theme + components --&gt;
+&lt;link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css"&gt;
+&lt;script src="https://shared.adam-harris.alphaclaw.app/components/index.js"&gt;&lt;/script&gt;
+
+&lt;!-- 2. Load the module --&gt;
+&lt;script src="https://proper-wine-pour.adam-harris.alphaclaw.app/modules/proper-wine-pour-summary.js"&gt;&lt;/script&gt;
+
+&lt;!-- 3. Use it --&gt;
+&lt;proper-wine-pour-summary src="https://proper-wine-pour.adam-harris.alphaclaw.app/data/restaurants.json"&gt;&lt;/proper-wine-pour-summary&gt;</div>
+    </section>
+
+    <section id="data-format" class="showcase-section">
+      <h2>📄 Data Format</h2>
+      <p class="component-summary">The JSON structure expected by modules.</p>
+
+      <h3>Schema</h3>
+      <table class="attr-table">
+        <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+        <tr><td>id</td><td><code>string</code></td><td>Unique slug identifier</td></tr>
+        <tr><td>name</td><td><code>string</code></td><td>Restaurant name</td></tr>
+        <tr><td>neighborhood</td><td><code>string</code></td><td>SF neighborhood</td></tr>
+        <tr><td>wine_list_rating</td><td><code>number</code></td><td>1-5 rating of wine list quality</td></tr>
+        <tr><td>pour_rating</td><td><code>string</code></td><td>"generous" | "standard" | "stingy" | "criminal"</td></tr>
+        <tr><td>avg_glass_price</td><td><code>number</code></td><td>Average price per glass ($)</td></tr>
+        <tr><td>notes</td><td><code>string</code></td><td>Comments about the restaurant</td></tr>
+        <tr><td>visits</td><td><code>array</code></td><td>Array of visit objects with date, wine, rating, price</td></tr>
+      </table>
+
+      <details class="data-section">
+        <summary>Example JSON</summary>
+        <pre>[
+  {
+    "id": "gary-danko",
+    "name": "Gary Danko",
+    "neighborhood": "Russian Hill",
+    "wine_list_rating": 5,
+    "pour_rating": "generous",
+    "avg_glass_price": 22,
+    "notes": "Consistently excellent pours.",
+    "visits": [
+      { "date": "2024-11-15", "wine": "Opus One", "rating": 5, "price": 45 }
+    ]
+  }
+]</pre>
+      </details>
+    </section>
+
+    <section id="theming" class="showcase-section">
+      <h2>🎨 Theming</h2>
+      <p class="component-summary">CSS variables and design tokens used.</p>
+
+      <h3>CSS Variables Used</h3>
+      <div class="prompt-block">--card, --border, --bg, --heading, --muted, --serif
+App accent: #722F37 (wine burgundy), #8B0000 (dark red)
+Pour colors: #22c55e (generous), #eab308 (standard), #f97316 (stingy), #ef4444 (criminal)</div>
+    </section>
+  </div>
+</div>
+</body>
+</html>

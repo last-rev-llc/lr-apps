@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ COMMAND CENTER — BRUTALIST MONO</title>
+<style>
+:root {
+  --bg: #000000;
+  --bg2: #111111;
+  --bg3: #1a1a1a;
+  --border: #ffffff;
+  --border2: #888888;
+  --accent: #ff2d20;
+  --text: #ffffff;
+  --dim: #cccccc;
+  --muted: #888888;
+  --green: #00ff00;
+  --yellow: #ffff00;
+  --red: #ff0000;
+  --blue: #00aaff;
+  --mono: 'JetBrains Mono', 'Courier New', 'Consolas', monospace;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--mono); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 13px; }
+
+/* Top bar */
+.topbar { display: flex; align-items: center; justify-content: flex-end; gap: 4px; padding: 6px 24px; border-bottom: 2px solid var(--border); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; }
+.topbar a, .topbar button, .topbar span { color: var(--muted); text-decoration: none; background: none; border: none; cursor: pointer; font-family: var(--mono); font-size: 11px; padding: 2px 8px; letter-spacing: 0.1em; }
+.topbar a:hover, .topbar button:hover { color: var(--accent); }
+.topbar .sep { color: var(--border2); }
+
+/* Nav */
+.navbar { display: flex; align-items: center; gap: 0; border-bottom: 2px solid var(--border); background: var(--bg2); }
+.navbar .brand { font-weight: 700; font-size: 14px; color: var(--accent); padding: 12px 24px; border-right: 2px solid var(--border); text-transform: uppercase; letter-spacing: 0.1em; }
+.navbar a { text-decoration: none; font-size: 12px; color: var(--muted); font-weight: 700; padding: 12px 20px; text-transform: uppercase; letter-spacing: 0.05em; border-right: 1px solid var(--border2); transition: all .1s; }
+.navbar a:hover { color: var(--text); background: var(--bg3); }
+.navbar a.active { color: var(--accent); background: var(--bg); }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+
+/* Header */
+.page-header { margin-bottom: 32px; border-bottom: 2px solid var(--border); padding-bottom: 16px; }
+.page-header h1 { font-size: 28px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+.page-header h1 span { color: var(--accent); }
+.page-header .sub { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-bottom: 32px; border: 2px solid var(--border); }
+.stat-card { padding: 20px; border-right: 2px solid var(--border); background: var(--bg2); }
+.stat-card:last-child { border-right: none; }
+.stat-value { font-size: 36px; font-weight: 700; }
+.stat-label { font-size: 10px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.1em; }
+
+/* Grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-bottom: 32px; }
+
+/* Panel */
+.panel { background: var(--bg2); border: 2px solid var(--border); padding: 20px; }
+.panel-header { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: var(--accent); }
+.panel-header .count { font-size: 10px; border: 1px solid var(--accent); padding: 1px 6px; color: var(--accent); }
+
+/* List */
+.list-item { padding: 10px 0; border-bottom: 1px solid var(--border2); display: flex; gap: 10px; align-items: flex-start; font-size: 12px; }
+.list-item:last-child { border-bottom: none; }
+.list-item:hover { background: var(--bg3); color: var(--accent); }
+
+/* Avatar */
+.avatar { width: 24px; height: 24px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; background: var(--bg); }
+
+/* Badges */
+.badge-sm { display: inline-block; padding: 2px 6px; font-size: 9px; font-weight: 700; border: 1px solid; text-transform: uppercase; letter-spacing: 0.1em; }
+.badge-green { color: var(--green); border-color: var(--green); }
+.badge-yellow { color: var(--yellow); border-color: var(--yellow); }
+.badge-red { color: var(--red); border-color: var(--red); }
+.badge-blue { color: var(--blue); border-color: var(--blue); }
+.badge-accent { color: var(--accent); border-color: var(--accent); }
+
+.item-title { font-size: 12px; font-weight: 700; }
+.item-meta { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.item-time { font-size: 10px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+.item-info { flex: 1; min-width: 0; }
+.item-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+/* Dots */
+.dot { width: 6px; height: 6px; display: inline-block; }
+.dot-green { background: var(--green); }
+.dot-yellow { background: var(--yellow); }
+.dot-red { background: var(--red); }
+
+.meeting-time { font-size: 11px; font-weight: 700; color: var(--accent); min-width: 80px; flex-shrink: 0; }
+.attendees { display: flex; gap: 6px; align-items: center; margin-top: 2px; font-size: 10px; color: var(--muted); }
+
+.score { font-size: 12px; font-weight: 700; color: var(--accent); }
+
+/* Terminal prefix */
+.t-prefix { color: var(--accent); }
+.t-prefix::before { content: '> '; }
+
+/* Apps */
+.apps-section { margin-top: 0; }
+.apps-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0; padding: 12px 20px; border: 2px solid var(--border); border-bottom: none; background: var(--bg2); }
+.apps-row { display: grid; grid-template-columns: repeat(5, 1fr); border: 2px solid var(--border); }
+.app-card { padding: 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-right: 2px solid var(--border); background: var(--bg2); transition: all .1s; }
+.app-card:last-child { border-right: none; }
+.app-card:hover { background: var(--bg3); border-color: var(--accent); }
+.app-icon { font-size: 20px; }
+.app-name { font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.app-desc { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+.scrollable { max-height: 260px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border2) var(--bg); }
+
+@media (max-width: 768px) { .grid-2, .stats { grid-template-columns: 1fr; } .apps-row { grid-template-columns: repeat(2, 1fr); } }
+</style>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+</head>
+<body>
+<cc-topbar></cc-topbar>
+<cc-nav></cc-nav>
+<cc-auth></cc-auth>
+
+<div class="topbar">
+  <span>BRUTALIST_MONO</span>
+  <span class="sep">|</span>
+  <a href="#">INTEGRATIONS</a>
+  <span class="sep">|</span>
+  <a href="#">SETTINGS</a>
+  <span class="sep">|</span>
+  <button title="Lock">🔒</button>
+</div>
+<nav class="navbar">
+  <span class="brand">⚡ LAST_REV</span>
+  <a href="#" class="active">DASHBOARD</a>
+  <a href="#">IDEAS</a>
+  <a href="#">CRONS</a>
+  <a href="#">CLIENTS</a>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>⚡ <span>COMMAND CENTER</span></h1>
+    <div class="sub">OPERATIONAL_HUB // LAST_UPDATED: 2026-02-11T17:35:00Z</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card"><div class="stat-value" style="color:var(--accent)">7</div><div class="stat-label">PRS_PENDING_REVIEW</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--green)">3</div><div class="stat-label">ACTIVE_CLIENTS</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--yellow)">12</div><div class="stat-label">CRON_JOBS</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--blue)">96</div><div class="stat-label">IDEAS_TOTAL</div></div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Slack -->
+    <div class="panel">
+      <div class="panel-header">SLACK.MESSAGES <span class="count">4</span></div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="avatar">B</div>
+          <div class="item-info"><div class="item-title"><span class="t-prefix">Brad</span></div><div class="item-meta">IAS deploy looks good. Check staging env?</div></div>
+          <div class="item-time">00:02</div>
+        </div>
+        <div class="list-item">
+          <div class="avatar">S</div>
+          <div class="item-info"><div class="item-title"><span class="t-prefix">Sarah</span></div><div class="item-meta">Diligent content model changes merged</div></div>
+          <div class="item-time">00:15</div>
+        </div>
+        <div class="list-item">
+          <div class="avatar">M</div>
+          <div class="item-info"><div class="item-title"><span class="t-prefix">Mike</span></div><div class="item-meta">WOW! wants nav component demo tomorrow</div></div>
+          <div class="item-time">01:00</div>
+        </div>
+        <div class="list-item">
+          <div class="avatar">J</div>
+          <div class="item-info"><div class="item-title"><span class="t-prefix">Julia</span></div><div class="item-meta">Updated shared component docs — review pls</div></div>
+          <div class="item-time">03:00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRs -->
+    <div class="panel">
+      <div class="panel-header">GIT.PULL_REQUESTS <span class="count">7</span></div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">fix: hero image lazy loading</div><div class="item-meta">ias-website // brad</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">READY</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">feat: contentful webhook retry</div><div class="item-meta">lastrev-libraries // adam</div></div>
+          <div class="item-right"><span class="badge-sm badge-yellow">CHANGES</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">refactor: composable nav pattern</div><div class="item-meta">wow-website // sarah</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">READY</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">chore: bump next.js@15.2</div><div class="item-meta">diligent-website // renovate</div></div>
+          <div class="item-right"><span class="badge-sm badge-blue">REVIEW</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Meetings -->
+    <div class="panel">
+      <div class="panel-header">CALENDAR.UPCOMING</div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="meeting-time">10:00</div>
+          <div class="item-info">
+            <div class="item-title">IAS_SPRINT_REVIEW</div>
+            <div class="attendees"><span class="dot dot-green"></span> BRAD <span class="dot dot-green"></span> SARAH <span class="dot dot-yellow"></span> MIKE</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="meeting-time">13:30</div>
+          <div class="item-info">
+            <div class="item-title">DILIGENT_CONTENT_SYNC</div>
+            <div class="attendees"><span class="dot dot-green"></span> JULIA <span class="dot dot-red"></span> TOM</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="meeting-time">15:00</div>
+          <div class="item-info">
+            <div class="item-title">WOW!_DESIGN_HANDOFF</div>
+            <div class="attendees"><span class="dot dot-green"></span> SARAH <span class="dot dot-green"></span> BRAD</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Crons -->
+    <div class="panel">
+      <div class="panel-header">CRON.JOBS <span class="count">12</span></div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">PR_DASHBOARD_SYNC</div><div class="item-meta">*/30 * * * *</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">[OK]</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">SLACK_DIGEST</div><div class="item-meta">0 9 * * *</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">[OK]</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">CONTENTFUL_HEALTH</div><div class="item-meta">0 */6 * * *</div></div>
+          <div class="item-right"><span class="badge-sm badge-yellow">[WARN]</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">GA4_ANOMALY_SCAN</div><div class="item-meta">0 7 * * *</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">[OK]</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ideas -->
+    <div class="panel">
+      <div class="panel-header">IDEAS.DB <span class="count">96</span></div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">AI content migration tool</div></div>
+          <div class="item-right"><span class="score">9.2</span><span class="badge-sm badge-accent">PRODUCT</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Component versioning system</div></div>
+          <div class="item-right"><span class="score">8.7</span><span class="badge-sm badge-blue">ENGINEERING</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Client health dashboard</div></div>
+          <div class="item-right"><span class="score">8.1</span><span class="badge-sm badge-yellow">OPS</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Automated visual regression QA</div></div>
+          <div class="item-right"><span class="score">7.5</span><span class="badge-sm badge-accent">PRODUCT</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Client Health -->
+    <div class="panel">
+      <div class="panel-header">CLIENT.HEALTH</div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">IAS</div><div class="item-meta">ENTERPRISE // NEXT.JS + CONTENTFUL</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">[HEALTHY]</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">DILIGENT</div><div class="item-meta">ENTERPRISE // REACT + SANITY</div></div>
+          <div class="item-right"><span class="badge-sm badge-yellow">[AT_RISK]</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">WOW!</div><div class="item-meta">GROWTH // NEXT.JS + CONTENTFUL</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">[HEALTHY]</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="apps-section">
+    <div class="apps-label">MY_APPS</div>
+    <div class="apps-row">
+      <div class="app-card"><span class="app-icon">📋</span><div><div class="app-name">STANDUP</div><div class="app-desc">ACTIVITY TRACKING</div></div></div>
+      <div class="app-card"><span class="app-icon">👥</span><div><div class="app-name">ACCOUNTS</div><div class="app-desc">CLIENT MGMT</div></div></div>
+      <div class="app-card"><span class="app-icon">🎨</span><div><div class="app-name">DESIGN</div><div class="app-desc">CONCEPT REVIEW</div></div></div>
+      <div class="app-card"><span class="app-icon">🕺</span><div><div class="app-name">ROBLOX</div><div class="app-desc">MOTOR6D SCRIPTS</div></div></div>
+      <div class="app-card"><span class="app-icon">⚽</span><div><div class="app-name">SOCCER</div><div class="app-desc">TRAINING PLANS</div></div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

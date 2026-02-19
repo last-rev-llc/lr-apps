@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="var(--accent)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>⚡ Command Center</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<!-- GridStack removed — using cc-tabs with CSS grid -->
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/index.js"></script>
+<!-- tab content uses shared grid-2 class -->
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/trigger.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/sql-sync.js"></script>
+<script src="db.js"></script>
+</head>
+<body>
+<div class="sticky-header">
+<cc-topbar></cc-topbar>
+<cc-nav active="dashboard"></cc-nav>
+</div>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<cc-fade-in>
+<cc-page-header icon="⚡" title="Command Center" description="AlphaClaw mission control">
+  <div style="color:var(--muted);font-size:13px;">Last updated: <span id="updated"></span></div>
+</cc-page-header>
+</cc-fade-in>
+
+<cc-quick-access></cc-quick-access>
+
+<a href="apps.html" class="card" style="display:flex;align-items:center;gap:10px;padding:14px 20px;text-decoration:none;margin-bottom:16px;font-weight:600;color:var(--accent);font-size:15px;">🚀 View All Apps →</a>
+
+
+<cc-tabs active="admin">
+  <cc-tab name="admin" label="Admin" icon="inbox">
+    <div class="grid grid-2">
+      <cc-queue-summary></cc-queue-summary>
+      <cc-daily-feed></cc-daily-feed>
+      <cc-slack src="data/slack.json"></cc-slack>
+      <cc-calendar src="data/calendar.json" tz="America/Los_Angeles"></cc-calendar>
+    </div>
+  </cc-tab>
+  <cc-tab name="code" label="Code" icon="code">
+    <div class="grid grid-2">
+      <cc-prs src="data/prs.json"></cc-prs>
+      <cc-ideas-summary src="data/ideas.json"></cc-ideas-summary>
+      <cc-lighthouse src="https://lighthouse.adam-harris.alphaclaw.app/data/audits.json" layout="list"></cc-lighthouse>
+      <cc-dry-audit src="data/dry-audit.json"></cc-dry-audit>
+    </div>
+  </cc-tab>
+  <cc-tab name="client-health" label="Client Health" icon="heart-pulse">
+    <div class="grid grid-2">
+      <cc-uptime src="https://uptime.adam-harris.alphaclaw.app/data/sites.json" layout="list"></cc-uptime>
+      <cc-client-health-summary src="data/client-health.json"></cc-client-health-summary>
+    </div>
+  </cc-tab>
+  <cc-tab name="financial" label="Financial" icon="dollar-sign">
+    <div class="grid grid-2">
+      <div class="panel"><div class="panel-header"><i data-lucide="target"></i> Leads <a href="https://sales.adam-harris.alphaclaw.app" target="_blank" style="margin-left:auto;font-size:12px;color:var(--accent);text-decoration:none">Open Sales App →</a></div><cc-leads-summary src="data/leads.json"></cc-leads-summary></div>
+      <cc-ga4-alerts src="data/ga4-alerts.json"></cc-ga4-alerts>
+    </div>
+  </cc-tab>
+  <cc-tab name="personal" label="Personal" icon="user">
+    <div class="grid grid-2">
+      <div class="panel"><div class="panel-header">📰 News</div><div class="empty-state">Coming soon — personalized news feed</div></div>
+    </div>
+  </cc-tab>
+</cc-tabs>
+
+<script>
+  document.getElementById('updated').textContent =
+    new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles', dateStyle: 'medium', timeStyle: 'short' });
+</script>
+<script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});</script>
+</body>
+</html>

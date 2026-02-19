@@ -1,0 +1,60 @@
+{
+  "meetingId": "2026-02-06_AAI-Sync",
+  "topic": "AAI Sync",
+  "date": "2026-02-06",
+  "duration": 85,
+  "attendees": ["Adam Harris", "Brad Taylor", "Maximiliano Techera"],
+  "client": "AnswerAI",
+  "summary": "A critical strategy meeting for AnswerAI (AAI) with all three principals. The SBI Builder deal still hasn't closed — Brad followed up with Pedro who said no response yet. With AAI's bank account at ~$29K and $13K just sent out, runway is effectively less than one month with a $20-25K burn rate (Max, Bisma, Diego). Last Rev's runway is 3-4 months with current costs. The team confronted the reality that both companies cannot survive past 3-6 months without changes. WOW ($17K/month, high margin, low effort) is at risk due to acquisition and zero-line budgeting. Diligent has been the lifeline but work is winding down in 4-6 weeks.\n\nThe team aligned on pivoting Answer Engine away from the generalized platform/builder approach toward focused, specific use cases: domain research, content ingestion, tagging, JIRA analysis, SEO analysis, and call transcript analysis — marketed as individual mini-apps with credits-based pricing. Brad presented a detailed pricing spreadsheet with credit tiers (Starter $30/2000 credits, Professional $50/3500 credits, etc.) and scenario calculators. The consensus was clear: the SaaS builder model is dead (stocks of Salesforce, ServiceNow down 30%), and they must sell specific outcomes, not features.\n\nThe most urgent priority agreed upon was lead generation. Max pushed hard for outbound email campaigns, landing pages per use case, and leveraging existing customer success stories (WOW, IAS, SBI). Brad demonstrated his OpenClaw-based lead gen pipeline (Legion) and content pipeline running on secure AWS instances. The team agreed: Monday after IAS 2.0 deployment, Max goes full-time on outbound marketing with Brad. Everyone not doing billable work goes hourly. A revenue-share model (up to 70%) was proposed for team members who build and launch mini-apps. The team also discussed Max's ownership stake in Last Rev — options included hourly + percentage or reduced base + equity, with the understanding that AAI funding from Last Rev must stop.",
+  "keyDiscussionPoints": [
+    "AAI runway less than 1 month (~$16K remaining after recent payout), burn rate $20-25K/month",
+    "Last Rev runway 3-4 months independently",
+    "SBI Builder deal still not closed despite concessions — make or break for AAI",
+    "WOW $17K/month contract at risk due to acquisition (zero-line budgeting)",
+    "Pivot from generalized platform to focused Answer Engine use cases (domain research, tagging, ingestion, analysis)",
+    "Credits-based pricing model with tiered plans presented",
+    "Lead generation identified as #1 urgent priority",
+    "OpenClaw-based lead gen (Legion) and content pipeline demonstrated by Brad",
+    "Secure AWS deployment for OpenClaw instances — $12/month per person, Okta SSO",
+    "Everyone goes hourly if SBI doesn't close — billable hours required",
+    "70% revenue share proposed for team members building/launching mini-apps",
+    "Max ownership discussion: 10% + hourly or reduced base (~25% cut) + equity",
+    "SaaS market declining — need growth metrics for potential VC funding",
+    "Fire Crawl replacing EXA for domain research (11 seconds vs 3 minutes, much cheaper)",
+    "IAS paying $15K/month, Bisma could be dedicated to IAS for better margins",
+    "Marketing website needs overhaul — remove builder/FlowWise, focus on Answer Engine apps"
+  ],
+  "decisions": [
+    "Lead generation is the #1 priority starting next week",
+    "Pivot Answer Engine marketing to individual use-case apps (domain research, call analysis, etc.)",
+    "Everyone not doing billable work goes to hourly",
+    "Stop funding AAI from Last Rev — AAI must be self-sufficient",
+    "Bisma to be potentially dedicated to IAS account",
+    "Diego goes hourly if SBI doesn't close",
+    "Marketing website to be overhauled focusing on Answer Engine use cases",
+    "Revenue share up to 70% for mini-app creators",
+    "Max and Brad to focus on outbound marketing after IAS 2.0 deployment",
+    "Fire Crawl adopted over EXA for domain research (cost and speed improvement)"
+  ],
+  "actionItems": [
+    {"action": "Deploy IAS 2.0 and close remaining items", "owner": "Maximiliano Techera", "deadline": "Monday 2026-02-10", "priority": "high"},
+    {"action": "Set up OpenClaw content pipeline for Max", "owner": "Brad Taylor", "deadline": "2026-02-06", "priority": "medium"},
+    {"action": "Create marketing landing pages per use case (domain research, call analysis, etc.)", "owner": "Brad Taylor", "deadline": "next week", "priority": "high"},
+    {"action": "Build outbound email campaign infrastructure", "owner": "Maximiliano Techera", "deadline": "next week", "priority": "high"},
+    {"action": "Overhaul Answer Engine marketing website — remove builder/FlowWise content", "owner": "Brad Taylor", "deadline": "next week", "priority": "high"},
+    {"action": "Finalize credits-based pricing model and Stripe integration", "owner": "Brad Taylor", "deadline": "not specified", "priority": "medium"},
+    {"action": "Create demo video for Answer Engine use cases", "owner": "Brad Taylor", "deadline": "next week", "priority": "medium"},
+    {"action": "Have Krista draft Diligent added-scope document for next SOW", "owner": "Adam Harris", "deadline": "this week", "priority": "medium"},
+    {"action": "Prepare all-hands presentation on OpenClaw deployment for Tuesday", "owner": "Brad Taylor", "deadline": "Tuesday 2026-02-11", "priority": "medium"},
+    {"action": "Merge Last Rev marketing website cleanup PR (135 files changed)", "owner": "Adam Harris", "deadline": "2026-02-06", "priority": "low"}
+  ],
+  "followUp": [
+    "SBI Builder — final answer needed ASAP",
+    "WOW renewal decision (end of March/April)",
+    "Max ownership/compensation structure finalization",
+    "IAS 2.0 deployment status",
+    "Outbound marketing campaign launch metrics",
+    "Stripe integration for credits-based billing"
+  ],
+  "sentiment": "tense"
+}

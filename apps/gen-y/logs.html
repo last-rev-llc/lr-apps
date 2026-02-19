@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1da1f2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>📱 GenY — Logs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+</head>
+<body>
+<cc-app-nav app="gen-y" title="📱 GenY" active="logs"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+<div style="max-width:960px;margin:40px auto;padding:0 20px;">
+  <h1 style="font-family:var(--serif);margin-bottom:24px;">📋 Change Log</h1>
+  <div id="logs-container">Loading logs…</div>
+</div>
+<script>
+(async () => {
+  const c = document.getElementById('logs-container');
+  try {
+    if (!window.supabase) { c.textContent = 'Database not available.'; return; }
+    const rows = await window.supabase.select('app_logs', { filters: { app: 'eq.gen-y' }, order: 'created_at.desc', limit: 100 });
+    if (!rows.length) {
+      c.innerHTML = '<cc-empty-state message="No log entries yet" icon="📋"></cc-empty-state>';
+      return;
+    }
+    const esc = s => { const d = document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; };
+    c.innerHTML = rows.map(r => `
+      <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+        <span style="color:var(--heading);font-weight:600;">${esc(r.action || 'update')}</span>
+        <span style="margin-left:8px;font-size:12px;color:var(--muted);">${new Date(r.created_at).toLocaleString()}</span>
+        ${r.detail ? `<div style="font-size:12px;margin-top:4px;">${esc(r.detail)}</div>` : ''}
+      </div>`).join('');
+  } catch(e) { c.textContent = 'Could not load logs: ' + e.message; }
+})();
+</script>
+</body>
+</html>

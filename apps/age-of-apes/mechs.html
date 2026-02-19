@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<title>🦍 Age of Apes Guide - Mechs</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<link rel="stylesheet" href="modules/aoa-common.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/utils.js"></script>
+<style>
+  .mech-rarity-section { margin-bottom:2rem; }
+  .rarity-epic { border-left:4px solid var(--accent); }
+  .rarity-legendary { border-left:4px solid var(--orange); }
+</style>
+</head>
+<body>
+<cc-app-nav app="age-of-apes" title="🦍 Age of Apes Guide" active="mechs"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div style="max-width:1400px;margin:0 auto;padding:1rem;">
+  <div class="page-header">
+    <h1>🤖 Mechs Database</h1>
+    <div class="header-right">
+      <span class="badge badge-app">Mechs System</span>
+    </div>
+  </div>
+
+  <cc-tabs active="overview">
+    <cc-tab name="overview" label="Overview" icon="zap">
+      <div style="padding:1rem 0;">
+        <div class="mech-rarity-section">
+          <h3 style="color:var(--accent);">Epic Mechs</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:2rem;">
+            <div class="card rarity-epic">
+              <div class="card-top">
+                <div class="card-title">Epic Mech System</div>
+              </div>
+              <div class="card-desc">Force max level: 60 | Skills max level: 30</div>
+              <div class="card-meta">
+                <span class="badge" style="background:var(--accent);color:#fff;">Epic</span>
+                <span class="badge" style="background:var(--muted);color:#fff;">Balanced</span>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="color:var(--orange);">Legendary Mechs</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;">
+            <div class="card rarity-legendary">
+              <div class="card-top">
+                <div class="card-title">Legendary Mech System</div>
+              </div>
+              <div class="card-desc">Force max level: 60 | Skills max level: 30</div>
+              <div class="card-meta">
+                <span class="badge" style="background:var(--orange);color:#000;">Legendary</span>
+                <span class="badge" style="background:var(--muted);color:#fff;">Enhanced</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:2rem;">
+          <h3 style="margin:0 0 1rem;">Mech Upgrade System</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div>
+              <h4 style="margin:0 0 .5rem;color:var(--accent);">Force Levels</h4>
+              <ul style="margin:0;padding-left:1rem;color:var(--muted);font-size:.9rem;">
+                <li>Max Level: 60 (both rarities)</li>
+                <li>Requires: Chips + Cores</li>
+                <li>Increases: Base combat power</li>
+                <li>Cost: Exponential scaling</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="margin:0 0 .5rem;color:var(--orange);">Skill Levels</h4>
+              <ul style="margin:0;padding-left:1rem;color:var(--muted);font-size:.9rem;">
+                <li>Max Level: 30 (both rarities)</li>
+                <li>Requires: Skill Manuals</li>
+                <li>Increases: Skill effectiveness</li>
+                <li>Cost: Linear scaling</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:1rem;">
+          <h3 style="margin:0 0 .5rem;">Mech Stats</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+            <div class="stat-box"><div class="stat-box-value">2</div><div class="stat-box-label">Rarities</div></div>
+            <div class="stat-box"><div class="stat-box-value">60</div><div class="stat-box-label">Max Force Level</div></div>
+            <div class="stat-box"><div class="stat-box-value">30</div><div class="stat-box-label">Max Skill Level</div></div>
+            <div class="stat-box"><div class="stat-box-value">∞</div><div class="stat-box-label">Operators</div></div>
+          </div>
+        </div>
+      </div>
+    </cc-tab>
+    <cc-tab name="calculator" label="Calculator" icon="calculator">
+      <div class="panel">
+        <h3 style="margin:0 0 1rem;">Mech Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Rarity</label><select id="mc-rarity" class="aoa-select">
+            <option value="epic">Epic</option><option value="legendary">Legendary</option>
+          </select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Force Start Level</label><input type="number" id="mc-fstart" class="aoa-input" value="1" min="1" max="60"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Force End Level</label><input type="number" id="mc-fend" class="aoa-input" value="60" min="1" max="60"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Skill Start Level</label><input type="number" id="mc-sstart" class="aoa-input" value="1" min="1" max="30"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Skill End Level</label><input type="number" id="mc-send" class="aoa-input" value="30" min="1" max="30"></div>
+        </div>
+        <button class="btn btn-primary" id="mc-calc">Calculate</button>
+        <div id="mc-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+    <cc-tab name="operators" label="Operators" icon="users">
+      <div style="padding:1rem 0;">
+        <div class="panel">
+          <h3 style="margin:0 0 1rem;">Mech Operators</h3>
+          <p style="color:var(--muted);margin-bottom:1.5rem;">Operators provide additional bonuses to mechs and can be trained to improve their effectiveness.</p>
+          
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;">
+            <div class="card">
+              <div class="card-top">
+                <div class="card-title">Primary Operator</div>
+              </div>
+              <div class="card-desc">Main operator controlling the mech with base stats and primary skills</div>
+              <div class="card-meta">
+                <span class="badge" style="background:var(--blue);color:#fff;">Essential</span>
+              </div>
+            </div>
+            
+            <div class="card">
+              <div class="card-top">
+                <div class="card-title">Secondary Operator</div>
+              </div>
+              <div class="card-desc">Support operator providing additional bonuses and secondary skills</div>
+              <div class="card-meta">
+                <span class="badge" style="background:var(--green);color:#000;">Support</span>
+              </div>
+            </div>
+            
+            <div class="card">
+              <div class="card-top">
+                <div class="card-title">Operator Training</div>
+              </div>
+              <div class="card-desc">Train operators to increase their effectiveness and unlock new abilities</div>
+              <div class="card-meta">
+                <span class="badge" style="background:var(--yellow);color:#000;">Upgrade</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </cc-tab>
+  </cc-tabs>
+</div>
+
+<script>
+const { fmt, esc } = AOA;
+let gameData = {};
+
+async function loadData() {
+  try {
+    const mechs = await fetch('data/mechs.json').then(r=>r.json());
+    gameData = { mechs };
+    setupCalculator();
+  } catch(e) {
+    console.error('Error loading data:', e);
+  }
+}
+
+function setupCalculator() {
+  document.getElementById('mc-calc').addEventListener('click', () => {
+    const rarity = document.getElementById('mc-rarity').value;
+    const fstart = +document.getElementById('mc-fstart').value;
+    const fend = +document.getElementById('mc-fend').value;
+    const sstart = +document.getElementById('mc-sstart').value;
+    const send = +document.getElementById('mc-send').value;
+    
+    if (fstart >= fend || sstart >= send) {
+      window.showToast('Start levels must be less than end levels ⚠️', 3000);
+      return;
+    }
+    
+    const mech = gameData.mechs[rarity];
+    if (!mech) {
+      window.showToast('Mech data not found ⚠️', 3000);
+      return;
+    }
+    
+    let chips = 0, cores = 0, power = 0, manuals = 0;
+    
+    // Force levels calculation
+    for(let i = fstart-1; i < fend-1; i++){
+      chips += (mech.force?.chipsPerLevel?.[i] || 100 + i * 50);
+      cores += (mech.force?.coresPerLevel?.[i] || 10 + i * 5);
+      power += (mech.force?.powerPerLevel?.[i] || 1000 + i * 100);
+    }
+    
+    // Skill levels calculation  
+    for(let i = sstart-1; i < send-1; i++){
+      manuals += (mech.skills?.manualsPerLevel?.[i] || 50 + i * 25);
+    }
+    
+    // Rough USD estimate (very approximate)
+    const legendaryMultiplier = rarity === 'legendary' ? 1.5 : 1;
+    const estUSD = Math.round((chips/10000 + cores/100 + manuals/500) * 0.99 * legendaryMultiplier);
+    
+    document.getElementById('mc-results').innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${rarity.charAt(0).toUpperCase()+rarity.slice(1)}</div><div class="stat-box-label">Rarity</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fstart}→${fend}</div><div class="stat-box-label">Force Levels</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${sstart}→${send}</div><div class="stat-box-label">Skill Levels</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(chips)}</div><div class="stat-box-label">Chips</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(cores)}</div><div class="stat-box-label">Cores</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(power)}</div><div class="stat-box-label">Power</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(manuals)}</div><div class="stat-box-label">Manuals</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">$${fmt(estUSD)}</div><div class="stat-box-label">Est. USD</div></div>
+      </div>`;
+
+    window.showToast(`Calculated ${rarity} mech upgrade costs ✅`, 3000);
+  });
+}
+
+loadData();
+</script>
+</body>
+</html>

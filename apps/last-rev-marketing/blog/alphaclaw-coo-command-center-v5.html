@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="COO Command Center: AI Operations Dashboard — Last Rev"
+    description="How I replaced 45-minute morning reviews with a 4-minute glance. 63 automated jobs, one dashboard, zero missed client issues."
+    canonical="https://lastrev.com/blog/alphaclaw-coo-command-center-v5"
+    og-title="COO Command Center: AI Operations Dashboard — Last Rev"
+    og-description="How I replaced 45-minute morning reviews with a 4-minute glance. 63 automated jobs, one dashboard, zero missed client issues."
+    og-image="/images/og-default.png"
+    og-url="https://lastrev.com/blog/alphaclaw-coo-command-center-v5"
+    og-type="article"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="The COO's Command Center: How I Replaced My Ops Team With One Dashboard" author="Adam Harris" date="2026-01-06" category="AI Operations" read-time="10 min" back-href="../blog.html" image="../images/blog/alphaclaw-coo-command-center.webp">
+        <div slot="content">
+
+<p class="lead">Here's how my morning used to go. Open Slack... scroll through overnight messages across eight client channels. Open GitHub... check PRs across a dozen repos. Open GA4... squint at traffic charts. Open the CRM... see if any leads came in. Open Contentful... check if anyone published something weird. That's five tools, minimum 45 minutes, and I still wasn't sure I had the full picture.</p>
+
+<p>Now I open one tab. Four minutes later, I know everything.</p>
+
+<p>I'm going to walk you through exactly how I built that; what it replaced, what it costs, and why I think every ops leader running a small team should have one.</p>
+
+<h2>The Real Problem Isn't "Too Many Tools"</h2>
+
+<p>Everyone talks about tool sprawl like the problem is the number of apps. It's not. The problem is that none of them talk to each other, and you become the integration layer.</p>
+
+<p>Think about it. Your project manager checks GitHub for PR status, then walks over to Slack to relay it, then updates a spreadsheet, then mentions it in standup. That's one person spending 30 minutes to move information from Point A to Point B. Multiply that across every tool and every team member.</p>
+
+<p>Harvard Business Review published a study where they tracked 137 people across three Fortune 500 companies. The average worker toggled between apps and websites <strong>1,200 times per day</strong>.<sup>1</sup> Not per week. Per day. And every single switch has a cost; Gloria Mark's research at UC Irvine found it takes over 23 minutes to fully refocus after an interruption.<sup>2</sup></p>
+
+<p>I was living this every day. Not because I'm disorganized... because the tools made it impossible to stay organized. Each one had its own dashboard, its own notification system, its own mental model. I wasn't doing operations; I was doing data collection.</p>
+
+<h2>So I Built One Screen That Does It All</h2>
+
+<p>The Command Center is a single dashboard that pulls data from every system I use to run Last Rev. GitHub, Slack, Google Analytics, Contentful, our CRM, uptime monitors, Zoom... all of it feeds into one place. But here's the important part: it's not just aggregating data. An AI agent analyzes it overnight and surfaces only what actually matters.</p>
+
+<p>Let me show you what a real morning looks like now.</p>
+
+<h3>6:00 AM... Before I'm Awake</h3>
+
+<p>While I'm sleeping, 63 automated jobs are running. The AI agent has already scanned every open pull request across all our client repos. It's reviewed the code, left comments, and flagged anything that needs my attention. In parallel, it ran a code quality audit across every app in our workspace; checking for duplicate code, missed shared components, consistency issues.</p>
+
+<h3>6:30 AM... The Slack Digest</h3>
+
+<p>A cron job fires and scans every Slack channel from the past 24 hours. Instead of reading 200 messages, I get five paragraphs organized by client. If a developer flagged a blocker at 11 PM, it's in there. If a client mentioned wanting to reschedule something, it's in there. Prioritized by what needs action first.</p>
+
+<h3>7:00 AM... Meeting Prep That Does Itself</h3>
+
+<p>I have a client call at 10. The system already pulled their health score, their open PRs, their recent deploy history, and their latest Slack conversations. It generated prep notes. I walk into the call already knowing what to ask about.</p>
+
+<h3>7:15 AM... I Actually Open the Dashboard</h3>
+
+<p>One tab. Five sections. I scan for color. Green means healthy. Red means act now. Today I see one client flagged red; 13 stale PRs, zero commits this week. I make a note to bring it up in the sync. I see a traffic spike on one of our blog posts. I see a new lead scored at 9/10. Total time: four minutes.</p>
+
+<p>That's it. Full situational awareness. No tab switching, no Slack scrolling, no "did I forget to check something?"</p>
+
+<h2>What's Actually In There</h2>
+
+<p>The dashboard is organized into five tabs. Each one replaces a workflow that used to eat hours.</p>
+
+<h3>Admin: The Daily Pulse</h3>
+
+<p>This is where I start. It has four modules...</p>
+
+<ul>
+  <li><strong>Task Queue</strong> shows everything the AI agent is processing; from "summarize this Zoom recording" to "research this lead." It processes one task every 60 seconds from a database queue. I can see what's pending, what's running, what's done.</li>
+  <li><strong>Daily Feed</strong> is an AI-generated digest of everything that happened in the last 24 hours. Deploys, PR merges, Slack conversations, anomalies. A personalized newspaper for the company.</li>
+  <li><strong>Slack Summaries</strong> are the per-client breakdowns I mentioned. Five paragraphs instead of 200 messages.</li>
+  <li><strong>Calendar</strong> shows today's meetings with AI-generated prep notes. Not just "10 AM call with IAS" but "here's their health score, their open issues, and what they mentioned in Slack last week."</li>
+</ul>
+
+<h3>Code: Engineering Without Standups</h3>
+
+<p>I can see every open PR across all repositories. Right now that's 30+ PRs across 8 client projects. The system flags anything that's been open longer than 48 hours. It runs automated code reviews hourly during business hours. It catches things like a developer's PR that has a web component race condition... and sometimes fixes it before I even see it.</p>
+
+<p>There's also a nightly Lighthouse audit that checks performance scores on every client site. If a deploy tanks Core Web Vitals, I know before the client does.</p>
+
+<h3>Client Health: The Score That Replaced Check-Ins</h3>
+
+<p>This is the one that changed everything. Each client gets a composite health score based on real signals: commits in the last 7 days, how stale their PRs are, open issues, when they last deployed, Slack activity. It's not a gut feeling; it's math.</p>
+
+<p>Here's a real example. One client's score dropped to red. Zero commits, 13 stale PRs, no Slack activity in a week. Without the dashboard, I might not have noticed for another few days. Instead, I reached out proactively before they had to ask "hey, what's going on with our project?" That's the difference between reactive and proactive ops.</p>
+
+<p>The health tab also monitors CMS content. We manage thousands of Contentful entries across clients. The system flags drafts that haven't been touched in over 1,000 days; content that's just sitting there, never published, taking up space and confusing editors.</p>
+
+<p>And there's GA4 anomaly detection. When sessions drop 28% compared to the weekly average, I get an alert. When a blog post spikes 316%, I know to amplify it. No more logging into Analytics and trying to spot patterns manually.</p>
+
+<h3>Financial: Pipeline Without a CRM</h3>
+
+<p>Every inbound lead gets automatically enriched with company data, tech stack analysis, and a fit score. When a healthcare company using Contentful and Next.js came in, the system scored them 9/10 and generated talking points: "Ask about their portal redesign timeline. Discuss composable architecture for HIPAA compliance." That's 30 minutes of sales research, done in seconds.</p>
+
+<p>Every night at 9 PM, a cron job scans tomorrow's calendar for meetings with external contacts and pre-researches each person and company. I walk into every meeting with context.</p>
+
+<h3>Personal: The Async Standup</h3>
+
+<p>At 6 PM, the system generates a dev journal. What got done today, what's pending, what needs attention tomorrow. It's the standup I give to myself. There's also a curated news feed and weather briefing... small things, but they make the dashboard feel like home base rather than just another work tool.</p>
+
+<h2>63 Jobs Running in the Background</h2>
+
+<p>The dashboard is just the surface. Behind it are 63 scheduled jobs that feed it data, run analysis, and take action. The breakdown...</p>
+
+<ul>
+  <li><strong>35 nightly reviews</strong> covering PR/merge cycles, code quality audits, UX reviews, and per-app code reviews across 20+ applications</li>
+  <li><strong>5 system jobs</strong> including the task queue processor (every 60 seconds) and dashboard data refresh (every 30 minutes)</li>
+  <li><strong>4 monitoring jobs</strong> for PR staleness, weekly triage, and backlog prep</li>
+  <li><strong>4 content generation jobs</strong> for idea scoring, skill discovery, and competitive research</li>
+  <li><strong>4 morning briefings</strong> covering weather, Slack summaries, calendar prep, and the evening journal</li>
+  <li><strong>2 research jobs</strong> for lead enrichment and meeting prep</li>
+  <li><strong>9 other jobs</strong> handling recipe audits, brainstorming, memory cleanup, and reminders</li>
+</ul>
+
+<p>The most critical one is the task queue processor. It runs every 60 seconds, polls a database table for pending work, processes one task per cycle, and delivers results to Slack. It's the nervous system that connects everything. If someone says "research this company" in Slack, it hits the queue, gets processed, and the research lands back in Slack... usually before the person's moved on to something else.</p>
+
+<h2>Let's Talk About What This Replaces</h2>
+
+<p>I want to be direct about the math here, because this is where it gets interesting.</p>
+
+<p>To get this level of operational awareness without the Command Center, you'd need at minimum...</p>
+
+<ul>
+  <li><strong>A project manager</strong> for client health monitoring, PR triage, blocker escalation, meeting prep. $85K-$110K/year.</li>
+  <li><strong>A part-time DevOps engineer</strong> for uptime monitoring, deployment tracking, Lighthouse audits, dependency updates. $60K-$80K/year.</li>
+  <li><strong>A marketing analyst</strong> for GA4 monitoring, content audits, traffic anomaly detection, lead enrichment. $65K-$85K/year.</li>
+  <li><strong>A sales ops coordinator</strong> for lead research, CRM maintenance, pipeline reporting. $55K-$70K/year.</li>
+  <li><strong>An executive assistant</strong> for calendar management, Slack monitoring, daily briefings, follow-up tracking. $50K-$65K/year.</li>
+</ul>
+
+<p>That's $315K to $410K per year in headcount. For a 10-person agency or a solo founder, that's not realistic. But you still need that coverage. The Command Center provides it for a fraction of the cost.</p>
+
+<p>And I want to be clear... I'm not saying fire people. I'm saying most small teams <em>can't hire</em> for all of these roles in the first place. The Command Center fills the gap that's already there.</p>
+
+<h2>The Tech Is Deliberately Simple</h2>
+
+<p>People assume this requires a complex stack. It doesn't.</p>
+
+<ul>
+  <li><strong>Frontend:</strong> Vanilla Web Components. No React. No build step. No framework. Each module is a self-contained custom element that fetches its own data and renders independently. 27 modules total, most under 200 lines of code.</li>
+  <li><strong>Data:</strong> Supabase for real-time tables and static JSON files for snapshots. The AI agent writes data; the dashboard reads it. That's the entire architecture.</li>
+  <li><strong>AI:</strong> Cron jobs run, the agent analyzes something, writes a JSON file or database row. No complex API layer. No webhook configuration. Just files and a database.</li>
+  <li><strong>Hosting:</strong> Static files. No server. No SSR. Loads in under a second.</li>
+</ul>
+
+<p>This architecture makes the dashboard almost indestructible. If a cron job fails, the dashboard shows stale data with a timestamp instead of crashing. If the database goes down, the JSON files still load. If the AI agent is offline, the last known data persists. Graceful degradation at every layer.</p>
+
+<h2>What I Learned Building This</h2>
+
+<p>If you want to build something similar, here's what actually matters.</p>
+
+<p><strong>Start with the morning briefing.</strong> Don't try to build the whole thing at once. Set up one automated Slack summary that hits your DMs at 6:30 AM. Once you experience walking into your day with full context already waiting for you, you'll be motivated to add more. That first morning where you don't have to scroll through Slack... you'll feel it immediately.</p>
+
+<p><strong>Use boring technology.</strong> I chose vanilla Web Components specifically because there's nothing to break. No dependency updates, no framework migrations, no build pipeline. Each module is one file. I can write, test, and deploy a new module in 15 minutes. When you're building an operational tool, reliability matters more than elegance.</p>
+
+<p><strong>Not everything needs to be real-time.</strong> Client health scores update every 30 minutes. PR data refreshes hourly. GA4 alerts run daily. The only real-time piece is the task queue at 60-second intervals. Match your refresh rate to how fast you actually make decisions. Most ops decisions don't need sub-second data.</p>
+
+<p><strong>Make the AI write files, not call APIs.</strong> The simplest integration pattern I've found: a cron job runs, the AI analyzes something, writes a JSON file. The dashboard reads the file. No API auth, no webhook config, no error handling for failed calls. Just files. It sounds primitive and it works beautifully.</p>
+
+<p><strong>Color-code ruthlessly.</strong> Three colors. Green means healthy. Amber means pay attention. Red means act now. Every module speaks the same language. When I glance at the dashboard, I don't read... I see colors. If everything's green, I move on. One red dot anywhere gets 100% of my focus.</p>
+
+<h2>The Part Nobody Talks About: It Gets Better Over Time</h2>
+
+<p>Here's what surprised me. The Command Center compounds.</p>
+
+<p>Each new cron job adds another data stream. Each new module creates another lens into the business. The nightly brainstorm agent generates ideas that reference patterns spotted by the client health module. The lead enrichment system generates talking points informed by content audit findings. The whole system cross-pollinates in ways I didn't plan for.</p>
+
+<p>After three months of running this...</p>
+
+<ul>
+  <li>63 automated jobs running on schedule</li>
+  <li>27 dashboard modules providing visibility across every part of the business</li>
+  <li>Thousands of content entries continuously audited</li>
+  <li>30+ open PRs tracked across 8+ repositories</li>
+  <li>Every inbound lead enriched with fit scores and talking points</li>
+  <li>Zero missed client escalations</li>
+  <li>4-minute mornings replacing 45-minute review sessions</li>
+</ul>
+
+<p>McKinsey pegs the long-term AI productivity opportunity at $4.4 trillion across corporate use cases.<sup>3</sup> That's a macro number. At the micro level, for one person running one company, the impact is simpler: I got my mornings back. I stopped being a human router for information. I started actually doing the strategic work I'm supposed to be doing.</p>
+
+<h2>This Isn't Science Fiction</h2>
+
+<p>I think the biggest misconception about AI operations dashboards is that they require some massive infrastructure investment or a team of ML engineers. They don't. The Command Center runs on a free-tier database, static file hosting, and an AI agent that costs less per month than a single team lunch.</p>
+
+<p>The shift is simple but significant. Traditional dashboards are passive... you look, you search, you find. The Command Center is active... it looks, it finds, it tells you. I didn't write a rule that says "alert me when a client has 13 stale PRs." The system noticed the pattern and raised it. That's the difference.</p>
+
+<p>If you're an ops leader drowning in tabs, or a founder who keeps putting off hiring a PM because the budget isn't there... the tools to build this exist right now. Not in some future product roadmap. Right now.</p>
+
+<p><a href="../index.html#contact">Let's talk about building yours.</a></p>
+
+<hr style="margin:40px 0;border-color:#334155;">
+
+<h3>Sources</h3>
+<ol style="font-size:14px;color:#94a3b8;">
+  <li id="fn1">Rohan Narayana Murty, Sandeep Dadlani, et al. — <a href="https://hbr.org/2022/08/how-much-time-and-energy-do-we-waste-toggling-between-applications" target="_blank" rel="noopener" style="color:#6366f1;">"How Much Time and Energy Do We Waste Toggling Between Applications?"</a> Harvard Business Review, August 2022.</li>
+  <li id="fn2">Gloria Mark, University of California, Irvine — Research on digital distraction and task switching. Cited in <a href="https://www.informatics.uci.edu/forbes-brain-based-tips-for-sharpening-your-focus-gloria-mark-cited/" target="_blank" rel="noopener" style="color:#6366f1;">Forbes via UCI Informatics</a>. Finding: it takes over 23 minutes to fully regain focus after an interruption.</li>
+  <li id="fn3">McKinsey &amp; Company — <a href="https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/superagency-in-the-workplace-empowering-people-to-unlock-ais-full-potential-at-work" target="_blank" rel="noopener" style="color:#6366f1;">"Superagency in the Workplace: Empowering People to Unlock AI's Full Potential at Work"</a> January 2025. Sizes the long-term AI opportunity at $4.4 trillion in added productivity growth potential.</li>
+</ol>
+
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "The COO's Command Center: How I Replaced My Ops Team With One Dashboard",
+    "description": "How I replaced 45-minute morning reviews with a 4-minute glance. 63 automated jobs, one dashboard, zero missed client issues.",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Harris",
+      "url": "https://lastrev.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lastrev.com/images/logo.png"
+      }
+    },
+    "datePublished": "2026-01-06",
+    "dateModified": "2026-02-19",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/alphaclaw-coo-command-center-v5"
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://lastrev.com/images/og-default.png"
+    }
+  }
+  </script>
+
+</body>
+</html>

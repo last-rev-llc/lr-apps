@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ AlphaClaw — Docs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+</head>
+<body>
+<cc-app-nav app="cc-alphaclaw" title="⚡ AlphaClaw" active="docs"></cc-app-nav>
+<cc-toast></cc-toast>
+
+<cc-docs title="AlphaClaw" icon="⚡" subtitle="AI Operations Partner — architecture, integrations, and usage documentation.">
+{
+  "sections": [
+    {
+      "title": "Overview",
+      "icon": "🚀",
+      "id": "overview",
+      "content": "AlphaClaw is an AI agent that lives in Slack, connects to your entire tool stack, and handles operational work — from code reviews to app deployment to automated reporting.\n\n> **Tip:** Talk to AlphaClaw in any Slack DM or channel where it's invited. It remembers context across conversations."
+    },
+    {
+      "title": "Getting Started",
+      "icon": "⚡",
+      "id": "getting-started",
+      "content": "### 1. Deploy Your Agent\n\nOne command spins up your instance with its own workspace, memory, and identity.\n\n### 2. Connect Your Tools\n\nUse the secure integration portal to connect services via OAuth or API key:\n\n```bash\n# Generate a portal link\nopenclaw integrations portal\n```\n\n### 3. Start Working\n\nMessage AlphaClaw in Slack:\n\n```\n@alphaclaw review the latest PRs in our repo\n@alphaclaw build me a dashboard for tracking signups\n@alphaclaw summarize yesterday's Zoom meetings\n```"
+    },
+    {
+      "title": "Integrations",
+      "icon": "🔌",
+      "id": "integrations",
+      "content": "AlphaClaw connects to 40+ services. All credentials are stored securely — never in chat.\n\n| Service | Auth Method | Capabilities |\n|---|---|---|\n| GitHub | OAuth | Repos, PRs, issues, code search, reviews |\n| Slack | OAuth | Messaging, search, reactions, channels |\n| Jira | OAuth/Basic | Issues, sprints, boards |\n| Google Drive | OAuth | Docs, Sheets, file management |\n| Zoom | OAuth | Recordings, transcripts, meetings |\n| Contentful | OAuth | Content management |\n| Vercel | OAuth | Site deployments |\n| Netlify | OAuth | Site deployments |\n| Supabase | API Key | Database, auth, storage |\n| OpenAI | API Key | GPT, DALL-E, Whisper |\n| Brave Search | API Key | Web research |"
+    },
+    {
+      "title": "Web Apps",
+      "icon": "🌐",
+      "id": "web-apps",
+      "content": "AlphaClaw builds and deploys static web apps to public URLs.\n\n- Apps live at `https://<name>.adam-harris.alphaclaw.app`\n- No login required, no CSP restrictions\n- SPA routing works automatically\n- Shared component library with glass/neon design system\n\n### Shared Components\n\n```html\n<!-- Load shared theme + components -->\n<link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n<script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n```\n\n### Available Components\n\n| Component | Description |\n|---|---|\n| `<cc-app-nav>` | App navigation bar |\n| `<cc-auth>` | Authentication gate |\n| `<cc-toast>` | Toast notifications |\n| `<cc-fade-in>` | Scroll-triggered fade animation |\n| `<cc-parallax>` | Parallax scrolling sections |\n| `<cc-stagger>` | Staggered child animations |\n| `<cc-slide-in>` | Directional slide animations |\n| `<cc-docs>` | Documentation layout |\n| `<cc-ads>` | Ad creatives display |\n| `<cc-prompts>` | Media prompt management |\n| `<cc-ideas>` | Ideas board |",
+      "subsections": [
+        {
+          "title": "Embed Example",
+          "content": "```html\n<link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n<script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n<script src=\"https://shared.adam-harris.alphaclaw.app/modules/cc-ads.js\"></script>\n\n<cc-ads app=\"cc-alphaclaw\"></cc-ads>\n```"
+        }
+      ]
+    },
+    {
+      "title": "Automation & Cron",
+      "icon": "⏰",
+      "id": "automation",
+      "content": "Schedule recurring tasks with cron expressions:\n\n- **Morning briefings** — daily summary of PRs, issues, calendar\n- **Nightly code reviews** — automated PR review across repos\n- **Weekly reports** — sprint summaries, metrics, highlights\n- **App nightly reviews** — content freshness, prompt updates, ad audits\n\n> **Note:** Cron jobs run in the agent's timezone. Use `openclaw cron list` to see active schedules."
+    },
+    {
+      "title": "Architecture",
+      "icon": "🏗️",
+      "id": "architecture",
+      "content": "### Core Components\n\n- **Agent Runtime** — Claude-powered with full shell access, file system, git, and browser automation\n- **Persistent Workspace** — Git-tracked files, apps, skills, and memory\n- **Sub-Agent Orchestration** — Spawns background agents for heavy/parallel tasks\n- **Supabase Backend** — PostgreSQL database for app data, ideas, prompts, logs\n- **Static Hosting** — Apps served via CDN at `*.adam-harris.alphaclaw.app`\n\n### Data Flow\n\n```\nSlack Message → OpenClaw Gateway → Agent Runtime → Tool Execution → Response\n                                        ↓\n                                  Sub-agents (parallel tasks)\n                                        ↓\n                                  Supabase / GitHub / APIs\n```"
+    },
+    {
+      "title": "Theming",
+      "icon": "🎨",
+      "id": "theming",
+      "content": "The shared design system uses CSS custom properties for consistent glass/neon styling.\n\n```css\n/* Core tokens */\n--card        /* Card background */\n--border      /* Border color */\n--bg          /* Page background */\n--accent      /* Primary accent */\n--muted       /* Muted text */\n--heading     /* Heading color */\n\n/* Neon colors */\n--neon-amber, --neon-violet, --neon-blue\n--neon-green, --neon-pink, --neon-cyan\n```\n\n> **Tip:** Use `data-theme=\"dark\"` on `<html>` for dark mode (default). The theme system handles all component styling automatically."
+    }
+  ],
+  "links": [
+    { "label": "Back to AlphaClaw", "url": "landing.html", "icon": "←" },
+    { "label": "Shared Library", "url": "https://shared.adam-harris.alphaclaw.app", "icon": "↗" },
+    { "label": "OpenClaw Docs", "url": "https://docs.openclaw.ai", "icon": "↗" }
+  ]
+}
+</cc-docs>
+</body>
+</html>

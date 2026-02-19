@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI Software Ongoing Costs: What to Budget Post-Launch"
+    description="Ongoing AI software costs: LLM APIs, infrastructure, maintenance engineering, and monitoring. Real budgets from $5K-$20K/month with cost-cutting strategies."
+    canonical="https://lastrev.com/blog/what-ongoing-costs-should-i-expect-when-running-custom-ai-software"
+    og-title="AI Software Ongoing Costs: What to Budget Post-Launch"
+    og-description="Ongoing AI software costs: LLM APIs, infrastructure, maintenance engineering, and monitoring. Real budgets from $5K-$20K/month with cost-cutting strategies."
+    og-image="https://lastrev.com/assets/images/blog/ai-costs-default.jpg"
+    og-url="https://lastrev.com/blog/what-ongoing-costs-should-i-expect-when-running-custom-ai-software"
+    og-type="article"
+  ></lr-head>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "What Ongoing Costs Should I Expect When Running Custom AI Software?",
+    "description": "A practical breakdown of the recurring costs behind custom AI software — from LLM API fees and cloud infrastructure to maintenance engineering and model monitoring.",
+    "author": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lastrev.com/assets/images/logo.png"
+      }
+    },
+    "datePublished": "2026-01-24",
+    "dateModified": "2026-01-24",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/what-ongoing-costs-should-i-expect-when-running-custom-ai-software"
+    },
+    "image": "https://lastrev.com/assets/images/blog/ai-costs-default.jpg",
+    "articleSection": "AI Software & Custom Apps",
+    "keywords": "AI software costs, custom AI development, LLM API pricing, AI infrastructure, AI maintenance, AI operations budget"
+  }
+  </script>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="What Ongoing Costs Should I Expect When Running Custom AI Software?" author="Last Rev Team" date="2026-01-24" category="AI Software & Custom Apps" read-time="9 min" back-href="../blog.html">
+        <div slot="content">
+
+<p>You budgeted for the build. You shipped the AI feature. Now comes the question nobody asked during the kickoff meeting: what does this thing cost to <em>run</em>?</p>
+
+<p>The answer is more nuanced than most teams expect. According to <a href="https://www.cloudzero.com/state-of-ai-costs/" target="_blank" rel="noopener">CloudZero's 2025 State of AI Costs report</a>, average monthly AI spending hit $85,521 in 2025 — a 36% increase from the prior year — and the proportion of organizations spending over $100,000 per month more than doubled. That's not build cost. That's operating cost.</p>
+
+<p>Custom AI software has a fundamentally different cost profile than traditional web applications. The compute is usage-based. The models are third-party services with their own pricing tiers. And the maintenance demands are higher because the software degrades in ways that conventional applications don't.</p>
+
+<p>This post breaks down the six categories of ongoing cost you should plan for — with real numbers where possible — so you can budget accurately and avoid the sticker shock that catches most teams in month three.</p>
+
+<h2>1. LLM API Costs: The Metered Utility Bill</h2>
+
+<p>If your AI software uses large language models — and most custom AI software does — your biggest variable cost is API usage. LLM providers charge per token (roughly ¾ of a word), and costs vary dramatically by model and provider.</p>
+
+<p>As of early 2026, <a href="https://openai.com/api/pricing/" target="_blank" rel="noopener">OpenAI's API pricing</a> ranges from $0.20 per million input tokens for lightweight models (GPT-4.1 nano) to $21 per million input tokens for their most capable reasoning model (GPT-5.2 pro). Output tokens cost significantly more — up to $168 per million tokens at the high end.</p>
+
+<p>What does that mean in practice? A customer support AI handling 1,000 conversations per day, each averaging 2,000 tokens of input and 1,000 tokens of output, would consume roughly 90 million tokens per month. On a mid-tier model, that's $500–$2,000/month in API costs alone. On a premium reasoning model, it could be $15,000+.</p>
+
+<p>The key insight: <strong>model selection is a cost architecture decision, not just a capability decision.</strong> We routinely help clients design systems that route simple tasks to cheaper models and reserve expensive models for complex reasoning — cutting API costs by 60–70% without meaningful quality loss.</p>
+
+<h2>2. Cloud Infrastructure: The Foundation That Never Stops Billing</h2>
+
+<p>Beyond LLM APIs, your AI software needs infrastructure to run: application servers, databases, vector stores for embeddings, job queues for async processing, and storage for logs and artifacts.</p>
+
+<p>For a typical mid-market custom AI application, expect monthly infrastructure costs in these ranges:</p>
+
+<ul>
+  <li><strong>Application hosting</strong> (compute): $200–$2,000/month depending on traffic and concurrency</li>
+  <li><strong>Vector database</strong> (Pinecone, Weaviate, or managed PostgreSQL with pgvector): $70–$500/month</li>
+  <li><strong>Object storage and logging</strong>: $50–$300/month</li>
+  <li><strong>Background job processing</strong>: $100–$500/month</li>
+  <li><strong>Monitoring and observability</strong> (Datadog, New Relic, or similar): $100–$500/month</li>
+</ul>
+
+<p>Total infrastructure for a production AI system typically runs $500–$4,000/month. That's comparable to any serious SaaS application — the difference is that AI workloads tend to be more compute-intensive and less predictable in their scaling patterns.</p>
+
+<p><a href="https://www.gartner.com/en/newsroom/press-releases/2026-1-15-gartner-says-worldwide-ai-spending-will-total-2-point-5-trillion-dollars-in-2026" target="_blank" rel="noopener">Gartner forecasts worldwide AI spending will reach $2.5 trillion in 2026</a>, with a 49% increase in spending on AI-optimized servers alone. Infrastructure costs are rising industry-wide, and your custom AI software isn't exempt from that trend.</p>
+
+<h2>3. Maintenance Engineering: The Cost Most Teams Underestimate</h2>
+
+<p>This is where budgets blow up. Custom AI software requires ongoing engineering attention that traditional software doesn't.</p>
+
+<p>A <a href="https://www.rand.org/pubs/research_reports/RRA2680-1.html" target="_blank" rel="noopener">2024 RAND Corporation study</a> found that over 80% of AI projects fail — twice the rate of non-AI IT projects — and many of those failures happen post-launch when systems degrade without adequate maintenance.</p>
+
+<p>What does AI maintenance engineering actually include?</p>
+
+<ul>
+  <li><strong>Prompt maintenance:</strong> LLM behavior changes with model updates. Prompts that worked perfectly in January may produce different results by April. Someone needs to monitor, test, and tune them.</li>
+  <li><strong>Model version management:</strong> When OpenAI deprecates a model or Anthropic ships a new Claude version, your system needs to be tested and potentially updated. This happens multiple times per year.</li>
+  <li><strong>Data pipeline upkeep:</strong> If your AI system ingests data from CRMs, CMSes, or third-party APIs, upstream schema changes can silently break your inputs.</li>
+  <li><strong>Dependency updates:</strong> AI frameworks (LangChain, LlamaIndex, etc.) move fast. Falling behind on updates means accumulating security debt and missing performance improvements.</li>
+</ul>
+
+<p>Plan for <strong>15–25% of your initial build cost annually</strong> for maintenance engineering. For a system that cost $150,000 to build, that's $22,500–$37,500 per year in ongoing engineering — roughly $2,000–$3,000 per month.</p>
+
+<h2>4. Monitoring and Observability: Seeing Before It Breaks</h2>
+
+<p>Traditional application monitoring (uptime, error rates, response times) isn't enough for AI systems. You also need to monitor output quality, model drift, cost per task, and user satisfaction signals.</p>
+
+<p><a href="https://www.gartner.com/en/newsroom/press-releases/2025-11-19-gartner-identifies-critical-genai-blind-spots-that-cios-must-urgently-address0" target="_blank" rel="noopener">Gartner warns that by 2030, 50% of enterprises will face delayed AI upgrades or rising maintenance costs</a> due to unmanaged GenAI technical debt. The root cause is almost always insufficient observability — teams can't fix what they can't see.</p>
+
+<p>A proper AI observability stack includes:</p>
+
+<ul>
+  <li><strong>LLM trace logging</strong> — every prompt, response, latency, and token count, stored and searchable</li>
+  <li><strong>Quality scoring</strong> — automated evaluation of AI outputs against known-good benchmarks</li>
+  <li><strong>Cost attribution</strong> — breaking down API spend by feature, user segment, or workflow</li>
+  <li><strong>Alerting</strong> — automated notifications when quality drops, costs spike, or error rates climb</li>
+</ul>
+
+<p>The tooling cost is modest ($100–$500/month for platforms like LangSmith, Helicone, or custom dashboards), but the engineering time to set it up and maintain evaluation datasets is the real investment. Budget 2–4 hours per week of engineering time for ongoing monitoring.</p>
+
+<h2>5. Security, Compliance, and Data Governance</h2>
+
+<p>Custom AI software introduces unique security and compliance considerations that have their own cost profile.</p>
+
+<p>If your AI system processes customer data, PII, or regulated information, you need:</p>
+
+<ul>
+  <li><strong>Data handling policies</strong> for what gets sent to LLM APIs (and what doesn't)</li>
+  <li><strong>Audit logging</strong> for every AI decision, especially in regulated industries</li>
+  <li><strong>Access controls</strong> that limit who can modify prompts, training data, and model configurations</li>
+  <li><strong>Regular security reviews</strong> — prompt injection testing, data leakage audits, and access reviews</li>
+</ul>
+
+<p>For most mid-market companies, this adds $500–$2,000/month in tooling and periodic audit costs, plus engineering time for implementation and updates. Regulated industries (healthcare, finance, legal) should budget more.</p>
+
+<h2>6. Continuous Improvement: Making It Better, Not Just Keeping It Alive</h2>
+
+<p>The most expensive mistake in AI operations isn't overspending on any single line item — it's treating a launched AI system as "done."</p>
+
+<p><a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" target="_blank" rel="noopener">McKinsey's 2025 State of AI survey</a> found that the transition from AI pilots to scaled business impact remains a work in progress for most organizations. The companies that succeed invest in structured improvement cycles, not just maintenance.</p>
+
+<p>Continuous improvement includes:</p>
+
+<ul>
+  <li><strong>Monthly prompt optimization</strong> based on production performance data</li>
+  <li><strong>Quarterly architecture reviews</strong> to evaluate new models, tools, and cost-saving patterns</li>
+  <li><strong>Edge case collection</strong> — turning production failures into test cases that harden the system</li>
+  <li><strong>Feature expansion</strong> — extending AI capabilities based on user feedback and business priorities</li>
+</ul>
+
+<p>Budget 4–8 hours per month of engineering time for improvement work. This is separate from maintenance — it's about making the system more capable, more efficient, and less expensive over time. Done well, improvement work pays for itself through reduced API costs and increased user adoption.</p>
+
+<h2>Putting It All Together: A Realistic Monthly Budget</h2>
+
+<p>For a mid-market custom AI application (the kind we typically build at Last Rev), here's what a realistic monthly operating budget looks like:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cost Category</th>
+      <th>Low End</th>
+      <th>High End</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>LLM API costs</td>
+      <td>$500</td>
+      <td>$5,000</td>
+    </tr>
+    <tr>
+      <td>Cloud infrastructure</td>
+      <td>$500</td>
+      <td>$4,000</td>
+    </tr>
+    <tr>
+      <td>Maintenance engineering</td>
+      <td>$2,000</td>
+      <td>$5,000</td>
+    </tr>
+    <tr>
+      <td>Monitoring &amp; observability</td>
+      <td>$300</td>
+      <td>$1,500</td>
+    </tr>
+    <tr>
+      <td>Security &amp; compliance</td>
+      <td>$500</td>
+      <td>$2,000</td>
+    </tr>
+    <tr>
+      <td>Continuous improvement</td>
+      <td>$1,000</td>
+      <td>$3,000</td>
+    </tr>
+    <tr>
+      <td><strong>Total monthly</strong></td>
+      <td><strong>$4,800</strong></td>
+      <td><strong>$20,500</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Annualized</strong></td>
+      <td><strong>$57,600</strong></td>
+      <td><strong>$246,000</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>These ranges reflect real-world costs for systems handling moderate traffic with standard compliance requirements. Enterprise-scale deployments or heavily regulated industries will run higher. Simple internal tools with limited usage can come in lower.</p>
+
+<p>The critical point: <strong>ongoing costs typically run 15–30% of the initial build cost annually.</strong> If you spent $200,000 building your AI system, budget $30,000–$60,000 per year to keep it running well. This is consistent with industry benchmarks for custom software maintenance, with a premium for the unique demands of AI systems.</p>
+
+<h2>How to Reduce Ongoing Costs Without Cutting Corners</h2>
+
+<p>Ongoing costs aren't fixed — they're largely a function of architectural decisions made during the build. Here's what we prioritize at Last Rev:</p>
+
+<p><strong>Smart model routing.</strong> Not every task needs GPT-5. We design systems with tiered model selection — fast, cheap models for simple tasks; premium models for complex reasoning. This alone can cut API costs by 50–70%.</p>
+
+<p><strong>Aggressive caching.</strong> If the same question gets asked repeatedly, don't pay for the same answer twice. Semantic caching and response memoization can dramatically reduce API calls for systems with predictable query patterns.</p>
+
+<p><strong>Right-sized infrastructure.</strong> AI workloads are often bursty — heavy during business hours, idle at night. Autoscaling and serverless patterns avoid paying for capacity you're not using.</p>
+
+<p><strong>Observability from day one.</strong> Cost surprises almost always come from lack of visibility. When you can see exactly which features and users drive API spend, you can optimize with precision instead of guessing.</p>
+
+<p><strong>Maintenance-aware architecture.</strong> Clean abstractions between your AI layer and application logic mean model upgrades and provider switches are configuration changes, not rewrites. This directly reduces maintenance engineering time.</p>
+
+<h2>Key Takeaways</h2>
+
+<ul>
+  <li><strong>LLM API costs are your biggest variable expense.</strong> Model selection and routing architecture are the primary levers for controlling them.</li>
+  <li><strong>Infrastructure costs are comparable to traditional SaaS</strong> — $500–$4,000/month for most mid-market applications.</li>
+  <li><strong>Maintenance engineering is the cost most teams miss.</strong> Budget 15–25% of build cost annually for ongoing prompt tuning, model updates, and pipeline upkeep.</li>
+  <li><strong>Monitoring pays for itself.</strong> You can't optimize costs you can't see. Invest in AI-specific observability from day one.</li>
+  <li><strong>A realistic monthly budget for a mid-market AI system is $5,000–$20,000.</strong> Plan for it before you build, not after you launch.</li>
+  <li><strong>Architectural decisions during the build determine ongoing costs.</strong> Smart model routing, caching, and clean abstractions can cut operating costs by half or more.</li>
+</ul>
+
+<p>Custom AI software isn't cheap to run, but it shouldn't be unpredictable either. The companies that manage AI costs well are the ones that plan for them from the start and invest in the architecture that keeps them under control.</p>
+
+<section class="blog-sources">
+  <h3>Sources</h3>
+  <ol>
+    <li><a href="https://www.cloudzero.com/state-of-ai-costs/" target="_blank" rel="noopener">CloudZero — "The State of AI Costs in 2025" (2025)</a></li>
+    <li><a href="https://openai.com/api/pricing/" target="_blank" rel="noopener">OpenAI — "API Pricing" (2026)</a></li>
+    <li><a href="https://www.gartner.com/en/newsroom/press-releases/2026-1-15-gartner-says-worldwide-ai-spending-will-total-2-point-5-trillion-dollars-in-2026" target="_blank" rel="noopener">Gartner — "Gartner Says Worldwide AI Spending Will Total $2.5 Trillion in 2026" (2026)</a></li>
+    <li><a href="https://www.rand.org/pubs/research_reports/RRA2680-1.html" target="_blank" rel="noopener">RAND Corporation — "Why AI Projects Fail and How They Can Succeed" (2024)</a></li>
+    <li><a href="https://www.gartner.com/en/newsroom/press-releases/2025-11-19-gartner-identifies-critical-genai-blind-spots-that-cios-must-urgently-address0" target="_blank" rel="noopener">Gartner — "Gartner Identifies Critical GenAI Blind Spots That CIOs Must Urgently Address" (2025)</a></li>
+    <li><a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" target="_blank" rel="noopener">McKinsey — "The State of AI: Global Survey 2025" (2025)</a></li>
+  </ol>
+</section>
+
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+</body>
+</html>

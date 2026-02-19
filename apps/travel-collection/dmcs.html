@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>🌐 DMCs — Travel Collection</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  .dmc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 16px; padding: 0 24px 40px; }
+  .dmc-card { border-radius: 16px; padding: 20px; background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(12px); cursor: pointer; transition: all .3s; }
+  .dmc-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .dmc-card h3 { font-family: var(--serif); margin: 0 0 4px; font-size: 1.1rem; }
+  .dmc-card .loc { color: var(--muted); font-size: 0.85rem; margin-bottom: 8px; }
+  .dmc-card .desc { font-size: 0.85rem; color: var(--text); line-height: 1.5; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .dmc-card .rating-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .filters-bar { display: flex; flex-wrap: wrap; gap: 12px; padding: 0 24px 20px; align-items: center; }
+  .section-label { padding: 8px 24px; font-family: var(--serif); font-size: 1.3rem; color: var(--text); margin-top: 16px; }
+  .review-item { padding: 12px; background: var(--glass); border-radius: 10px; margin-bottom: 8px; border: 1px solid var(--glass-border); }
+  .review-item .review-source { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
+  .review-item .review-text { font-size: 0.9rem; line-height: 1.5; }
+  @media (max-width: 640px) { .dmc-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<cc-app-nav app="travel-collection" title="Travel Collection" active="dmcs"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div class="page-header">
+  <h1>🌐 <span>DMCs</span></h1>
+  <div style="color:var(--muted);font-size:0.85rem;">Destination Management Companies</div>
+</div>
+
+<div class="filters-bar">
+  <cc-search placeholder="Search DMCs..." id="search"></cc-search>
+  <cc-pill-dropdown id="filter-destination" label="" items='[]' value=""></cc-pill-dropdown>
+  <cc-pill-dropdown id="filter-specialty" label="" items='[{"value":"","label":"All Specialties"},{"value":"luxury","label":"Luxury"},{"value":"adventure","label":"Adventure"},{"value":"corporate","label":"Corporate/MICE"},{"value":"weddings","label":"Weddings & Events"},{"value":"cultural","label":"Cultural"},{"value":"wellness","label":"Wellness"},{"value":"family","label":"Family"}]' value=""></cc-pill-dropdown>
+  <cc-pill-dropdown id="sort-by" label="Sort" items='[{"value":"rating","label":"Rating"},{"value":"name","label":"Name"},{"value":"destination","label":"Destination"}]' value="rating"></cc-pill-dropdown>
+</div>
+
+<div class="stats-row" style="display:flex;gap:16px;padding:0 24px 12px;flex-wrap:wrap;" id="stats"></div>
+<div id="content"></div>
+
+<cc-modal id="detail-modal" title="" size="lg">
+  <div id="detail-body"></div>
+</cc-modal>
+
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<script src="db.js"></script>
+<script>
+let dmcs = [];
+let db = null;
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; }
+function escAttr(s) { return (s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function load() {
+  db = await TravelDB.init();
+  dmcs = await db.getDMCs();
+  populateDestinations();
+  renderDMCs();
+}
+
+function populateDestinations() {
+  const dests = [...new Set(dmcs.map(d => d.destination))].sort();
+  const items = [{ value: '', label: 'All Destinations' }, ...dests.map(d => ({ value: d, label: d }))];
+  document.getElementById('filter-destination').setAttribute('items', JSON.stringify(items));
+}
+
+function renderDMCs() {
+  const q = (document.getElementById('search').getAttribute('value') || '').toLowerCase();
+  const dest = document.getElementById('filter-destination').value;
+  const spec = document.getElementById('filter-specialty').value;
+  const sort = document.getElementById('sort-by').value;
+
+  let filtered = dmcs.filter(d => {
+    if (q && !d.name.toLowerCase().includes(q) && !(d.destination||'').toLowerCase().includes(q)) return false;
+    if (dest && d.destination !== dest) return false;
+    if (spec && !(d.specialties || []).includes(spec)) return false;
+    return true;
+  });
+
+  if (sort === 'rating') filtered.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+  else if (sort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
+  else filtered.sort((a, b) => (a.destination || '').localeCompare(b.destination || ''));
+
+  document.getElementById('stats').innerHTML = `
+    <cc-stat-counter value="${filtered.length}" label="DMCs"></cc-stat-counter>
+    <cc-stat-counter value="${new Set(filtered.map(d => d.destination)).size}" label="Destinations"></cc-stat-counter>
+  `;
+
+  if (filtered.length === 0) {
+    document.getElementById('content').innerHTML = '<cc-empty-state icon="🌐" message="No DMCs yet — the nightly research job will populate this automatically."></cc-empty-state>';
+    return;
+  }
+
+  // Group by destination
+  const groups = {};
+  filtered.forEach(d => {
+    if (!groups[d.destination]) groups[d.destination] = [];
+    groups[d.destination].push(d);
+  });
+
+  let html = '';
+  for (const [dest, items] of Object.entries(groups).sort(([a],[b]) => a.localeCompare(b))) {
+    html += `<div class="section-label">${dest} <span style="color:var(--muted);font-size:0.85rem;">(${items.length})</span></div>`;
+    html += '<div class="dmc-grid">';
+    items.forEach(d => {
+      html += `
+        <div class="dmc-card" data-dmc-id="${escAttr(d.id)}">
+          <h3>${esc(d.name)}</h3>
+          <div class="loc">📍 ${esc(d.destination)}</div>
+          <div class="desc">${d.description ? esc(d.description) : 'Research pending...'}</div>
+          <cc-pill-list items='${escAttr(JSON.stringify(d.specialties || []))}'></cc-pill-list>
+          ${d.rating ? `<div class="rating-row"><cc-star-rating value="${d.rating}" label></cc-star-rating></div>` : ''}
+          ${d.website ? `<div style="font-size:0.8rem;margin-top:6px;"><a href="${escAttr(d.website)}" target="_blank" rel="noopener" style="color:var(--accent);" onclick="event.stopPropagation()">🔗 Website</a></div>` : ''}
+        </div>`;
+    });
+    html += '</div>';
+  }
+  document.getElementById('content').innerHTML = html;
+}
+
+function showDetail(id) {
+  const d = dmcs.find(x => x.id === id);
+  if (!d) return;
+
+  const modal = document.getElementById('detail-modal');
+  modal.setAttribute('title', d.name);
+
+  document.getElementById('detail-body').innerHTML = `
+    <div style="color:var(--muted);margin-bottom:16px;">📍 ${d.destination}</div>
+    <div style="margin-bottom:16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;">
+      <cc-pill-list items='${escAttr(JSON.stringify(d.specialties || []))}'></cc-pill-list>
+      ${d.rating ? `<cc-star-rating value="${d.rating}" label></cc-star-rating>` : ''}
+    </div>
+    ${d.description ? `<div style="line-height:1.7;margin-bottom:16px;">${esc(d.description)}</div>` : ''}
+    ${d.website ? `<div style="margin-bottom:16px;"><a href="${escAttr(d.website)}" target="_blank" rel="noopener" style="color:var(--accent);">🔗 ${esc(d.website)}</a></div>` : ''}
+    ${d.email ? `<div style="margin-bottom:8px;">📧 <a href="mailto:${escAttr(d.email)}" style="color:var(--accent);">${esc(d.email)}</a></div>` : ''}
+    ${d.phone ? `<div style="margin-bottom:16px;">📱 ${esc(d.phone)}</div>` : ''}
+    ${d.services && d.services.length ? `
+      <div style="margin-bottom:16px;">
+        <h4 style="color:var(--accent);font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Services</h4>
+        <cc-pill-list items='${escAttr(JSON.stringify(d.services))}'></cc-pill-list>
+      </div>` : ''}
+    ${d.highlights && d.highlights.length ? `
+      <div style="margin-bottom:16px;">
+        <h4 style="color:var(--accent);font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Highlights</h4>
+        <ul style="padding-left:20px;line-height:1.8;">${d.highlights.map(h => `<li>${esc(h)}</li>`).join('')}</ul>
+      </div>` : ''}
+    ${d.reviews && d.reviews.length ? `
+      <div style="margin-bottom:16px;">
+        <h4 style="color:var(--accent);font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Reviews</h4>
+        ${d.reviews.map(r => `
+          <div class="review-item">
+            <div class="review-source">${esc(r.source || '')} ${r.date ? '· ' + esc(r.date) : ''} ${r.rating ? '· ' + r.rating + '/5' : ''}</div>
+            <div class="review-text">${esc(r.text)}</div>
+          </div>`).join('')}
+      </div>` : ''}
+    ${d.associatedProperties && d.associatedProperties.length ? `
+      <div>
+        <h4 style="color:var(--accent);font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Associated Properties</h4>
+        <cc-pill-list items='${escAttr(JSON.stringify(d.associatedProperties))}' icon="🏨"></cc-pill-list>
+      </div>` : ''}
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:0.8rem;color:var(--muted);">
+      Last researched: ${d.researchedAt ? new Date(d.researchedAt).toLocaleDateString('en-US', { dateStyle: 'medium' }) : 'Pending'}
+    </div>
+  `;
+  modal.open();
+}
+
+// Wire up filter events
+document.addEventListener('cc-search', renderDMCs);
+document.addEventListener('dropdown-change', renderDMCs);
+
+// Event delegation for DMC cards
+document.getElementById('content').addEventListener('click', e => {
+  const card = e.target.closest('[data-dmc-id]');
+  if (card) showDetail(card.dataset.dmcId);
+});
+
+document.addEventListener('DOMContentLoaded', load);
+</script>
+</body>
+</html>

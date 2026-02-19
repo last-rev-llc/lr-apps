@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>👥 Accounts — UX Variation</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  .ux-banner { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(245,158,11,0.15)); border: 1px solid rgba(99,102,241,0.3); border-radius: 12px; padding: 14px 20px; margin: 16px 24px; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
+  .ux-banner strong { color: var(--accent); }
+
+  .client-selector {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    background: var(--glass);
+    border-bottom: 1px solid var(--border);
+  }
+  .client-selector label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .client-selector select {
+    background: var(--surface, var(--glass));
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: 600;
+    min-width: 260px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .client-selector select:hover { border-color: var(--accent); }
+  .client-selector select:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 2px rgba(245,158,11,0.2); }
+  .industry-pill {
+    font-size: 12px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.06);
+    padding: 4px 12px;
+    border-radius: 99px;
+  }
+  .health-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .health-dot.green { background: var(--green, var(--green)); }
+  .health-dot.yellow { background: var(--yellow, #eab308); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 16px;
+    padding: 20px 24px;
+  }
+
+  .section-card {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    transition: all 0.2s ease;
+  }
+  .section-card:hover {
+    border-color: rgba(245,158,11,0.4);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+    transition: background 0.15s;
+  }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-row:hover { background: rgba(255,255,255,0.02); border-radius: 6px; margin: 0 -8px; padding: 8px 8px; }
+  .contact-row.primary { background: rgba(124,58,237,0.08); margin: 0 -8px; padding: 8px 8px; border-radius: 8px; }
+  .contact-name { font-weight: 600; color: var(--text); min-width: 120px; }
+  .contact-role { color: var(--muted); }
+
+  .metric-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .metric-item {
+    flex: 1;
+    min-width: 100px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  .metric-item .val { font-size: 22px; font-weight: 700; color: var(--text); }
+  .metric-item .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .url-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .url-list a {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: rgba(245,158,11,0.08);
+    border-radius: 8px;
+    border: 1px solid rgba(245,158,11,0.15);
+    transition: all 0.15s;
+  }
+  .url-list a:hover { background: rgba(245,158,11,0.15); border-color: var(--accent); }
+
+  .focus-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text);
+    padding: 6px 0;
+  }
+  .focus-item::before {
+    content: "☐";
+    color: var(--accent);
+    font-size: 16px;
+  }
+
+  .empty { color: var(--muted); font-size: 13px; font-style: italic; padding: 8px 0; }
+
+  @media (max-width: 800px) {
+    .grid { grid-template-columns: 1fr; padding: 16px; }
+    .client-selector { padding: 12px 16px; flex-wrap: wrap; }
+    .client-selector select { min-width: 200px; }
+  }
+</style>
+</head>
+<body>
+<cc-app-nav app="accounts" title="👥 Accounts" active="home"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div class="ux-banner">
+  🎨 <strong>UX Review — Accounts — Variation 1 — Feb 14 2026</strong> — cc-app-nav, animated sections, accent borders on section titles, hover micro-interactions, better metric cards
+</div>
+
+<cc-fade-in>
+<div class="client-selector">
+  <label>Client</label>
+  <select>
+    <option>Acme Corp</option>
+    <option>TechFlow Inc</option>
+    <option>GlobalBrand</option>
+  </select>
+  <span class="industry-pill">SaaS / B2B</span>
+  <div class="health-dot green" title="Healthy"></div>
+</div>
+</cc-fade-in>
+
+<cc-stagger animation="fade-up" delay="80">
+<div class="grid">
+
+  <div class="section-card">
+    <div class="section-title">📊 Key Metrics</div>
+    <div class="metric-row">
+      <div class="metric-item"><div class="val" style="color:var(--green)">92</div><div class="lbl">Health Score</div></div>
+      <div class="metric-item"><div class="val">$24k</div><div class="lbl">MRR</div></div>
+      <div class="metric-item"><div class="val">14</div><div class="lbl">Open PRs</div></div>
+      <div class="metric-item"><div class="val">98%</div><div class="lbl">Uptime</div></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">👤 Key Contacts</div>
+    <div class="contact-row primary">
+      <span class="contact-name">Sarah Chen</span>
+      <span class="contact-role">VP Engineering — Primary</span>
+    </div>
+    <div class="contact-row">
+      <span class="contact-name">Mike Torres</span>
+      <span class="contact-role">Tech Lead</span>
+    </div>
+    <div class="contact-row">
+      <span class="contact-name">Lisa Park</span>
+      <span class="contact-role">Product Manager</span>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">🔗 Resources</div>
+    <div class="url-list">
+      <a href="#">🌐 Website</a>
+      <a href="#">📋 Jira Board</a>
+      <a href="#">💻 GitHub Repo</a>
+      <a href="#">📊 Analytics</a>
+      <a href="#">📝 Contentful</a>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">🎯 Current Focus</div>
+    <div class="focus-item">Complete auth migration by Feb 28</div>
+    <div class="focus-item">Launch redesigned homepage</div>
+    <div class="focus-item">Migrate to Next.js 15</div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">💬 Recent Standups</div>
+    <cc-empty-state message="No standup data synced for this client yet" icon="💬" animation="none"></cc-empty-state>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title">📅 Recent Meetings</div>
+    <cc-empty-state message="No meetings recorded this week" icon="📅" animation="none"></cc-empty-state>
+  </div>
+
+</div>
+</cc-stagger>
+
+</body>
+</html>
+
+<!-- IMPLEMENTATION PROMPT: Update accounts/index.html: 1) Replace cc-topbar+cc-nav with <cc-app-nav app="accounts" title="👥 Accounts" active="home">. 2) Wrap client-selector in cc-fade-in. 3) Wrap the main grid in cc-stagger animation="fade-up" delay=80. 4) Add section-title::before pseudo-element: 4px wide accent-colored bar for visual hierarchy. 5) Add hover effect on section cards: border-color rgba(245,158,11,0.4) + subtle box-shadow. 6) Add hover highlight on contact rows with border-radius and padding shift. 7) Style resource links with accent-tinted background and border, hover effect. 8) Add focus-ring on select:focus with accent box-shadow. 9) Increase card padding to 20px 24px with 12px border-radius. 10) Add metric cards row for key stats at the top of the grid. -->

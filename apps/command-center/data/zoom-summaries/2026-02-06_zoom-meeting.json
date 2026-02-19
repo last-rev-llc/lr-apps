@@ -1,0 +1,43 @@
+{
+  "meetingId": "2026-02-06_Zoom-Meeting",
+  "topic": "Zoom Meeting",
+  "date": "2026-02-06",
+  "duration": 11,
+  "attendees": ["Adam Harris", "Krista Schlumpberger"],
+  "client": null,
+  "summary": "Adam and Krista had a candid conversation about ongoing performance and attitude issues with team member Cameron (Cam). Krista expressed that she has reached her breaking point after repeated incidents, including problems during a WideOpenWest (WOW) critical weekend issue where Cam was unresponsive, and a disrespectful message in the IAS internal channel. She noted that despite months of trying to build a relationship, give grace, and provide gentle nudges, Cam's behavior has not improved consistently.\n\nKrista shared that she had already spoken with Camilo, who validated her concerns and confirmed he was seeing the same patterns. Both agreed that the management overhead of Cam exceeds his output, and that Cam hasn't contributed meaningfully in at least 6 weeks. Adam acknowledged the pattern and suggested he would talk to Cam on Monday and then escalate to Brad depending on the outcome. Both agreed they'd rather have another developer to free up Adam's time than continue with Cam's inconsistent performance.\n\nThe conversation touched on Krista doing more than her share, Camilo stepping up, and the broader team impact. Adam speculated Cam might have another job based on his behavior patterns. They agreed the priority is finding someone more reliable and respectful to the team.",
+  "keyDiscussionPoints": [
+    "Cameron's ongoing performance and attitude issues",
+    "WOW critical weekend incident where Cam was unresponsive",
+    "Cam's disrespectful message in IAS internal Slack channel",
+    "Krista and Camilo both validating concerns independently",
+    "Cam's minimal JIRA ticket activity over past 6 weeks",
+    "Management overhead exceeding Cam's output",
+    "Preference for replacing Cam with another developer"
+  ],
+  "decisions": [
+    "Adam will talk to Cameron on Monday about his performance",
+    "Will escalate to Brad depending on outcome of Monday conversation",
+    "Team would prefer another dev over keeping Cam in current role"
+  ],
+  "actionItems": [
+    {
+      "action": "Talk to Cameron about performance issues",
+      "owner": "Adam Harris",
+      "deadline": "Monday 2026-02-09",
+      "priority": "high"
+    },
+    {
+      "action": "Follow up with Brad after Cameron conversation",
+      "owner": "Adam Harris",
+      "deadline": "After Monday talk",
+      "priority": "high"
+    }
+  ],
+  "followUp": [
+    "Outcome of Adam's Monday conversation with Cameron",
+    "Whether to begin replacement search for Cameron",
+    "Brad's input on next steps"
+  ],
+  "sentiment": "tense"
+}

@@ -1,0 +1,66 @@
+{
+  "meetingId": "2026-02-09_Daily-Sync-Adam-_-Brad",
+  "topic": "Daily Sync - Adam & Brad",
+  "date": "2026-02-09",
+  "duration": 63,
+  "attendees": ["Adam Harris", "Brad Taylor"],
+  "client": "Integral Ad Science",
+  "summary": "This extensive sync covered two major topics: IAS URL validation work and the Alpha Claw platform demo. Adam showed Brad a custom app he built to validate URLs from IAS Answer AI bot messages. By exporting all messages and checking unique URLs, he found only a 0.9% hallucination rate for bad URLs, providing hard data to counter IAS complaints about 404 errors. The hallucinations were mostly domain-level rather than path-level issues.\n\nThe bulk of the meeting was Brad demoing the Alpha Claw platform to Adam as a first-time user. Brad walked through the setup process including EC2 instance provisioning, Slack integration, dashboard features (gateway status, identity/soul configuration, cron jobs, integrations, memory, web app building, skills, and workspace files). Key features demonstrated included: automatic web app creation with Route 53 slug generation, voice notes via ElevenLabs, Slack search integration, secure credential management via AWS Secrets Manager, and the ability to build full Vite apps. They ran into issues with GitHub being down and Cameron having locked Brad out of Jira/Atlassian. Adam tested several features including Google Sheets access, logo generation, and budget tracking. They discussed future plans for Gmail read access, deploying apps to Netlify/Vercel, and the vision of Alpha Claw as a true AI coworker that can handle meeting transcripts, action items, and ongoing workflows.",
+  "keyDiscussionPoints": [
+    "IAS 404 URL validation - 0.9% hallucination rate proven with data",
+    "Alpha Claw platform full demo and onboarding for Adam",
+    "Dashboard features: cron jobs, skills, integrations, web apps, memory",
+    "Slack bot routing - messages route to correct user's instance",
+    "Cameron locked Brad out of Jira/Atlassian - needs admin access restored",
+    "GitHub was down during demo",
+    "ElevenLabs voice note generation working",
+    "Security architecture with Lambda relay between Slack and OpenClaw",
+    "Future vision: Zoom transcript processing, Gmail integration",
+    "Alpha Claw as sellable service opportunity"
+  ],
+  "decisions": [
+    "Adam will use Alpha Claw and test it with real work",
+    "Brad to get Jira admin access restored (ask Cameron)",
+    "Gmail will start with read-only access for safety",
+    "Brad to set up Max on Alpha Claw next"
+  ],
+  "actionItems": [
+    {
+      "action": "Use 0.9% hallucination rate data to respond to IAS 404 complaints",
+      "owner": "Adam Harris",
+      "deadline": "",
+      "priority": "high"
+    },
+    {
+      "action": "Restore Brad's Jira/Atlassian admin access",
+      "owner": "Adam Harris",
+      "deadline": "ASAP",
+      "priority": "high"
+    },
+    {
+      "action": "Set up Max on Alpha Claw",
+      "owner": "Brad Taylor",
+      "deadline": "2026-02-09",
+      "priority": "medium"
+    },
+    {
+      "action": "Fix thread response behavior in Slack integration",
+      "owner": "Brad Taylor",
+      "deadline": "",
+      "priority": "medium"
+    },
+    {
+      "action": "Push latest dashboard/onboarding updates to Adam's instance",
+      "owner": "Brad Taylor",
+      "deadline": "2026-02-09",
+      "priority": "medium"
+    }
+  ],
+  "followUp": [
+    "Adam testing Alpha Claw with real work tasks",
+    "Brad restoring Jira access via Cameron",
+    "Gmail read access integration",
+    "Thread behavior fixes in Slack bot"
+  ],
+  "sentiment": "productive"
+}

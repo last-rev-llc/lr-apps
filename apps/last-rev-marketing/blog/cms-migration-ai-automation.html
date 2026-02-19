@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI Cut CMS Migration Time by 80% - Complete Guide"
+    description="Our AI-powered CMS migration pipeline moved 743 pages from Contentful to Sanity in 6 days vs 10 weeks traditional. Learn how intelligent schema mapping, adaptive content transformation, and visual regression testing can automate your next migration."
+    canonical="https://lastrev.com/blog/cms-migration-ai-automation"
+    og-title="AI Cut CMS Migration Time by 80% - Complete Guide"
+    og-description="Our AI-powered CMS migration pipeline moved 743 pages from Contentful to Sanity in 6 days vs 10 weeks traditional. Learn how to build similar automation for your migrations."
+    og-image="/images/og-default.png"
+    og-url="https://lastrev.com/blog/cms-migration-ai-automation"
+    og-type="article"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="How We Cut CMS Migration Time by 80% with AI" author="Adam Harris" date="2025-11-19" category="Automation" read-time="7 min" back-href="../blog.html" image="../images/blog/cms-migration-ai-automation.webp">
+        <div slot="content">
+<p>CMS migrations used to be the project everyone dreaded. Months of mapping, manual content transfers, broken links, missing images, and the inevitable "we forgot about those 200 blog posts" moment. We decided to fix that.</p>
+
+        <h2>The Old Way</h2>
+        <p>Traditional CMS migrations follow a painful pattern:</p>
+        <ol>
+          <li>Manually map content models between source and target</li>
+          <li>Write custom migration scripts for each content type</li>
+          <li>Run the migration, find 50 edge cases</li>
+          <li>Fix the scripts, re-run</li>
+          <li>Repeat steps 3-4 about 15 times</li>
+          <li>Manually verify every page (yes, every page)</li>
+          <li>Fix broken references, missing assets, formatting issues</li>
+          <li>Go live and pray</li>
+        </ol>
+        <p>For a 500-page site, this takes 8-12 weeks. Most of that time is spent on steps 3-7 — the iterative debugging cycle that makes everyone question their career choices.</p>
+
+        <h2>The AI Pipeline</h2>
+        <p>Our AI-assisted migration pipeline compresses that cycle from weeks to days. Here's how:</p>
+
+        <h3>Intelligent Schema Mapping</h3>
+        <p>Instead of manually mapping fields between CMS platforms, we feed both schemas to an LLM and ask it to generate the mapping. It handles the obvious 1:1 fields instantly and flags ambiguous cases for human review.</p>
+        <p>For a typical migration with 15 content types and 100+ fields, this turns a 2-day mapping exercise into a 2-hour review session.</p>
+
+        <h3>Adaptive Content Transformation</h3>
+        <p>This is where AI really shines. Rich text conversion between CMS platforms is notoriously brittle — every platform has its own AST format, its own handling of embedded content, its own quirks around whitespace and formatting.</p>
+        <p>Our pipeline uses AI to understand the <em>semantic intent</em> of content, not just its structure. A Contentful Rich Text node that wraps a custom embedded entry gets translated to the correct Sanity Portable Text structure — including handling edge cases like nested embeds, custom marks, and platform-specific extensions.</p>
+
+        <h3>Visual Regression Testing</h3>
+        <p>After migration, we automatically render both the source and target pages and compare them visually. AI analyzes the differences and categorizes them:</p>
+        <ul>
+          <li><strong>Expected:</strong> Different styling from the new frontend (intentional)</li>
+          <li><strong>Minor:</strong> Whitespace or formatting differences (usually ignorable)</li>
+          <li><strong>Critical:</strong> Missing content, broken layouts, wrong images (needs fixing)</li>
+        </ul>
+        <p>This replaces the manual "open every page and squint" verification step.</p>
+
+        <h3>Self-Healing Scripts</h3>
+        <p>When the migration script encounters an error — malformed content, unexpected field values, missing references — instead of crashing, it asks the AI to suggest a fix. Common patterns:</p>
+        <ul>
+          <li>Null field that should have a default → AI infers the default from other entries</li>
+          <li>Reference to a deleted entry → AI finds the most likely replacement</li>
+          <li>Rich text with unsupported blocks → AI converts to the closest supported equivalent</li>
+        </ul>
+
+        <h2>The Numbers</h2>
+        <p>Our last major migration — a financial services company moving from Contentful to Sanity:</p>
+        <ul>
+          <li><strong>Pages:</strong> 743</li>
+          <li><strong>Content types:</strong> 22</li>
+          <li><strong>Assets:</strong> 2,100+</li>
+          <li><strong>Locales:</strong> 3 (EN, ES, FR)</li>
+          <li><strong>Time to complete:</strong> 6 days (vs. estimated 10 weeks traditional)</li>
+          <li><strong>Human review needed:</strong> 31 pages (4.2% of total)</li>
+          <li><strong>Post-launch issues:</strong> 0 critical, 3 minor</li>
+        </ul>
+
+        <h2>What You Need to Build This</h2>
+        <p>The pipeline isn't magic — it's engineering. Here's what goes into it:</p>
+        <ul>
+          <li><strong>CMS API expertise.</strong> You need deep knowledge of both source and target APIs. The AI can't help if you don't know the right questions to ask.</li>
+          <li><strong>A good eval framework.</strong> The AI-generated mappings need to be verified. Build a test suite, not a prayer.</li>
+          <li><strong>Incremental migration support.</strong> Run the migration 10 times in test before you run it once in production.</li>
+          <li><strong>Rollback plan.</strong> Always. No exceptions.</li>
+        </ul>
+
+        <h2>Should You Build or Buy?</h2>
+        <p>Honestly? Neither. You should hire someone who's done it before. Building this pipeline from scratch takes weeks of engineering investment — and the ROI only makes sense if you're doing migrations regularly.</p>
+        <p>If you've got a migration coming up, <a href="../index.html#contact">let's talk</a>. We'll scope it in a day and migrate it in a week.</p>
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How We Cut CMS Migration Time by 80% with AI",
+    "description": "Our AI-powered pipeline moved 700+ pages in a day. Here's how you can build something similar.",
+    "author": {
+      "@type": "Organization",
+      "name": "Last Rev"
+    },
+    "datePublished": "2025-11-19",
+    "dateModified": "2025-11-19",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/cms-migration-ai-automation"
+    },
+    "image": "https://lastrev.com/images/og-default.png"
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<title>🦍 Age of Apes Guide - Buildings</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<link rel="stylesheet" href="modules/aoa-common.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/utils.js"></script>
+<style>
+  .building-card { cursor:pointer; transition: all 0.2s; }
+  .building-card:hover { transform:translateY(-2px); }
+  .building-card.expanded { border-color:var(--orange); }
+  .building-detail { display:none; margin-top:1rem; }
+  .building-card.expanded .building-detail { display:block; }
+</style>
+</head>
+<body>
+<cc-app-nav app="age-of-apes" title="🦍 Age of Apes Guide" active="buildings"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div style="max-width:1400px;margin:0 auto;padding:1rem;">
+  <div class="page-header">
+    <h1>🏗️ Buildings Database</h1>
+    <div class="header-right">
+      <span class="badge badge-app" id="total-buildings">Loading...</span>
+    </div>
+  </div>
+
+  <cc-tabs active="overview">
+    <cc-tab name="overview" label="Overview" icon="home">
+      <div id="buildings-overview" style="padding:1rem 0;"></div>
+    </cc-tab>
+    <cc-tab name="calculator" label="Calculator" icon="calculator">
+      <div class="panel">
+        <h3 style="margin:0 0 1rem;">Buildings Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Building</label><select id="bc-building" class="aoa-select"></select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Start Level</label><input type="number" id="bc-start" class="aoa-input" value="1" min="0"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">End Level</label><input type="number" id="bc-end" class="aoa-input" value="30" min="1"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Speed %</label><input type="number" id="bc-speed" class="aoa-input" value="0" min="0"></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1rem;">
+          <label style="color:var(--muted);font-size:.85rem;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="bc-architect"> Architect (+3%)</label>
+          <label style="color:var(--muted);font-size:.85rem;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="bc-rise"> Rise & Soar (+10%)</label>
+        </div>
+        <button class="btn btn-primary" id="bc-calc">Calculate</button>
+        <div id="bc-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+  </cc-tabs>
+</div>
+
+<script>
+const { fmt, esc, escAttr, timeStr, totalSeconds, secondsToTime } = AOA;
+let gameData = {};
+
+async function loadData() {
+  try {
+    const buildings = await fetch('data/buildings.json').then(r=>r.json());
+    gameData = { buildings };
+    renderBuildings();
+    setupCalculator();
+  } catch(e) {
+    console.error('Error loading data:', e);
+  }
+}
+
+function renderBuildings() {
+  const bd = gameData.buildings;
+  const buildingCount = Object.keys(bd).length;
+  document.getElementById('total-buildings').textContent = `${buildingCount} Buildings`;
+
+  const chLevel = bd.cityHall?.levels?.[bd.cityHall.levels.length - 1];
+  const maxCHPower = chLevel ? fmt(chLevel.totalPower) : '—';
+
+  const buildingCards = Object.entries(bd).map(([key, building]) => {
+    const maxLevel = building.levels[building.levels.length - 1];
+    return `<div class="card building-card" data-building="${escAttr(key)}">
+      <div class="card-top">
+        <div class="card-title" style="font-size:1.1rem;">${esc(building.name)}</div>
+      </div>
+      <div class="card-desc">Max Level: ${maxLevel.level.split('-')[1]} | Max Power: ${fmt(maxLevel.totalPower)}</div>
+      <div class="card-meta">
+        <span class="badge" style="background:var(--green);color:#000;">${building.levels.length} Levels</span>
+      </div>
+      <div class="building-detail">
+        <div style="overflow-x:auto;">
+          <table class="aoa-table">
+            <thead>
+              <tr>
+                <th>Level</th><th>Food</th><th>Iron</th><th>Batteries</th><th>Nu-Ape Caps</th><th>Time</th><th>Total Power</th><th>Power +</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${building.levels.map(l => `<tr>
+                <td>${l.level}</td><td>${fmt(l.food)}</td><td>${fmt(l.iron)}</td>
+                <td>${fmt(l.batteries)}</td><td>${fmt(l.nuApeCaps)}</td>
+                <td>${timeStr(l.days,l.hours,l.minutes,l.seconds)}</td>
+                <td>${fmt(l.totalPower)}</td><td>${fmt(l.powerDelta)}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('buildings-overview').innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;">
+      ${buildingCards}
+    </div>
+    <div class="panel" style="margin-top:2rem;">
+      <h3 style="margin:0 0 .5rem;">Building Stats</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+        <div class="stat-box"><div class="stat-box-value">${buildingCount}</div><div class="stat-box-label">Total Buildings</div></div>
+        <div class="stat-box"><div class="stat-box-value">35</div><div class="stat-box-label">Max City Hall</div></div>
+        <div class="stat-box"><div class="stat-box-value">30</div><div class="stat-box-label">Max Other Buildings</div></div>
+        <div class="stat-box"><div class="stat-box-value">${maxCHPower}</div><div class="stat-box-label">Max Power (CH)</div></div>
+      </div>
+    </div>`;
+
+  // Add click handlers for building cards
+  document.querySelectorAll('.building-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('expanded');
+    });
+  });
+}
+
+function setupCalculator() {
+  const bd = gameData.buildings;
+  const opts = Object.entries(bd).map(([k,b])=>`<option value="${escAttr(k)}">${esc(b.name)}</option>`).join('');
+  document.getElementById('bc-building').innerHTML = opts;
+
+  document.getElementById('bc-calc').addEventListener('click', () => {
+    const bKey = document.getElementById('bc-building').value;
+    const start = +document.getElementById('bc-start').value;
+    const end = +document.getElementById('bc-end').value;
+    let speed = +document.getElementById('bc-speed').value;
+    
+    if(document.getElementById('bc-architect').checked) speed += 3;
+    if(document.getElementById('bc-rise').checked) speed += 10;
+    
+    const levels = bd[bKey]?.levels || [];
+    let food=0,iron=0,batt=0,caps=0,totalSec=0,power=0;
+    
+    levels.forEach(l => {
+      const [from,to] = l.level.split('-').map(Number);
+      if(from >= start && to <= end) {
+        food += l.food; iron += l.iron; batt += l.batteries; caps += l.nuApeCaps;
+        totalSec += totalSeconds(l.days,l.hours,l.minutes,l.seconds);
+        power += l.powerDelta;
+      }
+    });
+    
+    const actualSec = totalSec * (100/(100+speed));
+    const orig = secondsToTime(totalSec);
+    const actual = secondsToTime(actualSec);
+    const saved = secondsToTime(totalSec - actualSec);
+    
+    document.getElementById('bc-results').innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${orig.str}</div><div class="stat-box-label">Original Time</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${actual.str}</div><div class="stat-box-label">Actual Time</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${saved.str}</div><div class="stat-box-label">Time Saved</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(power)}</div><div class="stat-box-label">Power Gained</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(food)}</div><div class="stat-box-label">Food</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(iron)}</div><div class="stat-box-label">Iron</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(batt)}</div><div class="stat-box-label">Batteries</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(caps)}</div><div class="stat-box-label">Nu-Ape Caps</div></div>
+      </div>`;
+
+    window.showToast(`Calculated ${bd[bKey].name} upgrade costs ✅`, 3000);
+  });
+}
+
+loadData();
+</script>
+</body>
+</html>

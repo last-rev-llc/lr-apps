@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX Review — Client Health — V1</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font); }
+  .review-banner { background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 12px 24px; text-align: center; font-size: 13px; font-weight: 600; color: #fff; letter-spacing: 0.5px; }
+  .review-banner span { opacity: 0.7; margin-left: 12px; font-weight: 400; }
+  .page { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+  /* Fleet health summary */
+  .fleet-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .fleet-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; transition: transform 0.2s; }
+  .fleet-card:hover { transform: translateY(-2px); }
+  .fleet-value { font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .fleet-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .fleet-bar { height: 4px; border-radius: 2px; background: var(--bg); margin-top: 12px; overflow: hidden; }
+  .fleet-bar-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+
+  /* Client cards */
+  .client-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+  .client-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 0; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+  .client-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+
+  .client-header { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .client-avatar { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: #fff; flex-shrink: 0; }
+  .client-name { font-size: 15px; font-weight: 700; color: var(--heading); flex: 1; }
+  .client-score { font-size: 24px; font-weight: 800; }
+  .client-trend { font-size: 14px; margin-left: 4px; }
+
+  .client-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; padding: 0; }
+  .metric { padding: 12px; text-align: center; border-right: 1px solid var(--border); }
+  .metric:last-child { border-right: none; }
+  .metric-value { font-size: 16px; font-weight: 700; color: var(--text); }
+  .metric-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+  .client-alerts { padding: 12px 20px; }
+  .alert-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 4px 10px; border-radius: 6px; margin-right: 6px; margin-bottom: 4px; }
+  .alert-pill.warn { background: rgba(245,158,11,0.15); color: var(--yellow); }
+  .alert-pill.danger { background: rgba(239,68,68,0.15); color: var(--red); }
+  .alert-pill.info { background: rgba(59,130,246,0.15); color: var(--blue); }
+
+  /* Repo expansion */
+  .repo-details { padding: 0 20px 16px; border-top: 1px solid var(--border); }
+  .repo-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; }
+  .repo-name { flex: 1; color: var(--text); font-family: var(--font-mono, monospace); }
+  .repo-stat { width: 50px; text-align: center; color: var(--muted); font-size: 12px; }
+
+  .score-green { color: var(--green); }
+  .score-yellow { color: var(--yellow); }
+  .score-red { color: var(--red); }
+
+  @media (max-width: 768px) {
+    .fleet-summary { grid-template-columns: repeat(2, 1fr); }
+    .client-grid { grid-template-columns: 1fr; }
+    .client-metrics { grid-template-columns: repeat(2, 1fr); }
+    .metric { border-bottom: 1px solid var(--border); }
+    .page { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="review-banner">
+  UX Review — Client Health — Variation 1 — Feb 16, 2026
+  <span>Fleet summary bar, avatar cards, metric grid, color-coded alerts, expandable repos</span>
+</div>
+
+<cc-app-nav app="cc-client-health" title="💚 Client Health" active="home"></cc-app-nav>
+<cc-toast></cc-toast>
+
+<div class="page">
+  <!-- Fleet Summary -->
+  <cc-stagger delay="80">
+    <div class="fleet-summary">
+      <div class="fleet-card">
+        <div class="fleet-value" style="color:var(--text)">8</div>
+        <div class="fleet-label">Total Clients</div>
+        <div class="fleet-bar"><div class="fleet-bar-fill" style="width:100%;background:var(--accent)"></div></div>
+      </div>
+      <div class="fleet-card">
+        <div class="fleet-value score-green">5</div>
+        <div class="fleet-label">Healthy</div>
+        <div class="fleet-bar"><div class="fleet-bar-fill" style="width:62%;background:var(--green)"></div></div>
+      </div>
+      <div class="fleet-card">
+        <div class="fleet-value score-yellow">2</div>
+        <div class="fleet-label">Warning</div>
+        <div class="fleet-bar"><div class="fleet-bar-fill" style="width:25%;background:var(--yellow)"></div></div>
+      </div>
+      <div class="fleet-card">
+        <div class="fleet-value score-red">1</div>
+        <div class="fleet-label">Critical</div>
+        <div class="fleet-bar"><div class="fleet-bar-fill" style="width:12%;background:var(--red)"></div></div>
+      </div>
+    </div>
+  </cc-stagger>
+
+  <!-- Client Cards -->
+  <cc-stagger delay="60">
+    <div class="client-grid">
+      <!-- Green client -->
+      <div class="client-card">
+        <div class="client-header">
+          <div class="client-avatar" style="background:linear-gradient(135deg,#10b981,#059669)">AC</div>
+          <div class="client-name">Acme Corp</div>
+          <span class="client-score score-green">92</span>
+          <span class="client-trend" style="color:var(--green)">↑</span>
+        </div>
+        <div class="client-metrics">
+          <div class="metric"><div class="metric-value">23</div><div class="metric-label">Commits 7d</div></div>
+          <div class="metric"><div class="metric-value">3</div><div class="metric-label">Open PRs</div></div>
+          <div class="metric"><div class="metric-value">1</div><div class="metric-label">Issues</div></div>
+          <div class="metric"><div class="metric-value">Feb 14</div><div class="metric-label">Deploy</div></div>
+        </div>
+      </div>
+
+      <!-- Green client -->
+      <div class="client-card">
+        <div class="client-header">
+          <div class="client-avatar" style="background:linear-gradient(135deg,#3b82f6,#2563eb)">TC</div>
+          <div class="client-name">TechCo Industries</div>
+          <span class="client-score score-green">88</span>
+          <span class="client-trend" style="color:var(--green)">↑</span>
+        </div>
+        <div class="client-metrics">
+          <div class="metric"><div class="metric-value">18</div><div class="metric-label">Commits 7d</div></div>
+          <div class="metric"><div class="metric-value">5</div><div class="metric-label">Open PRs</div></div>
+          <div class="metric"><div class="metric-value">2</div><div class="metric-label">Issues</div></div>
+          <div class="metric"><div class="metric-value">Feb 15</div><div class="metric-label">Deploy</div></div>
+        </div>
+      </div>
+
+      <!-- Yellow client -->
+      <div class="client-card">
+        <div class="client-header">
+          <div class="client-avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706)">GS</div>
+          <div class="client-name">GlobalSync</div>
+          <span class="client-score score-yellow">64</span>
+          <span class="client-trend" style="color:var(--muted)">→</span>
+        </div>
+        <div class="client-metrics">
+          <div class="metric"><div class="metric-value">4</div><div class="metric-label">Commits 7d</div></div>
+          <div class="metric"><div class="metric-value">8</div><div class="metric-label">Open PRs</div></div>
+          <div class="metric"><div class="metric-value">5</div><div class="metric-label">Issues</div></div>
+          <div class="metric"><div class="metric-value">Feb 3</div><div class="metric-label">Deploy</div></div>
+        </div>
+        <div class="client-alerts">
+          <span class="alert-pill warn">⚠️ 8 stale PRs</span>
+          <span class="alert-pill info">ℹ️ Deploy 13d ago</span>
+        </div>
+      </div>
+
+      <!-- Red client -->
+      <div class="client-card">
+        <div class="client-header">
+          <div class="client-avatar" style="background:linear-gradient(135deg,#ef4444,#dc2626)">NV</div>
+          <div class="client-name">NovaPay</div>
+          <span class="client-score score-red">38</span>
+          <span class="client-trend" style="color:var(--red)">↓</span>
+        </div>
+        <div class="client-metrics">
+          <div class="metric"><div class="metric-value">0</div><div class="metric-label">Commits 7d</div></div>
+          <div class="metric"><div class="metric-value">12</div><div class="metric-label">Open PRs</div></div>
+          <div class="metric"><div class="metric-value">9</div><div class="metric-label">Issues</div></div>
+          <div class="metric"><div class="metric-value">Jan 18</div><div class="metric-label">Deploy</div></div>
+        </div>
+        <div class="client-alerts">
+          <span class="alert-pill danger">🔴 No commits in 7d</span>
+          <span class="alert-pill danger">🔴 12 stale PRs</span>
+          <span class="alert-pill warn">⚠️ Deploy 29d ago</span>
+        </div>
+      </div>
+
+      <!-- Green client -->
+      <div class="client-card">
+        <div class="client-header">
+          <div class="client-avatar" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">LR</div>
+          <div class="client-name">Last Rev</div>
+          <span class="client-score score-green">95</span>
+          <span class="client-trend" style="color:var(--green)">↑</span>
+        </div>
+        <div class="client-metrics">
+          <div class="metric"><div class="metric-value">47</div><div class="metric-label">Commits 7d</div></div>
+          <div class="metric"><div class="metric-value">2</div><div class="metric-label">Open PRs</div></div>
+          <div class="metric"><div class="metric-value">0</div><div class="metric-label">Issues</div></div>
+          <div class="metric"><div class="metric-value">Today</div><div class="metric-label">Deploy</div></div>
+        </div>
+      </div>
+
+      <!-- Green client -->
+      <div class="client-card">
+        <div class="client-header">
+          <div class="client-avatar" style="background:linear-gradient(135deg,#06b6d4,#0891b2)">BV</div>
+          <div class="client-name">BrightView Media</div>
+          <span class="client-score score-green">82</span>
+          <span class="client-trend" style="color:var(--muted)">→</span>
+        </div>
+        <div class="client-metrics">
+          <div class="metric"><div class="metric-value">11</div><div class="metric-label">Commits 7d</div></div>
+          <div class="metric"><div class="metric-value">4</div><div class="metric-label">Open PRs</div></div>
+          <div class="metric"><div class="metric-value">3</div><div class="metric-label">Issues</div></div>
+          <div class="metric"><div class="metric-value">Feb 12</div><div class="metric-label">Deploy</div></div>
+        </div>
+      </div>
+    </div>
+  </cc-stagger>
+</div>
+
+<!-- IMPLEMENTATION PROMPT: Rebuild cc-client-health/modules/cc-client-health.js: 1) Remove ALL inline styles — extract to classes in index.html <style> block. 2) Add fleet summary row at top: 4-card grid showing total clients, healthy (green), warning (yellow), critical (red) counts with progress bars. 3) Replace flat card layout with structured cards: gradient avatar (initials), name, score (color-coded), trend arrow in header. 4-column metric grid below. Alert pills (warn/danger/info) below metrics. 4) Add expandable repo details section on click with repo-row layout. 5) Wrap fleet-summary in cc-stagger delay=80, client-grid in cc-stagger delay=60. 6) Add hover translateY(-3px) + box-shadow on client cards. 7) Mobile: 2-col fleet, 1-col clients, 2-col metrics. 8) Add cc-empty-state when no data. 9) Compute fleet totals from data array. -->
+</body>
+</html>

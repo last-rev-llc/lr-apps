@@ -1,0 +1,545 @@
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "accounts.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/accounts/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "age-of-apes.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/age-of-apes/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "ai-calculator.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/ai-calculator/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "alpha-wins.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/alpha-wins/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-agents.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-agents/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-ai-scripts.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-ai-scripts/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-alphaclaw.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-alphaclaw/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-architecture.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-architecture/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-client-health.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-client-health/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-concerts.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-concerts/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-contentful.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-contentful/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-crons.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-crons/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-gallery.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-gallery/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-ideas.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-ideas/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-iron.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-iron/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-leads.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-leads/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-meeting-summaries.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-meeting-summaries/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-meme-generator.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-meme-generator/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-pr-review.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-pr-review/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-recipes.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-recipes/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-rizz-guide.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-rizz-guide/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-team-usf.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-team-usf/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-users.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-users/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "client-scorecard.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/client-scorecard/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "command-center.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/command-center/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cringe-rizzler.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cringe-rizzler/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "dad-joke-of-the-day.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/dad-joke-of-the-day/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "daily-updates.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/daily-updates/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "gen-alpha.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/gen-alpha/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "gen-boomers.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/gen-boomers/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "gen-silent.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/gen-silent/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "gen-x.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/gen-x/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "gen-y.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/gen-y/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "gen-z.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/gen-z/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "generations.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/generations/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "hspt-practice.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/hspt-practice/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "hspt-tutor.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/hspt-tutor/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "last-rev-marketing.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/last-rev-marketing/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "lastrev-redesign.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/lastrev-redesign/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "lighthouse.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/lighthouse/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "meeting-summaries.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/meeting-summaries/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "proper-wine-pour.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/proper-wine-pour/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "roblox-dances.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/roblox-dances/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "sales.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/sales/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "sentiment.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/sentiment/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "shared.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/shared/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "slang-translator.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/slang-translator/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "soccer-training.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/soccer-training/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "sprint-planning.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/sprint-planning/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "standup.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/standup/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "superstars.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/superstars/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "travel-collection.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/travel-collection/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "uptime.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/uptime/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "ux-review.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/ux-review/:path*"
+    }
+  ],
+  "trailingSlash": false
+}

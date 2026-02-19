@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="AI Meeting Summaries: Never Take Notes Again — Last Rev"
+    description="How AlphaClaw built a meeting intelligence system that captures, summarizes, and tracks action items automatically. Reclaim 10+ hours/week with AI-powered meeting notes."
+    canonical="https://lastrev.com/blog/ai-meeting-summaries"
+    og-title="AI Meeting Summaries: Never Take Notes Again"
+    og-description="How AlphaClaw built a meeting intelligence system that captures, summarizes, and tracks action items automatically. Reclaim 10+ hours/week with AI-powered meeting notes."
+    og-image="https://lastrev.com/images/og-default.png"
+    og-url="https://lastrev.com/blog/ai-meeting-summaries"
+    og-type="article"
+    robots="index, follow"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="Never Take Meeting Notes Again: AI-Powered Meeting Intelligence" author="Brad Taylor" date="2026-01-27" category="Case Study" read-time="6 min" back-href="../blog.html" image="../images/blog/ai-meeting-summaries.webp">
+        <div slot="content">
+<p>We were spending roughly 10 hours per week across the team on meeting notes. Not the meetings themselves — just the note-taking, formatting, and distributing of summaries afterward. It was a productivity black hole. AlphaClaw built us a meeting intelligence dashboard that eliminated all of it.</p>
+
+        <h2>The Meeting Tax</h2>
+        <p>At Last Rev, we run 25-30 meetings per week: client syncs, internal standups, sprint planning, design reviews, sales calls. Each one generated notes — sometimes. When someone remembered. In whatever format they preferred. Half the time, action items were buried in paragraph form and never extracted.</p>
+        <p>The real problem wasn't note-taking — it was that decisions and action items disappeared into Slack threads and Google Docs, never to be found again.</p>
+
+        <h2>What AlphaClaw Built</h2>
+        <p>We asked AlphaClaw to create a meeting intelligence system that integrates with Zoom's recording and transcript APIs. The AI agent built an application that automatically processes meeting recordings, generates structured summaries, extracts action items with assignees and due dates, and presents everything in a searchable dashboard.</p>
+        <p>The app pulls transcripts from Zoom after each meeting, runs them through an AI summarization pipeline, and outputs three things: a one-paragraph executive summary, a bullet-point list of key decisions, and a structured list of action items with owners.</p>
+
+        <h2>Key Features</h2>
+        <ul>
+          <li><strong>Automatic transcript processing</strong> — meetings are summarized within minutes of ending, with no manual trigger needed</li>
+          <li><strong>Action item extraction</strong> — AI identifies commitments, assigns them to the right person, and suggests due dates based on context</li>
+          <li><strong>Searchable archive</strong> — every meeting summary is indexed and searchable by topic, participant, date, or keyword</li>
+          <li><strong>Decision log</strong> — a running record of all decisions made across meetings, filterable by project or client</li>
+          <li><strong>Slack integration</strong> — summaries and action items are automatically posted to the relevant channel after processing</li>
+          <li><strong>Follow-up tracking</strong> — action items carry forward until marked complete, surfacing overdue items in a weekly digest</li>
+        </ul>
+
+        <h2>The Build Experience</h2>
+        <p>AlphaClaw built the frontend dashboard and the Zoom integration layer in about two hours. The trickiest part was getting the action item extraction prompt right — it took a few iterations to get the AI to reliably distinguish between "someone mentioned they might do something" and "someone committed to doing something by a specific date." We refined the extraction rules through three prompt iterations.</p>
+
+        <h2>Impact</h2>
+        <p>We reclaimed roughly 10 hours per week of team time. But the bigger win was accountability — action items now have a system of record. In the first month, we tracked 127 action items through the system. 89% were completed on time, compared to our estimated 50% completion rate before when items lived in scattered notes.</p>
+        <p>The decision log has been unexpectedly valuable. When a client asks "didn't we decide X in our last call?", we can search and find the exact answer in seconds. No more "let me dig through my notes" delays.</p>
+        <p>Meetings are still meetings. But at least the output is captured and actionable now. <a href="../index.html#contact">Want to reclaim your meeting time too?</a></p>
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Never Take Meeting Notes Again: AI-Powered Meeting Intelligence",
+    "description": "How AlphaClaw built a meeting intelligence system that captures, summarizes, and tracks action items automatically.",
+    "author": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lastrev.com/images/logo.png"
+      }
+    },
+    "datePublished": "2026-01-27",
+    "dateModified": "2026-01-27",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/ai-meeting-summaries"
+    },
+    "image": "https://lastrev.com/images/og-default.png"
+  }
+  </script>
+
+</body>
+</html>

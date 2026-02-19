@@ -1,0 +1,12 @@
+{
+  "slug": "how-do-ai-applications-handle-large-amounts-of-unstructured-data",
+  "title": "How Do AI Applications Handle Large Amounts of Unstructured Data?",
+  "pageTitle": "How Do AI Applications Handle Large Amounts of Unstructured Data? — Last Rev",
+  "description": "From embeddings and vector databases to RAG pipelines, here's how modern AI applications actually process the 80% of enterprise data that doesn't fit in rows and columns.",
+  "author": "Last Rev Team",
+  "date": "2026-01-22",
+  "category": "AI Software & Custom Apps",
+  "readTime": "9 min",
+  "featured": false,
+  "promoImage": "images/ai-unstructured-data.png"
+}

@@ -1,0 +1,28 @@
+{
+  "meetingId": "2026-02-05_IAS-_-AnswerAgent-Exec-Strategic-Alignment",
+  "topic": "IAS / AnswerAgent Exec Strategic Alignment",
+  "date": "2026-02-05",
+  "duration": 5,
+  "attendees": ["Adam Harris", "Brad Taylor"],
+  "client": "Integral Ad Science",
+  "summary": "A very brief meeting that was intended to be an executive strategic alignment session between the IAS and AnswerAgent teams. Brad noted that Akasha (from IAS) was out of office, and Brad (from IAS side) had been on but hadn't said anything. The meeting was essentially a no-show from the IAS executive side.\n\nAdam and Brad briefly discussed the Alpha Agent PR — Brad approved it but noted Adam should branch off properly in the future due to a manifest conflict. Adam mentioned he tried the JIRA retro plugin but had issues running it by account (needed to tweak custom field handling). Brad shared he created similar retros on GitHub and Linear and used them for the product updates shared in Slack. They agreed to reschedule to next Thursday.",
+  "keyDiscussionPoints": [
+    "IAS exec (Brad from IAS side) was a no-show, Akasha out of office",
+    "Meeting rescheduled to next Thursday",
+    "Alpha Agent PR merged — need proper branching in future",
+    "JIRA retro plugin needs tweaking for account-based filtering",
+    "Brad created GitHub/Linear retros for product updates"
+  ],
+  "decisions": [
+    "Reschedule IAS exec strategic alignment to next Thursday"
+  ],
+  "actionItems": [
+    {"action": "Reschedule IAS exec meeting to next Thursday", "owner": "Brad Taylor", "deadline": "next Thursday", "priority": "medium"},
+    {"action": "Tweak JIRA retro plugin for account/custom field support", "owner": "Adam Harris", "deadline": "not specified", "priority": "low"}
+  ],
+  "followUp": [
+    "IAS executive strategic alignment meeting — rescheduled",
+    "JIRA retro plugin custom field improvements"
+  ],
+  "sentiment": "casual"
+}

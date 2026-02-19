@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<title>🦍 Age of Apes Guide - Guides</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  .guide-content { line-height:1.6; }
+  .guide-content h4 { margin:1.5rem 0 .5rem; color:var(--accent); }
+  .guide-content ul { margin:.5rem 0; padding-left:1.5rem; }
+  .guide-content li { margin:.25rem 0; }
+  .highlight { background:rgba(245,158,11,.1); padding:2px 4px; border-radius:4px; }
+</style>
+</head>
+<body>
+<cc-app-nav app="age-of-apes" title="🦍 Age of Apes Guide" active="guides"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div style="max-width:1400px;margin:0 auto;padding:1rem;">
+  <div class="page-header">
+    <h1>📚 Comprehensive Guides</h1>
+    <div class="header-right">
+      <span class="badge badge-app">Complete Strategy</span>
+    </div>
+  </div>
+
+  <cc-tabs active="fighters">
+    <cc-tab name="fighters" label="Fighters" icon="user">
+      <div style="padding:1rem 0;">
+        <cc-tabs active="equipment" no-url>
+          <cc-tab name="equipment" label="Equipment">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Fighter Equipment Guide</h3>
+              <div class="guide-content">
+                <h4>Equipment Basics</h4>
+                <p>Fighter equipment is crucial for maximizing your combat effectiveness. Each fighter can equip up to 4 pieces of equipment, and proper selection can dramatically improve performance.</p>
+                
+                <h4>Equipment Types</h4>
+                <ul>
+                  <li><span class="highlight">Weapons</span> - Increase attack power and critical chance</li>
+                  <li><span class="highlight">Armor</span> - Boost defense and HP for survivability</li>
+                  <li><span class="highlight">Accessories</span> - Provide specialized bonuses like speed or skill damage</li>
+                  <li><span class="highlight">Special Items</span> - Unique equipment with powerful effects</li>
+                </ul>
+
+                <h4>Rarity Tiers</h4>
+                <ul>
+                  <li><span class="highlight">Rare (Green)</span> - Basic equipment, max level 20</li>
+                  <li><span class="highlight">Epic (Purple)</span> - Advanced equipment, max level 25</li>
+                  <li><span class="highlight">Legendary (Orange)</span> - Premium equipment, max level 30</li>
+                </ul>
+
+                <h4>Upgrade Strategy</h4>
+                <p>Focus on upgrading equipment in this order:</p>
+                <ol>
+                  <li>Main weapon for damage output</li>
+                  <li>Primary armor for survivability</li>
+                  <li>Accessories for specialized bonuses</li>
+                  <li>Secondary items for completion bonuses</li>
+                </ol>
+
+                <h4>Material Management</h4>
+                <p>Equipment materials are precious resources. Prioritize:</p>
+                <ul>
+                  <li>Legendary fighters get first priority for materials</li>
+                  <li>Focus on main combat fighters over support roles</li>
+                  <li>Save rare materials for high-level upgrades (25+)</li>
+                  <li>Use events to farm materials efficiently</li>
+                </ul>
+              </div>
+            </div>
+          </cc-tab>
+
+          <cc-tab name="experience" label="Experience">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Fighter Experience Guide</h3>
+              <div class="guide-content">
+                <h4>XP Sources</h4>
+                <p>Fighters gain experience from multiple sources. Understanding the most efficient methods saves time and resources.</p>
+                
+                <h4>Primary XP Sources</h4>
+                <ul>
+                  <li><span class="highlight">Combat</span> - Earn XP from PvP battles and monster hunts</li>
+                  <li><span class="highlight">XP Items</span> - Use fighter XP books and potions</li>
+                  <li><span class="highlight">Events</span> - Participate in fighter training events</li>
+                  <li><span class="highlight">Daily Missions</span> - Complete fighter-specific tasks</li>
+                </ul>
+
+                <h4>Leveling Efficiency</h4>
+                <p>XP requirements scale exponentially. Focus efforts wisely:</p>
+                <ul>
+                  <li>Levels 1-20: Use low-level XP items freely</li>
+                  <li>Levels 20-35: Save high-value XP items for this range</li>
+                  <li>Levels 35-45: Use premium XP items and focus on main fighters</li>
+                  <li>Levels 45-50: Reserve legendary XP items for final push</li>
+                </ul>
+
+                <h4>XP Multipliers</h4>
+                <p>Several bonuses can increase XP gain:</p>
+                <ul>
+                  <li>VIP bonuses provide flat XP increases</li>
+                  <li>Guild research can boost fighter XP gain</li>
+                  <li>Special events offer 2x or 3x XP periods</li>
+                  <li>Fighter training facilities provide passive XP</li>
+                </ul>
+
+                <h4>Strategic Priorities</h4>
+                <p>Don't spread XP too thin across all fighters:</p>
+                <ol>
+                  <li>Max your main combat fighter first</li>
+                  <li>Level support fighters to key breakpoints</li>
+                  <li>Focus on fighters you use in active combat</li>
+                  <li>Keep backup fighters at moderate levels</li>
+                </ol>
+              </div>
+            </div>
+          </cc-tab>
+
+          <cc-tab name="medals" label="Medals">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Fighter Medals Guide</h3>
+              <div class="guide-content">
+                <h4>Medal System Overview</h4>
+                <p>Fighter medals are used to upgrade fighter skills, making them essential for competitive play.</p>
+
+                <h4>Medal Requirements by Rarity</h4>
+                <ul>
+                  <li><span class="highlight">Rare Fighters</span> - 325 medals for max skills (5/5/5/5)</li>
+                  <li><span class="highlight">Epic Fighters</span> - 450 medals for max skills (5/5/5/5)</li>
+                  <li><span class="highlight">Legendary Fighters</span> - 690 medals for max skills (5/5/5/5)</li>
+                </ul>
+
+                <h4>Leap Medal Requirements</h4>
+                <p>Additional medals needed for leaping (advancing rarity):</p>
+                <ul>
+                  <li>Rare to Epic: 800 leap medals</li>
+                  <li>Epic to Legendary: 1,180 leap medals</li>
+                  <li>Legendary enhancement: 700 medals</li>
+                </ul>
+
+                <h4>Medal Sources</h4>
+                <ul>
+                  <li><span class="highlight">Events</span> - Fighter-focused events offer the best medal rates</li>
+                  <li><span class="highlight">Shop Purchases</span> - Use gems to buy medal packages</li>
+                  <li><span class="highlight">Daily Missions</span> - Complete fighter tasks for medals</li>
+                  <li><span class="highlight">Guild Activities</span> - Guild wars and hunts provide medals</li>
+                </ul>
+
+                <h4>Investment Strategy</h4>
+                <p>Medals are scarce, so invest strategically:</p>
+                <ol>
+                  <li>Focus on one legendary fighter at a time</li>
+                  <li>Upgrade skill 1 first (highest impact)</li>
+                  <li>Balance skills 2-4 based on fighter role</li>
+                  <li>Save leap medals for fighters you'll use long-term</li>
+                </ol>
+              </div>
+            </div>
+          </cc-tab>
+
+          <cc-tab name="statue-stars" label="Statue Stars">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Fighter Statue Stars Guide</h3>
+              <div class="guide-content">
+                <h4>Statue System</h4>
+                <p>Fighter statues provide permanent bonuses to all fighters of that type. This is a late-game progression system that provides significant power increases.</p>
+
+                <h4>How Statue Stars Work</h4>
+                <ul>
+                  <li>Each fighter type has its own statue</li>
+                  <li>Stars are earned by sacrificing duplicate fighters</li>
+                  <li>Each star provides increasing bonuses</li>
+                  <li>Bonuses apply to ALL fighters of that type</li>
+                </ul>
+
+                <h4>Star Requirements</h4>
+                <p>Stars become increasingly expensive to unlock:</p>
+                <ul>
+                  <li>1-3 Stars: Use common/rare duplicates freely</li>
+                  <li>4-6 Stars: Requires epic fighter duplicates</li>
+                  <li>7-10 Stars: Demands legendary fighter sacrifices</li>
+                  <li>11+ Stars: Extremely expensive, only for endgame</li>
+                </ul>
+
+                <h4>Priority Order</h4>
+                <p>Focus statue upgrades on fighters you use most:</p>
+                <ol>
+                  <li>Main DPS fighters (usually Hitters)</li>
+                  <li>Tank fighters for survivability</li>
+                  <li>Support fighters for utility</li>
+                  <li>Specialized fighters based on your strategy</li>
+                </ol>
+
+                <h4>Statue Bonuses</h4>
+                <ul>
+                  <li>Attack power increases</li>
+                  <li>Defense and HP bonuses</li>
+                  <li>Skill effectiveness improvements</li>
+                  <li>Special abilities at higher star levels</li>
+                </ul>
+
+                <h4>Long-term Strategy</h4>
+                <p>Statue progression is a marathon, not a sprint:</p>
+                <ul>
+                  <li>Save duplicate legendary fighters for statues</li>
+                  <li>Don't sacrifice fighters you might need later</li>
+                  <li>Plan statue upgrades around major events</li>
+                  <li>Consider the global bonuses vs individual fighter power</li>
+                </ul>
+              </div>
+            </div>
+          </cc-tab>
+        </cc-tabs>
+      </div>
+    </cc-tab>
+
+    <cc-tab name="mechs" label="Mechs" icon="zap">
+      <div style="padding:1rem 0;">
+        <cc-tabs active="force" no-url>
+          <cc-tab name="force" label="Force">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Mech Force Guide</h3>
+              <div class="guide-content">
+                <h4>Force System Overview</h4>
+                <p>Mech Force represents the raw power and level of your mech. Higher force levels provide increased combat effectiveness and unlock new capabilities.</p>
+
+                <h4>Force Leveling</h4>
+                <ul>
+                  <li><span class="highlight">Max Level</span> - Both Epic and Legendary mechs cap at Force Level 60</li>
+                  <li><span class="highlight">Requirements</span> - Uses Chips and Cores for upgrades</li>
+                  <li><span class="highlight">Scaling</span> - Costs increase exponentially at higher levels</li>
+                </ul>
+
+                <h4>Resource Management</h4>
+                <p>Force upgrades require careful resource planning:</p>
+                <ul>
+                  <li>Chips are the primary currency for force upgrades</li>
+                  <li>Cores provide additional power boosts</li>
+                  <li>Higher levels require thousands of each resource</li>
+                  <li>Focus upgrades on your main battle mech first</li>
+                </ul>
+
+                <h4>Upgrade Strategy</h4>
+                <ol>
+                  <li>Rush to Level 30 for core functionality</li>
+                  <li>Level 40 provides significant power spike</li>
+                  <li>Level 50+ requires major resource investment</li>
+                  <li>Level 60 is endgame goal for main mech</li>
+                </ol>
+
+                <h4>Force Benefits</h4>
+                <ul>
+                  <li>Increased base damage and defense</li>
+                  <li>Higher HP and survivability</li>
+                  <li>Access to advanced mech abilities</li>
+                  <li>Better performance in large battles</li>
+                </ul>
+              </div>
+            </div>
+          </cc-tab>
+
+          <cc-tab name="skills" label="Skills">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Mech Skills Guide</h3>
+              <div class="guide-content">
+                <h4>Skill System</h4>
+                <p>Mech skills provide specialized abilities and bonuses. Each mech has multiple skill slots that can be upgraded independently.</p>
+
+                <h4>Skill Types</h4>
+                <ul>
+                  <li><span class="highlight">Active Skills</span> - Triggered abilities with cooldowns</li>
+                  <li><span class="highlight">Passive Skills</span> - Permanent bonuses to combat</li>
+                  <li><span class="highlight">Utility Skills</span> - Non-combat benefits like movement speed</li>
+                  <li><span class="highlight">Ultimate Skills</span> - Powerful abilities unlocked at high levels</li>
+                </ul>
+
+                <h4>Skill Leveling</h4>
+                <ul>
+                  <li>Max Level: 30 for all skills</li>
+                  <li>Resource: Skill Manuals required for upgrades</li>
+                  <li>Each skill type has different upgrade costs</li>
+                  <li>Some skills have breakpoints at levels 10, 20, 30</li>
+                </ul>
+
+                <h4>Upgrade Priority</h4>
+                <p>Focus skill upgrades based on your mech's role:</p>
+                <ol>
+                  <li><span class="highlight">DPS Mechs</span> - Prioritize damage-dealing active skills</li>
+                  <li><span class="highlight">Tank Mechs</span> - Focus on defensive and HP skills</li>
+                  <li><span class="highlight">Support Mechs</span> - Upgrade utility and team-buff skills</li>
+                  <li><span class="highlight">Hybrid Mechs</span> - Balance between primary and secondary roles</li>
+                </ol>
+
+                <h4>Skill Combinations</h4>
+                <p>Some skills work better together:</p>
+                <ul>
+                  <li>Damage skills pair well with critical chance boosts</li>
+                  <li>Defensive skills complement HP and healing abilities</li>
+                  <li>Speed skills enhance both combat and utility</li>
+                  <li>Area effect skills benefit from range increases</li>
+                </ul>
+              </div>
+            </div>
+          </cc-tab>
+
+          <cc-tab name="operators" label="Operators">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Mech Operators Guide</h3>
+              <div class="guide-content">
+                <h4>Operator System</h4>
+                <p>Operators are the pilots who control mechs. Each operator brings unique bonuses and can be trained to improve their effectiveness.</p>
+
+                <h4>Operator Types</h4>
+                <ul>
+                  <li><span class="highlight">Primary Operator</span> - Main pilot with base stats</li>
+                  <li><span class="highlight">Co-Pilot</span> - Secondary operator for additional bonuses</li>
+                  <li><span class="highlight">Specialist</span> - Operators with unique abilities</li>
+                </ul>
+
+                <h4>Operator Training</h4>
+                <p>Operators can be improved through various methods:</p>
+                <ul>
+                  <li>Experience points from combat and training</li>
+                  <li>Skill points allocated to different abilities</li>
+                  <li>Equipment specific to operators</li>
+                  <li>Specialized training programs</li>
+                </ul>
+
+                <h4>Synergy Bonuses</h4>
+                <p>Certain operator combinations provide bonuses:</p>
+                <ul>
+                  <li>Same faction operators work better together</li>
+                  <li>Complementary skills provide team bonuses</li>
+                  <li>High-level operators unlock special abilities</li>
+                  <li>Rare operators provide unique effects</li>
+                </ul>
+
+                <h4>Operator Strategy</h4>
+                <ol>
+                  <li>Match operator specialties to mech roles</li>
+                  <li>Train primary operators first for immediate benefits</li>
+                  <li>Look for synergy opportunities with multiple operators</li>
+                  <li>Save rare operators for main battle mechs</li>
+                </ol>
+              </div>
+            </div>
+          </cc-tab>
+        </cc-tabs>
+      </div>
+    </cc-tab>
+
+    <cc-tab name="troops" label="Troops" icon="shield">
+      <div style="padding:1rem 0;">
+        <cc-tabs active="skills" no-url>
+          <cc-tab name="skills" label="Unit Skills">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Troop Unit Skills Guide</h3>
+              <div class="guide-content">
+                <h4>Unit Skill System</h4>
+                <p>Each troop type has unique skills that can be upgraded to improve combat effectiveness. Understanding these skills is crucial for army optimization.</p>
+
+                <h4>Skill Categories</h4>
+                <ul>
+                  <li><span class="highlight">Combat Skills</span> - Direct damage and defensive abilities</li>
+                  <li><span class="highlight">Formation Skills</span> - Bonuses when troops work together</li>
+                  <li><span class="highlight">Tactical Skills</span> - Strategic abilities like flanking or ambush</li>
+                  <li><span class="highlight">Support Skills</span> - Healing, buffs, and utility effects</li>
+                </ul>
+
+                <h4>Skill Upgrade Materials</h4>
+                <p>Different materials are needed for skill upgrades:</p>
+                <ul>
+                  <li>Skill Books - Basic upgrade material for all units</li>
+                  <li>Advanced Manuals - Required for higher skill levels</li>
+                  <li>Specialized Tomes - Unique to specific troop types</li>
+                  <li>Master Scrolls - Rare materials for maximum levels</li>
+                </ul>
+
+                <h4>Upgrade Priority</h4>
+                <ol>
+                  <li>Focus on your main army composition first</li>
+                  <li>Upgrade damage skills before defensive ones</li>
+                  <li>Prioritize skills that affect multiple unit types</li>
+                  <li>Save rare materials for tier 5-6 troops</li>
+                </ol>
+              </div>
+            </div>
+          </cc-tab>
+
+          <cc-tab name="weapons" label="Weapons">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Troop Weapons Guide</h3>
+              <div class="guide-content">
+                <h4>Weapon Systems</h4>
+                <p>Troops can be equipped with various weapons that significantly impact their combat performance.</p>
+
+                <h4>Weapon Types</h4>
+                <ul>
+                  <li><span class="highlight">Melee Weapons</span> - Swords, axes, and close-combat gear</li>
+                  <li><span class="highlight">Ranged Weapons</span> - Bows, guns, and projectile weapons</li>
+                  <li><span class="highlight">Heavy Weapons</span> - Artillery, siege equipment, explosives</li>
+                  <li><span class="highlight">Special Weapons</span> - Unique or magical armaments</li>
+                </ul>
+
+                <h4>Weapon Upgrades</h4>
+                <p>Weapons can be enhanced through several methods:</p>
+                <ul>
+                  <li>Level upgrades using weapon materials</li>
+                  <li>Quality improvements (Common → Rare → Epic)</li>
+                  <li>Enchantments for special effects</li>
+                  <li>Weapon mastery through combat experience</li>
+                </ul>
+
+                <h4>Tactical Considerations</h4>
+                <ul>
+                  <li>Match weapons to troop strengths and roles</li>
+                  <li>Consider enemy composition when choosing weapons</li>
+                  <li>Balance between damage and utility effects</li>
+                  <li>Account for weapon maintenance and durability</li>
+                </ul>
+              </div>
+            </div>
+          </cc-tab>
+
+          <cc-tab name="gear" label="Gear">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Troop Gear Guide</h3>
+              <div class="guide-content">
+                <h4>Gear System Overview</h4>
+                <p>Beyond weapons, troops can equip various gear pieces that provide defensive bonuses, utility effects, and specialized capabilities.</p>
+
+                <h4>Gear Categories</h4>
+                <ul>
+                  <li><span class="highlight">Armor Sets</span> - Helmets, chest pieces, boots for defense</li>
+                  <li><span class="highlight">Accessories</span> - Rings, amulets, badges for special bonuses</li>
+                  <li><span class="highlight">Utility Gear</span> - Medkits, tools, communication equipment</li>
+                  <li><span class="highlight">Elite Gear</span> - Legendary equipment with unique properties</li>
+                </ul>
+
+                <h4>Gear Bonuses</h4>
+                <p>Different gear provides various benefits:</p>
+                <ul>
+                  <li>Defense increases for better survivability</li>
+                  <li>Speed bonuses for faster movement and deployment</li>
+                  <li>Resource gathering efficiency improvements</li>
+                  <li>Combat skill enhancements and special abilities</li>
+                </ul>
+
+                <h4>Set Bonuses</h4>
+                <p>Equipping complete gear sets provides additional bonuses:</p>
+                <ul>
+                  <li>2-piece sets: Basic stat improvements</li>
+                  <li>4-piece sets: Moderate skill bonuses</li>
+                  <li>6-piece sets: Major combat advantages</li>
+                  <li>Full sets: Elite bonuses and unique abilities</li>
+                </ul>
+
+                <h4>Gear Strategy</h4>
+                <ol>
+                  <li>Prioritize core defensive gear for survivability</li>
+                  <li>Build towards set bonuses rather than individual pieces</li>
+                  <li>Match gear choices to troop roles and battlefield needs</li>
+                  <li>Balance between offensive and defensive gear based on strategy</li>
+                </ol>
+              </div>
+            </div>
+          </cc-tab>
+        </cc-tabs>
+      </div>
+    </cc-tab>
+
+    <cc-tab name="events" label="Events" icon="calendar">
+      <div style="padding:1rem 0;">
+        <cc-tabs active="kvk" no-url>
+          <cc-tab name="kvk" label="KVK">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Kingdom vs Kingdom (KVK) Guide</h3>
+              <div class="guide-content">
+                <h4>KVK Overview</h4>
+                <p>Kingdom vs Kingdom is the premier competitive event in Age of Apes, where entire kingdoms battle for supremacy and valuable rewards.</p>
+
+                <h4>Pre-KVK Preparation</h4>
+                <ul>
+                  <li><span class="highlight">Resource Stockpiling</span> - Save speedups, healing items, and troops</li>
+                  <li><span class="highlight">Alliance Coordination</span> - Plan strategies with alliance members</li>
+                  <li><span class="highlight">Fighter Preparation</span> - Ensure main fighters are maxed</li>
+                  <li><span class="highlight">Equipment Check</span> - Optimize all equipment loadouts</li>
+                </ul>
+
+                <h4>KVK Phases</h4>
+                <ol>
+                  <li><span class="highlight">Preparation Phase</span> - 3 days to prepare and strategize</li>
+                  <li><span class="highlight">Initial Battles</span> - First 2 days of combat</li>
+                  <li><span class="highlight">Main Event</span> - Peak competition period (3-4 days)</li>
+                  <li><span class="highlight">Final Push</span> - Last day decisive battles</li>
+                </ol>
+
+                <h4>Scoring System</h4>
+                <p>Points are earned through various activities:</p>
+                <ul>
+                  <li>Enemy troop eliminations (major points)</li>
+                  <li>Building destruction and occupation</li>
+                  <li>Resource gathering in enemy territory</li>
+                  <li>Completing special KVK objectives</li>
+                </ul>
+
+                <h4>Strategic Tips</h4>
+                <ul>
+                  <li>Focus on coordinated attacks rather than solo raids</li>
+                  <li>Protect gatherers and builders from enemy attacks</li>
+                  <li>Use teleports strategically to avoid losses</li>
+                  <li>Save strongest troops for decisive battles</li>
+                </ul>
+              </div>
+            </div>
+          </cc-tab>
+
+          <cc-tab name="interstellar" label="Interstellar Clash">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Interstellar Clash Guide</h3>
+              <div class="guide-content">
+                <h4>Event Overview</h4>
+                <p>Interstellar Clash is a cross-server competitive event where the strongest players from different kingdoms compete for ultimate prizes.</p>
+
+                <h4>Qualification Process</h4>
+                <ul>
+                  <li><span class="highlight">Kingdom Rankings</span> - Top players from each kingdom qualify</li>
+                  <li><span class="highlight">Power Requirements</span> - Minimum power threshold must be met</li>
+                  <li><span class="highlight">Activity Level</span> - Recent activity and participation required</li>
+                  <li><span class="highlight">Alliance Standing</span> - Good standing in home alliance</li>
+                </ul>
+
+                <h4>Event Structure</h4>
+                <ol>
+                  <li><span class="highlight">Registration</span> - Sign up during qualification period</li>
+                  <li><span class="highlight">Group Stage</span> - Initial battles to determine seeding</li>
+                  <li><span class="highlight">Bracket Rounds</span> - Tournament-style elimination</li>
+                  <li><span class="highlight">Finals</span> - Championship matches for top prizes</li>
+                </ol>
+
+                <h4>Competition Format</h4>
+                <p>Interstellar Clash features multiple competition types:</p>
+                <ul>
+                  <li>Individual combat tournaments</li>
+                  <li>Team-based alliance battles</li>
+                  <li>Resource control challenges</li>
+                  <li>Special objective missions</li>
+                </ul>
+
+                <h4>Preparation Strategy</h4>
+                <ul>
+                  <li>Max out all fighters and equipment before the event</li>
+                  <li>Study opponent strategies from previous clashes</li>
+                  <li>Coordinate with alliance for team events</li>
+                  <li>Prepare multiple army compositions for different scenarios</li>
+                </ul>
+
+                <h4>Rewards</h4>
+                <p>Interstellar Clash offers the best rewards in the game:</p>
+                <ul>
+                  <li>Exclusive legendary fighters and equipment</li>
+                  <li>Massive resource packages and speedups</li>
+                  <li>Special titles and cosmetic items</li>
+                  <li>Premium currency and rare materials</li>
+                </ul>
+              </div>
+            </div>
+          </cc-tab>
+
+          <cc-tab name="gacha" label="Gacha Events">
+            <div class="panel">
+              <h3 style="margin:0 0 1rem;">Gacha Events Guide</h3>
+              <div class="guide-content">
+                <h4>Gacha System</h4>
+                <p>Gacha events offer chances to obtain rare fighters, equipment, and resources through luck-based draws.</p>
+
+                <h4>Event Types</h4>
+                <ul>
+                  <li><span class="highlight">Fighter Gacha</span> - New legendary fighters and upgrades</li>
+                  <li><span class="highlight">Equipment Gacha</span> - Rare weapons and armor sets</li>
+                  <li><span class="highlight">Resource Gacha</span> - Speedups, materials, and currency</li>
+                  <li><span class="highlight">Limited Events</span> - Special themed gacha with exclusive items</li>
+                </ul>
+
+                <h4>Pull Mechanics</h4>
+                <p>Understanding rates and pity systems:</p>
+                <ul>
+                  <li>Base rates for different rarity tiers</li>
+                  <li>Pity counters that guarantee high-rarity pulls</li>
+                  <li>Rate-up events with increased chances</li>
+                  <li>Multi-pull bonuses and discounts</li>
+                </ul>
+
+                <h4>Strategic Spending</h4>
+                <ol>
+                  <li><span class="highlight">Save for Rate-Ups</span> - Wait for increased chances on desired items</li>
+                  <li><span class="highlight">Plan for Pity</span> - Ensure you have enough pulls to reach guaranteed rewards</li>
+                  <li><span class="highlight">Focus Targets</span> - Don't spread pulls across too many different events</li>
+                  <li><span class="highlight">Value Assessment</span> - Compare event value to direct purchase options</li>
+                </ol>
+
+                <h4>Budget Management</h4>
+                <p>Gacha events can be expensive, so plan carefully:</p>
+                <ul>
+                  <li>Set monthly spending limits and stick to them</li>
+                  <li>Prioritize events with items you actually need</li>
+                  <li>Take advantage of first-time purchase bonuses</li>
+                  <li>Consider long-term value vs immediate gratification</li>
+                </ul>
+
+                <h4>F2P Strategy</h4>
+                <p>Free-to-play players can still benefit from gacha events:</p>
+                <ul>
+                  <li>Use free daily pulls when available</li>
+                  <li>Save premium currency for guaranteed reward events</li>
+                  <li>Focus on events that offer useful resources over rare fighters</li>
+                  <li>Take advantage of event login bonuses and missions</li>
+                </ul>
+              </div>
+            </div>
+          </cc-tab>
+        </cc-tabs>
+      </div>
+    </cc-tab>
+
+    <cc-tab name="other" label="Other" icon="help-circle">
+      <div style="padding:1rem 0;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="panel">
+            <h3 style="margin:0 0 1rem;">Server Transfer Guide</h3>
+            <div class="guide-content">
+              <h4>When to Transfer</h4>
+              <p>Server transfers should be considered carefully:</p>
+              <ul>
+                <li>Your current server becomes too competitive</li>
+                <li>Looking for more active alliances</li>
+                <li>Following friends to a new server</li>
+                <li>Starting fresh in a newer server environment</li>
+              </ul>
+
+              <h4>Transfer Requirements</h4>
+              <ul>
+                <li>Account must be below certain power level</li>
+                <li>No recent combat activity</li>
+                <li>Transfer tokens required (purchased or earned)</li>
+                <li>Destination server must have available slots</li>
+              </ul>
+
+              <h4>What Transfers</h4>
+              <p>Most progress carries over:</p>
+              <ul>
+                <li>All fighters, equipment, and upgrades</li>
+                <li>Research progress and building levels</li>
+                <li>VIP level and purchased items</li>
+                <li>Most inventory items and resources</li>
+              </ul>
+
+              <h4>What Doesn't Transfer</h4>
+              <ul>
+                <li>Alliance membership and positions</li>
+                <li>Server-specific rankings and achievements</li>
+                <li>Some event progress and rewards</li>
+                <li>Mail and friend lists</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3 style="margin:0 0 1rem;">Advanced Tips</h3>
+            <div class="guide-content">
+              <h4>Resource Management</h4>
+              <ul>
+                <li><span class="highlight">Shielding</span> - Use peace shields strategically during offline periods</li>
+                <li><span class="highlight">Banking</span> - Keep resources below protection limits when possible</li>
+                <li><span class="highlight">Timing</span> - Upgrade during events for maximum efficiency</li>
+                <li><span class="highlight">Prioritization</span> - Focus on power-generating upgrades first</li>
+              </ul>
+
+              <h4>Alliance Strategy</h4>
+              <ul>
+                <li>Participate in all alliance activities for rewards</li>
+                <li>Coordinate with members for major objectives</li>
+                <li>Share resources and help with construction</li>
+                <li>Maintain good relations for long-term benefits</li>
+              </ul>
+
+              <h4>Combat Optimization</h4>
+              <ul>
+                <li>Study enemy compositions and adapt accordingly</li>
+                <li>Use terrain advantages when possible</li>
+                <li>Time attacks for maximum impact</li>
+                <li>Always have healing items ready</li>
+              </ul>
+
+              <h4>Long-term Planning</h4>
+              <ul>
+                <li>Set monthly goals for progression</li>
+                <li>Plan major upgrades around events</li>
+                <li>Build relationships with other players</li>
+                <li>Stay informed about game updates and meta changes</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </cc-tab>
+  </cc-tabs>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>👥 Org Charts</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+
+<style>
+  .org-container { max-width: 1200px; margin: 0 auto; padding: 20px 16px; }
+  .org-header { margin-bottom: 24px; }
+  .org-header h1 { font-size: 1.6rem; margin: 0 0 8px; }
+  .org-header p { color: var(--muted); margin: 0; font-size: 0.9rem; }
+
+  .company-select { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+  .company-select label { font-weight: 600; font-size: 0.9rem; color: var(--muted); }
+  .company-select select {
+    background: var(--surface); border: 1px solid var(--border); color: var(--fg);
+    padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; min-width: 220px;
+  }
+
+  .org-stats { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+  .org-stat {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 18px; font-size: 0.85rem;
+  }
+  .org-stat .num { font-size: 1.4rem; font-weight: 700; }
+  .org-stat .lbl { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .org-tree { position: relative; }
+
+  /* Tier styling */
+  .org-tier { margin-bottom: 8px; }
+  .org-tier-label {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--muted); margin-bottom: 8px; padding-left: 4px; font-weight: 600;
+  }
+  .org-tier-nodes { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+
+  /* Node card */
+  .org-node {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 16px; min-width: 200px; max-width: 280px; cursor: pointer;
+    transition: all 0.2s; display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: var(--fg); position: relative;
+  }
+  .org-node:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+
+  .org-node.decision-maker { border-left: 3px solid var(--yellow, #f59e0b); }
+  .org-node.ic { border-left: 3px solid var(--blue, #3b82f6); }
+
+  .org-node-avatar {
+    width: 40px; height: 40px; border-radius: 50%; object-fit: cover;
+    background: var(--border); flex-shrink: 0;
+  }
+  .org-node-info { min-width: 0; }
+  .org-node-name { font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .org-node-title { color: var(--muted); font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .org-node-badge {
+    position: absolute; top: 6px; right: 8px; font-size: 0.6rem; padding: 2px 6px;
+    border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .org-node-badge.dm { background: rgba(245,158,11,0.15); color: var(--yellow, #f59e0b); }
+  .org-node-badge.ic-badge { background: rgba(59,130,246,0.15); color: var(--blue, #3b82f6); }
+
+  .org-legend { display: flex; gap: 16px; margin-bottom: 20px; font-size: 0.8rem; color: var(--muted); }
+  .org-legend span { display: flex; align-items: center; gap: 6px; }
+  .org-legend .swatch { width: 12px; height: 12px; border-radius: 3px; }
+
+  .org-empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .org-empty h2 { font-size: 1.2rem; margin-bottom: 8px; }
+
+  /* Connector lines */
+  .org-tier-nodes::before { display: none; }
+
+  @media (max-width: 600px) {
+    .org-node { min-width: 100%; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<cc-app-nav app="cc-users" title="👤 Team Directory" active="org-chart"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div class="org-container" id="app">
+  <div class="org-header">
+    <h1>🏢 Org Charts</h1>
+    <p>Auto-generated organizational charts based on team roles and titles</p>
+  </div>
+  <div id="org-content"><cc-empty-state message="Loading org chart..." icon="🏢" animation="none"></cc-empty-state></div>
+</div>
+
+<script>
+// Inject org-chart nav link into cc-app-nav after it renders
+requestAnimationFrame(() => {
+  setTimeout(() => {
+    const nav = document.querySelector('.cc-app-nav-links');
+    if (nav) {
+      const link = document.createElement('a');
+      link.href = 'org-chart.html';
+      link.className = 'cc-app-nav-link active';
+      link.textContent = '🏢 Org Chart';
+      // Remove active from others, add to this
+      nav.querySelectorAll('.cc-app-nav-link').forEach(a => a.classList.remove('active'));
+      nav.appendChild(link);
+      link.classList.add('active');
+    }
+  }, 200);
+});
+
+(async () => {
+  // Wait for supabase client
+  const waitForSupabase = () => new Promise(resolve => {
+    if (window.supabase) return resolve(window.supabase);
+    const iv = setInterval(() => { if (window.supabase) { clearInterval(iv); resolve(window.supabase); } }, 100);
+    setTimeout(() => { clearInterval(iv); resolve(null); }, 5000);
+  });
+
+  const sb = await waitForSupabase();
+  let users = [];
+  if (sb) {
+    try { users = await sb.select('users', { order: 'name.asc' }); } catch(e) { console.warn('Supabase failed', e); }
+  }
+  if (!users.length) {
+    try { const r = await fetch('data/users.json'); users = await r.json(); } catch(e) { console.error(e); }
+  }
+
+  // Title hierarchy scoring
+  const tierMap = [
+    { tier: 0, label: 'C-Suite / Founders', pattern: /\b(ceo|cto|cfo|coo|cmo|cio|chief|co-founder|founder|president|owner)\b/i, dm: true },
+    { tier: 1, label: 'VP / SVP', pattern: /\b(vp|vice\s*president|svp|evp|head\s+of)\b/i, dm: true },
+    { tier: 2, label: 'Directors', pattern: /\b(director|dir\b)/i, dm: true },
+    { tier: 3, label: 'Managers / Leads', pattern: /\b(manager|lead|principal|architect|team\s*lead|supervisor)\b/i, dm: true },
+    { tier: 4, label: 'Senior ICs', pattern: /\b(senior|sr\.?|staff|l[4-9])\b/i, dm: false },
+    { tier: 5, label: 'Individual Contributors', pattern: /.*/, dm: false },
+  ];
+
+  function getTier(title) {
+    if (!title) return { tier: 5, label: 'Individual Contributors', dm: false };
+    for (const t of tierMap) {
+      if (t.pattern.test(title)) return t;
+    }
+    return { tier: 5, label: 'Individual Contributors', dm: false };
+  }
+
+  // Group by company
+  function getCompanies(users) {
+    const map = {};
+    users.forEach(u => {
+      const currentCompanies = (u.companies || []).filter(c => c.current).map(c => c.name);
+      if (!currentCompanies.length && u.company) currentCompanies.push(u.company);
+      if (!currentCompanies.length) {
+        // Infer from email domain
+        if (u.email) {
+          const domain = u.email.split('@')[1];
+          if (domain && !['gmail.com','yahoo.com','hotmail.com','outlook.com'].includes(domain)) {
+            currentCompanies.push(domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1));
+          }
+        }
+      }
+      if (!currentCompanies.length) currentCompanies.push('Unknown');
+      currentCompanies.forEach(co => {
+        if (!map[co]) map[co] = [];
+        const role = (u.companies || []).find(c => c.name === co);
+        map[co].push({ ...u, companyRole: role?.role || u.title });
+      });
+    });
+    return map;
+  }
+
+  const companies = getCompanies(users);
+  const companyNames = Object.keys(companies).sort();
+
+  function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function escAttr(s) { return (s || '').toString().replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function renderCompany(name) {
+    const members = companies[name] || [];
+    if (!members.length) return '<cc-empty-state message="No members found" icon="👥" animation="none"></cc-empty-state>';
+
+    // Group by tier
+    const tiers = {};
+    members.forEach(u => {
+      const t = getTier(u.companyRole || u.title);
+      if (!tiers[t.tier]) tiers[t.tier] = { label: t.label, dm: t.dm, members: [] };
+      tiers[t.tier].members.push({ ...u, tierInfo: t });
+    });
+
+    const dmCount = members.filter(u => getTier(u.companyRole || u.title).dm).length;
+    const icCount = members.length - dmCount;
+
+    let html = `
+      <div class="org-stats">
+        <div class="org-stat"><div class="num">${members.length}</div><div class="lbl">Total People</div></div>
+        <div class="org-stat"><div class="num">${dmCount}</div><div class="lbl">Decision Makers</div></div>
+        <div class="org-stat"><div class="num">${icCount}</div><div class="lbl">Individual Contributors</div></div>
+        <div class="org-stat"><div class="num">${Object.keys(tiers).length}</div><div class="lbl">Levels</div></div>
+      </div>
+      <div class="org-legend">
+        <span><span class="swatch" style="background:var(--yellow,#f59e0b)"></span> Decision Maker</span>
+        <span><span class="swatch" style="background:var(--blue,#3b82f6)"></span> Individual Contributor</span>
+      </div>
+      <div class="org-tree">
+    `;
+
+    Object.keys(tiers).sort((a,b) => a - b).forEach(tierNum => {
+      const tier = tiers[tierNum];
+      html += `<div class="org-tier">
+        <div class="org-tier-label">${esc(tier.label)}</div>
+        <div class="org-tier-nodes">`;
+      tier.members.sort((a,b) => (a.name||'').localeCompare(b.name||'')).forEach(u => {
+        const isDM = tier.dm;
+        const avatar = u.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name||'?')}&background=1a1a2e&color=fff&size=80`;
+        const profileUrl = `index.html?user=${encodeURIComponent(u.id)}`;
+        html += `<a href="${profileUrl}" class="org-node ${isDM ? 'decision-maker' : 'ic'}" title="${escAttr(u.name)}">
+          <img class="org-node-avatar" src="${escAttr(avatar)}" alt="" loading="lazy" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(u.name||'?')}&background=1a1a2e&color=fff&size=80'">
+          <div class="org-node-info">
+            <div class="org-node-name">${esc(u.name)}</div>
+            <div class="org-node-title">${esc(u.companyRole || u.title || 'Team Member')}</div>
+          </div>
+          <span class="org-node-badge ${isDM ? 'dm' : 'ic-badge'}">${isDM ? 'DM' : 'IC'}</span>
+        </a>`;
+      });
+      html += `</div></div>`;
+    });
+
+    html += '</div>';
+    return html;
+  }
+
+  // Initial render
+  const content = document.getElementById('org-content');
+  const params = new URLSearchParams(location.search);
+  let selected = params.get('company') || companyNames[0] || '';
+
+  function render() {
+    let html = `<div class="company-select">
+      <label>Company:</label>
+      <select id="company-picker">
+        ${companyNames.map(c => `<option value="${escAttr(c)}" ${c === selected ? 'selected' : ''}>${esc(c)} (${companies[c].length})</option>`).join('')}
+      </select>
+    </div>`;
+    html += renderCompany(selected);
+    content.innerHTML = html;
+
+    document.getElementById('company-picker')?.addEventListener('change', e => {
+      selected = e.target.value;
+      const url = new URL(location); url.searchParams.set('company', selected); history.replaceState(null, '', url);
+      render();
+    });
+  }
+
+  if (companyNames.length) render();
+  else content.innerHTML = '<cc-empty-state message="No contacts found — add contacts to see org charts" icon="📇" animation="none"></cc-empty-state>';
+})();
+</script>
+</body>
+</html>

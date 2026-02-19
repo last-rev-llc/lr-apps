@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="Automating Daily Standups with AI and Slack — Last Rev"
+    description="How AlphaClaw built an async standup system that replaced our daily meetings with smart Slack summaries."
+    canonical="https://lastrev.com/blog/ai-daily-standup"
+    og-title="Automating Daily Standups with AI and Slack — Last Rev"
+    og-description="How AlphaClaw built an async standup system that replaced our daily meetings with smart Slack summaries."
+    og-image="/images/og-default.png"
+    og-url="https://lastrev.com/blog/ai-daily-standup"
+    og-type="article"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="Automating Daily Standups with AI and Slack" author="Brad Taylor" date="2026-01-15" category="Case Study" read-time="4 min" back-href="../blog.html" image="../images/blog/ai-daily-standup.webp">
+        <div slot="content">
+<p>Daily standup meetings are a sacred ritual in agile development. They're also, frankly, a waste of 15 minutes when half the team is in different time zones. We asked AlphaClaw to build an async alternative that's actually better than the live version.</p>
+
+        <h2>The Standup Tax</h2>
+        <p>Our standups had the classic problems: they ran long, people gave updates nobody needed to hear, and the folks in different time zones either missed them or attended at inconvenient hours. We were spending 75 minutes per week per person on a meeting that could be a Slack message — but unstructured Slack messages created their own chaos.</p>
+
+        <h2>What AlphaClaw Built</h2>
+        <p>AlphaClaw created an async standup system that works entirely through Slack. Every morning at 9 AM, the system prompts each team member with three questions: What did you complete yesterday? What are you working on today? Any blockers? Team members reply in a thread on their own schedule.</p>
+        <p>The magic happens after collection. The AI processes all responses and generates a team summary that groups updates by project, highlights blockers that need attention, identifies work overlaps or dependencies between team members, and flags anyone who hasn't submitted by 10:30 AM.</p>
+
+        <h2>Key Features</h2>
+        <ul>
+          <li><strong>Smart collection</strong> — prompts go out via DM, responses are collected and organized automatically</li>
+          <li><strong>AI-generated team digest</strong> — a single summary message posted to the team channel, organized by project rather than by person</li>
+          <li><strong>Blocker escalation</strong> — blockers are automatically flagged and the relevant people are tagged for resolution</li>
+          <li><strong>Trend tracking</strong> — a web dashboard showing standup history, participation rates, and recurring blockers over time</li>
+          <li><strong>Time zone friendly</strong> — prompts adjust to each person's local time, digest waits for all responses before posting</li>
+        </ul>
+
+        <h2>Results</h2>
+        <p>We eliminated five 15-minute meetings per week — reclaiming over an hour per person weekly. The async format actually produced better information because people had time to think about their responses rather than improvising in real time.</p>
+        <p>Blocker resolution time dropped from an average of 1.5 days to 4 hours because the AI immediately tagged the right people. The trend dashboard revealed that our most common blocker was waiting on client approvals — an insight we'd never have gotten from live standups where blockers were mentioned once and forgotten.</p>
+        <p>The team universally prefers the async format. Standups went from a dreaded meeting to a 2-minute Slack interaction. <a href="../index.html#contact">Ready to modernize your standups?</a></p>
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Automating Daily Standups with AI and Slack",
+  "description": "How AlphaClaw built an async standup system that replaced our daily meetings with smart Slack summaries.",
+  "author": {
+    "@type": "Organization",
+    "name": "Last Rev"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Last Rev"
+  },
+  "datePublished": "2026-01-15",
+  "dateModified": "2026-01-15",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://lastrev.com/blog/ai-daily-standup.html"
+  },
+  "image": "https://lastrev.com/images/og-default.png"
+}
+</script>
+
+</body>
+</html>

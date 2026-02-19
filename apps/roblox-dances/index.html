@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+    <title>🕺 Roblox Dance Marketplace</title>
+    <meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+    <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+    <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+    <style>
+        /* ── Lua Syntax Highlighting ── */
+        .lua-keyword { color: var(--accent); }
+        .lua-string { color: var(--yellow); }
+        .lua-comment { color: var(--muted); font-style: italic; }
+        .lua-number { color: var(--blue); }
+        .lua-function { color: var(--green); }
+
+        /* ── Marketplace Layout ── */
+        .marketplace { max-width: 1200px; margin: 0 auto; padding: 0 16px 80px; }
+
+        /* ── Dance Grid ── */
+        .dance-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
+        .dance-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; cursor: pointer; transition: all .2s; position: relative; overflow: hidden; }
+        .dance-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+        .dance-card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+        .dance-emoji { font-size: 36px; flex-shrink: 0; }
+        .dance-meta { flex: 1; min-width: 0; }
+        .dance-name { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+        .dance-desc { font-size: 12px; color: var(--muted); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .dance-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+        .dance-tag { padding: 2px 8px; border-radius: 9999px; font-size: 10px; font-weight: 600; background: rgba(99,102,241,0.15); color: var(--accent); }
+        .dance-footer { display: flex; justify-content: space-between; align-items: center; }
+        .difficulty-badge { padding: 3px 10px; border-radius: 9999px; font-size: 11px; font-weight: 600; }
+        .difficulty-beginner { background: rgba(34,197,94,0.15); color: var(--green); }
+        .difficulty-intermediate { background: rgba(245,158,11,0.15); color: var(--yellow); }
+        .difficulty-advanced { background: rgba(239,68,68,0.15); color: var(--red); }
+        .difficulty-expert { background: rgba(168,85,247,0.15); color: var(--accent); }
+
+        /* ── Star Ratings ── */
+        .stars { display: inline-flex; gap: 2px; cursor: pointer; }
+        .stars .star { font-size: 16px; color: var(--border); transition: color .15s; user-select: none; }
+        .stars .star.filled { color: var(--yellow); }
+        .stars .star:hover { color: var(--accent2); }
+        .stars-display { display: inline-flex; gap: 1px; }
+        .stars-display .star { font-size: 14px; color: var(--border); user-select: none; }
+        .stars-display .star.filled { color: var(--yellow); }
+        .rating-count { font-size: 11px; color: var(--muted); margin-left: 4px; }
+
+        /* ── Code Viewer (modal) ── */
+        .code-block { border-radius: 12px; overflow: hidden; background: var(--prompt-bg); border: 1px solid var(--border); }
+        .code-viewer-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.03); }
+        .code-content { display: flex; overflow: auto; max-height: 50vh; }
+        .line-numbers { padding: 12px 8px 12px 12px; text-align: right; color: var(--muted); font-size: 12px; font-family: 'SF Mono', monospace; line-height: 1.6; user-select: none; border-right: 1px solid var(--border); white-space: pre; flex-shrink: 0; }
+        .code-text { padding: 12px 16px; font-size: 12px; font-family: 'SF Mono', monospace; line-height: 1.6; white-space: pre; flex: 1; overflow-x: auto; }
+        .copy-btn { padding: 5px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--glass); color: var(--text); font-size: 12px; cursor: pointer; font-weight: 600; transition: all .2s; }
+        .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* ── Preview Animation ── */
+        .preview-bar { display: flex; gap: 2px; align-items: flex-end; height: 24px; margin-bottom: 10px; }
+        .preview-bar .bar { width: 4px; border-radius: 2px; background: var(--accent); opacity: 0.5; transition: height .3s; }
+        .dance-card:hover .preview-bar .bar { animation: barPulse 0.6s ease infinite; }
+        @keyframes barPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* ── Submissions Form ── */
+        .submit-section { max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+        .form-input, .form-select, .form-textarea { width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--glass); color: var(--text); font-size: 13px; font-family: inherit; box-sizing: border-box; }
+        .form-textarea { min-height: 80px; resize: vertical; }
+        .form-input::placeholder, .form-textarea::placeholder { color: var(--muted); }
+
+        /* ── Generator ── */
+        .generator-section { max-width: 600px; margin: 0 auto; }
+        .gen-output { background: var(--prompt-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; min-height: 100px; margin-top: 16px; font-family: 'SF Mono', monospace; font-size: 12px; white-space: pre-wrap; color: var(--text); overflow: auto; max-height: 400px; }
+        .gen-loading { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; }
+        .gen-loading .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: cc-spin 0.8s linear infinite; }
+
+        /* ── Submissions List ── */
+        .submission-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+        .submission-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .submission-status { padding: 2px 8px; border-radius: 9999px; font-size: 10px; font-weight: 600; }
+        .status-pending { background: rgba(245,158,11,0.15); color: var(--yellow); }
+        .status-approved { background: rgba(34,197,94,0.15); color: var(--green); }
+
+        /* ── Page Header ── */
+        .page-hero { text-align: center; padding: 24px 16px 8px; }
+        .page-hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 6px; }
+        .page-hero p { color: var(--muted); font-size: 14px; }
+
+        /* ── Filter Row ── */
+        .filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 16px; }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .dance-grid { grid-template-columns: 1fr; }
+            .filter-bar { flex-direction: column; align-items: stretch; }
+            .page-hero h1 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <cc-app-nav app="roblox-dances" active="index"></cc-app-nav>
+    <cc-auth></cc-auth>
+    <cc-toast></cc-toast>
+
+    <div class="marketplace">
+        <div class="page-hero">
+            <h1>🕺 Roblox Dance Marketplace</h1>
+            <p>Animated dance moves for Roblox</p>
+        </div>
+
+        <cc-tabs active="catalog">
+            <cc-tab name="catalog" label="🎭 Catalog">
+                <!-- Filters -->
+                <div class="filter-bar">
+                    <cc-search id="search" placeholder="Search dances…" style="flex:1;min-width:180px;"></cc-search>
+                    <cc-pill-dropdown id="diffFilter" label="Difficulty" items='[{"value":"all","label":"All"},{"value":"beginner","label":"Beginner"},{"value":"intermediate","label":"Intermediate"},{"value":"advanced","label":"Advanced"},{"value":"expert","label":"Expert"}]' value="all"></cc-pill-dropdown>
+                    <cc-pill-dropdown id="sortFilter" label="Sort" items='[{"value":"rating","label":"Rating"},{"value":"name","label":"Name A→Z"},{"value":"date","label":"Newest"},{"value":"difficulty","label":"Difficulty"}]' value="rating" direction="desc"></cc-pill-dropdown>
+                </div>
+
+                <div class="dance-grid" id="danceGrid"></div>
+            </cc-tab>
+
+            <cc-tab name="submit" label="📝 Submit">
+                <div class="submit-section">
+                    <div class="card" style="padding:24px;">
+                        <h3 style="margin-bottom:16px;font-weight:700;">📝 Submit a Dance Idea</h3>
+                        <div class="form-group">
+                            <label>Dance Name</label>
+                            <input type="text" class="form-input" id="subName" placeholder="e.g. The Shuffle">
+                        </div>
+                        <div class="form-group">
+                            <label>Emoji</label>
+                            <input type="text" class="form-input" id="subEmoji" placeholder="🎵" maxlength="4">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea class="form-textarea" id="subDesc" placeholder="Describe the dance moves, style, and feel…"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Difficulty</label>
+                            <select class="form-select" id="subDiff">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate" selected>Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                                <option value="expert">Expert</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tags (comma-separated)</label>
+                            <input type="text" class="form-input" id="subTags" placeholder="hip-hop, viral, party">
+                        </div>
+                        <button class="btn btn-primary" style="width:100%;" onclick="submitDance()">Submit Dance Idea</button>
+                    </div>
+
+                    <h3 style="margin:24px 0 12px;font-weight:700;">Recent Submissions</h3>
+                    <div id="submissionsList"></div>
+                </div>
+            </cc-tab>
+
+            <cc-tab name="generator" label="⚡ Generator">
+                <div class="generator-section">
+                    <div class="card" style="padding:24px;">
+                        <h3 style="margin-bottom:16px;font-weight:700;">⚡ AI Script Generator</h3>
+                        <p style="color:var(--muted);font-size:13px;margin-bottom:16px;">Describe a dance and we'll generate a Motor6D Luau script for your Roblox character.</p>
+                        <div class="form-group">
+                            <label>Dance Description</label>
+                            <textarea class="form-textarea" id="genPrompt" placeholder="A smooth salsa dance with hip sways, arm extensions, and spinning turns…" style="min-height:100px;"></textarea>
+                        </div>
+                        <button class="btn btn-primary" style="width:100%;" onclick="generateScript()" id="genBtn">Generate Script</button>
+                    </div>
+                    <div id="genOutput" style="display:none;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin:16px 0 8px;">
+                            <h3 style="font-weight:700;">Generated Script</h3>
+                            <button class="copy-btn" onclick="copyGenerated()">📋 Copy</button>
+                        </div>
+                        <div class="gen-output" id="genCode"></div>
+                    </div>
+                </div>
+            </cc-tab>
+        </cc-tabs>
+    </div>
+
+    <!-- ═══ CODE VIEWER MODAL ═══ -->
+    <cc-modal id="codeModal" title="Dance Script">
+        <div id="codeModalBody"></div>
+    </cc-modal>
+
+    <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/sql-sync.js"></script>
+    <script src="db.js"></script>
+    <script>
+        let dances = [];
+        let submissions = [];
+        let db;
+        let currentSort = 'rating';
+        let currentDiff = 'all';
+        let searchQuery = '';
+        let userRatings = {};
+
+        function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+        function escAttr(s) { return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+        // ═══ INIT ═══
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                db = await SyncDB.init(ROBLOX_DANCES_DB_CONFIG);
+                dances = db.all('dances');
+                submissions = db.all('submissions');
+            } catch(e) {
+                console.error('DB init failed:', e);
+                dances = [];
+                submissions = [];
+            }
+
+            // Load user ratings from prefs
+            userRatings = UserPrefs.get('dance-ratings', {});
+            UserPrefs.ready.then(() => {
+                userRatings = UserPrefs.get('dance-ratings', {});
+                renderGrid();
+            });
+
+            setupFilters();
+            renderGrid();
+            renderSubmissions();
+        });
+
+        // ═══ FILTERS ═══
+        function setupFilters() {
+            const searchEl = document.getElementById('search');
+            if (searchEl) {
+                searchEl.addEventListener('cc-search', e => {
+                    searchQuery = (e.detail?.query || '').toLowerCase();
+                    renderGrid();
+                });
+            }
+            const diffEl = document.getElementById('diffFilter');
+            if (diffEl) {
+                diffEl.addEventListener('dropdown-change', e => {
+                    currentDiff = e.detail.value;
+                    renderGrid();
+                });
+            }
+            const sortEl = document.getElementById('sortFilter');
+            if (sortEl) {
+                sortEl.addEventListener('dropdown-change', e => {
+                    currentSort = e.detail.value;
+                    renderGrid();
+                });
+                sortEl.addEventListener('direction-change', e => {
+                    renderGrid();
+                });
+            }
+        }
+
+        // ═══ RENDER GRID ═══
+        function renderGrid() {
+            let filtered = dances.filter(d => {
+                if (currentDiff !== 'all' && d.difficulty !== currentDiff) return false;
+                if (searchQuery) {
+                    const hay = (d.name + ' ' + d.description + ' ' + (d.tags || []).join(' ')).toLowerCase();
+                    if (!hay.includes(searchQuery)) return false;
+                }
+                return true;
+            });
+
+            const diffOrder = { beginner: 0, intermediate: 1, advanced: 2, expert: 3 };
+            const sortDir = document.getElementById('sortFilter')?.getAttribute('direction') === 'asc' ? 1 : -1;
+            filtered.sort((a, b) => {
+                let cmp = 0;
+                switch (currentSort) {
+                    case 'rating': cmp = (a.rating || 0) - (b.rating || 0); break;
+                    case 'name': cmp = a.name.localeCompare(b.name); break;
+                    case 'date': cmp = (a.createdAt || '').localeCompare(b.createdAt || ''); break;
+                    case 'difficulty': cmp = (diffOrder[a.difficulty] || 0) - (diffOrder[b.difficulty] || 0); break;
+                }
+                return cmp * sortDir;
+            });
+
+            const grid = document.getElementById('danceGrid');
+            if (filtered.length === 0) {
+                grid.innerHTML = '<cc-empty-state message="No dances match your filters" icon="🔍"></cc-empty-state>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(d => {
+                const bars = generatePreviewBars(d);
+                const tags = (d.tags || []).map(t => `<span class="dance-tag">${esc(t)}</span>`).join('');
+                const stars = renderStarsDisplay(getUserRating(d.id) || d.rating || 0);
+                const diff = d.difficulty || 'intermediate';
+                return `
+                <div class="dance-card" data-id="${escAttr(d.id)}" onclick="openDance(this.dataset.id)">
+                    <div class="dance-card-header">
+                        <div class="dance-emoji">${esc(d.emoji || '🎵')}</div>
+                        <div class="dance-meta">
+                            <div class="dance-name">${esc(d.name)}</div>
+                            <div class="dance-desc">${esc(d.description || '')}</div>
+                        </div>
+                    </div>
+                    <div class="preview-bar">${bars}</div>
+                    <div class="dance-tags">${tags}</div>
+                    <div class="dance-footer">
+                        <span class="difficulty-badge difficulty-${escAttr(diff)}">${esc(diff)}</span>
+                        <div>
+                            ${stars}
+                            <span class="rating-count">(${parseInt(d.ratingCount) || 0})</span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function generatePreviewBars(dance) {
+            const seed = (dance.code || '').length;
+            let bars = '';
+            for (let i = 0; i < 16; i++) {
+                const h = 4 + ((seed * (i + 1) * 7) % 20);
+                const delay = (i * 0.05).toFixed(2);
+                bars += `<div class="bar" style="height:${h}px;animation-delay:${delay}s;"></div>`;
+            }
+            return bars;
+        }
+
+        // ═══ STARS ═══
+        function renderStarsDisplay(rating) {
+            let html = '<span class="stars-display">';
+            for (let i = 1; i <= 5; i++) {
+                html += `<span class="star ${i <= Math.round(rating) ? 'filled' : ''}">★</span>`;
+            }
+            html += '</span>';
+            return html;
+        }
+
+        function renderStarsInteractive(danceId) {
+            const current = getUserRating(danceId) || 0;
+            let html = '<span class="stars">';
+            for (let i = 1; i <= 5; i++) {
+                html += `<span class="star ${i <= current ? 'filled' : ''}" data-dance="${escAttr(danceId)}" data-stars="${i}">★</span>`;
+            }
+            html += '</span>';
+            return html;
+        }
+
+        function getUserRating(danceId) {
+            return userRatings[danceId] || 0;
+        }
+
+        function rateDance(danceId, stars) {
+            userRatings[danceId] = stars;
+            UserPrefs.set('dance-ratings', userRatings);
+            const container = document.querySelector(`[data-dance-id="${danceId}"] .stars`);
+            if (container) {
+                container.querySelectorAll('.star').forEach((s, i) => {
+                    s.classList.toggle('filled', i < stars);
+                });
+            }
+            renderGrid();
+            window.showToast?.(`Rated ${stars} star${stars > 1 ? 's' : ''}!`);
+        }
+
+        // ═══ OPEN DANCE (CODE VIEWER) ═══
+        function openDance(id) {
+            const dance = dances.find(d => d.id === id);
+            if (!dance) return;
+
+            const lines = (dance.code || '').split('\n');
+            const lineNums = lines.map((_, i) => i + 1).join('\n');
+            const highlighted = highlightLuaCode(dance.code || '');
+
+            const body = document.getElementById('codeModalBody');
+            body.innerHTML = `
+                <div data-dance-id="${escAttr(id)}" style="margin-bottom:16px;">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                        <span style="font-size:28px;">${esc(dance.emoji || '🎵')}</span>
+                        <div>
+                            <div style="font-weight:700;font-size:16px;">${esc(dance.name)}</div>
+                            <span class="difficulty-badge difficulty-${escAttr(dance.difficulty || 'intermediate')}" style="margin-top:2px;">${esc(dance.difficulty || 'intermediate')}</span>
+                        </div>
+                    </div>
+                    <p style="color:var(--muted);font-size:13px;margin-bottom:12px;">${esc(dance.description || '')}</p>
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+                        <span style="font-size:12px;color:var(--muted);">Your Rating:</span>
+                        ${renderStarsInteractive(id)}
+                    </div>
+                </div>
+                <div class="code-block">
+                    <div class="code-viewer-header">
+                        <span style="color:var(--muted);font-size:12px;">${esc(dance.name)}.lua • ${lines.length} lines</span>
+                        <button class="copy-btn" data-dance-copy="${escAttr(id)}">📋 Copy Script</button>
+                    </div>
+                    <div class="code-content">
+                        <div class="line-numbers">${lineNums}</div>
+                        <pre class="code-text">${highlighted}</pre>
+                    </div>
+                </div>
+            `;
+
+            // Attach event listeners via data attributes (no inline handlers)
+            body.querySelectorAll('.stars .star').forEach(star => {
+                star.addEventListener('click', e => {
+                    e.stopPropagation();
+                    rateDance(star.dataset.dance, +star.dataset.stars);
+                });
+                star.addEventListener('mouseenter', () => {
+                    const n = +star.dataset.stars;
+                    star.parentElement.querySelectorAll('.star').forEach((s, i) => {
+                        s.classList.toggle('filled', i < n);
+                    });
+                });
+                star.addEventListener('mouseleave', () => {
+                    const danceId = star.dataset.dance;
+                    const rating = getUserRating(danceId) || 0;
+                    star.parentElement.querySelectorAll('.star').forEach((s, i) => {
+                        s.classList.toggle('filled', i < rating);
+                    });
+                });
+            });
+
+            body.querySelector('[data-dance-copy]')?.addEventListener('click', function() {
+                copyDanceCode(this.dataset.danceCopy);
+            });
+
+            const modal = document.getElementById('codeModal');
+            modal.title = (dance.emoji || '🎵') + ' ' + dance.name;
+            modal.open();
+        }
+
+        function copyDanceCode(id) {
+            const dance = dances.find(d => d.id === id);
+            if (!dance) return;
+            navigator.clipboard.writeText(dance.code || '').then(() => {
+                window.showToast?.('Script copied to clipboard!');
+            }).catch(() => {
+                window.showToast?.('Failed to copy');
+            });
+        }
+
+        // ═══ SUBMISSIONS ═══
+        function submitDance() {
+            const name = document.getElementById('subName').value.trim();
+            const emoji = document.getElementById('subEmoji').value.trim() || '🎵';
+            const desc = document.getElementById('subDesc').value.trim();
+            const diff = document.getElementById('subDiff').value;
+            const tags = document.getElementById('subTags').value.split(',').map(t => t.trim()).filter(Boolean);
+
+            if (!name) { window.showToast?.('Please enter a dance name'); return; }
+            if (!desc) { window.showToast?.('Please enter a description'); return; }
+
+            const sub = {
+                id: 'sub-' + Date.now(),
+                name, emoji, description: desc, difficulty: diff,
+                tags: JSON.stringify(tags),
+                submittedBy: 'anonymous',
+                createdAt: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            if (db) {
+                db.upsert('submissions', sub);
+                submissions = db.all('submissions');
+            } else {
+                submissions.push(sub);
+            }
+
+            document.getElementById('subName').value = '';
+            document.getElementById('subEmoji').value = '';
+            document.getElementById('subDesc').value = '';
+            document.getElementById('subTags').value = '';
+            renderSubmissions();
+            window.showToast?.('Dance idea submitted! 🎉');
+        }
+
+        function renderSubmissions() {
+            const list = document.getElementById('submissionsList');
+            if (submissions.length === 0) {
+                list.innerHTML = '<cc-empty-state message="No submissions yet. Be the first!" icon="📭"></cc-empty-state>';
+                return;
+            }
+            list.innerHTML = submissions.slice().reverse().map(s => {
+                const tags = (typeof s.tags === 'string' ? JSON.parse(s.tags || '[]') : (s.tags || []));
+                return `
+                <div class="submission-item">
+                    <div class="submission-header">
+                        <div style="display:flex;align-items:center;gap:8px;">
+                            <span style="font-size:20px;">${esc(s.emoji || '🎵')}</span>
+                            <span style="font-weight:600;">${esc(s.name)}</span>
+                        </div>
+                        <span class="submission-status status-${escAttr(s.status || 'pending')}">${esc(s.status || 'pending')}</span>
+                    </div>
+                    <p style="font-size:12px;color:var(--muted);margin-bottom:6px;">${esc(s.description || '')}</p>
+                    <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                        <span class="difficulty-badge difficulty-${escAttr(s.difficulty || 'intermediate')}" style="font-size:10px;">${esc(s.difficulty || 'intermediate')}</span>
+                        ${tags.map(t => `<span class="dance-tag">${esc(t)}</span>`).join('')}
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // ═══ GENERATOR ═══
+        let generatedCode = '';
+
+        async function generateScript() {
+            const prompt = document.getElementById('genPrompt').value.trim();
+            if (!prompt) { window.showToast?.('Please describe a dance'); return; }
+
+            const btn = document.getElementById('genBtn');
+            const output = document.getElementById('genOutput');
+            const codeEl = document.getElementById('genCode');
+
+            btn.disabled = true;
+            btn.textContent = 'Generating…';
+            output.style.display = '';
+            codeEl.innerHTML = '<div class="gen-loading"><div class="spinner"></div>Generating Motor6D script…</div>';
+
+            try {
+                const resp = await fetch('/api/trigger', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `Generate a Roblox Motor6D procedural dance animation script (R15) in Luau for the following dance: ${prompt}\n\nReturn ONLY the Luau script code, no markdown fences, no explanation. The script should use RunService.PreSimulation, Motor6D.Transform with CFrame, and be a complete working script.`
+                    })
+                });
+                const data = await resp.json();
+                generatedCode = (data.response || data.message || 'No response received').replace(/^```\w*\n?/, '').replace(/\n?```$/, '');
+                codeEl.textContent = generatedCode;
+            } catch(e) {
+                codeEl.textContent = 'Error: ' + e.message;
+                generatedCode = '';
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Generate Script';
+        }
+
+        function copyGenerated() {
+            if (!generatedCode) return;
+            navigator.clipboard.writeText(generatedCode).then(() => {
+                window.showToast?.('Generated script copied!');
+            });
+        }
+
+        // ═══ LUA HIGHLIGHTER ═══
+        function highlightLuaCode(code) {
+            const keywords = new Set(['and','break','do','else','elseif','end','false','for','function','if','in','local','nil','not','or','repeat','return','then','true','until','while']);
+            const builtins = new Set(['print','pairs','ipairs','next','type','getmetatable','setmetatable','rawget','rawset','tostring','tonumber','require','warn','tick','task','game','script','workspace','Instance','CFrame','Vector3','Enum','typeof','pcall','xpcall','coroutine','spawn','wait','delay','error','assert','select','unpack','math']);
+
+            function e(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+            return code.split('\n').map(line => {
+                let r = '', i = 0;
+                while (i < line.length) {
+                    if (line[i] === '-' && line[i+1] === '-') {
+                        r += '<span class="lua-comment">' + e(line.slice(i)) + '</span>'; i = line.length;
+                    } else if (line[i] === '"' || line[i] === "'") {
+                        const q = line[i]; let end = i + 1;
+                        while (end < line.length && line[end] !== q) { if (line[end] === '\\') end++; end++; }
+                        end = Math.min(end + 1, line.length);
+                        r += '<span class="lua-string">' + e(line.slice(i, end)) + '</span>'; i = end;
+                    } else if (/[a-zA-Z_]/.test(line[i])) {
+                        let end = i + 1;
+                        while (end < line.length && /[a-zA-Z0-9_]/.test(line[end])) end++;
+                        const w = line.slice(i, end);
+                        if (keywords.has(w)) r += '<span class="lua-keyword">' + e(w) + '</span>';
+                        else if (builtins.has(w)) r += '<span class="lua-function">' + e(w) + '</span>';
+                        else r += e(w);
+                        i = end;
+                    } else if (/[0-9]/.test(line[i]) || (line[i] === '.' && /[0-9]/.test(line[i+1]))) {
+                        let end = i;
+                        while (end < line.length && /[0-9.xXa-fA-F]/.test(line[end])) end++;
+                        r += '<span class="lua-number">' + e(line.slice(i, end)) + '</span>'; i = end;
+                    } else { r += e(line[i]); i++; }
+                }
+                return r;
+            }).join('\n');
+        }
+    </script>
+</body>
+</html>

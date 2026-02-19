@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <title>🖼️ Media Gallery — Docs</title>
+  <meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+  <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+  <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+  <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+  <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+  <script src="modules/cc-gallery.js"></script>
+  <style>
+    .showcase-layout { display: flex; min-height: 100vh; }
+    .showcase-sidebar {
+      width: 260px; background: var(--card); border-right: 1px solid var(--border);
+      position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0;
+    }
+    .showcase-content { flex: 1; padding: 40px; max-width: calc(100vw - 260px); overflow-x: hidden; }
+    .sidebar-nav { padding: 24px 16px; }
+    .sidebar-nav .nav-title { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .sidebar-nav .nav-title h2 { font-family: var(--serif); font-size: 18px; font-weight: 700; margin: 0; }
+    .sidebar-nav .nav-group { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin: 18px 0 6px 8px; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 10px; color: var(--muted); text-decoration: none; font-size: 12px;
+      font-weight: 500; border-radius: 6px; margin-bottom: 1px; transition: all 0.15s;
+    }
+    .sidebar-nav a:hover { background: rgba(245,158,11,0.12); color: var(--accent); }
+    .showcase-section { margin-bottom: 56px; scroll-margin-top: 24px; }
+    .showcase-section > h2 {
+      font-family: var(--serif); font-size: 24px; font-weight: 700;
+      border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 20px;
+    }
+    .showcase-section h3 { font-size: 16px; font-weight: 600; margin: 24px 0 10px; }
+    .component-summary { color: var(--muted); font-size: 13px; margin: -12px 0 16px; }
+    .attr-table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 12px; }
+    .attr-table th { text-align: left; padding: 6px 10px; background: var(--card); border: 1px solid var(--border); color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; }
+    .attr-table td { padding: 6px 10px; border: 1px solid var(--border); }
+    .attr-table td:first-child { font-family: monospace; color: var(--accent); font-weight: 600; }
+    .prompt-block { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; white-space: pre-wrap; overflow-x: auto; line-height: 1.6; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; margin-bottom: 16px; }
+    .back-link:hover { text-decoration: underline; }
+    @media (max-width: 768px) {
+      .showcase-layout { flex-direction: column; }
+      .showcase-sidebar { width: 100%; height: auto; position: relative; }
+      .showcase-content { padding: 20px; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<cc-app-nav app="cc-gallery" title="🖼️ Media Gallery" active="docs"></cc-app-nav>
+
+  <cc-auth></cc-auth>
+  <cc-toast></cc-toast>
+
+  <div class="showcase-layout">
+    <div class="showcase-sidebar">
+      <div class="sidebar-nav">
+        <div class="nav-title"><span>🖼️</span> <h2>Media Gallery Docs</h2></div>
+        <a href="index.html" class="back-link">← Back to App</a>
+
+      <div class="nav-group">Dashboard Modules</div>
+      <a href="#cc-gallery">📦 Gallery</a>
+      <div class="nav-group">Shared Components</div>
+      <a href="https://shared.adam-harris.alphaclaw.app" target="_blank" rel="noopener">↗ Shared Library</a>
+      </div>
+    </div>
+
+    <div class="showcase-content">
+      <cc-fade-in>
+        <h1 style="font-family:var(--serif);margin-bottom:8px;">🖼️ Media Gallery</h1>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:40px;">Component documentation and live examples</p>
+      </cc-fade-in>
+
+    <section id="cc-gallery" class="showcase-section">
+      <h2>📦 Gallery</h2>
+      <p class="component-summary">Media gallery with grid layout, lightbox, filtering, and tag-based search</p>
+
+      <h3>Usage</h3>
+      <div class="prompt-block">&lt;cc-gallery src="data/example.json"&gt;&lt;/cc-gallery&gt;</div>
+
+      <table class="attr-table">
+        <tr><th>Attribute</th><th>Type</th><th>Description</th></tr>
+        <tr><td>src</td><td><code>string</code></td><td>URL to media.json data file</td></tr>
+      </table>
+
+      <h3>Live Example</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <cc-gallery src="data/media.json"></cc-gallery>
+      </div>
+
+      <h3>Embed in Another App</h3>
+      <div class="prompt-block">&lt;!-- 1. Load shared components --&gt;
+&lt;link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css"&gt;
+&lt;script src="https://shared.adam-harris.alphaclaw.app/components/index.js"&gt;&lt;/script&gt;
+
+&lt;!-- 2. Load this module --&gt;
+&lt;script src="https://cc-gallery.adam-harris.alphaclaw.app/modules/cc-gallery.js"&gt;&lt;/script&gt;
+
+&lt;!-- 3. Use it --&gt;
+&lt;cc-gallery src="data/example.json"&gt;&lt;/cc-gallery&gt;</div>
+    </section>
+    </div>
+  </div>
+</body>
+</html>

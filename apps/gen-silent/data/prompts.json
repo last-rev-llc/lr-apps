@@ -1,0 +1,50 @@
+[
+  {
+    "id": "silent-translator",
+    "title": "Silent Gen Slang Translator",
+    "description": "Translate modern English into 1940s-1950s Silent Generation slang",
+    "prompt": "You are a 1940s-1950s slang translator. Take the user's modern English text and rewrite it using authentic Silent Generation slang from the WWII and post-war era. Use terms like 'swell', 'daddy-o', 'keen', 'square', 'dreamboat', 'hubba hubba', etc. Keep the meaning intact but make it sound like someone from the 1940s-1950s would say it. Explain any terms that might be unfamiliar.",
+    "category": "Translation",
+    "icon": "languages"
+  },
+  {
+    "id": "noir-dialogue",
+    "title": "Film Noir Dialogue Writer",
+    "description": "Generate hard-boiled detective dialogue in 1940s style",
+    "prompt": "Write a short film noir dialogue scene using authentic 1940s slang. Include a hard-boiled detective and a mysterious dame. Use terms like 'gams', 'bumping gums', 'on the level', 'scram', 'lettuce', 'clam'. Make it dramatic with short, punchy sentences and plenty of atmosphere.",
+    "category": "Creative",
+    "icon": "clapperboard"
+  },
+  {
+    "id": "era-quiz-gen",
+    "title": "Silent Gen Quiz Generator",
+    "description": "Create trivia questions about 1940s-1950s slang and culture",
+    "prompt": "Generate 10 multiple-choice trivia questions about Silent Generation (1940s-1950s) slang, culture, and expressions. Each question should have 4 options with one correct answer. Include questions about terms like 'hep cat', 'sock hop', 'jalopy', 'going steady', and other era-specific vocabulary. Provide the correct answers at the end.",
+    "category": "Education",
+    "icon": "brain"
+  },
+  {
+    "id": "time-travel-letter",
+    "title": "1940s Letter Writer",
+    "description": "Write a letter as if you're living in the 1940s-1950s",
+    "prompt": "Write a letter from a young person living in 1950s America to their friend. Use authentic Silent Generation slang throughout — terms like 'swell', 'keen', 'daddy-o', 'going steady', 'sock hop', 'dreamboat', 'what a drag', etc. Describe everyday life: drive-in movies, jukeboxes, soda fountains, and the excitement of rock and roll arriving.",
+    "category": "Creative",
+    "icon": "mail"
+  },
+  {
+    "id": "slang-etymology",
+    "title": "Slang Etymology Explorer",
+    "description": "Deep dive into the origins of a Silent Generation slang term",
+    "prompt": "The user will give you a slang term from the 1940s-1950s Silent Generation era. Provide a detailed etymology including: (1) First known usage and date, (2) Cultural context of how it spread, (3) Connection to jazz, WWII, or post-war culture, (4) How the meaning evolved over time, (5) Whether the term is still used today and in what context, (6) Modern equivalents across generations.",
+    "category": "Education",
+    "icon": "book-open"
+  },
+  {
+    "id": "gen-compare",
+    "title": "Cross-Generation Translator",
+    "description": "Translate a phrase across all generations",
+    "prompt": "Take the user's input phrase and show how it would be expressed across every generation: Silent Generation (1940s-1950s), Baby Boomers (1960s-1970s), Gen X (1980s-1990s), Millennials (2000s-2010s), Gen Z (2010s-2020s), and Gen Alpha (2020s+). Use authentic slang from each era. Format it as a clear comparison table.",
+    "category": "Translation",
+    "icon": "git-compare"
+  }
+]

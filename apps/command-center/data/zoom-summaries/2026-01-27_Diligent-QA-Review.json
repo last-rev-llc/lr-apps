@@ -1,0 +1,41 @@
+{
+  "meetingId": "2026-01-27_Zoom-Meeting",
+  "topic": "Diligent Migration QA Review",
+  "date": "2026-01-27",
+  "duration": 17,
+  "attendees": ["Adam Harris", "Krista Schlumpberger"],
+  "client": "Diligent",
+  "summary": "Adam and Krista reviewed the status of the Diligent website migration QA process. Adam had gone through the QA spreadsheet checking resource pages and reassigning items back to the Diligent team. They discussed how to handle the large volume of QA feedback (68+ unassigned items) - prioritizing actual bugs and broken functionality over cosmetic issues and scope creep like design changes or responsive padding tweaks.\n\nAdam emphasized wanting to focus on high-priority pages like Elevate, virtual summit pages, and forms rather than getting bogged down with minor styling issues. They agreed on a workflow where minor notes get flagged as 'LR note' for later follow-up, while blatant bugs get immediate attention. Krista planned to block her calendar for content entry work the rest of the week. They also discussed Cameron's availability concerns - he was supposed to be working on Lively cookie implementation and IAS document store but had been partially MIA, and Surendra had been blocked for over a week needing debugging help.",
+  "keyDiscussionPoints": [
+    "QA spreadsheet review - 68+ items unassigned to Last Rev team",
+    "Prioritization: focus on Elevate pages, virtual summits, forms over cosmetic fixes",
+    "Diligent team making design change requests during QA instead of just bug reports",
+    "Need to instruct Diligent to specify desktop vs mobile for responsive issues",
+    "Cameron MIA - not checking ticket queue, need to address availability",
+    "Surendra blocked for over a week - needs debugging help from Camilo",
+    "Content entry work needs to be collaborative with Diligent team",
+    "Header/footer Tailwind conversion needed for Sanity management"
+  ],
+  "decisions": [
+    "Minor cosmetic issues flagged as 'LR note' for post-launch follow-up",
+    "Blatant bugs and broken functionality get immediate attention",
+    "Design change requests pushed back to Diligent for post-launch",
+    "Krista to focus on content entry rest of the week",
+    "Need Cameron on backlog grooming call to address engagement"
+  ],
+  "actionItems": [
+    {"action": "Focus on Elevate pages and virtual summit implementation", "owner": "Adam Harris", "deadline": "", "priority": "high"},
+    {"action": "Complete header/footer Tailwind-to-Sanity conversion", "owner": "Adam Harris", "deadline": "", "priority": "high"},
+    {"action": "Block calendar for content entry work", "owner": "Krista Schlumpberger", "deadline": "2026-01-31", "priority": "high"},
+    {"action": "Talk to Cameron about availability and get him debugging Surendra's issue", "owner": "Krista Schlumpberger", "deadline": "", "priority": "high"},
+    {"action": "Get Camilo to help Surendra get unblocked", "owner": "Krista Schlumpberger", "deadline": "", "priority": "high"},
+    {"action": "Instruct Diligent to provide more detail in QA feedback (desktop/mobile)", "owner": "Krista Schlumpberger", "deadline": "", "priority": "medium"}
+  ],
+  "followUp": [
+    "Cameron's progress on Lively cookies and IAS document store",
+    "Surendra unblocking status",
+    "Diligent QA response and timeline expectations",
+    "Forms implementation status"
+  ],
+  "sentiment": "productive"
+}

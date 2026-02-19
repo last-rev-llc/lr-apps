@@ -1,0 +1,27 @@
+{
+  "meetingId": "2026-01-26_Zoom-Meeting",
+  "topic": "Sanity Rich Text Array Rendering Bug",
+  "date": "2026-01-26",
+  "duration": 6,
+  "attendees": ["Adam Harris", "Jaime Morales"],
+  "client": null,
+  "summary": "A brief technical sync between Adam and Jaime about a Sanity rich text rendering edge case discovered during a CMS migration. When an image or reference is the first item in a rich text array, the content doesn't convert properly. Adam found a workaround by inserting an empty span before the image in the migration script.\n\nJaime confirmed this is due to existing logic that checks the first item in an array and makes type assumptions about the entire array. They agreed it's a known limitation - Sanity allows mixed-type arrays that the current rendering code doesn't handle well. Since Jaime's ongoing refactor of the rich text rendering will address this fundamentally, they decided not to fix the edge case now and just use the workaround for the migration.",
+  "keyDiscussionPoints": [
+    "Rich text array rendering fails when image/reference is first item",
+    "Workaround: insert empty span before the image in migration",
+    "Root cause: first-item type assumption in array rendering logic",
+    "Sanity supports mixed-type arrays that current code doesn't handle",
+    "Jaime's ongoing rich text refactor will fix this properly"
+  ],
+  "decisions": [
+    "Will not fix the edge case now - use workaround for migration",
+    "Jaime's rich text refactor will address it properly"
+  ],
+  "actionItems": [
+    {"action": "Keep edge case in mind during rich text refactor", "owner": "Jaime Morales", "deadline": "", "priority": "low"}
+  ],
+  "followUp": [
+    "Verify fix is included when Jaime's rich text refactor ships"
+  ],
+  "sentiment": "casual"
+}

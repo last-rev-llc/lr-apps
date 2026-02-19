@@ -1,0 +1,53 @@
+[
+  {
+    "id": "adam-harris",
+    "name": "Adam Harris",
+    "slackHandle": "adam",
+    "slackId": "UH1NCNA81",
+    "githubHandle": "spindle79",
+    "email": "adam@lastrev.com",
+    "title": "Co-Founder & COO",
+    "avatar": "https://avatars.slack-edge.com/2019-09-13/761330629255_08306376e5d97d3c568d_512.jpg",
+    "type": "internal"
+  },
+  {
+    "id": "brad-taylor",
+    "name": "Brad Taylor",
+    "slackHandle": "brad",
+    "slackId": "UH81PPNDN",
+    "githubHandle": "bradtaylorsf",
+    "email": "brad@lastrev.com",
+    "title": "Co-Founder & CEO",
+    "avatar": "https://avatars.githubusercontent.com/u/217398?v=4",
+    "type": "internal"
+  },
+  {
+    "id": "max-techera",
+    "name": "Max Techera",
+    "slackHandle": "max",
+    "slackId": "U016EJ5H1SA",
+    "githubHandle": "maxtechera",
+    "email": "max@lastrev.com",
+    "title": "Director of Engineering",
+    "avatar": "https://avatars.slack-edge.com/2020-07-13/1239211405938_3f4c1558a4dfc491821f_72.jpg",
+    "type": "internal"
+  },
+  {
+    "id": "cameron-taylor",
+    "name": "Cameron Taylor",
+    "slackHandle": "cameron",
+    "slackId": "ULH6GM1LP",
+    "githubHandle": "ct3685",
+    "email": "cameron@lastrev.com",
+    "title": "Site Reliability Engineer",
+    "avatar": "https://avatars.slack-edge.com/2024-11-12/8021907629252_576952c013aadcd534c0_72.png",
+    "type": "internal"
+  },
+  {
+    "id": "last-rev",
+    "name": "Last Rev",
+    "title": "AI & Automation Experts",
+    "avatar": "https://lastrev.com/images/logo-mark.png",
+    "type": "company"
+  }
+]

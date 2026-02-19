@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<title>🦍 Age of Apes Guide - Troops</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<link rel="stylesheet" href="modules/aoa-common.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/utils.js"></script>
+<style>
+  .troop-type-section { margin-bottom:2rem; }
+  .tier-card { position:relative; }
+  .tier-badge { position:absolute; top:8px; right:8px; }
+</style>
+</head>
+<body>
+<cc-app-nav app="age-of-apes" title="🦍 Age of Apes Guide" active="troops"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div style="max-width:1400px;margin:0 auto;padding:1rem;">
+  <div class="page-header">
+    <h1>⚔️ Troops Database</h1>
+    <div class="header-right">
+      <span class="badge badge-app" id="total-troops">Loading...</span>
+    </div>
+  </div>
+
+  <cc-tabs active="overview">
+    <cc-tab name="overview" label="Overview" icon="shield">
+      <div id="troops-overview" style="padding:1rem 0;"></div>
+    </cc-tab>
+    <cc-tab name="calculator" label="Calculator" icon="calculator">
+      <div class="panel">
+        <h3 style="margin:0 0 1rem;">Troops Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Troop Type</label><select id="tc-type" class="aoa-select"></select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Tier</label><select id="tc-tier" class="aoa-select"></select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Quantity</label><input type="number" id="tc-qty" class="aoa-input" value="1000" min="1"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Training Speed %</label><input type="number" id="tc-speed" class="aoa-input" value="0" min="0"></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1rem;">
+          <label style="color:var(--muted);font-size:.85rem;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="tc-bootcamp"> Boot Camp (+10%)</label>
+          <label style="color:var(--muted);font-size:.85rem;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="tc-vip"> VIP Bonuses (+25%)</label>
+        </div>
+        <button class="btn btn-primary" id="tc-calc">Calculate</button>
+        <div id="tc-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+  </cc-tabs>
+</div>
+
+<script>
+const { fmt, esc, escAttr, timeStr: _timeStr, totalSeconds, secondsToTime } = AOA;
+function timeStr(seconds) {
+  if (!seconds || seconds <= 0) return '0s';
+  return secondsToTime(seconds).str;
+}
+let gameData = {};
+
+async function loadData() {
+  try {
+    const troops = await fetch('data/troops.json').then(r=>r.json());
+    gameData = { troops };
+    renderTroops();
+    setupCalculator();
+  } catch(e) {
+    console.error('Error loading data:', e);
+  }
+}
+
+function renderTroops() {
+  const td = gameData.troops;
+  
+  // Count total troop types and tiers
+  const troopTypeCount = td.types?.length || 0;
+  const tierCount = Object.keys(td.tiers || {}).length;
+  document.getElementById('total-troops').textContent = `${troopTypeCount} Types, ${tierCount} Tiers`;
+
+  // Troop types section
+  const typesHtml = (td.types || []).map(type => `
+    <div class="card">
+      <div class="card-top">
+        <div class="card-title" style="font-size:1rem;">${esc(type)}</div>
+      </div>
+      <div class="card-desc">Specialized ${esc(type.toLowerCase())} units with unique combat roles</div>
+      <div class="card-meta">
+        <span class="badge" style="background:var(--blue);color:#fff;">${esc(type)}</span>
+      </div>
+    </div>
+  `).join('');
+
+  // Tiers section
+  const tiersHtml = Object.entries(td.tiers || {}).map(([tierKey, tier]) => {
+    const tierNum = parseInt(tierKey.replace('tier', ''));
+    const tierColor = getTierColor(tierNum);
+    
+    return `
+      <div class="card tier-card">
+        <div class="card-top">
+          <div class="card-title" style="font-size:1rem;">${esc(tierKey.toUpperCase())} - ${esc(tier.name)}</div>
+        </div>
+        <div class="card-desc">
+          Power: ${fmt(tier.power)} | Food: ${fmt(tier.food)} | Iron: ${fmt(tier.iron)}
+        </div>
+        <div class="card-meta">
+          <span class="badge" style="background:${tierColor};color:#fff;">Tier ${tierNum}</span>
+          <span class="badge" style="background:var(--muted);color:#fff;">${timeStr(tier.trainTime)}/unit</span>
+        </div>
+        <div class="tier-badge">
+          <span class="badge" style="background:var(--accent);color:#fff;">${fmt(tier.nuApeCaps)} Caps</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('troops-overview').innerHTML = `
+    <div class="troop-type-section">
+      <h3 style="margin:0 0 1rem;">Troop Types</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+        ${typesHtml}
+      </div>
+    </div>
+    
+    <div class="troop-type-section">
+      <h3 style="margin:0 0 1rem;">Troop Tiers</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;">
+        ${tiersHtml}
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:2rem;">
+      <h3 style="margin:0 0 .5rem;">Troop Stats</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+        <div class="stat-box"><div class="stat-box-value">${troopTypeCount}</div><div class="stat-box-label">Troop Types</div></div>
+        <div class="stat-box"><div class="stat-box-value">${tierCount}</div><div class="stat-box-label">Tiers</div></div>
+        <div class="stat-box"><div class="stat-box-value">∞</div><div class="stat-box-label">Max Quantity</div></div>
+        <div class="stat-box"><div class="stat-box-value">6</div><div class="stat-box-label">Max Tier</div></div>
+      </div>
+    </div>`;
+}
+
+function getTierColor(tier) {
+  const colors = {
+    1: 'var(--muted)',
+    2: 'var(--green)',
+    3: 'var(--blue)',
+    4: 'var(--accent)',
+    5: 'var(--orange)',
+    6: 'var(--red)'
+  };
+  return colors[tier] || 'var(--muted)';
+}
+
+function setupCalculator() {
+  const td = gameData.troops;
+  
+  // Populate troop types
+  const types = (td.types || []).map(t=>`<option value="${escAttr(t)}">${esc(t)}</option>`).join('');
+  document.getElementById('tc-type').innerHTML = types;
+  
+  // Populate tiers
+  const tiers = Object.entries(td.tiers || {}).map(([k,v])=>`<option value="${escAttr(k)}">${esc(k.toUpperCase())} - ${esc(v.name)}</option>`).join('');
+  document.getElementById('tc-tier').innerHTML = tiers;
+
+  document.getElementById('tc-calc').addEventListener('click', () => {
+    const tierKey = document.getElementById('tc-tier').value;
+    const tier = td.tiers[tierKey];
+    
+    if (!tier) {
+      window.showToast('Please select a valid tier ⚠️', 3000);
+      return;
+    }
+    
+    const qty = +document.getElementById('tc-qty').value;
+    let speed = +document.getElementById('tc-speed').value;
+    
+    if(document.getElementById('tc-bootcamp').checked) speed += 10;
+    if(document.getElementById('tc-vip').checked) speed += 25;
+    
+    const food = tier.food * qty;
+    const iron = tier.iron * qty;
+    const caps = tier.nuApeCaps * qty;
+    const power = tier.power * qty;
+    const totalTrainTime = tier.trainTime * qty;
+    const actualTrainTime = totalTrainTime * (100/(100+speed));
+    const timeSaved = totalTrainTime - actualTrainTime;
+    
+    document.getElementById('tc-results').innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(qty)}</div><div class="stat-box-label">Quantity</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${tierKey.toUpperCase()}</div><div class="stat-box-label">Tier</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(power)}</div><div class="stat-box-label">Total Power</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(food)}</div><div class="stat-box-label">Food Cost</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(iron)}</div><div class="stat-box-label">Iron Cost</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${fmt(caps)}</div><div class="stat-box-label">Nu-Ape Caps</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${timeStr(totalTrainTime)}</div><div class="stat-box-label">Base Train Time</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${timeStr(actualTrainTime)}</div><div class="stat-box-label">Actual Time</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${timeStr(timeSaved)}</div><div class="stat-box-label">Time Saved</div></div>
+        <div class="stat-box"><div class="stat-box-value" style="font-size:1.1rem;">${speed}%</div><div class="stat-box-label">Speed Bonus</div></div>
+      </div>`;
+
+    window.showToast(`Calculated ${fmt(qty)} ${tierKey} troops ✅`, 3000);
+  });
+}
+
+loadData();
+</script>
+</body>
+</html>

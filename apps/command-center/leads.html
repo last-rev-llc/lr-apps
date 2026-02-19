@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="var(--accent)">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>🎯 Leads — Command Center</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/index.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/sql-sync.js"></script>
+<script src="db.js"></script>
+</head>
+<body>
+<div class="sticky-header">
+<cc-topbar></cc-topbar>
+<cc-nav active="leads"></cc-nav>
+</div>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<cc-leads src="data/leads.json"></cc-leads>
+<script>if("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
+</body>
+</html>

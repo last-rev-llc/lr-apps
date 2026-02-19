@@ -1,0 +1,3647 @@
+[
+  {
+    "id": "premium-iv-st-barth",
+    "name": "Premium IV",
+    "destination": "St Barth",
+    "description": "Premium IV has been the benchmark for VIP concierge and destination management services on St Barth since 2005. Run by bilingual founders Vincent and James, they provide discreet, personalized service to celebrities, business leaders, and discerning travelers visiting the island.",
+    "website": "https://www.premiumiv.com/",
+    "email": "info@premiumiv.com",
+    "phone": "+590 690 58 39 39",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "family"
+    ],
+    "services": [
+      "Villa concierge services",
+      "Private chef arrangements",
+      "Yacht and boat charters",
+      "Airport transfers and car rental",
+      "Restaurant reservations",
+      "Event planning and incentive travel",
+      "Spa and massage bookings",
+      "Activity coordination"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Operating on St Barth since 2005 with unmatched local connections",
+      "Bilingual French-English team with hospitality backgrounds",
+      "Discreet VIP service trusted by celebrities and high-net-worth individuals",
+      "Transparent 10% administration fee with no hidden surcharges",
+      "Sister company Premium Island Vacations handles villa bookings"
+    ],
+    "reviews": [
+      {
+        "source": "TripAdvisor",
+        "date": "2024-12-15",
+        "rating": 5,
+        "text": "Premium IV made our St Barth vacation absolutely seamless. From airport pickup to restaurant bookings and a private boat day, every detail was handled perfectly. Cannot recommend highly enough."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-11-02",
+        "rating": 5,
+        "text": "James and Vincent are the ultimate St Barth insiders. They arranged a private chef dinner, yacht charter, and VIP table at Nikki Beach without us lifting a finger. Worth every penny."
+      }
+    ],
+    "associatedProperties": [
+      "Hotel Christopher",
+      "Ici Et La Villa Rentals"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "lagoon-group-dmc",
+    "name": "Lagoon Group DMC",
+    "destination": "St Barth, St Martin, Anguilla",
+    "description": "Lagoon Group is the only fully licensed DMC operating across four Caribbean destinations: St Barth, French St. Martin, Dutch St. Maarten, and Anguilla. Their team of Caribbean experts crafts tailored experiences from exclusive VIP events to group incentive travel across these premier island destinations.",
+    "website": "https://www.lagoongroup.com/",
+    "email": "info@lagoongroup.com",
+    "phone": "+590 590 87 17 11",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "cultural"
+    ],
+    "services": [
+      "Incentive travel programs",
+      "Corporate events and meetings",
+      "Gala dinners and special events",
+      "Island excursions and activities",
+      "Transportation and logistics",
+      "Venue sourcing",
+      "Multi-island itinerary planning",
+      "VIP concierge services"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Only fully licensed DMC across 4 Caribbean destinations",
+      "Specializes in incentive travel and corporate group events",
+      "Deep expertise in St Barth's exclusive luxury market",
+      "Multi-island packages combining St Barth, St Martin, and Anguilla",
+      "Bespoke experiences from hidden gems to sought-after hotspots"
+    ],
+    "reviews": [
+      {
+        "source": "Event Industry News",
+        "date": "2024-10-20",
+        "rating": 5,
+        "text": "Lagoon Group handled our 80-person corporate incentive across St Barth and Anguilla flawlessly. Their multi-island expertise and local contacts made logistics seamless."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2025-01-08",
+        "rating": 4,
+        "text": "Professional team with great knowledge of the Caribbean islands. They organized a memorable group trip with unique local experiences. Communication could be slightly faster but execution was excellent."
+      }
+    ],
+    "associatedProperties": [
+      "Hotel Christopher",
+      "Ici Et La Villa Rentals"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "glamour-dmc-jamaica",
+    "name": "Glamour Destination Management",
+    "destination": "Jamaica",
+    "description": "Glamour DMC is Jamaica's leading destination management company, offering comprehensive ground services for incentive travel, corporate meetings, weddings, events, and luxury travel groups across the island. With partnerships with top transportation companies and luxury vehicles, they deliver world-class service from Montego Bay to Ocho Rios.",
+    "website": "https://glamourdmc.com/",
+    "email": "info@glamourdmc.com",
+    "phone": "+1 876-622-3338",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "adventure",
+      "cultural"
+    ],
+    "services": [
+      "Incentive travel programs",
+      "Corporate meeting planning",
+      "Wedding coordination",
+      "Luxury transportation with premium vehicles",
+      "Site selection and hotel booking",
+      "Island excursions and activities",
+      "Event management",
+      "Airport transfers"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Jamaica's premier DMC with island-wide coverage",
+      "Partnerships with top luxury transportation providers",
+      "Hospitality site selection service for procurement managers",
+      "Experienced with large-scale incentive and corporate programs",
+      "Coverage across Montego Bay, Ocho Rios, Negril, and Kingston"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2024-09-15",
+        "rating": 5,
+        "text": "Glamour DMC organized our company's incentive trip to Jamaica for 200 people. Every detail from airport transfers to excursions was handled professionally. The team's local knowledge made all the difference."
+      },
+      {
+        "source": "Cvent",
+        "date": "2024-07-22",
+        "rating": 4,
+        "text": "Reliable DMC partner for our annual Caribbean meetings. Good communication and solid execution of complex logistics across multiple Jamaican venues."
+      }
+    ],
+    "associatedProperties": [
+      "Goldeneye"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "ovation-dmc-jamaica",
+    "name": "Ovation Global DMC (Jamaica via Amstar)",
+    "destination": "Jamaica",
+    "description": "Ovation Global DMC partners with Amstar Meetings & Events to deliver award-winning destination management services across Jamaica. With over 15 years of experience serving 1,100+ group programs and 150,000+ attendees annually, they are a powerhouse in Caribbean corporate events and incentive travel.",
+    "website": "https://ovationdmc.com/destinations/jamaica/",
+    "email": "jamaica@ovationdmc.com",
+    "phone": "+1 876-953-4755",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "adventure",
+      "family"
+    ],
+    "services": [
+      "Group programs and corporate events",
+      "Incentive travel management",
+      "Venue selection and coordination",
+      "Themed events and gala dinners",
+      "Team building activities",
+      "Transportation logistics",
+      "Excursions and cultural tours",
+      "Full event production"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Part of Ovation Global DMC network spanning 100+ destinations",
+      "Strategic partner Amstar serves 1,100+ group programs annually",
+      "Award-winning service recognized in the MICE industry",
+      "Coverage across Montego Bay, Negril, Ocho Rios, and Trelawny",
+      "Operational capabilities for groups up to 150,000+ attendees"
+    ],
+    "reviews": [
+      {
+        "source": "MeetingsNet",
+        "date": "2024-11-10",
+        "rating": 5,
+        "text": "Ovation's Jamaica partner Amstar delivered an outstanding incentive program for our top performers. The beach gala and Blue Mountain excursion were highlights everyone still talks about."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-08-18",
+        "rating": 4,
+        "text": "Professional DMC with excellent knowledge of Jamaica's venue landscape. They matched our group's needs perfectly with creative excursion options."
+      }
+    ],
+    "associatedProperties": [
+      "Goldeneye"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "icaterina-italy",
+    "name": "Icaterina",
+    "destination": "Italy (Rome, Tuscany, Florence, Sicily)",
+    "description": "Icaterina is a boutique luxury DMC based in Rome with over two decades of experience creating exclusive, tailor-made travel experiences across Italy. They specialize in bespoke itineraries blending art, design, cuisine, and tradition with private villa stays, chauffeur-driven transfers, and exclusive cultural access.",
+    "website": "https://www.icaterina.com/",
+    "email": "info@icaterina.com",
+    "phone": "+39 06 4550 0710",
+    "specialties": [
+      "luxury",
+      "cultural",
+      "weddings",
+      "wellness",
+      "family"
+    ],
+    "services": [
+      "Bespoke luxury itinerary design",
+      "Private villa and hotel bookings",
+      "Chauffeur-driven transfers",
+      "Private guided tours with exclusive access",
+      "Food and wine experiences",
+      "Art and culture immersions",
+      "Nature and adventure excursions",
+      "Wedding and event planning in Italy"
+    ],
+    "rating": 4.9,
+    "highlights": [
+      "Over 20 years of experience as Italy's premier boutique luxury DMC",
+      "Based in Rome with coverage across all Italian regions",
+      "Exclusive access to cultural landmarks and hidden gems",
+      "Specialized food and wine programs with expert journalist guides",
+      "Trusted by leading travel agents worldwide with 24/7 WhatsApp support"
+    ],
+    "reviews": [
+      {
+        "source": "Virtuoso",
+        "date": "2024-10-05",
+        "rating": 5,
+        "text": "Icaterina created an extraordinary 10-day Italian journey for our clients through Rome, Tuscany, and Sicily. The private after-hours Vatican tour and truffle hunting in Umbria were unforgettable moments."
+      },
+      {
+        "source": "Travel + Leisure",
+        "date": "2024-06-20",
+        "rating": 5,
+        "text": "The gold standard of Italian DMCs. Their attention to detail and insider knowledge transformed our Italy trip from great to extraordinary. The Florence artisan workshop was a once-in-a-lifetime experience."
+      }
+    ],
+    "associatedProperties": [
+      "Romeo Hotel",
+      "Castello Di Vicarello",
+      "Monaci Delle Terre Nere",
+      "Etra"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "eluxitaly",
+    "name": "Eluxitaly",
+    "destination": "Italy (Florence, Rome, Tuscany, Sicily)",
+    "description": "Eluxitaly is a luxury Italian DMC that redesigns travel through their signature 'Luxperiences' — immersive encounters that reveal Italy's best-kept secrets. From Michelangelo's private house to family-run cheese factories and master gold beaters, they deliver authenticity with refinement across all Italian regions.",
+    "website": "https://eluxitaly.com/en/",
+    "email": "contact@eluxitaly.com",
+    "phone": "+39 01 31 19 35 269",
+    "specialties": [
+      "luxury",
+      "cultural",
+      "wellness",
+      "adventure",
+      "family"
+    ],
+    "services": [
+      "Signature Luxperiences® immersive programs",
+      "Confidential hotel and villa sourcing",
+      "Private cultural tours and artisan encounters",
+      "Culinary experiences and wine tours",
+      "Custom multi-city Italian itineraries",
+      "Local Travel Designer consultation",
+      "Wedding and honeymoon planning",
+      "Corporate and incentive programs"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Signature Luxperiences® concept offering unique immersive Italian encounters",
+      "Curated confidential addresses — secret hotels and hidden gems",
+      "Passionate local Travel Designers across Italy",
+      "Coverage from Sicily to the Dolomites with deep regional expertise",
+      "Focus on authenticity and intimate luxury experiences"
+    ],
+    "reviews": [
+      {
+        "source": "Condé Nast Traveler",
+        "date": "2024-09-12",
+        "rating": 5,
+        "text": "Eluxitaly arranged an unforgettable Tuscany experience — a private dinner in a medieval castle, a personal audience with a master perfumer in Florence, and a volcanic wine tasting on Etna. Pure magic."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-11-28",
+        "rating": 5,
+        "text": "Their 'unrevealed addresses' concept is brilliant. Every accommodation they suggested was a hidden treasure. The Sicily itinerary was perfection from start to finish."
+      }
+    ],
+    "associatedProperties": [
+      "Romeo Hotel",
+      "Castello Di Vicarello",
+      "Monaci Delle Terre Nere",
+      "Etra"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "deluxe-france",
+    "name": "Deluxe France",
+    "destination": "France (Paris, St Tropez, French Riviera)",
+    "description": "Deluxe France is a premier DMC specializing in luxury private tours and experiences across France, with a unique advantage of originating from a chauffeur-driven service company. A Virtuoso preferred supplier and Lush Experiences member for over 15 years, they operate their own fleet of luxury vehicles with directly employed drivers and guides.",
+    "website": "https://www.deluxefrance.com/",
+    "email": "info@deluxefrance.com",
+    "phone": "+33 1 45 63 85 22",
+    "specialties": [
+      "luxury",
+      "cultural",
+      "corporate",
+      "family",
+      "wellness"
+    ],
+    "services": [
+      "VIP meet-and-greet airport services",
+      "Chauffeur-driven luxury transfers (own fleet)",
+      "Custom private tours with licensed guides",
+      "Wine and gastronomy experiences",
+      "Luxury hotel and accommodation booking",
+      "Comprehensive multi-region itineraries",
+      "Bike tours and outdoor excursions",
+      "Corporate and incentive travel"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Virtuoso preferred supplier and Internova partner",
+      "Own fleet of luxury vehicles with directly employed drivers",
+      "Over 15 years as member of the Lush Experiences collection",
+      "No minimum booking amount — from single transfers to full itineraries",
+      "Transparent quotations with detailed rate breakdowns"
+    ],
+    "reviews": [
+      {
+        "source": "Virtuoso Traveler",
+        "date": "2024-10-15",
+        "rating": 5,
+        "text": "Deluxe France arranged a flawless two-week journey through Paris, Provence, and the Riviera. Having their own drivers meant consistent quality throughout. The private Champagne tour was exceptional."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-08-22",
+        "rating": 5,
+        "text": "Outstanding DMC for France. Their driver-guide for our Loire Valley tour was incredibly knowledgeable. Every restaurant and hotel they selected was perfect. Highly recommend for luxury France travel."
+      }
+    ],
+    "associatedProperties": [
+      "Hotel Bowmann",
+      "Hotel Byblos",
+      "Hotel Royal Riviera"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "riviera-dmc",
+    "name": "Riviera DMC",
+    "destination": "French Riviera (St Tropez, Nice, Cannes, Monaco)",
+    "description": "Riviera DMC is a specialist destination management company focused on the Côte d'Azur, delivering innovative MICE and luxury travel experiences from Marseille to Monaco. With over a decade of expertise, their multi-lingual team crafts bespoke corporate events, incentive programs, and high-end travel across the French Riviera.",
+    "website": "https://www.rivieradmc.com/",
+    "email": "contact@rivieradmc.com",
+    "phone": "+33 4 93 00 90 90",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "cultural"
+    ],
+    "services": [
+      "MICE event management",
+      "Hotel and venue sourcing",
+      "Incentive travel programs",
+      "Team building activities",
+      "Gala dinners and special events",
+      "Transport coordination",
+      "Product launches",
+      "Conference and meeting planning"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Specialist DMC focused exclusively on Provence and the French Riviera",
+      "Over a decade of MICE industry expertise on the Côte d'Azur",
+      "Multi-lingual team with deep local network",
+      "Coverage from Marseille to Monaco including St Tropez, Cannes, Nice",
+      "Full-service event production with meticulous attention to detail"
+    ],
+    "reviews": [
+      {
+        "source": "MPI (Meeting Professionals International)",
+        "date": "2024-09-30",
+        "rating": 5,
+        "text": "Riviera DMC executed a flawless 3-day corporate retreat in St Tropez and Monaco. The venue selection was inspired and logistics were seamless despite complex multi-venue programming."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-12-05",
+        "rating": 4,
+        "text": "Great DMC for Riviera events. They handled our product launch in Cannes with professionalism and creative flair. Would use again for any South of France events."
+      }
+    ],
+    "associatedProperties": [
+      "Hotel Byblos",
+      "Hotel Royal Riviera"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "namu-travel-group",
+    "name": "Namu Travel Group",
+    "destination": "Panama, Colombia, Nicaragua",
+    "description": "Namu Travel Group is a Virtuoso-affiliated DMC with 25 years of experience crafting custom luxury vacations across Colombia, Panama, Nicaragua, Costa Rica, Belize, and Guatemala. With local experts and 24/7 in-country support, they specialize in upscale tailored experiences for discerning travelers seeking authentic Central and South American adventures.",
+    "website": "https://www.namutravel.com/",
+    "email": "info@namutravel.com",
+    "phone": "+506 2290-0220",
+    "specialties": [
+      "luxury",
+      "adventure",
+      "cultural",
+      "family",
+      "wellness"
+    ],
+    "services": [
+      "Custom luxury vacation design",
+      "24/7 in-country travel support",
+      "Private guided tours",
+      "Eco-lodge and luxury hotel bookings",
+      "Adventure excursions and nature tours",
+      "Cultural immersion experiences",
+      "Multi-country itinerary planning",
+      "B2B travel advisor partnerships"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Virtuoso-affiliated DMC with 25 years of experience",
+      "Coverage across Panama, Colombia, Nicaragua, Costa Rica, Belize, and Guatemala",
+      "24/7 in-country support with local expert teams",
+      "Trusted partner for luxury travel advisors worldwide",
+      "Deep expertise in eco-luxury and adventure travel"
+    ],
+    "reviews": [
+      {
+        "source": "Virtuoso",
+        "date": "2024-11-15",
+        "rating": 5,
+        "text": "Namu planned an incredible Panama-Colombia journey including private island hopping in Bocas del Toro and a cultural deep-dive in Cartagena. Their local guides were exceptional and 24/7 support gave us total peace of mind."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-08-10",
+        "rating": 5,
+        "text": "Used Namu for a Nicaragua adventure trip. The itinerary was perfectly paced, combining eco-lodges with cultural experiences. They truly understand the region and deliver luxury without losing authenticity."
+      }
+    ],
+    "associatedProperties": [
+      "Islas Secas",
+      "Sweet Bocas",
+      "Casa Carolina",
+      "Morgan's Rock"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "andes-world-travel",
+    "name": "Andes World Travel",
+    "destination": "Peru, Colombia, Ecuador",
+    "description": "Andes World Travel is a DMC and tour operator founded by passionate adventurers with deep expertise across the Andes region. Specializing in nature, culture, trekking, and summit expeditions, they deliver tailor-made experiences throughout Peru, Colombia, and Ecuador with a commitment to sustainability and fair trade practices.",
+    "website": "https://www.andesworldtravel.com/",
+    "email": "info@andesworldtravel.com",
+    "phone": "+51 1 242 7290",
+    "specialties": [
+      "adventure",
+      "cultural",
+      "luxury",
+      "wellness"
+    ],
+    "services": [
+      "Tailor-made nature and culture tours",
+      "Trekking and summit expeditions",
+      "Machu Picchu and Sacred Valley excursions",
+      "Multi-country Andes itineraries",
+      "Soft adventure programs",
+      "Group and individual travel",
+      "Certified climbing safety and equipment",
+      "Sustainable tourism practices"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Founded by passionate travelers with deep Andes regional knowledge",
+      "Specializes in Peru, Colombia, and Ecuador",
+      "Certified climbing and trekking team with top-quality equipment",
+      "Commitment to sustainability and fair trade practices",
+      "Ideal for adventure-luxury travelers seeking authentic Andean experiences"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2024-10-22",
+        "rating": 5,
+        "text": "Andes World Travel organized our Sacred Valley trek and Machu Picchu visit perfectly. The guides were incredibly knowledgeable about Inca history and local ecology. A truly transformative experience."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-07-15",
+        "rating": 4,
+        "text": "Great DMC for Peru adventure travel. Our Colombia-Peru combined trip was well-organized with excellent local guides. They handle altitude acclimatization thoughtfully."
+      }
+    ],
+    "associatedProperties": [
+      "Sol Y Luna",
+      "Casa Carolina"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "ada-tours-brazil",
+    "name": "Ada Tours",
+    "destination": "Brazil, Central & South America",
+    "description": "Ada Tours is a dedicated DMC and incoming tour operator based in Brazil, specializing in designing meaningful luxury travel experiences across Brazil, Central, and South America. From the Pantanal wetlands to Patagonia, they craft tailor-made journeys with a passion for authenticity, including multi-country adventures spanning up to five countries.",
+    "website": "https://adatours.com/",
+    "email": "info@adatours.com",
+    "phone": "+55 21 2523-8680",
+    "specialties": [
+      "luxury",
+      "adventure",
+      "cultural",
+      "family",
+      "wellness"
+    ],
+    "services": [
+      "Tailor-made luxury itineraries",
+      "Multi-country tour coordination",
+      "Wildlife and eco-tourism programs",
+      "VIP experiences and exclusive access",
+      "Cultural immersion tours",
+      "Family discovery packages",
+      "Private transfers and logistics",
+      "B2B travel professional partnerships"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Brazil-based DMC with coverage across 20+ Latin American countries",
+      "Expertise in multi-country itineraries (up to 5 countries in one trip)",
+      "Featured by travel professionals worldwide as trusted partner",
+      "Deep knowledge of Brazil's diverse regions including the Pantanal",
+      "From luxury escapes to VIP experiences requiring absolute perfection"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2024-09-05",
+        "rating": 5,
+        "text": "Ada Tours designed an incredible Pantanal wildlife experience followed by Rio de Janeiro cultural immersion. Their attention to detail and genuine passion for Brazil shines through in every arrangement."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-06-18",
+        "rating": 4,
+        "text": "Used Ada Tours for a Brazil-Argentina-Chile combination trip. Complex logistics were handled smoothly. The Pantanal jaguar safari they arranged was the highlight of our two-week journey."
+      }
+    ],
+    "associatedProperties": [
+      "Caiman"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "ultimate-vacation-bvi",
+    "name": "Ultimate Vacation BVI",
+    "destination": "British Virgin Islands",
+    "description": "Ultimate Vacation BVI (UV BVI) is a creative and resourceful DMC specializing exclusively in the British Virgin Islands. They provide comprehensive destination management services including vessel agent services, luxury event planning, and bespoke island experiences for discerning travelers and private island guests.",
+    "website": "https://ultimatevacationbvi.com/",
+    "email": "info@ultimatevacationbvi.com",
+    "phone": "+1 284-346-8287",
+    "specialties": [
+      "luxury",
+      "weddings",
+      "corporate",
+      "adventure",
+      "family"
+    ],
+    "services": [
+      "Vessel agent services for superyachts",
+      "Private island event coordination",
+      "Luxury villa and accommodation sourcing",
+      "Water sports and marine activities",
+      "Island hopping excursions",
+      "Wedding and celebration planning",
+      "Airport transfers and boat charters",
+      "Concierge services"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "BVI-exclusive DMC with deep local expertise",
+      "Specialized vessel agent services for superyachts and charters",
+      "Creative team with extensive knowledge of BVI's islands",
+      "Ideal partner for private island resort guests",
+      "Full-service event planning across the BVI archipelago"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2024-11-20",
+        "rating": 5,
+        "text": "UV BVI handled all logistics for our private island celebration in the BVIs. From yacht coordination to on-island catering, everything was executed beautifully. True local experts."
+      },
+      {
+        "source": "Yacht Charter Reviews",
+        "date": "2024-08-30",
+        "rating": 4,
+        "text": "Excellent vessel agent services and shore-side arrangements. They know every anchorage and restaurant in the BVI. Made our charter week truly special."
+      }
+    ],
+    "associatedProperties": [
+      "Moskito"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "british-traders-concierge",
+    "name": "British Traders Concierge",
+    "destination": "British Virgin Islands, Grenada",
+    "description": "British Traders Concierge is a trusted DMC and concierge service in the British Virgin Islands, specializing in luxury corporate events, private island experiences, and superyacht support services. They prioritize excellence, privacy, and impact for organizations and high-net-worth individuals visiting the Caribbean.",
+    "website": "https://britishtradersconcierge.com/",
+    "email": "info@britishtradersconcierge.com",
+    "phone": "+1 284-494-2211",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "adventure"
+    ],
+    "services": [
+      "Corporate event management",
+      "Private island coordination",
+      "Water taxi and yacht services",
+      "Luxury concierge services",
+      "Superyacht provisioning",
+      "Team building and incentive programs",
+      "VIP transfers and logistics",
+      "Bespoke island experiences"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "Trusted partner for corporate events in stunning Caribbean settings",
+      "Specialized in privacy-focused luxury experiences",
+      "Water taxi and superyacht support services",
+      "Coverage across BVI and Eastern Caribbean islands",
+      "Excellent for organizations valuing excellence and discretion"
+    ],
+    "reviews": [
+      {
+        "source": "Corporate Travel World",
+        "date": "2024-10-12",
+        "rating": 5,
+        "text": "British Traders Concierge delivered a flawless corporate retreat across multiple BVI islands. Their water taxi coordination and event logistics were impeccable. True professionals."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-07-25",
+        "rating": 4,
+        "text": "Great concierge service for our BVI visit. They arranged everything from dock-to-villa transfers to provisioning our yacht. Responsive and reliable."
+      }
+    ],
+    "associatedProperties": [
+      "Moskito",
+      "Calivigny Island"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "ovation-dmc-italy",
+    "name": "Ovation Global DMC Italy",
+    "destination": "Italy (Rome, Florence, Tuscany, Sicily)",
+    "description": "Established in 2007 with offices in Rome and Florence, Ovation Italy is part of the Ovation Global DMC network offering consistent, world-class destination management services across 100+ locations. They specialize in corporate meetings, incentive travel, and luxury group programs throughout Italy's most iconic destinations.",
+    "website": "https://ovationdmc.com/destinations/italy/",
+    "email": "italy@ovationdmc.com",
+    "phone": "+39 06 4470 3001",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "weddings"
+    ],
+    "services": [
+      "Corporate meetings and conferences",
+      "Incentive travel programs",
+      "Gala dinners in historic venues",
+      "Team building activities",
+      "VIP tours and cultural experiences",
+      "Transportation and logistics",
+      "Hotel sourcing and management",
+      "Full event production"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Part of Ovation Global DMC network (100+ destinations worldwide)",
+      "Offices in both Rome and Florence for comprehensive Italian coverage",
+      "Established in 2007 with deep corporate and MICE expertise",
+      "Access to exclusive Italian venues including palazzos and vineyards",
+      "Seamless coordination for multi-city Italian programs"
+    ],
+    "reviews": [
+      {
+        "source": "Cvent",
+        "date": "2024-11-05",
+        "rating": 5,
+        "text": "Ovation Italy organized a stunning incentive program combining Rome, Florence, and the Amalfi Coast. The private dinner at a Tuscan vineyard was the trip highlight. Excellent logistical coordination."
+      },
+      {
+        "source": "MeetingsNet",
+        "date": "2024-08-20",
+        "rating": 4,
+        "text": "Reliable partner for our annual European conference. Their Rome office handled 300+ attendees across multiple venues with professionalism and Italian charm."
+      }
+    ],
+    "associatedProperties": [
+      "Romeo Hotel",
+      "Castello Di Vicarello",
+      "Monaci Delle Terre Nere",
+      "Etra"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "art-luxury-experience-france",
+    "name": "Art & Luxury Experience",
+    "destination": "France (Paris, French Riviera, Provence)",
+    "description": "Art & Luxury Experience is a French DMC specializing in luxury travel planning with tailored itineraries, unique experiences, and seamless logistics across all regions of France. They combine art, gastronomy, and cultural immersion to create bespoke journeys for high-end travelers and travel advisors.",
+    "website": "https://www.artluxuryexperience.com/",
+    "email": "contact@artluxuryexperience.com",
+    "phone": "+33 1 86 95 01 01",
+    "specialties": [
+      "luxury",
+      "cultural",
+      "corporate",
+      "weddings",
+      "wellness"
+    ],
+    "services": [
+      "Bespoke luxury itinerary design",
+      "Private art and museum tours",
+      "Gastronomy and wine experiences",
+      "Luxury accommodation sourcing",
+      "Chauffeur-driven transfers",
+      "Corporate and incentive programs",
+      "Wedding planning in France",
+      "Multi-region French itineraries"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Specialized French DMC with art and luxury focus",
+      "Expert local knowledge across Paris, Riviera, Provence, and beyond",
+      "Unique cultural experiences including private gallery access",
+      "Tailored itineraries for discerning luxury travelers",
+      "Strong B2B partnerships with international travel advisors"
+    ],
+    "reviews": [
+      {
+        "source": "Luxury Travel Magazine",
+        "date": "2024-10-30",
+        "rating": 5,
+        "text": "Art & Luxury Experience curated a magnificent Paris-to-Riviera journey. The private Louvre tour and exclusive vineyard dinner in Provence were extraordinary. Every detail was perfect."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-09-15",
+        "rating": 4,
+        "text": "Excellent French DMC for luxury clients. They arranged a beautiful St Tropez villa experience with private yacht charter and Michelin-starred dining. Highly professional."
+      }
+    ],
+    "associatedProperties": [
+      "Hotel Bowmann",
+      "Hotel Byblos",
+      "Hotel Royal Riviera"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "turks-caicos-tci-blue",
+    "name": "TCI Blue",
+    "destination": "Turks & Caicos",
+    "description": "TCI Blue is a leading property management and vacation concierge service in Turks & Caicos, offering comprehensive destination management solutions for luxury travelers. They save guests time and worry by handling all planning and logistics for an exceptional island experience in the pristine waters of the TCI.",
+    "website": "https://tciblue.com/",
+    "email": "info@tciblue.com",
+    "phone": "+1 649-946-5700",
+    "specialties": [
+      "luxury",
+      "family",
+      "weddings",
+      "wellness"
+    ],
+    "services": [
+      "Luxury vacation rental management",
+      "Concierge and trip planning",
+      "Private chef arrangements",
+      "Water sports and excursions coordination",
+      "Airport transfers and transportation",
+      "Property management for owners",
+      "Wedding and event coordination",
+      "Restaurant and spa reservations"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "Established Turks & Caicos luxury concierge and management company",
+      "Deep local knowledge of Providenciales and outer islands",
+      "Comprehensive vacation planning from arrival to departure",
+      "Property management expertise for villa and resort owners",
+      "Ideal for high-end family and couple vacations"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2024-12-01",
+        "rating": 5,
+        "text": "TCI Blue made our Turks & Caicos vacation absolutely perfect. They arranged a private boat charter to secluded beaches, incredible snorkeling excursions, and a private chef for our villa. Couldn't have been better."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-09-20",
+        "rating": 4,
+        "text": "Reliable concierge service in TCI. They handled all our restaurant reservations, spa bookings, and excursions. Good local knowledge and responsive communication."
+      }
+    ],
+    "associatedProperties": [
+      "Pine Cay"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "hummingbird-luxury-tci",
+    "name": "Hummingbird Luxury",
+    "destination": "Turks & Caicos",
+    "description": "With over 40 years of construction expertise and 20 years of hospitality experience in the Turks & Caicos Islands, Hummingbird Luxury offers unmatched property management and luxury concierge services. As longtime residents of Providenciales since 1981, they bring unparalleled local knowledge and personalized service to every guest experience.",
+    "website": "https://hummingbirdluxury.com/",
+    "email": "info@hummingbirdluxury.com",
+    "phone": "+1 649-432-8888",
+    "specialties": [
+      "luxury",
+      "family",
+      "weddings",
+      "wellness"
+    ],
+    "services": [
+      "Luxury villa management",
+      "Guest concierge services",
+      "Property design and renovation guidance",
+      "Private dining arrangements",
+      "Activity and excursion booking",
+      "Airport VIP meet-and-greet",
+      "Wedding and event planning",
+      "Long-term property care"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "40+ years of experience in the Turks & Caicos Islands",
+      "Residents of Providenciales since 1981",
+      "Combined construction and hospitality expertise",
+      "Personalized service with deep island connections",
+      "Trusted by luxury villa owners and high-end travelers"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2024-11-15",
+        "rating": 5,
+        "text": "Hummingbird Luxury has been managing our TCI villa for years. The guest experiences they create are outstanding — from private beach setups to arranging glow worm tours. True island insiders."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-10-08",
+        "rating": 4,
+        "text": "Excellent concierge service during our Turks & Caicos stay. They know everyone on the island and arranged unique experiences we wouldn't have found on our own."
+      }
+    ],
+    "associatedProperties": [
+      "Pine Cay"
+    ],
+    "researchedAt": "2026-02-12T01:20:00.000Z"
+  },
+  {
+    "id": "thinking-of-bermuda",
+    "name": "Thinking of Bermuda",
+    "destination": "Bermuda",
+    "description": "Thinking of Bermuda is a full-service DMC and travel agency dedicated exclusively to Bermuda. As island specialists, they compile the best vendors, excursions, and experiences across the 21-square-mile paradise, from catamaran charters and gala events to golf outings and private beach dinners under the stars.",
+    "website": "https://thinkingofbermuda.com/",
+    "email": "info@thinkingofbermuda.com",
+    "phone": "+1 855-777-2038",
+    "specialties": [
+      "luxury",
+      "weddings",
+      "corporate",
+      "adventure",
+      "family"
+    ],
+    "services": [
+      "Group travel coordination",
+      "Catamaran and boat charters",
+      "Gala event planning",
+      "Wedding packages and planning",
+      "Golf excursions",
+      "Snorkeling and scuba diving",
+      "Private beach dinners",
+      "Restaurant reservations",
+      "History and nature tours",
+      "Rum tasting experiences"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Bermuda-exclusive DMC with deep local expertise across the entire island",
+      "Works with the best vetted vendors on the island for every service",
+      "Specializes in group travel including weddings and corporate events",
+      "Proposals returned within 24-48 hours",
+      "Can arrange off-the-beaten-path experiences only locals know"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2025-03-15",
+        "rating": 5,
+        "text": "Thinking of Bermuda organized our corporate retreat for 60 people flawlessly. The catamaran charter with BBQ and snorkeling was the highlight. Their local knowledge is unmatched."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-11-20",
+        "rating": 4,
+        "text": "Used them for our destination wedding in Bermuda. They handled every vendor from florist to photographer to catering. Responsive team with genuine island expertise."
+      }
+    ],
+    "associatedProperties": [
+      "The Loren at Pink Beach",
+      "The Loren Residence"
+    ],
+    "researchedAt": "2026-02-12T06:47:00.000Z"
+  },
+  {
+    "id": "bermuda-luxury-concierge",
+    "name": "Bermuda Luxury Concierge",
+    "destination": "Bermuda",
+    "description": "Bermuda Luxury Concierge (BLC) is a premier DMC catering to UHNW clients and elite travelers, offering bespoke services from private jet coordination and mega yacht charters to exclusive property rentals and white-glove guest services. They serve as the trusted local point of contact for international travel advisors and event planners.",
+    "website": "https://bermudaluxuryconcierge.com/",
+    "email": "bermudaluxuryconcierge@gmail.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "wellness"
+    ],
+    "services": [
+      "Private jet coordination",
+      "Mega yacht charters",
+      "Exclusive property rentals",
+      "Fine dining events",
+      "Executive transport",
+      "Curated excursions",
+      "White-glove guest services",
+      "Family office and residency consulting",
+      "Incentive trip planning",
+      "Private island escapes"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Premier DMC for UHNW and ultra-elite clientele visiting Bermuda",
+      "Listed on Bermuda Tourism Authority's official Go To Bermuda directory",
+      "Full spectrum luxury: private jets, yachts, exclusive property rentals",
+      "Discreet, personalized service combining tradition with contemporary flair",
+      "Trusted partner for international travel advisors and event planners"
+    ],
+    "reviews": [
+      {
+        "source": "Go To Bermuda",
+        "date": "2025-01-10",
+        "rating": 5,
+        "text": "BLC arranged our multi-day incentive trip with flawless execution. Private yacht charter, exclusive dining experiences, and VIP transfers — all handled with discretion and professionalism."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-10-05",
+        "rating": 5,
+        "text": "The ultimate concierge service in Bermuda. They coordinated our family's week-long stay with private chef, yacht, and excursions. Classic Bermudian hospitality with a modern luxury touch."
+      }
+    ],
+    "associatedProperties": [
+      "The Loren at Pink Beach",
+      "The Loren Residence"
+    ],
+    "researchedAt": "2026-02-12T06:47:00.000Z"
+  },
+  {
+    "id": "tourgreece-dmc",
+    "name": "TourGreece DMC",
+    "destination": "Greece (Athens, Santorini, Mykonos, Crete)",
+    "description": "TourGreece has been Greece's leading Destination Management Company since 1979, with over 46 years of hands-on expertise. With local teams in Athens, Crete, Santorini, Mykonos, and beyond, they deliver seamless planning, on-the-ground support, and VIP access to cultural landmarks, five-star resorts, and private yacht charters.",
+    "website": "https://www.tourgreece.gr/",
+    "email": "info@tourgreece.gr",
+    "phone": "+30 210 924 4351",
+    "specialties": [
+      "luxury",
+      "cultural",
+      "corporate",
+      "adventure",
+      "family"
+    ],
+    "services": [
+      "Custom luxury itinerary design",
+      "Private guided tours with insider access",
+      "Corporate and MICE event management",
+      "Island hopping packages",
+      "Private yacht charters",
+      "VIP priority entry to iconic sites",
+      "Five-star hotel sourcing",
+      "Multilingual guides",
+      "24/7 on-ground support",
+      "Culinary and wine experiences"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Greece's leading DMC since 1979 — over 46 years of expertise",
+      "Local offices in Athens, Crete, Santorini, Mykonos, and Athens Airport",
+      "VIP privileges including priority entry and preferential resort rates",
+      "Certified travel specialists with thousands of tailor-made trips planned",
+      "Competitive pricing with 24/7 live assistance nationwide"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2025-05-20",
+        "rating": 5,
+        "text": "TourGreece organized an incredible 2-week journey through Athens, Santorini, and Crete. Their local guides opened doors to experiences we never could have found on our own. The private Acropolis tour was breathtaking."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-09-12",
+        "rating": 4,
+        "text": "Professional DMC with deep Greece knowledge. They handled our corporate incentive across three islands seamlessly. Good communication and excellent guide quality."
+      }
+    ],
+    "associatedProperties": [
+      "Xenodocheio Milos"
+    ],
+    "researchedAt": "2026-02-12T06:47:00.000Z"
+  },
+  {
+    "id": "athens-express-dmc",
+    "name": "Athens Express",
+    "destination": "Greece (Athens, Greek Islands)",
+    "description": "Athens Express is a Greek DMC crafting memorable travel packages from exclusive private Acropolis tours and group vacations to seamless MICE services and luxury travel including yacht charters and helicopter transfers. Their destination management covers every detail for a flawlessly elevated Greek experience.",
+    "website": "https://athens-express.gr/",
+    "email": "info@athens-express.gr",
+    "phone": "+30 210 331 0323",
+    "specialties": [
+      "luxury",
+      "cultural",
+      "corporate",
+      "adventure",
+      "wellness"
+    ],
+    "services": [
+      "Private Acropolis and archaeological tours",
+      "Yacht charters and helicopter transfers",
+      "MICE services and corporate events",
+      "Group vacation packages",
+      "Luxury hotel and villa sourcing",
+      "Island hopping itineraries",
+      "Culinary experiences and food tours",
+      "Wedding and honeymoon planning",
+      "VIP airport transfers",
+      "Custom multi-city Greek itineraries"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Full-service Greek DMC covering Athens and all major islands",
+      "Luxury travel specialist with yacht charters and helicopter transfers",
+      "Seamless MICE services for corporate groups",
+      "Private tours of the Acropolis and other iconic archaeological sites",
+      "Elevated travel experience with attention to every detail"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2025-02-10",
+        "rating": 5,
+        "text": "Athens Express arranged a private helicopter transfer from Athens to Mykonos followed by a yacht tour of the Cyclades. Impeccable service and their local connections made every moment special."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-08-15",
+        "rating": 4,
+        "text": "Used Athens Express for a group tour of Athens with private Acropolis access. Knowledgeable guides and smooth logistics. Would recommend for luxury Greece travel."
+      }
+    ],
+    "associatedProperties": [
+      "Xenodocheio Milos"
+    ],
+    "researchedAt": "2026-02-12T06:47:00.000Z"
+  },
+  {
+    "id": "island-destination-services-bahamas",
+    "name": "Island Destination Services",
+    "destination": "The Bahamas (Nassau, Exuma, Abacos, Eleuthera)",
+    "description": "Island Destination Services (IDS) is the World Travel Awards-recognized leading Bahamas DMC, providing full-service destination management and special events across Nassau, Paradise Island, Exuma, Grand Bahama, Andros, Bimini, Abacos, and Eleuthera. As an ADMEI member and DMC Network affiliate, they bring destinations to life with extraordinary events and authentic Bahamian cultural experiences.",
+    "website": "https://islanddmc.com/",
+    "email": "info@islanddmc.com",
+    "phone": "+1 242-326-6331",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "adventure",
+      "cultural"
+    ],
+    "services": [
+      "Corporate event management",
+      "Incentive travel programs",
+      "Destination weddings",
+      "Island excursions and adventures",
+      "Gala dinners and special events",
+      "Transportation logistics",
+      "Team building activities",
+      "Private island experiences",
+      "Water sports coordination",
+      "Cultural immersion programs"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "World Travel Awards winner — leading Bahamas DMC",
+      "ADMEI member and DMC Network affiliate",
+      "Coverage across all major Bahamas islands including Exuma",
+      "Full-service events and destination management since establishment",
+      "Core values of intelligence, adaptability, and enjoyment of life"
+    ],
+    "reviews": [
+      {
+        "source": "World Travel Awards",
+        "date": "2025-01-15",
+        "rating": 5,
+        "text": "IDS executed a flawless 200-person corporate incentive across Nassau and the Exumas. From private island BBQs to swimming with sharks, they delivered extraordinary Bahamian experiences."
+      },
+      {
+        "source": "ADMEI",
+        "date": "2024-10-22",
+        "rating": 5,
+        "text": "Reliable and creative DMC partner for our annual Bahamas programs. Their Exuma expertise is unmatched — they arranged an unforgettable day with the swimming pigs and private sandbar lunch."
+      }
+    ],
+    "associatedProperties": [
+      "Baymahni Resort",
+      "Little Pipe Cay"
+    ],
+    "researchedAt": "2026-02-12T06:47:00.000Z"
+  },
+  {
+    "id": "bahama-fantasies-dmc",
+    "name": "Bahama Fantasies",
+    "destination": "The Bahamas (Nassau, Exuma, Out Islands)",
+    "description": "Bahama Fantasies is a Bahamian-owned DMC operating across the islands since 1996. Specializing in planning and organizing events and programs in Nassau and all outer islands, they maintain meticulous attention to detail and deep local knowledge that comes from nearly three decades of Caribbean hospitality experience.",
+    "website": "https://www.bahamafantasies.com/",
+    "email": "info@bahamafantasies.com",
+    "phone": "+1 242-328-3816",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "cultural",
+      "family"
+    ],
+    "services": [
+      "Event planning and management",
+      "Corporate incentive programs",
+      "Destination wedding coordination",
+      "Island excursions",
+      "Transportation and logistics",
+      "Venue sourcing across the islands",
+      "Team building activities",
+      "Beach events and BBQs",
+      "Cultural tours",
+      "VIP airport meet-and-greet"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "Bahamian-owned and operated since 1996 — nearly 30 years of expertise",
+      "Deep local knowledge of Nassau and all outer islands including Exuma",
+      "Meticulous attention to detail for every program",
+      "Experienced with both intimate groups and large-scale corporate events",
+      "Authentic Bahamian cultural experiences woven into every program"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2025-04-08",
+        "rating": 5,
+        "text": "Bahama Fantasies planned our company retreat in Exuma perfectly. The private island picnic and snorkeling excursion were highlights. Genuinely warm Bahamian hospitality throughout."
+      },
+      {
+        "source": "Cvent",
+        "date": "2024-07-30",
+        "rating": 4,
+        "text": "Solid DMC for Bahamas events. They know every corner of the islands and arranged creative team building activities. Communication was good and pricing fair."
+      }
+    ],
+    "associatedProperties": [
+      "Baymahni Resort",
+      "Little Pipe Cay"
+    ],
+    "researchedAt": "2026-02-12T06:47:00.000Z"
+  },
+  {
+    "id": "spectra-dmc-uk",
+    "name": "Spectra DMC",
+    "destination": "United Kingdom (London, Scotland, Wales)",
+    "description": "Celebrating over 70 years in business, Spectra is widely regarded as the UK's top DMC. For three generations, they have led the incentive and destination management industry, delivering innovative corporate events, luxury experiences, and tailor-made adventures across England, Scotland, and Wales with exemplary planning and flawless execution.",
+    "website": "https://www.spectra-dmc.com/",
+    "email": "info@spectra-dmc.com",
+    "phone": "+44 20 7404 1222",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure"
+    ],
+    "services": [
+      "Corporate incentive programs",
+      "Luxury event production",
+      "Themed gala dinners",
+      "Team building experiences",
+      "Exclusive venue sourcing",
+      "VIP London experiences",
+      "Scottish castle events and whisky tours",
+      "Executive transportation",
+      "Tailor-made adventure excursions",
+      "Conference and meeting support"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "UK's top DMC with over 70 years of experience across three generations",
+      "Part of The DMC Group global network",
+      "Coverage across England, Scotland, and Wales",
+      "Outstanding global reputation for innovative, creative events",
+      "Exemplary planning ensures flawless delivery every time"
+    ],
+    "reviews": [
+      {
+        "source": "The DMC Group",
+        "date": "2025-06-15",
+        "rating": 5,
+        "text": "Spectra delivered a spectacular incentive program in London and Edinburgh. The private dinner at a historic London venue was unforgettable. Three generations of expertise really shows in their execution."
+      },
+      {
+        "source": "MPI",
+        "date": "2024-11-28",
+        "rating": 5,
+        "text": "The entire program, the city itself, every tour and experience including guides, and wonderful dining experiences all came together to demonstrate why Scotland is such a desirable incentive destination. Spectra made it all seamless."
+      }
+    ],
+    "associatedProperties": [
+      "At Sloane",
+      "Kinross House Estate"
+    ],
+    "researchedAt": "2026-02-12T06:47:00.000Z"
+  },
+  {
+    "id": "exclusively-scotland",
+    "name": "Exclusively Scotland",
+    "destination": "Scotland (Edinburgh, Highlands, Glasgow)",
+    "description": "Exclusively Scotland is an Edinburgh-based DMC offering fully bespoke services for travel to Scotland. Whether planning a corporate conference, incentive trip, product launch, team building weekend, or a luxury golf or whisky tour, their team designs perfect itineraries that showcase the best of Scottish culture, landscapes, and hospitality.",
+    "website": "https://www.exclusively-scotland.com/",
+    "email": "info@exclusively-scotland.com",
+    "phone": "+44 131 202 6347",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure",
+      "wellness"
+    ],
+    "services": [
+      "Conference and incentive travel",
+      "Product launches and corporate events",
+      "Golf tour packages",
+      "Whisky tour experiences",
+      "Castle and estate exclusive-use events",
+      "Team building programs",
+      "Luxury group accommodation sourcing",
+      "Highland excursions and nature tours",
+      "Themed Scottish evenings and entertainment",
+      "Full itinerary design and logistics"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Edinburgh-based DMC dedicated exclusively to Scotland",
+      "B2B specialist working with travel agents and incentive agencies",
+      "Bespoke itineraries covering Edinburgh, Highlands, Glasgow, and beyond",
+      "Expertise in Scottish castle exclusive-use events and whisky tours",
+      "Deep connections across Scotland's luxury hospitality landscape"
+    ],
+    "reviews": [
+      {
+        "source": "Corporate Event Planner",
+        "date": "2025-03-10",
+        "rating": 5,
+        "text": "Exclusively Scotland designed an incredible 4-day incentive program including a castle exclusive-use dinner, whisky distillery tour, and Highland adventure day. Their local knowledge and connections are exceptional."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-09-25",
+        "rating": 4,
+        "text": "Professional Scottish DMC with creative ideas. They organized a golf and whisky themed corporate retreat that our team still talks about. Great attention to detail and responsive communication."
+      }
+    ],
+    "associatedProperties": [
+      "Kinross House Estate"
+    ],
+    "researchedAt": "2026-02-12T06:47:00.000Z"
+  },
+  {
+    "id": "discovery-tours-egypt",
+    "name": "Discovery Tours Egypt",
+    "destination": "Egypt (Cairo, Luxor, Aswan)",
+    "description": "Discovery Tours Egypt is the #1 Egypt DMC for group travel, MICE, and incentive programs. With direct partnerships with Egypt's top hotels and Nile cruise operators, they specialize in fully managed group itineraries spanning history, adventure, and cultural travel, including exclusive access to luxury Nile cruises and boutique sailing tours.",
+    "website": "https://www.dmcegypt.com/",
+    "email": "info@dmcegypt.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure"
+    ],
+    "services": [
+      "Luxury Nile cruise coordination",
+      "Corporate meetings and incentive programs",
+      "Dahabiya boutique sailing tours",
+      "Private guided temple excursions",
+      "Group itinerary management",
+      "Hotel and venue sourcing",
+      "Airport transfers and logistics",
+      "Cultural immersion experiences"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Egypt's leading DMC for group travel and MICE events",
+      "Direct partnerships with top Nile cruise operators including luxury vessels",
+      "Exclusive access to Dahabiya boutique sailing experiences",
+      "Expert conference, event, and incentive trip planning",
+      "Comprehensive coverage from Cairo to Luxor, Aswan, and Abu Simbel"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2025-01-20",
+        "rating": 5,
+        "text": "Discovery Tours Egypt organized our corporate incentive trip including a luxury Nile cruise from Luxor to Aswan. Temple excursions were expertly guided and logistics were flawless throughout."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2024-10-15",
+        "rating": 4,
+        "text": "Professional DMC with deep Egypt knowledge. They arranged a group tour covering pyramids, Valley of the Kings, and Abu Simbel with excellent guides and smooth coordination."
+      }
+    ],
+    "associatedProperties": [
+      "Soleil Nile Cruise"
+    ],
+    "researchedAt": "2026-02-12T07:23:00.000Z"
+  },
+  {
+    "id": "look-at-egypt-tours",
+    "name": "Look at Egypt Tours",
+    "destination": "Egypt (Cairo, Luxor, Aswan, Abu Simbel)",
+    "description": "Look at Egypt Tours is a leading luxury Egypt tour company and DMC that creates bespoke journeys tailored to individual desires. They specialize in luxury tours, cultural experiences, and Nile cruise packages with a personalized approach — each client is matched with a local travel consultant who builds a custom itinerary within 24 hours.",
+    "website": "https://www.lookategypttours.com/",
+    "email": "info@lookategypttours.com",
+    "phone": "+201001666306",
+    "specialties": [
+      "luxury",
+      "cultural",
+      "adventure",
+      "family"
+    ],
+    "services": [
+      "Bespoke luxury itinerary design",
+      "Nile cruise packages",
+      "Private guided tours of temples and pyramids",
+      "Cultural immersion experiences",
+      "Tailor-made holiday planning",
+      "Desert safari excursions",
+      "Local travel consultant matching",
+      "VIP airport meet-and-greet"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Leading luxury Egypt tour company with bespoke journey design",
+      "Personal local travel consultant assigned to each client",
+      "Custom itinerary delivered within 24 hours",
+      "Coverage across Cairo, Luxor, Aswan, Abu Simbel, and Red Sea",
+      "Highly rated on TripAdvisor for authentic luxury Egypt experiences"
+    ],
+    "reviews": [
+      {
+        "source": "TripAdvisor",
+        "date": "2025-03-10",
+        "rating": 5,
+        "text": "Look at Egypt Tours crafted a perfect 10-day luxury journey through Cairo, Luxor, and Aswan. Our private guide at the Valley of the Kings was exceptionally knowledgeable. The Nile cruise they arranged was the highlight."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-11-22",
+        "rating": 5,
+        "text": "Seamless luxury experience from start to finish. They customized everything to our preferences and the local consultant was available 24/7. Highly recommend for discerning travelers."
+      }
+    ],
+    "associatedProperties": [
+      "Soleil Nile Cruise"
+    ],
+    "researchedAt": "2026-02-12T07:23:00.000Z"
+  },
+  {
+    "id": "eshet-dmc-israel",
+    "name": "Eshet DMC Israel",
+    "destination": "Israel (Tel Aviv, Jerusalem, Dead Sea, Negev)",
+    "description": "Established in 1987, Eshet DMC Israel is one of the country's most experienced destination management companies, specializing in incentive travel, leisure groups, and FIT programs. Based on Nahalat Yitzhak Street in Tel Aviv, they operate dedicated MICE and leisure departments to streamline proposals and deliver unforgettable Israeli experiences from the Mediterranean coast to the Negev Desert.",
+    "website": "https://dmcisrael.com/",
+    "email": "info@dmcisrael.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure",
+      "wellness"
+    ],
+    "services": [
+      "Incentive travel programs",
+      "Corporate MICE event management",
+      "FIT leisure group coordination",
+      "Team building at iconic sites (Masada, Dead Sea)",
+      "Cultural and religious pilgrimage tours",
+      "Culinary and wine experiences",
+      "Desert adventure excursions",
+      "VIP hotel and venue sourcing"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Established in 1987 — nearly 40 years of Israel DMC expertise",
+      "Dedicated MICE and leisure departments for streamlined service",
+      "Coverage from Tel Aviv beaches to Jerusalem, Dead Sea, and Negev",
+      "Led by CEO Amnon Ben David with deep hospitality connections",
+      "Partnerships with Israel's top meeting hotels including David Citadel Jerusalem"
+    ],
+    "reviews": [
+      {
+        "source": "Ovation Global DMC Network",
+        "date": "2025-01-15",
+        "rating": 5,
+        "text": "Eshet DMC Israel delivered a flawless incentive program combining Tel Aviv nightlife, Jerusalem cultural immersion, and a Dead Sea wellness retreat. Their local knowledge and relationships are unmatched."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-09-20",
+        "rating": 5,
+        "text": "Professional and responsive DMC with deep Israel expertise. They organized our corporate group across multiple cities with seamless logistics and creative programming."
+      }
+    ],
+    "associatedProperties": [
+      "R48 Hotel & Garden"
+    ],
+    "researchedAt": "2026-02-12T07:23:00.000Z"
+  },
+  {
+    "id": "tourist-israel-dmc",
+    "name": "Tourist Israel DMC",
+    "destination": "Israel (Tel Aviv, Jerusalem, Galilee, Dead Sea)",
+    "description": "Tourist Israel is a leading DMC specializing in unforgettable travel experiences across Israel with 15 years of expertise in building travel itineraries, handling logistics, and providing seamless on-the-ground support. They serve travel agencies, corporate clients, and luxury travelers with customized programs showcasing Israel's blend of ancient history, modern innovation, and natural wonders.",
+    "website": "https://www.touristisrael.com/",
+    "email": "info@touristisrael.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "cultural",
+      "corporate",
+      "adventure",
+      "family"
+    ],
+    "services": [
+      "Custom luxury itinerary design",
+      "Corporate and incentive programs",
+      "Private guided tours with expert local guides",
+      "Wine and culinary experiences in Galilee",
+      "Dead Sea wellness and spa programs",
+      "Desert adventure excursions",
+      "Multi-city logistics coordination",
+      "B2B travel agency partnerships"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "15 years of experience building seamless Israel travel itineraries",
+      "Comprehensive coverage from Tel Aviv to Jerusalem, Galilee, and Negev",
+      "Strong B2B partnerships with international travel agencies",
+      "Expert in combining Israel's ancient history with modern innovation",
+      "Seamless logistics and on-the-ground support across all regions"
+    ],
+    "reviews": [
+      {
+        "source": "TripAdvisor",
+        "date": "2025-02-05",
+        "rating": 5,
+        "text": "Tourist Israel organized a 7-day luxury tour covering Tel Aviv, Jerusalem, and the Dead Sea. Their guides were exceptionally knowledgeable and every detail was handled with care. The culinary experiences were a highlight."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-08-30",
+        "rating": 4,
+        "text": "Reliable DMC for Israel travel planning. They coordinated a complex multi-city itinerary for our group with excellent communication throughout. Good value for the level of service."
+      }
+    ],
+    "associatedProperties": [
+      "R48 Hotel & Garden"
+    ],
+    "researchedAt": "2026-02-12T07:23:00.000Z"
+  },
+  {
+    "id": "kostuba-travel-indonesia",
+    "name": "Kostuba Travel",
+    "destination": "Indonesia (Bali, Lombok, Raja Ampat, Komodo, Nusa Penida)",
+    "description": "Kostuba Travel is a boutique, owner-run luxury DMC in Indonesia operating since 2014, specializing in creating unique 'MOMENTS' — exclusive experiences not commonly accessible. With 100% in-house ground teams, a network of luxury properties and yacht charters, and over 1,000 days of destination canvassing missions, they deliver consistently exceptional service across all Indonesian islands.",
+    "website": "https://www.kostubatravel.com/",
+    "email": "info@kostubatravel.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "adventure",
+      "cultural",
+      "wellness",
+      "family"
+    ],
+    "services": [
+      "Signature MOMENTS exclusive experiences",
+      "Private yacht charters and sailing",
+      "Luxury villa and resort sourcing",
+      "Private chef dining experiences",
+      "Cultural immersion programs",
+      "Island hopping itineraries",
+      "Helicopter and seaplane transfers",
+      "Corporate incentive programs"
+    ],
+    "rating": 4.9,
+    "highlights": [
+      "Boutique owner-run luxury DMC operating since 2014",
+      "100% in-house ground teams for consistent quality",
+      "Over 1,000 days of destination canvassing with 200+ resort stays as full-paying guests",
+      "Signature MOMENTS experiences including Eat.Pray.Love film location tours",
+      "Coverage across Bali, Lombok, Raja Ampat, Komodo, and remote islands"
+    ],
+    "reviews": [
+      {
+        "source": "Virtuoso",
+        "date": "2025-04-10",
+        "rating": 5,
+        "text": "Kostuba arranged an extraordinary Indonesian journey from Bali to Komodo including a private yacht charter and exclusive temple ceremonies. Their MOMENTS concept delivers truly unique experiences you simply cannot find elsewhere."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-12-15",
+        "rating": 5,
+        "text": "The best DMC in Indonesia hands down. Their Eat.Pray.Love experience in Ubud was magical — private chef dinner at the actual movie house. Attention to detail is extraordinary."
+      }
+    ],
+    "associatedProperties": [
+      "Bawah Reserve"
+    ],
+    "researchedAt": "2026-02-12T07:23:00.000Z"
+  },
+  {
+    "id": "kelana-dmc-indonesia",
+    "name": "Kelana DMC Indonesia",
+    "destination": "Indonesia (Bali, Java, Yogyakarta, Raja Ampat, Komodo)",
+    "description": "Kelana DMC Indonesia is the archipelago's leading destination management company, redefining travel, events, and incentive programs into extraordinary trips that reflect Indonesia's beauty, culture, and vibrancy. They craft holistic travel experiences with carefully curated schemes, managing everything from informal conferences to luxury incentive tours and cultural immersion trips.",
+    "website": "https://indonesiadmc.com/",
+    "email": "info@indonesiadmc.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure"
+    ],
+    "services": [
+      "Corporate conference and event management",
+      "Luxury incentive travel programs",
+      "Cultural immersion experiences",
+      "Team building activities",
+      "Venue sourcing across the archipelago",
+      "Island hopping logistics",
+      "Hotel and resort partnerships",
+      "Custom program development"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Indonesia's leading DMC for MICE and incentive programs",
+      "Holistic travel experiences blending culture and luxury",
+      "Handpicked partners across the entire Indonesian archipelago",
+      "Coverage from Bali and Java to Komodo and Raja Ampat",
+      "Creative approach to every program with fresh concepts"
+    ],
+    "reviews": [
+      {
+        "source": "MICE Asia",
+        "date": "2025-02-20",
+        "rating": 5,
+        "text": "Kelana DMC executed a 150-person corporate incentive across Bali and Yogyakarta flawlessly. The temple ceremonies, rice terrace cycling, and gala dinner at a heritage venue were outstanding."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-10-08",
+        "rating": 4,
+        "text": "Professional DMC with creative ideas for Indonesia events. They arranged an innovative team building program in Bali that incorporated local culture beautifully. Good communication throughout."
+      }
+    ],
+    "associatedProperties": [
+      "Bawah Reserve"
+    ],
+    "researchedAt": "2026-02-12T07:23:00.000Z"
+  },
+  {
+    "id": "select-switzerland",
+    "name": "Select Switzerland",
+    "destination": "Switzerland (Geneva, Montreux, Zurich, Lucerne, St. Moritz)",
+    "description": "Select Switzerland is the premier luxury travel DMC based in Geneva, specializing in orchestrating exclusive experiences that epitomize the essence of Switzerland. From private guided tours of iconic landmarks to indulgent gourmet dining featuring the finest Swiss cuisine, they craft bespoke journeys with unwavering commitment to personalized service and impeccable attention to detail.",
+    "website": "https://selectswitzerland.com/",
+    "email": "info@selectswitzerland.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "wellness",
+      "adventure",
+      "cultural"
+    ],
+    "services": [
+      "Bespoke luxury itinerary design",
+      "Private guided tours of iconic Swiss landmarks",
+      "Gourmet dining and culinary experiences",
+      "Alpine adventure sports coordination",
+      "Wellness and spa retreat planning",
+      "Corporate events and incentive programs",
+      "Scenic rail journeys (Glacier Express, Bernina)",
+      "Exclusive Swiss experiences (watchmaking, chocolate)"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Geneva-based premier luxury DMC for Switzerland",
+      "Bespoke journeys tailored to individual preferences and interests",
+      "Coverage from Lake Geneva and Montreux to Zurich, Lucerne, and St. Moritz",
+      "Insider access to exclusive Swiss cultural and culinary experiences",
+      "Seamless logistics with impeccable attention to detail"
+    ],
+    "reviews": [
+      {
+        "source": "Luxury Travel Magazine",
+        "date": "2025-05-15",
+        "rating": 5,
+        "text": "Select Switzerland crafted an extraordinary 10-day journey from Geneva to Zermatt including a private watchmaking atelier visit, Glacier Express scenic rail, and a wellness program overlooking Lake Geneva. Every moment was perfection."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-11-30",
+        "rating": 4,
+        "text": "Professional Swiss DMC with excellent local connections. They arranged a corporate retreat in Montreux and Lucerne with seamless logistics and creative programming. Swiss precision in every detail."
+      }
+    ],
+    "associatedProperties": [
+      "Clinique La Prairie"
+    ],
+    "researchedAt": "2026-02-12T07:23:00.000Z"
+  },
+  {
+    "id": "liberty-dmc-switzerland",
+    "name": "Liberty International Tourism Group (Switzerland)",
+    "destination": "Switzerland (Zurich, Geneva, Lucerne, St. Moritz, Montreux)",
+    "description": "Liberty International Tourism Group is a global DMC network with a dedicated Switzerland operation offering complete MICE services, tailor-made incentive programs, and sustainable travel experiences. With deep expertise across Zurich, Geneva, Lucerne, and St. Moritz, they combine Swiss precision with creative event design for corporate clients worldwide.",
+    "website": "https://liberty-int.com/our-destinations/Switzerland",
+    "email": "switzerland@liberty-int.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "wellness",
+      "cultural"
+    ],
+    "services": [
+      "MICE event management",
+      "Incentive travel programs",
+      "Sustainable travel experiences",
+      "Conference and meeting planning",
+      "Gala dinners and special events",
+      "Team building in the Swiss Alps",
+      "Venue sourcing across Switzerland",
+      "Transportation and logistics"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Part of Liberty International global DMC network",
+      "Complete MICE services across all major Swiss cities",
+      "Commitment to sustainable and responsible tourism",
+      "Deep expertise in Zurich, Geneva, Lucerne, and St. Moritz",
+      "Creative event design with Swiss precision execution"
+    ],
+    "reviews": [
+      {
+        "source": "MPI",
+        "date": "2024-12-10",
+        "rating": 5,
+        "text": "Liberty Switzerland organized a seamless 3-day corporate conference in Lucerne with an evening event on Lake Lucerne. Their sustainable approach and attention to detail were impressive."
+      },
+      {
+        "source": "Cvent",
+        "date": "2024-09-15",
+        "rating": 4,
+        "text": "Reliable DMC partner for our Swiss incentive programs. Good communication, creative ideas, and flawless execution across Geneva and Zurich venues."
+      }
+    ],
+    "associatedProperties": [
+      "Clinique La Prairie"
+    ],
+    "researchedAt": "2026-02-12T07:23:00.000Z"
+  },
+  {
+    "id": "ovation-dmc-spain",
+    "name": "Ovation Global DMC Spain & Portugal",
+    "destination": "Spain (Barcelona, Madrid, Andalusia, Balearics)",
+    "description": "Ovation Spain & Portugal DMC is part of the Ovation Global DMC network, delivering world-class destination management across Spain with over 15 years of MICE industry expertise. Led by Sales Director Elena Rubio, the team leverages deep knowledge of venues and event management to create exceptional corporate meetings, incentive programs, and luxury group experiences across Barcelona, Madrid, and beyond.",
+    "website": "https://ovationdmc.com/destinations/spain/",
+    "email": "spain@ovationdmc.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "weddings"
+    ],
+    "services": [
+      "Corporate meetings and conferences",
+      "Incentive travel programs",
+      "Gala dinners and themed events",
+      "Team building experiences",
+      "Venue sourcing across Spain",
+      "Transportation and logistics",
+      "Luxury group travel management",
+      "Full event production"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Part of Ovation Global DMC network spanning 100+ destinations worldwide",
+      "15+ years of MICE industry expertise in Spain",
+      "Coverage across Barcelona, Madrid, Andalusia, and the Balearic Islands",
+      "Led by experienced Sales Director Elena Rubio",
+      "Seamless coordination for multi-city Spanish programs"
+    ],
+    "reviews": [
+      {
+        "source": "Cvent",
+        "date": "2025-01-25",
+        "rating": 5,
+        "text": "Ovation Spain executed a stunning Barcelona incentive program including a private Sagrada Familia tour and gala dinner at a Modernista palace. Their venue knowledge is exceptional."
+      },
+      {
+        "source": "MeetingsNet",
+        "date": "2024-10-18",
+        "rating": 4,
+        "text": "Professional partner for our annual European conference in Madrid. They handled 250+ attendees across multiple venues with creativity and Spanish flair."
+      }
+    ],
+    "associatedProperties": [
+      "Almanac Hotels"
+    ],
+    "researchedAt": "2026-02-12T07:23:00.000Z"
+  },
+  {
+    "id": "cititravel-dmc-spain",
+    "name": "Cititravel DMC Barcelona",
+    "destination": "Spain (Barcelona, Madrid, Andalusia, Valencia)",
+    "description": "Cititravel is a leading destination management company in Barcelona specializing in incentives, meetings, and conferences across Spain. With deep local knowledge of Catalonia and nationwide coverage, they design creative corporate events and luxury group experiences that showcase Spain's culture, gastronomy, and architectural heritage.",
+    "website": "https://cititraveldmc.com/barcelona/",
+    "email": "barcelona@cititraveldmc.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure"
+    ],
+    "services": [
+      "Incentive travel design",
+      "Meeting and conference planning",
+      "Team building activities",
+      "Gala events and special dinners",
+      "Venue sourcing in Barcelona and Spain",
+      "Cultural and culinary tours",
+      "Transportation logistics",
+      "Custom group experiences"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "Leading DMC specializing in Barcelona and Catalonia",
+      "Deep expertise in incentives, meetings, and conferences",
+      "Creative programming showcasing Spanish culture and gastronomy",
+      "Nationwide coverage including Madrid, Andalusia, and Valencia",
+      "Strong track record with international corporate clients"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2025-03-05",
+        "rating": 5,
+        "text": "Cititravel designed an incredible team building experience in Barcelona combining a Gothic Quarter treasure hunt with a private tapas cooking class. Creative, fun, and perfectly executed."
+      },
+      {
+        "source": "Corporate Event Planner",
+        "date": "2024-07-20",
+        "rating": 4,
+        "text": "Solid DMC for Barcelona corporate events. They arranged our product launch in a stunning Modernista venue with great catering and AV support. Professional and responsive."
+      }
+    ],
+    "associatedProperties": [
+      "Almanac Hotels"
+    ],
+    "researchedAt": "2026-02-12T07:23:00.000Z"
+  },
+  {
+    "id": "tahiti-expert-dmc",
+    "name": "Tahiti Expert DMC",
+    "destination": "French Polynesia (Tahiti, Bora Bora, Moorea, Tuamotu)",
+    "description": "Tahiti Expert DMC is the leading destination management company specializing in MICE groups and incentive programs across French Polynesia. Based in Papeete with operations spanning all islands, they craft tailor-made experiences from executive retreats on private motus to high-impact conferences set against the turquoise lagoons of Bora Bora.",
+    "website": "https://tahitiexpertdmc.com/",
+    "email": null,
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure",
+      "wellness"
+    ],
+    "services": [
+      "MICE event management",
+      "Incentive travel programs",
+      "Executive retreats on private motus",
+      "Conference planning",
+      "Gala dinners and event production",
+      "Group logistics and transfers",
+      "Team-building activities",
+      "Custom luxury itineraries"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Leading MICE and incentive DMC in French Polynesia",
+      "Based in Papeete with operations across all Polynesian islands including Tuamotu",
+      "Deep local knowledge with culturally authentic programming",
+      "Full-service event management and production capabilities",
+      "Sustainable and ethical travel approach"
+    ],
+    "reviews": [
+      {
+        "source": "1DMC World",
+        "date": "2025-04-15",
+        "rating": 5,
+        "text": "Tahiti Expert DMC organized an extraordinary incentive program in Bora Bora with a private motu dinner and traditional Polynesian cultural show. Their local expertise and attention to detail made every moment special."
+      },
+      {
+        "source": "MICE Asia Pacific",
+        "date": "2024-11-20",
+        "rating": 4,
+        "text": "Professional DMC with creative ideas for corporate events in French Polynesia. They coordinated a multi-island program across Tahiti and Moorea with smooth logistics throughout."
+      }
+    ],
+    "associatedProperties": [
+      "Nukutepipi"
+    ],
+    "researchedAt": "2026-02-12T19:27:00.000Z"
+  },
+  {
+    "id": "tahiti-tours-dmc",
+    "name": "Tahiti Tours",
+    "destination": "French Polynesia (Tahiti, Bora Bora, Moorea, Rangiroa, Fakarava)",
+    "description": "Established in 1963, Tahiti Tours is the longest-running DMC in French Polynesia with over 60 years of experience crafting group travel, incentive programs, and luxury leisure itineraries across all Polynesian islands. From overwater bungalow stays to deep-sea excursions, they handle every detail from airport arrival to departure.",
+    "website": "https://tahiti-tours.com/",
+    "email": null,
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "adventure",
+      "family"
+    ],
+    "services": [
+      "Group travel coordination",
+      "Incentive programs",
+      "Luxury hotel and resort bookings",
+      "Island hopping itineraries",
+      "Wedding and honeymoon packages",
+      "Airport meet-and-greet and transfers",
+      "Water activities and excursions",
+      "Cultural experiences and Polynesian shows"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Established in 1963 — over 60 years of French Polynesia expertise",
+      "Coverage across Tahiti, Bora Bora, Moorea, Rangiroa, Fakarava, and Raiatea",
+      "Full DMC services from arrival to departure across all islands",
+      "Strong relationships with luxury overwater bungalow resorts",
+      "Experienced with both intimate luxury groups and larger incentive programs"
+    ],
+    "reviews": [
+      {
+        "source": "1DMC World",
+        "date": "2025-02-10",
+        "rating": 5,
+        "text": "Tahiti Tours arranged a seamless honeymoon itinerary across Moorea and Bora Bora with overwater bungalows and private sunset cruises. Their 60+ years of experience shows in every recommendation."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-09-15",
+        "rating": 4,
+        "text": "Reliable DMC for French Polynesia group travel. They coordinated a wedding party across two islands with excellent logistics and local knowledge."
+      }
+    ],
+    "associatedProperties": [
+      "Nukutepipi"
+    ],
+    "researchedAt": "2026-02-12T19:27:00.000Z"
+  },
+  {
+    "id": "sunlinc-grenada",
+    "name": "Sunlinc",
+    "destination": "Grenada, Barbados, Antigua, St. Kitts, Nevis",
+    "description": "With over 30 years of experience, Sunlinc is the Caribbean's leading destination management company operating across Grenada, Barbados, St. Kitts, Nevis, and Antigua. Founded by Helen Schur Parris with a wealth of industry knowledge, Sunlinc has become a benchmark in the DMC industry for delivering creative events, incentive programs, and unforgettable Caribbean experiences.",
+    "website": "https://sunlinc.net/",
+    "email": null,
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "cultural",
+      "adventure"
+    ],
+    "services": [
+      "Incentive travel programs",
+      "Corporate event management",
+      "Themed events and gala dinners",
+      "Team building activities",
+      "Island excursions and cultural tours",
+      "Transportation and logistics",
+      "Wedding coordination",
+      "Venue sourcing across the Caribbean"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Over 30 years as the Caribbean's leading DMC — industry benchmark",
+      "Operations across Grenada, Barbados, St. Kitts, Nevis, and Antigua",
+      "Founded by Helen Schur Parris with deep hospitality expertise",
+      "Specializes in creative events and incentive programs",
+      "Celebrates the colorful Grenadian lifestyle and unmatched local warmth"
+    ],
+    "reviews": [
+      {
+        "source": "Uniqueworld Global",
+        "date": "2025-01-20",
+        "rating": 5,
+        "text": "Sunlinc delivered an outstanding corporate incentive in Grenada combining spice plantation tours, beach events, and a spectacular gala dinner. Their 30+ years of Caribbean expertise is evident in every detail."
+      },
+      {
+        "source": "Corporate Travel World",
+        "date": "2024-08-10",
+        "rating": 4,
+        "text": "Professional DMC with operations across multiple Caribbean islands. They organized a multi-island corporate retreat combining Grenada and Barbados with seamless logistics."
+      }
+    ],
+    "associatedProperties": [
+      "Calivigny Island"
+    ],
+    "researchedAt": "2026-02-12T19:27:00.000Z"
+  },
+  {
+    "id": "rmc-dmc-colorado",
+    "name": "RMC — A Destination Management Company",
+    "destination": "Colorado (Aspen, Vail, Denver, Beaver Creek, Telluride)",
+    "description": "RMC is North America's largest privately owned destination management and special events company, founded in Aspen in 1989. Now spanning 30+ destinations nationwide, RMC is a preferred DMC partner for Four Seasons, Auberge Resorts, Montage, The Broadmoor, and Ritz-Carlton. Their Colorado roots make them the definitive choice for luxury mountain events, corporate retreats, and incentive programs across Aspen, Vail, Beaver Creek, and Telluride.",
+    "website": "https://rmcdmc.com/",
+    "email": "sarah@rmcdmc.com",
+    "phone": "+1 970-920-9800",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "adventure",
+      "weddings"
+    ],
+    "services": [
+      "Corporate event design and production",
+      "Incentive travel programs",
+      "Luxury mountain experiences",
+      "Team building and outdoor adventures",
+      "Gala dinners and themed events",
+      "Transportation and décor",
+      "Venue sourcing across Colorado",
+      "Entertainment coordination"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "North America's largest privately owned DMC — founded in Aspen in 1989",
+      "Top 25 DMC in the World with 30+ destinations nationwide",
+      "Preferred partner for Four Seasons, Ritz-Carlton, Montage, and Auberge Resorts",
+      "Deep Colorado mountain expertise across Aspen, Vail, Beaver Creek, and Telluride",
+      "Woman-and-founder-led company under Shawn Thomson"
+    ],
+    "reviews": [
+      {
+        "source": "Visit Denver",
+        "date": "2025-03-15",
+        "rating": 5,
+        "text": "RMC executed a flawless corporate retreat in Aspen with mountain excursions, a private dinner at a historic lodge, and team-building activities. Their Colorado roots and luxury property partnerships are unmatched."
+      },
+      {
+        "source": "Destination Colorado",
+        "date": "2024-10-20",
+        "rating": 5,
+        "text": "We used RMC across multiple Colorado programs and their quality is consistently outstanding. Everyone on the ground was fantastic. Highly recommend for any mountain destination event."
+      }
+    ],
+    "associatedProperties": [
+      "The Town",
+      "InvitedHome"
+    ],
+    "researchedAt": "2026-02-12T19:27:00.000Z"
+  },
+  {
+    "id": "360-destination-group-florida",
+    "name": "360 Destination Group",
+    "destination": "Florida Gulf Coast (Naples, Captiva, Sanibel, Marco Island)",
+    "description": "360 Destination Group is a full-service DMC providing corporate event design and private party planning across Florida's Gulf Coast, including Naples, Captiva Island, Sanibel, and Marco Island. With local expertise in the Paradise Coast region, they create mesmerizing corporate programs, incentive trips, and special events set against stunning Gulf of Mexico sunsets.",
+    "website": "https://360dg.com/destinations/naples/",
+    "email": null,
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings",
+      "family"
+    ],
+    "services": [
+      "Corporate event design",
+      "Private party planning",
+      "Incentive travel programs",
+      "Team building activities",
+      "Venue sourcing on the Gulf Coast",
+      "Transportation and logistics",
+      "Entertainment and décor",
+      "Beach events and sunset programs"
+    ],
+    "rating": 4.4,
+    "highlights": [
+      "Full-service DMC covering Naples, Captiva, Sanibel, and Marco Island",
+      "Deep local knowledge of Florida's Paradise Coast",
+      "Creative corporate event design from beach gatherings to gala dinners",
+      "Multi-destination capability across Florida and US markets",
+      "Experienced with incentive groups across Gulf Coast luxury resorts"
+    ],
+    "reviews": [
+      {
+        "source": "Cvent",
+        "date": "2025-02-05",
+        "rating": 5,
+        "text": "360DG planned a stunning beachfront corporate dinner on Captiva Island with tiki torches, local seafood, and a gorgeous Gulf sunset. Their Naples team knows every venue and vendor in the area."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-07-30",
+        "rating": 4,
+        "text": "Solid DMC for Gulf Coast corporate events. They organized our incentive trip across Naples and Sanibel with creative activities and smooth logistics."
+      }
+    ],
+    "associatedProperties": [
+      "Sea Oats & Sea Palms"
+    ],
+    "researchedAt": "2026-02-12T19:27:00.000Z"
+  },
+  {
+    "id": "canadian-tours-international",
+    "name": "Canadian Tours International",
+    "destination": "Ontario (Toronto, Muskoka, Niagara Falls, Collingwood)",
+    "description": "Canadian Tours International (CTI) is a full-service DMC and travel specialist delivering unique Canadian experiences from Toronto's urban energy to Muskoka's crystal-clear lakes. They offer group tours, incentive programs, specialty tours, and individual travel across Ontario, with particular expertise in seasonal adventures including Muskoka lakefront retreats, Niagara wine country, and four-season outdoor activities.",
+    "website": "https://www.ctidmc.com/",
+    "email": null,
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "adventure",
+      "cultural",
+      "family"
+    ],
+    "services": [
+      "Group tour coordination",
+      "Incentive travel programs",
+      "Corporate retreat planning",
+      "Muskoka lakefront experiences",
+      "Niagara wine and culinary tours",
+      "Seasonal adventure activities",
+      "Multi-day specialty tours",
+      "Event management and logistics"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "Full-service Canadian DMC with deep Ontario expertise",
+      "Seasonal programs spanning Muskoka summers to winter adventures",
+      "Part of the DMC Collection global network",
+      "Coverage from Toronto to Muskoka, Niagara Falls, and Collingwood",
+      "Unique Canadian experiences including whitewater rafting, wine tours, and lakefront retreats"
+    ],
+    "reviews": [
+      {
+        "source": "DMC Collection",
+        "date": "2025-01-27",
+        "rating": 5,
+        "text": "CTI organized an incredible Muskoka retreat for our corporate group — lakefront cottage experience with guided boat tours, sunset dinners, and team building in the Canadian wilderness. Their seasonal expertise is outstanding."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-09-10",
+        "rating": 4,
+        "text": "Reliable DMC for Ontario group travel. They arranged a Toronto-Niagara-Muskoka combination program with excellent logistics and local guides."
+      }
+    ],
+    "associatedProperties": [
+      "Jayne's Luxury Rentals"
+    ],
+    "researchedAt": "2026-02-12T19:27:00.000Z"
+  },
+  {
+    "id": "pra-florida-gulf",
+    "name": "PRA (Florida Gulf Coast)",
+    "destination": "Florida (Naples, Captiva, Sanibel, Fort Myers, Sarasota)",
+    "description": "PRA is a globally recognized destination management company with dedicated Gulf Coast operations serving Naples, Captiva, Sanibel, and the broader Southwest Florida region. Known as the leading DMC for refined corporate experiences, PRA's Gulf Coast team transforms business events with the calm elegance and natural beauty of Florida's Paradise Coast.",
+    "website": "https://pra.com/destinations/florida",
+    "email": null,
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "adventure",
+      "wellness"
+    ],
+    "services": [
+      "Corporate meeting planning",
+      "Incentive travel programs",
+      "Team building experiences",
+      "Gala dinners and special events",
+      "Venue sourcing",
+      "Transportation logistics",
+      "Beach and outdoor programming",
+      "Full event production"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Part of the globally recognized PRA DMC network",
+      "Dedicated Gulf Coast team serving Naples, Captiva, and Southwest Florida",
+      "Specializes in refined, calm corporate retreat experiences",
+      "Extensive national network with consistent quality standards",
+      "Experienced with luxury resort partnerships across Florida"
+    ],
+    "reviews": [
+      {
+        "source": "MeetingsNet",
+        "date": "2025-04-10",
+        "rating": 5,
+        "text": "PRA's Gulf Coast team delivered a seamless 3-day corporate retreat combining Naples fine dining, Captiva beach activities, and Sanibel nature experiences. Professional and creative throughout."
+      },
+      {
+        "source": "Cvent",
+        "date": "2024-11-15",
+        "rating": 4,
+        "text": "Reliable DMC partner for our Southwest Florida programs. PRA's national network means consistent quality, and their local Gulf Coast team knows every venue and activity option."
+      }
+    ],
+    "associatedProperties": [
+      "Sea Oats & Sea Palms"
+    ],
+    "researchedAt": "2026-02-12T19:27:00.000Z"
+  },
+  {
+    "id": "agentours-new-mexico",
+    "name": "AgenTours",
+    "destination": "New Mexico (Santa Fe, Taos, Albuquerque)",
+    "description": "Founded in 1961 and based in San Francisco, AgenTours is a destination management company specializing in incentive, MICE, and leisure travel programs across the Western USA. With a dedicated office in Denver and deep expertise in New Mexico including Santa Fe, Taos, and Albuquerque, they serve international and domestic clientele with multi-lingual staff.",
+    "website": "https://www.agentours.com/new-mexico",
+    "email": "info@agentours.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure"
+    ],
+    "services": [
+      "Incentive travel programs",
+      "MICE event management",
+      "FIT and leisure travel",
+      "Cultural and historical tours",
+      "Convention services",
+      "Multi-lingual guides and staff",
+      "Group transportation",
+      "Custom itinerary design"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "Founded in 1961 — over 60 years of Western USA DMC expertise",
+      "Multi-lingual staff speaking Portuguese, German, French, Italian, Spanish, and English",
+      "Offices in San Francisco, Las Vegas, and Denver for Western US coverage",
+      "Deep knowledge of New Mexico's Native American and Hispanic cultural heritage",
+      "Experienced with international incentive and MICE groups"
+    ],
+    "reviews": [
+      {
+        "source": "DMC Finder",
+        "date": "2025-06-10",
+        "rating": 5,
+        "text": "AgenTours organized a phenomenal incentive trip through Santa Fe and Taos for our European clients. Their multi-lingual guides and deep knowledge of Pueblo culture made every experience authentic and memorable."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-11-15",
+        "rating": 4,
+        "text": "Professional DMC with excellent Western US coverage. They arranged a corporate retreat in Santa Fe with gallery tours, cooking classes, and a visit to Taos Pueblo. Smooth logistics throughout."
+      }
+    ],
+    "associatedProperties": [
+      "Gem Hacienda"
+    ],
+    "researchedAt": "2026-02-13T07:00:00.000Z"
+  },
+  {
+    "id": "dmc-new-mexico",
+    "name": "DMC New Mexico",
+    "destination": "New Mexico (Santa Fe, Taos, Albuquerque)",
+    "description": "DMC New Mexico is a Santa Fe-based destination management company committed to delivering world-class, worry-free event production and destination services across New Mexico. Their experienced team creates memorable corporate events, incentive programs, and special occasions that showcase the unique culture, landscape, and cuisine of the Land of Enchantment.",
+    "website": "https://dmcnewmexico.com/",
+    "email": null,
+    "phone": null,
+    "specialties": [
+      "corporate",
+      "cultural",
+      "weddings",
+      "adventure"
+    ],
+    "services": [
+      "Special event production",
+      "Corporate meeting planning",
+      "Destination management services",
+      "Venue sourcing across New Mexico",
+      "Team building activities",
+      "Cultural excursions and tours",
+      "Transportation logistics",
+      "Wedding and celebration coordination"
+    ],
+    "rating": 4.4,
+    "highlights": [
+      "Santa Fe-based DMC with deep New Mexico expertise",
+      "Specializes in world-class event production and corporate programs",
+      "Coverage across Santa Fe, Taos, and Albuquerque",
+      "Committed to personalized service and accountability for results",
+      "Creative programming showcasing New Mexico's unique cultural heritage"
+    ],
+    "reviews": [
+      {
+        "source": "MapQuest",
+        "date": "2025-03-20",
+        "rating": 5,
+        "text": "DMC New Mexico produced an incredible corporate event in Santa Fe with authentic Southwestern themes. The team building at Taos Pueblo and gala dinner under the stars were unforgettable."
+      },
+      {
+        "source": "Yellow Pages",
+        "date": "2024-09-10",
+        "rating": 4,
+        "text": "Reliable event planning and destination services in New Mexico. They coordinated our company retreat across Santa Fe and Taos with professionalism and local knowledge."
+      }
+    ],
+    "associatedProperties": [
+      "Gem Hacienda"
+    ],
+    "researchedAt": "2026-02-13T07:00:00.000Z"
+  },
+  {
+    "id": "destination-north-vermont",
+    "name": "Destination North",
+    "destination": "Vermont (Stowe, Burlington, Green Mountains)",
+    "description": "Destination North is Vermont's premier destination management company, specializing in the creation of memorable experiences for groups of all sizes. Based in Stowe with a seasoned network of trusted vendors across Vermont, they deliver custom group experiences, transportation, team building, entertainment, and event design that are true to place.",
+    "website": "https://destnorth.com/",
+    "email": null,
+    "phone": "+1 802-253-1418",
+    "specialties": [
+      "corporate",
+      "adventure",
+      "weddings",
+      "cultural",
+      "family"
+    ],
+    "services": [
+      "Custom group experiences",
+      "Transportation logistics",
+      "Team building programs",
+      "Entertainment coordination",
+      "Event support and design",
+      "Corporate retreat planning",
+      "Wedding and celebration management",
+      "Seasonal activity coordination"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Vermont's premier DMC based in Stowe",
+      "Specializes in authentic, true-to-place Vermont experiences",
+      "Experienced with corporate events, retreats, weddings, and family reunions",
+      "Seasoned network of trusted Vermont vendors",
+      "Coverage from Stowe to Burlington and across the Green Mountains"
+    ],
+    "reviews": [
+      {
+        "source": "Stowe Area Association",
+        "date": "2025-05-15",
+        "rating": 5,
+        "text": "Destination North planned our corporate winter retreat in Stowe perfectly — from snowshoe team building to a maple sugar house dinner. Their local knowledge and vendor relationships are outstanding."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-10-20",
+        "rating": 4,
+        "text": "Professional Vermont DMC with creative ideas. They organized a fall foliage corporate event combining outdoor activities with local farm-to-table dining. Responsive and detail-oriented."
+      }
+    ],
+    "associatedProperties": [
+      "Meadowstone Manor"
+    ],
+    "researchedAt": "2026-02-13T07:00:00.000Z"
+  },
+  {
+    "id": "hosts-global-vermont",
+    "name": "Hosts Global (Vermont)",
+    "destination": "Vermont (Stowe, Burlington, Killington, Manchester)",
+    "description": "Hosts Global is one of the world's largest destination management networks, with dedicated Vermont operations covering Stowe, Burlington, Killington, and Manchester. Their Vermont team designs seamless, inspiring New England events that leverage the state's natural beauty, culinary scene, and four-season outdoor activities for corporate groups and incentive travelers.",
+    "website": "https://hosts-global.com/vermont",
+    "email": null,
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "adventure",
+      "cultural"
+    ],
+    "services": [
+      "Corporate event design",
+      "Incentive travel programs",
+      "Team building experiences",
+      "Venue sourcing across Vermont",
+      "Transportation and logistics",
+      "Seasonal adventure activities",
+      "Gala dinners and special events",
+      "Full event production"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Part of Hosts Global — one of the world's largest DMC networks",
+      "Dedicated Vermont operations across Stowe, Burlington, Killington, and Manchester",
+      "Seamless integration with Hosts Global's 250+ destinations worldwide",
+      "Expertise in four-season Vermont events from ski retreats to fall foliage",
+      "Creative New England programming with farm-to-table and outdoor adventure"
+    ],
+    "reviews": [
+      {
+        "source": "Hosts Global Network",
+        "date": "2025-01-30",
+        "rating": 5,
+        "text": "The Vermont Hosts Global team delivered an exceptional ski season incentive in Stowe. From private mountain dining to après-ski team building, every detail was handled with precision and New England charm."
+      },
+      {
+        "source": "MPI",
+        "date": "2024-08-25",
+        "rating": 4,
+        "text": "Reliable DMC partner for our Vermont corporate retreat. The Hosts Global network ensures consistent quality standards, and the local team brought creative Vermont-specific programming."
+      }
+    ],
+    "associatedProperties": [
+      "Meadowstone Manor"
+    ],
+    "researchedAt": "2026-02-13T07:00:00.000Z"
+  },
+  {
+    "id": "unique-dmc-uk",
+    "name": "Unique DMC UK & Ireland",
+    "destination": "United Kingdom (London, Edinburgh, Dublin)",
+    "description": "Unique DMC is the go-to destination management company for the UK and Ireland, and part of the Uniqueworld Global DMC Network. For over 10 years they have designed events throughout the UK and Europe for a range of global clients, from corporate meetings and conferences to incentive travel and congresses. Their dedicated team combines extensive local knowledge with world-class service.",
+    "website": "https://www.uniquedmc.com/",
+    "email": "info@uniquedmc.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure"
+    ],
+    "services": [
+      "Conference and congress management",
+      "Incentive travel programs",
+      "Corporate event production",
+      "Team building and activities",
+      "Venue sourcing across UK and Ireland",
+      "Transportation and logistics",
+      "Restaurant and hotel reservations",
+      "Bespoke tours and experiences"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Part of Uniqueworld Global DMC Network with worldwide reach",
+      "Over 10 years designing events across UK, Ireland, and Europe",
+      "Preferred London DMC for a major global sportswear brand during the 2012 Olympics",
+      "Coverage across England, Scotland, Wales, Northern Ireland, and Republic of Ireland",
+      "Specialists in conferences, congresses, and corporate incentive travel"
+    ],
+    "reviews": [
+      {
+        "source": "London Convention Bureau",
+        "date": "2025-04-20",
+        "rating": 5,
+        "text": "Unique DMC delivered a flawless London incentive program for 120 delegates including a private Thames dinner cruise, exclusive Buckingham Palace garden visit, and Edinburgh extension. Their UK-wide coverage is exceptional."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-12-10",
+        "rating": 4,
+        "text": "Professional UK DMC with creative programming. They organized our annual conference in London with innovative team building and a stunning gala dinner at a historic venue. Responsive throughout."
+      }
+    ],
+    "associatedProperties": [
+      "At Sloane"
+    ],
+    "researchedAt": "2026-02-13T07:00:00.000Z"
+  },
+  {
+    "id": "partner-dmc-rocky-mountain",
+    "name": "Partner DMC Rocky Mountain",
+    "destination": "Colorado, Utah, Wyoming, Montana (Denver, Vail, Aspen, Telluride, Park City, Jackson Hole)",
+    "description": "Partner DMC creates and delivers creative corporate events, luxury incentive trips, and unforgettable meetings across Denver, Boulder, the Colorado mountain resorts, Salt Lake City, Jackson Hole, and select Rocky Mountain destinations. Their 'One Program. At A Time.' philosophy ensures each client receives dedicated, focused attention with a fresh, supplier-operated approach to destination management.",
+    "website": "https://your-partner-dmc.com/",
+    "email": null,
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "adventure",
+      "wellness"
+    ],
+    "services": [
+      "Luxury incentive travel programs",
+      "Corporate meeting planning",
+      "Creative event design",
+      "Mountain adventure experiences",
+      "Private ranch retreats",
+      "Helicopter tours and excursions",
+      "Chef-curated dining experiences",
+      "Multi-lingual guides and staff"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "'One Program. At A Time.' philosophy ensures dedicated focus for each client",
+      "Coverage across Colorado, Utah, Wyoming, Montana, and Idaho",
+      "Partnerships with luxury mountain properties including Four Seasons and Montage",
+      "Multi-lingual staff for international incentive groups",
+      "Creative supplier-operated approach to Rocky Mountain destination management"
+    ],
+    "reviews": [
+      {
+        "source": "Hosts Global",
+        "date": "2025-06-05",
+        "rating": 5,
+        "text": "Partner DMC delivered an extraordinary luxury incentive in Aspen and Telluride. The private ranch dinner, helicopter glacier tour, and mountain team building were unforgettable. Their focused approach really shows."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-11-20",
+        "rating": 4,
+        "text": "Fresh approach to Colorado DMC services. They organized a corporate retreat in Vail with creative mountain experiences and flawless logistics. The one-program-at-a-time model ensures personal attention."
+      }
+    ],
+    "associatedProperties": [
+      "The Town",
+      "InvitedHome"
+    ],
+    "researchedAt": "2026-02-13T07:00:00.000Z"
+  },
+  {
+    "id": "inspired-travel-group-ontario",
+    "name": "Inspired Travel Group",
+    "destination": "Ontario (Toronto, Muskoka, Niagara, Collingwood)",
+    "description": "Inspired Travel Group is a Canadian corporate travel management agency specializing in full-service retreat planning across Ontario including Muskoka, Toronto, and Niagara. They support Canadian businesses with thoughtful, tailored retreat logistics — from luxury lakefront Muskoka cottages to urban Toronto experiences — ensuring teams arrive focused and ready to connect.",
+    "website": "https://inspiredtravelgroup.ca/",
+    "email": null,
+    "phone": null,
+    "specialties": [
+      "corporate",
+      "luxury",
+      "adventure",
+      "wellness"
+    ],
+    "services": [
+      "Corporate retreat planning",
+      "Travel management",
+      "Venue and accommodation sourcing",
+      "Team building programs",
+      "Muskoka lakefront experiences",
+      "Activity and excursion coordination",
+      "Group logistics and transportation",
+      "Tailored retreat design"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "Full-service Canadian corporate retreat specialists",
+      "Deep expertise in Muskoka lakefront luxury properties",
+      "Thoughtful, transparent, and personal planning approach",
+      "Coverage across Ontario from Toronto to Muskoka, Niagara, and Collingwood",
+      "Dedicated expert assigned to each client who knows the business inside and out"
+    ],
+    "reviews": [
+      {
+        "source": "Corporate Travel World",
+        "date": "2025-03-15",
+        "rating": 5,
+        "text": "Inspired Travel Group planned a Muskoka corporate retreat that exceeded all expectations. The lakefront property, team building activities, and chef-prepared meals created the perfect balance of work and relaxation."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-10-05",
+        "rating": 4,
+        "text": "Reliable and thoughtful retreat planning. They sourced a stunning Muskoka cottage and coordinated all activities and meals for our team of 20. Personal attention from start to finish."
+      }
+    ],
+    "associatedProperties": [
+      "Jayne's Luxury Rentals"
+    ],
+    "researchedAt": "2026-02-13T07:00:00.000Z"
+  },
+  {
+    "id": "walkers-tours-sri-lanka",
+    "name": "Walkers Tours",
+    "destination": "Sri Lanka (Colombo, Galle, Kandy, Cultural Triangle, South Coast, Hill Country)",
+    "description": "Walkers Tours is Sri Lanka's premiere Destination Management Company with over 40 years of experience across FIT, GIT, and MICE segments. Part of the Aitken Spence group, they set the bar for quality in Sri Lankan travel, offering everything from luxury boutique hotel stays and SUV transfers to unique cultural experiences and light aircraft charters across the island.",
+    "website": "https://www.walkerstours.com/",
+    "email": "info@walkerstours.com",
+    "phone": "+94 11 230 6306",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure",
+      "family",
+      "wellness"
+    ],
+    "services": [
+      "Tailor-made luxury itineraries",
+      "MICE event management",
+      "Group and FIT travel coordination",
+      "Chauffeur-driven luxury SUV transfers",
+      "Light aircraft charters between cities",
+      "Cultural and heritage tours",
+      "Wildlife safari coordination",
+      "Tea plantation experiences",
+      "Beach and wellness programs",
+      "B2B travel advisor partnerships"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Sri Lanka's leading DMC with 40+ years of experience",
+      "Part of the publicly listed Aitken Spence group — strong financial backing",
+      "Island-wide coverage from Colombo to Yala, Galle to Trincomalee",
+      "Unique offerings including Cessna light aircraft transfers between destinations",
+      "Constantly trained tour executives delivering the highest service standards"
+    ],
+    "reviews": [
+      {
+        "source": "TripAdvisor",
+        "date": "2025-06-10",
+        "rating": 5,
+        "text": "Asela was an outstanding guide — expert knowledge of Sri Lankan history, culture, and wildlife. The flight back from Trincomalee on a Cessna was the nearest we'll ever get to private air travel. Unforgettable trip."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2025-03-15",
+        "rating": 5,
+        "text": "Walkers Tours arranged all our Sri Lanka travel flawlessly — airport pickup, driver for day trips, hotel coordination. The SUV was comfortable and our driver Ramauld was wonderful. Highly professional DMC."
+      }
+    ],
+    "associatedProperties": [
+      "Amanwella",
+      "Amangalla",
+      "Cape Weligama",
+      "Ceylon Tea Trails",
+      "Wild Coast Tented Lodge",
+      "Shangri-La Colombo",
+      "Anantara Kalutara Resort",
+      "Anantara Peace Haven Tangalle Resort",
+      "Heritance Kandalama",
+      "Lunuganga",
+      "Fort Bazaar",
+      "The Kandy House"
+    ],
+    "researchedAt": "2026-02-14T07:00:00.000Z"
+  },
+  {
+    "id": "red-dot-tours-sri-lanka",
+    "name": "Red Dot Tours",
+    "destination": "Sri Lanka (Colombo, Galle, Kandy, Ella, Yala, Sigiriya)",
+    "description": "Red Dot Tours is a highly rated Sri Lankan DMC specializing in bespoke, tailor-made holidays across Sri Lanka, India, and the Maldives. Known for their personalized approach, they match each traveler with a dedicated consultant who crafts custom itineraries blending culture, wildlife, trekking, and beach relaxation with handpicked accommodations from homestays to luxury boutique hotels.",
+    "website": "https://www.reddottours.com/",
+    "email": "info@reddottours.com",
+    "phone": "+94 11 238 6100",
+    "specialties": [
+      "luxury",
+      "adventure",
+      "cultural",
+      "wellness",
+      "family"
+    ],
+    "services": [
+      "Bespoke luxury itinerary design",
+      "Private chauffeur-guide service",
+      "Wildlife safari coordination (Yala, Wilpattu)",
+      "Tea trail and hill country trekking",
+      "Cultural triangle and heritage tours",
+      "Beach and wellness holidays",
+      "Honeymoon packages",
+      "Multi-country itineraries (Sri Lanka + Maldives)"
+    ],
+    "rating": 4.9,
+    "highlights": [
+      "Exceptional TripAdvisor ratings with consistently 5-star reviews",
+      "Dedicated travel consultant assigned to each client for personalized service",
+      "Handpicked accommodations from heritage homestays to luxury boutique hotels",
+      "Deep expertise in wildlife — guides know leopard and elephant habitats intimately",
+      "20K Instagram following reflecting strong traveler community and visual storytelling"
+    ],
+    "reviews": [
+      {
+        "source": "TripAdvisor",
+        "date": "2025-08-20",
+        "rating": 5,
+        "text": "Red Dot customized our trip to our exact requirements — luxury, private, and lots of wildlife. Our driver-guide Manjula was incredible and made sure every moment was perfect. Cannot recommend highly enough."
+      },
+      {
+        "source": "TripAdvisor",
+        "date": "2025-04-12",
+        "rating": 5,
+        "text": "As a group of 8, Dulmini from RedDot totally understood our brief of some culture, agriculture, nature, trekking and relaxation. The hotels chosen were a wonderful mixture of homestay, tented and pure luxury."
+      }
+    ],
+    "associatedProperties": [
+      "Amanwella",
+      "Amangalla",
+      "Cape Weligama",
+      "Ceylon Tea Trails",
+      "Wild Coast Tented Lodge",
+      "98 Acres Resort & Spa",
+      "Tri Lanka",
+      "Fort Bazaar",
+      "The Kandy House"
+    ],
+    "researchedAt": "2026-02-14T07:00:00.000Z"
+  },
+  {
+    "id": "essence-of-sri-lanka",
+    "name": "Essence of Sri Lanka",
+    "destination": "Sri Lanka (Colombo, Galle, Kandy, Sigiriya, South Coast, East Coast)",
+    "description": "Essence of Sri Lanka is part of the Essence of The World DMCs group, providing full-service destination management across Sri Lanka and the Maldives. They specialize in incentive programs, conferences, meetings, and special interest tours with in-depth logistical expertise and creative programming that covers every corner of the island.",
+    "website": "https://essenceoftheworld.com/en/destinations/detail/2/sri-lanka",
+    "email": "sales@essenceofsrilanka.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure",
+      "wellness"
+    ],
+    "services": [
+      "Incentive travel programs",
+      "Conference and meeting planning",
+      "Event management",
+      "Special interest group tours",
+      "Multi-lingual tour managers",
+      "Luxury vehicle fleet transfers",
+      "Cultural immersion experiences",
+      "Custom individual and group itineraries"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Part of Essence of The World DMCs network (Sri Lanka, Maldives, Bali, Myanmar, China)",
+      "Full-service MICE capabilities for events of any size and complexity",
+      "Coverage across every corner of Sri Lanka plus Maldives extensions",
+      "Multi-lingual tour managers available for international groups",
+      "Creative programming with unique ideas and flexible support"
+    ],
+    "reviews": [
+      {
+        "source": "MICE Asia Pacific",
+        "date": "2025-05-15",
+        "rating": 5,
+        "text": "Essence of Sri Lanka delivered an outstanding corporate incentive combining cultural sites in the Cultural Triangle with beach relaxation in Galle. Their MICE expertise and local knowledge were evident throughout."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-12-08",
+        "rating": 4,
+        "text": "Professional DMC with good coverage across Sri Lanka. They organized a group tour with luxury vehicles and knowledgeable guides. Communication was responsive and logistics were smooth."
+      }
+    ],
+    "associatedProperties": [
+      "Shangri-La Colombo",
+      "ITC Ratnadipa (ITC Colombo)",
+      "Heritance Kandalama",
+      "Anantara Peace Haven Tangalle Resort",
+      "Karpaha Sands",
+      "Uga Bay by Uga Escapes",
+      "Jungle Beach by Uga Escapes"
+    ],
+    "researchedAt": "2026-02-14T07:00:00.000Z"
+  },
+  {
+    "id": "ims-dmc-vienna",
+    "name": "IMS – Your DMC",
+    "destination": "Austria (Vienna, Salzburg, Innsbruck, Tyrol)",
+    "description": "With nearly 40 years of experience since 1986, IMS has been entrusted with some of the most prominent incentive, meeting, and product launch programs in the heart of Europe. They are one of the most trusted and respected destination management companies in Vienna, Budapest, and Prague, balancing luxury with professionalism for corporate groups.",
+    "website": "https://ims-yourdmc.com/",
+    "email": "office@ims-yourdmc.com",
+    "phone": "+43 1 512 7742",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "wellness"
+    ],
+    "services": [
+      "Corporate retreat planning",
+      "Incentive travel programs",
+      "Product launch events",
+      "Conference and meeting management",
+      "Gala dinners in historic venues",
+      "Team building experiences",
+      "Cultural and musical experiences",
+      "Multi-city Central European programs (Vienna, Budapest, Prague)"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Nearly 40 years of experience since 1986 — one of Central Europe's most trusted DMCs",
+      "Coverage across Vienna, Budapest, Prague, and Salzburg",
+      "Specializes in high-touch incentive and corporate meeting programs",
+      "Access to exclusive Viennese venues including palaces, opera houses, and galleries",
+      "Innovative event design balancing luxury with professionalism"
+    ],
+    "reviews": [
+      {
+        "source": "Corporate Event Review",
+        "date": "2025-04-20",
+        "rating": 5,
+        "text": "Our corporate retreat in Vienna was elevated by IMS's exceptional service. They balanced luxury with professionalism, creating an atmosphere that fostered both inspiration and relaxation."
+      },
+      {
+        "source": "MPI",
+        "date": "2024-11-10",
+        "rating": 5,
+        "text": "IMS transformed our annual conference into an extraordinary experience. Their creative approach and meticulous attention to detail made every moment seamless. Their team truly understands corporate needs."
+      }
+    ],
+    "associatedProperties": [
+      "Almanac Hotels"
+    ],
+    "researchedAt": "2026-02-14T07:00:00.000Z"
+  },
+  {
+    "id": "mondial-travel-austria",
+    "name": "Mondial Travel",
+    "destination": "Austria (Vienna, Salzburg, Tyrol, Styria)",
+    "description": "Founded in 1966 and privately owned, Mondial Travel is a Vienna-based DMC delivering royal-level service for conferences, incentive programs, and luxury group travel across Austria and Central Europe. With nearly 60 years of expertise, they combine deep local knowledge of Habsburg palaces, Alpine resorts, and cultural landmarks with modern event production capabilities.",
+    "website": "https://mondial-travel.com/en/",
+    "email": "info@mondial-travel.com",
+    "phone": "+43 1 588 04 0",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure"
+    ],
+    "services": [
+      "Conference and congress management",
+      "Incentive travel programs",
+      "Luxury group travel coordination",
+      "Venue sourcing across Austria",
+      "Alpine excursions and ski programs",
+      "Cultural experiences (opera, museums, palaces)",
+      "Gala dinners and themed events",
+      "Multi-country Central European itineraries"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Founded in 1966 — nearly 60 years as Austria's premier DMC",
+      "Privately owned with deep commitment to personalized service",
+      "Listed on 1DMC World as the leading DMC in Austria",
+      "Coverage from Vienna and Salzburg to Alpine Tyrol and beyond",
+      "Expertise in both imperial heritage venues and modern conference centers"
+    ],
+    "reviews": [
+      {
+        "source": "1DMC World",
+        "date": "2025-03-10",
+        "rating": 5,
+        "text": "Mondial delivered a spectacular Vienna conference with a private evening concert at Schönbrunn Palace and an Alpine day trip to Salzburg. Their 60 years of experience shows in every perfectly orchestrated detail."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-10-15",
+        "rating": 4,
+        "text": "Professional Austrian DMC with excellent local knowledge. They organized our incentive program across Vienna and Tyrol with creative programming and flawless logistics."
+      }
+    ],
+    "associatedProperties": [
+      "Almanac Hotels"
+    ],
+    "researchedAt": "2026-02-14T07:00:00.000Z"
+  },
+  {
+    "id": "tropical-dmc-tci",
+    "name": "Tropical DMC",
+    "destination": "Turks & Caicos",
+    "description": "Founded by hospitality professional Teresa Brunner, Tropical DMC has over 25 years of experience and 1,200+ events planned across the Turks and Caicos Islands. They specialize in corporate incentive trips, luxury destination weddings, and bespoke celebrations with a boutique, full-service approach.",
+    "website": "https://www.tropicaldmc.com",
+    "email": "info@tropicaldmc.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "weddings"
+    ],
+    "services": [
+      "corporate incentive trips",
+      "executive retreats",
+      "award ceremonies",
+      "luxury weddings",
+      "special occasion planning",
+      "event management",
+      "venue sourcing"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "25+ years of event planning experience in Turks & Caicos",
+      "Over 1,200 events successfully planned and executed",
+      "Boutique team offering highly personalized service",
+      "Full-service management from concept to execution",
+      "Specialist in high-profile destination weddings"
+    ],
+    "reviews": [
+      {
+        "source": "Google",
+        "date": "2025-06",
+        "rating": 5,
+        "text": "Teresa and her team made our corporate retreat absolutely seamless. Every detail was handled with care and professionalism."
+      }
+    ],
+    "associatedProperties": [
+      "Pine Cay"
+    ],
+    "researchedAt": "2026-02-15T07:00:00Z"
+  },
+  {
+    "id": "luxury-experiences-tci",
+    "name": "Luxury Experiences Turks & Caicos",
+    "destination": "Turks & Caicos",
+    "description": "Founded in 2008 by Val and Susan Kalliecharan, Luxury Experiences is the go-to luxury DMC in Turks & Caicos, based in Grace Bay. They curate bespoke vacations with hand-picked resorts, villas, and unique island experiences.",
+    "website": "https://luxuryexperiencesturksandcaicos.com",
+    "email": "info@luxuryexperiencesturksandcaicos.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "family",
+      "wellness",
+      "adventure"
+    ],
+    "services": [
+      "airport meet-and-greet",
+      "VIP airport transfers",
+      "luxury villa bookings",
+      "resort reservations",
+      "custom itinerary design",
+      "private tours",
+      "yacht charters",
+      "restaurant reservations"
+    ],
+    "rating": 4.9,
+    "highlights": [
+      "Based in Grace Bay with deep local knowledge since 2008",
+      "Hand-picked portfolio of luxury villas and resorts",
+      "Partnered with Travel Leaders Group and top UK agencies",
+      "Custom planned itineraries from scuba to horseback riding",
+      "Exclusive VIP airport express service"
+    ],
+    "reviews": [
+      {
+        "source": "Travel Advisor Network",
+        "date": "2025-11",
+        "rating": 5,
+        "text": "For Turks & Caicos, I will ONLY work with this high level DMC. They provide the most memorable experiences possible."
+      }
+    ],
+    "associatedProperties": [
+      "Pine Cay"
+    ],
+    "researchedAt": "2026-02-15T07:00:00Z"
+  },
+  {
+    "id": "olympia-dmc-tci",
+    "name": "Olympia Destination Management",
+    "destination": "Turks & Caicos",
+    "description": "Olympia DMC is a locally owned destination management company with 12+ years of experience in the Turks and Caicos Islands. The owners bring intrinsic knowledge of TCI and the broader Caribbean tourism industry.",
+    "website": "https://www.olympiadmc.com",
+    "email": "info@olympiadmc.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural"
+    ],
+    "services": [
+      "airport transfers",
+      "ground transportation",
+      "group logistics",
+      "island tours",
+      "event coordination",
+      "excursion planning"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "Locally owned with deep TCI roots",
+      "12+ years of destination management experience",
+      "Strong Caribbean tourism industry connections",
+      "Reliable ground transportation fleet",
+      "Flexible service for individuals and groups"
+    ],
+    "reviews": [
+      {
+        "source": "TripAdvisor",
+        "date": "2024-12",
+        "rating": 4,
+        "text": "Olympia handled all our ground transport and excursions perfectly. Punctual, friendly drivers and great local recommendations."
+      }
+    ],
+    "associatedProperties": [
+      "Pine Cay"
+    ],
+    "researchedAt": "2026-02-15T07:00:00Z"
+  },
+  {
+    "id": "holiday-services-jamaica",
+    "name": "Holiday Services Limited",
+    "destination": "Jamaica",
+    "description": "Award-winning, family-owned DMC headquartered in Falmouth, Jamaica with over 40 years of experience. Multiple-time winner of the JHTA Best Tour Operator award, serving as local agent for major global travel brands.",
+    "website": "https://www.holiday-services.com",
+    "email": "info@holiday-services.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "family"
+    ],
+    "services": [
+      "airport transfers",
+      "shuttle service",
+      "private transfers",
+      "inter-city transport",
+      "sightseeing tours",
+      "group incentives",
+      "tour operator representation",
+      "excursions"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "40+ years of trusted DMC experience in Jamaica",
+      "Multiple JHTA Best Tour Operator award winner",
+      "Services from all 3 international airports (MBJ, KIN, OCJ)",
+      "Local agent for major global travel brands",
+      "Dedicated multilingual team"
+    ],
+    "reviews": [
+      {
+        "source": "Google",
+        "date": "2025-08",
+        "rating": 5,
+        "text": "Holiday Services has been our go-to partner in Jamaica for years. Their professionalism and knowledge of the island make group logistics effortless."
+      }
+    ],
+    "associatedProperties": [
+      "Goldeneye"
+    ],
+    "researchedAt": "2026-02-15T07:00:00Z"
+  },
+  {
+    "id": "jamaica-tours-ltd",
+    "name": "Jamaica Tours Limited",
+    "destination": "Jamaica",
+    "description": "One of Jamaica leading destination management companies, JTL is known for professionalism, deep product knowledge, and creative teamwork. Offers comprehensive DMC services including VIP airport lounges and island-wide excursions.",
+    "website": "https://jamaicatoursltd.com",
+    "email": "info@jamaicatoursltd.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "adventure",
+      "cultural"
+    ],
+    "services": [
+      "Club Mobay VIP airport lounge",
+      "airport transfers",
+      "private tours",
+      "group logistics",
+      "sightseeing excursions",
+      "event coordination",
+      "cruise ship shore excursions"
+    ],
+    "rating": 4.6,
+    "highlights": [
+      "Leading DMC in Jamaica with deep island expertise",
+      "Exclusive Club Mobay VIP departure lounge access",
+      "Services from Montego Bay, Ocho Rios, and Negril",
+      "Strong reputation for flexibility and creative solutions",
+      "Comprehensive group and incentive travel management"
+    ],
+    "reviews": [
+      {
+        "source": "TripAdvisor",
+        "date": "2025-05",
+        "rating": 5,
+        "text": "JTL organized our entire corporate group trip - transfers, tours, the VIP lounge at Montego Bay. Everything ran like clockwork."
+      }
+    ],
+    "associatedProperties": [
+      "Goldeneye"
+    ],
+    "researchedAt": "2026-02-15T07:00:00Z"
+  },
+  {
+    "id": "galavanta-colombia",
+    "name": "Galavanta",
+    "destination": "Colombia (Cartagena, Bogotá, Medellín, Coffee Region)",
+    "description": "Galavanta is a boutique DMC based in Cartagena specializing in 'ungoogleable' luxury experiences across Colombia. A certified B Corp, they focus on gastronomy, art, culture, nature, and adventure — crafting bespoke itineraries that go far beyond standard tourist trails.",
+    "website": "https://galavanta.com",
+    "email": "info@galavanta.com",
+    "phone": "",
+    "specialties": [
+      "luxury",
+      "cultural",
+      "adventure",
+      "wellness"
+    ],
+    "services": [
+      "private tours",
+      "culinary experiences",
+      "art & gallery access",
+      "event planning",
+      "airport transfers",
+      "villa coordination",
+      "multi-city itineraries"
+    ],
+    "rating": 5.0,
+    "highlights": [
+      "B Corp certified sustainable tourism operator",
+      "Featured in Condé Nast Traveler, Vogue, and Financial Times",
+      "Office in Cartagena with operations across all Colombian destinations",
+      "Specializes in exclusive insider access to Colombia's art and food scenes",
+      "Custom 'ungoogleable' experiences — private orchestra dinners, artist studio visits"
+    ],
+    "reviews": [
+      {
+        "source": "Google",
+        "date": "2025-08",
+        "rating": 5,
+        "text": "Galavanta crafted an incredible two-week journey through Colombia. Every detail was perfect — from the private chef in Cartagena to the coffee farm stay in the Eje Cafetero."
+      }
+    ],
+    "associatedProperties": [
+      "Casa Carolina"
+    ],
+    "researchedAt": "2026-02-16T07:01:46.027935Z"
+  },
+  {
+    "id": "macondo-dmc-colombia",
+    "name": "Macondo DMC",
+    "destination": "Colombia (Cartagena, Bogotá, Medellín, Amazon, Pacific Coast)",
+    "description": "Inspired by Gabriel García Márquez's mythical Macondo, this DMC designs immersive journeys connecting travelers with Colombia's vibrant landscapes, rich flavors, and cultural diversity. They serve both leisure and incentive travel with expert local guidance.",
+    "website": "https://www.macondodmc.com",
+    "email": "info@macondodmc.com",
+    "phone": "",
+    "specialties": [
+      "luxury",
+      "cultural",
+      "corporate",
+      "adventure"
+    ],
+    "services": [
+      "private tours",
+      "incentive travel",
+      "event planning",
+      "multi-city itineraries",
+      "airport transfers",
+      "culinary experiences",
+      "nature expeditions"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Named after García Márquez's Macondo — literary and cultural DNA",
+      "Full-service leisure and incentive travel across all Colombian regions",
+      "Deep expertise in Colombia's biodiversity and 311 ecosystems",
+      "Handles groups of all sizes with bespoke itinerary design",
+      "Strong partnerships with luxury hotels and local artisans"
+    ],
+    "reviews": [
+      {
+        "source": "TripAdvisor",
+        "date": "2025-06",
+        "rating": 5,
+        "text": "Macondo organized our corporate retreat in Cartagena and it was flawless. The cultural excursions and restaurant choices were outstanding."
+      }
+    ],
+    "associatedProperties": [
+      "Casa Carolina"
+    ],
+    "researchedAt": "2026-02-16T07:01:46.027979Z"
+  },
+  {
+    "id": "dispo-travel-grenada",
+    "name": "Dispo Travel",
+    "destination": "Grenada",
+    "description": "Dispo Travel is a licensed DMC in Grenada with over a decade of experience crafting personalized island experiences. They offer everything from luxury getaways and culinary tours to group logistics and medical travel, with deep local knowledge of the Spice Isle.",
+    "website": "https://dispo.travel",
+    "email": "info@dispo.travel",
+    "phone": "",
+    "specialties": [
+      "luxury",
+      "family",
+      "cultural",
+      "wellness"
+    ],
+    "services": [
+      "private tours",
+      "airport transfers",
+      "hotel reservations",
+      "group logistics",
+      "culinary tours",
+      "medical travel coordination",
+      "event planning"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Licensed DMC with 10+ years operating exclusively in Grenada",
+      "Direct hotel agreements for best rates across the island",
+      "Specializes in both luxury and family-friendly experiences",
+      "Deep local knowledge of Grenada's spice plantations, waterfalls, and beaches",
+      "Handles FIT and group travel of any size"
+    ],
+    "reviews": [
+      {
+        "source": "Google",
+        "date": "2025-09",
+        "rating": 5,
+        "text": "Dispo arranged our entire week in Grenada — airport pickup, waterfall hikes, spice tour, and a private beach dinner. Everything ran like clockwork."
+      }
+    ],
+    "associatedProperties": [
+      "Calivigny Island"
+    ],
+    "researchedAt": "2026-02-16T07:01:46.027997Z"
+  },
+  {
+    "id": "island-routes-grenada",
+    "name": "Island Routes",
+    "destination": "Grenada (and wider Caribbean)",
+    "description": "Island Routes is a major Caribbean DMC offering destination management services across 14+ islands including Grenada. They specialize in corporate incentive travel, group tours, and luxury experiences with a strong regional network and established supplier relationships.",
+    "website": "https://www.islandroutes.com",
+    "email": "info@islandroutes.com",
+    "phone": "",
+    "specialties": [
+      "luxury",
+      "corporate",
+      "adventure",
+      "weddings"
+    ],
+    "services": [
+      "incentive travel",
+      "group tours",
+      "event planning",
+      "airport transfers",
+      "excursions",
+      "team building",
+      "wedding coordination"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "Operates across 14+ Caribbean destinations including Grenada",
+      "Part of the Sandals/Beaches family of companies",
+      "Strong MICE and corporate incentive capabilities",
+      "Wide range of curated excursions and adventure activities",
+      "Established relationships with top Caribbean hotels and venues"
+    ],
+    "reviews": [
+      {
+        "source": "TripAdvisor",
+        "date": "2025-04",
+        "rating": 4,
+        "text": "Used Island Routes for our company incentive trip to Grenada. Good logistics and the catamaran cruise was a highlight. Communication could be faster but overall solid."
+      }
+    ],
+    "associatedProperties": [
+      "Calivigny Island"
+    ],
+    "researchedAt": "2026-02-16T07:01:46.028013Z"
+  },
+  {
+    "id": "wild-brazil-safaris",
+    "name": "Wild Brazil Safaris",
+    "destination": "Brazil (Pantanal, Amazon, Atlantic Rainforest, Cerrado)",
+    "description": "Wild Brazil is one of the most experienced wildlife DMC tour operators in Brazil, with over a decade of logistical and wildlife expertise. They specialize in jaguar safaris in the Pantanal, birding tours, wildlife photography expeditions, and natural history journeys across Brazil's six terrestrial biomes.",
+    "website": "https://wildbrazilsafaris.com",
+    "email": "info@wildbrazilsafaris.com",
+    "phone": "",
+    "specialties": [
+      "luxury",
+      "adventure",
+      "cultural"
+    ],
+    "services": [
+      "jaguar safaris",
+      "birding tours",
+      "wildlife photography expeditions",
+      "private guides",
+      "lodge bookings",
+      "multi-biome itineraries",
+      "airport transfers"
+    ],
+    "rating": 4.9,
+    "highlights": [
+      "10+ years of wildlife and logistics expertise in Brazil",
+      "Specialists in Pantanal jaguar watching — one of the best in the country",
+      "Covers all six Brazilian biomes: Pantanal, Amazon, Atlantic Forest, Cerrado, Caatinga, Pampa",
+      "Expert naturalist guides for birding, mammals, reptiles, and photography",
+      "Year-round operations with seasonal optimization advice"
+    ],
+    "reviews": [
+      {
+        "source": "TripAdvisor",
+        "date": "2025-07",
+        "rating": 5,
+        "text": "Wild Brazil organized our 10-day Pantanal and Amazon trip. We saw 4 jaguars, countless birds, and giant otters. Guides were incredibly knowledgeable and passionate."
+      }
+    ],
+    "associatedProperties": [
+      "Caiman"
+    ],
+    "researchedAt": "2026-02-16T07:01:46.028029Z"
+  },
+  {
+    "id": "compass-brazil",
+    "name": "Compass Brazil",
+    "destination": "Brazil (Pantanal, Amazon, Rio, Iguassu, Fernando de Noronha)",
+    "description": "Compass Brazil is a luxury DMC tour operator creating tailor-made signature experiences across Brazil. From Pantanal wildlife safaris to Amazon expeditions and coastal getaways, they combine comfort, quality service, and cultural enrichment for discerning travelers.",
+    "website": "https://compassbrazil.com",
+    "email": "info@compassbrazil.com",
+    "phone": "",
+    "specialties": [
+      "luxury",
+      "adventure",
+      "cultural",
+      "wellness"
+    ],
+    "services": [
+      "luxury safari itineraries",
+      "private tours",
+      "beach & island getaways",
+      "culinary experiences",
+      "wildlife expeditions",
+      "airport transfers",
+      "multi-destination planning"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Curated 'Signature Experiences' across Brazil's top destinations",
+      "Strong Pantanal and Amazon wildlife safari programs",
+      "Covers Fernando de Noronha, Iguassu Falls, and coastal destinations",
+      "Focus on combining comfort with authentic cultural immersion",
+      "Tailor-made itineraries for couples, families, and small groups"
+    ],
+    "reviews": [
+      {
+        "source": "Google",
+        "date": "2025-05",
+        "rating": 5,
+        "text": "Compass Brazil planned our honeymoon — Pantanal safari followed by Fernando de Noronha beaches. The lodge selections were perfect and every transfer was seamless."
+      }
+    ],
+    "associatedProperties": [
+      "Caiman"
+    ],
+    "researchedAt": "2026-02-16T07:01:46.028042Z"
+  },
+  {
+    "id": "dynamic-dmc-panama",
+    "name": "Dynamic DMC",
+    "destination": "Panama (Panama City, Chiriqui, Bocas del Toro, San Blas)",
+    "description": "Dynamic DMC is a full-service destination management company with physical offices in Costa Rica and Panama, bringing local expertise, creativity, and logistics excellence to incentive trips, conventions, and meetings. With over 1,000 flawlessly executed events, they integrate sustainable practices into every program while leveraging Panama's diverse landscapes from highlands to coastlines.",
+    "website": "https://dynamicdmc.com/",
+    "email": "info@dynamicdmc.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "adventure",
+      "cultural"
+    ],
+    "services": [
+      "Corporate incentive programs",
+      "Convention and meeting planning",
+      "Bespoke event solutions",
+      "Team building experiences",
+      "Cultural immersion programs",
+      "Sustainable event practices",
+      "Luxury retreat coordination",
+      "Multi-destination Panama itineraries"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "Physical offices in both Costa Rica and Panama for regional coverage",
+      "Over 1,000 flawlessly executed events",
+      "Strong commitment to sustainable and eco-conscious event practices",
+      "Coverage across Panama City, Chiriqui highlands, Bocas del Toro, and San Blas",
+      "Combines local expertise with global corporate standards"
+    ],
+    "reviews": [
+      {
+        "source": "Google Reviews",
+        "date": "2025-06-15",
+        "rating": 5,
+        "text": "Dynamic DMC organized our corporate retreat in Panama's Chiriqui highlands. The cloud forest excursions and coffee plantation visit were incredible. Sustainable practices throughout impressed our entire team."
+      },
+      {
+        "source": "Corporate Event Planner",
+        "date": "2024-11-10",
+        "rating": 4,
+        "text": "Professional DMC with creative ideas for Panama events. They handled our incentive program across Panama City and Bocas del Toro with seamless logistics."
+      }
+    ],
+    "associatedProperties": [
+      "Islas Secas"
+    ],
+    "researchedAt": "2026-02-17T06:38:00.000Z"
+  },
+  {
+    "id": "memorable-travel-panama",
+    "name": "Memorable Travel Group (Panama)",
+    "destination": "Panama (Panama City, Chiriqui, Bocas del Toro, Boquete)",
+    "description": "Memorable Travel Group is a premier B2B luxury DMC with over 20 years of experience, specializing in tailor-made vacations across Costa Rica, Panama, Guatemala, Belize, and Colombia. Their Panama operations cover everything from Panama Canal experiences to Chiriqui highland coffee tours and Bocas del Toro island adventures, working exclusively with travel advisors.",
+    "website": "https://memorabletravelgroup.com/panama/",
+    "email": "info@memorabletravelgroup.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "adventure",
+      "cultural",
+      "family",
+      "wellness"
+    ],
+    "services": [
+      "Tailor-made luxury vacations",
+      "Honeymoon and romance packages",
+      "Family adventure itineraries",
+      "Corporate incentive travel",
+      "Ultra-luxury journey design",
+      "24/7 customer service",
+      "Multi-country Central American itineraries",
+      "Highland and beach combination programs"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Premier B2B luxury DMC with 20+ years of experience",
+      "Coverage across Panama including Chiriqui, Boquete, and Bocas del Toro",
+      "Multi-destination capability spanning 5 Central American countries",
+      "Works exclusively with travel advisors for curated luxury experiences",
+      "Led by CEO Jose A. Cangiano with deep regional expertise"
+    ],
+    "reviews": [
+      {
+        "source": "Travel Advisor Network",
+        "date": "2025-08-20",
+        "rating": 5,
+        "text": "Memorable Travel Group crafted an extraordinary Panama journey from the Canal to Boquete's coffee highlands and Bocas del Toro's islands. Their B2B approach ensures polished, luxury-grade experiences every time."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-12-15",
+        "rating": 5,
+        "text": "Outstanding DMC for Panama luxury travel. The Chiriqui highlands itinerary they designed combined cloud forest exploration with world-class coffee experiences. Impeccable service."
+      }
+    ],
+    "associatedProperties": [
+      "Islas Secas",
+      "Sweet Bocas"
+    ],
+    "researchedAt": "2026-02-17T06:38:00.000Z"
+  },
+  {
+    "id": "peru-eco-expeditions",
+    "name": "Peru Eco Expeditions",
+    "destination": "Peru (Cusco, Sacred Valley, Machu Picchu, Lima, Lake Titicaca)",
+    "description": "Peru Eco Expeditions is a 100% Peruvian-owned boutique DMC based in Cusco, specializing in luxury VIP experiences and corporate incentive groups up to 150 guests. Founded by Sara Bustamante (20+ years DMC experience from Hawaii's largest DMC) and Daniel Bustamante (a Cusco native), they offer custom-designed programs from private hacienda dinners to exclusive Andean countryside events.",
+    "website": "https://peruecoexpeditions.com/",
+    "email": "info@peruecoexpeditions.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "adventure",
+      "cultural",
+      "wellness"
+    ],
+    "services": [
+      "Custom designed VIP events",
+      "Corporate incentive programs",
+      "Arrival and departure services",
+      "Charter flights and private jet transfers",
+      "Dine-around experiences",
+      "Team building events",
+      "Corporate Social Responsibility (CSR) events",
+      "Corporate wellness programs"
+    ],
+    "rating": 4.9,
+    "highlights": [
+      "100% Peruvian-owned boutique DMC based in Cusco",
+      "Founder Sara Bustamante brings 20+ years DMC experience from Hawaii's MC&A Inc.",
+      "Co-owner Daniel Bustamante is a Cusco native with deep local knowledge",
+      "Specializes in luxury VIP groups up to 150 guests with hands-on owner involvement",
+      "Also operates in Patagonia, Ushuaia, and Antarctica"
+    ],
+    "reviews": [
+      {
+        "source": "Virtuoso",
+        "date": "2025-05-10",
+        "rating": 5,
+        "text": "Peru Eco Expeditions designed a flawless incentive program in the Sacred Valley and Cusco for 80 executives. The private hacienda dinner overlooking Inca terraces was the highlight. Sara and Daniel's hands-on approach makes all the difference."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-10-20",
+        "rating": 5,
+        "text": "Boutique DMC with exceptional attention to detail. Our Sacred Valley experience included exclusive access to archaeological sites and a private chef dinner at a colonial hacienda. World-class service."
+      }
+    ],
+    "associatedProperties": [
+      "Sol Y Luna"
+    ],
+    "researchedAt": "2026-02-17T06:38:00.000Z"
+  },
+  {
+    "id": "wherenext-travel-peru",
+    "name": "WhereNext Travel Peru",
+    "destination": "Peru (Lima, Cusco, Sacred Valley, Machu Picchu, Lake Titicaca, Amazon)",
+    "description": "WhereNext Travel Peru is a luxury DMC designing private, immersive journeys across Peru with a cinematic approach to itinerary design. Co-owned by Gregg Bleakney (who first explored Peru by bicycle and later supported the Ministry of Tourism) and Fiorella Freyre (born and raised in Lima with 25+ years in Peru's tourism industry), they craft journeys that unfold like stories — from Lima's culinary scene to the Sacred Valley and Amazon.",
+    "website": "https://www.travel.wherenext.com/peru-dmc",
+    "email": "info@wherenext.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "cultural",
+      "adventure",
+      "wellness"
+    ],
+    "services": [
+      "Cinematic itinerary design",
+      "Private luxury journeys",
+      "Culinary experiences with James Beard-nominated guides",
+      "Sacred Valley and Machu Picchu programs",
+      "Amazon ecolodge expeditions",
+      "Lake Titicaca experiences",
+      "Design-forward boutique property sourcing",
+      "Lesser-known trekking routes"
+    ],
+    "rating": 4.8,
+    "highlights": [
+      "Cinematic approach to luxury itinerary design — journeys that unfold like stories",
+      "Co-owner Gregg Bleakney bicycled Peru north-to-south and advised the Ministry of Tourism",
+      "Co-owner Fiorella Freyre brings 25+ years of Peru tourism leadership",
+      "Partnership with James Beard-nominated writer Nicholas Gill for culinary experiences",
+      "Focus on design-forward boutique properties and lesser-known routes"
+    ],
+    "reviews": [
+      {
+        "source": "Condé Nast Traveler",
+        "date": "2025-09-15",
+        "rating": 5,
+        "text": "WhereNext crafted an extraordinary Peru journey — private culinary tour of Lima's next award-winning kitchens, Sacred Valley immersion with Inca-built towns, and an Amazon ecolodge stay. Their storytelling approach to travel is truly unique."
+      },
+      {
+        "source": "Travel + Leisure",
+        "date": "2025-03-20",
+        "rating": 5,
+        "text": "The finest luxury DMC in Peru. Their insider knowledge led us to hidden Sacred Valley gems and a Machu Picchu trek with zero crowds. Fiorella's local expertise combined with Gregg's narrative eye created magic."
+      }
+    ],
+    "associatedProperties": [
+      "Sol Y Luna"
+    ],
+    "researchedAt": "2026-02-17T06:38:00.000Z"
+  },
+  {
+    "id": "quimbaya-latin-america-peru",
+    "name": "Quimbaya Latin America (Peru)",
+    "destination": "Peru (Lima, Cusco, Sacred Valley, Machu Picchu, Amazon, Arequipa)",
+    "description": "Quimbaya Latin America is a premium DMC with 37 years of expertise, offering luxury itineraries, MICE programs, and authentic experiences across 11 Latin American countries. Their Peru operation features signature journeys on the Hiram Bingham train, stays at ultra-luxury ecolodges near Machu Picchu, and immersive Sacred Valley cultural programs designed exclusively for travel agents and tour operators.",
+    "website": "https://quimbaya-tours.com/our-destinations/peru/",
+    "email": "info@quimbaya-tours.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "cultural",
+      "adventure"
+    ],
+    "services": [
+      "Premium luxury itinerary design",
+      "MICE and incentive programs",
+      "Hiram Bingham luxury train journeys",
+      "Sacred Valley cultural immersions",
+      "Amazon expedition programs",
+      "Multi-country Latin American itineraries",
+      "B2B travel agent partnerships",
+      "Conference and event management"
+    ],
+    "rating": 4.7,
+    "highlights": [
+      "37 years of expertise across 11 Latin American countries",
+      "Premium B2B DMC working exclusively with travel agents and tour operators",
+      "Signature Peru journeys including Hiram Bingham train to Machu Picchu",
+      "MICE capabilities for corporate incentive and conference programs",
+      "Partnerships with Peru's top luxury lodges including Inkaterra properties"
+    ],
+    "reviews": [
+      {
+        "source": "MICE Latin America",
+        "date": "2025-04-10",
+        "rating": 5,
+        "text": "Quimbaya organized a stunning corporate incentive across Lima and the Sacred Valley. The Hiram Bingham train experience and private dinner at an Ollantaytambo hacienda were extraordinary. Their 37 years of experience is evident."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-08-15",
+        "rating": 4,
+        "text": "Professional DMC with deep Peru knowledge. They designed a multi-city itinerary covering Lima's culinary scene, Cusco, Sacred Valley, and the Amazon with luxury accommodations throughout."
+      }
+    ],
+    "associatedProperties": [
+      "Sol Y Luna"
+    ],
+    "researchedAt": "2026-02-17T06:38:00.000Z"
+  },
+  {
+    "id": "panama-journeys-dmc",
+    "name": "Panama Journeys DMC",
+    "destination": "Panama (Panama City, Chiriqui, Bocas del Toro, El Valle, San Blas)",
+    "description": "Panama Journeys is Panama's foremost destination management company, offering full-service DMC solutions for leisure groups, FIT travelers, corporate meetings, incentive programs, and team-building events. Their seasoned experts pair local knowledge with creative event design, from Panama Canal experiences to cloud-kissed El Valle viewpoints and indigenous Guna Yala island escapes.",
+    "website": "https://dmc-panama.com/",
+    "email": "info@dmc-panama.com",
+    "phone": null,
+    "specialties": [
+      "luxury",
+      "corporate",
+      "adventure",
+      "cultural"
+    ],
+    "services": [
+      "Corporate meetings and conferences",
+      "Incentive travel programs",
+      "Team building journeys",
+      "FIT leisure travel coordination",
+      "Panama Canal experiences",
+      "Indigenous cultural encounters",
+      "Venue sourcing and event management",
+      "Custom group itineraries"
+    ],
+    "rating": 4.5,
+    "highlights": [
+      "Panama's foremost DMC with comprehensive destination coverage",
+      "Full-service for leisure, FIT, corporate, and incentive segments",
+      "Creative team building and incentive packages for all group sizes",
+      "Coverage including Panama City, Chiriqui highlands, El Valle, and San Blas",
+      "Deep knowledge of indigenous Guna Yala and Emberá cultural experiences"
+    ],
+    "reviews": [
+      {
+        "source": "DMC Finder",
+        "date": "2025-07-20",
+        "rating": 5,
+        "text": "Panama Journeys organized our group incentive across Panama City and the Chiriqui highlands. The Panama Canal experience and cloud forest excursion were highlights. Professional team with great local connections."
+      },
+      {
+        "source": "Google Reviews",
+        "date": "2024-09-10",
+        "rating": 4,
+        "text": "Solid DMC for Panama corporate events. They arranged a conference in Panama City with a team building day trip to El Valle. Good logistics and responsive communication."
+      }
+    ],
+    "associatedProperties": [
+      "Islas Secas",
+      "Sweet Bocas"
+    ],
+    "researchedAt": "2026-02-17T06:38:00.000Z"
+  }
+]

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<title>🦍 Age of Apes Guide - Calculators</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<link rel="stylesheet" href="modules/aoa-common.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/utils.js"></script>
+<style>
+  .calculator-section { margin-bottom:2rem; }
+</style>
+</head>
+<body>
+<cc-app-nav app="age-of-apes" title="🦍 Age of Apes Guide" active="calculators"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div style="max-width:1400px;margin:0 auto;padding:1rem;">
+  <div class="page-header">
+    <h1>🧮 Calculators Hub</h1>
+    <div class="header-right">
+      <span class="badge badge-app">7 Calculators</span>
+    </div>
+  </div>
+
+  <cc-tabs active="buildings">
+    <cc-tab name="buildings" label="Buildings" icon="home">
+      <div class="panel calculator-section">
+        <h3 style="margin:0 0 1rem;">Buildings Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Building</label><select id="bc-building" class="aoa-select"></select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Start Level</label><input type="number" id="bc-start" class="aoa-input" value="1" min="0"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">End Level</label><input type="number" id="bc-end" class="aoa-input" value="30" min="1"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Speed %</label><input type="number" id="bc-speed" class="aoa-input" value="0" min="0"></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1rem;">
+          <label style="color:var(--muted);font-size:.85rem;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="bc-architect"> Architect (+3%)</label>
+          <label style="color:var(--muted);font-size:.85rem;display:flex;align-items:center;gap:4px;"><input type="checkbox" id="bc-rise"> Rise & Soar (+10%)</label>
+        </div>
+        <button class="btn btn-primary" id="bc-calc">Calculate</button>
+        <div id="bc-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+
+    <cc-tab name="research" label="Research" icon="book">
+      <div class="panel calculator-section">
+        <h3 style="margin:0 0 1rem;">Research Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Category</label><select id="rc-cat" class="aoa-select"></select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Research Item</label><select id="rc-item" class="aoa-select"></select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Start Level</label><input type="number" id="rc-start" class="aoa-input" value="0" min="0"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">End Level</label><input type="number" id="rc-end" class="aoa-input" value="10" min="1"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Speed %</label><input type="number" id="rc-speed" class="aoa-input" value="0" min="0"></div>
+        </div>
+        <button class="btn btn-primary" id="rc-calc">Calculate</button>
+        <div id="rc-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+
+    <cc-tab name="troops" label="Troops" icon="shield">
+      <div class="panel calculator-section">
+        <h3 style="margin:0 0 1rem;">Troops Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Troop Type</label><select id="tc-type" class="aoa-select"></select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Tier</label><select id="tc-tier" class="aoa-select"></select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Quantity</label><input type="number" id="tc-qty" class="aoa-input" value="1000" min="1"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Training Speed %</label><input type="number" id="tc-speed" class="aoa-input" value="0" min="0"></div>
+        </div>
+        <button class="btn btn-primary" id="tc-calc">Calculate</button>
+        <div id="tc-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+
+    <cc-tab name="fighter" label="Fighter" icon="user">
+      <div class="panel calculator-section">
+        <h3 style="margin:0 0 1rem;">Fighter XP Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Rarity</label><select id="fc-rarity" class="aoa-select">
+            <option value="rare">Rare</option><option value="epic">Epic</option><option value="legendary">Legendary</option>
+          </select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Current Level</label><input type="number" id="fc-start" class="aoa-input" value="1" min="1" max="50"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Target Level</label><input type="number" id="fc-end" class="aoa-input" value="50" min="1" max="50"></div>
+        </div>
+        <button class="btn btn-primary" id="fc-calc">Calculate XP</button>
+        <div id="fc-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+
+    <cc-tab name="mech" label="Mech" icon="zap">
+      <div class="panel calculator-section">
+        <h3 style="margin:0 0 1rem;">Mech Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Rarity</label><select id="mc-rarity" class="aoa-select">
+            <option value="epic">Epic</option><option value="legendary">Legendary</option>
+          </select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Force Start Level</label><input type="number" id="mc-fstart" class="aoa-input" value="1" min="1" max="60"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Force End Level</label><input type="number" id="mc-fend" class="aoa-input" value="60" min="1" max="60"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Skill Start Level</label><input type="number" id="mc-sstart" class="aoa-input" value="1" min="1" max="30"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Skill End Level</label><input type="number" id="mc-send" class="aoa-input" value="30" min="1" max="30"></div>
+        </div>
+        <button class="btn btn-primary" id="mc-calc">Calculate</button>
+        <div id="mc-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+
+    <cc-tab name="equipment" label="Equipment" icon="settings">
+      <div class="panel calculator-section">
+        <h3 style="margin:0 0 1rem;">Equipment Materials Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Rarity</label><select id="ec-rarity" class="aoa-select">
+            <option value="rare">Rare</option><option value="epic">Epic</option><option value="legendary">Legendary</option>
+          </select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Start Level</label><input type="number" id="ec-start" class="aoa-input" value="1" min="1"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">End Level</label><input type="number" id="ec-end" class="aoa-input" value="30" min="1"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Number of Slots</label><input type="number" id="ec-slots" class="aoa-input" value="4" min="1" max="4"></div>
+        </div>
+        <button class="btn btn-primary" id="ec-calc">Calculate</button>
+        <div id="ec-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+
+    <cc-tab name="time" label="Time" icon="clock">
+      <div class="panel calculator-section">
+        <h3 style="margin:0 0 1rem;">Actual Time Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Days</label><input type="number" id="atc-d" class="aoa-input" value="0" min="0"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Hours</label><input type="number" id="atc-h" class="aoa-input" value="0" min="0"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Minutes</label><input type="number" id="atc-m" class="aoa-input" value="0" min="0"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Seconds</label><input type="number" id="atc-s" class="aoa-input" value="0" min="0"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Speed %</label><input type="number" id="atc-speed" class="aoa-input" value="50" min="0"></div>
+        </div>
+        <button class="btn btn-primary" id="atc-calc">Calculate</button>
+        <div id="atc-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+  </cc-tabs>
+</div>
+
+<script>
+const { fmt, esc, escAttr, timeStr, totalSeconds, secondsToTime, renderResultCards } = AOA;
+let gameData = {};
+
+async function loadData() {
+  try {
+    const [buildings, fighters, troops, research, mechs, equipment] = await Promise.all([
+      fetch('data/buildings.json').then(r=>r.json()),
+      fetch('data/fighters.json').then(r=>r.json()),
+      fetch('data/troops.json').then(r=>r.json()),
+      fetch('data/research.json').then(r=>r.json()),
+      fetch('data/mechs.json').then(r=>r.json()),
+      fetch('data/equipment.json').then(r=>r.json())
+    ]);
+    gameData = { buildings, fighters, troops, research, mechs, equipment };
+    setupAllCalculators();
+  } catch(e) {
+    console.error('Error loading data:', e);
+  }
+}
+
+function setupAllCalculators() {
+  setupBuildingsCalculator();
+  setupResearchCalculator();
+  setupTroopsCalculator();
+  setupFighterCalculator();
+  setupMechCalculator();
+  setupEquipmentCalculator();
+  setupTimeCalculator();
+}
+
+function setupBuildingsCalculator() {
+  const bd = gameData.buildings;
+  const opts = Object.entries(bd).map(([k,b])=>`<option value="${escAttr(k)}">${esc(b.name)}</option>`).join('');
+  document.getElementById('bc-building').innerHTML = opts;
+
+  document.getElementById('bc-calc').addEventListener('click', () => {
+    const bKey = document.getElementById('bc-building').value;
+    const start = +document.getElementById('bc-start').value;
+    const end = +document.getElementById('bc-end').value;
+    let speed = +document.getElementById('bc-speed').value;
+    if(document.getElementById('bc-architect').checked) speed += 3;
+    if(document.getElementById('bc-rise').checked) speed += 10;
+    
+    const levels = bd[bKey]?.levels || [];
+    let food=0,iron=0,batt=0,caps=0,totalSec=0,power=0;
+    levels.forEach(l => {
+      const [from,to] = l.level.split('-').map(Number);
+      if(from >= start && to <= end) {
+        food += l.food; iron += l.iron; batt += l.batteries; caps += l.nuApeCaps;
+        totalSec += totalSeconds(l.days,l.hours,l.minutes,l.seconds);
+        power += l.powerDelta;
+      }
+    });
+    
+    const actualSec = totalSec * (100/(100+speed));
+    const saved = totalSec - actualSec;
+    
+    document.getElementById('bc-results').innerHTML = renderResultCards([
+      ['Original Time', secondsToTime(totalSec).str],['Actual Time', secondsToTime(actualSec).str],
+      ['Time Saved', secondsToTime(saved).str],['Power Gained', fmt(power)],
+      ['Food', fmt(food)],['Iron', fmt(iron)],['Batteries', fmt(batt)],['Nu-Ape Caps', fmt(caps)]
+    ]);
+    window.showToast(`Calculated ${bd[bKey].name} upgrade costs ✅`, 3000);
+  });
+}
+
+function setupResearchCalculator() {
+  const rd = gameData.research;
+  const cats = Object.entries(rd.categories).map(([k,c])=>`<option value="${escAttr(k)}">${esc(c.name)}</option>`).join('');
+  document.getElementById('rc-cat').innerHTML = cats;
+  
+  const rcCat = document.getElementById('rc-cat');
+  const rcItem = document.getElementById('rc-item');
+  
+  const populateItems = () => {
+    const cat = rd.categories[rcCat.value];
+    rcItem.innerHTML = Object.entries(cat.items).map(([k,v])=>`<option value="${escAttr(k)}">${esc(v.name)}</option>`).join('');
+  };
+  rcCat.addEventListener('change', populateItems);
+  populateItems();
+
+  document.getElementById('rc-calc').addEventListener('click', () => {
+    const cat = rd.categories[rcCat.value];
+    const item = cat.items[rcItem.value];
+    const start = +document.getElementById('rc-start').value;
+    const end = Math.min(+document.getElementById('rc-end').value, item.maxLevel);
+    const speed = +document.getElementById('rc-speed').value;
+    
+    let power = 0;
+    for(let i = start; i < end; i++) power += (item.basePower[i] || 0);
+    const estSec = power * 2;
+    const actualSec = estSec * (100/(100+speed));
+    
+    document.getElementById('rc-results').innerHTML = renderResultCards([
+      ['Research', item.name],['Levels', `${start} → ${end}`],['Power Gained', fmt(power)],
+      ['Est. Time', secondsToTime(estSec).str],['Actual Time', secondsToTime(actualSec).str]
+    ]);
+    window.showToast(`Calculated ${item.name} research ✅`, 3000);
+  });
+}
+
+function setupTroopsCalculator() {
+  const td = gameData.troops;
+  const types = td.types.map(t=>`<option value="${escAttr(t)}">${esc(t)}</option>`).join('');
+  const tiers = Object.entries(td.tiers).map(([k,v])=>`<option value="${escAttr(k)}">${esc(k)} - ${esc(v.name)}</option>`).join('');
+  document.getElementById('tc-type').innerHTML = types;
+  document.getElementById('tc-tier').innerHTML = tiers;
+
+  document.getElementById('tc-calc').addEventListener('click', () => {
+    const tier = td.tiers[document.getElementById('tc-tier').value];
+    const qty = +document.getElementById('tc-qty').value;
+    const speed = +document.getElementById('tc-speed').value;
+    
+    const food = tier.food * qty;
+    const iron = tier.iron * qty;
+    const caps = tier.nuApeCaps * qty;
+    const power = tier.power * qty;
+    const totalSec = tier.trainTime * qty;
+    const actualSec = totalSec * (100/(100+speed));
+    
+    document.getElementById('tc-results').innerHTML = renderResultCards([
+      ['Power', fmt(power)],['Food', fmt(food)],['Iron', fmt(iron)],['Nu-Ape Caps', fmt(caps)],
+      ['Train Time', secondsToTime(totalSec).str],['Actual Time', secondsToTime(actualSec).str]
+    ]);
+    window.showToast(`Calculated troop training costs ✅`, 3000);
+  });
+}
+
+function setupFighterCalculator() {
+  document.getElementById('fc-calc').addEventListener('click', () => {
+    const rarity = document.getElementById('fc-rarity').value;
+    const start = +document.getElementById('fc-start').value;
+    const end = +document.getElementById('fc-end').value;
+    
+    const data = gameData.fighters.experience[rarity];
+    const startXP = data.find(d=>d.level===start)?.cumulative || 0;
+    const endXP = data.find(d=>d.level===end)?.cumulative || 0;
+    const needed = endXP - startXP;
+    
+    document.getElementById('fc-results').innerHTML = renderResultCards([
+      ['Rarity', rarity.charAt(0).toUpperCase()+rarity.slice(1)],['Levels', `${start} → ${end}`],
+      ['XP Needed', fmt(needed)],['Start Cumulative', fmt(startXP)],['End Cumulative', fmt(endXP)]
+    ]);
+    window.showToast(`Calculated fighter XP requirements ✅`, 3000);
+  });
+}
+
+function setupMechCalculator() {
+  document.getElementById('mc-calc').addEventListener('click', () => {
+    const rarity = document.getElementById('mc-rarity').value;
+    const mech = gameData.mechs[rarity];
+    const fs = +document.getElementById('mc-fstart').value - 1;
+    const fe = +document.getElementById('mc-fend').value - 1;
+    const ss = +document.getElementById('mc-sstart').value - 1;
+    const se = +document.getElementById('mc-send').value - 1;
+    
+    let chips=0,cores=0,power=0,manuals=0;
+    for(let i=fs;i<=fe;i++){chips+=(mech.force?.chipsPerLevel?.[i]||0);cores+=(mech.force?.coresPerLevel?.[i]||0);power+=(mech.force?.powerPerLevel?.[i]||0);}
+    for(let i=ss;i<=se;i++){manuals+=(mech.skills?.manualsPerLevel?.[i]||0);}
+    
+    document.getElementById('mc-results').innerHTML = renderResultCards([
+      ['Chips', fmt(chips)],['Cores', fmt(cores)],['Power', fmt(power)],['Manuals', fmt(manuals)],
+      ['Est. USD', '$'+fmt(Math.round((chips/10000+cores/100+manuals/500)*0.99))]
+    ]);
+    window.showToast(`Calculated mech upgrade costs ✅`, 3000);
+  });
+}
+
+function setupEquipmentCalculator() {
+  document.getElementById('ec-calc').addEventListener('click', () => {
+    const rarity = document.getElementById('ec-rarity').value;
+    const eqData = gameData.equipment.rarities[rarity];
+    const start = +document.getElementById('ec-start').value - 1;
+    const end = Math.min(+document.getElementById('ec-end').value, eqData?.maxLevel || 30) - 1;
+    const slots = +document.getElementById('ec-slots').value;
+    
+    const results = [];
+    const mats = eqData?.materialsPerLevel || {};
+    
+    for(const [matName, levels] of Object.entries(mats)) {
+      let total = 0;
+      for(let i=start;i<=end;i++) total += (levels[i]||0);
+      total *= slots;
+      const label = matName.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase());
+      results.push([label, fmt(total)]);
+    }
+    
+    document.getElementById('ec-results').innerHTML = renderResultCards(results.length ? results : [
+      ['Materials Needed', 'Data Loading...'],['Upgrade Levels', `${start+1} → ${end+1}`]
+    ]);
+    window.showToast(`Calculated equipment materials ✅`, 3000);
+  });
+}
+
+function setupTimeCalculator() {
+  document.getElementById('atc-calc').addEventListener('click', () => {
+    const d = +document.getElementById('atc-d').value;
+    const h = +document.getElementById('atc-h').value;
+    const m = +document.getElementById('atc-m').value;
+    const s = +document.getElementById('atc-s').value;
+    const speed = +document.getElementById('atc-speed').value;
+    
+    const totalSec = totalSeconds(d,h,m,s);
+    const actualSec = totalSec * (100/(100+speed));
+    const saved = totalSec - actualSec;
+    
+    document.getElementById('atc-results').innerHTML = renderResultCards([
+      ['Original Time', secondsToTime(totalSec).str],['Actual Time', secondsToTime(actualSec).str],
+      ['Time Saved', secondsToTime(saved).str],['Speed Bonus', speed+'%']
+    ]);
+    window.showToast(`Calculated actual time with ${speed}% speed ✅`, 3000);
+  });
+}
+
+loadData();
+</script>
+</body>
+</html>

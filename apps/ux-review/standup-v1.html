@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX Variation: Daily Standup v1</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font, system-ui, -apple-system, sans-serif); background: var(--bg, #0f0f1a); color: var(--text, #e2e8f0); min-height: 100vh; }
+
+  .ux-banner { background: linear-gradient(135deg, rgba(245,158,11,.15), rgba(139,92,246,.1)); border: 1px solid rgba(245,158,11,.3); border-radius: 12px; padding: 16px 20px; margin: 16px; font-size: 13px; color: var(--muted, #94a3b8); }
+  .ux-banner strong { color: var(--accent, #f59e0b); }
+
+  .app-header { padding: 24px 24px 0; }
+  .app-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+  .app-header .subtitle { color: var(--muted, #94a3b8); font-size: 14px; margin-bottom: 16px; }
+
+  /* NEW: Search + filter bar */
+  .toolbar { display: flex; gap: 12px; padding: 0 24px 16px; flex-wrap: wrap; align-items: center; }
+  .search-box { flex: 1; min-width: 200px; padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border, #2d2d44); background: var(--surface, #1a1a2e); color: var(--text); font-size: 14px; outline: none; transition: border-color .2s; }
+  .search-box:focus { border-color: var(--accent, #f59e0b); }
+  .filter-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border, #2d2d44); background: var(--surface, #1a1a2e); color: var(--muted, #94a3b8); font-size: 13px; cursor: pointer; transition: all .2s; }
+  .filter-btn.active { background: rgba(245,158,11,.15); color: var(--accent, #f59e0b); border-color: var(--accent, #f59e0b); }
+
+  /* Day cards — improved hierarchy */
+  .days { padding: 0 24px 32px; display: flex; flex-direction: column; gap: 20px; }
+  .day-card { border-radius: 12px; background: var(--surface, #1a1a2e); border: 1px solid var(--border, #2d2d44); overflow: hidden; transition: border-color .2s; }
+  .day-card:hover { border-color: rgba(245,158,11,.3); }
+
+  .day-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border, #2d2d44); cursor: pointer; }
+  .day-header h2 { font-size: 18px; font-weight: 700; }
+  .day-header .dow { color: var(--accent, #f59e0b); }
+  .day-header .summary { display: flex; gap: 8px; align-items: center; }
+  .count-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+  .count-pill.slack { background: rgba(74,21,75,.3); color: #e0b0ff; }
+  .count-pill.github { background: rgba(16,185,129,.12); color: #6ee7b7; }
+  .count-pill.workspace { background: rgba(59,130,246,.12); color: #93c5fd; }
+  .chevron { transition: transform .3s; font-size: 12px; color: var(--muted); }
+  .day-card.collapsed .chevron { transform: rotate(-90deg); }
+  .day-card.collapsed .day-body { display: none; }
+
+  .day-body { padding: 16px 20px; }
+
+  /* Source groups — visual distinction */
+  .source-group { margin-bottom: 16px; }
+  .source-group:last-child { margin-bottom: 0; }
+  .source-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--muted, #94a3b8); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .source-line { flex: 1; height: 1px; background: var(--border, #2d2d44); }
+
+  .activity { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.03); align-items: baseline; }
+  .activity:last-child { border-bottom: none; }
+  .activity-time { font-family: 'SF Mono', monospace; font-size: 12px; color: var(--muted); min-width: 52px; }
+  .activity-desc { font-size: 14px; line-height: 1.5; flex: 1; }
+
+  /* NEW: Empty state */
+  .empty-state { text-align: center; padding: 60px 24px; }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state .msg { font-size: 16px; color: var(--muted); }
+
+  /* NEW: Activity sparkline (visual density indicator) */
+  .sparkline { display: flex; gap: 2px; align-items: end; height: 24px; }
+  .spark-bar { width: 4px; border-radius: 2px; background: var(--accent, #f59e0b); opacity: .6; transition: opacity .2s; }
+  .spark-bar:hover { opacity: 1; }
+
+  @media (max-width: 640px) {
+    .app-header { padding: 16px 16px 0; }
+    .toolbar { padding: 0 16px 12px; }
+    .days { padding: 0 16px 24px; }
+    .day-header h2 { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ux-banner">
+  <strong>UX Variation:</strong> Standup v1 — Added search/filter toolbar, collapsible day cards (progressive disclosure), source count pills for scanability, improved mobile spacing.
+</div>
+
+<cc-app-nav app="ux-review" title="🎨 UX Review" active="home"></cc-app-nav>
+<cc-toast></cc-toast>
+
+<div class="app-header">
+  <h1>📋 Daily Standup</h1>
+  <div class="subtitle">Team standup notes & updates</div>
+</div>
+
+<div class="toolbar">
+  <input class="search-box" placeholder="Search activities..." id="search">
+  <button class="filter-btn active" data-src="all">All</button>
+  <button class="filter-btn" data-src="slack">💬 Slack</button>
+  <button class="filter-btn" data-src="github">🔧 GitHub</button>
+  <button class="filter-btn" data-src="workspace">📝 Workspace</button>
+</div>
+
+<div class="days" id="days">
+  <!-- Demo data -->
+</div>
+
+<script>
+const DEMO = [
+  { date: '2026-02-17', dayOfWeek: 'Tuesday', activities: [
+    { source: 'slack', time: '09:12', description: 'Discussed sprint priorities in #engineering' },
+    { source: 'slack', time: '10:30', description: 'Reviewed client feedback on new dashboard' },
+    { source: 'github', time: '11:05', description: 'Merged PR #423: Fix auth redirect loop' },
+    { source: 'github', time: '14:22', description: 'Opened PR #425: Add pagination to leads table' },
+    { source: 'workspace', time: '15:00', description: 'Updated sprint-planning data with new tickets' },
+  ]},
+  { date: '2026-02-16', dayOfWeek: 'Monday', activities: [
+    { source: 'slack', time: '09:00', description: 'Morning standup — reviewed weekend deploys' },
+    { source: 'github', time: '10:15', description: 'Code review on PR #421: Uptime monitor refactor' },
+    { source: 'github', time: '13:45', description: 'Merged PR #422: Recipe card responsive fix' },
+    { source: 'workspace', time: '16:00', description: 'Wrote meeting summary for client call' },
+  ]},
+  { date: '2026-02-13', dayOfWeek: 'Friday', activities: [
+    { source: 'slack', time: '09:30', description: 'Sprint retro discussion in #team' },
+    { source: 'github', time: '11:00', description: 'Released v2.3.0 — gallery improvements' },
+  ]},
+];
+
+let filter = 'all';
+let search = '';
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function render() {
+  const container = document.getElementById('days');
+  const filtered = DEMO.map(day => ({
+    ...day,
+    activities: day.activities.filter(a => {
+      if (filter !== 'all' && a.source !== filter) return false;
+      if (search && !a.description.toLowerCase().includes(search.toLowerCase())) return false;
+      return true;
+    })
+  })).filter(d => d.activities.length > 0);
+
+  if (!filtered.length) {
+    container.innerHTML = '<cc-empty-state message="No matching activities found" icon="🔍" animation="none"></cc-empty-state>';
+    return;
+  }
+
+  container.innerHTML = filtered.map((day, i) => {
+    const counts = {};
+    day.activities.forEach(a => counts[a.source] = (counts[a.source] || 0) + 1);
+    const groups = {};
+    day.activities.forEach(a => (groups[a.source] = groups[a.source] || []).push(a));
+
+    const pills = Object.entries(counts).map(([src, n]) =>
+      `<span class="count-pill ${esc(src)}">${n} ${esc(src)}</span>`
+    ).join('');
+
+    const sourceHTML = Object.entries(groups).map(([src, items]) => `
+      <div class="source-group">
+        <div class="source-label">${esc(src)} <span class="source-line"></span></div>
+        ${items.map(a => `
+          <div class="activity">
+            <span class="activity-time">${esc(a.time)}</span>
+            <span class="activity-desc">${esc(a.description)}</span>
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+
+    return `
+      <div class="day-card${i > 1 ? ' collapsed' : ''}" onclick="this.classList.toggle('collapsed')">
+        <div class="day-header">
+          <h2><span class="dow">${esc(day.dayOfWeek)}</span>, ${esc(day.date)}</h2>
+          <div class="summary">${pills} <span class="chevron">▼</span></div>
+        </div>
+        <div class="day-body">${sourceHTML}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filter = btn.dataset.src;
+    render();
+  });
+});
+
+document.getElementById('search').addEventListener('input', e => { search = e.target.value; render(); });
+
+render();
+</script>
+</body>
+</html>

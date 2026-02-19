@@ -1,0 +1,3915 @@
+[
+  {
+    "id": "caiman",
+    "name": "Caiman",
+    "location": "Pantanal, Brazil",
+    "region": "Americas",
+    "category": "Hotels & Resorts",
+    "type": "Resort",
+    "website": "https://www.caiman.com.br/en/",
+    "description": "A 53,000-hectare ecological refuge in the heart of the Pantanal wetlands, Caiman offers luxury lodging amid one of the world's most biodiverse ecosystems. Recently renovated Casa Caiman features 18 elegant suites, while the intimate Cordilheira Lodge provides 6 private suites immersed in nature. Guided jaguar tracking safaris, horseback rides through the savannah, and canoe excursions make this a premier wildlife destination.",
+    "photos": [
+      "https://www.caiman.com.br/wp-content/uploads/2022/07/caiman_pantanal_splash.png",
+      "https://www.caiman.com.br/wp-content/uploads/2021/10/box-pousadas-home-caiman.png",
+      "https://www.caiman.com.br/wp-content/uploads/2025/03/villa-privativa-thumb.png"
+    ],
+    "pricing": "From $600 per night (all-inclusive packages available)",
+    "amenities": [
+      "Pool",
+      "Restaurant",
+      "Bar",
+      "Sauna",
+      "Guided wildlife safaris",
+      "Jaguar tracking",
+      "Horseback riding",
+      "Canoe excursions",
+      "4x4 game drives",
+      "Birdwatching tours"
+    ],
+    "rating": "4.0/5 TripAdvisor",
+    "highlights": [
+      "204-square-mile private ecological refuge in the Pantanal",
+      "Guided jaguar tracking safari included once per stay",
+      "Active conservation projects guests can participate in",
+      "Choice of 18-suite Casa Caiman or intimate 6-suite Cordilheira Lodge",
+      "One of Brazil's top wildlife and eco-luxury experiences"
+    ],
+    "tags": [
+      "eco-luxury",
+      "wildlife",
+      "safari",
+      "nature",
+      "conservation",
+      "adventure",
+      "Brazil",
+      "wetlands"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Exceptional wildlife and eco-luxury experience with outstanding food; a bucket-list Pantanal destination, though remote location requires significant travel commitment.",
+      "pros": [
+        "Incredible jaguar tracking safaris \u2014 guests regularly spot jaguars, giant anteaters, and hyacinth macaws",
+        "Spectacular accommodations with beautiful, comfortable suites at Casa Caiman",
+        "Outstanding gastronomy \u2014 breakfast through Pantanal barbecue praised as absolutely delicious",
+        "Staff described as fantastic, caring, and attentive to guest needs",
+        "Active conservation projects (On\u00e7afari jaguar project) add educational depth to the stay"
+      ],
+      "cons": [
+        "Remote location requires a domestic flight plus ground transfer \u2014 significant travel time",
+        "Some guests noted the price point is high relative to the rustic lodge setting",
+        "Wildlife sightings vary by season; dry season (July-October) is best for jaguars",
+        "Limited luxury amenities compared to traditional five-star hotels"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cond\u00e9 Nast Traveler"
+      ]
+    }
+  },
+  {
+    "id": "pine-cay",
+    "name": "Pine Cay",
+    "location": "Turks & Caicos",
+    "region": "Americas",
+    "category": "Hotels & Resorts",
+    "type": "Resort",
+    "website": "https://www.pinecay.com/en/",
+    "description": "Pine Cay is a secluded 800-acre private island in the Turks & Caicos, home to The Meridian Club resort and pristine white-sand beaches consistently ranked among the world's best. With no cars, no crowds, and no distractions, this barefoot-luxury retreat offers beachfront suites and private homes surrounded by crystal-clear Caribbean waters. The all-inclusive experience features gourmet dining, complimentary water sports, and an unmatched sense of seclusion.",
+    "photos": [
+      "https://www.visittci.com/core/aerial-pine-cay_2048x1365.jpg",
+      "https://www.visittci.com/core/pine-cay-beach-and-water_2048x1365.jpg",
+      "https://www.visittci.com/core/northern-coast-pine-cay_2048x1365.jpg",
+      "https://www.visittci.com/core/forest-on-pine-cay_2048x1365.jpg"
+    ],
+    "pricing": "From $2,076 per night",
+    "amenities": [
+      "Private beach",
+      "Beachfront restaurant",
+      "Spa & aromatherapy treatments",
+      "Marina",
+      "Complimentary water sports",
+      "Tennis courts",
+      "Nature trails",
+      "Free full breakfast",
+      "Free WiFi",
+      "Kayaks & paddleboards"
+    ],
+    "rating": "4.0/5 TripAdvisor",
+    "highlights": [
+      "800-acre private island with no cars and only 37 homeowners",
+      "Beaches regularly ranked among the top in the world",
+      "Accessible only by private boat or small aircraft",
+      "Ideal for weddings, corporate retreats, or total seclusion",
+      "All-inclusive beachfront dining and water sports"
+    ],
+    "tags": [
+      "private island",
+      "beach",
+      "seclusion",
+      "barefoot luxury",
+      "Caribbean",
+      "all-inclusive",
+      "romantic",
+      "family"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A blissfully unplugged, barefoot-luxury private island with one of the world's best beaches; ideal for those seeking seclusion, but too quiet for action-seekers.",
+      "pros": [
+        "Pristine beach consistently described as one of the most beautiful in the Caribbean",
+        "Genuinely warm and caring staff praised for their loving and attentive nature",
+        "Authentic private island experience with genuine hospitality and no cars",
+        "Excellent snorkeling on the world's third-largest barrier reef included in rates",
+        "Island-inclusive rates mean you can practically leave your wallet at home"
+      ],
+      "cons": [
+        "No nightlife, no wild parties \u2014 too quiet for guests seeking entertainment",
+        "Access requires a boat ride from Providenciales, adding travel complexity",
+        "Limited dining options \u2014 one restaurant means little culinary variety",
+        "Rooms are simple and some guests find them dated for the price point"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Relais & Ch\u00e2teaux"
+      ]
+    }
+  },
+  {
+    "id": "islas-secas",
+    "name": "Islas Secas",
+    "location": "Chiriqui, Panama",
+    "region": "Americas",
+    "category": "Hotels & Resorts",
+    "type": "Resort",
+    "website": "https://islassecas.com/",
+    "description": "Islas Secas is an exclusive private island resort set across a pristine archipelago in Panama's Gulf of Chiriqu\u00ed, offering just a handful of luxurious casitas for the ultimate in privacy and eco-adventure. The all-inclusive experience encompasses world-class diving at nearby Coiba National Park, sport fishing, whale watching, and wellness treatments surrounded by untouched tropical nature. Powered by solar energy and committed to marine conservation, it's luxury with a conscience.",
+    "photos": [
+      "https://islassecas.com/wp-content/uploads/2021/12/panama-islas-secas-ocean.jpg",
+      "https://islassecas.com/wp-content/uploads/2021/12/panama-isla-secas1.jpg",
+      "https://islassecas.com/wp-content/uploads/2021/12/ocean-view-panama-islas-secas.jpg",
+      "https://islassecas.com/wp-content/uploads/2021/12/panama-islas-secas-adventure.jpg"
+    ],
+    "pricing": "From $2,450 per night (all-inclusive)",
+    "amenities": [
+      "All-inclusive dining & drinks",
+      "Private beach",
+      "Diving & snorkeling",
+      "Sport fishing",
+      "Whale watching (seasonal)",
+      "Spa & wellness",
+      "Kayaking & paddleboarding",
+      "Coiba National Park excursions",
+      "Solar-powered resort",
+      "Scheduled flights from Panama City"
+    ],
+    "rating": "5.0/5 TripAdvisor",
+    "highlights": [
+      "Exclusive private island with only a handful of casitas",
+      "World-class diving at UNESCO-listed Coiba National Park",
+      "100% solar-powered eco-resort",
+      "Seasonal humpback whale watching from July to October",
+      "Full island buyout available for ultimate privacy"
+    ],
+    "tags": [
+      "private island",
+      "eco-luxury",
+      "diving",
+      "fishing",
+      "whale watching",
+      "all-inclusive",
+      "Panama",
+      "adventure",
+      "wellness"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A true paradise for eco-conscious adventurers with world-class diving and fishing; pristine conservation-driven experience, though activities are primarily water-based.",
+      "pros": [
+        "Conservation efforts create an untouched paradise \u2014 undisturbed beaches and abundant marine life",
+        "Incredible diving and snorkeling near UNESCO-listed Coiba National Park",
+        "Terrific food and every need taken care of in a relaxed, casual atmosphere",
+        "Guests consistently say they wished they could have stayed longer",
+        "100% solar-powered resort appeals to eco-conscious travelers"
+      ],
+      "cons": [
+        "Activities are primarily water-based \u2014 limited land-based entertainment",
+        "Very high price point at $2,450+ per night all-inclusive",
+        "Remote location requires a chartered flight from Panama City",
+        "Limited number of casitas means availability can be very tight"
+      ],
+      "sources": [
+        "TripAdvisor"
+      ]
+    }
+  },
+  {
+    "id": "hotel-christopher",
+    "name": "Hotel Christopher",
+    "location": "St Barth",
+    "region": "Americas",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://www.hotelchristopher.com/en/",
+    "description": "Hotel Christopher is a refined 5-star boutique hotel nestled in a secluded enclave on St. Barths' Pointe Milou, where every room commands breathtaking ocean views from a private terrace. The property blends contemporary luxury with tropical Caribbean charm, featuring a stunning infinity pool overlooking the sea, a Sisley spa, and bright interiors with vaulted wood ceilings and vibrant design accents. It's an intimate, design-forward hideaway on one of the Caribbean's most glamorous islands.",
+    "photos": [
+      "https://www.mrandmrssmith.com/image/smith_property/1959/header_images/hotel_header_desktop/hotel_header_desktop/0/1/smith_property-1959.jpg"
+    ],
+    "pricing": "From $732 per night",
+    "amenities": [
+      "Infinity pool",
+      "Sisley spa",
+      "Gym & fitness center",
+      "Free breakfast",
+      "Free WiFi",
+      "Free parking with valet",
+      "Ocean-view terraces",
+      "Restaurant & bar",
+      "Air conditioning",
+      "Concierge service"
+    ],
+    "rating": "4.0/5 TripAdvisor (8.8/10 Booking.com, 9.4/10 U.S. News)",
+    "highlights": [
+      "Every room features ocean views from a private terrace",
+      "Exclusive Sisley spa with premium treatments",
+      "Stunning infinity pool perched above the Caribbean Sea",
+      "Chic, design-forward interiors with vaulted wood ceilings",
+      "Intimate boutique feel on glamorous St. Barths"
+    ],
+    "tags": [
+      "boutique",
+      "5-star",
+      "beach",
+      "design",
+      "spa",
+      "Caribbean",
+      "romantic",
+      "ocean views",
+      "St Barths"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Beautiful infinity pool and stunning ocean views from every room make it a St. Barths standout, but food quality and service consistency have drawn criticism.",
+      "pros": [
+        "One of the largest and most beautiful infinity pools on St. Barths island",
+        "Wonderful rain showers with excellent water pressure in well-appointed rooms",
+        "Every room faces the sea with breathtaking ocean views",
+        "Award-winning Sisley Spa voted Best Spa in the Caribbean",
+        "Well-maintained tropical gardens create a serene atmosphere"
+      ],
+      "cons": [
+        "Not a beach resort \u2014 no direct beach access; day trips to beaches required",
+        "Mango Restaurant food described as expensive and substandard by multiple guests",
+        "Service inconsistencies: long wait times at front desk and for food/beverage",
+        "Some guests reported pest control issues not immediately addressed"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "First Class Giraffe",
+        "Cond\u00e9 Nast Traveler"
+      ]
+    }
+  },
+  {
+    "id": "sol-y-luna",
+    "name": "Sol Y Luna",
+    "location": "Sacred Valley, Peru",
+    "region": "Americas",
+    "category": "Hotels & Resorts",
+    "type": "Resort",
+    "website": "https://www.hotelsolyluna.com/",
+    "description": "Sol y Luna is a Relais & Ch\u00e2teaux property set amid the majestic Andes in Peru's Sacred Valley, offering casita-style accommodations decorated with handmade furnishings and original artwork by local artists. The hotel combines Peruvian warmth and culture with modern luxury\u2014marble bathrooms with L'Occitane products, Bose sound systems, and Peruvian high-density pima cotton sheets. Profits support the Sol y Luna Association, funding education and sustainable opportunities for children in the Sacred Valley.",
+    "photos": [
+      "https://www.hotelsolyluna.com/wp-content/uploads/2025/04/megamenu-deluxe.jpg",
+      "https://www.hotelsolyluna.com/wp-content/uploads/2025/04/megamenu-premium.jpg",
+      "https://www.hotelsolyluna.com/wp-content/uploads/2025/04/megamenu-killa-wasi.jpg",
+      "https://www.hotelsolyluna.com/wp-content/uploads/2025/04/megamenu-superior.jpg"
+    ],
+    "pricing": "From $463 per night",
+    "amenities": [
+      "Outdoor pool",
+      "Full-service spa",
+      "Restaurant",
+      "Gym & fitness center",
+      "Terraces & gardens",
+      "L'Occitane bath products",
+      "Bose sound systems",
+      "Free WiFi",
+      "Horseback riding",
+      "Concierge for Machu Picchu excursions"
+    ],
+    "rating": "4.0/5 TripAdvisor",
+    "highlights": [
+      "Relais & Ch\u00e2teaux member in the heart of the Sacred Valley",
+      "Each casita features handmade furniture and art by local artists",
+      "Peruvian high-density pima cotton linens throughout",
+      "Profits fund education for local children via Sol y Luna Association",
+      "Ideal base for exploring Machu Picchu and Inca ruins"
+    ],
+    "tags": [
+      "Relais & Ch\u00e2teaux",
+      "cultural",
+      "Andes",
+      "Sacred Valley",
+      "Peru",
+      "spa",
+      "philanthropy",
+      "adventure",
+      "Machu Picchu"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A deeply charming Relais & Ch\u00e2teaux gem in Peru's Sacred Valley with outstanding service and cultural authenticity; rooms are beautiful though some modern amenities are missing.",
+      "pros": [
+        "Attentive, professional service consistently exceeds expectations",
+        "Beautifully decorated casitas with handmade furniture and local artwork",
+        "Peruvian Paso horse shows every afternoon at the Wayra restaurant",
+        "Large spa, well-stocked craft shop, and lush gardens",
+        "Profits fund education for local children \u2014 meaningful social impact"
+      ],
+      "cons": [
+        "Some guests note missing in-room amenities like coffee makers",
+        "Restaurant pricing can feel steep for the region",
+        "Altitude in the Sacred Valley (~2,800m) can affect some guests",
+        "WiFi connectivity can be intermittent in some casitas"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Telegraph Travel",
+        "MICHELIN Guide"
+      ]
+    }
+  },
+  {
+    "id": "goldeneye",
+    "name": "Goldeneye",
+    "location": "Ocho Rios, Jamaica",
+    "region": "Americas",
+    "category": "Hotels & Resorts",
+    "type": "Resort",
+    "website": "https://www.goldeneye.com/",
+    "description": "GoldenEye is Jamaica's most storied luxury resort, set on the 52-acre beachfront estate where Ian Fleming wrote all 14 James Bond novels. Owned by Island Records founder Chris Blackwell, the property features stand-alone beach huts, lagoon cottages, and private villas, each furnished with outdoor showers, clawfoot tubs, and hand-dyed batik robes. With secret coves, a singular lagoon, two restaurants, a tree house spa, and effortless Jamaican cool, it's an icon of Caribbean hospitality.",
+    "photos": [
+      "https://www.goldeneye.com/wp-content/themes/goldeneye/assets/img/home-carousel/one.jpg",
+      "https://www.goldeneye.com/wp-content/uploads/2016/09/1-beach-villas.jpg",
+      "https://www.goldeneye.com/wp-content/uploads/2016/09/10-pools-and-beaches.jpg",
+      "https://www.goldeneye.com/wp-content/uploads/2016/09/13-fieldspa.jpg"
+    ],
+    "pricing": "From $600 per night (Beach Huts from ~$600, Lagoon Cottages from ~$1,000)",
+    "amenities": [
+      "2 restaurants",
+      "2 bars",
+      "2 outdoor pools",
+      "Private beach & lagoon",
+      "Tree house spa",
+      "Tennis courts",
+      "Water sports",
+      "Snorkeling & kayaking",
+      "Free breakfast",
+      "Free WiFi",
+      "Sonos speakers in rooms",
+      "Mini-bar with Blackwell Rum"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Historic estate where Ian Fleming wrote all 14 James Bond novels",
+      "Owned by Island Records founder Chris Blackwell",
+      "52-acre grounds with private beach, lagoon, and secret coves",
+      "Iconic tree house spa overlooking the lagoon",
+      "Stand-alone villas and cottages with outdoor showers and batik robes"
+    ],
+    "tags": [
+      "historic",
+      "James Bond",
+      "beachfront",
+      "lagoon",
+      "spa",
+      "Jamaica",
+      "Caribbean",
+      "boutique",
+      "celebrity",
+      "iconic"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Dripping with history and Jamaican cool on Ian Fleming's estate, with unique accommodations and a dreamy lagoon; but mosquitoes, inconsistent service, and premium pricing divide guests.",
+      "pros": [
+        "Unmatched history \u2014 Ian Fleming wrote all 14 James Bond novels here",
+        "Stunning lagoon, secret coves, and lush 52-acre grounds",
+        "Unique stand-alone villas with outdoor showers and clawfoot tubs",
+        "Iconic tree house spa and Jamaica vibes create an unforgettable atmosphere",
+        "Mini-bar stocked with Blackwell Rum; Sonos speakers in every room"
+      ],
+      "cons": [
+        "Mosquitoes are a significant issue \u2014 multiple visible bites despite bug spray",
+        "Two-hour car ride from Montego Bay airport (Ian Fleming airport is closer)",
+        "Some guests report staff entering rooms without knocking",
+        "Premium pricing causes some to question value relative to service level",
+        "Area outside the resort is not particularly appealing"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Reddit r/chubbytravel",
+        "Oyster.com"
+      ]
+    }
+  },
+  {
+    "id": "casa-carolina",
+    "name": "Casa Carolina",
+    "location": "Cartagena, Colombia",
+    "region": "Americas",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://casacarolinahotel.com/",
+    "description": "A wellness-focused luxury boutique hotel in Cartagena's historic walled city, Casa Carolina offers 15 beautifully appointed rooms across 4 distinctive styles within a lovingly restored colonial building. From holistic spa rituals and mindful cuisine to a rooftop pool and bar where cocktails shine under the stars, every detail is designed to nurture the soul while celebrating Colombia's rich culture and history.",
+    "photos": [
+      "https://casacarolinahotel.com/wp-content/uploads/2024/11/Casa-Carolina-Cartagena-Hotel.png",
+      "https://casacarolinahotel.com/wp-content/uploads/2025/01/suite-fermina-daza-habitaciones-casa-carolina-hotel-cartagena-1024x683.jpg",
+      "https://casacarolinahotel.com/wp-content/uploads/2025/03/A748907-HDR-2-1024x683.jpg",
+      "https://casacarolinahotel.com/wp-content/uploads/2025/03/A749213-HDR-1024x683.jpg"
+    ],
+    "pricing": "From $419 per night",
+    "amenities": [
+      "Rooftop pool & bar",
+      "Holistic spa",
+      "Yoga & wellness classes",
+      "Restaurant with mindful cuisine",
+      "Swim-up bar",
+      "Terrace",
+      "Free full breakfast",
+      "Free WiFi",
+      "Concierge",
+      "Multilingual staff"
+    ],
+    "rating": "4.0/5 TripAdvisor (#6 of 277 hotels in Cartagena)",
+    "highlights": [
+      "15 unique rooms in a beautifully restored colonial building in the walled city",
+      "Rooftop pool and bar with panoramic views of historic Cartagena",
+      "Wellness-focused concept with holistic spa rituals and yoga classes",
+      "Walking distance to Cartagena Convention Center and the historic city walls",
+      "Exceptional staff and personalized service praised by guests"
+    ],
+    "tags": [
+      "boutique",
+      "wellness",
+      "colonial",
+      "spa",
+      "rooftop",
+      "Cartagena",
+      "Colombia",
+      "historic",
+      "intimate"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Exceptional value wellness boutique in Cartagena's walled city with stunning rooftop pool and personalized service; a rising star with real heart and character.",
+      "pros": [
+        "Rooftop bar partnership with El Bar\u00f3n draws both guests and locals for amazing cocktails",
+        "Multiple pools including a courtyard pool and rooftop jacuzzi",
+        "Beautifully restored colonial building with 15 unique rooms",
+        "Exceptional value for a luxury property \u2014 guests rave about the price-to-experience ratio",
+        "Personalized service with Carolina and Ana singled out by name in reviews"
+      ],
+      "cons": [
+        "Relatively new property still establishing its reputation",
+        "Located in the walled city \u2014 street noise can be an issue for some rooms",
+        "Spa and wellness facilities are intimate rather than expansive",
+        "No beach access \u2014 requires transport to Cartagena-area beaches"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Hotels Above Par"
+      ]
+    }
+  },
+  {
+    "id": "the-loren-pink-beach",
+    "name": "The Loren at Pink Beach",
+    "location": "Bermuda",
+    "region": "Americas",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://www.thelorenhotels.com/bermuda",
+    "description": "Nestled along Bermuda's iconic Pink Beach at the cliff's edge of the southern shore, The Loren is a 5-star boutique resort where laid-back luxury meets modern elegance. Spacious oceanfront suites, three-bedroom villas, and a six-bedroom residence feature private terraces, marble bathrooms with SFERRA towels and Malin+Goetz essentials, and breathtaking views of pink sands and turquoise waters. With a Sisley Spa, beachside pool, and open-air dining at The Pink Beach Club, it's Bermuda's premier design-forward escape.",
+    "photos": [
+      "https://cdn.prod.website-files.com/62e3e4071daebd0b1c41ef63/66fe93453f033de0ad22353e_the-loren-bermuda-social-preview.jpg"
+    ],
+    "pricing": "From $632 per night",
+    "amenities": [
+      "Beachside pool",
+      "Sisley Spa",
+      "Pink Beach Club restaurant",
+      "Private beach access",
+      "Private terraces",
+      "Marble bathrooms",
+      "SFERRA towels",
+      "Malin+Goetz bath products",
+      "Fitness center",
+      "Marine adventures",
+      "Free WiFi",
+      "Concierge"
+    ],
+    "rating": "4.0/5 TripAdvisor (#3 of 22 hotels in Bermuda)",
+    "highlights": [
+      "Perched on cliffs above Bermuda's famous pink sand beach",
+      "Boutique suites with floor-to-ceiling ocean views and private terraces",
+      "Sisley Spa for world-class rejuvenation treatments",
+      "The Residence: a 10,700 sq ft six-bedroom private home on 5.5 acres",
+      "Part of The Loren Hotels collection with properties in Austin and Turks & Caicos"
+    ],
+    "tags": [
+      "5-star",
+      "boutique",
+      "beachfront",
+      "design",
+      "spa",
+      "Bermuda",
+      "ocean views",
+      "romantic",
+      "pink sand"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Bermuda's chicest boutique hotel with incredible pink sand beach views and vibey design; a modern, sexy escape that exceeded expectations for most guests.",
+      "pros": [
+        "Stunning panoramic ocean views and incredible on-point aesthetics",
+        "Pink Beach Club dining described as a dream experience",
+        "Chef Lawrence Godinho's cuisine earns rave reviews",
+        "Greeted with champagne; red-carpet-level hospitality throughout",
+        "Only 10 minutes from Bermuda airport \u2014 remarkably accessible"
+      ],
+      "cons": [
+        "Boutique size means limited room availability, especially in summer",
+        "Some guests found the contemporary design too modern for Bermuda's character",
+        "Pool area can feel crowded during peak season",
+        "Restaurant prices are premium even by Bermuda standards"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cosmopolitan",
+        "Cond\u00e9 Nast Traveler"
+      ]
+    }
+  },
+  {
+    "id": "baymahni-resort",
+    "name": "Baymahni Resort",
+    "location": "Exuma, The Bahamas",
+    "region": "Americas",
+    "category": "Hotels & Resorts",
+    "type": "Resort",
+    "website": "https://www.baymahni.com/",
+    "description": "A new private island resort destination in the Exumas where turquoise waters and endless shades of blue meet the sophistication of exquisite luxury. Baymahni offers villas seamlessly designed to blend with the natural beauty of the island, each strategically positioned for the experience of a private oasis with stunning views and beach access. With world-class snorkeling, sea turtle encounters, and secluded sandbars, it's a life-changing escape in one of the world's most stunning natural settings.",
+    "photos": [
+      "https://static.wixstatic.com/media/dc2735_2784a954a78247969f869fe355420255~mv2.png/v1/fit/w_2500,h_1330,al_c/dc2735_2784a954a78247969f869fe355420255~mv2.png"
+    ],
+    "pricing": "Contact for rates",
+    "amenities": [
+      "Private island villas",
+      "Private beach access",
+      "Snorkeling & diving",
+      "Sea turtle swimming",
+      "Guided boat excursions",
+      "Secluded sandbars",
+      "Coral reef exploration",
+      "Dedicated staff",
+      "Plush luxury bedding",
+      "World-class amenities"
+    ],
+    "rating": "New property \u2014 not yet rated",
+    "highlights": [
+      "Private island resort in the pristine Exuma Cays",
+      "Villas designed to feel like your own private island oasis",
+      "Crystal-clear waters with vibrant coral reefs and marine life",
+      "Swim with sea turtles in their natural habitat",
+      "Limited to 35 estate homes and 16 beach bungalows for exclusivity"
+    ],
+    "tags": [
+      "private island",
+      "beach",
+      "luxury",
+      "Bahamas",
+      "Exuma",
+      "snorkeling",
+      "exclusive",
+      "new",
+      "turquoise waters"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A brand-new private island resort in the Exumas with stunning turquoise waters and ambitious luxury vision; too new for extensive guest reviews but generating strong early buzz.",
+      "pros": [
+        "Crystal-clear Exuma waters with vibrant marine life and sea turtle encounters",
+        "Villas designed to blend seamlessly with natural island beauty",
+        "New Welcome Center sets an impressive first impression",
+        "Limited to 35 estate homes and 16 bungalows ensures exclusivity",
+        "Prime Stocking Island location near swimming pigs and other Exuma attractions"
+      ],
+      "cons": [
+        "Very new property \u2014 still developing its service standards and reputation",
+        "Limited independent reviews available yet",
+        "Access requires water taxi from Great Exuma",
+        "Pricing not publicly available \u2014 contact-only rates suggest ultra-premium positioning"
+      ],
+      "sources": [
+        "YouTube",
+        "Travel Media"
+      ]
+    }
+  },
+  {
+    "id": "morgans-rock",
+    "name": "Morgan's Rock",
+    "location": "San Juan del Sur, Nicaragua",
+    "region": "Americas",
+    "category": "Hotels & Resorts",
+    "type": "Resort",
+    "website": "https://www.morgansrock.com/",
+    "description": "Set on a 4,000-acre expanse of Nicaraguan jungle with nearly half designated as a private protected reserve, Morgan's Rock is an eco-luxury retreat just 13 km from San Juan del Sur yet completely immersed in nature. Treehouse-style bungalows with private plunge pools offer ocean or forest views, while a mile-long pristine sandy beach hosts nesting sea turtles year-round. An organic farm, world-class dining, and endless adventures make this a premier destination for those seeking authentic connection with nature.",
+    "photos": [
+      "https://image-tc.galaxy.tf/wijpeg-8zymm2kqc4ylxhr61dcqnwcj1/morgans-rock-rooms-ocean-view-bungalows-01_standard.jpg",
+      "https://image-tc.galaxy.tf/wijpeg-bzx5na43idigh00c5663po3ph/ocean-view-two-bedroom-villas-with-private-pool-01_standard.jpg",
+      "https://image-tc.galaxy.tf/wijpeg-2fs6e9dr6fhxi2o13i8qr58hp/forest-view-bungalow-with-plunge-pool-02_standard.jpg",
+      "https://image-tc.galaxy.tf/wijpeg-ecbatyiwxod0worezobudmhfe/ocean-view-bungalows-06_standard.jpg"
+    ],
+    "pricing": "From $350 per night",
+    "amenities": [
+      "Private plunge pools",
+      "Outdoor pool",
+      "Private beach",
+      "Organic farm",
+      "Farm-to-table restaurant",
+      "Spa",
+      "Yoga",
+      "Surfing",
+      "Sea turtle nesting tours",
+      "Hiking trails",
+      "Children's playground",
+      "4,000-acre nature reserve",
+      "Free WiFi"
+    ],
+    "rating": "4.0/5 TripAdvisor (619 reviews) \u2022 Small Luxury Hotels member",
+    "highlights": [
+      "4,000-acre property with nearly half as a private protected nature reserve",
+      "Treehouse-style bungalows with private plunge pools and stunning views",
+      "Mile-long pristine beach with year-round sea turtle nesting",
+      "On-site organic farm supplying the resort's farm-to-table restaurant",
+      "Small Luxury Hotels of the World (SLH) member property"
+    ],
+    "tags": [
+      "eco-luxury",
+      "nature",
+      "beach",
+      "jungle",
+      "farm-to-table",
+      "wildlife",
+      "Nicaragua",
+      "adventure",
+      "sustainable",
+      "sea turtles"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Nicaragua's premier eco-luxury retreat with spectacular treehouse bungalows, a pristine beach, and an organic farm; an authentic rainforest escape with genuinely friendly staff.",
+      "pros": [
+        "Stunning treehouse-style bungalows with private plunge pools and ocean views",
+        "Staff rated 10+ for friendliness and genuine warmth",
+        "Mile-long pristine beach with year-round sea turtle nesting",
+        "Outstanding farm-to-table cuisine from the on-site organic farm",
+        "Diverse activities: horseback riding, hiking, surfing, nature walks"
+      ],
+      "cons": [
+        "Remote location in Nicaragua can feel isolated to some guests",
+        "Jungle setting means insects are part of the experience",
+        "WiFi can be unreliable in the bungalows",
+        "Some guests found the eco-approach means fewer luxury hotel amenities"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Small Luxury Hotels of the World"
+      ]
+    }
+  },
+  {
+    "id": "romeo-hotel",
+    "name": "Romeo Hotel",
+    "location": "Rome, Italy",
+    "region": "Europe",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://theromeocollection.com/en/romeo-roma/",
+    "description": "ROMEO Roma is a 5-star design icon housed in a historic 16th-century palazzo steps from Piazza del Popolo, featuring interiors by the legendary Zaha Hadid in one of her final projects. The 74 rooms and suites blend futuristic curves with historical frescoes, while Alain Ducasse oversees the gastronomic experience and a Sisley Paris spa provides world-class wellness. With a rooftop terrace offering views over Rome and a translucent pool floor overlooking ancient Roman ruins, it's ultra-exclusive luxury at its finest.",
+    "photos": [
+      "https://static.designboom.com/wp-content/uploads/2025/01/zaha-hadid-architects-16th-century-roman-palazzo-hotel-romeo-roma-designboom-01.jpg",
+      "https://static.designboom.com/wp-content/uploads/2025/01/zaha-hadid-architects-16th-century-roman-palazzo-hotel-romeo-roma-designboom-02.jpg",
+      "https://static.designboom.com/wp-content/uploads/2025/01/zaha-hadid-architects-16th-century-roman-palazzo-hotel-romeo-roma-designboom-04.jpg",
+      "https://static.designboom.com/wp-content/uploads/2025/01/zaha-hadid-architects-16th-century-roman-palazzo-hotel-romeo-roma-designboom-09.jpg"
+    ],
+    "pricing": "From $800 per night",
+    "amenities": [
+      "Sisley Paris Spa",
+      "Alain Ducasse restaurant",
+      "Rooftop terrace with Krug Champagne bar",
+      "Indoor-outdoor pool",
+      "Technogym fitness center",
+      "74 rooms & suites",
+      "16th-century frescoes",
+      "Concierge",
+      "Free WiFi",
+      "Room service",
+      "Valet parking"
+    ],
+    "rating": "4.5/5 TripAdvisor \u2022 Cond\u00e9 Nast Traveler featured",
+    "highlights": [
+      "Interiors designed by Zaha Hadid \u2014 one of her final architectural projects",
+      "Set in a restored 16th-century Palazzo Capponi near Piazza del Popolo",
+      "Alain Ducasse gastronomic dining and Sisley Paris spa",
+      "Translucent pool floor overlooking ancient Roman archaeological ruins",
+      "Fresco suites adorned with genuine 16th-century paintings"
+    ],
+    "tags": [
+      "5-star",
+      "design",
+      "Zaha Hadid",
+      "historic",
+      "palazzo",
+      "spa",
+      "fine dining",
+      "Rome",
+      "Italy",
+      "luxury",
+      "rooftop",
+      "art"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A bold, wildly luxurious Zaha Hadid masterpiece in a 16th-century palazzo that caters to the ultra-affluent; architecturally stunning but the avant-garde design can feel claustrophobic.",
+      "pros": [
+        "Zaha Hadid interiors are a once-in-a-lifetime architectural experience",
+        "Translucent pool floor overlooking ancient Roman ruins is jaw-dropping",
+        "Alain Ducasse dining is ultra-refined",
+        "Incredible location steps from Piazza del Popolo",
+        "Sisley Paris spa with world-class treatments"
+      ],
+      "cons": [
+        "Yacht-like interiors can feel simultaneously claustrophobic and disorienting",
+        "Entry-level Junior Suites are compact for the price",
+        "The avant-garde design may not appeal to guests seeking classic Roman charm",
+        "The sheer profusion of furnishings and art can undermine overall cohesion"
+      ],
+      "sources": [
+        "Cond\u00e9 Nast Traveler",
+        "Wallpaper*",
+        "Architectural Record",
+        "UNIQ Hotels"
+      ]
+    }
+  },
+  {
+    "id": "hotel-bowmann",
+    "name": "Hotel Bowmann",
+    "location": "Paris, France",
+    "region": "Europe",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://www.hotelbowmannparis.com/en/",
+    "description": "A sophisticated 5-star hotel in Paris's prestigious 8th arrondissement, Hotel Bowmann combines Haussmannian elegance with contemporary design just steps from the Champs-\u00c9lys\u00e9es and Arc de Triomphe. The property features chic interiors, a spa and wellness center, and the acclaimed 99 Haussmann restaurant serving seasonal French cuisine with fresh market-driven menus. Attentive, personalized service and a prime Parisian location make it an ideal base for exploring the City of Light.",
+    "photos": [
+      "https://hapi.mmcreation.com/hapidam/05d46e1a-fd3e-4cd4-9908-9e9e6da4b39a/hotel-bowmann-suite-baron-haussmann-005969a4637-63593cff52116699527016.jpg?w=1200&mode=cover&coi=50%2C50",
+      "https://hapi.mmcreation.com/hapidam/0f99b48c-6b83-49eb-8086-c835c1886d8b/hotel-bowmann-restaurant-et-bar-031.jpg?w=1200&h=1200&mode=crop&coi=50%2C50",
+      "https://hapi.mmcreation.com/hapidam/25b9a8c9-027c-4a07-b12a-bf0e0ab18390/hotel-bowmann-suite-prestige-eiffel-001969a5436-6359529880cbf156384178.jpg?w=1200&mode=cover&coi=50%2C50",
+      "https://hapi.mmcreation.com/hapidam/17ed84de-f98d-460a-8de6-2fba6f55c51f/hotel-bowmann-haussmann-executive-007969a5563-633a9e92a2181111929118.jpg?w=1200&mode=cover&coi=50%2C50"
+    ],
+    "pricing": "From $422 per night",
+    "amenities": [
+      "99 Haussmann restaurant",
+      "Spa & wellness center",
+      "Fitness center",
+      "Bar",
+      "Express check-in/check-out",
+      "Free WiFi",
+      "Concierge",
+      "Room service",
+      "Laundry service",
+      "24-hour front desk"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Prime 8th arrondissement location near Champs-\u00c9lys\u00e9es and Arc de Triomphe",
+      "99 Haussmann restaurant with seasonal, market-driven French cuisine",
+      "Elegant Haussmannian building with chic contemporary interiors",
+      "Spa and wellness center for relaxation after exploring Paris",
+      "Praised for attentive service and beautiful design"
+    ],
+    "tags": [
+      "5-star",
+      "Paris",
+      "France",
+      "Haussmann",
+      "fine dining",
+      "spa",
+      "chic",
+      "central",
+      "romantic",
+      "design"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A beautifully designed 5-star in Paris's 8th arrondissement with outstanding location; however, some guests note it has not been maintained well and the spa/pool area disappoints.",
+      "pros": [
+        "Prime location near Champs-\u00c9lys\u00e9es, walking distance to La Madeleine",
+        "Impressive bathroom products (same as Le Meurice palace hotel) and Toto toilets",
+        "Seasonal, market-driven French cuisine at 99 Haussmann restaurant",
+        "Beautiful Haussmannian building with once-impressive interior decoration",
+        "Suites like Baron Haussmann and Prestige Eiffel are standouts"
+      ],
+      "cons": [
+        "Multiple guests note the hotel has not been maintained well and it shows",
+        "Spa and pool area described as a disaster \u2014 too many people, very dark",
+        "Decoration that was top-level years ago no longer delivers the same wow factor",
+        "Some feel value has declined relative to the 5-star pricing"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Trip.com"
+      ]
+    }
+  },
+  {
+    "id": "hotel-byblos",
+    "name": "Hotel Byblos",
+    "location": "St Tropez, France",
+    "region": "Europe",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://www.byblos.com/en/",
+    "description": "An iconic 5-star palace in the heart of Saint-Tropez, H\u00f4tel Byblos has been the epicenter of Riviera glamour since 1967. With 86 exquisitely designed rooms and suites, a Sisley spa, legendary Caves du Roy nightclub, and a new rooftop Skybar with panoramic bay views, it offers an unforgettable C\u00f4te d'Azur experience.",
+    "photos": [
+      "https://www.byblos.com/wp-content/uploads/hotel-byblos-saint-tropez-1.jpg",
+      "https://www.byblos.com/wp-content/uploads/Byblos-Beach-Ramatuelle-ramatuelle-1-1800x1333.jpg",
+      "https://www.byblos.com/wp-content/uploads/Hotel-Byblos-Saint-Tropez-Junior-Suite-1-800x995.jpg",
+      "https://www.byblos.com/wp-content/uploads/Byblos-spa-by-Sisley_Hotel-Byblos-Saint-Tropez-%C2%A9Alexandre-Chaplier-2-800x800.jpg"
+    ],
+    "pricing": "From $839/night",
+    "amenities": [
+      "Sisley Spa",
+      "Outdoor Pool",
+      "Skybar Rooftop Terrace",
+      "Caves du Roy Nightclub",
+      "Il Giardino Italian Restaurant",
+      "B. Lounge Poolside Dining",
+      "Zuma Japanese Restaurant",
+      "Valet Parking",
+      "Concierge",
+      "Free WiFi",
+      "Room Service",
+      "Fitness Center"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Legendary Riviera landmark since 1967, frequented by celebrities and tastemakers",
+      "86 signature rooms and suites redesigned by Laura Gonzalez",
+      "Home to Caves du Roy, one of the world's most famous nightclubs",
+      "New Skybar rooftop with stunning panoramic views of the Bay of Saint-Tropez",
+      "Sisley Paris spa with bespoke treatments"
+    ],
+    "tags": [
+      "luxury",
+      "beach",
+      "nightlife",
+      "french-riviera",
+      "iconic",
+      "spa",
+      "rooftop",
+      "celebrity"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "An iconic Riviera landmark and celebrity magnet since 1967 with legendary nightlife at Caves du Roy; but the exclusive attitude of some staff and premium pricing can disappoint.",
+      "pros": [
+        "Legendary status \u2014 the definitive St. Tropez luxury hotel since 1967",
+        "Caves du Roy nightclub is one of the world's most famous",
+        "Laura Gonzalez-redesigned rooms are beautifully appointed",
+        "New Skybar rooftop with panoramic Bay of Saint-Tropez views",
+        "Sisley Paris spa with bespoke treatments"
+      ],
+      "cons": [
+        "Some staff described as believing they are more important than guests",
+        "Pricing is very steep even by Riviera standards",
+        "Pool area can be a scene \u2014 not ideal for quiet relaxation",
+        "Location in the heart of St. Tropez means summer crowds and noise"
+      ],
+      "sources": [
+        "TripAdvisor"
+      ]
+    }
+  },
+  {
+    "id": "at-sloane",
+    "name": "At Sloane",
+    "location": "London, United Kingdom",
+    "region": "Europe",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://www.atsloane.com/en",
+    "description": "A luxury 5-star boutique hotel just off Chelsea's iconic Sloane Square, At Sloane blends discreet British charm with the French flair of interior designer Fran\u00e7ois-Joseph Graf. With only 30 romantic rooms, a rooftop restaurant overlooking King's Road, and a speakeasy-style bar, it's an intimate urban retreat in one of London's most fashionable neighborhoods.",
+    "photos": [
+      "https://costes-group.imgix.net/atsloane/production/images/home/_1200x630_crop_center-center_82_none/SLIDE_01.jpg"
+    ],
+    "pricing": "From $750/night",
+    "amenities": [
+      "Rooftop Restaurant",
+      "Speakeasy Bar",
+      "Room Service",
+      "Free WiFi",
+      "Mini-Bar",
+      "Concierge",
+      "Work Desk",
+      "Premium Toiletries",
+      "24-Hour Front Desk",
+      "Laundry Service"
+    ],
+    "rating": "5/5 TripAdvisor (Travelers' Choice)",
+    "highlights": [
+      "Only 30 rooms for an intimate, exclusive experience in the heart of Chelsea",
+      "Interiors by celebrated French designer Fran\u00e7ois-Joseph Graf",
+      "Rooftop restaurant with views over King's Road and Chelsea rooftops",
+      "Speakeasy-style bar with curated cocktail menu",
+      "Steps from Sloane Square, Buckingham Palace, and Hyde Park"
+    ],
+    "tags": [
+      "luxury",
+      "boutique",
+      "chelsea",
+      "london",
+      "romantic",
+      "design",
+      "rooftop-dining",
+      "intimate"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A discreet, intimate gem in Chelsea that perfectly blends British charm with French design flair; universally praised for its warmth, style, and unbeatable London location.",
+      "pros": [
+        "Only 30 rooms create an intimate, club-like atmosphere",
+        "Interiors by Fran\u00e7ois-Joseph Graf are elegant without being pretentious",
+        "Staff dress in their own clothes \u2014 unobtrusive, smart, and self-possessed",
+        "Rooftop restaurant with views over King's Road and Chelsea rooftops",
+        "Steps from Sloane Square tube, Buckingham Palace, and Hyde Park"
+      ],
+      "cons": [
+        "Small size means limited availability, especially on weekends",
+        "No spa or gym \u2014 limited wellness amenities",
+        "The warming allure makes it difficult to leave and explore London",
+        "Rooms on the smaller side compared to similarly priced London hotels"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cond\u00e9 Nast Traveller",
+        "Travel + Leisure"
+      ]
+    }
+  },
+  {
+    "id": "almanac-hotels",
+    "name": "Almanac Hotels",
+    "location": "Barcelona & Vienna",
+    "region": "Europe",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://www.almanachotels.com/",
+    "description": "A collection of luxury boutique hotels that serve as living guides to their destinations. Almanac Barcelona sits steps from Passeig de Gr\u00e0cia with a panoramic rooftop bar and pool, while Almanac Palais Vienna occupies a historic Ringstrasse building blending architectural heritage with contemporary design. Both properties emphasize local culture, plant-forward dining, and curated city experiences.",
+    "photos": [
+      "https://www.almanachotels.com/wp-content/uploads/2024/10/almanac-fallback-image.webp",
+      "https://www.almanachotels.com/wp-content/uploads/2025/08/almanac-barcelona-azimuth-33.webp",
+      "https://www.almanachotels.com/wp-content/uploads/2025/05/almanac-brand-home-hidden-art-barcelona-390x592-1.webp",
+      "https://www.almanachotels.com/wp-content/uploads/2025/05/almanac-brand-home-klimt-reverie-vienna-390x592-1-1024x674.webp"
+    ],
+    "pricing": "From $298/night",
+    "amenities": [
+      "Azimuth Rooftop Bar (Barcelona)",
+      "Rooftop Pool (Barcelona)",
+      "Virens Plant-Forward Restaurant (Barcelona)",
+      "Donnersmarkt Alpine Restaurant (Vienna)",
+      "Elias Coffee Shop",
+      "Spa & Wellness",
+      "Fitness Center",
+      "Concierge",
+      "Free WiFi",
+      "Meeting Rooms",
+      "Terrace Suites with Fire Pits"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Two distinct European locations: vibrant Barcelona and imperial Vienna",
+      "Azimuth Rooftop in Barcelona offers panoramic city views with cocktails and pool",
+      "Historic Palais building on Vienna's famous Ringstrasse boulevard",
+      "Plant-forward dining philosophy across both properties with restaurants Virens and Donnersmarkt",
+      "Terrace suites with private decks and fire pits in Barcelona"
+    ],
+    "tags": [
+      "luxury",
+      "boutique",
+      "barcelona",
+      "vienna",
+      "rooftop",
+      "pool",
+      "design",
+      "culinary",
+      "plant-forward"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A polished, design-forward five-star with an exceptional rooftop and breakfast; gym and pool are smaller than expected but the location and plant-forward dining impress.",
+      "pros": [
+        "Modern, luxurious atmosphere with immaculate cleanliness throughout",
+        "Exceptional breakfast and standout plant-forward dining at Virens",
+        "Rooftop bar and pool in Barcelona offer panoramic city views",
+        "Prime location steps from Passeig de Gr\u00e0cia in Barcelona",
+        "Great value at ~$360/night for a top-tier five-star experience"
+      ],
+      "cons": [
+        "Gym and pool are smaller than expected for a five-star hotel",
+        "Some noise from the busy Barcelona location can enter rooms",
+        "Vienna property, while charming, lacks the rooftop wow of Barcelona",
+        "Terrace suites with fire pits are premium-priced and limited"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cond\u00e9 Nast Traveler"
+      ]
+    }
+  },
+  {
+    "id": "castello-di-vicarello",
+    "name": "Castello Di Vicarello",
+    "location": "Tuscany, Italy",
+    "region": "Europe",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://www.castellodivicarello.com/",
+    "description": "A meticulously restored medieval castle perched high in Tuscany's wild Maremma hills, Castello di Vicarello is an ultra-exclusive retreat with just a handful of luxurious suites furnished with treasures gathered from years of world travel. Surrounded by olive groves and vineyards producing award-winning wines, it offers fine dining, a spa, infinity pools, and an atmosphere of timeless Italian romance.",
+    "photos": [
+      "https://www.castellodivicarello.com/wp-content/uploads/Copy-of-VICTOR-FITZ-DJI_0942-Enhanced-NR-scaled.jpg",
+      "https://www.castellodivicarello.com/wp-content/uploads/28-_Z5A6950_web.jpg",
+      "https://www.castellodivicarello.com/wp-content/uploads/49-_Z5A6685_web.jpg",
+      "https://www.castellodivicarello.com/wp-content/uploads/58-_MSF1381_web.jpg"
+    ],
+    "pricing": "From $1,092/night",
+    "amenities": [
+      "Two Outdoor Infinity Pools",
+      "Spa with Sauna & Steam Room",
+      "Award-Winning On-Site Winery",
+      "Fine Dining Restaurant",
+      "Yoga Classes",
+      "Library",
+      "Lush Gardens",
+      "Pet-Friendly",
+      "Free WiFi",
+      "Concierge",
+      "Laundry Service",
+      "Breakfast Buffet"
+    ],
+    "rating": "4/5 TripAdvisor \u2022 9.4/10 Booking.com",
+    "highlights": [
+      "Restored medieval castle with only a handful of suites for ultimate exclusivity",
+      "Award-winning estate wines produced from on-site vineyards",
+      "Each suite uniquely furnished with art and objects from worldwide travels",
+      "Set in Tuscany's untamed Maremma hills with sweeping countryside views",
+      "Popular destination wedding venue featured in Cond\u00e9 Nast Traveller"
+    ],
+    "tags": [
+      "luxury",
+      "castle",
+      "tuscany",
+      "wine",
+      "romantic",
+      "exclusive",
+      "spa",
+      "countryside",
+      "wedding"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A breathtaking medieval castle setting with award-winning wines and beautiful grounds; but inconsistent service, steep pricing, and basic infrastructure issues have frustrated guests.",
+      "pros": [
+        "Stunning medieval castle setting with sweeping Tuscan countryside views",
+        "Award-winning estate wines from on-site vineyards",
+        "Each suite uniquely furnished with art and objects from world travels",
+        "Popular and photogenic destination wedding venue",
+        "Fine dining restaurant uses estate-grown ingredients"
+      ],
+      "cons": [
+        "Guests report infrastructure issues: no water on arrival, no gas, no air conditioning",
+        "Described as colossally overpriced by multiple reviewers",
+        "Minimal staff presence \u2014 guests felt under-attended",
+        "Some found management attitude towards guests was poor",
+        "Very remote location with no shops anywhere nearby"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Booking.com"
+      ]
+    }
+  },
+  {
+    "id": "xenodocheio-milos",
+    "name": "Xenodocheio Milos",
+    "location": "Athens, Greece",
+    "region": "Europe",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://www.xenodocheiomilos.com/",
+    "description": "The world-renowned Estiatorio Milos proudly presents its first luxurious gastronomy 5-star hotel in the heart of Athens, directly opposite Old Parliament House. Xenodocheio Milos elevates hospitality to the Greek concept of 'philoxenia,' combining an impressively central location with celebrity-chef-endorsed seafood dining, personalized service, and serene, intimate accommodations.",
+    "photos": [
+      "https://www.xenodocheiomilos.com/assets/images/body/accomodation.jpg",
+      "https://www.xenodocheiomilos.com/assets/images/body/taste2.jpg",
+      "https://www.xenodocheiomilos.com/assets/images/body/experience.jpg",
+      "https://www.xenodocheiomilos.com/assets/images/body/spa.jpg"
+    ],
+    "pricing": "From $238/night",
+    "amenities": [
+      "Estiatorio Milos Restaurant",
+      "Spa & Wellness",
+      "Concierge",
+      "Free WiFi",
+      "Room Service",
+      "Mini-Bar",
+      "Premium Toiletries",
+      "24-Hour Front Desk",
+      "Laundry Service",
+      "Library"
+    ],
+    "rating": "9.8/10 Booking.com (Couples) \u2022 MICHELIN Guide Listed",
+    "highlights": [
+      "First hotel from the world-famous Estiatorio Milos restaurant group",
+      "Prime location opposite Old Parliament House in central Athens",
+      "Gastronomy-focused concept with chef-curated Greek seafood dining",
+      "Intimate, boutique atmosphere embodying Greek 'philoxenia' hospitality",
+      "Listed in the MICHELIN Guide for exceptional quality"
+    ],
+    "tags": [
+      "luxury",
+      "gastronomy",
+      "athens",
+      "seafood",
+      "boutique",
+      "central",
+      "michelin",
+      "greek",
+      "intimate"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "More restaurant-with-rooms than traditional hotel, delivering exceptional Greek seafood dining in a prime Athens location; intimate and service-driven with standout staff.",
+      "pros": [
+        "World-famous Estiatorio Milos restaurant quality at your doorstep",
+        "Exceptional, personalized service \u2014 staff like Angelo singled out by name",
+        "Best location in central Athens, opposite Old Parliament House",
+        "Spacious, comfortable rooms with made-to-order breakfast included",
+        "Listed in the MICHELIN Guide for quality"
+      ],
+      "cons": [
+        "More restaurant-with-hotel than hotel-with-restaurant \u2014 limited hotel amenities",
+        "Intimate size means very limited room inventory",
+        "Some guests found it a letdown compared to the restaurant's reputation",
+        "High pricing relative to other Athens luxury hotel options"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "MICHELIN Guide",
+        "Booking.com"
+      ]
+    }
+  },
+  {
+    "id": "monaci-delle-terre-nere",
+    "name": "Monaci Delle Terre Nere",
+    "location": "Sicily, Italy",
+    "region": "Europe",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://monacidelleterrenere.it/en/",
+    "description": "A Relais & Ch\u00e2teaux country boutique hotel nestled on the volcanic slopes of Mount Etna, Monaci delle Terre Nere is a wine-lover's paradise set among ancient lava flows, citrus groves, and vineyards. With just 16 rooms and villas featuring Sicilian art d\u00e9cor, an infinity saltwater pool overlooking the countryside and sea, and outstanding farm-to-table dining, it's one of Sicily's most immersive luxury retreats.",
+    "photos": [
+      "https://monacidelleterrenere.it/wp-content/uploads/Monaci-Resort-Main-Villa-1200x800-1.webp",
+      "https://monacidelleterrenere.it/wp-content/uploads/Main-Pool-Suites-Sicily-Luxury-Etna-Wine-Resort-1200x675.webp",
+      "https://monacidelleterrenere.it/wp-content/uploads/Main-Signature-Suites-Monaci-delle-Terre-Nere-Resort-Sicily-1200x675.webp",
+      "https://monacidelleterrenere.it/wp-content/uploads/Monaci-Pool-Suite-Sicily-Luxury-Etna-Wine-Resort-1200x675.webp"
+    ],
+    "pricing": "From $291/night",
+    "amenities": [
+      "Infinity Saltwater Pool",
+      "On-Site Winery & Vineyard",
+      "Farm-to-Table Restaurant",
+      "Spa Treatments",
+      "Pool Villas with Private Pools",
+      "Golf Cart Service",
+      "Bar & Terrace",
+      "Cooking Classes",
+      "Wine Tastings",
+      "Etna Excursions",
+      "Free WiFi",
+      "Pet-Friendly",
+      "Gardens & Citrus Groves"
+    ],
+    "rating": "4.5/5 TripAdvisor \u2022 Relais & Ch\u00e2teaux Member",
+    "highlights": [
+      "Relais & Ch\u00e2teaux property on the slopes of Mount Etna with stunning volcanic landscapes",
+      "Only 16 rooms and villas, including private pool villas with Etna views",
+      "Estate-produced wines from volcanic soil vineyards",
+      "Outstanding farm-to-table Sicilian cuisine with ingredients from on-site gardens",
+      "Ideal base for exploring Etna, Taormina, Catania, and Sicily's eastern coast"
+    ],
+    "tags": [
+      "luxury",
+      "wine",
+      "sicily",
+      "volcano",
+      "etna",
+      "farm-to-table",
+      "relais-chateaux",
+      "countryside",
+      "pool",
+      "boutique"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A magical volcanic wine estate on Mount Etna with outstanding farm-to-table dining and deeply personal service; the back-to-nature philosophy means no TVs and some rustic trade-offs.",
+      "pros": [
+        "Guest Experience Manager handles pre-arrival questions with patience and professionalism",
+        "Exceptional farm-to-table Sicilian cuisine with estate-grown ingredients",
+        "Estate-produced wines from volcanic soil vineyards are remarkable",
+        "Stone walls, exposed beams, and no TVs create a deeply charming retreat",
+        "Pool villas with private pools and Mount Etna views are stunning"
+      ],
+      "cons": [
+        "No televisions in rooms \u2014 the digital detox isn't for everyone",
+        "Some past guests reported unprofessional service incidents",
+        "Somewhat remote \u2014 a car is recommended for exploring the area",
+        "Natural ventilation in some areas can feel insufficient in summer heat"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Hotels Above Par",
+        "Relais & Ch\u00e2teaux"
+      ]
+    }
+  },
+  {
+    "id": "clinique-la-prairie",
+    "name": "Clinique La Prairie",
+    "location": "Montreux, Switzerland",
+    "region": "Europe",
+    "category": "Hotels & Resorts",
+    "type": "Resort",
+    "website": "https://www.cliniquelaprairie.com/",
+    "description": "Founded in 1931, Clinique La Prairie is the world's premier longevity and wellness destination, overlooking the shores of Lake Geneva in Montreux, Switzerland. This legendary 5-star medi-spa resort combines cutting-edge preventative medicine with luxury hospitality across 39 beautifully appointed rooms and suites. Signature programs from detox to revitalization draw discerning guests seeking transformative health experiences in the Swiss Alps.",
+    "photos": [
+      "https://www.cliniquelaprairie.com/wp-content/uploads/2025/04/KV-web.jpg",
+      "https://www.cliniquelaprairie.com/wp-content/uploads/2025/03/CLP-M02-scaled.jpg",
+      "https://www.cliniquelaprairie.com/wp-content/uploads/2025/03/CLP-M05-scaled.jpg",
+      "https://www.cliniquelaprairie.com/wp-content/uploads/2025/05/essais-HH-LANDING-P.jpg"
+    ],
+    "pricing": "From CHF 20,950 per week (program-based pricing)",
+    "amenities": [
+      "Medical spa & diagnostics",
+      "Holistic wellness programs",
+      "Detox & revitalization programs",
+      "Pool",
+      "Gym",
+      "Fine dining restaurant",
+      "Lake Geneva views",
+      "39 luxury rooms & suites",
+      "Nutritionist consultations",
+      "Beauty treatments",
+      "Physiotherapy",
+      "Yoga & meditation"
+    ],
+    "rating": "4.5/5 TripAdvisor \u2022 Cond\u00e9 Nast Traveler Readers' Choice 2020-2022",
+    "highlights": [
+      "World-renowned longevity clinic founded in 1931 \u2014 over 90 years of expertise",
+      "Signature Revitalisation program combining cutting-edge medicine with luxury wellness",
+      "Stunning setting overlooking Lake Geneva with Swiss Alps backdrop",
+      "39 rooms and suites in the elegant Ch\u00e2teau with lake-view terraces",
+      "Programs range from Master Detox to Legendary Premium Revitalisation"
+    ],
+    "tags": [
+      "wellness",
+      "medical spa",
+      "longevity",
+      "Switzerland",
+      "Lake Geneva",
+      "detox",
+      "luxury",
+      "5-star",
+      "preventative medicine",
+      "spa"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "The world's gold standard for longevity and wellness with genuinely transformational medical science; extraordinary but with program-based pricing that starts around CHF 20,000/week.",
+      "pros": [
+        "Over 90 years of longevity expertise \u2014 genuinely transformational medical programs",
+        "50+ doctors on-site deliver cutting-edge preventative medicine",
+        "Stunning setting overlooking Lake Geneva with Swiss Alps backdrop",
+        "Swiss precision in every aspect \u2014 from diagnostics to spa to dining",
+        "Reputation built on real science, not celebrity mystique"
+      ],
+      "cons": [
+        "Eye-watering program pricing starting at CHF 20,950 per week",
+        "Medical focus means it's not a relaxing spa holiday \u2014 rigorous health assessments",
+        "Only 39 rooms \u2014 availability is very limited",
+        "The clinical atmosphere may not suit those seeking a traditional luxury hotel"
+      ],
+      "sources": [
+        "Wellness Holiday Boutique",
+        "The Luxury Spa Edit",
+        "Cond\u00e9 Nast Traveler"
+      ]
+    }
+  },
+  {
+    "id": "hotel-royal-riviera",
+    "name": "Hotel Royal Riviera",
+    "location": "St Jean Cap Ferrat, France",
+    "region": "Europe",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://www.royal-riviera.com/en/",
+    "description": "A five-star jewel on the Cap-Ferrat peninsula, Hotel Royal Riviera provides the intimacy of a private villa with the luxury and glamour of a palace, overlooking Proven\u00e7al gardens terraced down to the sparkling Mediterranean. The 96-room hotel dates from the Belle \u00c9poque era and offers direct beach access, a stunning pool deck, and world-class dining in one of the French Riviera's most prestigious addresses. Equidistant between Monaco and Nice, it's the quintessential C\u00f4te d'Azur escape.",
+    "photos": [
+      "https://www.royal-riviera.com/wp-content/uploads/2022/01/Royal-Riviera-Chambre-Standard-vue-Montagne-950x633.jpg",
+      "https://www.royal-riviera.com/wp-content/uploads/2022/01/bien-etre-720x450.jpg",
+      "https://www.royal-riviera.com/wp-content/uploads/2022/01/DSCF4110-min-675x450.jpg",
+      "https://www.royal-riviera.com/wp-content/uploads/2022/01/St-Jean-Cap-Ferrat-Paloma-Beach-Ophlie-Seban-photography-St-Jean-Cap-Ferrat-ConvertImage-800x533.jpg"
+    ],
+    "pricing": "From $394 per night",
+    "amenities": [
+      "Private beach access",
+      "Outdoor pool",
+      "Proven\u00e7al gardens",
+      "Restaurant",
+      "Bar & lounge",
+      "Spa & wellness",
+      "Fitness center",
+      "Free WiFi",
+      "Free parking",
+      "Concierge",
+      "Room service",
+      "96 rooms & suites",
+      "Sea-view terraces"
+    ],
+    "rating": "4.0/5 TripAdvisor (#1 of 8 hotels in St-Jean-Cap-Ferrat)",
+    "highlights": [
+      "Five-star hotel on the exclusive Cap-Ferrat peninsula between Nice and Monaco",
+      "96 elegant rooms with sea views over the Mediterranean and Proven\u00e7al gardens",
+      "Direct access to the beach at Baie des Fourmis",
+      "Belle \u00c9poque heritage with contemporary luxury and casual chic atmosphere",
+      "30 minutes from Nice International Airport"
+    ],
+    "tags": [
+      "5-star",
+      "French Riviera",
+      "C\u00f4te d'Azur",
+      "beachfront",
+      "Mediterranean",
+      "gardens",
+      "Cap Ferrat",
+      "luxury",
+      "romantic",
+      "palace"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A five-star jewel on the exclusive Cap-Ferrat peninsula combining Belle \u00c9poque heritage with casual Riviera chic; poolside dining wins praise though menu prices feel steep.",
+      "pros": [
+        "Stunning location on Cap-Ferrat between Nice and Monaco",
+        "Proven\u00e7al gardens terracing down to the Mediterranean are beautiful",
+        "Jasmin Grill & Lounge praised for delectable food and stunning bay views",
+        "Relaxed yet refined atmosphere with genuine hospitality",
+        "Direct beach access at Baie des Fourmis"
+      ],
+      "cons": [
+        "Restaurant menu prices described as steep even for the Riviera",
+        "Some standard rooms face the mountain rather than the sea",
+        "Not all rooms have been recently renovated",
+        "30 minutes from Nice airport \u2014 not the most convenient transfer"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "U.S. News Travel",
+        "MICHELIN Guide"
+      ]
+    }
+  },
+  {
+    "id": "soleil-nile-cruise",
+    "name": "Soleil Nile Cruise",
+    "location": "Luxor, Egypt",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Cruise",
+    "website": "https://www.soleil-cruise.com/",
+    "description": "Soleil is the Nile's newest luxury cruise vessel, redefining elegance on the water with 53 exquisitely designed cabins including Royal Suites and Soleil Suites sailing between Luxor and Aswan. Guests experience the majestic wonders of ancient Egypt \u2014 from the Valley of the Kings to the temples of Abu Simbel \u2014 in perfect harmony with modern five-star hospitality. With panoramic fine dining, a wellness spa, and sun deck with pool, every detail is curated for an unforgettable Nile journey.",
+    "photos": [
+      "https://soleil-cruise.com/images/New-Images/enev_Soleil_013.jpg",
+      "https://soleil-cruise.com/images/New-Images/enev_Soleil_035.jpg",
+      "https://dec1osz9a7g7e.cloudfront.net/soleil-cruise-copy-soleil-cruise-copy-royalsuiteinsta.jpg",
+      "https://dec1osz9a7g7e.cloudfront.net/soleil-cruise-copy-soleil-cruise-copy-dinninginsta.jpg"
+    ],
+    "pricing": "From $470 per person per night",
+    "amenities": [
+      "53 luxury cabins",
+      "Royal Suites & Soleil Suites",
+      "Panoramic restaurant",
+      "Bar & lounge",
+      "Sun deck with pool",
+      "Spa & wellness center",
+      "Hot tub",
+      "24-hour front desk",
+      "Room service",
+      "Free WiFi",
+      "Guided temple excursions",
+      "Housekeeping service"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "The Nile's newest and most luxurious cruise vessel with 53 cabins",
+      "Sails between Luxor and Aswan with guided tours of ancient temples",
+      "Distinctive modern design with panoramic dining and sun deck pool",
+      "Choice of 3, 4, or 7-night itineraries departing Fridays from Aswan or Mondays from Luxor",
+      "Royal Suites and Soleil Suites offer the ultimate in on-water luxury"
+    ],
+    "tags": [
+      "Nile cruise",
+      "Egypt",
+      "luxury",
+      "ancient history",
+      "Luxor",
+      "Aswan",
+      "5-star",
+      "river cruise",
+      "temples",
+      "cultural"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "The Nile's newest luxury vessel with gorgeous modern design and warm hospitality; guides and temple tours are incredible, and the food and service earn consistent praise.",
+      "pros": [
+        "Newest, most modern luxury vessel on the Nile with stunning interior design",
+        "Warm hospitality \u2014 guests feel more at home than on any previous trip",
+        "Temple excursions from Luxor to Aswan are life-changing cultural experiences",
+        "Food presentation and taste are consistently praised",
+        "Royal Suites offer exceptional on-water luxury"
+      ],
+      "cons": [
+        "As a newer vessel, long-term reliability is still being established",
+        "Some standard cabins can feel compact",
+        "Optional excursions (Abu Simbel) come at significant additional cost",
+        "Nile cruise experience inherently involves early morning temple visits"
+      ],
+      "sources": [
+        "TripAdvisor"
+      ]
+    }
+  },
+  {
+    "id": "r48-hotel-garden",
+    "name": "R48 Hotel & Garden",
+    "location": "Tel Aviv, Israel",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Hotel",
+    "website": "https://r48.co.il/",
+    "description": "A decade in the making, R48 Hotel and Garden is a 5-star boutique masterpiece housed in an important 1933 Bauhaus building on Tel Aviv's iconic Rothschild Boulevard. A collaboration between billionaire philanthropists and Tel Aviv's R2M hospitality group, the hotel features gardens designed by Piet Oudolf (of NYC's High Line fame), sought-after restaurant seats, and interiors that honor the White City's architectural heritage. Every detail reflects a commitment to art, design, and personalized luxury.",
+    "photos": [
+      "https://r48.co.il/wp-content/uploads/2022/10/HOTEL.jpg",
+      "https://r48.co.il/wp-content/uploads/2022/11/RESTAURANTS.jpg",
+      "https://r48.co.il/wp-content/uploads/2022/08/R48-Online-rez-50-1.jpg"
+    ],
+    "pricing": "From $813 per night",
+    "amenities": [
+      "Piet Oudolf-designed garden",
+      "Two restaurants",
+      "Outdoor pool",
+      "Terrace",
+      "Air conditioning",
+      "Free WiFi",
+      "Free breakfast",
+      "Room service",
+      "Mini-bar",
+      "Laptop safe",
+      "Concierge",
+      "24-hour front desk"
+    ],
+    "rating": "9.8/10 Booking.com \u2022 5.0/5 TripAdvisor",
+    "highlights": [
+      "Historic 1933 Bauhaus building on Rothschild Boulevard in the White City",
+      "Gardens designed by world-renowned landscape architect Piet Oudolf",
+      "Collaboration between R2M hospitality group and visionary philanthropists",
+      "Rated 9.8 on Booking.com \u2014 one of Tel Aviv's highest-rated hotels",
+      "Highly sought-after on-site dining experience"
+    ],
+    "tags": [
+      "5-star",
+      "boutique",
+      "Bauhaus",
+      "Tel Aviv",
+      "design",
+      "garden",
+      "Rothschild Boulevard",
+      "art",
+      "White City",
+      "Israel"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A spectacular new boutique masterpiece on Rothschild Boulevard that left guests speechless; Piet Oudolf gardens and Chef's Table are both bucket-list caliber.",
+      "pros": [
+        "Guests describe being left speechless \u2014 one of the highest-rated hotels globally at 9.8/10",
+        "Piet Oudolf-designed garden (of NYC High Line fame) is extraordinary",
+        "Chef's Table experience booked out months in advance by Tel Aviv foodies",
+        "Outstanding open-air kitchen with exceptional chefs and nicest staff imaginable",
+        "Historic 1933 Bauhaus building on iconic Rothschild Boulevard"
+      ],
+      "cons": [
+        "Chef's Table is booked months ahead \u2014 difficult to secure a reservation",
+        "As a new property (opened recently), still fine-tuning some operations",
+        "Premium pricing at $813+/night is steep even for Tel Aviv",
+        "Rooftop pool is intimate \u2014 guaranteed oasis but not for lap swimming"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cond\u00e9 Nast Traveller",
+        "Booking.com"
+      ]
+    }
+  },
+  {
+    "id": "bawah-reserve",
+    "name": "Bawah Reserve",
+    "location": "Anambas Archipelago, Indonesia",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Resort",
+    "website": "https://www.bawahreserve.com/",
+    "description": "Tucked in Indonesia's remote Anambas Archipelago, Bawah Reserve drapes across six private islands and sits at the heart of a 1,000-hectare marine conservation area, just 75 minutes by seaplane from Singapore. The all-inclusive resort features 36 sustainably designed Tented Suites, Overwater Bungalows, and Pool Villas, with four restaurants, a wellness spa, and endless activities from diving to rainforest hiking. A Cond\u00e9 Nast Traveler Gold List honoree, it's the ultimate destination for earth-conscious luxury travelers.",
+    "photos": [
+      "https://www.bawahreserve.com/wp-content/uploads/2023/11/aerial-jetty-lookout-view.jpg",
+      "https://www.bawahreserve.com/wp-content/uploads/2023/03/best-time-to-visit-bawah.jpg"
+    ],
+    "pricing": "From $1,584 per night (all-inclusive)",
+    "amenities": [
+      "36 suites, bungalows & villas",
+      "Overwater bungalows",
+      "Pool villas",
+      "4 restaurants & bars",
+      "Aura Spa & Wellness",
+      "24-hour gym",
+      "Diving & snorkeling",
+      "Kayaking & paddleboarding",
+      "Rainforest hiking",
+      "Yoga & movement classes",
+      "Batik workshops",
+      "Seaplane transfers from Singapore",
+      "Free WiFi",
+      "Marine conservation area"
+    ],
+    "rating": "4.5/5 TripAdvisor \u2022 Cond\u00e9 Nast Traveler Gold List 2024",
+    "highlights": [
+      "Six private islands in a 1,000-hectare marine conservation area",
+      "Only 75 minutes by seaplane from Singapore",
+      "36 sustainably designed accommodations including overwater bungalows",
+      "All-inclusive with four restaurants, daily spa, and unlimited activities",
+      "Floating solar farm and earth-first sustainability initiatives"
+    ],
+    "tags": [
+      "private island",
+      "eco-luxury",
+      "marine conservation",
+      "Indonesia",
+      "all-inclusive",
+      "overwater",
+      "diving",
+      "spa",
+      "wellness",
+      "sustainable",
+      "seaplane",
+      "romantic"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A jaw-droppingly beautiful six-island eco-resort with world-class sustainability; high cost places it firmly in ultra-luxury, and the all-inclusive stops at soft drinks.",
+      "pros": [
+        "Six private islands in a 1,000-hectare marine conservation area \u2014 visually stunning",
+        "Only 75 minutes by seaplane from Singapore \u2014 surprisingly accessible",
+        "Accommodations blend seamlessly with natural surroundings",
+        "High staff-to-guest ratio ensures personalized attention",
+        "Floating solar farm and genuine earth-first sustainability commitment"
+      ],
+      "cons": [
+        "Ultra-luxury pricing at $1,584+/night is a significant investment",
+        "All-inclusive promise stops at soft drinks \u2014 alcohol charged extra, as is diving",
+        "Bathroom ventilation is poor \u2014 feels hot in afternoons",
+        "No gym on the islands (kayaking, hiking, and swimming serve as exercise)",
+        "No TVs in rooms \u2014 the eco approach may not suit all travelers"
+      ],
+      "sources": [
+        "The Luxury Travel Expert",
+        "TravelPlusStyle",
+        "goop"
+      ]
+    }
+  },
+  {
+    "id": "the-town",
+    "name": "The Town",
+    "location": "Colorado, USA",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Villa",
+    "website": null,
+    "description": "An ultra-exclusive private retreat nestled in the Colorado Rockies, The Town offers a rare opportunity to experience the American mountain West in unparalleled luxury and seclusion. This invitation-only property combines rustic mountain elegance with world-class amenities, providing a completely private escape for discerning travelers and groups. Set against dramatic alpine landscapes, it's Colorado luxury at its most intimate and exclusive.",
+    "photos": [],
+    "pricing": "Contact for rates (invitation-only)",
+    "amenities": [
+      "Private mountain retreat",
+      "Concierge service",
+      "Chef services",
+      "Outdoor activities",
+      "Mountain views",
+      "Fireplace",
+      "Hot tub",
+      "Ski access",
+      "Hiking trails",
+      "Complete privacy"
+    ],
+    "rating": "Not publicly rated \u2014 private/invitation-only",
+    "highlights": [
+      "Ultra-exclusive private retreat in the Colorado Rockies",
+      "Invitation-only access ensures complete privacy and seclusion",
+      "Surrounded by dramatic alpine landscapes and mountain wilderness",
+      "Ideal for private group retreats, family gatherings, and special occasions",
+      "Bespoke concierge arranges all activities and dining"
+    ],
+    "tags": [
+      "private",
+      "exclusive",
+      "Colorado",
+      "mountain",
+      "ski",
+      "retreat",
+      "luxury",
+      "invitation-only",
+      "seclusion",
+      "Rockies"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "An ultra-exclusive invitation-only mountain retreat in Colorado; virtually no public reviews exist due to its extreme privacy and exclusivity.",
+      "pros": [
+        "Complete privacy and seclusion in the Colorado Rockies",
+        "Bespoke concierge arranges all activities and dining",
+        "Ideal for private group retreats and family gatherings",
+        "Dramatic alpine landscapes and mountain wilderness setting"
+      ],
+      "cons": [
+        "Invitation-only \u2014 not accessible to the general public",
+        "No public reviews or ratings available",
+        "Extremely limited information about amenities and services",
+        "Remote mountain location requires advance planning"
+      ],
+      "sources": [
+        "Private/Invitation-Only"
+      ]
+    }
+  },
+  {
+    "id": "calivigny-island",
+    "name": "Calivigny Island",
+    "location": "Grenada",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Private Island",
+    "website": "https://www.calivigny-island.com/",
+    "description": "A \u20ac100-million luxurious private island retreat just off the coast of Grenada, Calivigny Island is one of the most exclusive vacation playgrounds in the world, rented to only one group at a time for up to 40 guests. With 20 suites across multiple villas, 6 private beaches, a free-form pool, and two luxury yachts including a 173-foot vessel, every conceivable indulgence is included. All-inclusive rates cover private chefs, curated menus, full water sports, and dedicated staff for an unmatched Caribbean island experience.",
+    "photos": [
+      "https://cdn.prod.website-files.com/63bea98554f0810c622cd7f6/63bead160c5629b1e7f7cbfe__pd25210w2560h2560rframe_7fc.jpg",
+      "https://cdn.prod.website-files.com/63bea98554f0810c622cd7f6/63bead1617f71cf81c3c927e__pd25206w2560h2560rframe_891.jpg",
+      "https://cdn.prod.website-files.com/63bea98554f0810c622cd7f6/63bead163e8b7a3477b22b45__pd25200w2560h2560rframe_0bb.jpg",
+      "https://cdn.prod.website-files.com/63bea98554f0810c622cd7f6/63beaf82c18c431a1ce1776f__pd25214w2560h2560rframe_0d7.jpg"
+    ],
+    "pricing": "From $129,000 per night (all-inclusive, exclusive use)",
+    "amenities": [
+      "20 luxury suites",
+      "6 private beaches",
+      "Free-form pool",
+      "173-foot luxury yacht (6 cabins)",
+      "Motor yacht (4 cabins)",
+      "Private chefs",
+      "Tailored menus (3 meals daily)",
+      "Full water sports",
+      "Business facilities",
+      "Helipad",
+      "Spa treatments",
+      "Security service",
+      "Laundry service",
+      "Selected beverages included"
+    ],
+    "rating": "5.0/5 \u2014 ultra-exclusive (limited reviews)",
+    "highlights": [
+      "Entire private island rented to one group at a time \u2014 up to 40 guests",
+      "\u20ac100-million estate with 20 suites, 6 beaches, and 2 luxury yachts",
+      "All-inclusive: private chefs, curated dining, water sports, and full staff",
+      "Just a 5-minute boat ride from mainland Grenada",
+      "One of the most exclusive private island rentals in the Caribbean"
+    ],
+    "tags": [
+      "private island",
+      "ultra-luxury",
+      "all-inclusive",
+      "Caribbean",
+      "Grenada",
+      "exclusive use",
+      "yacht",
+      "beach",
+      "groups",
+      "wedding",
+      "celebration"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "One of the world's most opulent private island experiences with a \u20ac100M estate and two luxury yachts; an unmatched Caribbean playground for groups willing to spend $129K/night.",
+      "pros": [
+        "Entire island for one group at a time \u2014 up to 40 guests across 20 suites",
+        "Private chefs create exceptional farm-to-table cuisine from on-site organic farm",
+        "Two luxury yachts including a 173-foot vessel with 6 cabins",
+        "Six private beaches with world-class water sports included",
+        "Just a 5-minute boat ride from mainland Grenada"
+      ],
+      "cons": [
+        "Eye-watering pricing from $129,000/night \u2014 ultra-exclusive by any standard",
+        "Limited public reviews due to extreme exclusivity",
+        "Grenada is less well-connected than some Caribbean destinations",
+        "Requires a large group to justify the cost per person"
+      ],
+      "sources": [
+        "Exceptional Villas",
+        "WIMCO",
+        "Private Islands Online"
+      ]
+    }
+  },
+  {
+    "id": "moskito",
+    "name": "Moskito",
+    "location": "British Virgin Islands",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Private Island",
+    "website": "https://moskito.com/",
+    "description": "A 125-acre private island paradise in the British Virgin Islands featuring four opulent rental estates crafted by visionary billionaires. Each estate comes with its own distinctive ambiance, dedicated crew, world-class private chefs, and bespoke itineraries \u2014 designed to foster connection in a barefoot island community setting.",
+    "photos": [
+      "https://robbreport.com/wp-content/uploads/2022/10/AS_Aerial.jpg",
+      "https://robbreport.com/wp-content/uploads/2022/10/AS_DJI_0399.jpg",
+      "https://robbreport.com/wp-content/uploads/2022/10/AS_DJI_0576.jpg",
+      "https://robbreport.com/wp-content/uploads/2022/10/AS_CHEF_DINNING-019-HDR.jpg"
+    ],
+    "pricing": "From $25,000/night per estate",
+    "amenities": [
+      "Private chef",
+      "Estate manager",
+      "Infinity pools",
+      "Private beaches",
+      "Water sports",
+      "Tennis courts",
+      "Spa services",
+      "Concierge",
+      "Helipad",
+      "Fitness center"
+    ],
+    "rating": "5.0",
+    "highlights": [
+      "Four unique luxury estates across 125 pristine acres",
+      "Dedicated crew with private chef and estate manager for each property",
+      "World-class water sports and marine activities in crystal-clear BVI waters",
+      "Exclusive barefoot luxury \u2014 only estate guests on the island",
+      "Convenient access from major US cities via short flight to BVI"
+    ],
+    "tags": [
+      "private island",
+      "caribbean",
+      "luxury",
+      "all-inclusive",
+      "beachfront",
+      "water sports",
+      "family",
+      "groups",
+      "exclusive"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Architecturally stunning estates on Branson's island with incredible settings; but chaotic pre-arrival communication, underwhelming transfers, and inconsistent service drew sharp criticism.",
+      "pros": [
+        "Uniquely designed, ultra-luxurious 8-11 bedroom estates in beautiful BVI waters",
+        "Hour-long pre-arrival Zoom call for preferences was most impressive ever",
+        "Beautiful British Virgin Islands setting with excellent water sports",
+        "Each estate has its own dedicated crew and private chef",
+        "Barefoot island community concept is appealing"
+      ],
+      "cons": [
+        "Pre-arrival sales team described as somewhere between useless and incompetent",
+        "Outsourced boat transfers lack any amenities \u2014 not even water provided",
+        "90% of discussed preferences were ignored upon arrival",
+        "Swarming with mosquitoes \u2014 the name is essentially a disclaimer",
+        "Called 'the boring, unnurtured sister to Necker Island' by one reviewer"
+      ],
+      "sources": [
+        "Dorsia Travel",
+        "Cond\u00e9 Nast Traveler",
+        "Robb Report"
+      ]
+    }
+  },
+  {
+    "id": "the-loren-residence",
+    "name": "The Loren Residence",
+    "location": "Bermuda",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Villa",
+    "website": "https://www.thelorenhotels.com/bermuda/accommodations/residence",
+    "description": "A 10,700 sq ft waterfront mansion on 5.5 acres adjacent to The Loren at Pink Beach, setting a new standard for contemporary luxury on Bermuda. With six bedrooms, a private 300-foot beach, heated pool, tennis court, and full access to the resort's world-class amenities, it is the ultimate vacation home for families and groups seeking privacy and grandeur.",
+    "photos": [
+      "https://cdn.prod.website-files.com/62e3e4071daebd0b1c41ef63/66fe93453f033de0ad22353e_the-loren-bermuda-social-preview.jpg"
+    ],
+    "pricing": "From $10,000/night",
+    "amenities": [
+      "Private 300-foot beach",
+      "Heated pool and hot tub",
+      "Private tennis court",
+      "Fitness room",
+      "Screening room",
+      "Gourmet kitchen",
+      "Outdoor kitchen and BBQ",
+      "Covered bar",
+      "Private golf cart",
+      "Twice-daily housekeeping",
+      "Dedicated house manager",
+      "Daily continental breakfast",
+      "Sisley spa treatments",
+      "Non-motorized watersports",
+      "Staff cottage"
+    ],
+    "rating": "4.8",
+    "highlights": [
+      "10,700 sq ft mansion on exclusive 5.5-acre waterfront estate",
+      "Private 300-foot pink sand beach with direct ocean access",
+      "Full access to The Loren resort's restaurants, spa, pool, and beach club",
+      "Dedicated management team including house manager, catering manager, and concierge",
+      "Sophisticated contemporary design embodying the best of modern Bermuda"
+    ],
+    "tags": [
+      "beachfront",
+      "luxury villa",
+      "bermuda",
+      "private beach",
+      "pool",
+      "tennis",
+      "spa",
+      "family",
+      "groups",
+      "contemporary"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A spectacular 10,700 sq ft waterfront mansion with its own pink sand beach; guests say everything exceeded expectations, combining privacy with resort access.",
+      "pros": [
+        "Private 300-foot pink sand beach with direct ocean access",
+        "Full access to The Loren resort's restaurants, spa, and pool",
+        "Dedicated management team including house manager and concierge",
+        "Sophisticated contemporary design across 6 bedrooms on 5.5 acres",
+        "All guests report the experience exceeded their already-high expectations"
+      ],
+      "cons": [
+        "Premium pricing from $10,000/night requires a large group to maximize value",
+        "Best suited for groups \u2014 solo or couple travelers would underutilize the space",
+        "As part of The Loren, shares some resort facilities that can be busy",
+        "Bermuda's island logistics mean some supplies require advance planning"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "LVH Global"
+      ]
+    }
+  },
+  {
+    "id": "ici-et-la-villa",
+    "name": "Ici Et La Villa Rentals",
+    "location": "St Barth",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Villa",
+    "website": "https://www.icietlavillas.com/",
+    "description": "A premier St Barth real estate agency offering a curated portfolio of luxury vacation villa rentals across the island, from intimate hillside retreats to sprawling oceanfront estates. With decades of local expertise, Ici et L\u00e0 provides personalized concierge services and insider knowledge to match guests with the perfect St Barth villa experience.",
+    "photos": [
+      "https://www.icietlavillas.com/wp-content/uploads/visu3.jpg",
+      "https://www.icietlavillas.com/wp-content/uploads/visu4.jpg"
+    ],
+    "pricing": "From $1,500/night (varies by villa)",
+    "amenities": [
+      "Private pools",
+      "Ocean views",
+      "Concierge services",
+      "Private chef arrangements",
+      "Airport transfers",
+      "Car rentals",
+      "Full kitchens",
+      "Housekeeping",
+      "Beach access",
+      "Personalized itineraries"
+    ],
+    "rating": "4.7",
+    "highlights": [
+      "Curated portfolio of luxury villas across St Barth's most desirable locations",
+      "Deep local expertise and personalized villa matching",
+      "Full-service concierge including chef, car, and activity arrangements",
+      "Villas range from intimate 1-bedroom retreats to grand 8+ bedroom estates",
+      "Established St Barth real estate agency with decades of island knowledge"
+    ],
+    "tags": [
+      "st barth",
+      "caribbean",
+      "luxury villas",
+      "concierge",
+      "ocean view",
+      "pool",
+      "villa rental agency",
+      "french caribbean"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "St. Barth's most established villa rental agency since 1990 with 280+ curated properties; deep local expertise ensures excellent villa matching, though quality varies by property.",
+      "pros": [
+        "Over 30 years of deep local expertise on St. Barths since 1990",
+        "Portfolio of 280+ carefully selected luxury villas across the island",
+        "Strict quality criteria for villa selection \u2014 consistent standards",
+        "Full concierge service including chef, car, and activity arrangements",
+        "Range from intimate 1-bedroom to grand 8+ bedroom estates"
+      ],
+      "cons": [
+        "As an agency, quality varies significantly between individual villas",
+        "Premium St. Barth pricing across the board",
+        "Peak season availability (Christmas/New Year) books up very far in advance",
+        "Concierge service quality can depend on the specific agent assigned"
+      ],
+      "sources": [
+        "Hotels of St. Barth Association"
+      ]
+    }
+  },
+  {
+    "id": "little-pipe-cay",
+    "name": "Little Pipe Cay",
+    "location": "Exuma, The Bahamas",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Private Island",
+    "website": "https://www.littlepipecay.com/",
+    "description": "The most lustrous jewel in the crown of the Exuma Cays, Little Pipe Cay is a magnificent 38-acre private island retreat offering exceptional service and unparalleled seclusion. With five luxurious cottage estates accommodating up to 22 guests, four private beaches, and crystal-clear turquoise waters, it delivers true paradise with world-class hospitality.",
+    "photos": [
+      "https://images.lvhglobal.com/static/lsh_book_2024/10287-01.webp",
+      "https://images.lvhglobal.com/static/lsh_book_2024/10287-02.webp",
+      "https://images.lvhglobal.com/static/lsh_book_2024/10287-03.webp",
+      "https://images.lvhglobal.com/static/lsh_book_2024/10287-04.webp"
+    ],
+    "pricing": "From $75,000/night",
+    "amenities": [
+      "5 luxury cottage estates",
+      "11 bedrooms (sleeps 22)",
+      "4 private beaches",
+      "Infinity pool",
+      "Private spa",
+      "Fitness center",
+      "Private chapel",
+      "Full watersports",
+      "Private marina",
+      "Dedicated staff",
+      "Gourmet dining",
+      "Jacuzzi"
+    ],
+    "rating": "5.0",
+    "highlights": [
+      "Exclusive 38-acre private island in the pristine Exuma Cays chain",
+      "Five luxuriously appointed cottages with full kitchens and ocean views",
+      "Four private white-sand beaches with world-class snorkeling and diving",
+      "Full dedicated staff including private chef and island manager",
+      "270 miles from Miami \u2014 accessible by private charter or boat"
+    ],
+    "tags": [
+      "private island",
+      "bahamas",
+      "exuma",
+      "luxury",
+      "beachfront",
+      "water sports",
+      "exclusive",
+      "snorkeling",
+      "diving",
+      "groups",
+      "family"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A stunning 38-acre private island jewel in the Exuma Cays with plantation-style cottages and turquoise waters; luxury and seclusion combined in one of the Bahamas' most beautiful settings.",
+      "pros": [
+        "Five luxurious plantation-style cottage estates with colonial charm",
+        "Four private white-sand beaches with world-class snorkeling",
+        "Crystal-clear turquoise Exuma waters \u2014 among the most beautiful in the world",
+        "Full dedicated staff including private chef and island manager",
+        "Just outside Exuma Cays Land and Sea Park \u2014 pristine marine environment"
+      ],
+      "cons": [
+        "Ultra-premium pricing from $75,000/night targets exclusive clientele only",
+        "Requires private charter or seaplane to reach \u2014 complex logistics",
+        "Formerly listed for sale at $100 million \u2014 ownership/stability questions",
+        "Limited entertainment beyond water sports and beach activities"
+      ],
+      "sources": [
+        "LVH Global",
+        "Daily Mail",
+        "Private Islands Online"
+      ]
+    }
+  },
+  {
+    "id": "sweet-bocas",
+    "name": "Sweet Bocas",
+    "location": "Bocas del Toro, Panama",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Villa",
+    "website": "https://www.sweetbocaspanama.com/",
+    "description": "A private 50-acre island sanctuary in Bocas del Toro, Panama, featuring one of the most spectacular overwater homes in the world. This all-inclusive, family-run estate is reserved exclusively for one group at a time, offering farm-to-table dining from on-site greenhouses and an experience praised by Architectural Digest, Vanity Fair, and Forbes.",
+    "photos": [
+      "https://images.squarespace-cdn.com/content/v1/5edd0cc0b747333c42fc8a3f/1603561698916-UHUD5GKFNFII6PDPM9US/_MG_9693.jpg",
+      "https://images.squarespace-cdn.com/content/v1/5edd0cc0b747333c42fc8a3f/1603233537988-1QNNRLB5T63JACEDZ85R/_MG_0054.jpeg",
+      "https://images.squarespace-cdn.com/content/v1/5edd0cc0b747333c42fc8a3f/1603233569455-B9PAZNK12LBXCUMVH7Y3/_MG_1012.jpeg"
+    ],
+    "pricing": "From $9,000/night (all-inclusive, based on occupancy)",
+    "amenities": [
+      "All-inclusive experience",
+      "Private overwater villa",
+      "Farm-to-table dining",
+      "On-site greenhouses and farm",
+      "Private boat access",
+      "Snorkeling and kayaking",
+      "Dedicated staff",
+      "Nature preserve",
+      "Sustainable practices",
+      "Custom-designed stays"
+    ],
+    "rating": "5.0",
+    "highlights": [
+      "Spectacular overwater villa accessible exclusively by boat \u2014 voted best 'Floating House' by Vanity Fair",
+      "50-acre private estate and nature preserve reserved for one group at a time",
+      "True farm-to-table cuisine from on-site greenhouses and organic farm",
+      "Featured in Architectural Digest, Forbes, and Town & Country",
+      "By-invitation, custom-designed stays for ultimate privacy and personalization"
+    ],
+    "tags": [
+      "private island",
+      "panama",
+      "caribbean",
+      "overwater",
+      "all-inclusive",
+      "farm-to-table",
+      "eco-luxury",
+      "exclusive",
+      "romantic",
+      "nature"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "One of the most spectacular overwater homes in the world with true farm-to-table dining and ultra-exclusive privacy; a hidden gem featured in Architectural Digest and Forbes.",
+      "pros": [
+        "Spectacular overwater villa voted best 'Floating House' by Vanity Fair",
+        "True farm-to-table cuisine from on-site greenhouses and organic farm",
+        "50-acre private estate reserved exclusively for one group at a time",
+        "Featured in Architectural Digest, Forbes, and Town & Country",
+        "Family-run operation provides deeply personal, custom-designed stays"
+      ],
+      "cons": [
+        "Accessible exclusively by boat \u2014 adds travel complexity",
+        "By-invitation with custom-designed stays \u2014 not a simple booking process",
+        "Panama's Bocas del Toro region has limited infrastructure nearby",
+        "Starting at $9,000/night requires a meaningful financial commitment"
+      ],
+      "sources": [
+        "Villas of Distinction",
+        "Indagare",
+        "Architectural Digest"
+      ]
+    }
+  },
+  {
+    "id": "gem-hacienda",
+    "name": "Gem Hacienda",
+    "location": "Taos, New Mexico, USA",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Villa",
+    "website": "https://www.gemhacienda.com/",
+    "description": "A beautifully restored adobe estate on over eight acres of pristine valley lands in Taos, New Mexico, offering the quintessential Southwestern experience. With nine bedrooms sleeping up to 30 guests, kiva fireplaces, mountain views, and dedicated concierge service, Gem Hacienda blends traditional adobe architecture with luxurious modern amenities across multiple courtyards.",
+    "photos": [
+      "https://www.gemhacienda.com/wp-content/uploads/2023/11/720-Karavas-Lane-102.jpg",
+      "https://www.gemhacienda.com/wp-content/uploads/2023/11/720-Karavas-Lane-15.jpg",
+      "https://www.gemhacienda.com/wp-content/uploads/2023/11/720-Karavas-Lane-18.jpg"
+    ],
+    "pricing": "Upon request (9-bedroom estate)",
+    "amenities": [
+      "9 bedrooms with en-suite baths",
+      "10 bathrooms",
+      "Gas-operated kiva fireplaces",
+      "Multiple courtyards",
+      "Dedicated concierge",
+      "Wine and grocery delivery",
+      "Ski equipment storage",
+      "Mountain views",
+      "8 acres of grounds",
+      "Close to Taos Plaza",
+      "Activities arrangement",
+      "Lavish bedding"
+    ],
+    "rating": "4.9",
+    "highlights": [
+      "Restored original adobe estate on 8+ acres bordering Taos Pueblo Land and a river",
+      "9 bedrooms with en-suite baths and traditional kiva fireplaces \u2014 sleeps up to 30",
+      "Minutes from Taos Ski Valley and Taos Plaza's art galleries and restaurants",
+      "White-glove concierge handles every detail \u2014 groceries, activities, special requests",
+      "Four-season destination with skiing, kayaking, hiking, and Southwestern culture"
+    ],
+    "tags": [
+      "taos",
+      "new mexico",
+      "adobe",
+      "ski",
+      "mountain",
+      "family",
+      "groups",
+      "concierge",
+      "southwestern",
+      "art",
+      "nature",
+      "winter",
+      "summer"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A beautifully restored adobe estate offering the quintessential Taos experience for large groups; 9 bedrooms sleeping 30 across stunning New Mexican architecture and landscapes.",
+      "pros": [
+        "Beautifully restored original adobe architecture on 8+ acres",
+        "9 en-suite bedrooms with traditional kiva fireplaces \u2014 sleeps up to 30",
+        "Minutes from Taos Ski Valley and Taos Plaza galleries",
+        "White-glove concierge handles all details \u2014 groceries, activities, requests",
+        "Four-season destination with skiing, hiking, and Southwestern culture"
+      ],
+      "cons": [
+        "Best value with large groups \u2014 underutilized for small parties",
+        "Remote Taos location requires a car for all outings",
+        "Adobe architecture means some rooms can feel rustic rather than luxury",
+        "Pricing upon request \u2014 lack of transparency"
+      ],
+      "sources": [
+        "Vrbo",
+        "Airbnb"
+      ]
+    }
+  },
+  {
+    "id": "jaynes-luxury-rentals",
+    "name": "Jayne's Luxury Rentals",
+    "location": "Muskoka, Canada",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Villa",
+    "website": "https://jaynescottages.com/",
+    "description": "Ontario's premier luxury cottage rental service, offering a curated collection of the finest waterfront properties across Muskoka, Lake of Bays, Georgian Bay, and beyond. From modern architectural lakefront gems to timeless rustic cottages, Jayne's provides award-winning, high-touch concierge service with personally matched properties for families, corporate groups, and special events.",
+    "photos": [
+      "https://jaynescottages.com/wp-content/uploads/2023/04/DJI_0264-1-1024x615.jpg",
+      "https://jaynescottages.com/wp-content/uploads/2023/12/i057089_p-1.jpg",
+      "https://jaynescottages.com/wp-content/uploads/2025/11/IMG_6638A-3-scaled.jpg"
+    ],
+    "pricing": "From $1,000/night (varies by property)",
+    "amenities": [
+      "Waterfront locations",
+      "Private docks",
+      "Boat access",
+      "Concierge services",
+      "Fully equipped kitchens",
+      "Hot tubs",
+      "Fireplaces",
+      "BBQ areas",
+      "Swimming",
+      "Kayaks and canoes",
+      "Personalized matching"
+    ],
+    "rating": "4.8",
+    "highlights": [
+      "Curated portfolio of Ontario's finest luxury waterfront cottages",
+      "Award-winning high-touch concierge service with personal property matching",
+      "Properties across Muskoka, Lake of Bays, Lake Simcoe, Collingwood, and Toronto",
+      "Crystal-clear lakes, granite shores, and towering pines define the Muskoka experience",
+      "Ideal for families, corporate retreats, weddings, and group getaways"
+    ],
+    "tags": [
+      "muskoka",
+      "canada",
+      "lakefront",
+      "cottage",
+      "waterfront",
+      "concierge",
+      "family",
+      "corporate",
+      "nature",
+      "boating",
+      "four-season"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Ontario's premier luxury cottage service with exceptional concierge and personally matched properties; corporate retreats and family gatherings are a particular strength.",
+      "pros": [
+        "Award-winning high-touch concierge service with personal property matching",
+        "Properties across Muskoka, Lake of Bays, and Georgian Bay \u2014 extensive portfolio",
+        "Corporate retreat planning praised for professionalism and attention to detail",
+        "Chef teams, cottage hosts, and delivery service all earn high marks",
+        "Biophilic architecture connects guests meaningfully to natural surroundings"
+      ],
+      "cons": [
+        "Quality varies between individual cottage properties",
+        "Peak summer Muskoka season books up very quickly",
+        "Some properties lack modern amenities expected at luxury price points",
+        "Service add-ons (private chef, boats) can significantly increase total cost"
+      ],
+      "sources": [
+        "Resident Magazine",
+        "The Luxury Editor"
+      ]
+    }
+  },
+  {
+    "id": "meadowstone-manor",
+    "name": "Meadowstone Manor",
+    "location": "Stowe, Vermont, USA",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Villa",
+    "website": "https://www.meadowstonemanor.com/",
+    "description": "Surrounded by mountains and nestled on 30 wooded acres, Meadowstone Manor offers the ultimate in privacy, luxury, and New England charm with 14 bedrooms accommodating over 30 guests. Upscale resort-style amenities and thoughtful design features welcome travelers to unwind in this grandiose yet cozy atmosphere, minutes from world-class skiing and downtown Stowe.",
+    "photos": [
+      "https://www.meadowstonemanor.com/wp-content/uploads/2022/11/30-acres-2.png",
+      "https://www.meadowstonemanor.com/wp-content/uploads/2022/01/2-3-e1643133453945.png",
+      "https://www.meadowstonemanor.com/wp-content/uploads/2022/01/3-2-e1643133490735.png"
+    ],
+    "pricing": "Contact for rates (whole-manor rental)",
+    "amenities": [
+      "Pool",
+      "Hot tubs",
+      "Tennis court",
+      "Basketball court",
+      "Freshwater lake",
+      "Floating dock",
+      "Indoor & outdoor fireplaces",
+      "14 bedrooms",
+      "Chef's kitchen",
+      "30 wooded acres"
+    ],
+    "rating": "5.0 (TripAdvisor)",
+    "highlights": [
+      "14-bedroom private manor on 30 secluded wooded acres",
+      "Resort-style amenities including pool, tennis, and basketball",
+      "Private freshwater lake with floating dock",
+      "Minutes from Stowe Mountain Resort skiing",
+      "Ideal for family reunions and large group gatherings"
+    ],
+    "tags": [
+      "large-group",
+      "family-reunion",
+      "ski",
+      "new-england",
+      "mountain",
+      "private-estate",
+      "pool"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A grand 14-bedroom estate on 30 wooded acres near Stowe with resort-style amenities; perfect for family reunions and large groups, just minutes from world-class skiing.",
+      "pros": [
+        "14 bedrooms sleeping 30+ guests with resort-style pool, tennis, and basketball",
+        "Private freshwater lake with floating dock creates magical moments",
+        "30 secluded wooded acres provide complete privacy",
+        "Minutes from Stowe Mountain Resort skiing and downtown Stowe shops",
+        "Grandiose yet cozy atmosphere with indoor and outdoor fireplaces"
+      ],
+      "cons": [
+        "Whole-manor rental means it's best value for very large groups only",
+        "Contact-for-rates pricing lacks transparency",
+        "Vermont winter weather can limit some outdoor amenities",
+        "Large group logistics (catering, activities) require advance coordination"
+      ],
+      "sources": [
+        "TripAdvisor"
+      ]
+    }
+  },
+  {
+    "id": "invitedhome",
+    "name": "InvitedHome",
+    "location": "Colorado & Utah, USA",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Villa",
+    "website": "https://invitedhome.com/",
+    "description": "InvitedHome curates exceptional luxury mountain vacation homes across Colorado and Utah's finest resort towns including Telluride, Vail, Breckenridge, and Park City. Selected by Airbnb for its prestigious Luxe collection, these professionally managed properties range from intimate chalets to sprawling estates with five-star hospitality and concierge services.",
+    "photos": [
+      "https://www.datocms-assets.com/131249/1725229767-hood-park-manor_telluride_exterior-8_winter_2023.jpg",
+      "https://www.datocms-assets.com/131249/1752606722-dga_5182.jpg"
+    ],
+    "pricing": "From $500\u2013$5,000+ per night (varies by property)",
+    "amenities": [
+      "Ski-in/ski-out access",
+      "Hot tubs",
+      "Gourmet kitchens",
+      "Home theaters",
+      "Game rooms",
+      "Concierge services",
+      "Professional housekeeping",
+      "Mountain views",
+      "Fireplaces",
+      "Private balconies"
+    ],
+    "rating": "4.8 (Google)",
+    "highlights": [
+      "Portfolio of 50+ luxury homes across Colorado and Utah's top ski towns",
+      "Featured in Airbnb Luxe collection",
+      "Professional property management with hotel-level hospitality",
+      "Properties in Telluride, Vail, Breckenridge, Park City, and more",
+      "Partnership with ONEE Luxury Travel for bespoke travel agent bookings"
+    ],
+    "tags": [
+      "ski",
+      "mountain",
+      "luxury-rental",
+      "colorado",
+      "utah",
+      "concierge",
+      "family",
+      "winter"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A curated collection of luxury mountain homes in top ski towns with hotel-level hospitality; selected for Airbnb Luxe, with five-star reviews praising perfect locations and cleanliness.",
+      "pros": [
+        "Portfolio of 50+ luxury homes across Telluride, Vail, Breckenridge, Park City",
+        "Featured in Airbnb Luxe collection for quality standards",
+        "Ski-in/ski-out access at many properties",
+        "Professional property management with hotel-level cleanliness",
+        "Guests consistently praise perfect locations and layouts for families"
+      ],
+      "cons": [
+        "As a management company, property quality can vary",
+        "Peak ski season pricing is very premium ($5,000+/night for top homes)",
+        "Some properties may not match website photos exactly",
+        "Concierge services vary by property"
+      ],
+      "sources": [
+        "InvitedHome Reviews",
+        "PaperCity Magazine"
+      ]
+    }
+  },
+  {
+    "id": "sea-oats-sea-palms",
+    "name": "Sea Oats & Sea Palms",
+    "location": "Captiva Island, Florida, USA",
+    "region": "Americas",
+    "category": "Private Retreats & Villas",
+    "type": "Villa",
+    "website": "https://seaoatscaptivaisland.com/",
+    "description": "Sea Oats is a stunning 10,000-square-foot luxury estate on four gated waterfront acres of Captiva Island, sleeping up to 30 guests with 9 bedrooms and 9 bathrooms. Its sister property Sea Palms offers a boutique beachfront villa experience, together creating the ultimate Gulf Coast retreat for weddings, reunions, and unforgettable getaways.",
+    "photos": [
+      "https://seaoatscaptiva.wpenginepowered.com/wp-content/uploads/2019/07/captiva_-058-2-scaled.jpg",
+      "https://seaoatscaptiva.wpenginepowered.com/wp-content/uploads/2019/07/captiva_-456-scaled.jpg",
+      "https://seaoatscaptiva.wpenginepowered.com/wp-content/uploads/2019/07/captiva_-720-scaled.jpg"
+    ],
+    "pricing": "Contact for rates (5\u20137 night minimum, whole-estate rental)",
+    "amenities": [
+      "Private beach",
+      "Heated pool",
+      "Gated waterfront property",
+      "9 bedrooms & 9 bathrooms",
+      "Gulf views",
+      "Dock access",
+      "Outdoor entertaining areas",
+      "Full gourmet kitchen",
+      "10,000 sq ft living space"
+    ],
+    "rating": "5.0 (Google)",
+    "highlights": [
+      "10,000 sq ft estate on 4 gated waterfront acres of Captiva Island",
+      "Sleeps up to 30 guests across 9 en-suite bedrooms",
+      "Private beach access on the Gulf of Mexico",
+      "Sister property Sea Palms offers additional beachfront capacity",
+      "Perfect for weddings, family reunions, and corporate retreats"
+    ],
+    "tags": [
+      "beachfront",
+      "island",
+      "large-group",
+      "family-reunion",
+      "wedding",
+      "gulf-coast",
+      "florida",
+      "waterfront"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A massive, impeccably decorated waterfront estate perfect for weddings and reunions; guests repeatedly say it's the best large rental on Captiva Island.",
+      "pros": [
+        "10,000 sq ft estate described as massive, fully stocked, and impeccably decorated",
+        "Private beach access on the Gulf of Mexico with stunning sunset views",
+        "Repeatedly praised as the best large rental on Captiva Island",
+        "Perfect for weddings \u2014 described as magical and like a dream come true",
+        "Suites are spacious, airy, and generously proportioned"
+      ],
+      "cons": [
+        "5-7 night minimum stay limits flexibility",
+        "Whole-estate rental means it's not suitable for small groups",
+        "Captiva Island requires driving over a causeway \u2014 can be isolated",
+        "Gulf Coast weather can bring hurricanes in summer/fall season"
+      ],
+      "sources": [
+        "Google Reviews",
+        "WeddingWire"
+      ]
+    }
+  },
+  {
+    "id": "etra",
+    "name": "Etra",
+    "location": "Florence, Italy",
+    "region": "Europe",
+    "category": "Private Retreats & Villas",
+    "type": "Villa",
+    "website": "https://www.etracollection.com/",
+    "description": "ETRA Collection offers three exquisite luxury suites in the heart of Florence with breathtaking views of the Duomo, Brunelleschi's Dome, and Giotto's Bell Tower. Featuring fine Italian craftsmanship, Boffi kitchens, art nouveau prints by Alphonse Mucha, and dual-aspect balconies, these private design retreats redefine elegant city living.",
+    "photos": [
+      "https://www.etracollection.com/wp-content/uploads/2020/12/slide3-1-1920x1258.jpg",
+      "https://www.etracollection.com/wp-content/uploads/2021/02/scaled-1920x1280.jpg",
+      "https://www.etracollection.com/wp-content/themes/startup_dgnet_v_1_2020/images/home/testata_2.jpg"
+    ],
+    "pricing": "From \u20ac4,900 per night",
+    "amenities": [
+      "Duomo views from private balconies",
+      "Boffi designer kitchens",
+      "Bioethanol fireplaces",
+      "Smart home technology",
+      "Wine storage",
+      "Nespresso & La Via del T\u00e8 tea service",
+      "250 sq m Presidential Suite",
+      "Interconnecting Family & Presidential suites",
+      "Art nouveau interiors",
+      "Concierge service"
+    ],
+    "rating": "4.9 (Mr & Mrs Smith)",
+    "highlights": [
+      "Three exclusive luxury suites overlooking Florence's Duomo and Baptistery",
+      "Interiors showcase fine Italian craftsmanship and Alphonse Mucha art prints",
+      "Full Boffi kitchens and dual-aspect balconies in every suite",
+      "Suites interconnect to create a 6-person apartment for families",
+      "Eco-conscious design with LED lighting and smart energy monitoring"
+    ],
+    "tags": [
+      "city",
+      "design",
+      "art",
+      "florence",
+      "italy",
+      "luxury-suite",
+      "duomo-views",
+      "romantic",
+      "culture"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Florence's most inviting design showrooms turned luxury suites with breathtaking Duomo views; an art nouveau gem with Boffi kitchens and premium amenities, though accessibility is limited.",
+      "pros": [
+        "Direct views of the Duomo, Brunelleschi's Dome, and Giotto's Bell Tower",
+        "Described as 'the most inviting design showrooms we've slept in'",
+        "Boffi kitchens, Sonos speakers, Jo Malone and Perricone bath products",
+        "Art nouveau Palazzo Pola e Todescan is architecturally distinctive",
+        "Suites interconnect for families \u2014 flexible configurations"
+      ],
+      "cons": [
+        "Historic building is unsuitable for guests with mobility issues",
+        "Concierge is on-call only \u2014 not 24-hour in-person reception",
+        "Only 3 suites \u2014 extremely limited availability",
+        "Premium pricing from \u20ac4,900/night for a self-catered apartment format"
+      ],
+      "sources": [
+        "Mr & Mrs Smith"
+      ]
+    }
+  },
+  {
+    "id": "kinross-house-estate",
+    "name": "Kinross House Estate",
+    "location": "Kinross-Shire, Scotland",
+    "region": "Europe",
+    "category": "Private Retreats & Villas",
+    "type": "Estate",
+    "website": "https://www.kinrosshouse.com/",
+    "description": "One of Scotland's most sought-after private retreats, Kinross House Estate sits on the shores of Loch Leven just 25 miles north of Edinburgh. Available on a strictly exclusive-use basis, this magnificent 17th-century estate represents the best of Scotland architecturally, historically, culturally, and gastronomically, complete with a Coach House Spa.",
+    "photos": [
+      "https://www.kinrosshouse.com/site/assets/files/1328/tit8_1.jpg",
+      "https://www.kinrosshouse.com/site/assets/files/1330/0r3a1579.1000x1000.jpg",
+      "https://www.kinrosshouse.com/site/assets/files/1396/gj_t3731.737x0.jpg",
+      "https://www.kinrosshouse.com/site/assets/files/1605/her18.769x1000.jpg"
+    ],
+    "pricing": "Contact for rates (exclusive-use hire)",
+    "amenities": [
+      "Exclusive-use hire",
+      "Coach House Spa with hydrotherapy pool",
+      "Sauna & treatment rooms",
+      "Nail bar",
+      "Loch Leven shoreline setting",
+      "Helipad",
+      "Gardens & grounds",
+      "Multiple reception rooms",
+      "Chef & catering available",
+      "30 minutes from Edinburgh Airport"
+    ],
+    "rating": "5.0 (Celtic Castles)",
+    "highlights": [
+      "One of Scotland's finest exclusive-use private estates",
+      "17th-century house on the shores of Loch Leven",
+      "Coach House Spa with hydrotherapy pool, sauna, and treatment rooms",
+      "Just 30 minutes from Edinburgh \u2014 helipad on-site",
+      "Ideal for corporate retreats, weddings, family gatherings, and special occasions"
+    ],
+    "tags": [
+      "scotland",
+      "exclusive-use",
+      "estate",
+      "spa",
+      "loch",
+      "historic",
+      "wedding",
+      "corporate-retreat",
+      "edinburgh"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Scotland's finest private-use estate on the shores of Loch Leven with a spectacular Coach House Spa; ideal for celebrations and corporate retreats with five-star Scottish hospitality.",
+      "pros": [
+        "Magnificent 17th-century Palladian mansion \u2014 Scotland's first and finest",
+        "Coach House Spa with hydrotherapy pool, sauna, and treatment rooms",
+        "Historic views across Loch Leven to Mary Queen of Scots' imprisonment castle",
+        "Just 30 minutes from Edinburgh with helipad on-site",
+        "Five-star Scottish hospitality with team ensuring every detail is perfect"
+      ],
+      "cons": [
+        "Exclusive-use only \u2014 requires booking the entire estate",
+        "Scottish weather is unpredictable \u2014 outdoor events need contingency plans",
+        "Contact-for-rates pricing \u2014 not transparent for comparison shopping",
+        "Accommodation capacity may be limited compared to the entertaining space"
+      ],
+      "sources": [
+        "Celtic Castles",
+        "Historic Houses"
+      ]
+    }
+  },
+  {
+    "id": "nukutepipi",
+    "name": "Nukutepipi",
+    "location": "French Polynesia",
+    "region": "South Pacific",
+    "category": "Private Retreats & Villas",
+    "type": "Private Island",
+    "website": "https://iconprivatecollection.com/nukutepipi-private-island-french-polynesia",
+    "description": "Nukutepipi is one of the world's most exclusive private island escapes \u2014 a pristine 5.6 km atoll in French Polynesia's Tuamotu Archipelago, 6,000 km from the nearest continent. Available only for exclusive rental for up to 52 guests across a master residence, two junior villas, and 13 bungalows, it offers unspoiled nature, protected coral reefs, and impeccable five-star hospitality.",
+    "photos": [
+      "https://ml5vpmchq2rr.i.optimole.com/cb:CFS-.b56/w:1687/h:1125/q:mauto/f:best/ig:avif/https://iconprivatecollection.com/wp-content/uploads/2019/07/Nukutepipi-@-LM-Chabot-97-LR.jpg"
+    ],
+    "pricing": "From $1,000,000 per week",
+    "amenities": [
+      "Master residence",
+      "2 junior villas",
+      "13 bungalows",
+      "Private lagoon",
+      "Pristine beaches",
+      "Coral reef gardens",
+      "Deep sea fishing",
+      "Whale watching",
+      "Tahitian oil massages",
+      "Motu picnics",
+      "Private chef & restaurants",
+      "Private charter flights from Tahiti"
+    ],
+    "rating": "5.0 (Private Island Reviews)",
+    "highlights": [
+      "Entire private atoll available for exclusive rental \u2014 up to 52 guests",
+      "Located in the remote Tuamotu Archipelago, 1,000 km from Bora Bora",
+      "Dedicated ecosystem preservation with rare tropical flora and fauna",
+      "Master residence, 2 junior villas, and 13 bungalows with five-star service",
+      "Activities include diving, whale watching, deep sea fishing, and spa treatments"
+    ],
+    "tags": [
+      "private-island",
+      "ultra-luxury",
+      "french-polynesia",
+      "exclusive-use",
+      "beach",
+      "coral-reef",
+      "remote",
+      "nature",
+      "eco"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "One of earth's most remote and exclusive private island experiences in the Tuamotu Archipelago; pristine nature and five-star service, but the $1M/week price tag and extreme remoteness limit its audience.",
+      "pros": [
+        "Entire private atoll \u2014 5.6 km of pristine lagoon, beaches, and coral reefs",
+        "Dedicated ecosystem preservation with rare tropical flora and fauna",
+        "Five-star service with private chef, restaurants, and spa treatments",
+        "Activities include whale watching, deep sea fishing, and diving",
+        "Only accessible by private charter flight from Tahiti \u2014 ultimate exclusivity"
+      ],
+      "cons": [
+        "From $1,000,000 per week \u2014 among the most expensive rentals on earth",
+        "Extremely remote: 6,000 km from nearest continent, 1,000 km from Bora Bora",
+        "Private charter flight from Tahiti adds significant cost and logistics",
+        "Limited medical facilities given the extreme remoteness",
+        "No independent reviews available \u2014 ultra-exclusive clientele"
+      ],
+      "sources": [
+        "Cond\u00e9 Nast Traveller",
+        "Private Islands Online",
+        "Out of Office"
+      ]
+    }
+  },
+  {
+    "id": "amanwella",
+    "name": "Amanwella",
+    "location": "Tangalle, South Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Tropical Modernist",
+    "website": "https://www.aman.com/resorts/amanwella",
+    "description": "Pristine beachfront resort on Sri Lanka's sun-drenched south coast near Tangalle, designed by Kerry Hill in tropical modernist style. 30 freestanding suites with private plunge pools cascade down a jungle hillside to a spectacular 800-meter crescent of golden sand fringed with coconut palms. The resort offers Asian-fusion cuisine, an oceanfront Aman Spa, and proximity to Yala National Park and ancient temples. Quintessential Aman understated luxury at its finest.",
+    "photos": [
+      "https://www.aman.com/sites/default/files/2022-01/amanwella-sri-lanka-beach.jpg",
+      "https://www.aman.com/sites/default/files/2022-01/amanwella-sri-lanka-suite-pool.jpg",
+      "https://www.aman.com/sites/default/files/2022-01/amanwella-sri-lanka-pool.jpg"
+    ],
+    "pricing": "From $800 per night",
+    "amenities": [
+      "Private plunge pool in every suite",
+      "Aman Spa",
+      "Beachfront restaurant",
+      "Bar & lounge",
+      "Main infinity pool",
+      "Yoga pavilion",
+      "Library",
+      "Diving & snorkeling",
+      "Bicycle tours",
+      "Beach club",
+      "Tennis court",
+      "Whale watching excursions"
+    ],
+    "rating": "4.0/5 TripAdvisor",
+    "highlights": [
+      "30 freestanding suites each with private plunge pool on jungle hillside",
+      "Spectacular 800m crescent beach \u2014 one of Sri Lanka's finest",
+      "Kerry Hill-designed tropical modernist architecture",
+      "Close to Yala National Park for leopard safaris and Mulkirigala temple",
+      "Aman Spa with Ayurvedic-inspired treatments"
+    ],
+    "tags": [
+      "beachfront",
+      "luxury",
+      "wellness",
+      "romantic",
+      "design",
+      "secluded",
+      "honeymoon"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A breathtaking beachfront Aman property praised for its stunning setting and serene atmosphere, though some feel the food and service don't quite match ultra-premium pricing.",
+      "pros": [
+        "Incomparable beach setting \u2014 vast golden sand crescent fringed with palms",
+        "Spacious, beautifully designed suites with floor-to-ceiling glass and private pools",
+        "Serene, tranquil atmosphere perfect for relaxation and romance",
+        "Excellent spa with Ayurvedic treatments and ocean views",
+        "Impeccable Aman attention to detail throughout"
+      ],
+      "cons": [
+        "Very high price point even by luxury standards \u2014 some feel food doesn't match the cost",
+        "Beach can have strong currents making swimming difficult at times",
+        "Remote location means limited dining alternatives",
+        "Some reviews note service can be inconsistent compared to other Aman properties"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cond\u00e9 Nast Traveler",
+        "Telegraph Travel"
+      ]
+    }
+  },
+  {
+    "id": "amangalla",
+    "name": "Amangalla",
+    "location": "Galle Fort, South Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Colonial Heritage",
+    "website": "https://www.aman.com/resorts/amangalla",
+    "description": "Heritage hotel occupying a magnificently restored 17th-century Dutch colonial building within UNESCO-listed Galle Fort. 28 lofty-ceilinged suites blend antique furnishings with Aman's signature minimalist refinement. Features an elegant Aman Spa with hydrotherapy suites, a garden swimming pool, and fine dining showcasing Sri Lankan and international cuisine. Walking distance to the Fort's boutiques, galleries, and rampart promenades.",
+    "photos": [
+      "https://www.aman.com/sites/default/files/2022-01/amangalla-sri-lanka-exterior.jpg",
+      "https://www.aman.com/sites/default/files/2022-01/amangalla-sri-lanka-suite.jpg",
+      "https://www.aman.com/sites/default/files/2022-01/amangalla-sri-lanka-pool.jpg"
+    ],
+    "pricing": "From $600 per night",
+    "amenities": [
+      "Aman Spa with hydrotherapy suites",
+      "Garden swimming pool",
+      "Fine dining restaurant",
+      "Heritage library",
+      "Butler service",
+      "Afternoon tea",
+      "Fort walking tours",
+      "Yoga sessions",
+      "Bicycle hire",
+      "Ayurvedic treatments"
+    ],
+    "rating": "4.0/5 TripAdvisor",
+    "highlights": [
+      "Unparalleled location inside UNESCO-listed 17th-century Galle Fort",
+      "Beautifully restored Dutch colonial building with antique furnishings",
+      "Aman Spa featuring unique hydrotherapy suites",
+      "Walking distance to Fort's boutiques, galleries, and cafes",
+      "The most affordable entry point into the Aman portfolio"
+    ],
+    "tags": [
+      "heritage",
+      "luxury",
+      "boutique",
+      "romantic",
+      "cultural",
+      "colonial",
+      "spa"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A charming colonial heritage hotel with warm hospitality and an unbeatable Galle Fort location, though the historic building means some rooms can feel dated.",
+      "pros": [
+        "Perfect location inside Galle Fort \u2014 walk to everything",
+        "Warm, friendly service led by an accessible, attentive management team",
+        "Beautiful colonial atmosphere with high ceilings and antique furnishings",
+        "Excellent spa with Ayurvedic and hydrotherapy treatments",
+        "Outstanding afternoon tea tradition"
+      ],
+      "cons": [
+        "Heritage building means no elevator \u2014 ground floor rooms available but limited",
+        "Some rooms can feel dark due to colonial architecture",
+        "Vibe is serene and adult-oriented \u2014 less suitable for families with young children",
+        "Restaurant can feel quiet on low-occupancy nights"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Telegraph Travel",
+        "Cond\u00e9 Nast Traveler"
+      ]
+    }
+  },
+  {
+    "id": "cape-weligama",
+    "name": "Cape Weligama",
+    "location": "Weligama, South Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Contemporary Luxury",
+    "website": "https://www.resplendentceylon.com/resort/cape-weligama/",
+    "description": "Dramatic clifftop resort perched on a quiet headland above the Indian Ocean, a Relais & Ch\u00e2teaux member awarded One Michelin Key distinction. 40 luxurious villas and suites with breathtaking ocean views, the iconic Moon Pool cantilevered over the cliff edge, and three dining venues including The Atlas restaurant. Cape Weligama offers surfing, whale watching, and cultural excursions as a gateway to Sri Lanka's south coast.",
+    "photos": [
+      "https://www.resplendentceylon.com/resort/cape-weligama/gallery/cape-weligama-aerial.jpg",
+      "https://www.resplendentceylon.com/resort/cape-weligama/gallery/cape-weligama-moon-pool.jpg",
+      "https://www.resplendentceylon.com/resort/cape-weligama/gallery/cape-weligama-villa.jpg"
+    ],
+    "pricing": "From $500 per night",
+    "amenities": [
+      "Moon Pool (infinity cliff pool)",
+      "Spa & wellness center",
+      "The Atlas restaurant",
+      "The Society bar",
+      "Tableau chef's table",
+      "Surf school",
+      "Whale watching excursions",
+      "Tennis court",
+      "Fitness center",
+      "Kids club",
+      "Cultural tours",
+      "Water sports"
+    ],
+    "rating": "4.0/5 TripAdvisor",
+    "highlights": [
+      "Iconic Moon Pool cantilevered over dramatic southern cliffs",
+      "Awarded One Michelin Key distinction",
+      "Relais & Ch\u00e2teaux member and Cond\u00e9 Nast Traveller Hall of Fame",
+      "Three dining venues including intimate Tableau chef's table",
+      "Prime base for whale watching, surfing, and Galle Fort exploration"
+    ],
+    "tags": [
+      "beachfront",
+      "luxury",
+      "clifftop",
+      "romantic",
+      "honeymoon",
+      "family",
+      "surfing",
+      "wellness"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A stunning clifftop resort with world-class views and excellent cuisine, consistently praised for attentive service though some note a language barrier with junior staff.",
+      "pros": [
+        "Spectacular clifftop setting with panoramic Indian Ocean views",
+        "Exceptional food across all three restaurants \u2014 locally sourced and creative",
+        "Extremely attentive and friendly staff who go above and beyond",
+        "Beautiful villa accommodations with high-end finishes",
+        "Excellent range of experiences from surfing to whale watching"
+      ],
+      "cons": [
+        "Some guests note language barriers with less experienced staff members",
+        "Clifftop location means beach access requires a shuttle or steep walk",
+        "Premium pricing \u2014 some feel F&B markups are high",
+        "Can be windy on the exposed headland"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cond\u00e9 Nast Traveler",
+        "Forbes"
+      ]
+    }
+  },
+  {
+    "id": "ceylon-tea-trails",
+    "name": "Ceylon Tea Trails",
+    "location": "Hatton, Hill Country, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Heritage Plantation",
+    "website": "https://www.resplendentceylon.com/resort/ceylon-tea-trails/",
+    "description": "Collection of five restored colonial-era tea planter's bungalows scattered across working tea plantations at 1,250m elevation in Sri Lanka's misty central highlands. Awarded 3 Michelin Keys \u2014 the highest distinction in Sri Lanka. Each bungalow has its own chef, butler, and swimming pool, offering an all-inclusive experience with gourmet cuisine, guided tea factory tours, mountain hikes, and cycling through spectacular highland scenery. A Relais & Ch\u00e2teaux member.",
+    "photos": [
+      "https://www.resplendentceylon.com/resort/ceylon-tea-trails/gallery/tea-trails-bungalow.jpg",
+      "https://www.resplendentceylon.com/resort/ceylon-tea-trails/gallery/tea-trails-garden.jpg",
+      "https://www.resplendentceylon.com/resort/ceylon-tea-trails/gallery/tea-trails-plantation.jpg"
+    ],
+    "pricing": "From $600 per night (all-inclusive)",
+    "amenities": [
+      "All-inclusive gourmet dining",
+      "Private butler at each bungalow",
+      "Swimming pool at each bungalow",
+      "Tea factory tours & tastings",
+      "Guided mountain hikes",
+      "Mountain biking",
+      "Tennis court",
+      "Croquet lawn",
+      "Library",
+      "Spa treatments",
+      "Cooking classes",
+      "Helicopter transfers available"
+    ],
+    "rating": "4.0/5 TripAdvisor",
+    "highlights": [
+      "3 Michelin Keys \u2014 highest rated property in Sri Lanka",
+      "Five unique colonial bungalows each with private chef, butler, and pool",
+      "All-inclusive with gourmet meals, afternoon tea, and premium beverages",
+      "Set at 1,250m elevation among working tea plantations",
+      "Relais & Ch\u00e2teaux member with Cond\u00e9 Nast Gold List recognition"
+    ],
+    "tags": [
+      "heritage",
+      "luxury",
+      "all-inclusive",
+      "eco",
+      "wellness",
+      "romantic",
+      "tea-country",
+      "boutique"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "An extraordinary and unique plantation experience with impeccable service and gourmet all-inclusive dining, though the remote highland location requires commitment to reach.",
+      "pros": [
+        "Truly unique experience \u2014 staying in restored colonial bungalows on working tea estates",
+        "Impeccable, highly professional staff who are warm and attentive",
+        "Outstanding all-inclusive gourmet dining with creative, delicious presentation",
+        "Stunning highland scenery with tea plantations, waterfalls, and mountain views",
+        "Private bungalow experience feels like having your own country estate"
+      ],
+      "cons": [
+        "Remote location \u2014 4-5 hour drive from Colombo airport through winding mountain roads",
+        "Weather can be cool and misty \u2014 not always the tropical sun visitors expect",
+        "Limited nightlife or entertainment \u2014 very quiet and peaceful",
+        "Some bungalows are more updated than others"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cond\u00e9 Nast Traveler",
+        "MICHELIN Guide"
+      ]
+    }
+  },
+  {
+    "id": "wild-coast-tented-lodge",
+    "name": "Wild Coast Tented Lodge",
+    "location": "Yala, South Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Luxury Tented Safari",
+    "website": "https://www.resplendentceylon.com/resort/wild-coast-tented-lodge/",
+    "description": "Award-winning luxury tented safari lodge on seven miles of pristine Indian Ocean coastline adjacent to Yala National Park \u2014 home to the world's highest leopard density. 28 cocoon-shaped tented suites designed by Bo Design feature organic curves inspired by leopard spots, each with plunge pool. Awarded 2 Michelin Keys. Offers exclusive early-entry game drives, beach dining, and a jungle spa. A Relais & Ch\u00e2teaux member.",
+    "photos": [
+      "https://www.resplendentceylon.com/resort/wild-coast-tented-lodge/gallery/wild-coast-tent.jpg",
+      "https://www.resplendentceylon.com/resort/wild-coast-tented-lodge/gallery/wild-coast-beach.jpg",
+      "https://www.resplendentceylon.com/resort/wild-coast-tented-lodge/gallery/wild-coast-pool.jpg"
+    ],
+    "pricing": "From $700 per night",
+    "amenities": [
+      "Plunge pool per tent",
+      "Leopard safari game drives",
+      "Private beach",
+      "Jungle spa",
+      "Restaurant",
+      "Bar",
+      "Nature walks",
+      "Stargazing deck",
+      "Birdwatching",
+      "Cycling",
+      "Yoga sessions",
+      "Beach bonfires"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Unique cocoon-shaped tented suites designed by Bo Design",
+      "Adjacent to Yala National Park \u2014 world's highest leopard density",
+      "Awarded 2 Michelin Keys and Relais & Ch\u00e2teaux member",
+      "Rare combination of Indian Ocean beach and big-cat safari",
+      "Elephants regularly walk through the property's wildlife corridor"
+    ],
+    "tags": [
+      "safari",
+      "luxury",
+      "beachfront",
+      "wildlife",
+      "eco",
+      "design",
+      "romantic",
+      "adventure"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A truly unique safari-meets-beach experience with extraordinary architecture and wildlife encounters, though the premium pricing and remote location may not suit all.",
+      "pros": [
+        "Stunning cocoon architecture \u2014 Instagram-worthy and genuinely innovative design",
+        "Incredible wildlife \u2014 leopards, elephants, and abundant birdlife right at the lodge",
+        "Private beach with beautiful sunsets and ocean swimming",
+        "Attentive pool service and thoughtful hospitality throughout",
+        "Exclusive early-entry safari drives to Yala before crowds arrive"
+      ],
+      "cons": [
+        "Very high price point for Sri Lanka \u2014 some feel it's overpriced",
+        "Remote location with limited things to do outside the lodge",
+        "Yala park closes seasonally (September-October) limiting safari options",
+        "Tented rooms, while luxurious, let in some natural sounds and insects"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cond\u00e9 Nast Traveler",
+        "MICHELIN Guide"
+      ]
+    }
+  },
+  {
+    "id": "shangri-la-colombo",
+    "name": "Shangri-La Colombo",
+    "location": "Colombo, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "International Luxury",
+    "website": "https://www.shangri-la.com/colombo/shangrila/",
+    "description": "Colombo's premier international luxury hotel, a striking 16-story tower commanding an oceanfront position along the historic Galle Face promenade. 500 elegantly appointed rooms and suites with Indian Ocean views, signature CHI The Spa, and an impressive dining portfolio including Chinese, Japanese, and Sri Lankan restaurants. Features one of Colombo's largest ballrooms and a stunning rooftop pool deck overlooking the ocean.",
+    "photos": [
+      "https://www.shangri-la.com/colombo/shangrila/gallery/exterior.jpg",
+      "https://www.shangri-la.com/colombo/shangrila/gallery/lobby.jpg",
+      "https://www.shangri-la.com/colombo/shangrila/gallery/pool.jpg"
+    ],
+    "pricing": "From $250 per night",
+    "amenities": [
+      "CHI The Spa",
+      "Outdoor infinity pool",
+      "Fitness center",
+      "Shang Palace Chinese restaurant",
+      "Kaema Sutra Sri Lankan restaurant",
+      "Table One modern European",
+      "Sapphyr Lounge & Bar",
+      "Capital Bar",
+      "Ballroom & event spaces",
+      "Business center",
+      "Kids club",
+      "Concierge service"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Prime oceanfront location on historic Galle Face promenade",
+      "Colombo's largest luxury hotel with 500 rooms and suites",
+      "Outstanding dining portfolio featuring celebrity chef Dharshan Munidasa's Kaema Sutra",
+      "Stunning rooftop infinity pool with Indian Ocean panorama",
+      "Ideal city base with easy access to Colombo's cultural attractions"
+    ],
+    "tags": [
+      "urban",
+      "luxury",
+      "oceanfront",
+      "business",
+      "family",
+      "dining",
+      "spa",
+      "city"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "Colombo's top international luxury hotel with excellent dining and ocean views, though its large scale means the experience can feel corporate rather than intimate.",
+      "pros": [
+        "Beautiful hotel with stunning ocean-view rooms and impressive restaurants",
+        "Excellent CHI The Spa and rooftop pool facilities",
+        "Prime Galle Face location \u2014 walkable to key Colombo attractions",
+        "Consistently good service standards from the Shangri-La team",
+        "Outstanding breakfast buffet with wide variety"
+      ],
+      "cons": [
+        "Large hotel (500 rooms) can feel impersonal and corporate",
+        "Traffic congestion in Colombo can make access challenging at peak times",
+        "Some rooms facing inland lack the ocean view premium",
+        "Premium pricing for Colombo market \u2014 budget alternatives offer good value"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Google Reviews",
+        "Trip.com"
+      ]
+    }
+  },
+  {
+    "id": "itc-ratnadipa",
+    "name": "ITC Ratnadipa (ITC Colombo)",
+    "location": "Colombo, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Contemporary Luxury",
+    "website": "https://www.itchotels.com/lk/en/itcratnadipa-colombo",
+    "description": "Colombo's newest luxury landmark, opened in 2024 as ITC Hotels' first property outside India, now operating as a Luxury Collection hotel by Marriott. 350 contemporary rooms and suites with ocean views, ITC's acclaimed Kaya Kalp Spa, and a signature culinary program featuring multiple restaurants. Modern design blends Indian hospitality traditions with Sri Lankan heritage for a refined urban experience.",
+    "photos": [
+      "https://www.itchotels.com/content/dam/itchotels/in/umbrella/itc/hotels/itcratnadipa-colombo/images/overview/exterior.jpg",
+      "https://www.itchotels.com/content/dam/itchotels/in/umbrella/itc/hotels/itcratnadipa-colombo/images/overview/lobby.jpg",
+      "https://www.itchotels.com/content/dam/itchotels/in/umbrella/itc/hotels/itcratnadipa-colombo/images/overview/pool.jpg"
+    ],
+    "pricing": "From $200 per night",
+    "amenities": [
+      "Kaya Kalp Spa",
+      "Infinity pool",
+      "Fitness center",
+      "Multiple signature restaurants",
+      "Peshawri (North Indian)",
+      "Ottimo (Italian)",
+      "Pavillion (all-day dining)",
+      "Bar & lounge",
+      "Business center",
+      "Ballroom & meeting rooms",
+      "Concierge",
+      "Airport transfers"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Colombo's newest luxury hotel \u2014 opened 2024",
+      "ITC's renowned culinary program with signature restaurants like Peshawri",
+      "Award-winning Kaya Kalp Spa with traditional Indian wellness treatments",
+      "Now a Marriott Luxury Collection property \u2014 earn/redeem Bonvoy points",
+      "Modern amenities and fresh design in a prime oceanfront location"
+    ],
+    "tags": [
+      "urban",
+      "luxury",
+      "new",
+      "business",
+      "dining",
+      "spa",
+      "oceanfront",
+      "city"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "An impressive new addition to Colombo's luxury scene with exceptional dining and modern amenities, quickly establishing itself among the city's top hotels.",
+      "pros": [
+        "Brand new property with pristine, modern rooms and facilities",
+        "Outstanding culinary program \u2014 multiple excellent restaurants",
+        "Excellent service standards with attentive, well-trained staff",
+        "Beautiful infinity pool and Kaya Kalp Spa",
+        "Great value compared to other international luxury hotels"
+      ],
+      "cons": [
+        "Still establishing its identity \u2014 some teething issues as a new property",
+        "Large corporate hotel feel may not suit those seeking boutique charm",
+        "Colombo traffic can make getting around slow",
+        "Some rooms lack direct ocean views"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Google Reviews",
+        "Trip.com"
+      ]
+    }
+  },
+  {
+    "id": "anantara-kalutara",
+    "name": "Anantara Kalutara Resort",
+    "location": "Kalutara, West Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Contemporary Resort",
+    "website": "https://www.anantara.com/en/kalutara",
+    "description": "Architecturally striking beachfront resort on Sri Lanka's southwest coast, uniquely positioned between the Indian Ocean and Kalu Ganga lagoon. 141 rooms and suites feature gallery-like interiors inspired by Geoffrey Bawa's tropical modernism. The resort's art-filled public spaces, dual-water setting, two swimming pools, and Anantara Spa create a sophisticated retreat about one hour from Colombo airport.",
+    "photos": [
+      "https://www.anantara.com/en/kalutara/gallery/resort-exterior.jpg",
+      "https://www.anantara.com/en/kalutara/gallery/pool.jpg",
+      "https://www.anantara.com/en/kalutara/gallery/room.jpg"
+    ],
+    "pricing": "From $250 per night",
+    "amenities": [
+      "Two swimming pools",
+      "Anantara Spa",
+      "Water sports center",
+      "Spice Traders restaurant",
+      "Aqua Italian restaurant",
+      "Lobby lounge & bar",
+      "Yoga & meditation pavilion",
+      "Fitness center",
+      "Kids club",
+      "Cooking classes",
+      "River cruises",
+      "Bicycle tours"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Unique dual-water setting between Indian Ocean and Kalu Ganga lagoon",
+      "Stunning Bawa-inspired architecture with gallery-like art-filled interiors",
+      "Only one hour from Colombo airport \u2014 easy access",
+      "Excellent family-friendly facilities with kids club",
+      "River cruises on the Kalu Ganga for wildlife spotting"
+    ],
+    "tags": [
+      "beachfront",
+      "luxury",
+      "design",
+      "family",
+      "wellness",
+      "lagoon",
+      "resort",
+      "art"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A beautifully designed resort with outstanding service and a unique river-ocean setting, consistently ranked as Kalutara's top hotel though some note beach quality varies seasonally.",
+      "pros": [
+        "Stunning architecture \u2014 feels like staying in an art gallery",
+        "Exceptional staff who are warm, friendly, and proactive",
+        "Beautiful dual-water setting with ocean and lagoon experiences",
+        "Excellent spa and wellness facilities",
+        "Great family-friendly option with kids club and activities"
+      ],
+      "cons": [
+        "Beach can be rough with strong currents during monsoon season",
+        "Some rooms face the lagoon rather than ocean \u2014 request ocean-facing",
+        "Kalutara area offers fewer off-site dining and activity options than south coast",
+        "Pool areas can get crowded during peak season"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Google Reviews",
+        "Trip.com"
+      ]
+    }
+  },
+  {
+    "id": "anantara-peace-haven-tangalle",
+    "name": "Anantara Peace Haven Tangalle Resort",
+    "location": "Tangalle, South Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Clifftop Resort",
+    "website": "https://www.anantara.com/en/peace-haven-tangalle",
+    "description": "Expansive clifftop resort spread across 21 acres of coconut plantation on Sri Lanka's dramatic southern coastline near Tangalle. 152 rooms, suites, and pool villas offer ocean views from a spectacular perch above a secluded beach cove. Features three restaurants, an Anantara Spa, infinity pool, and a notable turtle conservation program. The largest and most full-featured luxury resort on the south coast.",
+    "photos": [
+      "https://www.anantara.com/en/peace-haven-tangalle/gallery/resort-aerial.jpg",
+      "https://www.anantara.com/en/peace-haven-tangalle/gallery/pool.jpg",
+      "https://www.anantara.com/en/peace-haven-tangalle/gallery/beach.jpg"
+    ],
+    "pricing": "From $300 per night",
+    "amenities": [
+      "Infinity pool",
+      "Anantara Spa",
+      "Private beach cove",
+      "Journeys restaurant",
+      "Il Mare Italian",
+      "Verala Sri Lankan",
+      "Bar & lounge",
+      "Fitness center",
+      "Turtle conservation program",
+      "Cooking classes",
+      "Water sports",
+      "Kids club",
+      "Yoga pavilion"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "21-acre coconut plantation setting on dramatic southern cliffs",
+      "Turtle conservation program \u2014 guests can release hatchlings",
+      "Three distinct restaurants with Sri Lankan, Italian, and international cuisine",
+      "Ranked #1 hotel in Tangalle on TripAdvisor",
+      "Private beach cove accessible from the resort"
+    ],
+    "tags": [
+      "beachfront",
+      "luxury",
+      "clifftop",
+      "family",
+      "wellness",
+      "eco",
+      "resort",
+      "romantic"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A sprawling, well-run luxury resort with excellent food and a memorable turtle conservation program, though its size means it can feel less intimate than boutique alternatives.",
+      "pros": [
+        "Outstanding food across all three restaurants \u2014 diverse and high quality",
+        "Turtle conservation program is a magical, memorable experience",
+        "Spacious, well-maintained grounds with beautiful tropical gardens",
+        "Excellent spa with ocean views and skilled therapists",
+        "Great range of activities from cooking classes to water sports"
+      ],
+      "cons": [
+        "Large resort (152 rooms) can feel less intimate and more commercial",
+        "Beach cove is small and sea can be rough \u2014 not ideal for swimming year-round",
+        "Some rooms are a long walk from main facilities",
+        "South coast pricing is higher than equivalent properties elsewhere in Sri Lanka"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cond\u00e9 Nast Traveler",
+        "Google Reviews"
+      ]
+    }
+  },
+  {
+    "id": "heritance-kandalama",
+    "name": "Heritance Kandalama",
+    "location": "Dambulla, Cultural Triangle, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Tropical Modernist / Bawa Architecture",
+    "website": "https://www.heritancehotels.com/kandalama",
+    "description": "Iconic architectural masterpiece by Geoffrey Bawa, built 1992-1995 directly into a rock face and engulfed by jungle overlooking Kandalama Lake. 152 rooms offer views of the lake, surrounding forest, and distant Sigiriya Rock. Often called the greatest Sri Lankan hotel, it seamlessly integrates architecture with nature \u2014 monkeys and tropical birds are constant companions. The ideal luxury base for exploring the Cultural Triangle.",
+    "photos": [
+      "https://www.heritancehotels.com/kandalama/gallery/exterior.jpg",
+      "https://www.heritancehotels.com/kandalama/gallery/infinity-pool.jpg",
+      "https://www.heritancehotels.com/kandalama/gallery/lake-view.jpg"
+    ],
+    "pricing": "From $150 per night",
+    "amenities": [
+      "Infinity pool",
+      "Spa & Ayurvedic center",
+      "Kanchana restaurant",
+      "Kaludiya restaurant",
+      "Bar",
+      "Fitness center",
+      "Birdwatching guided walks",
+      "Cycling",
+      "Rock climbing",
+      "Cultural excursion desk",
+      "Nature trails",
+      "Conference facilities"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Geoffrey Bawa's architectural masterwork \u2014 building emerges from the rock face",
+      "Lake views with Sigiriya Rock visible in the distance",
+      "Constant wildlife encounters \u2014 monkeys, monitor lizards, tropical birds",
+      "Perfect base for Sigiriya Rock, Dambulla Cave Temple, and Polonnaruwa",
+      "Exceptional value for a 5-star architectural landmark"
+    ],
+    "tags": [
+      "heritage",
+      "design",
+      "eco",
+      "wildlife",
+      "cultural",
+      "architecture",
+      "nature",
+      "family"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "An architecturally stunning hotel with an extraordinary natural setting and excellent value, though the aging building and inconsistent service can occasionally disappoint.",
+      "pros": [
+        "Jaw-dropping Bawa architecture \u2014 the building itself is a work of art",
+        "Incredible nature setting with abundant wildlife and lake views",
+        "Infinity pool is one of Sri Lanka's most photographed",
+        "Excellent value for a 5-star property \u2014 very competitive rates",
+        "Perfect location for Cultural Triangle exploration"
+      ],
+      "cons": [
+        "Building is aging (1990s) and some areas need renovation",
+        "Service can be inconsistent \u2014 very busy with large tour groups",
+        "Food quality is adequate but not exceptional for a 5-star hotel",
+        "Rooms closer to the jungle can have insects \u2014 bring repellent"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Google Reviews",
+        "Cond\u00e9 Nast Traveler"
+      ]
+    }
+  },
+  {
+    "id": "lunuganga",
+    "name": "Lunuganga",
+    "location": "Bentota, West Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Heritage / Bawa Estate",
+    "website": "https://www.lunuganga.com",
+    "description": "Geoffrey Bawa's personal country estate turned intimate luxury hotel, a garden wonderland that the legendary architect curated over 50 years. Just 10 unique rooms \u2014 including a glass pavilion and a former cowshed turned gallery \u2014 are set among extraordinary landscaped gardens, terraces, and art-filled spaces. Featured in Cond\u00e9 Nast Traveller Gold List. A pilgrimage site for architecture and garden lovers, offering an unmatched glimpse into Bawa's creative world.",
+    "photos": [
+      "https://www.lunuganga.com/gallery/lunuganga-garden.jpg",
+      "https://www.lunuganga.com/gallery/lunuganga-terrace.jpg",
+      "https://www.lunuganga.com/gallery/lunuganga-room.jpg"
+    ],
+    "pricing": "From $300 per night",
+    "amenities": [
+      "Stunning landscaped gardens",
+      "Swimming pool",
+      "Restaurant with local cuisine",
+      "Bawa's personal art collection",
+      "Garden tours",
+      "River excursions",
+      "Cultural tours",
+      "Library",
+      "Afternoon tea",
+      "Bicycle hire"
+    ],
+    "rating": "4.5/5 TripAdvisor (9.5/10 Booking.com)",
+    "highlights": [
+      "Stay in legendary architect Geoffrey Bawa's own home and life's work",
+      "Each of 10 rooms is uniquely designed \u2014 glass pavilion, converted cowshed, and more",
+      "50 years of meticulous garden curation by Bawa himself",
+      "Cond\u00e9 Nast Traveller Gold List property",
+      "Art-filled estate with Bawa's personal collection throughout"
+    ],
+    "tags": [
+      "heritage",
+      "boutique",
+      "design",
+      "architecture",
+      "romantic",
+      "gardens",
+      "art",
+      "cultural"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A magical, one-of-a-kind estate that architecture lovers will treasure, offering an intimate glimpse into Bawa's genius, though the boutique scale means limited hotel-style amenities.",
+      "pros": [
+        "Utterly unique \u2014 nowhere else lets you sleep in Bawa's personal estate",
+        "Extraordinary gardens that reveal new beauty at every turn",
+        "Intimate, peaceful atmosphere with only 10 rooms",
+        "Excellent food using local ingredients and traditional recipes",
+        "Highly rated on Booking.com (9.5/10) for good reason"
+      ],
+      "cons": [
+        "Very limited facilities \u2014 no spa, small pool, one restaurant",
+        "Heritage rooms have quirks \u2014 some lack modern hotel luxuries",
+        "Not on the beach \u2014 river and garden setting instead",
+        "Bentota area has fewer attractions than Galle or south coast"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Booking.com",
+        "Cond\u00e9 Nast Traveller"
+      ]
+    }
+  },
+  {
+    "id": "tri-lanka",
+    "name": "Tri Lanka",
+    "location": "Koggala, South Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Eco-Luxury Contemporary",
+    "website": "https://www.trilanka.com",
+    "description": "Ultra-sustainable luxury hotel on a private peninsula jutting into Koggala Lake, featuring striking contemporary architecture by Raefer Wallis. 11 spacious rooms and suites with dramatic lakeside views, near carbon-neutral operations powered by solar energy, organic gardens, and rainwater harvesting. The infinity pool extends over the lake, and an excellent wellness program includes yoga, meditation, and Ayurvedic treatments. A pioneering eco-luxury experience.",
+    "photos": [
+      "https://www.trilanka.com/gallery/tri-lanka-aerial.jpg",
+      "https://www.trilanka.com/gallery/tri-lanka-pool.jpg",
+      "https://www.trilanka.com/gallery/tri-lanka-room.jpg"
+    ],
+    "pricing": "From $300 per night",
+    "amenities": [
+      "Infinity pool over lake",
+      "Spa & wellness center",
+      "Yoga studio",
+      "Organic restaurant",
+      "Bar",
+      "Lake excursions by boat",
+      "Cycling",
+      "Cooking classes",
+      "Solar-powered facilities",
+      "Rooftop terrace",
+      "Library",
+      "Birdwatching"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Pioneering eco-luxury \u2014 near carbon-neutral with 100% solar power",
+      "Dramatic contemporary architecture on private Koggala Lake peninsula",
+      "Just 11 rooms for an intimate, exclusive experience",
+      "Strong wellness program with yoga, meditation, and Ayurveda",
+      "Organic restaurant using produce from the hotel's own gardens"
+    ],
+    "tags": [
+      "eco",
+      "luxury",
+      "boutique",
+      "wellness",
+      "sustainable",
+      "design",
+      "romantic",
+      "lakeside"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A beautifully designed eco-luxury retreat that delivers on its sustainability promise while maintaining high standards, though a few maintenance issues can detract from the experience.",
+      "pros": [
+        "Stunning contemporary architecture with incredible lake views",
+        "Genuine commitment to sustainability \u2014 not just greenwashing",
+        "Intimate atmosphere with just 11 rooms and personalized service",
+        "Excellent wellness offerings including yoga and Ayurvedic treatments",
+        "Creative organic cuisine from the hotel's own gardens"
+      ],
+      "cons": [
+        "Some guests report occasional maintenance issues and bugs",
+        "Lakeside location means no beach access \u2014 ocean is a short drive away",
+        "Small scale means limited dining variety",
+        "Remote peninsula location \u2014 limited walkable surroundings"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Cond\u00e9 Nast Traveler",
+        "Google Reviews"
+      ]
+    }
+  },
+  {
+    "id": "karpaha-sands",
+    "name": "Karpaha Sands",
+    "location": "Kalkudah, East Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Luxury Tented Beach",
+    "website": "https://www.karpaha.com",
+    "description": "Luxury tented resort on Sri Lanka's undeveloped east coast, fronting seven miles of pristine Kalkudah beach \u2014 a stunning palm-fringed stretch that rivals any in Asia. 30 artistically designed tented rooms channel a cool, bohemian vibe with five-star comfort. Excellent seafood restaurant, oceanfront pool, and access to outstanding diving and snorkeling. A pioneer of east coast luxury at surprisingly accessible rates.",
+    "photos": [
+      "https://www.karpaha.com/gallery/karpaha-beach.jpg",
+      "https://www.karpaha.com/gallery/karpaha-tent.jpg",
+      "https://www.karpaha.com/gallery/karpaha-pool.jpg"
+    ],
+    "pricing": "From $200 per night",
+    "amenities": [
+      "Private beach",
+      "Oceanfront pool",
+      "Seafood restaurant",
+      "Bar",
+      "Diving center",
+      "Snorkeling",
+      "Water sports",
+      "Cultural excursions",
+      "Outdoor bathing",
+      "Cycling",
+      "Yoga",
+      "Star baths"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Seven miles of pristine, uncrowded Kalkudah beach",
+      "Cool, arty bohemian vibe with luxury tented accommodation",
+      "Outstanding fresh seafood dining",
+      "Pioneer of luxury on Sri Lanka's emerging east coast",
+      "Excellent value compared to equivalent south coast properties"
+    ],
+    "tags": [
+      "beachfront",
+      "boutique",
+      "eco",
+      "adventure",
+      "romantic",
+      "tented",
+      "secluded",
+      "diving"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A gorgeous tented beach retreat with outstanding hospitality and a spectacular beach, though its remote east coast location means infrastructure is less developed.",
+      "pros": [
+        "Absolutely stunning beach \u2014 miles of pristine, uncrowded sand",
+        "Artistically designed tents with genuine character and luxury comfort",
+        "Excellent fresh seafood \u2014 some of the best in Sri Lanka",
+        "Friendly, attentive staff who create a welcoming atmosphere",
+        "Great value for luxury beach accommodation"
+      ],
+      "cons": [
+        "Remote east coast location \u2014 long drive from Colombo (5-6 hours)",
+        "East coast has limited luxury infrastructure compared to south",
+        "Seasonal \u2014 best April to September when east coast is dry",
+        "Tented accommodation means some exposure to nature and elements"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Telegraph Travel",
+        "Booking.com"
+      ]
+    }
+  },
+  {
+    "id": "fort-bazaar",
+    "name": "Fort Bazaar",
+    "location": "Galle Fort, South Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Heritage Boutique",
+    "website": "https://www.teardrop-hotels.com/fort-bazaar",
+    "description": "Chic boutique hotel inside UNESCO-listed Galle Fort, lovingly restored from a 17th-century Dutch merchant's house. 18 individually designed rooms blend contemporary style with colonial heritage \u2014 polished concrete floors, antique doors, and curated art. The acclaimed rooftop bar offers Fort and ocean views, while the ground-floor restaurant serves refined Sri Lankan and international cuisine. A more intimate and affordable alternative to Amangalla.",
+    "photos": [
+      "https://www.teardrop-hotels.com/fort-bazaar/gallery/exterior.jpg",
+      "https://www.teardrop-hotels.com/fort-bazaar/gallery/rooftop.jpg",
+      "https://www.teardrop-hotels.com/fort-bazaar/gallery/room.jpg"
+    ],
+    "pricing": "From $200 per night",
+    "amenities": [
+      "Rooftop bar with Fort views",
+      "Church Street restaurant",
+      "Spa treatments",
+      "Plunge pool",
+      "Walking tours of Galle Fort",
+      "Butler service",
+      "Bicycle hire",
+      "Library",
+      "Concierge",
+      "In-room dining"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Ranked #1 B&B/inn in Galle on TripAdvisor",
+      "Beautifully restored 17th-century merchant's house",
+      "Acclaimed rooftop bar with panoramic Fort and ocean views",
+      "More intimate and better value alternative to Amangalla next door",
+      "Walking distance to Galle Fort's best boutiques and galleries"
+    ],
+    "tags": [
+      "heritage",
+      "boutique",
+      "romantic",
+      "cultural",
+      "design",
+      "rooftop-bar",
+      "affordable-luxury"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A beautifully designed boutique gem inside Galle Fort with an exceptional rooftop bar and warm service, offering excellent value for the location.",
+      "pros": [
+        "Stunning restoration blending colonial heritage with contemporary design",
+        "Fantastic rooftop bar \u2014 one of the best sunset spots in Galle",
+        "Excellent location inside the Fort walls \u2014 walk to everything",
+        "Warm, personalized service from a small, dedicated team",
+        "Great value compared to Amangalla for a similar Galle Fort experience"
+      ],
+      "cons": [
+        "Small rooms \u2014 heritage building means limited space in some categories",
+        "No full-size swimming pool \u2014 only a small plunge pool",
+        "Heritage building has no elevator \u2014 stairs only",
+        "Street noise can be audible in some rooms facing the Fort lanes"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Google Reviews",
+        "Cond\u00e9 Nast Traveler"
+      ]
+    }
+  },
+  {
+    "id": "98-acres-resort-spa",
+    "name": "98 Acres Resort & Spa",
+    "location": "Ella, Hill Country, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Rustic Luxury",
+    "website": "https://www.resort98acres.com/",
+    "description": "Hillside eco-resort perched on a working tea estate in Ella with breathtaking 360-degree views of Ella Gap, Little Adam's Peak, and Ella Rock. 42 rustic-luxury chalets built sustainably from reclaimed railway sleepers and tea factory materials blend into the mountainous landscape. Features an infinity pool with jaw-dropping valley views, a spa, and a restaurant serving hill-country cuisine. Perfect base for hiking Ella's famous trails.",
+    "photos": [
+      "https://resort98acres.eme-devops.com/2025/06/737e749374386d843b8f4c9c068ca0f9943435a1-scaled.webp?w=1920&h=1080&fit=crop&crop=center&auto=format,compress,enhance&q=80",
+      "https://resort98acres.eme-devops.com/2025/03/aerial-view-private-pool-98-acres-resort-spa.png?w=1200&fit=crop&crop=center&auto=format,compress,enhance&q=80",
+      "https://resort98acres.eme-devops.com/2025/04/P5A6385-1-scaled.jpg?w=1200&fit=crop&crop=center&auto=format,compress,enhance&q=80",
+      "https://resort98acres.eme-devops.com/2025/06/premium-Deluxe-scaled.jpg?w=1200&fit=crop&crop=center&auto=format,compress,enhance&q=80",
+      "https://resort98acres.eme-devops.com/2025/10/SPA-2-scaled.jpg?w=1200&fit=crop&crop=center&auto=format,compress,enhance&q=80"
+    ],
+    "pricing": "From $150 per night",
+    "amenities": [
+      "Infinity pool with valley views",
+      "Spa & wellness",
+      "Restaurant",
+      "Bar",
+      "Tea estate walks",
+      "Guided hiking",
+      "Cooking classes",
+      "Yoga",
+      "Bicycle hire",
+      "Train booking assistance",
+      "Campfire evenings"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Jaw-dropping 360-degree views of Ella Gap and surrounding peaks",
+      "Sustainable construction from reclaimed railway sleepers and tea factory materials",
+      "Infinity pool consistently rated one of Sri Lanka's most scenic",
+      "Perfect base for Little Adam's Peak and Nine Arches Bridge",
+      "Excellent value eco-luxury in the heart of hill country"
+    ],
+    "tags": [
+      "eco",
+      "nature",
+      "hiking",
+      "tea-country",
+      "sustainable",
+      "romantic",
+      "adventure",
+      "views"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "An outstanding value eco-resort with some of Sri Lanka's best views and a great hiking base, though amenities and food don't quite match true five-star standards.",
+      "pros": [
+        "Views are absolutely spectacular \u2014 worth visiting for the scenery alone",
+        "Infinity pool is stunning and perfectly positioned for valley panoramas",
+        "Excellent location for hiking Little Adam's Peak and visiting Nine Arches Bridge",
+        "Sustainable ethos with charming reclaimed-material construction",
+        "Friendly, helpful staff who assist with local excursions"
+      ],
+      "cons": [
+        "Food quality is decent but not exceptional \u2014 limited menu options",
+        "Rooms are rustic and basic compared to true 5-star properties",
+        "Can get busy with day-trippers using the restaurant for the views",
+        "Steep site means lots of stairs \u2014 not ideal for mobility-impaired guests"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Booking.com",
+        "Google Reviews"
+      ]
+    }
+  },
+  {
+    "id": "uga-bay",
+    "name": "Uga Bay by Uga Escapes",
+    "location": "Passikudah, East Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Contemporary Beach Resort",
+    "website": "https://www.ugaescapes.com/ugabay/",
+    "description": "Beachfront luxury resort on Passikudah Bay \u2014 one of the world's shallowest, calmest bays with crystal-clear turquoise water perfect for year-round swimming. 47 contemporary rooms and suites with direct beach access, an infinity pool, full-service spa, and PADI dive center. Part of the respected Uga Escapes collection. The east coast's premier luxury beach resort, ideal for families and water sports enthusiasts.",
+    "photos": [
+      "https://www.ugaescapes.com/ugabay/gallery/uga-bay-beach.jpg",
+      "https://www.ugaescapes.com/ugabay/gallery/uga-bay-pool.jpg",
+      "https://www.ugaescapes.com/ugabay/gallery/uga-bay-room.jpg"
+    ],
+    "pricing": "From $200 per night",
+    "amenities": [
+      "Private beach",
+      "Infinity pool",
+      "Spa",
+      "PADI dive center",
+      "Water sports center",
+      "Two restaurants",
+      "Bar",
+      "Fitness center",
+      "Kids activities",
+      "Cycling",
+      "Snorkeling trips",
+      "Cultural excursions"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Located on Passikudah Bay \u2014 one of the world's shallowest, calmest bays",
+      "Crystal-clear turquoise water ideal for swimming and snorkeling",
+      "Ranked #1 hotel in Kalkudah/Passikudah on TripAdvisor",
+      "Full PADI dive center for reef exploration",
+      "Part of respected Uga Escapes luxury collection"
+    ],
+    "tags": [
+      "beachfront",
+      "luxury",
+      "family",
+      "diving",
+      "resort",
+      "water-sports",
+      "romantic",
+      "east-coast"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "An excellent east coast beach resort with outstanding service and a spectacular bay, though the journey to get there is long and the area has limited alternative activities.",
+      "pros": [
+        "Exceptional beach \u2014 shallow, calm turquoise water perfect for families",
+        "Outstanding service praised as warm, friendly, and beyond expectations",
+        "Immaculate rooms, facilities, and beautifully maintained gardens",
+        "Top-notch food praised across multiple review platforms",
+        "Excellent diving and snorkeling right from the resort"
+      ],
+      "cons": [
+        "Remote location \u2014 6+ hour drive from Colombo",
+        "East coast has limited dining and nightlife options outside the hotel",
+        "Best during April-September \u2014 monsoon affects the east in winter",
+        "Some reef rocks on the beach \u2014 water shoes recommended"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Google Reviews",
+        "Booking.com"
+      ]
+    }
+  },
+  {
+    "id": "jungle-beach",
+    "name": "Jungle Beach by Uga Escapes",
+    "location": "Trincomalee, East Coast, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Jungle Beach Luxury",
+    "website": "https://www.ugaescapes.com/junglebeach/",
+    "description": "Secluded luxury resort on a private beach surrounded by tropical jungle near Trincomalee on Sri Lanka's northeast coast. 48 cabana-style rooms are nestled in lush forest with direct access to a pristine sand beach. Features a jungle-canopy spa, infinity pool, and proximity to world-class Pigeon Island for diving and snorkeling. The ultimate Robinson Crusoe luxury experience, also near whale watching grounds.",
+    "photos": [
+      "https://www.ugaescapes.com/junglebeach/gallery/jungle-beach-aerial.jpg",
+      "https://www.ugaescapes.com/junglebeach/gallery/jungle-beach-room.jpg",
+      "https://www.ugaescapes.com/junglebeach/gallery/jungle-beach-pool.jpg"
+    ],
+    "pricing": "From $250 per night",
+    "amenities": [
+      "Private beach",
+      "Jungle canopy spa",
+      "Infinity pool",
+      "Restaurant",
+      "Bar",
+      "PADI dive center",
+      "Whale watching excursions",
+      "Nature trails",
+      "Water sports",
+      "Snorkeling at Pigeon Island",
+      "Yoga",
+      "Cycling"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Private beach accessed through lush tropical jungle",
+      "Near Pigeon Island \u2014 one of Sri Lanka's top dive and snorkel sites",
+      "Whale watching (sperm whales) from March to October",
+      "Robinson Crusoe luxury \u2014 secluded and surrounded by nature",
+      "Part of the respected Uga Escapes luxury collection"
+    ],
+    "tags": [
+      "beachfront",
+      "luxury",
+      "secluded",
+      "jungle",
+      "diving",
+      "wildlife",
+      "romantic",
+      "adventure"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A stunning jungle-meets-beach retreat with excellent diving access and warm service, though seasonal availability and remote location limit its accessibility.",
+      "pros": [
+        "Incredible setting \u2014 private beach surrounded by pristine jungle",
+        "Room audibly made guests say WOW upon first seeing it",
+        "Outstandingly friendly staff with warm, genuine hospitality",
+        "Excellent food and fresh seafood",
+        "Proximity to Pigeon Island for world-class snorkeling and diving"
+      ],
+      "cons": [
+        "Remote location north of Trincomalee \u2014 limited nearby amenities",
+        "Best April-September only \u2014 closed or reduced during northeast monsoon",
+        "Jungle setting means insects and wildlife visitors in rooms",
+        "Limited activities in poor weather beyond the resort"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "HotelsCombined",
+        "Google Reviews"
+      ]
+    }
+  },
+  {
+    "id": "the-kandy-house",
+    "name": "The Kandy House",
+    "location": "Kandy, Hill Country, Sri Lanka",
+    "region": "Asia & Middle East",
+    "category": "Hotels & Resorts",
+    "type": "Heritage Boutique",
+    "website": "https://www.thekandyhouse.com",
+    "description": "Intimate boutique hotel in a beautifully restored 19th-century Kandyan chief's mansion, surrounded by emerald paddy fields and fragrant spice gardens just 20 minutes from Kandy. Only 9 individually designed rooms feature antique furnishings and colonial-era charm. The restaurant serves authentic Kandyan cuisine using garden-grown herbs and spices. A serene, deeply authentic base for exploring the sacred city of Kandy and surrounding hill country.",
+    "photos": [
+      "https://www.thekandyhouse.com/gallery/kandy-house-exterior.jpg",
+      "https://www.thekandyhouse.com/gallery/kandy-house-pool.jpg",
+      "https://www.thekandyhouse.com/gallery/kandy-house-room.jpg"
+    ],
+    "pricing": "From $200 per night",
+    "amenities": [
+      "Swimming pool",
+      "Spa with Ayurvedic treatments",
+      "Restaurant",
+      "Spice garden tours",
+      "Paddy field walks",
+      "Cultural excursions to Kandy",
+      "Cooking classes",
+      "Bicycle hire",
+      "Library",
+      "Afternoon tea"
+    ],
+    "rating": "4.5/5 TripAdvisor",
+    "highlights": [
+      "Authentic 19th-century Kandyan aristocratic mansion",
+      "Only 9 rooms for an intimate, personalized experience",
+      "Stunning paddy field and spice garden setting",
+      "Perfect base for Temple of the Sacred Tooth (20 minutes)",
+      "Guests consistently call it their favorite hotel in Sri Lanka"
+    ],
+    "tags": [
+      "heritage",
+      "boutique",
+      "romantic",
+      "cultural",
+      "intimate",
+      "gardens",
+      "authentic",
+      "hill-country"
+    ],
+    "researched": true,
+    "reviews": {
+      "summary": "A magical, intimate boutique hotel that guests consistently describe as their favorite stay in Sri Lanka, though its small size and traditional setting won't suit everyone.",
+      "pros": [
+        "Favorite hotel in Sri Lanka for many reviewers \u2014 aesthetics, service, and operations",
+        "Beautifully restored mansion with authentic Kandyan heritage character",
+        "Stunning paddy field setting that feels like stepping back in time",
+        "Impeccable service \u2014 staff are caring, attentive, and genuinely warm",
+        "Excellent authentic Sri Lankan cuisine using garden-grown ingredients"
+      ],
+      "cons": [
+        "Very small (9 rooms) \u2014 books up well in advance during peak season",
+        "Not in Kandy city center \u2014 20-minute drive to main attractions",
+        "Limited modern amenities \u2014 no gym, small pool",
+        "Heritage mansion means rooms have traditional rather than luxury hotel feel"
+      ],
+      "sources": [
+        "TripAdvisor",
+        "Google Reviews",
+        "Cond\u00e9 Nast Traveler"
+      ]
+    }
+  }
+]

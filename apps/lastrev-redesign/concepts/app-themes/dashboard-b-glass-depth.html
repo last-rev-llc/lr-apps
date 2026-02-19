@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ Command Center — Glass & Depth</title>
+<style>
+:root {
+  --bg: var(--bg);
+  --glass: rgba(255,255,255,0.08);
+  --glass-hover: rgba(255,255,255,0.12);
+  --glass-border: rgba(255,255,255,0.15);
+  --accent: var(--accent);
+  --accent-grad: linear-gradient(135deg, var(--accent) 0%, var(--yellow) 100%);
+  --text: var(--text);
+  --dim: #cbd5e1;
+  --muted: var(--muted);
+  --green: var(--green);
+  --yellow: var(--accent);
+  --red: var(--red);
+  --blue: var(--blue);
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--sans); background: linear-gradient(135deg, var(--bg) 0%, #0f1425 50%, #1a1b3a 100%); color: var(--text); min-height: 100vh; }
+
+/* Top bar */
+.topbar { display: flex; align-items: center; justify-content: flex-end; gap: 12px; padding: 8px 40px; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--glass-border); font-size: 12px; backdrop-filter: blur(12px); }
+.topbar a, .topbar button, .topbar span { color: var(--muted); text-decoration: none; background: none; border: none; cursor: pointer; font-size: 12px; }
+.topbar a:hover, .topbar button:hover { color: var(--accent); }
+
+/* Nav */
+.navbar { display: flex; align-items: center; gap: 28px; padding: 14px 40px; background: var(--glass); backdrop-filter: blur(16px); border-bottom: 1px solid var(--glass-border); }
+.navbar .brand { font-family: var(--serif); font-weight: 400; font-size: 18px; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.navbar a { text-decoration: none; font-size: 14px; color: var(--muted); font-weight: 500; padding: 6px 14px; border-radius: 8px; transition: all .3s; }
+.navbar a:hover { color: var(--text); background: var(--glass); }
+.navbar a.active { background: var(--accent-grad); color: white; box-shadow: 0 4px 12px rgba(245,158,11,0.3); }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 40px; }
+
+/* Header */
+.page-header { margin-bottom: 32px; }
+.page-header h1 { font-family: var(--serif); font-size: 36px; font-weight: 400; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+.page-header h1 span { background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.page-header .sub { color: var(--muted); font-size: 14px; }
+
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+.stat-card { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: transform .3s, box-shadow .3s; }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); border-radius: 16px 16px 0 0; }
+.stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+.stat-value { font-size: 36px; font-weight: 400; font-family: var(--serif); }
+.stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* Grid */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+
+/* Panel */
+.panel { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); border-radius: 16px 16px 0 0; }
+.panel-header { font-family: var(--serif); font-size: 16px; font-weight: 400; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.panel-header .count { font-family: var(--sans); font-size: 12px; background: rgba(245,158,11,0.2); color: var(--accent); padding: 2px 10px; border-radius: 20px; border: 1px solid rgba(245,158,11,0.3); }
+
+/* List */
+.list-item { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; gap: 12px; align-items: flex-start; transition: background .3s; }
+.list-item:last-child { border-bottom: none; }
+.list-item:hover { background: rgba(255,255,255,0.03); }
+
+/* Avatar */
+.avatar { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: white; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+
+/* Badges */
+.badge-sm { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; backdrop-filter: blur(8px); }
+.badge-green { background: rgba(16,185,129,0.2); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+.badge-yellow { background: rgba(245,158,11,0.2); color: var(--yellow); border: 1px solid rgba(245,158,11,0.3); }
+.badge-red { background: rgba(248,113,113,0.2); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+.badge-blue { background: rgba(56,189,248,0.2); color: var(--blue); border: 1px solid rgba(56,189,248,0.3); }
+.badge-amber { background: rgba(245,158,11,0.2); color: var(--accent); border: 1px solid rgba(245,158,11,0.3); }
+
+.item-title { font-size: 14px; font-weight: 500; }
+.item-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.item-time { font-size: 11px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+.item-info { flex: 1; min-width: 0; }
+.item-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+/* Dots */
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; box-shadow: 0 0 6px currentColor; }
+.dot-green { background: var(--green); color: var(--green); }
+.dot-yellow { background: var(--yellow); color: var(--yellow); }
+.dot-red { background: var(--red); color: var(--red); }
+
+.meeting-time { font-size: 12px; font-weight: 600; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; min-width: 80px; flex-shrink: 0; }
+.attendees { display: flex; gap: 6px; align-items: center; margin-top: 4px; font-size: 12px; color: var(--muted); }
+
+.score { font-size: 14px; font-weight: 500; background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* Apps */
+.apps-section { margin-top: 8px; }
+.apps-label { font-family: var(--serif); font-size: 16px; color: var(--text); margin-bottom: 16px; }
+.apps-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.app-card { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: all .3s; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.app-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); border-radius: 16px 16px 0 0; }
+.app-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); background: var(--glass-hover); }
+.app-icon { font-size: 24px; }
+.app-name { font-size: 13px; font-weight: 600; }
+.app-desc { font-size: 11px; color: var(--muted); }
+
+.scrollable { max-height: 280px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+
+@media (max-width: 768px) { .grid-2, .stats { grid-template-columns: 1fr; } .apps-row { grid-template-columns: repeat(2, 1fr); } }
+</style>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+</head>
+<body>
+<cc-topbar></cc-topbar>
+<cc-nav></cc-nav>
+<cc-auth></cc-auth>
+
+<div class="topbar">
+  <span>Glass & Depth</span>
+  <a href="#">Integrations</a>
+  <a href="#">Settings</a>
+  <button title="Lock">🔒</button>
+</div>
+<nav class="navbar">
+  <span class="brand">⚡ Last Rev</span>
+  <a href="#" class="active">Dashboard</a>
+  <a href="#">Ideas</a>
+  <a href="#">Crons</a>
+  <a href="#">Clients</a>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <h1>⚡ <span>Command Center</span></h1>
+    <div class="sub">Your operational hub · Feb 11, 2026</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card"><div class="stat-value" style="background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">7</div><div class="stat-label">PRs Pending Review</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--green)">3</div><div class="stat-label">Active Clients</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--yellow)">12</div><div class="stat-label">Cron Jobs</div></div>
+    <div class="stat-card"><div class="stat-value" style="color:var(--blue)">96</div><div class="stat-label">Ideas</div></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-header">💬 Recent Slack Messages <span class="count">4</span></div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="avatar" style="background:linear-gradient(135deg,var(--accent),var(--yellow))">B</div>
+          <div class="item-info"><div class="item-title">Brad</div><div class="item-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Hey Adam, the IAS deploy looks good. Can you check staging?</div></div>
+          <div class="item-time">2m ago</div>
+        </div>
+        <div class="list-item">
+          <div class="avatar" style="background:linear-gradient(135deg,var(--green),#34d399)">S</div>
+          <div class="item-info"><div class="item-title">Sarah</div><div class="item-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Diligent content model changes are merged 🎉</div></div>
+          <div class="item-time">15m ago</div>
+        </div>
+        <div class="list-item">
+          <div class="avatar" style="background:linear-gradient(135deg,#f97316,#fb923c)">M</div>
+          <div class="item-info"><div class="item-title">Mike</div><div class="item-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">WOW! team wants a demo of the new nav component tomorrow</div></div>
+          <div class="item-time">1h ago</div>
+        </div>
+        <div class="list-item">
+          <div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)">J</div>
+          <div class="item-info"><div class="item-title">Julia</div><div class="item-meta" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Updated the shared component docs — review when you get a sec</div></div>
+          <div class="item-time">3h ago</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">🔀 Open PRs <span class="count">7</span></div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Fix hero image lazy loading</div><div class="item-meta">ias-website · Brad</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">Ready</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Add Contentful webhook retry logic</div><div class="item-meta">lastrev-libraries · Adam</div></div>
+          <div class="item-right"><span class="badge-sm badge-yellow">Changes Req.</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Migrate nav to composable pattern</div><div class="item-meta">wow-website · Sarah</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">Ready</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Bump Next.js to 15.2</div><div class="item-meta">diligent-website · Renovate</div></div>
+          <div class="item-right"><span class="badge-sm badge-blue">Reviewing</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">📅 Upcoming Meetings</div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="meeting-time">10:00 AM</div>
+          <div class="item-info">
+            <div class="item-title">IAS Sprint Review</div>
+            <div class="attendees"><span class="dot dot-green"></span> Brad <span class="dot dot-green"></span> Sarah <span class="dot dot-yellow"></span> Mike</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="meeting-time">1:30 PM</div>
+          <div class="item-info">
+            <div class="item-title">Diligent Content Sync</div>
+            <div class="attendees"><span class="dot dot-green"></span> Julia <span class="dot dot-red"></span> Tom</div>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="meeting-time">3:00 PM</div>
+          <div class="item-info">
+            <div class="item-title">WOW! Design Handoff</div>
+            <div class="attendees"><span class="dot dot-green"></span> Sarah <span class="dot dot-green"></span> Brad</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">⏰ Cron Jobs <span class="count">12</span></div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">PR Dashboard Sync</div><div class="item-meta">Every 30 min</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">✓ Success</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Slack Digest</div><div class="item-meta">Daily 9:00 AM</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">✓ Success</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Contentful Health Check</div><div class="item-meta">Every 6 hours</div></div>
+          <div class="item-right"><span class="badge-sm badge-yellow">⚠ Warning</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">GA4 Anomaly Scan</div><div class="item-meta">Daily 7:00 AM</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">✓ Success</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">💡 Ideas <span class="count">96</span></div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">AI-powered content migration tool</div></div>
+          <div class="item-right"><span class="score">9.2</span><span class="badge-sm badge-amber">Product</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Shared component versioning system</div></div>
+          <div class="item-right"><span class="score">8.7</span><span class="badge-sm badge-blue">Engineering</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Client health score dashboard</div></div>
+          <div class="item-right"><span class="score">8.1</span><span class="badge-sm badge-yellow">Ops</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Automated QA visual regression</div></div>
+          <div class="item-right"><span class="score">7.5</span><span class="badge-sm badge-amber">Product</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header">🏥 Client Health</div>
+      <div class="scrollable">
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">IAS</div><div class="item-meta">Enterprise · Next.js + Contentful</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">Healthy</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">Diligent</div><div class="item-meta">Enterprise · React + Sanity</div></div>
+          <div class="item-right"><span class="badge-sm badge-yellow">At Risk</span></div>
+        </div>
+        <div class="list-item">
+          <div class="item-info"><div class="item-title">WOW!</div><div class="item-meta">Growth · Next.js + Contentful</div></div>
+          <div class="item-right"><span class="badge-sm badge-green">Healthy</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="apps-section">
+    <div class="apps-label">🚀 My Apps</div>
+    <div class="apps-row">
+      <div class="app-card"><span class="app-icon">📋</span><div><div class="app-name">Daily Standup</div><div class="app-desc">Activity tracking</div></div></div>
+      <div class="app-card"><span class="app-icon">👥</span><div><div class="app-name">Accounts</div><div class="app-desc">Client management</div></div></div>
+      <div class="app-card"><span class="app-icon">🎨</span><div><div class="app-name">Design Review</div><div class="app-desc">Concept review</div></div></div>
+      <div class="app-card"><span class="app-icon">🕺</span><div><div class="app-name">Roblox Dances</div><div class="app-desc">Motor6D scripts</div></div></div>
+      <div class="app-card"><span class="app-icon">⚽</span><div><div class="app-name">Soccer Training</div><div class="app-desc">Training plans</div></div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

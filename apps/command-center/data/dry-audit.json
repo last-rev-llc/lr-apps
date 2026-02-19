@@ -1,0 +1,30 @@
+{
+  "lastRun": "2026-02-15T06:00:00.000Z",
+  "items": [
+    {"app": "cc-recipes", "file": "index.html", "issue": "Missing cc-app-nav component for navigation", "status": "fixed", "fixedAt": "2026-02-15T06:00:00.000Z"},
+    {"app": "cc-recipes", "file": "docs.html", "issue": "Missing cc-app-nav component for navigation", "status": "fixed", "fixedAt": "2026-02-15T06:00:00.000Z"},
+    {"app": "shared", "file": "modules/cc-gallery.js", "issue": "Empty state used plain div instead of cc-empty-state component", "status": "fixed", "fixedAt": "2026-02-15T06:00:00.000Z"},
+    {"app": "command-center", "file": "modules/cc-gallery.js", "issue": "Local copy of cc-gallery.js out of sync with shared (empty state fix)", "status": "fixed", "fixedAt": "2026-02-15T06:00:00.000Z"},
+    {"app": "cc-gallery", "file": "modules/cc-gallery.js", "issue": "Local copy of cc-gallery.js out of sync with shared (empty state fix)", "status": "fixed", "fixedAt": "2026-02-15T06:00:00.000Z"},
+    {"app": "shared", "file": "components/cc-sidebar.js", "issue": "Empty state used plain text div instead of cc-empty-state component", "status": "fixed", "fixedAt": "2026-02-15T06:00:00.000Z"},
+    {"app": "shared", "file": "theme.css", "issue": "Added shared @keyframes cc-spin and .animate-spin utility", "status": "fixed", "fixedAt": "2026-02-15T06:00:00.000Z"},
+    {"app": "meeting-summaries", "file": "index.html", "issue": "Duplicate @keyframes spin — now uses shared cc-spin", "status": "fixed", "fixedAt": "2026-02-15T06:00:00.000Z"},
+    {"app": "command-center", "file": "summaries.html", "issue": "Duplicate @keyframes spin — now uses shared cc-spin", "status": "fixed", "fixedAt": "2026-02-15T06:00:00.000Z"},
+    {"app": "roblox-dances", "file": "index.html", "issue": "Duplicate @keyframes spin — now uses shared cc-spin", "status": "fixed", "fixedAt": "2026-02-15T06:00:00.000Z"},
+    {"app": "superstars", "file": "index.html", "issue": "271 lines of custom CSS with 23 hardcoded colors and custom @keyframes (hero-glow, bounce) — app-specific theming, needs manual review", "status": "noted"},
+    {"app": "roblox-dances", "file": "index.html", "issue": "112 lines of custom CSS with app-specific @keyframes barPulse — app-specific animation", "status": "noted"},
+    {"app": "uptime", "file": "index.html", "issue": "235 lines of custom CSS with 9 hardcoded colors — complex dashboard layout", "status": "noted"},
+    {"app": "hspt-tutor", "file": "index.html", "issue": "96 lines of custom CSS — app-specific tutor UI", "status": "noted"},
+    {"app": "cc-users", "file": "org-chart.html", "issue": "71 lines of custom CSS with 7 hardcoded colors — org chart specific layout", "status": "noted"},
+    {"app": "command-center", "file": "backlog-meeting.html", "issue": "69 lines custom CSS, 14 hardcoded colors", "status": "noted"},
+    {"app": "command-center", "file": "higgsfield.html", "issue": "58 lines custom CSS, 19 hardcoded colors", "status": "noted"},
+    {"app": "sprint-planning", "file": "index.html", "issue": "69 lines custom CSS, 15 hardcoded colors", "status": "noted"},
+    {"app": "lighthouse", "file": "index.html", "issue": "54 lines custom CSS, 15 hardcoded colors", "status": "noted"},
+    {"app": "meeting-summaries", "file": "index.html", "issue": "59 lines custom CSS, 8 hardcoded colors", "status": "noted"},
+    {"app": "command-center", "file": "summaries.html", "issue": "59 lines custom CSS, 7 hardcoded colors", "status": "noted"},
+    {"app": "shared", "file": "modules/cc-ideas.js", "issue": "Context menu uses inline style.cssText for dynamic positioning — acceptable for popover positioning", "status": "noted"},
+    {"app": "shared", "file": "modules/cc-crons.js", "issue": "Run-now button uses inline styles instead of btn-icon class from theme.css", "status": "noted"},
+    {"app": "hspt-practice", "file": "*", "issue": "React app — skipped (needs source rebuild)", "status": "noted"},
+    {"app": "soccer-training", "file": "*", "issue": "React app — skipped (needs source rebuild)", "status": "noted"}
+  ]
+}

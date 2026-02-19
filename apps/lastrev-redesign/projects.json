@@ -1,0 +1,55 @@
+{
+  "projects": [
+    {
+      "id": "lastrev-redesign",
+      "name": "Last Rev Website Redesign",
+      "description": "4 concept directions for lastrev.com homepage and site redesign",
+      "createdAt": "2026-02-10",
+      "status": "in-review",
+      "concepts": [
+        {"id": "concept-1", "name": "Bold Technical", "file": "concepts/lastrev/concept-1-bold-technical.html", "description": "Bold, engineering-forward identity"},
+        {"id": "concept-2", "name": "Clean Enterprise", "file": "concepts/lastrev/concept-2-clean-enterprise.html", "description": "Polished enterprise SaaS feel"},
+        {"id": "concept-3", "name": "Story Driven", "file": "concepts/lastrev/concept-3-story-driven.html", "description": "Narrative-focused, human approach"},
+        {"id": "concept-4", "name": "Minimal Modern", "file": "concepts/lastrev/concept-4-minimal-modern.html", "description": "Ultra-clean, whitespace-heavy"}
+      ]
+    },
+    {
+      "id": "app-design-system",
+      "name": "App Design System Alternatives",
+      "description": "3 alternative dark-themed design systems for the Command Center shared component library",
+      "createdAt": "2026-02-11",
+      "status": "in-review",
+      "concepts": [
+        {"id": "design-a", "name": "Neon Minimal", "file": "concepts/app-themes/design-a-neon-minimal.html", "description": "Electric cyan accent, ultra-clean, pill buttons, generous whitespace"},
+        {"id": "design-b", "name": "Glass & Depth", "file": "concepts/app-themes/design-b-glass-depth.html", "description": "Glassmorphism, amber/gold accent, frosted effects, serif headings"},
+        {"id": "design-c", "name": "Brutalist Mono", "file": "concepts/app-themes/design-c-brutalist-mono.html", "description": "Pure black, hot red, monospace, terminal aesthetic"}
+      ]
+    },
+    {
+      "id": "dashboard-comparison",
+      "name": "Dashboard Comparison",
+      "description": "Realistic Command Center dashboard mockups comparing the current theme against 3 alternative design systems",
+      "createdAt": "2026-02-11",
+      "status": "in-review",
+      "concepts": [
+        {"id": "dashboard-current", "name": "Current Theme", "file": "concepts/app-themes/dashboard-current.html", "description": "Current purple accent shared theme — baseline for comparison"},
+        {"id": "dashboard-a", "name": "Neon Minimal", "file": "concepts/app-themes/dashboard-a-neon-minimal.html", "description": "Electric cyan, ultra-clean, thin fonts, seamless grid"},
+        {"id": "dashboard-b", "name": "Glass & Depth", "file": "concepts/app-themes/dashboard-b-glass-depth.html", "description": "Amber/gold glassmorphism, frosted panels, serif headings"},
+        {"id": "dashboard-c", "name": "Brutalist Mono", "file": "concepts/app-themes/dashboard-c-brutalist-mono.html", "description": "Terminal aesthetic, monospace, hot red, zero-radius brutalism"}
+      ]
+    },
+    {
+      "id": "lastrev-redesign-v2",
+      "name": "Last Rev Redesign V2 — Frontend Design",
+      "description": "4 bold new concept directions using the frontend-design skill approach — distinctive typography, unexpected layouts, no AI slop",
+      "createdAt": "2026-02-17",
+      "status": "in-review",
+      "concepts": [
+        {"id": "concept-a", "name": "Editorial / Magazine", "file": "concepts/lastrev-v2/concept-a-editorial.html", "description": "Newspaper-inspired editorial layout with Playfair Display, column rules, drop caps, and ink-on-paper aesthetic"},
+        {"id": "concept-b", "name": "Retro-Futurism", "file": "concepts/lastrev-v2/concept-b-retro-futurism.html", "description": "Dark theme with cyan/magenta gradients, scanline overlay, grid background, Syne + Space Grotesk"},
+        {"id": "concept-c", "name": "Maximalist Playful", "file": "concepts/lastrev-v2/concept-c-maximalist.html", "description": "Warm cream background, bold colored shapes, thick borders, Fraunces serif + Outfit sans, shadow-pop cards"},
+        {"id": "concept-d", "name": "Swiss Minimal", "file": "concepts/lastrev-v2/concept-d-swiss-minimal.html", "description": "Ultra-clean 12-column grid, Cormorant Garamond + DM Sans, sticky section labels, blue accent, maximum whitespace"}
+      ]
+    }
+  ]
+}

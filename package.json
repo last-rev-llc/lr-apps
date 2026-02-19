@@ -1,0 +1,5 @@
+{
+  "name": "lr-apps",
+  "version": "1.0.0",
+  "description": "Monorepo for Last Rev apps — wildcard subdomain routing via Vercel"
+}

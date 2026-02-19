@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX Variation: Meeting Summaries v1</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font, system-ui, -apple-system, sans-serif); background: var(--bg, #0f0f1a); color: var(--text, #e2e8f0); min-height: 100vh; }
+
+  .ux-banner { background: linear-gradient(135deg, rgba(245,158,11,.15), rgba(139,92,246,.1)); border: 1px solid rgba(245,158,11,.3); border-radius: 12px; padding: 16px 20px; margin: 16px; font-size: 13px; color: var(--muted, #94a3b8); }
+  .ux-banner strong { color: var(--accent, #f59e0b); }
+
+  .header { padding: 24px 24px 0; }
+  .header h1 { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+  .header .sub { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+
+  /* Stats row — improved with icons */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; padding: 0 24px 20px; }
+  .stat { background: var(--surface, #1a1a2e); border: 1px solid var(--border, #2d2d44); border-radius: 10px; padding: 16px; text-align: center; }
+  .stat-icon { font-size: 24px; margin-bottom: 4px; }
+  .stat-val { font-size: 28px; font-weight: 800; color: var(--accent, #f59e0b); }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; padding: 0 24px; border-bottom: 1px solid var(--border, #2d2d44); margin-bottom: 20px; }
+  .tab { padding: 12px 20px; font-size: 14px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; transition: all .2s; }
+  .tab.active { color: var(--accent, #f59e0b); border-bottom-color: var(--accent, #f59e0b); }
+  .tab:hover { color: var(--text); }
+
+  /* Search + filters */
+  .filters { display: flex; gap: 12px; padding: 0 24px 16px; flex-wrap: wrap; align-items: center; }
+  .search { flex: 1; min-width: 200px; padding: 10px 14px 10px 36px; border-radius: 8px; border: 1px solid var(--border, #2d2d44); background: var(--surface, #1a1a2e); color: var(--text); font-size: 14px; outline: none; }
+  .search:focus { border-color: var(--accent); }
+  .search-wrap { position: relative; flex: 1; min-width: 200px; }
+  .search-wrap::before { content: '🔍'; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; }
+  .filter-chip { padding: 7px 14px; border-radius: 20px; border: 1px solid var(--border, #2d2d44); background: transparent; color: var(--muted); font-size: 12px; font-weight: 600; cursor: pointer; transition: all .2s; }
+  .filter-chip.active { background: rgba(245,158,11,.12); color: var(--accent); border-color: var(--accent); }
+
+  /* Meeting cards — improved visual hierarchy */
+  .meetings { padding: 0 24px 32px; display: flex; flex-direction: column; gap: 12px; }
+
+  .meeting { background: var(--surface, #1a1a2e); border: 1px solid var(--border, #2d2d44); border-radius: 12px; overflow: hidden; transition: border-color .2s; }
+  .meeting:hover { border-color: rgba(245,158,11,.3); }
+
+  .meeting-head { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; }
+  .meeting-indicator { width: 4px; height: 40px; border-radius: 2px; flex-shrink: 0; }
+  .meeting-indicator.productive { background: var(--green, #22c55e); }
+  .meeting-indicator.neutral { background: var(--muted, #64748b); }
+  .meeting-indicator.tense { background: var(--red, #ef4444); }
+
+  .meeting-info { flex: 1; min-width: 0; }
+  .meeting-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .meeting-meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+
+  .badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .badge-client { background: rgba(245,158,11,.15); color: var(--accent); }
+  .badge-duration { background: rgba(59,130,246,.12); color: #60a5fa; }
+  .badge-actions { background: rgba(139,92,246,.12); color: #a78bfa; }
+
+  .chevron { color: var(--muted); transition: transform .3s; font-size: 12px; }
+  .meeting.open .chevron { transform: rotate(180deg); }
+
+  .meeting-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border, #2d2d44); }
+  .meeting.open .meeting-body { display: block; padding-top: 16px; }
+
+  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin: 16px 0 8px; }
+  .section-label:first-child { margin-top: 0; }
+  .summary-text { font-size: 14px; line-height: 1.7; color: var(--text); }
+
+  .decision { display: flex; gap: 8px; padding: 6px 0; font-size: 13px; align-items: baseline; }
+  .decision::before { content: '✅'; flex-shrink: 0; }
+
+  .action-item { background: rgba(255,255,255,.03); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+  .action-owner { font-size: 12px; font-weight: 600; color: var(--accent); }
+  .action-text { font-size: 13px; margin-top: 4px; }
+  .action-due { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  .topics { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .topic-tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: rgba(139,92,246,.1); color: #a78bfa; }
+
+  /* Empty state */
+  .empty { text-align: center; padding: 60px 24px; }
+  .empty .icon { font-size: 48px; margin-bottom: 12px; }
+  .empty p { color: var(--muted); font-size: 16px; }
+
+  @media (max-width: 640px) {
+    .header, .filters, .meetings { padding-left: 16px; padding-right: 16px; }
+    .stats { padding: 0 16px 16px; grid-template-columns: repeat(2, 1fr); }
+    .meeting-head { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ux-banner">
+  <strong>UX Variation:</strong> Meeting Summaries v1 — Sentiment color indicators on left edge, action-item count badges, chip filters for client/sentiment, collapsible detail with progressive disclosure, improved stat cards with icons.
+</div>
+
+<cc-app-nav app="ux-review" title="🎨 UX Review" active="home"></cc-app-nav>
+<cc-toast></cc-toast>
+
+<div class="header">
+  <h1>📝 Meeting Summaries</h1>
+  <div class="sub">Meeting notes, decisions & action items</div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-icon">📅</div><div class="stat-val">24</div><div class="stat-label">Meetings</div></div>
+  <div class="stat"><div class="stat-icon">✅</div><div class="stat-val">38</div><div class="stat-label">Decisions</div></div>
+  <div class="stat"><div class="stat-icon">📋</div><div class="stat-val">15</div><div class="stat-label">Open Actions</div></div>
+  <div class="stat"><div class="stat-icon">👥</div><div class="stat-val">12</div><div class="stat-label">Participants</div></div>
+</div>
+
+<div class="tabs">
+  <div class="tab active">Summaries</div>
+  <div class="tab">Action Items</div>
+  <div class="tab">Calendar</div>
+</div>
+
+<div class="filters">
+  <div class="search-wrap">
+    <input class="search" placeholder="Search meetings, topics, decisions..." id="search">
+  </div>
+  <button class="filter-chip active">All</button>
+  <button class="filter-chip">Client A</button>
+  <button class="filter-chip">Client B</button>
+  <button class="filter-chip">Internal</button>
+</div>
+
+<div class="meetings" id="meetings"></div>
+
+<script>
+const DEMO = [
+  { topic: 'Weekly Sync — Client A Dashboard Launch', date: 'Feb 17, 2026', duration: '45 min', client: 'Client A', sentiment: 'productive', attendees: 'Adam, Sarah, Mike', summary: 'Reviewed dashboard launch timeline. All components passing QA. Decided to push launch to Feb 20 for additional accessibility testing.', decisions: ['Launch date moved to Feb 20', 'Sarah will handle client comms', 'Accessibility audit by Wednesday'], actions: [{ owner: 'Adam', text: 'Run Lighthouse audit on all pages', due: 'Feb 18' }, { owner: 'Sarah', text: 'Draft launch announcement email', due: 'Feb 19' }], topics: ['dashboard', 'launch', 'accessibility'] },
+  { topic: 'Sprint Retro — Team Alpha', date: 'Feb 14, 2026', duration: '30 min', client: 'Internal', sentiment: 'productive', attendees: 'Full team', summary: 'Velocity up 15% this sprint. Discussed improving PR review turnaround. Agreed to pair reviews for complex PRs.', decisions: ['Pair reviews for PRs with 500+ lines', 'Rotate sprint lead weekly'], actions: [{ owner: 'Mike', text: 'Set up review pairing rotation', due: 'Feb 17' }], topics: ['retro', 'process', 'velocity'] },
+  { topic: 'Client B — Feature Scope Discussion', date: 'Feb 13, 2026', duration: '60 min', client: 'Client B', sentiment: 'tense', attendees: 'Adam, Client B PM', summary: 'Client requesting scope expansion beyond SOW. Discussed budget implications. Need follow-up with account lead.', decisions: ['No scope changes without SOW amendment'], actions: [{ owner: 'Adam', text: 'Draft SOW amendment for review', due: 'Feb 18' }, { owner: 'Adam', text: 'Schedule follow-up with account lead', due: 'Feb 14' }], topics: ['scope', 'budget', 'SOW'] },
+  { topic: 'Architecture Review — API Gateway', date: 'Feb 12, 2026', duration: '50 min', client: 'Internal', sentiment: 'neutral', attendees: 'Adam, Mike, Dev team', summary: 'Evaluated API gateway options. Comparing Kong vs AWS API Gateway. Need benchmark data before final decision.', decisions: ['Run benchmarks by end of week'], actions: [{ owner: 'Mike', text: 'Set up benchmark environment', due: 'Feb 16' }], topics: ['architecture', 'API', 'infrastructure'] },
+];
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function render() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const filtered = DEMO.filter(m => !q || m.topic.toLowerCase().includes(q) || m.summary.toLowerCase().includes(q));
+
+  document.getElementById('meetings').innerHTML = filtered.length ? filtered.map(m => `
+    <div class="meeting" onclick="this.classList.toggle('open')">
+      <div class="meeting-head">
+        <div class="meeting-indicator ${esc(m.sentiment)}"></div>
+        <div class="meeting-info">
+          <div class="meeting-title">${esc(m.topic)}</div>
+          <div class="meeting-meta">
+            <span>${esc(m.date)}</span>
+            <span>·</span>
+            <span>${esc(m.attendees)}</span>
+          </div>
+        </div>
+        <span class="badge badge-client">${esc(m.client)}</span>
+        <span class="badge badge-duration">${esc(m.duration)}</span>
+        <span class="badge badge-actions">${m.actions.length} actions</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="meeting-body">
+        <div class="section-label">Summary</div>
+        <div class="summary-text">${esc(m.summary)}</div>
+        <div class="section-label">Key Decisions</div>
+        ${m.decisions.map(d => `<div class="decision">${esc(d)}</div>`).join('')}
+        <div class="section-label">Action Items</div>
+        ${m.actions.map(a => `
+          <div class="action-item">
+            <div class="action-owner">${esc(a.owner)}</div>
+            <div class="action-text">${esc(a.text)}</div>
+            <div class="action-due">Due: ${esc(a.due)}</div>
+          </div>
+        `).join('')}
+        <div class="section-label">Topics</div>
+        <div class="topics">${m.topics.map(t => `<span class="topic-tag">${esc(t)}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('') : '<cc-empty-state message="No meetings match your search" icon="📭" animation="none"></cc-empty-state>';
+}
+
+document.getElementById('search').addEventListener('input', render);
+render();
+</script>
+</body>
+</html>

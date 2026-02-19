@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="Uptime Status — Site Monitoring — Last Rev"
+    description="Real-time uptime monitoring for client websites with response time tracking, SSL expiry alerts, and detailed incident history."
+    canonical="https://lastrev.com/apps/uptime-status.html"
+    og-image="/images/og-default.png"
+  ></lr-head>
+
+  <lr-layout active="apps" cta-text="Get in Touch" cta-href="./index.html#contact">
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.2" height="100vh">
+    <div class="hero-inner">
+      <cc-fade-in><div class="neon-icon-lg neon-amber" style="font-size:64px">📡</div></cc-fade-in>
+      <cc-fade-in delay="80"><span class="lp-eyebrow">Real-Time Monitoring</span></cc-fade-in>
+      <cc-fade-in delay="160"><h1 class="lp-h1">Know Before<br>Your Clients Do.</h1></cc-fade-in>
+      <cc-fade-in delay="240"><p class="lp-body-lg" style="margin:0 auto;">Real-time uptime monitoring for client websites with response time tracking, SSL expiry alerts, and detailed incident history.</p></cc-fade-in>
+      <cc-fade-in delay="320">
+        <div class="hero-ctas">
+          <a href="../apps.html" class="btn-ghost">← Back to Apps</a>
+          <a href="#features" class="btn-primary">See Features ↓</a>
+        </div>
+      </cc-fade-in>
+    </div>
+  </cc-parallax>
+
+  <div class="lp-divider"></div>
+  <section class="lp-section" id="features">
+    <cc-fade-in>
+      <span class="lp-eyebrow">Key Features</span>
+      <h2 class="lp-h2">What It Does</h2>
+    </cc-fade-in>
+    <cc-stagger delay="60">
+      <div class="features-grid">
+        <div class="feature-card glass">
+          <div class="neon-icon neon-amber"><i data-lucide="wifi"></i></div>
+          <h3>Uptime Checks</h3>
+          <p>Multi-region monitoring every 60 seconds. HTTP, HTTPS, TCP, and DNS checks ensure your sites are reachable from everywhere.</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="neon-icon neon-violet"><i data-lucide="clock"></i></div>
+          <h3>Response Times</h3>
+          <p>Track page load times and TTFB across regions. Historical charts show performance trends and help identify degradation early.</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="neon-icon neon-blue"><i data-lucide="shield-check"></i></div>
+          <h3>SSL Monitoring</h3>
+          <p>Automatic SSL certificate expiry tracking with 30, 14, and 7-day advance warnings. Never let a cert expire unexpectedly.</p>
+        </div>
+        <div class="feature-card glass">
+          <div class="neon-icon neon-green"><i data-lucide="file-warning"></i></div>
+          <h3>Incident History</h3>
+          <p>Complete incident timeline with root cause tagging, duration tracking, and resolution notes. Calculate real SLA numbers with confidence.</p>
+        </div>
+      </div>
+    </cc-stagger>
+  </section>
+
+  <div class="lp-divider"></div>
+  <cc-parallax bg-color="transparent" overlay="transparent" speed="0.15" height="auto">
+    <div class="lp-section">
+      <cc-fade-in>
+        <span class="lp-eyebrow">How it works</span>
+        <h2 class="lp-h2">Up and Running in Minutes</h2>
+      </cc-fade-in>
+      <div class="steps-list">
+        <cc-fade-in delay="0"><div class="step-row"><div class="step-num"></div><div><h3>Add Your Sites</h3><p>Enter URLs and AlphaClaw starts monitoring immediately — checks from multiple global regions every 60 seconds.</p></div></div></cc-fade-in>
+        <cc-fade-in delay="80"><div class="step-row"><div class="step-num"></div><div><h3>Get Alerted Instantly</h3><p>Slack notifications the moment a site goes down or response times spike. Escalation rules ensure the right person knows.</p></div></div></cc-fade-in>
+        <cc-fade-in delay="160"><div class="step-row"><div class="step-num"></div><div><h3>Review &amp; Report</h3><p>Monthly uptime reports generated automatically. Share with clients to demonstrate reliability and SLA compliance.</p></div></div></cc-fade-in>
+      </div>
+    </div>
+  </cc-parallax>
+
+  <div class="lp-divider"></div>
+  <cc-parallax bg-color="transparent" overlay="transparent" speed="0.18" height="auto">
+    <div class="cta-final">
+      <div class="cta-glow"></div>
+      <cc-fade-in>
+        <span class="lp-eyebrow">Ready?</span>
+        <h2 class="lp-h2">Uptime Peace of Mind.</h2>
+        <p class="lp-body" style="margin:0 auto 44px;">24/7 monitoring that alerts you before your clients even notice.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;">
+          <a href="./index.html#contact" class="btn-primary">Get in Touch →</a>
+          <a href="../apps.html" class="btn-ghost">View All Apps</a>
+        </div>
+      </cc-fade-in>
+    </div>
+  </cc-parallax>
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Uptime Status Monitoring",
+    "description": "Real-time uptime monitoring for client websites with response time tracking, SSL expiry alerts, and detailed incident history.",
+    "url": "https://lastrev.com/apps/uptime-status.html",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "USD"
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com"
+    },
+    "featureList": [
+      "Multi-region uptime monitoring",
+      "Response time tracking", 
+      "SSL certificate monitoring",
+      "Incident history and reporting"
+    ]
+  }
+  </script>
+
+</body>
+</html>

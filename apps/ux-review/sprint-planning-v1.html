@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📋 Sprint Planning — UX Variation v1</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  .ux-banner {
+    background: linear-gradient(135deg, rgba(245,158,11,.15), rgba(139,92,246,.15));
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ux-banner strong { color: var(--accent); }
+
+  .sprint-hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 20px 0;
+  }
+  .sprint-hero h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 4px;
+  }
+  .sprint-hero p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 4px;
+  }
+  .sprint-hero-meta {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* Sprint health bar */
+  .sprint-health {
+    max-width: 900px;
+    margin: 24px auto 0;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .health-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: border-color .2s;
+  }
+  .health-card:hover { border-color: var(--accent); }
+  .health-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .health-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .health-value.red { color: #ef4444; }
+  .health-value.green { color: #22c55e; }
+  .health-value.amber { color: var(--accent); }
+  .health-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .health-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width .6s ease;
+  }
+
+  /* Client sections */
+  .sprint-content {
+    max-width: 900px;
+    margin: 32px auto 0;
+    padding: 0 20px 40px;
+  }
+  .client-section {
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .client-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border-bottom: 2px solid var(--accent);
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .client-header:hover { background: rgba(255,255,255,.04); }
+  .client-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    flex-shrink: 0;
+  }
+  .client-name {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .client-stats {
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .client-stat-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .client-stat-badge.blocked { background: rgba(239,68,68,.15); color: #ef4444; }
+  .client-stat-badge.progress { background: rgba(245,158,11,.15); color: var(--accent); }
+  .client-stat-badge.done { background: rgba(34,197,94,.15); color: #22c55e; }
+
+  /* Status groups */
+  .status-group {
+    border-bottom: 1px solid var(--border);
+  }
+  .status-group:last-child { border-bottom: none; }
+  .status-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,.02);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .status-dot.blocked { background: #ef4444; }
+  .status-dot.in-progress { background: var(--accent); }
+  .status-dot.in-review { background: #8b5cf6; }
+  .status-dot.not-started { background: var(--muted); }
+
+  /* Items */
+  .sprint-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: background .2s, transform .15s;
+  }
+  .sprint-item:hover {
+    background: rgba(255,255,255,.03);
+    transform: translateX(4px);
+  }
+  .sprint-item:last-child { border-bottom: none; }
+  .item-priority-bar {
+    width: 3px;
+    min-height: 32px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    align-self: stretch;
+  }
+  .item-priority-bar.high { background: #ef4444; }
+  .item-priority-bar.medium { background: var(--accent); }
+  .item-priority-bar.low { background: #22c55e; }
+  .item-body { flex: 1; min-width: 0; }
+  .item-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .item-title a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .item-title a:hover { text-decoration: underline; }
+  .item-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .item-assignee {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .item-assignee-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .item-due {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 1px 8px;
+    border-radius: 4px;
+  }
+  .item-due.overdue { background: rgba(239,68,68,.12); color: #ef4444; }
+  .item-due.soon { background: rgba(245,158,11,.12); color: var(--accent); }
+  .item-summary {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-top: 4px;
+  }
+  .source-pill {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(245,158,11,.08);
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .source-pill:hover { background: rgba(245,158,11,.18); }
+
+  @media (max-width: 600px) {
+    .sprint-health { grid-template-columns: repeat(2, 1fr); }
+    .client-stats { display: none; }
+    .client-header { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ux-banner">
+  🎨 <strong>UX Review</strong> — Sprint Planning — Variation 1 — Feb 15, 2026 — Health metrics bar, priority color bars on items, cleaner client sections with rounded cards
+</div>
+
+<cc-app-nav app="sprint-planning" title="📋 Sprint Planning" active="home"></cc-app-nav>
+<cc-toast></cc-toast>
+
+<cc-fade-in>
+  <div class="sprint-hero">
+    <h1>📋 Sprint Planning</h1>
+    <p>Friday meeting with Krista — what's outstanding & next week's priorities</p>
+    <div class="sprint-hero-meta">Last updated: Feb 14, 2026 4:30 PM PT</div>
+  </div>
+</cc-fade-in>
+
+<cc-stagger animation="fade-up" delay="60">
+  <div class="sprint-health">
+    <div class="health-card">
+      <div class="health-label">Total Items</div>
+      <div class="health-value">23</div>
+    </div>
+    <div class="health-card">
+      <div class="health-label">Blocked</div>
+      <div class="health-value red">3</div>
+      <div class="health-bar"><div class="health-bar-fill" style="width:13%;background:#ef4444"></div></div>
+    </div>
+    <div class="health-card">
+      <div class="health-label">In Progress</div>
+      <div class="health-value amber">8</div>
+      <div class="health-bar"><div class="health-bar-fill" style="width:35%;background:var(--accent)"></div></div>
+    </div>
+    <div class="health-card">
+      <div class="health-label">Completed</div>
+      <div class="health-value green">12</div>
+      <div class="health-bar"><div class="health-bar-fill" style="width:52%;background:#22c55e"></div></div>
+    </div>
+  </div>
+</cc-stagger>
+
+<div class="sprint-content">
+  <cc-stagger animation="fade-up" delay="100">
+
+    <!-- Client 1 -->
+    <div class="client-section">
+      <div class="client-header">
+        <div class="client-logo">AC</div>
+        <span class="client-name">Acme Corp</span>
+        <div class="client-stats">
+          <span class="client-stat-badge blocked">1 blocked</span>
+          <span class="client-stat-badge progress">3 in progress</span>
+          <span class="client-stat-badge done">5 done</span>
+        </div>
+      </div>
+
+      <div class="status-group">
+        <div class="status-header">
+          <span class="status-dot blocked"></span>
+          🛑 Blocked (1)
+        </div>
+        <div class="sprint-item">
+          <div class="item-priority-bar high"></div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">API Gateway — Rate Limiting Config</a></div>
+            <div class="item-meta">
+              <span class="item-assignee"><span class="item-assignee-dot"></span> Marcus</span>
+              <span class="item-due overdue">📅 Overdue</span>
+              <a href="#" class="source-pill">🎫 ACME-342</a>
+            </div>
+            <div class="item-summary">Waiting on DevOps to provision the new rate limiter. ETA unknown.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-group">
+        <div class="status-header">
+          <span class="status-dot in-progress"></span>
+          🔄 In Progress (3)
+        </div>
+        <div class="sprint-item">
+          <div class="item-priority-bar high"></div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">User Dashboard — Performance Optimization</a></div>
+            <div class="item-meta">
+              <span class="item-assignee"><span class="item-assignee-dot"></span> Sarah</span>
+              <span class="item-due soon">📅 Due Feb 18</span>
+              <a href="#" class="source-pill">🎫 ACME-338</a>
+            </div>
+          </div>
+        </div>
+        <div class="sprint-item">
+          <div class="item-priority-bar medium"></div>
+          <div class="item-body">
+            <div class="item-title">Contentful Migration — Blog Templates</div>
+            <div class="item-meta">
+              <span class="item-assignee"><span class="item-assignee-dot"></span> Jake</span>
+              <a href="#" class="source-pill">💬 #acme-dev</a>
+            </div>
+          </div>
+        </div>
+        <div class="sprint-item">
+          <div class="item-priority-bar low"></div>
+          <div class="item-body">
+            <div class="item-title">Analytics Integration — GA4 Event Tracking</div>
+            <div class="item-meta">
+              <span class="item-assignee"><span class="item-assignee-dot"></span> Kim</span>
+              <a href="#" class="source-pill">🎫 ACME-345</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Client 2 -->
+    <div class="client-section">
+      <div class="client-header">
+        <div class="client-logo">NT</div>
+        <span class="client-name">NovaTech</span>
+        <div class="client-stats">
+          <span class="client-stat-badge blocked">2 blocked</span>
+          <span class="client-stat-badge progress">2 in progress</span>
+          <span class="client-stat-badge done">4 done</span>
+        </div>
+      </div>
+
+      <div class="status-group">
+        <div class="status-header">
+          <span class="status-dot blocked"></span>
+          🛑 Blocked (2)
+        </div>
+        <div class="sprint-item">
+          <div class="item-priority-bar high"></div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">SSO Integration — SAML Config</a></div>
+            <div class="item-meta">
+              <span class="item-assignee"><span class="item-assignee-dot"></span> Dev Team</span>
+              <span class="item-due overdue">📅 Overdue</span>
+              <a href="#" class="source-pill">🎫 NOVA-128</a>
+            </div>
+            <div class="item-summary">Client hasn't provided IdP metadata. Follow up Monday.</div>
+          </div>
+        </div>
+        <div class="sprint-item">
+          <div class="item-priority-bar medium"></div>
+          <div class="item-body">
+            <div class="item-title">Design Review — Homepage v3</div>
+            <div class="item-meta">
+              <span class="item-assignee"><span class="item-assignee-dot"></span> Design</span>
+              <a href="#" class="source-pill">📹 Zoom recap</a>
+            </div>
+            <div class="item-summary">Awaiting client feedback on latest mockups.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-group">
+        <div class="status-header">
+          <span class="status-dot in-review"></span>
+          👀 In Review (2)
+        </div>
+        <div class="sprint-item">
+          <div class="item-priority-bar medium"></div>
+          <div class="item-body">
+            <div class="item-title"><a href="#">Content Workflow — Approval Chain</a></div>
+            <div class="item-meta">
+              <span class="item-assignee"><span class="item-assignee-dot"></span> Laura</span>
+              <a href="#" class="source-pill">🎫 NOVA-132</a>
+            </div>
+          </div>
+        </div>
+        <div class="sprint-item">
+          <div class="item-priority-bar low"></div>
+          <div class="item-body">
+            <div class="item-title">Search — Algolia Index Tuning</div>
+            <div class="item-meta">
+              <span class="item-assignee"><span class="item-assignee-dot"></span> Ravi</span>
+              <a href="#" class="source-pill">🎫 NOVA-135</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </cc-stagger>
+</div>
+
+<!-- IMPLEMENTATION PROMPT: Update sprint-planning/index.html: Replace cc-nav+sticky-header+floating docs link with cc-app-nav app='sprint-planning' title='📋 Sprint Planning'. Add a sprint health summary bar below the hero: 4-card grid showing Total Items, Blocked (red), In Progress (amber), Completed (green) with progress bars — calculated dynamically from data. Wrap client sections in rounded 12px border cards with client logo initials (gradient avatar), name, and stat badges (blocked/progress/done counts). Add 3px priority color bars (red=high, amber=medium, green=low) on the left side of each item. Add hover translateX(4px) on items. Add source pills with colored backgrounds. Wrap hero in cc-fade-in, health stats in cc-stagger delay=60, client sections in cc-stagger delay=100. Mobile: 2-col health grid, hide client stats badges. Keep existing tabs (Agenda/Archives) and all JS logic. -->
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>📼 GenX — Docs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<script src="modules/gen-x-summary.js"></script>
+</head>
+<body>
+<cc-app-nav app="gen-x" title="📼 GenX" active="docs"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<style>
+  .showcase-layout { display: flex; min-height: 100vh; }
+  .showcase-sidebar { width: 260px; background: var(--card); border-right: 1px solid var(--border); position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; }
+  .showcase-content { flex: 1; padding: 40px; max-width: calc(100vw - 260px); overflow-x: hidden; }
+  .sidebar-nav { padding: 24px 16px; }
+  .sidebar-nav .nav-title { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+  .sidebar-nav .nav-title h2 { font-family: var(--serif); font-size: 18px; font-weight: 700; margin: 0; }
+  .sidebar-nav .nav-group { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin: 18px 0 6px 8px; }
+  .sidebar-nav a { display: flex; align-items: center; gap: 6px; padding: 5px 10px; color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 500; border-radius: 6px; margin-bottom: 1px; transition: all 0.15s; }
+  .sidebar-nav a:hover { background: rgba(245,158,11,0.12); color: var(--accent); }
+  .showcase-section { margin-bottom: 56px; scroll-margin-top: 24px; }
+  .showcase-section > h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 20px; }
+  .showcase-section h3 { font-size: 16px; font-weight: 600; margin: 24px 0 10px; }
+  .component-summary { color: var(--muted); font-size: 13px; margin: -12px 0 16px; }
+  .prompt-block { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; white-space: pre-wrap; overflow-x: auto; line-height: 1.6; }
+  @media (max-width: 768px) { .showcase-layout { flex-direction: column; } .showcase-sidebar { width: 100%; height: auto; position: relative; } .showcase-content { padding: 20px; max-width: 100%; } }
+</style>
+
+<div class="showcase-layout">
+  <div class="showcase-sidebar">
+    <div class="sidebar-nav">
+      <div class="nav-title"><span>📼</span> <h2>GenX Docs</h2></div>
+      <div class="nav-group">Embeddable Modules</div>
+      <a href="#summary-widget">📊 Summary Widget</a>
+      <div class="nav-group">Reference</div>
+      <a href="#data-format">📄 Data Format</a>
+      <a href="#categories">🏷️ Categories</a>
+      <a href="#theming">🎨 Theming</a>
+      <div class="nav-group">Links</div>
+      <a href="https://shared.adam-harris.alphaclaw.app" target="_blank">↗ Shared Library</a>
+    </div>
+  </div>
+
+  <div class="showcase-content">
+    <cc-fade-in>
+      <h1>📼 GenX — Module Docs</h1>
+      <p>Embeddable modules for your command center dashboard.</p>
+    </cc-fade-in>
+
+    <section id="summary-widget" class="showcase-section">
+      <h2>📊 Summary Widget</h2>
+      <p class="component-summary">A compact dashboard widget showing term count, average vibe score, top terms, and category breakdown.</p>
+
+      <h3>Usage</h3>
+      <div class="prompt-block">&lt;gen-x-summary src="data/slang.json"&gt;&lt;/gen-x-summary&gt;</div>
+
+      <h3>Attributes</h3>
+      <table class="attr-table" style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <thead><tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Attribute</th>
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Type</th>
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Description</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px;"><code>src</code></td>
+            <td style="padding:8px;">String</td>
+            <td style="padding:8px;">Path to slang JSON data file</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Live Example</h3>
+      <div class="card" style="padding:20px;">
+        <gen-x-summary src="data/slang.json"></gen-x-summary>
+      </div>
+
+      <h3>Embed in Your Command Center</h3>
+      <div class="prompt-block">&lt;script src="https://gen-x.adam-harris.alphaclaw.app/modules/gen-x-summary.js"&gt;&lt;/script&gt;
+&lt;gen-x-summary src="https://gen-x.adam-harris.alphaclaw.app/data/slang.json"&gt;&lt;/gen-x-summary&gt;</div>
+    </section>
+
+    <section id="data-format" class="showcase-section">
+      <h2>📄 Data Format</h2>
+      <p>Each slang term in <code>data/slang.json</code> has the following fields:</p>
+      <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <thead><tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Field</th>
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Type</th>
+          <th style="text-align:left;padding:8px;color:var(--muted);font-size:13px;">Description</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>id</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Unique slug identifier</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>term</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Display name of the slang term</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>definition</code></td><td style="padding:8px;">String</td><td style="padding:8px;">What the term means</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>example</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Example sentence using the term</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>category</code></td><td style="padding:8px;">String</td><td style="padding:8px;">One of: Approval, Disapproval, Greeting, Lifestyle, Insult, Reaction, Internet Culture</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>vibeScore</code></td><td style="padding:8px;">Number</td><td style="padding:8px;">1-10 rating of how hard the term hits</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>origin</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Where the term originated</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>aliases</code></td><td style="padding:8px;">Array</td><td style="padding:8px;">Alternative spellings or variations</td></tr>
+          <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px;"><code>era</code></td><td style="padding:8px;">String</td><td style="padding:8px;">Time period the term emerged (80s, 90s, early 2000s)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="categories" class="showcase-section">
+      <h2>🏷️ Categories</h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;">
+        <span class="badge" style="background:rgba(34,197,94,.15);color:#22c55e;padding:6px 14px;border-radius:8px;">🤙 Approval</span>
+        <span class="badge" style="background:rgba(239,68,68,.15);color:#ef4444;padding:6px 14px;border-radius:8px;">💀 Insult</span>
+        <span class="badge" style="background:rgba(234,179,8,.15);color:#eab308;padding:6px 14px;border-radius:8px;">⚡ Reaction</span>
+        <span class="badge" style="background:rgba(139,92,246,.15);color:#8b5cf6;padding:6px 14px;border-radius:8px;">🛹 Lifestyle</span>
+        <span class="badge" style="background:rgba(249,115,22,.15);color:#f97316;padding:6px 14px;border-radius:8px;">👎 Disapproval</span>
+        <span class="badge" style="background:rgba(6,182,212,.15);color:#06b6d4;padding:6px 14px;border-radius:8px;">🤝 Greeting</span>
+        <span class="badge" style="background:rgba(236,72,153,.15);color:#ec4899;padding:6px 14px;border-radius:8px;">📺 Internet Culture</span>
+      </div>
+    </section>
+
+    <section id="theming" class="showcase-section">
+      <h2>🎨 Theming</h2>
+      <p>The component uses standard theme.css variables. Category colors are hardcoded:</p>
+      <div class="prompt-block">Approval: #22c55e
+Insult: #ef4444
+Reaction: #eab308
+Lifestyle: #8b5cf6
+Disapproval: #f97316
+Greeting: #06b6d4
+Internet Culture: #ec4899</div>
+      <p>Vibe score bars use a 10-color gradient scale from red (1) to green (10).</p>
+    </section>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Last Rev — Swiss Minimal Concept</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Cormorant+Garamond:wght@300;400;600;700&family=Azeret+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#fefefe;--ink:#111;--mid:#666;--light:#aaa;--rule:#e0e0e0;--accent:#0047ff;--cols:12;--gutter:1.5rem}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;line-height:1.7;overflow-x:hidden}
+::selection{background:var(--accent);color:#fff}
+
+.grid{max-width:1120px;margin:0 auto;padding:0 var(--gutter);display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter)}
+
+/* Nav — minimal top bar */
+.nav{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 0;border-bottom:1px solid var(--rule)}
+.nav .logo{font-weight:700;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase}
+.nav .logo .dot{color:var(--accent)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.15em;text-decoration:none;color:var(--mid);transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+
+/* Hero — asymmetric grid placement */
+.hero{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);padding:6rem 0 4rem;align-items:end}
+.hero-text{grid-column:1/8}
+.hero-meta{grid-column:9/13;align-self:end;padding-bottom:.5rem}
+.hero .overline{font-family:'Azeret Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.4em;color:var(--accent);margin-bottom:1.5rem}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:5.5rem;font-weight:300;line-height:.95;letter-spacing:-.03em}
+.hero h1 strong{font-weight:700}
+.hero-meta p{font-size:.85rem;color:var(--mid);line-height:1.7;margin-bottom:1.5rem}
+.hero-meta .ctas{display:flex;gap:.8rem}
+.btn-swiss{display:inline-block;padding:.6rem 1.6rem;font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.12em;text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);transition:all .2s}
+.btn-swiss:hover{background:var(--ink);color:var(--bg)}
+.btn-swiss.fill{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-swiss.fill:hover{background:#0035cc}
+
+/* Divider */
+.divider{grid-column:1/-1;height:1px;background:var(--rule);margin:1rem 0}
+
+/* Section label */
+.sec-label{grid-column:1/4;position:sticky;top:2rem;align-self:start}
+.sec-label .num{font-family:'Azeret Mono',monospace;font-size:.55rem;color:var(--light);letter-spacing:.15em;display:block;margin-bottom:.3rem}
+.sec-label h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;line-height:1.1}
+.sec-label p{font-size:.78rem;color:var(--mid);margin-top:.4rem;line-height:1.6}
+
+/* Content area */
+.sec-content{grid-column:5/13}
+
+/* Service items */
+.svc-list{display:flex;flex-direction:column;gap:0}
+.svc-item{display:grid;grid-template-columns:2rem 1fr;gap:1rem;padding:1.2rem 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.svc-item .svc-num{font-family:'Azeret Mono',monospace;font-size:.6rem;color:var(--light)}
+.svc-item h4{font-weight:700;font-size:.95rem;margin-bottom:.2rem}
+.svc-item p{font-size:.82rem;color:var(--mid);line-height:1.6}
+
+/* Stats — horizontal rule-separated */
+.stats-bar{grid-column:1/-1;display:flex;justify-content:space-between;padding:2.5rem 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.stats-bar .stat{text-align:center;flex:1}
+.stats-bar .stat:not(:last-child){border-right:1px solid var(--rule)}
+.stats-bar .stat .val{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;line-height:1;color:var(--ink)}
+.stats-bar .stat .lbl{font-family:'Azeret Mono',monospace;font-size:.5rem;text-transform:uppercase;letter-spacing:.3em;color:var(--light);margin-top:.3rem}
+
+/* Product cards — clean, aligned */
+.prod-list{display:flex;flex-direction:column;gap:1.5rem}
+.prod-item{display:grid;grid-template-columns:1fr 2fr;gap:2rem;padding:1.5rem 0;border-bottom:1px solid var(--rule)}
+.prod-item .prod-left h4{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;margin-bottom:.2rem}
+.prod-item .prod-left .tag{font-family:'Azeret Mono',monospace;font-size:.55rem;text-transform:uppercase;letter-spacing:.2em;color:var(--accent)}
+.prod-item .prod-right{font-size:.85rem;color:var(--mid);line-height:1.7;display:flex;align-items:center}
+
+/* Industries — compact grid */
+.ind-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+.ind-cell{padding:1rem 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:1.5rem 1fr;gap:.8rem;align-items:baseline}
+.ind-cell:nth-child(odd){padding-right:1.5rem;border-right:1px solid var(--rule)}
+.ind-cell:nth-child(even){padding-left:1.5rem}
+.ind-cell .ind-mark{width:8px;height:8px;background:var(--accent);border-radius:50%;margin-top:.3rem}
+.ind-cell h5{font-weight:700;font-size:.85rem}
+.ind-cell p{font-size:.78rem;color:var(--mid);line-height:1.5;grid-column:2}
+
+/* CTA */
+.cta-section{grid-column:1/-1;padding:5rem 0;text-align:center}
+.cta-section h2{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;margin-bottom:.5rem;line-height:1.05}
+.cta-section h2 strong{font-weight:700}
+.cta-section p{color:var(--mid);margin-bottom:2rem;font-size:.95rem}
+.cta-section .ctas{display:flex;gap:.8rem;justify-content:center}
+
+/* Footer */
+.footer{grid-column:1/-1;text-align:center;padding:2rem 0;border-top:1px solid var(--rule);font-family:'Azeret Mono',monospace;font-size:.55rem;text-transform:uppercase;letter-spacing:.2em;color:var(--light)}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(15px);transition:opacity .5s ease,transform .5s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* Section wrapper */
+.sec-row{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gutter);padding:3rem 0}
+
+@media(max-width:768px){
+  .hero{padding:4rem 0 2rem}
+  .hero-text{grid-column:1/-1}
+  .hero-meta{grid-column:1/-1}
+  .hero h1{font-size:3rem}
+  .sec-label{grid-column:1/-1;position:static;margin-bottom:1.5rem}
+  .sec-content{grid-column:1/-1}
+  .sec-row{display:flex;flex-direction:column}
+  .stats-bar{flex-wrap:wrap}
+  .stats-bar .stat{min-width:50%;border-right:none!important;padding:.8rem 0}
+  .ind-grid{grid-template-columns:1fr}
+  .ind-cell:nth-child(odd){border-right:none;padding-right:0}
+  .ind-cell:nth-child(even){padding-left:0}
+  .prod-item{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="grid">
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="logo">LAST REV<span class="dot">.</span></div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#products">AI Suite</a>
+      <a href="#industries">Industries</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero reveal">
+    <div class="hero-text">
+      <div class="overline">AI, Automation & Business Apps</div>
+      <h1>Build <strong>Smarter</strong>.<br>Ship <strong>Faster</strong>.</h1>
+    </div>
+    <div class="hero-meta">
+      <p>Last Rev builds intelligent business applications with AI, automation, and modern web architecture. Complex problems become elegant, scalable solutions.</p>
+      <div class="ctas">
+        <a href="#contact" class="btn-swiss fill">Start a Project</a>
+        <a href="#services" class="btn-swiss">Services ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar reveal">
+    <div class="stat"><div class="val">200+</div><div class="lbl">Projects</div></div>
+    <div class="stat"><div class="val">50+</div><div class="lbl">Clients</div></div>
+    <div class="stat"><div class="val">10+</div><div class="lbl">Years</div></div>
+    <div class="stat"><div class="val">99%</div><div class="lbl">Retention</div></div>
+  </div>
+
+  <!-- Services -->
+  <div class="sec-row reveal" id="services">
+    <div class="sec-label">
+      <span class="num">01</span>
+      <h3>Services</h3>
+      <p>Full-stack intelligence — from AI workflows to production web apps.</p>
+    </div>
+    <div class="sec-content">
+      <div class="svc-list">
+        <div class="svc-item"><div class="svc-num">01</div><div><h4>AI & Automation</h4><p>Custom AI agents, workflow automation, intelligent integrations that eliminate manual work.</p></div></div>
+        <div class="svc-item"><div class="svc-num">02</div><div><h4>Web Applications</h4><p>React, Next.js, headless CMS. Modern, performant apps designed for scale from day one.</p></div></div>
+        <div class="svc-item"><div class="svc-num">03</div><div><h4>Business Applications</h4><p>Internal tools, dashboards, operational platforms. Data-driven insights for your team.</p></div></div>
+        <div class="svc-item"><div class="svc-num">04</div><div><h4>Headless CMS</h4><p>Contentful, Sanity, composable architecture patterns. Flexible, structured content at scale.</p></div></div>
+        <div class="svc-item"><div class="svc-num">05</div><div><h4>Performance & DevOps</h4><p>CI/CD, cloud infrastructure, optimization. Fast and reliable, always.</p></div></div>
+        <div class="svc-item"><div class="svc-num">06</div><div><h4>Team Augmentation</h4><p>Embedded engineers with deep JavaScript, AI, and cloud platform expertise.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Products -->
+  <div class="sec-row reveal" id="products">
+    <div class="sec-label">
+      <span class="num">02</span>
+      <h3>AI Suite</h3>
+      <p>Three products. One intelligent ecosystem.</p>
+    </div>
+    <div class="sec-content">
+      <div class="prod-list">
+        <div class="prod-item">
+          <div class="prod-left"><h4>AlphaClaw</h4><div class="tag">Infrastructure</div></div>
+          <div class="prod-right">Enterprise deployment platform. One command, zero inbound ports, SSM-only access, per-user dashboards. AI assistants for your entire team.</div>
+        </div>
+        <div class="prod-item">
+          <div class="prod-left"><h4>Alpha Agent</h4><div class="tag">Personal AI</div></div>
+          <div class="prod-right">Your AI operations partner. Memory, tools, automation, web apps — all from chat. Learns workflows, manages projects, builds what you need.</div>
+        </div>
+        <div class="prod-item">
+          <div class="prod-left"><h4>Answer Agent</h4><div class="tag">Customer AI</div></div>
+          <div class="prod-right">Customer-facing AI agents for sales, support, marketing. No code. Trained on your content, deployed in minutes, infinite scale.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Industries -->
+  <div class="sec-row reveal" id="industries">
+    <div class="sec-label">
+      <span class="num">03</span>
+      <h3>Industries</h3>
+      <p>Startups to Fortune 500, every sector.</p>
+    </div>
+    <div class="sec-content">
+      <div class="ind-grid">
+        <div class="ind-cell"><div class="ind-mark"></div><div><h5>Healthcare</h5><p>Patient portals, HIPAA-ready platforms, data integration.</p></div></div>
+        <div class="ind-cell"><div class="ind-mark"></div><div><h5>E-Commerce</h5><p>Headless commerce, personalization, high-perf storefronts.</p></div></div>
+        <div class="ind-cell"><div class="ind-mark"></div><div><h5>Financial Services</h5><p>Secure dashboards, automated reporting, real-time viz.</p></div></div>
+        <div class="ind-cell"><div class="ind-mark"></div><div><h5>Education</h5><p>LMS, content delivery, student engagement tools.</p></div></div>
+        <div class="ind-cell"><div class="ind-mark"></div><div><h5>Manufacturing</h5><p>Ops dashboards, supply chain, IoT-connected apps.</p></div></div>
+        <div class="ind-cell"><div class="ind-mark"></div><div><h5>SaaS & Tech</h5><p>Multi-tenant platforms, dev tools, AI features.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CTA -->
+  <section class="cta-section reveal" id="contact">
+    <h2>Let's Create<br><strong>Something Extraordinary</strong></h2>
+    <p>Full product builds, AI integration, or team augmentation — we're ready to help you ship.</p>
+    <div class="ctas">
+      <a href="mailto:hello@lastrev.com" class="btn-swiss fill">hello@lastrev.com</a>
+      <a href="https://lastrev.com" class="btn-swiss">lastrev.com →</a>
+    </div>
+  </section>
+
+  <div class="footer">© 2026 Last Rev · Chicago, IL · AI, Automation & Business App Development</div>
+
+</div>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(i=>{if(i.isIntersecting){i.target.classList.add('visible');obs.unobserve(i.target)}})},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

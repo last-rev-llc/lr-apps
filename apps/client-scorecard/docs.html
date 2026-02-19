@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <title>🏥 Client Scorecard — Docs</title>
+  <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+  <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+  <style>
+    .showcase-layout { display: flex; min-height: 100vh; }
+    .showcase-sidebar {
+      width: 260px; background: var(--card); border-right: 1px solid var(--border);
+      position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0;
+    }
+    .showcase-content { flex: 1; padding: 40px; max-width: calc(100vw - 260px); overflow-x: hidden; }
+    .sidebar-nav { padding: 24px 16px; }
+    .sidebar-nav .nav-title { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .sidebar-nav .nav-title h2 { font-family: var(--serif); font-size: 18px; font-weight: 700; margin: 0; }
+    .sidebar-nav .nav-group { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin: 18px 0 6px 8px; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 10px; color: var(--muted); text-decoration: none; font-size: 12px;
+      font-weight: 500; border-radius: 6px; margin-bottom: 1px; transition: all 0.15s;
+    }
+    .sidebar-nav a:hover { background: rgba(245,158,11,0.12); color: var(--accent); }
+    .showcase-section { margin-bottom: 56px; scroll-margin-top: 24px; }
+    .showcase-section > h2 {
+      font-family: var(--serif); font-size: 24px; font-weight: 700;
+      border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 20px;
+    }
+    .showcase-section h3 { font-size: 16px; font-weight: 600; margin: 24px 0 10px; }
+    .component-summary { color: var(--muted); font-size: 13px; margin: -12px 0 16px; }
+    .prompt-block { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; white-space: pre-wrap; overflow-x: auto; line-height: 1.6; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; margin-bottom: 16px; }
+    .back-link:hover { text-decoration: underline; }
+    @media (max-width: 768px) {
+      .showcase-layout { flex-direction: column; }
+      .showcase-sidebar { width: 100%; height: auto; position: relative; }
+      .showcase-content { padding: 20px; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<cc-app-nav app="client-scorecard" title="Client Scorecard" active="docs"></cc-app-nav>
+<cc-toast></cc-toast>
+
+  <div class="showcase-layout">
+    <div class="showcase-sidebar">
+      <div class="sidebar-nav">
+        <div class="nav-title"><span>🏥</span> <h2>Client Scorecard Docs</h2></div>
+        <a href="index.html" class="back-link">← Back to App</a>
+
+      <div class="nav-group">App Components</div>
+      <a href="#client-card">Client Card</a>
+      <a href="#score-ring">Score Ring</a>
+      <a href="#health-badge">Health Badge</a>
+      <a href="#metric">Metric Cell</a>
+      <a href="#summary-row">Summary Row</a>
+      <a href="#filters">Filter Pills</a>
+      <div class="nav-group">Data</div>
+      <a href="#data-format">Data Format</a>
+      <div class="nav-group">Shared Components</div>
+      <a href="https://shared.adam-harris.alphaclaw.app" target="_blank">↗ Shared Library</a>
+      </div>
+    </div>
+
+    <div class="showcase-content">
+      <cc-fade-in>
+        <h1 style="font-family:var(--serif);margin-bottom:8px;">🏥 Client Scorecard</h1>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:40px;">Client health scorecard with ring charts, metrics grid, trend indicators, and health filtering.</p>
+      </cc-fade-in>
+
+    <section id="client-card" class="showcase-section">
+      <h2>Client Card</h2>
+      <p class="component-summary">Card with health ring, score badge, and 6-metric grid</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.client-card</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="client-card" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.client-card — Card with health ring, score badge, and 6-metric grid</span>
+        </div>
+      </div>
+    </section>
+    <section id="score-ring" class="showcase-section">
+      <h2>Score Ring</h2>
+      <p class="component-summary">SVG ring chart showing health score (green/yellow/red)</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.score-ring</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="score-ring" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.score-ring — SVG ring chart showing health score (green/yellow/red)</span>
+        </div>
+      </div>
+    </section>
+    <section id="health-badge" class="showcase-section">
+      <h2>Health Badge</h2>
+      <p class="component-summary">Status pill: Healthy (green), At Risk (yellow), Critical (red)</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.health-badge</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="health-badge" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.health-badge — Status pill: Healthy (green), At Risk (yellow), Critical (red)</span>
+        </div>
+      </div>
+    </section>
+    <section id="metric" class="showcase-section">
+      <h2>Metric Cell</h2>
+      <p class="component-summary">Individual metric with label, value, and trend indicator</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.metric</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="metric" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.metric — Individual metric with label, value, and trend indicator</span>
+        </div>
+      </div>
+    </section>
+    <section id="summary-row" class="showcase-section">
+      <h2>Summary Row</h2>
+      <p class="component-summary">Top-level stats: total clients, healthy, at risk, critical, avg score</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.summary-row</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="summary-row" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.summary-row — Top-level stats: total clients, healthy, at risk, critical, avg score</span>
+        </div>
+      </div>
+    </section>
+    <section id="filters" class="showcase-section">
+      <h2>Filter Pills</h2>
+      <p class="component-summary">Health status filter bar (All, Healthy, At Risk, Critical)</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.filters</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="filters" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.filters — Health status filter bar (All, Healthy, At Risk, Critical)</span>
+        </div>
+      </div>
+    </section>
+    <section id="data-format" class="showcase-section">
+      <h2>Data Format</h2>
+      <p class="component-summary">Expected JSON structure for this app</p>
+      <div class="prompt-block">// clients.json (via SyncDB clientHealth table)
+[
+  {
+    "id": "client-id",
+    "name": "Client Name",
+    "score": 85,
+    "metrics": {
+      "commits": 42,
+      "commitsTrend": 15,
+      "openPRs": 3,
+      "stalePRs": 1,
+      "slackMessages": 128,
+      "slackTrend": -5,
+      "deploys": 8,
+      "deploysTrend": 20,
+      "openIssues": 5,
+      "criticalIssues": 1,
+      "lastDeploy": "2d ago"
+    }
+  }
+]</div>
+    </section>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+<title>Generations — Docs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+<cc-app-nav app="generations" title="Generations" active="docs"></cc-app-nav>
+<cc-toast></cc-toast>
+<div style="max-width:960px;margin:40px auto;padding:0 20px;">
+  <h1 style="font-family:var(--serif);margin-bottom:8px;">Generations — Documentation</h1>
+  <p style="color:var(--muted);margin-bottom:32px;">Embeddable summary widget reference.</p>
+
+  <div class="panel" style="margin-bottom:24px;">
+    <h2 style="font-size:1.2rem;margin:0 0 12px;">Summary Widget</h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:16px;">Compact dashboard widget showing the Generations quiz branding with generation chips. Embed in any page:</p>
+    <div class="code-block" style="background:var(--bg);padding:16px;border-radius:8px;font-family:monospace;font-size:13px;overflow-x:auto;">
+      &lt;script src="https://generations.adam-harris.alphaclaw.app/modules/generations-summary.js"&gt;&lt;/script&gt;<br>
+      &lt;generations-summary&gt;&lt;/generations-summary&gt;
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom:24px;">
+    <h2 style="font-size:1.2rem;margin:0 0 12px;">Data Sources</h2>
+    <p style="color:var(--muted);font-size:14px;line-height:1.6;">
+      <strong>Questions Bank:</strong> <code>data/questions.json</code> — 120 questions across 5 categories (slang, events, pop culture, lifestyle, technology) covering 6 generations.<br><br>
+      <strong>Scoring:</strong> Each question has hidden generation weights. Correct answers award full points; incorrect answers award 20% partial credit. Final result shows percentage breakdown across all generations.
+    </p>
+  </div>
+
+  <div class="panel" style="margin-bottom:24px;">
+    <h2 style="font-size:1.2rem;margin:0 0 12px;">Generations Covered</h2>
+    <div style="display:grid;gap:8px;font-size:14px;color:var(--muted);line-height:1.6;">
+      <div><span style="color:#6b7280;font-weight:600;">Silent Generation</span> (1928–1945) — WWII, Big Band, rotary phones</div>
+      <div><span style="color:#f59e0b;font-weight:600;">Baby Boomers</span> (1946–1964) — Vietnam, Woodstock, Apollo, disco</div>
+      <div><span style="color:#8b5cf6;font-weight:600;">Gen X</span> (1965–1980) — MTV, grunge, Berlin Wall, latchkey kids</div>
+      <div><span style="color:#3b82f6;font-weight:600;">Millennials</span> (1981–1996) — 9/11, Y2K, MySpace, iPhone</div>
+      <div><span style="color:#10b981;font-weight:600;">Gen Z</span> (1997–2012) — TikTok, COVID, climate activism, streaming</div>
+      <div><span style="color:#ec4899;font-weight:600;">Gen Alpha</span> (2013+) — iPad kids, AI, Roblox, Skibidi</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2 style="font-size:1.2rem;margin:0 0 12px;">Widget Preview</h2>
+    <div style="max-width:320px;background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+      <script src="modules/generations-summary.js"></script>
+      <generations-summary></generations-summary>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+
+<title>📝 Meeting Summaries</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  /* Summary cards */
+  .sum-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; overflow: hidden; transition: border-color .2s; }
+  .sum-card:hover { border-color: var(--accent); }
+  .sum-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; flex-wrap: wrap; }
+  .sum-topic { font-weight: 700; font-size: 15px; color: var(--text); flex: 1; min-width: 200px; }
+  .sum-meta { display: flex; gap: 10px; align-items: center; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+  .sum-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+  .sum-badge.client { background: rgba(245,158,11,.15); color: var(--accent); }
+  .sum-badge.duration { background: rgba(59,130,246,.12); color: var(--blue, #3b82f6); }
+  .sum-badge.sentiment-productive { background: rgba(34,197,94,.12); color: var(--green); }
+  .sum-badge.sentiment-tense { background: rgba(239,68,68,.12); color: var(--red, #ef4444); }
+  .sum-badge.sentiment-neutral { background: rgba(156,163,175,.12); color: var(--muted); }
+  .sum-badge.no-summary { background: rgba(239,68,68,.12); color: var(--red, #ef4444); }
+  .sum-attendees { font-size: 12px; color: var(--muted); }
+  .sum-body { padding: 0 16px 16px; display: none; }
+  .sum-card.open .sum-body { display: block; }
+  .sum-section-label { font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin: 12px 0 6px; }
+  .sum-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .sum-decisions { list-style: none; padding: 0; margin: 0; }
+  .sum-decisions li { font-size: 13px; color: var(--text); padding: 4px 0; border-bottom: 1px solid var(--border); }
+  .sum-decisions li:last-child { border-bottom: none; }
+  .sum-decisions li::before { content: "✅ "; }
+  .sum-topics { display: flex; gap: 6px; flex-wrap: wrap; }
+  .sum-topic-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(139,92,246,.12); color: var(--purple, #8b5cf6); }
+  .sum-chevron { transition: transform .2s; color: var(--muted); }
+  .sum-card.open .sum-chevron { transform: rotate(90deg); }
+
+  /* Action items */
+  .ai-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
+  .ai-head { display: flex; align-items: flex-start; gap: 10px; }
+  .ai-action { font-weight: 600; font-size: 14px; color: var(--text); flex: 1; }
+  .ai-meta { display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; }
+  .ai-owner { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: rgba(245,158,11,.12); color: var(--accent); }
+  .ai-priority { font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; }
+  .ai-priority.high { background: rgba(239,68,68,.15); color: var(--red, #ef4444); }
+  .ai-priority.medium { background: rgba(245,158,11,.15); color: var(--accent); }
+  .ai-priority.low { background: rgba(34,197,94,.15); color: var(--green); }
+  .ai-deadline { font-size: 11px; color: var(--muted); }
+  .ai-meeting { font-size: 11px; color: var(--muted); font-style: italic; }
+  .ai-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .ai-btn { font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 6px; }
+  .ai-btn:hover { border-color: var(--accent); background: rgba(245,158,11,.08); }
+  .ai-btn.primary { background: var(--accent); color: #000; border-color: var(--accent); }
+  .ai-btn.primary:hover { opacity: .85; }
+  .ai-btn:disabled { opacity: .4; cursor: not-allowed; }
+  .ai-btn .spinner { display: none; width: 14px; height: 14px; border: 2px solid transparent; border-top-color: currentColor; border-radius: 50%; animation: cc-spin .6s linear infinite; }
+  .ai-btn.loading .spinner { display: inline-block; }
+  .ai-btn.loading span { display: none; }
+  /* Using shared cc-spin from theme.css */
+
+  /* Filters */
+  .sum-filters { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; align-items: center; }
+  .sum-search { flex: 1; min-width: 200px; }
+  .sum-stats { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .sum-stat { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; text-align: center; min-width: 100px; }
+  .sum-stat-num { font-size: 24px; font-weight: 700; color: var(--accent); }
+  .sum-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+</style>
+</head>
+<body>
+<cc-app-nav app="meeting-summaries" title="📝 Meeting Summaries" active="summaries"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<cc-fade-in>
+<cc-page-header icon="📝" title="Meeting Summaries" description="Zoom meeting transcripts & action items"></cc-page-header>
+</cc-fade-in>
+
+<div style="max-width:960px;margin:0 auto;padding:0 20px 40px;">
+
+<div class="sum-stats" id="stats"></div>
+
+<cc-tabs active="summaries">
+  <cc-tab name="summaries" label="📝 Summaries">
+    <div class="sum-filters">
+      <cc-search id="search" placeholder="Search meetings…" class="sum-search"></cc-search>
+      <cc-pill-dropdown id="filter-range" label="Range" items='[{"value":"7","label":"Last 7 days"},{"value":"30","label":"Last 30 days"},{"value":"90","label":"Last 90 days"},{"value":"all","label":"All"}]' value="30"></cc-pill-dropdown>
+    </div>
+    <div id="summaries-list"></div>
+  </cc-tab>
+  <cc-tab name="actions" label="⚡ Action Items">
+    <div class="sum-filters">
+      <cc-search id="action-search" placeholder="Search action items…" class="sum-search"></cc-search>
+      <cc-pill-dropdown id="filter-status" label="Status" items='[{"value":"all","label":"All"},{"value":"open","label":"Open"},{"value":"done","label":"Done"}]' value="open"></cc-pill-dropdown>
+      <cc-pill-dropdown id="filter-priority" label="Priority" items='[{"value":"all","label":"All"},{"value":"high","label":"High"},{"value":"medium","label":"Medium"},{"value":"low","label":"Low"}]' value="all"></cc-pill-dropdown>
+    </div>
+    <div id="actions-list"></div>
+  </cc-tab>
+</cc-tabs>
+</div>
+
+<script>
+(async () => {
+  const sb = window.supabase;
+  if (!sb) { document.getElementById('summaries-list').innerHTML = '<cc-empty-state message="Supabase not connected" icon="⚠️"></cc-empty-state>'; return; }
+
+  // Fetch all transcripts using shared SupabaseClient API
+  let allData;
+  try {
+    allData = await sb.select('zoom_transcripts', { order: 'start_time.desc' });
+  } catch (e) {
+    console.error('Fetch error:', e);
+    document.getElementById('summaries-list').innerHTML = '<cc-empty-state message="Failed to load summaries" icon="⚠️"></cc-empty-state>';
+    return;
+  }
+  allData = allData || [];
+
+  function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function escAttr(s) { return (s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function formatDate(iso) {
+    if (!iso) return '—';
+    return new Date(iso).toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+  }
+
+  function parseJson(val) {
+    if (!val) return [];
+    if (Array.isArray(val)) return val;
+    try { return JSON.parse(val); } catch { return []; }
+  }
+
+  // ── Stats ──
+  function renderStats(data) {
+    const withSummary = data.filter(t => t.summary);
+    const allActions = data.flatMap(t => parseJson(t.action_items));
+    const totalMins = data.reduce((s, t) => s + (t.duration || 0), 0);
+    document.getElementById('stats').innerHTML = `
+      <cc-stat-counter value="${data.length}" label="Meetings" delay="0"></cc-stat-counter>
+      <cc-stat-counter value="${withSummary.length}" label="Summarized" delay="80"></cc-stat-counter>
+      <cc-stat-counter value="${allActions.length}" label="Action Items" delay="160"></cc-stat-counter>
+      <cc-stat-counter value="${Math.round(totalMins / 60)}" label="Hours" suffix="h" delay="240"></cc-stat-counter>
+    `;
+  }
+
+  // ── Summaries Tab ──
+  function renderSummaries(data) {
+    const el = document.getElementById('summaries-list');
+    const search = (document.getElementById('search').getAttribute('value') || '').toLowerCase();
+    const range = document.getElementById('filter-range')?.value || '30';
+
+    let filtered = data;
+    if (range !== 'all') {
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - parseInt(range));
+      filtered = filtered.filter(t => new Date(t.start_time) >= cutoff);
+    }
+    if (search) {
+      filtered = filtered.filter(t =>
+        (t.topic || '').toLowerCase().includes(search) ||
+        (t.summary || '').toLowerCase().includes(search) ||
+        parseJson(t.attendees).join(' ').toLowerCase().includes(search) ||
+        (t.client_id || '').toLowerCase().includes(search)
+      );
+    }
+
+    if (!filtered.length) {
+      el.innerHTML = '<cc-empty-state message="No meetings found" icon="📝"></cc-empty-state>';
+      return;
+    }
+
+    el.innerHTML = '<cc-stagger delay="40">' + filtered.map((t, i) => {
+      const attendees = parseJson(t.attendees);
+      const decisions = parseJson(t.decisions);
+      const actions = parseJson(t.action_items);
+      const topics = parseJson(t.key_topics);
+      const hasSummary = !!t.summary;
+
+      const sentimentCls = t.sentiment ? `sentiment-${escAttr(t.sentiment)}` : '';
+
+      let bodyHtml = '';
+      if (hasSummary) {
+        bodyHtml += `<div class="sum-section-label">Summary</div><div class="sum-text">${esc(t.summary)}</div>`;
+        if (decisions.length) {
+          bodyHtml += `<div class="sum-section-label">Decisions</div><ul class="sum-decisions">${decisions.map(d => `<li>${esc(typeof d === 'string' ? d : d.text || d.decision || JSON.stringify(d))}</li>`).join('')}</ul>`;
+        }
+        if (actions.length) {
+          bodyHtml += `<div class="sum-section-label">Action Items (${actions.length})</div><ul class="sum-decisions">${actions.map(a => {
+            const text = typeof a === 'string' ? a : (a.action || a.title || a.text || JSON.stringify(a));
+            const owner = a.owner ? ` — <strong>${esc(a.owner)}</strong>` : '';
+            return `<li>${esc(text)}${owner}</li>`;
+          }).join('')}</ul>`;
+        }
+        if (topics.length) {
+          bodyHtml += `<div class="sum-section-label">Topics</div><div class="sum-topics">${topics.map(t => `<span class="sum-topic-tag">${esc(typeof t === 'string' ? t : t.name || JSON.stringify(t))}</span>`).join('')}</div>`;
+        }
+      } else {
+        bodyHtml = `<div style="padding:12px 0;color:var(--muted);font-size:13px;">⏳ Summary not yet generated. Transcript is queued for processing.</div>`;
+      }
+
+      return `<div class="sum-card" onclick="this.classList.toggle('open')">
+        <div class="sum-head">
+          <span class="sum-chevron">▶</span>
+          <span class="sum-topic">${esc(t.topic || 'Untitled Meeting')}</span>
+          <div class="sum-meta">
+            ${t.client_id ? `<span class="sum-badge client">${esc(t.client_id)}</span>` : ''}
+            <span class="sum-badge duration">⏱️ ${t.duration || 0}m</span>
+            ${t.sentiment ? `<span class="sum-badge ${sentimentCls}">${esc(t.sentiment)}</span>` : ''}
+            ${!hasSummary ? '<span class="sum-badge no-summary">⏳ pending</span>' : ''}
+            <span>${formatDate(t.start_time)}</span>
+          </div>
+        </div>
+        <div class="sum-body">
+          ${attendees.length ? `<div class="sum-attendees">👥 ${attendees.map(a => esc(typeof a === 'string' ? a : a.name || JSON.stringify(a))).join(', ')}</div>` : ''}
+          ${bodyHtml}
+        </div>
+      </div>`;
+    }).join('') + '</cc-stagger>';
+  }
+
+  // ── Action Items Tab ──
+  function getAllActions(data) {
+    const items = [];
+    data.forEach(t => {
+      const actions = parseJson(t.action_items);
+      actions.forEach((a, idx) => {
+        items.push({
+          ...( typeof a === 'string' ? { action: a } : a ),
+          _meetingTopic: t.topic,
+          _meetingDate: t.start_time,
+          _meetingId: t.id,
+          _clientId: t.client_id,
+          _idx: idx
+        });
+      });
+    });
+    return items;
+  }
+
+  function renderActions(data) {
+    const el = document.getElementById('actions-list');
+    const search = (document.getElementById('action-search').getAttribute('value') || '').toLowerCase();
+    const priority = document.getElementById('filter-priority')?.value || 'all';
+    const status = document.getElementById('filter-status')?.value || 'open';
+
+    let items = getAllActions(data);
+
+    if (status === 'open') items = items.filter(a => !a.done && a.status !== 'done');
+    else if (status === 'done') items = items.filter(a => a.done || a.status === 'done');
+
+    if (priority !== 'all') items = items.filter(a => (a.priority || 'medium').toLowerCase() === priority);
+
+    if (search) {
+      items = items.filter(a =>
+        (a.action || a.title || a.text || '').toLowerCase().includes(search) ||
+        (a.owner || '').toLowerCase().includes(search) ||
+        (a._meetingTopic || '').toLowerCase().includes(search)
+      );
+    }
+
+    if (!items.length) {
+      el.innerHTML = '<cc-empty-state message="No action items found" icon="⚡"></cc-empty-state>';
+      return;
+    }
+
+    el.innerHTML = '<cc-stagger delay="40">' + items.map(a => {
+      const text = a.action || a.title || a.text || JSON.stringify(a);
+      const pri = (a.priority || 'medium').toLowerCase();
+      return `<div class="ai-card">
+        <div class="ai-head">
+          <div style="flex:1">
+            <div class="ai-action">${esc(text)}</div>
+            <div class="ai-meta">
+              ${a.owner ? `<span class="ai-owner">👤 ${esc(a.owner)}</span>` : ''}
+              ${a.priority ? `<span class="ai-priority ${pri}">${esc(a.priority)}</span>` : ''}
+              ${a.deadline ? `<span class="ai-deadline">📅 ${esc(a.deadline)}</span>` : ''}
+              <span class="ai-meeting">from: ${esc(a._meetingTopic || 'Unknown')} · ${formatDate(a._meetingDate)}</span>
+              ${a._clientId ? `<span class="sum-badge client">${esc(a._clientId)}</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="ai-actions">
+          <button class="ai-btn primary" data-ticket='${escAttr(JSON.stringify({action: text, owner: a.owner, priority: pri, deadline: a.deadline, meeting: a._meetingTopic, client: a._clientId}))}' onclick="createTicket(this)">
+            <div class="spinner"></div>
+            <span>🎫 Create JIRA Ticket</span>
+          </button>
+          <button class="ai-btn" data-followup='${escAttr(JSON.stringify({action: text, owner: a.owner, meeting: a._meetingTopic}))}' onclick="generateFollowup(this)">
+            <div class="spinner"></div>
+            <span>📧 Generate Follow-up</span>
+          </button>
+          <button class="ai-btn" onclick="markDone(this)">
+            <span>✅ Done</span>
+          </button>
+        </div>
+      </div>`;
+    }).join('') + '</cc-stagger>';
+  }
+
+  // ── CTA Handlers ──
+  // These post to a webhook that triggers Claudia to take action
+  window.createTicket = async function(btn) {
+    btn.classList.add('loading');
+    btn.disabled = true;
+    try {
+      const data = JSON.parse(btn.dataset.ticket);
+      // Post to command center API → triggers Slack message to Claudia
+      const res = await fetch('/api/action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'create-jira-ticket', ...data })
+      }).catch(() => null);
+
+      // Fallback: copy to clipboard as slash command
+      const cmd = `/create-ticket ${data.client || 'INTERNAL'}: ${data.action} (owner: ${data.owner || 'unassigned'}, priority: ${data.priority || 'medium'})`;
+      await navigator.clipboard.writeText(cmd).catch(() => {});
+
+      btn.innerHTML = '<span>✅ Queued</span>';
+      if (window.showToast) showToast('Ticket creation queued — paste in Slack or Claudia will pick it up', 4000);
+    } catch (e) {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+      if (window.showToast) showToast('Failed: ' + e.message, 3000);
+    }
+  };
+
+  window.generateFollowup = async function(btn) {
+    btn.classList.add('loading');
+    btn.disabled = true;
+    try {
+      const data = JSON.parse(btn.dataset.followup);
+      const cmd = `/followup ${data.owner || 'team'}: ${data.action} (from ${data.meeting || 'meeting'})`;
+      await navigator.clipboard.writeText(cmd).catch(() => {});
+      btn.innerHTML = '<span>📋 Copied</span>';
+      if (window.showToast) showToast('Follow-up prompt copied — paste in Slack to Claudia', 4000);
+    } catch (e) {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  };
+
+  window.markDone = function(btn) {
+    const card = btn.closest('.ai-card');
+    card.style.opacity = '0.4';
+    card.style.textDecoration = 'line-through';
+    btn.innerHTML = '<span>✅</span>';
+    btn.disabled = true;
+  };
+
+  // ── Init ──
+  renderStats(allData);
+  renderSummaries(allData);
+
+  // Render actions when tab switches
+  let actionsRendered = false;
+  document.addEventListener('tab-change', (e) => {
+    if (e.detail?.tab === 'actions' && !actionsRendered) {
+      actionsRendered = true;
+      renderActions(allData);
+    }
+  });
+
+  // Filter listeners
+  document.getElementById('search').addEventListener('cc-search', () => renderSummaries(allData));
+  document.getElementById('action-search')?.addEventListener('cc-search', () => renderActions(allData));
+  for (const evt of ['pill-change', 'dropdown-change']) {
+    document.addEventListener(evt, (e) => {
+      const id = e.target?.id;
+      if (id === 'filter-range') renderSummaries(allData);
+      if (id === 'filter-status' || id === 'filter-priority') renderActions(allData);
+    });
+  }
+})();
+</script>
+</body>
+</html>

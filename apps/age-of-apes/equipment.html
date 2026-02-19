@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<title>🦍 Age of Apes Guide - Equipment</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<link rel="stylesheet" href="modules/aoa-common.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="modules/utils.js"></script>
+<style>
+  .rarity-rare { border-left:4px solid var(--green); }
+  .rarity-epic { border-left:4px solid var(--accent); }
+  .rarity-legendary { border-left:4px solid var(--orange); }
+  .equipment-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; }
+</style>
+</head>
+<body>
+<cc-app-nav app="age-of-apes" title="🦍 Age of Apes Guide" active="equipment"></cc-app-nav>
+<cc-auth></cc-auth>
+<cc-toast></cc-toast>
+
+<div style="max-width:1400px;margin:0 auto;padding:1rem;">
+  <div class="page-header">
+    <h1>⚔️ Equipment Database</h1>
+    <div class="header-right">
+      <span class="badge badge-app" id="total-equipment">Loading...</span>
+    </div>
+  </div>
+
+  <cc-tabs active="overview">
+    <cc-tab name="overview" label="Overview" icon="shield">
+      <div id="equipment-overview" style="padding:1rem 0;"></div>
+    </cc-tab>
+    <cc-tab name="calculator" label="Calculator" icon="calculator">
+      <div class="panel">
+        <h3 style="margin:0 0 1rem;">Equipment Materials Calculator</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1rem;">
+          <div><label style="color:var(--muted);font-size:.85rem;">Rarity</label><select id="ec-rarity" class="aoa-select">
+            <option value="rare">Rare</option><option value="epic">Epic</option><option value="legendary">Legendary</option>
+          </select></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Start Level</label><input type="number" id="ec-start" class="aoa-input" value="1" min="1"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">End Level</label><input type="number" id="ec-end" class="aoa-input" value="30" min="1"></div>
+          <div><label style="color:var(--muted);font-size:.85rem;">Number of Slots</label><input type="number" id="ec-slots" class="aoa-input" value="4" min="1" max="4"></div>
+        </div>
+        <button class="btn btn-primary" id="ec-calc">Calculate Materials</button>
+        <div id="ec-results" style="margin-top:1rem;"></div>
+      </div>
+    </cc-tab>
+    <cc-tab name="materials" label="Materials" icon="package">
+      <div style="padding:1rem 0;">
+        <div class="panel">
+          <h3 style="margin:0 0 1rem;">Equipment Materials Guide</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;">
+            <div class="card">
+              <div class="card-top">
+                <div class="card-title">Primary Materials</div>
+              </div>
+              <div class="card-desc">Basic materials required for all equipment upgrades</div>
+              <div class="card-meta">
+                <span class="badge" style="background:var(--green);color:#000;">Common</span>
+              </div>
+            </div>
+            
+            <div class="card">
+              <div class="card-top">
+                <div class="card-title">Rare Materials</div>
+              </div>
+              <div class="card-desc">Higher tier materials for epic and legendary equipment</div>
+              <div class="card-meta">
+                <span class="badge" style="background:var(--blue);color:#fff;">Rare</span>
+              </div>
+            </div>
+            
+            <div class="card">
+              <div class="card-top">
+                <div class="card-title">Legendary Components</div>
+              </div>
+              <div class="card-desc">Premium materials for legendary equipment upgrades</div>
+              <div class="card-meta">
+                <span class="badge" style="background:var(--orange);color:#000;">Legendary</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </cc-tab>
+  </cc-tabs>
+</div>
+
+<script>
+const { fmt, esc, escAttr } = AOA;
+let gameData = {};
+
+async function loadData() {
+  try {
+    const equipment = await fetch('data/equipment.json').then(r=>r.json());
+    gameData = { equipment };
+    renderEquipment();
+    setupCalculator();
+  } catch(e) {
+    console.error('Error loading data:', e);
+  }
+}
+
+function renderEquipment() {
+  const ed = gameData.equipment;
+  
+  // Count equipment rarities
+  const rarityCount = Object.keys(ed.rarities || {}).length;
+  document.getElementById('total-equipment').textContent = `${rarityCount} Rarities`;
+
+  // Equipment rarities section
+  const raritiesHtml = Object.entries(ed.rarities || {}).map(([rarityKey, rarity]) => {
+    const rarityColor = getRarityColor(rarityKey);
+    const materialsList = Object.keys(rarity.materialsPerLevel || {}).join(', ');
+    
+    return `
+      <div class="card rarity-${escAttr(rarityKey)}">
+        <div class="card-top">
+          <div class="card-title" style="font-size:1.1rem;">${esc(rarityKey.charAt(0).toUpperCase() + rarityKey.slice(1))} Equipment</div>
+        </div>
+        <div class="card-desc">
+          Max Level: ${rarity.maxLevel || 30}<br>
+          Materials: ${esc(materialsList || 'Standard materials')}
+        </div>
+        <div class="card-meta">
+          <span class="badge" style="background:${rarityColor};color:#fff;">${esc(rarityKey.charAt(0).toUpperCase() + rarityKey.slice(1))}</span>
+          <span class="badge" style="background:var(--muted);color:#fff;">Lv ${rarity.maxLevel || 30}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('equipment-overview').innerHTML = `
+    <div style="margin-bottom:2rem;">
+      <h3 style="margin:0 0 1rem;">Equipment Rarities</h3>
+      <div class="equipment-grid">
+        ${raritiesHtml}
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin:0 0 1rem;">Equipment System</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div>
+          <h4 style="margin:0 0 .5rem;color:var(--accent);">Upgrade System</h4>
+          <ul style="margin:0;padding-left:1rem;color:var(--muted);font-size:.9rem;">
+            <li>Each equipment piece has 4 slots</li>
+            <li>Each slot can be upgraded independently</li>
+            <li>Higher rarities require more materials</li>
+            <li>Max level varies by rarity</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin:0 0 .5rem;color:var(--orange);">Material Types</h4>
+          <ul style="margin:0;padding-left:1rem;color:var(--muted);font-size:.9rem;">
+            <li>Primary materials: Basic components</li>
+            <li>Rare materials: Advanced components</li>
+            <li>Legendary: Premium components</li>
+            <li>Special materials: Event-specific</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:1rem;">
+      <h3 style="margin:0 0 .5rem;">Equipment Stats</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+        <div class="stat-box"><div class="stat-box-value">${rarityCount}</div><div class="stat-box-label">Rarities</div></div>
+        <div class="stat-box"><div class="stat-box-value">4</div><div class="stat-box-label">Slots per Item</div></div>
+        <div class="stat-box"><div class="stat-box-value">30</div><div class="stat-box-label">Max Level</div></div>
+        <div class="stat-box"><div class="stat-box-value">∞</div><div class="stat-box-label">Material Types</div></div>
+      </div>
+    </div>`;
+}
+
+function getRarityColor(rarity) {
+  const colors = {
+    'rare': 'var(--green)',
+    'epic': 'var(--accent)', 
+    'legendary': 'var(--orange)'
+  };
+  return colors[rarity] || 'var(--muted)';
+}
+
+function setupCalculator() {
+  document.getElementById('ec-calc').addEventListener('click', () => {
+    const rarity = document.getElementById('ec-rarity').value;
+    const start = +document.getElementById('ec-start').value;
+    const end = +document.getElementById('ec-end').value;
+    const slots = +document.getElementById('ec-slots').value;
+    
+    if (start >= end) {
+      window.showToast('Start level must be less than end level ⚠️', 3000);
+      return;
+    }
+    
+    const eqData = gameData.equipment.rarities[rarity];
+    if (!eqData) {
+      window.showToast('Equipment rarity data not found ⚠️', 3000);
+      return;
+    }
+    
+    const endLevel = Math.min(end, eqData.maxLevel || 30);
+    const materialsPerLevel = eqData.materialsPerLevel || {};
+    
+    // Calculate materials needed
+    const results = [];
+    
+    // If no specific materials data, use estimated values
+    if (Object.keys(materialsPerLevel).length === 0) {
+      const levelDiff = endLevel - start;
+      const baseMultiplier = rarity === 'legendary' ? 3 : rarity === 'epic' ? 2 : 1;
+      
+      const primaryMaterials = levelDiff * 10 * baseMultiplier * slots;
+      const rareMaterials = levelDiff * 5 * baseMultiplier * slots;
+      const premiumComponents = rarity === 'legendary' ? levelDiff * 2 * slots : 0;
+      
+      results.push(['Primary Materials', fmt(primaryMaterials)]);
+      results.push(['Rare Materials', fmt(rareMaterials)]);
+      if (premiumComponents > 0) {
+        results.push(['Premium Components', fmt(premiumComponents)]);
+      }
+    } else {
+      // Use actual data if available
+      for(const [matName, levels] of Object.entries(materialsPerLevel)) {
+        let total = 0;
+        for(let i = start-1; i < endLevel-1; i++) {
+          total += (levels[i] || 0);
+        }
+        total *= slots;
+        
+        if (total > 0) {
+          const label = matName.replace(/([A-Z])/g,' $1').replace(/^./,s=>s.toUpperCase());
+          results.push([label, fmt(total)]);
+        }
+      }
+    }
+    
+    // Add summary stats
+    const levelDiff = endLevel - start;
+    const costMultiplier = rarity === 'legendary' ? 5 : rarity === 'epic' ? 3 : 1;
+    const totalCost = levelDiff * 1000 * costMultiplier * slots;
+    
+    results.push(['Levels Upgraded', `${start} → ${endLevel}`]);
+    results.push(['Equipment Slots', slots.toString()]);
+    results.push(['Est. Total Cost', fmt(totalCost)]);
+    
+    document.getElementById('ec-results').innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
+        ${results.map(([label, value]) => `
+          <div class="stat-box">
+            <div class="stat-box-value" style="font-size:1.1rem;">${value}</div>
+            <div class="stat-box-label">${label}</div>
+          </div>
+        `).join('')}
+      </div>`;
+
+    window.showToast(`Calculated ${rarity} equipment materials ✅`, 3000);
+  });
+}
+
+loadData();
+</script>
+</body>
+</html>

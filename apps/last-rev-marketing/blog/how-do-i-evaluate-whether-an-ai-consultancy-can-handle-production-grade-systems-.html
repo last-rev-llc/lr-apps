@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../js/lr-head.js"></script>
+  <script src="../js/lr-layout.js"></script>
+</head>
+<body class="lp">
+
+  <lr-head
+    title="Evaluate AI Consultancy: Production vs Prototype Guide"
+    description="A practical framework for vetting AI consultancies beyond impressive demos. What to ask, what to look for, and what separates prototype shops from production partners."
+    canonical="https://lastrev.com/blog/how-do-i-evaluate-whether-an-ai-consultancy-can-handle-production-grade-systems-"
+    og:title="Evaluate AI Consultancy: Production vs Prototype Guide"
+    og:description="A practical framework for vetting AI consultancies beyond impressive demos. What to ask, what to look for, and what separates prototype shops from production partners."
+    og:image="https://lastrev.com/assets/images/default-blog-og.jpg"
+    og:url="https://lastrev.com/blog/how-do-i-evaluate-whether-an-ai-consultancy-can-handle-production-grade-systems-"
+    og:type="article"
+  ></lr-head>
+
+  <lr-layout active="blog" cta-text="Get in Touch" cta-href="mailto:hello@lastrev.com">
+    <div class="blog-post-container">
+      <cc-blog mode="post" title="How Do I Evaluate Whether an AI Consultancy Can Handle Production-Grade Systems, Not Just Prototypes?" author="Adam Harris" date="2025-12-21" category="Hiring an AI Agency" read-time="9 min" back-href="../blog.html" image="../images/blog/how-do-i-evaluate-whether-an-ai-consultancy-can-handle-production-grade-systems-.webp" image-alt="Professional team reviewing AI system architecture diagrams and production metrics on multiple monitors">
+        <div slot="content">
+
+<p>Every AI consultancy can build a demo. The demo always works. It's compelling, polished, and ships in two weeks. Then you sign a six-figure contract, and six months later you're staring at a system that falls over under real load, hallucinates in front of customers, and costs 10x what anyone budgeted.</p>
+
+<p>This isn't hypothetical. According to a <a href="https://www.rand.org/pubs/research_reports/RRA2680-1.html" target="_blank" rel="noopener">2024 RAND Corporation study</a>, more than 80% of AI projects fail to reach meaningful production deployment — twice the failure rate of non-AI IT projects. And <a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" target="_blank" rel="noopener">McKinsey's 2025 State of AI report</a> found that while 88% of organizations now use AI in at least one function, only about one-third have managed to scale it beyond pilots.</p>
+
+<p>The gap between "we built a cool prototype" and "this runs in production, reliably, at scale" is where most AI engagements go to die. Here's how to tell whether a consultancy can actually cross that gap — before you hand them the keys.</p>
+
+<h2>1. Ask What They've Broken, Not Just What They've Built</h2>
+
+<p>Any consultancy will show you a portfolio of successes. That tells you almost nothing. What you want to hear about is failure — specifically, production failures they've encountered and how they handled them.</p>
+
+<p>A team that's actually shipped AI to production will have war stories about:</p>
+<ul>
+  <li><strong>Hallucinations that reached end users</strong> — and the guardrails they built afterward</li>
+  <li><strong>Cost runaway</strong> — an agent that looped and burned through thousands in API calls overnight</li>
+  <li><strong>Model regression</strong> — a provider update that silently degraded output quality</li>
+  <li><strong>Data pipeline failures</strong> — stale embeddings, broken ingestion, schema drift</li>
+</ul>
+
+<p>If a consultancy can't articulate specific production failures they've navigated, they haven't done production work. Full stop. The RAND study identified five root causes of AI project failure, including inadequate infrastructure to deploy completed models and misalignment between the problem and the technology. These aren't theoretical risks — they're the daily reality of production AI.</p>
+
+<h2>2. Probe Their Architecture Thinking</h2>
+
+<p>Prototype architecture and production architecture are fundamentally different. A prototype calls an LLM API and returns the result. A production system needs:</p>
+
+<ul>
+  <li><strong>Fallback chains:</strong> What happens when the primary model is down or rate-limited? Do they have model failover strategies?</li>
+  <li><strong>Output validation:</strong> Every LLM response should pass through deterministic validation before it touches your data or users. If they're not doing this, walk away.</li>
+  <li><strong>Circuit breakers:</strong> Borrowed from microservices — if an AI component fails N times, it should degrade gracefully, not take down the entire system.</li>
+  <li><strong>Audit trails:</strong> Every prompt, every model response, every tool call logged to immutable storage. This isn't optional for enterprise — it's a compliance requirement.</li>
+  <li><strong>Cost controls:</strong> Hard token budgets per task, per user, per day. Without these, a single runaway agent can blow through your monthly budget in hours.</li>
+</ul>
+
+<p>Ask them to whiteboard the architecture for a system they've deployed. If the diagram is just "user → API → LLM → response," they're a prototype shop.</p>
+
+<h2>3. Check Their Stance on Evaluation and Testing</h2>
+
+<p>Traditional software has well-established testing patterns. AI systems are harder to test because they're non-deterministic — the same input can produce different outputs. A production-ready consultancy will have a clear answer to: "How do you test AI systems?"</p>
+
+<p>Look for:</p>
+<ul>
+  <li><strong>Eval suites:</strong> Curated sets of test cases that run against every model change, prompt update, or system modification. Not just "does it work?" but "does it still work the same way?"</li>
+  <li><strong>Regression testing:</strong> When you update a prompt or swap a model, how do you know you didn't break 15 other things?</li>
+  <li><strong>Human-in-the-loop review:</strong> For high-stakes outputs, there should be a sampling and review process, not blind trust in the model.</li>
+  <li><strong>A/B testing frameworks:</strong> The ability to route a percentage of traffic to a new model or prompt and compare outcomes before full rollout.</li>
+</ul>
+
+<p>If their testing strategy is "we try it and see if it works," that's a prototype mindset.</p>
+
+<h2>4. Evaluate Their Monitoring and Observability Story</h2>
+
+<p>Standard APM tools (Datadog, New Relic) aren't enough for AI systems. You need AI-specific observability. Ask what they monitor in production:</p>
+
+<ul>
+  <li><strong>Token consumption per task</strong> — a sudden spike means something is looping or over-reasoning</li>
+  <li><strong>Latency distributions (P50, P95, P99)</strong> — averages hide the pain; the tail is where users rage-quit</li>
+  <li><strong>Completion rates</strong> — what percentage of AI tasks reach a successful end state vs. timeout, error, or escalation?</li>
+  <li><strong>Cost per transaction</strong> — do they know their unit economics? Can they tell you what a single AI-powered interaction costs?</li>
+  <li><strong>Output quality scores</strong> — are they tracking quality over time, or just hoping the model stays good?</li>
+</ul>
+
+<p>A consultancy that can't tell you their monitoring stack and the specific metrics they track hasn't operated AI in production at meaningful scale.</p>
+
+<h2>5. Ask About Their Relationship with Model Providers</h2>
+
+<p>Production AI means being at the mercy of model providers — OpenAI, Anthropic, Google, and others. Models get updated, deprecated, rate-limited, and occasionally go down entirely. A production-ready consultancy:</p>
+
+<ul>
+  <li><strong>Isn't locked to a single provider.</strong> They should have experience with multiple model families and opinions about when to use each.</li>
+  <li><strong>Has migration strategies.</strong> When a model version is deprecated (and it will be), how fast can they move?</li>
+  <li><strong>Understands pricing models deeply.</strong> Token-based pricing, cached vs. uncached, batch vs. real-time — these details determine whether your system is economically viable at scale.</li>
+  <li><strong>Has dealt with provider outages.</strong> What's their fallback when the primary model API goes down at 2 AM?</li>
+</ul>
+
+<h2>6. Look for Infrastructure Opinions, Not Just AI Opinions</h2>
+
+<p>AI is only one layer of a production system. A consultancy that only knows AI but can't talk about deployment, scaling, security, and DevOps is going to hand you a model that works on their laptop but not in your cloud.</p>
+
+<p>Red flags:</p>
+<ul>
+  <li>They can't explain how they'd deploy to your cloud environment (AWS, GCP, Azure)</li>
+  <li>They've never dealt with SOC 2, HIPAA, or GDPR in the context of AI systems</li>
+  <li>They don't mention CI/CD for model and prompt deployments</li>
+  <li>They have no opinion on vector databases, embedding strategies, or RAG architecture tradeoffs</li>
+</ul>
+
+<p>Production AI is a systems engineering problem, not just a machine learning problem. If the team is all data scientists and no infrastructure engineers, that's a signal.</p>
+
+<h2>7. Check for Post-Launch Operational Thinking</h2>
+
+<p>Shipping v1 is the beginning, not the end. AI systems require ongoing care: models drift, data changes, user patterns evolve, and costs need continuous optimization. Ask:</p>
+
+<ul>
+  <li><strong>What does month 2 look like?</strong> Do they have a plan for ongoing optimization, or do they declare victory and move on?</li>
+  <li><strong>How do they handle prompt drift?</strong> As models update, prompts that worked perfectly can degrade. Is there a process for this?</li>
+  <li><strong>What's their incident response playbook?</strong> When (not if) the AI system produces a bad output in production, what happens? Who gets paged? What's the rollback process?</li>
+  <li><strong>Can they show you a runbook?</strong> Operational documentation for the systems they've built — not just code, but operational playbooks.</li>
+</ul>
+
+<h2>The Evaluation Checklist</h2>
+
+<p>Before signing with an AI consultancy, run them through these questions. Score each honestly:</p>
+
+<table style="width:100%; border-collapse:collapse; margin: 1.5rem 0;">
+  <thead>
+    <tr style="border-bottom: 2px solid var(--color-border, #334155);">
+      <th style="text-align:left; padding: 0.75rem;">Question</th>
+      <th style="text-align:center; padding: 0.75rem; width: 100px;">Pass?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom: 1px solid var(--color-border, #334155);">
+      <td style="padding: 0.75rem;">Can they describe specific production failures they've encountered and resolved?</td>
+      <td style="text-align:center; padding: 0.75rem;">☐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--color-border, #334155);">
+      <td style="padding: 0.75rem;">Do they have a documented evaluation and testing methodology for AI systems?</td>
+      <td style="text-align:center; padding: 0.75rem;">☐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--color-border, #334155);">
+      <td style="padding: 0.75rem;">Can they whiteboard a production architecture with guardrails, fallbacks, and monitoring?</td>
+      <td style="text-align:center; padding: 0.75rem;">☐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--color-border, #334155);">
+      <td style="padding: 0.75rem;">Do they have multi-model experience and provider migration strategies?</td>
+      <td style="text-align:center; padding: 0.75rem;">☐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--color-border, #334155);">
+      <td style="padding: 0.75rem;">Can they articulate unit economics (cost per AI transaction)?</td>
+      <td style="text-align:center; padding: 0.75rem;">☐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--color-border, #334155);">
+      <td style="padding: 0.75rem;">Do they have infrastructure and DevOps expertise, not just AI/ML?</td>
+      <td style="text-align:center; padding: 0.75rem;">☐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--color-border, #334155);">
+      <td style="padding: 0.75rem;">Is there a plan for post-launch operations, monitoring, and optimization?</td>
+      <td style="text-align:center; padding: 0.75rem;">☐</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--color-border, #334155);">
+      <td style="padding: 0.75rem;">Have they dealt with compliance requirements (SOC 2, HIPAA, GDPR) in AI contexts?</td>
+      <td style="text-align:center; padding: 0.75rem;">☐</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If a consultancy can't check most of these boxes with specific, concrete examples — not vague assurances — keep looking.</p>
+
+<h2>How We Think About This at Last Rev</h2>
+
+<p>We've been building production systems for over a decade — complex web platforms, headless CMS architectures, high-traffic e-commerce sites. When we moved into AI, we brought that production mindset with us. We don't think of AI as a separate discipline; it's another layer in a production stack that needs the same rigor as everything else: CI/CD, monitoring, testing, incident response, and operational documentation.</p>
+
+<p>Every AI system we build ships with guardrails, audit trails, cost controls, and eval suites. Not because we're paranoid — because we've seen what happens when you skip them. The prototype-to-production gap isn't closed by better models. It's closed by better engineering.</p>
+
+<h2>Key Takeaways</h2>
+
+<ul>
+  <li><strong>Over 80% of AI projects fail to reach production</strong> — the consultancy you choose dramatically affects which side of that stat you land on.</li>
+  <li><strong>Ask about failures, not just successes.</strong> Production experience means battle scars.</li>
+  <li><strong>Architecture matters more than model choice.</strong> Guardrails, fallbacks, and monitoring are what separate production from prototype.</li>
+  <li><strong>Demand AI-specific testing and observability.</strong> Standard software testing isn't enough for non-deterministic systems.</li>
+  <li><strong>Evaluate the full stack.</strong> AI consultancies that can't talk infrastructure, DevOps, and compliance aren't ready for production.</li>
+  <li><strong>Plan for month 2 and beyond.</strong> Production AI requires continuous optimization, not a one-time delivery.</li>
+</ul>
+
+<section class="blog-sources">
+  <h3>Sources</h3>
+  <ol>
+    <li><a href="https://www.rand.org/pubs/research_reports/RRA2680-1.html" target="_blank" rel="noopener">RAND Corporation — "The Root Causes of Failure for Artificial Intelligence Projects and How They Can Succeed" (2024)</a></li>
+    <li><a href="https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai" target="_blank" rel="noopener">McKinsey & Company — "The State of AI in 2025: Agents, Innovation, and Transformation" (2025)</a></li>
+    <li><a href="https://www.gartner.com/en/newsroom/press-releases/2024-10-22-gartner-unveils-top-predictions-for-it-organizations-and-users-in-2025-and-beyond" target="_blank" rel="noopener">Gartner — "Top Predictions for IT Organizations and Users in 2025 and Beyond" (2024)</a></li>
+  </ol>
+</section>
+
+        </div>
+      </cc-blog>
+    </div>
+  </lr-layout>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How Do I Evaluate Whether an AI Consultancy Can Handle Production-Grade Systems, Not Just Prototypes?",
+    "description": "A practical framework for vetting AI consultancies beyond impressive demos. What to ask, what to look for, and what separates prototype shops from production partners.",
+    "author": {
+      "@type": "Person",
+      "name": "Adam Harris"
+    },
+    "datePublished": "2025-12-21",
+    "dateModified": "2025-12-21",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Last Rev",
+      "url": "https://lastrev.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lastrev.com/assets/images/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://lastrev.com/blog/how-do-i-evaluate-whether-an-ai-consultancy-can-handle-production-grade-systems-"
+    },
+    "image": "https://lastrev.com/assets/images/default-blog-og.jpg",
+    "articleSection": "Hiring an AI Agency",
+    "keywords": ["AI consultancy", "production AI", "AI systems", "AI evaluation", "production-grade AI", "AI implementation"]
+  }
+  </script>
+
+</body>
+</html>

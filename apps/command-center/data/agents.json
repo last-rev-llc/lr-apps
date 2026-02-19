@@ -1,0 +1,102 @@
+[
+  {
+    "id": "agent-001",
+    "name": "Code Reviewer",
+    "icon": "🔍",
+    "templateId": "code-reviewer",
+    "status": "completed",
+    "task": "Review PR #247: Migrate homepage to App Router with server components",
+    "startedAt": "2026-02-12T04:12:00Z",
+    "completedAt": "2026-02-12T04:18:32Z",
+    "runtime": 392,
+    "tokens": { "input": 12450, "output": 3820, "total": 16270 },
+    "cost": 0.082,
+    "output": {
+      "type": "diff",
+      "summary": "Found 3 issues: unused import in layout.tsx, missing error boundary on /dashboard, console.log left in auth handler. Suggested refactoring generateStaticParams for better ISR performance.",
+      "artifacts": ["pr-247-review.md"]
+    }
+  },
+  {
+    "id": "agent-002",
+    "name": "Research Agent",
+    "icon": "🔬",
+    "templateId": "research-agent",
+    "status": "running",
+    "task": "Deep research: Contentful vs Sanity migration cost analysis for enterprise clients",
+    "startedAt": "2026-02-12T06:30:00Z",
+    "completedAt": null,
+    "runtime": null,
+    "tokens": { "input": 8200, "output": 1450, "total": 9650 },
+    "cost": 0.048,
+    "output": null
+  },
+  {
+    "id": "agent-003",
+    "name": "Content Auditor",
+    "icon": "📝",
+    "templateId": "content-auditor",
+    "status": "completed",
+    "task": "Audit IAS Contentful space: check all blog entries for missing SEO fields and broken references",
+    "startedAt": "2026-02-12T02:00:00Z",
+    "completedAt": "2026-02-12T02:14:11Z",
+    "runtime": 851,
+    "tokens": { "input": 24300, "output": 6100, "total": 30400 },
+    "cost": 0.152,
+    "output": {
+      "type": "report",
+      "summary": "Scanned 142 blog entries. 23 missing meta descriptions, 8 with broken asset references, 4 with empty body fields. Full report with entry IDs and recommended fixes attached.",
+      "artifacts": ["ias-content-audit-2026-02-12.md"]
+    }
+  },
+  {
+    "id": "agent-004",
+    "name": "Code Reviewer",
+    "icon": "🔍",
+    "templateId": "code-reviewer",
+    "status": "failed",
+    "task": "Review PR #251: Add GraphQL federation gateway for multi-source content",
+    "startedAt": "2026-02-11T22:45:00Z",
+    "completedAt": "2026-02-11T22:46:12Z",
+    "runtime": 72,
+    "tokens": { "input": 1800, "output": 340, "total": 2140 },
+    "cost": 0.011,
+    "output": {
+      "type": "error",
+      "summary": "GitHub API rate limit exceeded. Could not fetch PR diff. Retry recommended after rate limit reset.",
+      "artifacts": []
+    }
+  },
+  {
+    "id": "agent-005",
+    "name": "Research Agent",
+    "icon": "🔬",
+    "templateId": "research-agent",
+    "status": "completed",
+    "task": "Research: Top 10 AI-powered CMS features enterprise clients are requesting in 2026",
+    "startedAt": "2026-02-11T18:00:00Z",
+    "completedAt": "2026-02-11T18:22:47Z",
+    "runtime": 1367,
+    "tokens": { "input": 31200, "output": 8900, "total": 40100 },
+    "cost": 0.201,
+    "output": {
+      "type": "report",
+      "summary": "Identified 10 trending AI-CMS features: auto-tagging, content generation, smart cropping, A/B copy testing, accessibility auto-fix, translation pipelines, content scoring, personalization engines, voice-to-content, and predictive publishing. Full report with market data and competitor analysis.",
+      "artifacts": ["ai-cms-trends-2026.md"]
+    }
+  },
+  {
+    "id": "agent-006",
+    "name": "Content Auditor",
+    "icon": "📝",
+    "templateId": "content-auditor",
+    "status": "idle",
+    "task": "Scheduled: Weekly Diligent content quality check",
+    "startedAt": null,
+    "completedAt": null,
+    "runtime": null,
+    "tokens": { "input": 0, "output": 0, "total": 0 },
+    "cost": 0.0,
+    "output": null
+  }
+]

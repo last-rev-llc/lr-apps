@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f59e0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+  <title>📝 Meeting Summaries — Docs</title>
+  <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+  <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+  <style>
+    .showcase-layout { display: flex; min-height: 100vh; }
+    .showcase-sidebar {
+      width: 260px; background: var(--card); border-right: 1px solid var(--border);
+      position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0;
+    }
+    .showcase-content { flex: 1; padding: 40px; max-width: calc(100vw - 260px); overflow-x: hidden; }
+    .sidebar-nav { padding: 24px 16px; }
+    .sidebar-nav .nav-title { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .sidebar-nav .nav-title h2 { font-family: var(--serif); font-size: 18px; font-weight: 700; margin: 0; }
+    .sidebar-nav .nav-group { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin: 18px 0 6px 8px; }
+    .sidebar-nav a {
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 10px; color: var(--muted); text-decoration: none; font-size: 12px;
+      font-weight: 500; border-radius: 6px; margin-bottom: 1px; transition: all 0.15s;
+    }
+    .sidebar-nav a:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); }
+    .showcase-section { margin-bottom: 56px; scroll-margin-top: 24px; }
+    .showcase-section > h2 {
+      font-family: var(--serif); font-size: 24px; font-weight: 700;
+      border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 20px;
+    }
+    .showcase-section h3 { font-size: 16px; font-weight: 600; margin: 24px 0 10px; }
+    .component-summary { color: var(--muted); font-size: 13px; margin: -12px 0 16px; }
+    .prompt-block { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; white-space: pre-wrap; overflow-x: auto; line-height: 1.6; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 13px; margin-bottom: 16px; }
+    .back-link:hover { text-decoration: underline; }
+    @media (max-width: 768px) {
+      .showcase-layout { flex-direction: column; }
+      .showcase-sidebar { width: 100%; height: auto; position: relative; }
+      .showcase-content { padding: 20px; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<cc-app-nav app="meeting-summaries" title="📝 Meeting Summaries" active="docs"></cc-app-nav>
+  <!-- no auth needed - docs page doesn't use Supabase -->
+  <cc-toast></cc-toast>
+
+  <div class="showcase-layout">
+    <div class="showcase-sidebar">
+      <div class="sidebar-nav">
+        <div class="nav-title"><span>📝</span> <h2>Meeting Summaries Docs</h2></div>
+        <a href="index.html" class="back-link">← Back to App</a>
+
+      <div class="nav-group">App Components</div>
+      <a href="#sum-card">Summary Card</a>
+      <a href="#ai-card">Action Item</a>
+      <a href="#sum-stats">Stats Bar</a>
+      <a href="#sum-topics">Topic Tags</a>
+      <a href="#sum-decisions">Decisions List</a>
+      <div class="nav-group">Data</div>
+      <a href="#data-format">Data Format</a>
+      <div class="nav-group">Shared Components</div>
+      <a href="https://shared.adam-harris.alphaclaw.app" target="_blank" rel="noopener">↗ Shared Library</a>
+      </div>
+    </div>
+
+    <div class="showcase-content">
+      <cc-fade-in>
+        <h1 style="font-family:var(--serif);margin-bottom:8px;">📝 Meeting Summaries</h1>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:40px;">Zoom meeting summaries with transcript processing, action item tracking, and JIRA ticket creation.</p>
+      </cc-fade-in>
+
+    <section id="sum-card" class="showcase-section">
+      <h2>Summary Card</h2>
+      <p class="component-summary">Expandable meeting card with topic, attendees, duration, sentiment, and client badges</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.sum-card</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="sum-card" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.sum-card — Expandable meeting card with topic, attendees, duration, sentiment, and client badges</span>
+        </div>
+      </div>
+    </section>
+    <section id="ai-card" class="showcase-section">
+      <h2>Action Item</h2>
+      <p class="component-summary">Action item with owner, priority, deadline, and CTA buttons (create ticket, follow-up, done)</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.ai-card</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="ai-card" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.ai-card — Action item with owner, priority, deadline, and CTA buttons (create ticket, follow-up, done)</span>
+        </div>
+      </div>
+    </section>
+    <section id="sum-stats" class="showcase-section">
+      <h2>Stats Bar</h2>
+      <p class="component-summary">Summary stats row: total meetings, summarized, action items, total time</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.sum-stats</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="sum-stats" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.sum-stats — Summary stats row: total meetings, summarized, action items, total time</span>
+        </div>
+      </div>
+    </section>
+    <section id="sum-topics" class="showcase-section">
+      <h2>Topic Tags</h2>
+      <p class="component-summary">Tag cloud of key topics from a meeting</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.sum-topics</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="sum-topics" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.sum-topics — Tag cloud of key topics from a meeting</span>
+        </div>
+      </div>
+    </section>
+    <section id="sum-decisions" class="showcase-section">
+      <h2>Decisions List</h2>
+      <p class="component-summary">Checkmark list of decisions made during the meeting</p>
+
+      <h3>CSS Class</h3>
+      <div class="prompt-block">.sum-decisions</div>
+
+      <h3>Structure</h3>
+      <div class="example-frame" style="border:1px solid var(--border);border-radius:8px;padding:20px;background:var(--bg);">
+        <div class="sum-decisions" style="padding:16px;border:1px dashed var(--border);border-radius:6px;">
+          <span style="color:var(--muted);font-size:12px;">.sum-decisions — Checkmark list of decisions made during the meeting</span>
+        </div>
+      </div>
+    </section>
+    <section id="data-format" class="showcase-section">
+      <h2>Data Format</h2>
+      <p class="component-summary">Expected JSON structure for this app</p>
+      <div class="prompt-block">// Data from Supabase zoom_transcripts table
+{
+  "topic": "Meeting Title",
+  "start_time": "2025-02-13T...",
+  "duration": 45,
+  "attendees": ["Name 1", "Name 2"],
+  "summary": "Meeting summary text...",
+  "decisions": ["Decision 1", "Decision 2"],
+  "action_items": [
+    { "action": "Do something", "owner": "Name", "priority": "high", "deadline": "2025-02-20" }
+  ],
+  "key_topics": ["topic1", "topic2"],
+  "sentiment": "productive|tense|neutral",
+  "client_id": "client-name"
+}</div>
+    </section>
+    </div>
+  </div>
+</body>
+</html>

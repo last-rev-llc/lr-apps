@@ -1,0 +1,99 @@
+/* ═══════════════════════════════════════════════════════════
+   Web Offerings Page — Custom Styles
+   Extends ai-offerings patterns for web services page
+   ═══════════════════════════════════════════════════════════ */
+
+.lp-section { max-width: 1140px; }
+
+.product-section > cc-fade-in > .lp-body,
+.lp-section > cc-fade-in > .lp-body { text-align: center; }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.features-grid .neon-icon { width: 56px; height: 56px; }
+.features-grid .neon-icon svg { width: 28px; height: 28px; }
+
+.product-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.capability-grid cc-card .cc-card__overline {
+  font-size: 32px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+}
+
+.use-case-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.use-case-pill {
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+}
+
+/* Tech stack grid */
+.tech-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.tech-item {
+  padding: 20px 16px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.tech-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+.tech-item strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text, #e2e8f0);
+  margin-bottom: 4px;
+}
+.tech-item span {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .product-overview-grid { grid-template-columns: 1fr; }
+  .capability-grid { grid-template-columns: 1fr 1fr; }
+  .tech-stack-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 480px) {
+  .capability-grid { grid-template-columns: 1fr; }
+  .tech-stack-grid { grid-template-columns: repeat(2, 1fr); }
+}
