@@ -3,12 +3,13 @@
 class CcNav extends HTMLElement {
   connectedCallback() {
     const active = this.getAttribute('active') || '';
+    const isMonorepo = window.location.pathname.startsWith('/apps/');
     const pages = [
       { href: '/apps.html', label: 'Apps', key: 'apps' },
       { href: '/gallery.html', label: 'Media Gallery', key: 'gallery' },
       /* recipes moved to ideas page Recipes tab */
       { href: '/ideas.html', label: 'Ideas', key: 'ideas' },
-      { href: 'https://cc-crons.adam-harris.alphaclaw.app/', label: 'Tasks', key: 'crons', absolute: true },
+      { href: isMonorepo ? '/apps/cc-crons/' : 'https://cc-crons.adam-harris.alphaclaw.app/', label: 'Tasks', key: 'crons', absolute: true },
       { href: '/client-health.html', label: 'Clients', key: 'clients' },
       { href: '/leads.html', label: 'Leads', key: 'leads' },
       /* import moved to cc-users Import tab */
@@ -21,9 +22,9 @@ class CcNav extends HTMLElement {
 
     const customPages = this.getAttribute('data-pages');
     const allPages = customPages ? JSON.parse(customPages) : pages;
-    const ccDomain = 'https://command-center.adam-harris.alphaclaw.app';
-    const isCommandCenter = window.location.hostname.startsWith('command-center');
-    const base = this.getAttribute('base') || (isCommandCenter ? '' : ccDomain);
+    const ccDomain = isMonorepo ? '/apps/command-center' : 'https://command-center.adam-harris.alphaclaw.app';
+    const isCommandCenter = window.location.hostname.startsWith('command-center') || window.location.pathname.startsWith('/apps/command-center');
+    const base = this.getAttribute('base') || (isCommandCenter ? (isMonorepo ? '/apps/command-center' : '') : ccDomain);
 
     const links = allPages.map(p => {
       const cls = p.key === active ? ' class="active"' : '';

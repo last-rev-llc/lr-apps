@@ -10,7 +10,7 @@ class CcTopbar extends HTMLElement {
 
     this.innerHTML = `
     <div class="cc-topbar-strip">
-      <a href="https://adam-harris.alphaclaw.app/overview" title="Dashboard">🏠 Dashboard</a>
+      <a href="${window.location.pathname.startsWith('/apps/') ? '/apps/command-center/' : 'https://adam-harris.alphaclaw.app/overview'}" title="Dashboard">🏠 Dashboard</a>
       <span class="separator">|</span>
       <span id="cc-topbar-status" class="cc-topbar-status" title="Checking integrations…">⏳</span>
       <span class="separator">|</span>
@@ -114,7 +114,10 @@ class CcTopbar extends HTMLElement {
     const statusEl = this.querySelector('#cc-topbar-status');
 
     try {
-      const res = await fetch('https://command-center.adam-harris.alphaclaw.app/data/integration-status.json');
+      const statusUrl = window.location.pathname.startsWith('/apps/')
+        ? '/apps/command-center/data/integration-status.json'
+        : 'https://command-center.adam-harris.alphaclaw.app/data/integration-status.json';
+      const res = await fetch(statusUrl);
       if (!res.ok) throw new Error('No status file');
       const integrations = await res.json();
 
