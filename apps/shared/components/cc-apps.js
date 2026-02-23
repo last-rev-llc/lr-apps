@@ -181,12 +181,23 @@
       } catch(e) { console.error('Star toggle failed', e); }
     }
 
+    _resolveUrl(a) {
+      const baseUrl = this.getAttribute('base-url');
+      if (baseUrl && a.url) {
+        // Extract app name from alphaclaw URL: https://<name>.adam-harris.alphaclaw.app/...
+        const m = a.url.match(/^https?:\/\/([^.]+)\.adam-harris\.alphaclaw\.app/);
+        if (m) return baseUrl.replace(/\/$/, '') + '/' + m[1] + '/';
+      }
+      return a.url;
+    }
+
     _renderCard(a) {
       const iconHtml = a.icon ? lucideIcon(a.icon, 20) : '📦';
       const catLabel = CATEGORY_LABELS[a.category] || a.category || '';
       const starClass = a.starred ? 'cc-app-star active' : 'cc-app-star';
+      const url = this._resolveUrl(a);
       return `<div class="cc-app-card-wrap">
-        <a href="${a.url}" target="_blank" rel="noopener" class="cc-app-card">
+        <a href="${url}" target="_blank" rel="noopener" class="cc-app-card">
           <div class="cc-app-icon">${iconHtml}</div>
           <div class="cc-app-info">
             <div class="cc-app-name">${a.name}</div>
