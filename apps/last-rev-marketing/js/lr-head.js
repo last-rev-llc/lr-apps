@@ -64,6 +64,10 @@
         setMeta('name', 'viewport', 'width=device-width, initial-scale=1.0');
       }
 
+      // Component base URL (for alphaclaw — points to shared domain)
+      // In monorepo, this would be: setMeta('name', 'cc-base', '/shared/');
+      setMeta('name', 'cc-base', 'https://shared.adam-harris.alphaclaw.app/');
+
       // SEO meta
       setMeta('name', 'description', desc);
 

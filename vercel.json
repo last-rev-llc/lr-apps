@@ -15,7 +15,27 @@
       "has": [
         {
           "type": "host",
+          "value": "accounts.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/accounts/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "age-of-apes.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/age-of-apes/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "age-of-apes.apps.lastrev.com"
         }
       ],
       "destination": "/apps/age-of-apes/:path*"
@@ -35,7 +55,27 @@
       "has": [
         {
           "type": "host",
+          "value": "ai-calculator.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/ai-calculator/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "alpha-wins.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/alpha-wins/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "alpha-wins.apps.lastrev.com"
         }
       ],
       "destination": "/apps/alpha-wins/:path*"
@@ -55,7 +95,27 @@
       "has": [
         {
           "type": "host",
+          "value": "cc-agents.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/cc-agents/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "cc-ai-scripts.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-ai-scripts/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-ai-scripts.apps.lastrev.com"
         }
       ],
       "destination": "/apps/cc-ai-scripts/:path*"
@@ -75,7 +135,27 @@
       "has": [
         {
           "type": "host",
+          "value": "cc-alphaclaw.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/cc-alphaclaw/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "cc-architecture.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-architecture/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-architecture.apps.lastrev.com"
         }
       ],
       "destination": "/apps/cc-architecture/:path*"
@@ -95,7 +175,27 @@
       "has": [
         {
           "type": "host",
+          "value": "cc-client-health.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/cc-client-health/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "cc-concerts.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-concerts/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-concerts.apps.lastrev.com"
         }
       ],
       "destination": "/apps/cc-concerts/:path*"
@@ -115,7 +215,27 @@
       "has": [
         {
           "type": "host",
+          "value": "cc-contentful.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/cc-contentful/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "cc-crons.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-crons/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-crons.apps.lastrev.com"
         }
       ],
       "destination": "/apps/cc-crons/:path*"
@@ -135,7 +255,27 @@
       "has": [
         {
           "type": "host",
+          "value": "cc-gallery.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/cc-gallery/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "cc-ideas.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-ideas/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-ideas.apps.lastrev.com"
         }
       ],
       "destination": "/apps/cc-ideas/:path*"
@@ -155,7 +295,27 @@
       "has": [
         {
           "type": "host",
+          "value": "cc-iron.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/cc-iron/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "cc-leads.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-leads/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-leads.apps.lastrev.com"
         }
       ],
       "destination": "/apps/cc-leads/:path*"
@@ -175,7 +335,27 @@
       "has": [
         {
           "type": "host",
+          "value": "cc-meeting-summaries.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/cc-meeting-summaries/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "cc-meme-generator.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-meme-generator/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-meme-generator.apps.lastrev.com"
         }
       ],
       "destination": "/apps/cc-meme-generator/:path*"
@@ -195,7 +375,27 @@
       "has": [
         {
           "type": "host",
+          "value": "cc-pr-review.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/cc-pr-review/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "cc-recipes.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-recipes/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-recipes.apps.lastrev.com"
         }
       ],
       "destination": "/apps/cc-recipes/:path*"
@@ -215,7 +415,27 @@
       "has": [
         {
           "type": "host",
+          "value": "cc-rizz-guide.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/cc-rizz-guide/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "cc-team-usf.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cc-team-usf/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cc-team-usf.apps.lastrev.com"
         }
       ],
       "destination": "/apps/cc-team-usf/:path*"
@@ -235,7 +455,27 @@
       "has": [
         {
           "type": "host",
+          "value": "cc-users.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/cc-users/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "client-scorecard.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/client-scorecard/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "client-scorecard.apps.lastrev.com"
         }
       ],
       "destination": "/apps/client-scorecard/:path*"
@@ -255,7 +495,27 @@
       "has": [
         {
           "type": "host",
+          "value": "command-center.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/command-center/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "cringe-rizzler.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/cringe-rizzler/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "cringe-rizzler.apps.lastrev.com"
         }
       ],
       "destination": "/apps/cringe-rizzler/:path*"
@@ -275,7 +535,27 @@
       "has": [
         {
           "type": "host",
+          "value": "dad-joke-of-the-day.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/dad-joke-of-the-day/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "daily-updates.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/daily-updates/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "daily-updates.apps.lastrev.com"
         }
       ],
       "destination": "/apps/daily-updates/:path*"
@@ -295,7 +575,27 @@
       "has": [
         {
           "type": "host",
+          "value": "gen-alpha.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/gen-alpha/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "gen-boomers.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/gen-boomers/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "gen-boomers.apps.lastrev.com"
         }
       ],
       "destination": "/apps/gen-boomers/:path*"
@@ -315,7 +615,27 @@
       "has": [
         {
           "type": "host",
+          "value": "gen-silent.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/gen-silent/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "gen-x.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/gen-x/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "gen-x.apps.lastrev.com"
         }
       ],
       "destination": "/apps/gen-x/:path*"
@@ -335,7 +655,27 @@
       "has": [
         {
           "type": "host",
+          "value": "gen-y.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/gen-y/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "gen-z.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/gen-z/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "gen-z.apps.lastrev.com"
         }
       ],
       "destination": "/apps/gen-z/:path*"
@@ -355,7 +695,27 @@
       "has": [
         {
           "type": "host",
+          "value": "generations.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/generations/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "hspt-practice.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/hspt-practice/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "hspt-practice.apps.lastrev.com"
         }
       ],
       "destination": "/apps/hspt-practice/:path*"
@@ -375,7 +735,27 @@
       "has": [
         {
           "type": "host",
+          "value": "hspt-tutor.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/hspt-tutor/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "last-rev-marketing.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/last-rev-marketing/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "last-rev-marketing.apps.lastrev.com"
         }
       ],
       "destination": "/apps/last-rev-marketing/:path*"
@@ -395,7 +775,27 @@
       "has": [
         {
           "type": "host",
+          "value": "lastrev-redesign.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/lastrev-redesign/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "lighthouse.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/lighthouse/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "lighthouse.apps.lastrev.com"
         }
       ],
       "destination": "/apps/lighthouse/:path*"
@@ -415,7 +815,27 @@
       "has": [
         {
           "type": "host",
+          "value": "meeting-summaries.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/meeting-summaries/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "proper-wine-pour.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/proper-wine-pour/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "proper-wine-pour.apps.lastrev.com"
         }
       ],
       "destination": "/apps/proper-wine-pour/:path*"
@@ -435,7 +855,27 @@
       "has": [
         {
           "type": "host",
+          "value": "roblox-dances.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/roblox-dances/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "sales.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/sales/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "sales.apps.lastrev.com"
         }
       ],
       "destination": "/apps/sales/:path*"
@@ -455,7 +895,27 @@
       "has": [
         {
           "type": "host",
+          "value": "sentiment.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/sentiment/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "shared.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/shared/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "shared.apps.lastrev.com"
         }
       ],
       "destination": "/apps/shared/:path*"
@@ -475,7 +935,27 @@
       "has": [
         {
           "type": "host",
+          "value": "slang-translator.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/slang-translator/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "soccer-training.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/soccer-training/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "soccer-training.apps.lastrev.com"
         }
       ],
       "destination": "/apps/soccer-training/:path*"
@@ -495,7 +975,27 @@
       "has": [
         {
           "type": "host",
+          "value": "sprint-planning.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/sprint-planning/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "standup.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/standup/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "standup.apps.lastrev.com"
         }
       ],
       "destination": "/apps/standup/:path*"
@@ -515,7 +1015,27 @@
       "has": [
         {
           "type": "host",
+          "value": "superstars.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/superstars/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "travel-collection.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/travel-collection/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "travel-collection.apps.lastrev.com"
         }
       ],
       "destination": "/apps/travel-collection/:path*"
@@ -535,7 +1055,27 @@
       "has": [
         {
           "type": "host",
+          "value": "uptime.apps.lastrev.com"
+        }
+      ],
+      "destination": "/apps/uptime/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "ux-review.adam-harris.alphaclaw.app"
+        }
+      ],
+      "destination": "/apps/ux-review/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "ux-review.apps.lastrev.com"
         }
       ],
       "destination": "/apps/ux-review/:path*"
