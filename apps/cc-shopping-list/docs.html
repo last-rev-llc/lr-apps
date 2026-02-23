@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f59e0b">
+<title>🛒 Shopping List — Docs</title>
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<style>
+  body { max-width:900px; margin:0 auto; padding:1.5rem; }
+  pre { background:var(--bg-secondary); padding:1rem; border-radius:8px; overflow-x:auto; }
+  code { background:var(--bg-secondary); padding:2px 6px; border-radius:4px; font-size:.9rem; }
+</style>
+</head>
+<body>
+<cc-app-nav app="cc-shopping-list" title="🛒 Shopping List" active="docs"></cc-app-nav>
+
+<h1>Shopping List — Documentation</h1>
+
+<h2>Overview</h2>
+<p>A mobile-first shopping list app organized by store. Supports categories, drag-to-reorder, swipe-to-delete, quick-add suggestions, batch operations, and multiple sort options.</p>
+
+<h2>Stores</h2>
+<p>Three built-in stores: Trader Joe's, Costco, and Target. Each store has its own list with independent sort order.</p>
+
+<h2>Categories</h2>
+<p>Items can be categorized: Produce, Dairy, Meat &amp; Seafood, Frozen, Bakery, Beverages, Snacks, Household, Personal Care, Other.</p>
+
+<h2>Data Schema</h2>
+<p>Table: <code>shopping_items</code></p>
+<pre><code>id          TEXT PRIMARY KEY
+store       TEXT NOT NULL
+item_name   TEXT NOT NULL
+quantity    INTEGER DEFAULT 1
+category    TEXT DEFAULT 'other'
+in_cart     BOOLEAN DEFAULT false
+sort_order  INTEGER DEFAULT 0
+created_at  TIMESTAMPTZ DEFAULT now()
+updated_at  TIMESTAMPTZ DEFAULT now()</code></pre>
+
+<h2>API (db.js)</h2>
+
+<h3>ShoppingDB.init()</h3>
+<p>Initialize the database connection. Returns a ShoppingDB instance.</p>
+
+<h3>db.getItems(store)</h3>
+<p>Get all items for a store, sorted by sort_order then created_at.</p>
+
+<h3>db.addItem(store, name, qty, category)</h3>
+<p>Add an item. Auto-assigns next sort_order.</p>
+
+<h3>db.toggleInCart(id, inCart)</h3>
+<p>Toggle checked state.</p>
+
+<h3>db.updateSortOrder(id, order)</h3>
+<p>Update an item's position for drag-to-reorder.</p>
+
+<h3>db.moveToStore(id, newStore)</h3>
+<p>Move an item to a different store.</p>
+
+<h3>db.deleteItem(id) / db.deleteItems(ids)</h3>
+<p>Delete one or multiple items.</p>
+
+<h3>db.clearStore(store)</h3>
+<p>Delete all checked items from a store.</p>
+
+<h3>db.getRecentItems(limit)</h3>
+<p>Get unique recently-added item names for quick-add suggestions.</p>
+
+<h3>db.getStoreCounts()</h3>
+<p>Get item count per store for tab badges.</p>
+
+<h2>Features</h2>
+<ul>
+  <li><strong>Drag to reorder</strong> — drag grip handle in manual sort mode</li>
+  <li><strong>Swipe to delete</strong> — swipe left/right on mobile to remove items</li>
+  <li><strong>Quick-add pills</strong> — recently added items appear as one-tap buttons</li>
+  <li><strong>Batch operations</strong> — long-press to enter select mode, bulk delete or move</li>
+  <li><strong>Sort options</strong> — manual, name, category, date added, checked status</li>
+  <li><strong>Store tab counts</strong> — item totals shown in tab labels</li>
+  <li><strong>Confirmation modal</strong> — destructive actions use cc-modal, not confirm()</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔐 App Access</title>
+<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
+<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<meta name="app-id" content="cc-app-access">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
+<script src="https://shared.adam-harris.alphaclaw.app/components/cc-user-auth.js"></script>
+<style>
+  .access-container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+  .access-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+  .access-header h1 { margin: 0; font-size: 1.5rem; color: #f1f5f9; }
+  .add-btn { padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem; }
+  .add-btn:hover { background: #2563eb; }
+  
+  .users-table { width: 100%; border-collapse: collapse; background: rgba(30,41,59,0.6); border-radius: 12px; overflow: hidden; border: 1px solid rgba(148,163,184,0.15); }
+  .users-table th { text-align: left; padding: 0.75rem 1rem; color: #94a3b8; font-weight: 500; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(148,163,184,0.15); }
+  .users-table td { padding: 0.75rem 1rem; color: #e2e8f0; border-bottom: 1px solid rgba(148,163,184,0.08); font-size: 0.9rem; }
+  .users-table tr:last-child td { border-bottom: none; }
+  .users-table tr:hover td { background: rgba(59,130,246,0.05); }
+  
+  .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
+  .badge-super { background: rgba(234,179,8,0.2); color: #facc15; }
+  .badge-app { background: rgba(59,130,246,0.2); color: #60a5fa; }
+  
+  .app-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+  
+  .remove-btn { padding: 0.25rem 0.5rem; background: rgba(220,38,38,0.2); color: #f87171; border: none; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
+  .remove-btn:hover { background: rgba(220,38,38,0.4); }
+  
+  /* Modal */
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; align-items: center; justify-content: center; }
+  .modal { background: #1e293b; border-radius: 12px; padding: 1.5rem; width: 90%; max-width: 500px; border: 1px solid rgba(148,163,184,0.2); }
+  .modal h2 { margin: 0 0 1rem; font-size: 1.2rem; color: #f1f5f9; }
+  .modal label { display: block; margin-bottom: 0.3rem; color: #94a3b8; font-size: 0.85rem; }
+  .modal input, .modal select { width: 100%; padding: 0.5rem; margin-bottom: 1rem; background: #0f172a; border: 1px solid rgba(148,163,184,0.2); border-radius: 6px; color: #e2e8f0; font-size: 0.9rem; box-sizing: border-box; }
+  .modal select[multiple] { height: 200px; }
+  .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }
+  .modal-actions button { padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+  .btn-cancel { background: #334155; color: #94a3b8; }
+  .btn-save { background: #3b82f6; color: white; }
+  .btn-save:hover { background: #2563eb; }
+  
+  .search-input { padding: 0.5rem 0.75rem; background: rgba(15,23,42,0.8); border: 1px solid rgba(148,163,184,0.2); border-radius: 6px; color: #e2e8f0; font-size: 0.9rem; width: 250px; }
+  
+  .stats { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .stat-card { background: rgba(30,41,59,0.6); border: 1px solid rgba(148,163,184,0.15); border-radius: 8px; padding: 1rem; flex: 1; min-width: 120px; }
+  .stat-card .num { font-size: 1.5rem; font-weight: 700; color: #f1f5f9; }
+  .stat-card .label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; }
+  
+  .empty { text-align: center; padding: 3rem; color: #64748b; }
+</style>
+</head>
+<body>
+<cc-app-nav app="cc-app-access" title="🔐 App Access" active="home"></cc-app-nav>
+<cc-user-auth mode="gate" providers="email"></cc-user-auth>
+<cc-toast></cc-toast>
+
+<div class="access-container" id="main">
+  <div class="access-header">
+    <h1>🔐 App Access Manager</h1>
+    <div style="display:flex;gap:0.5rem;align-items:center;">
+      <input class="search-input" id="search" placeholder="Search users..." oninput="filterUsers()">
+      <button class="add-btn" onclick="showAddModal()">+ Grant Access</button>
+    </div>
+  </div>
+  
+  <div class="stats" id="stats"></div>
+  <table class="users-table">
+    <thead><tr><th>Email</th><th>Access</th><th>Granted By</th><th>Date</th><th></th></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="empty" id="empty" style="display:none;">No access entries yet.</div>
+</div>
+
+<script>
+let allRows = [];
+let allApps = [];
+
+// Known apps list
+const KNOWN_APPS = [
+  'accounts','age-of-apes','ai-calculator','alpha-wins','cc-agents','cc-ai-scripts',
+  'cc-alphaclaw','cc-app-access','cc-architecture','cc-client-health','cc-concerts',
+  'cc-contentful','cc-crons','cc-gallery','cc-ideas','cc-iron','cc-leads',
+  'cc-meeting-summaries','cc-meme-generator','cc-pr-review','cc-recipes','cc-rizz-guide',
+  'cc-team-usf','cc-users','client-scorecard','command-center','cringe-rizzler',
+  'dad-joke-of-the-day','daily-updates','gen-alpha','gen-boomers','gen-silent','gen-x',
+  'gen-y','gen-z','generations','hspt-practice','hspt-tutor','last-rev-marketing',
+  'lastrev-redesign','lighthouse','meeting-summaries','proper-wine-pour','roblox-dances',
+  'sales','sentiment','slang-translator','soccer-training','sprint-planning','standup',
+  'superstars','travel-collection','uptime','ux-review'
+].sort();
+
+async function loadAccess() {
+  try {
+    allRows = await window.supabase.select('app_access', { select: '*', order: 'email.asc,app_id.asc' });
+    renderTable();
+    renderStats();
+  } catch (e) {
+    console.error('Load failed:', e);
+  }
+}
+
+function renderStats() {
+  const emails = new Set(allRows.map(r => r.email));
+  const superadmins = allRows.filter(r => !r.app_id).length;
+  const appGrants = allRows.filter(r => r.app_id).length;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card"><div class="num">${emails.size}</div><div class="label">Users</div></div>
+    <div class="stat-card"><div class="num">${superadmins}</div><div class="label">Superadmins</div></div>
+    <div class="stat-card"><div class="num">${appGrants}</div><div class="label">App Grants</div></div>
+    <div class="stat-card"><div class="num">${allRows.length}</div><div class="label">Total Entries</div></div>`;
+}
+
+function renderTable() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const filtered = q ? allRows.filter(r => r.email.includes(q) || (r.app_id || '').includes(q)) : allRows;
+  
+  // Group by email
+  const grouped = {};
+  for (const row of filtered) {
+    if (!grouped[row.email]) grouped[row.email] = [];
+    grouped[row.email].push(row);
+  }
+  
+  const tbody = document.getElementById('tbody');
+  if (Object.keys(grouped).length === 0) {
+    tbody.innerHTML = '';
+    document.getElementById('empty').style.display = '';
+    return;
+  }
+  document.getElementById('empty').style.display = 'none';
+  
+  tbody.innerHTML = Object.entries(grouped).map(([email, rows]) => {
+    const isSuperadmin = rows.some(r => !r.app_id);
+    const appRows = rows.filter(r => r.app_id);
+    
+    let accessHTML;
+    if (isSuperadmin) {
+      accessHTML = '<span class="badge badge-super">⭐ SUPERADMIN — All Apps</span>';
+    } else {
+      accessHTML = '<div class="app-tags">' + appRows.map(r => 
+        `<span class="badge badge-app">${r.app_id} <button class="remove-btn" onclick="removeAccess('${r.id}')" title="Remove">×</button></span>`
+      ).join('') + '</div>';
+    }
+    
+    const grantedBy = rows[0].granted_by || 'system';
+    const date = new Date(rows[0].created_at).toLocaleDateString();
+    
+    return `<tr>
+      <td><strong>${email}</strong></td>
+      <td>${accessHTML}</td>
+      <td style="color:#64748b">${grantedBy}</td>
+      <td style="color:#64748b">${date}</td>
+      <td>
+        <button class="add-btn" style="font-size:0.75rem;padding:0.25rem 0.5rem;" onclick="showAddModal('${email}')">+ Add</button>
+        ${isSuperadmin ? `<button class="remove-btn" onclick="removeAccess('${rows.find(r=>!r.app_id).id}')" style="margin-left:0.3rem;">Remove Super</button>` : ''}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filterUsers() { renderTable(); }
+
+function showAddModal(prefillEmail = '') {
+  const existing = document.querySelector('.modal-bg');
+  if (existing) existing.remove();
+  
+  const appOptions = KNOWN_APPS.map(a => `<option value="${a}">${a}</option>`).join('');
+  
+  const div = document.createElement('div');
+  div.className = 'modal-bg';
+  div.innerHTML = `
+    <div class="modal">
+      <h2>Grant App Access</h2>
+      <label>Email</label>
+      <input id="modal-email" type="email" placeholder="user@example.com" value="${prefillEmail}">
+      <label>Apps (hold Ctrl/Cmd to select multiple, or leave empty for superadmin)</label>
+      <select id="modal-apps" multiple>${appOptions}</select>
+      <label style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;cursor:pointer;">
+        <input type="checkbox" id="modal-super"> Grant superadmin (access to ALL apps)
+      </label>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-save" onclick="saveAccess()">Grant Access</button>
+      </div>
+    </div>`;
+  document.body.appendChild(div);
+  div.querySelector('.modal').addEventListener('click', e => e.stopPropagation());
+  div.addEventListener('click', closeModal);
+  
+  document.getElementById('modal-super').onchange = function() {
+    document.getElementById('modal-apps').disabled = this.checked;
+  };
+}
+
+function closeModal() {
+  document.querySelector('.modal-bg')?.remove();
+}
+
+async function saveAccess() {
+  const email = document.getElementById('modal-email').value.trim().toLowerCase();
+  if (!email) return alert('Email is required');
+  
+  const isSuper = document.getElementById('modal-super').checked;
+  const selectedApps = isSuper ? [null] : Array.from(document.getElementById('modal-apps').selectedOptions).map(o => o.value);
+  
+  if (!isSuper && selectedApps.length === 0) return alert('Select at least one app or check superadmin');
+  
+  const currentUser = window.sbAuth?.getUser()?.email || 'unknown';
+  
+  try {
+    for (const appId of selectedApps) {
+      const row = {
+        id: `access-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,
+        email,
+        app_id: appId,
+        granted_by: currentUser
+      };
+      await window.supabase.upsert('app_access', row);
+    }
+    closeModal();
+    await loadAccess();
+    showToast('Access granted!');
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+async function removeAccess(id) {
+  if (!confirm('Remove this access?')) return;
+  try {
+    await window.supabase.delete('app_access', { id: `eq.${id}` });
+    await loadAccess();
+    showToast('Access removed');
+  } catch (e) {
+    alert('Error: ' + e.message);
+  }
+}
+
+function showToast(msg) {
+  const toast = document.querySelector('cc-toast');
+  if (toast?.show) toast.show(msg);
+}
+
+// Wait for auth, then load
+function waitForAuth() {
+  if (window.sbAuth?.getUser()) {
+    loadAccess();
+  } else if (window.sbAuth) {
+    window.sbAuth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_IN') loadAccess();
+    });
+  } else {
+    setTimeout(waitForAuth, 100);
+  }
+}
+waitForAuth();
+</script>
+</body>
+</html>
