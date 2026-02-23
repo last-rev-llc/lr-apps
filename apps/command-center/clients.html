@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="cc-base" content="/apps/shared/">
 <title>⚡ Client Health Scorecard</title>
-<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
-<script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+<link rel="stylesheet" href="/apps/shared/theme.css">
+<script src="/apps/shared/components/index.js"></script>
 <style>
 .scorecard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; padding: 20px; }
 .client-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: border-color 0.2s; }
@@ -47,7 +48,7 @@
 .pill:hover { border-color: var(--accent); color: var(--text); }
 .pill.active { background: var(--accent); border-color: var(--accent); color: #000; }
 </style>
-<script src="https://shared.adam-harris.alphaclaw.app/sql-sync.js"></script>
+<script src="/apps/shared/sql-sync.js"></script>
 <script src="db.js"></script>
 </head>
 <body>
