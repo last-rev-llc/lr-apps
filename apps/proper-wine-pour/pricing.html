@@ -17,8 +17,8 @@
 <link rel="manifest" href="manifest.json">
 </head>
 <body>
-<cc-app-nav app="proper-wine-pour" title="🍷 Proper Wine Pour" active="pricing"></cc-app-nav>
-<cc-user-auth mode="menu" providers="email"></cc-user-auth>
+<cc-app-topnav app="proper-wine-pour" title="🍷 Proper Wine Pour" links='[{"id":"app","label":"App","href":"app.html"},{"id":"pricing","label":"Pricing","href":"pricing.html"}]' active="pricing"></cc-app-topnav>
+<cc-app-nav app="proper-wine-pour" title="🍷 Proper Wine Pour" active="pricing" position="bottom"></cc-app-nav>
 <cc-toast></cc-toast>
 <cc-pricing app="proper-wine-pour" checkout-url="https://lregiwsovpmljxjvrrsc.supabase.co/functions/v1/stripe-checkout"></cc-pricing>
 </body>

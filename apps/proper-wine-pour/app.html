@@ -18,8 +18,8 @@
 <link rel="manifest" href="manifest.json">
 </head>
 <body>
-<cc-app-nav app="proper-wine-pour" title="🍷 Proper Wine Pour" active="app"></cc-app-nav>
-<cc-user-auth mode="menu" providers="email"></cc-user-auth>
+<cc-app-topnav app="proper-wine-pour" title="🍷 Proper Wine Pour" links='[{"id":"app","label":"App","href":"app.html"},{"id":"pricing","label":"Pricing","href":"pricing.html"}]' active="app"></cc-app-topnav>
+<cc-app-nav app="proper-wine-pour" title="🍷 Proper Wine Pour" active="app" position="bottom"></cc-app-nav>
 <cc-toast></cc-toast>
 <proper-wine-pour src="data/restaurants.json"></proper-wine-pour>
 </body>
