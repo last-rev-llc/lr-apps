@@ -28,8 +28,8 @@
 </style>
 </head>
 <body>
-<cc-app-nav app="accounts" title="👥 Accounts" active="app"></cc-app-nav>
-<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
+<cc-app-topnav app="accounts" title="👥 Accounts" links='[{"id":"app","label":"Accounts","href":"app.html"},{"id":"apps","label":"Apps","href":"apps.html"}]' active="app"></cc-app-topnav>
+<cc-app-nav app="accounts" title="👥 Accounts" active="app" position="bottom"></cc-app-nav>
 <cc-toast></cc-toast>
 <accounts-dashboard></accounts-dashboard>
 </body>
