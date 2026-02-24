@@ -19,8 +19,8 @@
 <script src="modules/gen-z.js"></script>
 </head>
 <body>
-<cc-app-nav app="gen-z" title="💅 Gen Z Slang" active="app"></cc-app-nav>
-<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
+<cc-app-topnav app="gen-z" title="💅 Gen Z Slang" links='[{"id":"app","label":"App","href":"app.html"}]' active="app"></cc-app-topnav>
+<cc-app-nav app="gen-z" title="💅 Gen Z Slang" active="app" position="bottom"></cc-app-nav>
 <cc-toast></cc-toast>
 
 <gen-z src="data/slang.json"></gen-z>

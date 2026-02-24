@@ -1,11 +1,11 @@
 {
-  "name": "Gen Z",
-  "short_name": "Gen Z",
-  "description": "Gen Z",
+  "name": "💅 Gen Z Slang Dictionary",
+  "short_name": "GenZ",
+  "description": "The definitive Gen Z slang dictionary, translator, and quiz. 35+ terms from TikTok, dating apps, and therapy speak. No cap, it hits different, periodt.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#e040fb",
+  "theme_color": "#00D4FF",
   "orientation": "any",
   "icons": [
     {
