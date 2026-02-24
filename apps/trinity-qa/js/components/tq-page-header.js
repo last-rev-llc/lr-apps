@@ -48,6 +48,7 @@ export class TQPageHeader extends HTMLElement {
         :host {
           display: block;
           margin-bottom: var(--spacing-xl, 2rem);
+          padding-bottom: var(--spacing-xl, 2rem);
         }
 
         .page-header {

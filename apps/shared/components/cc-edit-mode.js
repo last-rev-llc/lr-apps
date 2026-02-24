@@ -307,7 +307,7 @@
       structured += `\nPage: ${page}`;
       if (componentName) structured += `\nComponent: ${componentName}`;
       structured += `\n\nUser request: ${message}`;
-      structured += `\n\nIMPORTANT: This is a cosmetic/UI change only. Update the orchestration layer (memory/projects/${appSlug}.md) if brand or style decisions are made. Use the build-orchestrator skill and check shared components before writing new code.`;
+      structured += `\n\nThis is a one-shot edit request — implement the change in a single pass. Update the orchestration layer (memory/projects/${appSlug}.md) if brand, style, or architectural decisions are made. Use the build-orchestrator skill and check shared components before writing new code.`;
 
       const payload = {
         message: structured,

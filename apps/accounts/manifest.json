@@ -1,11 +1,11 @@
 {
-  "name": "Accounts",
+  "name": "Accounts — Client Intelligence",
   "short_name": "Accounts",
-  "description": "Accounts",
+  "description": "Every client, one dashboard. Contacts, PRs, tickets, Contentful, contracts, and standups — all in one place.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
+  "theme_color": "#14b8a6",
   "orientation": "any",
   "icons": [
     {

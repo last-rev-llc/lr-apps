@@ -1,7 +1,7 @@
 {
-  "name": "Team Directory",
+  "name": "Team Directory — Know Your Team",
   "short_name": "Team",
-  "description": "Team Directory",
+  "description": "AI-enriched team profiles with personality insights, social discovery, and relationship context from Slack, GitHub, and Zoom",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
