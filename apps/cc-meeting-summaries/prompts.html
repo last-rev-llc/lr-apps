@@ -15,7 +15,8 @@
 <script src="https://shared.adam-harris.alphaclaw.app/modules/cc-prompts.js"></script>
 </head>
 <body>
-<cc-app-nav app="cc-meeting-summaries" title="📝 Meeting Summaries" active="prompts"></cc-app-nav>
+<cc-app-topnav app="cc-meeting-summaries" title="📝 Meeting Summaries" links='[{"id":"app","label":"App","href":"app.html"}]' active=""></cc-app-topnav>
+<cc-app-nav app="cc-meeting-summaries" title="📝 Meeting Summaries" active="prompts" position="bottom"></cc-app-nav>
 <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 <cc-prompts src="data/prompts.json"></cc-prompts>
