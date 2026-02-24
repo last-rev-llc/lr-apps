@@ -47,7 +47,6 @@ class CcAppNav extends HTMLElement {
 
     this.innerHTML = `
       <nav class="cc-app-nav${posClass}">
-        <a href="${base}/" class="cc-app-nav-title">${title}</a>
         <div class="cc-app-nav-links">
           ${navLinks}
         </div>
