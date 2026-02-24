@@ -18,7 +18,8 @@
 <script src="modules/gen-x.js"></script>
 </head>
 <body>
-<cc-app-nav app="gen-x" title="📼 GenX" active="app"></cc-app-nav>
+<cc-app-topnav app="gen-x" title="📼 GenX" links='[{"id":"app","label":"App","href":"app.html"},{"id":"apps","label":"Apps","href":"apps.html"},{"id":"docs","label":"Docs","href":"docs.html"}]' active="app"></cc-app-topnav>
+<cc-app-nav app="gen-x" title="📼 GenX" active="app" position="bottom"></cc-app-nav>
 <cc-toast></cc-toast>
 
 <gen-x></gen-x>
