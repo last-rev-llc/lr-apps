@@ -51,7 +51,6 @@ class CcAppNav extends HTMLElement {
         <div class="cc-app-nav-links">
           ${navLinks}
         </div>
-        <cc-user-auth mode="menu" allow-signup="false"></cc-user-auth>
       </nav>
       <cc-dev-toolbar app="${app}" repo="${repo}"></cc-dev-toolbar>
     `;

@@ -22,8 +22,9 @@
 <script>window._oaiKey = document.querySelector('meta[name="openai-key"]')?.content;</script>
 </head>
 <body>
-<cc-app-nav app="cringe-rizzler" title="Cringe Rizzler" active="app" position="bottom"></cc-app-nav>
+<cc-app-topnav app="cringe-rizzler" title="Cringe Rizzler" links='[{"id":"app","label":"App","href":"app.html"},{"id":"admin","label":"Admin","href":"admin.html"}]' active="app"></cc-app-topnav>
 <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
+<cc-app-nav app="cringe-rizzler" title="Cringe Rizzler" active="app" position="bottom"></cc-app-nav>
 <cc-toast></cc-toast>
 <cringe-rizzler></cringe-rizzler>
 <script>
