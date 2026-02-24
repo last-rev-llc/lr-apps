@@ -10,7 +10,8 @@
 <script src="modules/age-of-apes-summary.js"></script>
 </head>
 <body>
-<cc-app-nav app="age-of-apes" title="🦍 Age of Apes Guide" active="docs"></cc-app-nav>
+<cc-app-topnav app="age-of-apes" title="🦍 Age of Apes Guide" links='[{"id":"app","label":"Guide","href":"app.html"},{"id":"guides","label":"Guides","href":"guides.html"},{"id":"calculators","label":"Calculators","href":"calculators.html"}]' active="app"></cc-app-topnav>
+<cc-app-nav app="age-of-apes" title="🦍 Age of Apes Guide" active="docs" position="bottom"></cc-app-nav>
 <cc-toast></cc-toast>
 <style>
 .showcase-layout{display:grid;grid-template-columns:240px 1fr;gap:2rem;max-width:1100px;margin:40px auto;padding:0 20px;}
