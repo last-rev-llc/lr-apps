@@ -245,15 +245,27 @@
       if (!body) return;
 
       const name = el ? el.getAttribute('data-cc-component') : null;
-      const componentBadge = name
-        ? `<div class="cc-edit-component-badge"><span class="wand">🪄</span> &lt;${name}&gt;</div>`
-        : `<div class="cc-edit-no-component-hint" style="font-size:.8rem;color:var(--text-muted,#888);margin-bottom:12px;">💡 Tip: click a 🪄 wand on any component to target it specifically</div>`;
+      const appMeta = document.querySelector('meta[name="app-id"]');
+      const appSlug = appMeta?.content || location.hostname.split('.')[0] || 'unknown';
+      const page = location.pathname.split('/').pop() || 'index.html';
+
+      const contextHtml = `
+        <div class="cc-edit-context" style="background:rgba(255,255,255,.04);border:1px solid var(--border,#333);border-radius:8px;padding:12px;margin-bottom:16px;font-size:.8rem;color:var(--text-muted,#aaa);line-height:1.5;">
+          <div style="font-weight:600;color:var(--text,#e0e0e0);margin-bottom:6px;">📋 Context (auto-included)</div>
+          <div>🏷️ App: <strong style="color:var(--text,#e0e0e0);">${appSlug}</strong></div>
+          <div>📄 Page: <strong style="color:var(--text,#e0e0e0);">${page}</strong></div>
+          ${name ? `<div>🧩 Component: <strong style="color:var(--accent,#7c6aff);">&lt;${name}&gt;</strong></div>` : '<div>🎯 Target: <em>General page feedback</em></div>'}
+        </div>
+      `;
+
+      const label = name
+        ? `What would you like to change on <strong>&lt;${name}&gt;</strong>?`
+        : 'Describe your feedback or change request';
 
       body.innerHTML = `
-        ${componentBadge}
-        <div class="cc-edit-url">${window.location.href}</div>
-        <div class="cc-edit-label">${name ? 'What would you like to change?' : 'Describe your feedback or change request'}</div>
-        <textarea class="cc-edit-textarea" placeholder="${name ? 'Describe the change you want for this component...' : 'Describe what you\'d like changed on this page...'} (min 20 characters)" minlength="20"></textarea>
+        ${contextHtml}
+        <div class="cc-edit-label">${label}</div>
+        <textarea class="cc-edit-textarea" placeholder="${name ? `e.g. "Change the card background to a darker shade" or "Add hover animation to this component"` : `e.g. "Update the color scheme to feel more professional" or "The hero section needs a stronger CTA"`}" minlength="20"></textarea>
         <div class="cc-edit-char-count">0 / 20 min</div>
         <button class="cc-edit-submit" disabled>🚀 Send to Queue</button>
       `;
@@ -277,10 +289,29 @@
       btn.disabled = true;
       btn.textContent = '⏳ Sending...';
 
-      const prefix = componentName ? `[Component: ${componentName}] ` : '';
+      // Build a structured prompt with full context
+      const appMeta = document.querySelector('meta[name="app-id"]');
+      const appSlug = appMeta?.content || location.hostname.split('.')[0] || 'unknown';
+      const page = location.pathname.split('/').pop() || 'index.html';
+      const pageType = page.replace('.html', '') || 'index';
+
+      let structured = `[From ${appSlug}] `;
+      structured += `Edit request for the "${appSlug}" app on the ${pageType} page (${page}).`;
+      if (componentName) {
+        structured += ` The target component is <${componentName}>.`;
+      } else {
+        structured += ` This is a general page-level request (no specific component targeted).`;
+      }
+      structured += `\n\nPage URL: ${window.location.href}`;
+      structured += `\nApp: ${appSlug}`;
+      structured += `\nPage: ${page}`;
+      if (componentName) structured += `\nComponent: ${componentName}`;
+      structured += `\n\nUser request: ${message}`;
+      structured += `\n\nIMPORTANT: This is a cosmetic/UI change only. Update the orchestration layer (memory/projects/${appSlug}.md) if brand or style decisions are made. Use the build-orchestrator skill and check shared components before writing new code.`;
+
       const payload = {
-        message: `${prefix}[URL: ${window.location.href}] ${message}`,
-        source: 'edit-mode',
+        message: structured,
+        source: appSlug,
         status: 'pending'
       };
 
