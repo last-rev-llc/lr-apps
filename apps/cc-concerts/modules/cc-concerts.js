@@ -586,7 +586,6 @@ class CcConcerts extends HTMLElement {
     `;
 
     this._bind();
-    setTimeout(() => window.refreshIcons && window.refreshIcons(), 0);
   }
 
   /* ── event binding ── */
