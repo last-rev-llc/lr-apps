@@ -19,7 +19,8 @@
 <script src="https://shared.adam-harris.alphaclaw.app/modules/cc-ideas.js"></script>
 </head>
 <body>
-<cc-app-nav app="cc-ideas" title="💡 Ideas" active="ideas"></cc-app-nav>
+<cc-app-topnav app="cc-ideas" title="💡 Ideas" links='[{"id":"app","label":"App","href":"app.html"},{"id":"apps","label":"Apps","href":"apps.html"},{"id":"ideas","label":"Ideas","href":"ideas.html"},{"id":"docs","label":"Docs","href":"docs.html"}]' active="ideas"></cc-app-topnav>
+<cc-app-nav app="cc-ideas" title="💡 Ideas" active="ideas" position="bottom"></cc-app-nav>
 <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 

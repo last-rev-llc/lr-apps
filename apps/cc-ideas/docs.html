@@ -57,7 +57,8 @@
 </head>
 <body>
 
-  <cc-app-nav app="cc-ideas" title="💡 Ideas" active="docs"></cc-app-nav>
+  <cc-app-topnav app="cc-ideas" title="💡 Ideas" links='[{"id":"app","label":"App","href":"app.html"},{"id":"apps","label":"Apps","href":"apps.html"},{"id":"ideas","label":"Ideas","href":"ideas.html"},{"id":"docs","label":"Docs","href":"docs.html"}]' active="docs"></cc-app-topnav>
+  <cc-app-nav app="cc-ideas" title="💡 Ideas" active="docs" position="bottom"></cc-app-nav>
   <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
   <cc-toast></cc-toast>
 
