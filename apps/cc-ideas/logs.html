@@ -15,8 +15,6 @@
 <meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
 <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
 <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
-<script src="https://shared.adam-harris.alphaclaw.app/sql-sync.js"></script>
-<script src="db.js"></script>
 </head>
 <body>
 
@@ -33,19 +31,19 @@
   const container = document.getElementById('logs-container');
   const esc = s => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
   try {
-    const db = window.db || window._db;
-    if (!db) { container.textContent = 'Database not available.'; return; }
-    // Pull sync log entries if available
-    const rows = await db.query?.('SELECT * FROM sync_log ORDER BY ts DESC LIMIT 100') || [];
-    if (!rows.length) {
+    const sb = window.supabase;
+    if (!sb) { container.textContent = 'Database not available.'; return; }
+    // Query activity_log table from Supabase
+    const rows = await sb.select('activity_log', { order: 'timestamp.desc', limit: 100 });
+    if (!rows || !rows.length) {
       container.innerHTML = '<cc-empty-state message="No log entries yet. Activity will appear here as changes are made." icon="📋" animation="none"></cc-empty-state>';
       return;
     }
     container.innerHTML = rows.map(r => `
       <div style="padding:10px 0;border-bottom:1px solid var(--border);">
         <span style="color:var(--heading);font-weight:600;">${esc(r.action || 'update')}</span>
-        <span style="margin-left:8px;font-size:12px;color:var(--muted);">${esc(new Date(r.ts).toLocaleString())}</span>
-        ${r.detail ? `<div style="font-size:12px;margin-top:4px;">${esc(r.detail)}</div>` : ''}
+        <span style="margin-left:8px;font-size:12px;color:var(--muted);">${esc(new Date(r.timestamp || r.created_at).toLocaleString())}</span>
+        ${r.details || r.description ? `<div style="font-size:12px;margin-top:4px;">${esc(r.details || r.description)}</div>` : ''}
       </div>`).join('');
   } catch(e) {
     container.textContent = 'Could not load logs: ' + e.message;
