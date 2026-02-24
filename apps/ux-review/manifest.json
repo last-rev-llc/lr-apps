@@ -1,11 +1,11 @@
 {
-  "name": "UX Review",
-  "short_name": "UX",
-  "description": "UX Review",
+  "name": "UX Review Gallery",
+  "short_name": "UX Review",
+  "description": "Design variations for apps that deserve better — scored, compared, ready to ship.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
+  "theme_color": "#8b5cf6",
   "orientation": "any",
   "icons": [
     {

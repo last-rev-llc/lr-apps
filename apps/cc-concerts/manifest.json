@@ -1,11 +1,11 @@
 {
-  "name": "Concert Calendar",
+  "name": "🎵 Concerts — Your Crew's Show Calendar",
   "short_name": "Concerts",
-  "description": "Shared concert calendar for tracking shows with friends",
+  "description": "Never miss a show — track concerts, see who's going, rally the crew. Live music with friends, simplified.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
+  "theme_color": "#d946ef",
   "orientation": "any",
   "icons": [
     { "src": "icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" },

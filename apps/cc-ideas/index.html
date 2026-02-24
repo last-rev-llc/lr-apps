@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#f59e0b">
+    <meta name="theme-color" content="#06b6d4">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192.svg">
-<title>Ideas — Capture, Score & Ship Your Best Ideas</title>
+<title>💡 Ideas — Capture, Score & Ship</title>
 <meta name="description" content="Stop losing good ideas. Capture them from anywhere, auto-score by impact and feasibility, and track from spark to shipped.">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/landing.css">
@@ -19,7 +19,13 @@
 <body class="lp">
 
 
-<div class="lp-bg-fixed"></div>
+<div class="lp-bg-fixed" style="
+  --lp-glow-1: rgba(6,182,212,.28);
+  --lp-glow-2: rgba(14,165,233,.22);
+  --lp-glow-3: rgba(168,85,247,.18);
+  --lp-glow-4: rgba(234,179,8,.14);
+  --lp-glow-5: rgba(59,130,246,.12);
+"></div>
 <cc-app-nav app="cc-ideas" title="💡 Ideas" active="home" position="bottom"></cc-app-nav>
 
 <!-- ═══════════════════════════════════════════════════
@@ -132,27 +138,27 @@
   <cc-stagger delay="60">
     <div class="features-grid">
       <div class="feature-card glass">
-        <div class="neon-icon neon-violet"><i data-lucide="brain"></i></div>
+        <div class="neon-icon neon-cyan"><i data-lucide="brain"></i></div>
         <h3>AI-Generated Ideas</h3>
         <p>Your AI agent brainstorms based on your stack, industry, and goals. Fresh ideas waiting for you every morning.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-amber"><i data-lucide="scale"></i></div>
+        <div class="neon-icon neon-blue"><i data-lucide="scale"></i></div>
         <h3>Composite Scoring</h3>
         <p>Each idea gets a weighted score from feasibility and impact. No more loudest-voice-wins prioritization.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-pink"><i data-lucide="star"></i></div>
+        <div class="neon-icon neon-amber"><i data-lucide="star"></i></div>
         <h3>Personal Ratings</h3>
         <p>Add your own 5-star rating. Your gut feeling plus the composite score gives you better signal.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-blue"><i data-lucide="sliders-horizontal"></i></div>
+        <div class="neon-icon neon-violet"><i data-lucide="sliders-horizontal"></i></div>
         <h3>Smart Filtering</h3>
         <p>Five categories. Freeform tags. Status tracking. Sort by score, date, effort, or your rating.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-green"><i data-lucide="link"></i></div>
+        <div class="neon-icon neon-blue"><i data-lucide="link"></i></div>
         <h3>Connected Context</h3>
         <p>Link related ideas, attach resources, reference similar products. Every idea carries its context.</p>
       </div>
@@ -333,12 +339,12 @@
   <cc-stagger delay="80">
     <div class="use-cases-grid">
       <div class="use-case-card glass">
-        <div class="neon-icon neon-blue"><i data-lucide="users"></i></div>
+        <div class="neon-icon neon-cyan"><i data-lucide="users"></i></div>
         <h3>Product Teams</h3>
         <p>Collect feature requests from every channel. Score them on impact, not politics. Build what actually moves the needle.</p>
       </div>
       <div class="use-case-card glass">
-        <div class="neon-icon neon-amber"><i data-lucide="target"></i></div>
+        <div class="neon-icon neon-blue"><i data-lucide="target"></i></div>
         <h3>Founders & Solo Builders</h3>
         <p>Your second brain for side projects. AI generates ideas based on your stack. You rate them and tackle the highest-impact ones first.</p>
       </div>

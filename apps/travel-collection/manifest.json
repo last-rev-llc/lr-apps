@@ -1,11 +1,11 @@
 {
-  "name": "Travel Collection",
+  "name": "🏨 Travel Collection — Curated Luxury, Infinite Wanderlust",
   "short_name": "Travel",
-  "description": "Travel Collection",
+  "description": "Curated luxury properties, private islands, and once-in-a-lifetime escapes. The world's best destinations — researched, verified, and ready to book.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
+  "theme_color": "#14B8A6",
   "orientation": "any",
   "icons": [
     {

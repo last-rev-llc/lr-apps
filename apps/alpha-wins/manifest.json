@@ -1,11 +1,11 @@
 {
   "name": "Alpha Wins",
   "short_name": "Alpha Wins",
-  "description": "Alpha Wins",
+  "description": "Celebrate wins & accomplishments — share recipes, skills, apps, and workflows with the AlphaClaw community.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
+  "theme_color": "#eab308",
   "orientation": "any",
   "icons": [
     {

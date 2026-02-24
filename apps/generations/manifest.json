@@ -1,11 +1,11 @@
 {
-  "name": "Generations Quiz",
-  "short_name": "Quiz",
-  "description": "Generations Quiz",
+  "name": "🕰️ Generations Quiz",
+  "short_name": "Generations",
+  "description": "Discover which generation you truly belong to. 120+ questions spanning Silent Generation to Gen Alpha — slang, events, pop culture, technology, and lifestyle.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
+  "theme_color": "#FFB347",
   "orientation": "any",
   "icons": [
     {

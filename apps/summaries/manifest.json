@@ -1,0 +1,12 @@
+{
+  "name": "Summaries — Cut Through the Noise",
+  "short_name": "Summaries",
+  "description": "Every meeting, thread, and ticket — synthesized, searchable, and actually useful.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d1a",
+  "theme_color": "#0EA5E9",
+  "icons": [
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

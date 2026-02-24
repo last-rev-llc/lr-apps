@@ -1,28 +1,12 @@
 {
-  "name": "Gen X",
-  "short_name": "Gen X",
-  "description": "Gen X",
-  "start_url": "/index.html",
+  "name": "GenX — 80s/90s Slang Dictionary",
+  "short_name": "GenX",
+  "description": "Authentic Gen X slang from the MTV era. 55+ terms, two-way translator, and generational quiz. Da bomb. Word.",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
-  "orientation": "any",
+  "background_color": "#0d0d1a",
+  "theme_color": "#a855f7",
   "icons": [
-    {
-      "src": "icons/icon-192.svg",
-      "sizes": "192x192",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
-    }
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📺</text></svg>", "sizes": "any", "type": "image/svg+xml" }
   ]
 }

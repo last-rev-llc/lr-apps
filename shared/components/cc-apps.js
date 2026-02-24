@@ -88,9 +88,6 @@
       this.innerHTML = `
         <style>
           .cc-apps-header { display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
-          .cc-apps-filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px; }
-          .cc-apps-pill { padding:6px 16px; border-radius:20px; border:1px solid var(--border); background:transparent; color:var(--muted); font-size:13px; cursor:pointer; transition:all .2s; font-family:inherit; }
-          .cc-apps-pill:hover,.cc-apps-pill.active { background:var(--accent); color:#fff; border-color:var(--accent); }
           .cc-apps-count { font-size:13px; color:var(--muted); margin-bottom:16px; }
           .cc-apps-group-header { display:flex; align-items:center; gap:10px; margin:28px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--border); }
           .cc-apps-group-header:first-child { margin-top:0; }
@@ -112,9 +109,9 @@
           .cc-app-star:hover,.cc-app-star.active { opacity:1; color:#f59e0b; transform:scale(1.2); }
         </style>
         <div class="cc-apps-header">
+          ${this._showFilters ? '<cc-pill-dropdown id="ccAppsCategoryFilter" label="Category"></cc-pill-dropdown>' : ''}
           <cc-search placeholder="Search apps…" input-class="cc-apps-search"></cc-search>
         </div>
-        ${this._showFilters ? '<div class="cc-apps-filters" id="ccAppsFilters"></div>' : ''}
         <div class="cc-apps-count" id="ccAppsCount"></div>
         <div class="cc-apps-grid" id="ccAppsGrid"></div>
       `;
@@ -123,15 +120,14 @@
       const search = this.querySelector('cc-search');
       if (search) search.addEventListener('cc-search', e => { this._query = e.detail.value; this._render(); });
 
-      // Filter clicks
-      const filters = this.querySelector('#ccAppsFilters');
-      if (filters) filters.addEventListener('click', e => {
-        const btn = e.target.closest('.cc-apps-pill');
-        if (!btn) return;
-        this._activeCat = btn.dataset.cat;
-        filters.querySelectorAll('.cc-apps-pill').forEach(p => p.classList.toggle('active', p.dataset.cat === this._activeCat));
-        this._render();
-      });
+      // Category filter dropdown
+      const catFilter = this.querySelector('#ccAppsCategoryFilter');
+      if (catFilter) {
+        catFilter.addEventListener('pill-change', e => {
+          this._activeCat = e.detail.value;
+          this._render();
+        });
+      }
     }
 
     async _load() {
@@ -157,16 +153,17 @@
     }
 
     _buildFilters() {
-      const filtersEl = this.querySelector('#ccAppsFilters');
-      if (!filtersEl) return;
+      const catFilter = this.querySelector('#ccAppsCategoryFilter');
+      if (!catFilter) return;
       // Collect unique categories present in data
       const cats = [...new Set(this._apps.map(a => a.category).filter(Boolean))].sort();
-      let html = `<button class="cc-apps-pill ${this._activeCat === 'all' ? 'active' : ''}" data-cat="all">All</button>`;
+      const items = [{ value: 'all', label: 'All' }];
       for (const cat of cats) {
         const label = CATEGORY_LABELS[cat] || cat.charAt(0).toUpperCase() + cat.slice(1);
-        html += `<button class="cc-apps-pill ${this._activeCat === cat ? 'active' : ''}" data-cat="${cat}">${label}</button>`;
+        items.push({ value: cat, label });
       }
-      filtersEl.innerHTML = html;
+      catFilter.setAttribute('items', JSON.stringify(items));
+      catFilter.setAttribute('value', this._activeCat);
     }
 
     async _toggleStar(id) {

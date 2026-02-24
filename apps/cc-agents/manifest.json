@@ -1,11 +1,11 @@
 {
-  "name": "Agents",
+  "name": "Agents — AI Workforce",
   "short_name": "Agents",
-  "description": "Agents",
+  "description": "Manage your AI agents, spawned sessions, and autonomous workers. Build, deploy, and monitor your AI workforce.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
+  "theme_color": "#8B5CF6",
   "orientation": "any",
   "icons": [
     {

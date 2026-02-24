@@ -1,28 +1,12 @@
 {
-  "name": "Accounts — Client Intelligence",
+  "name": "Accounts — Enterprise Client Intelligence",
   "short_name": "Accounts",
-  "description": "Every client, one dashboard. Contacts, PRs, tickets, Contentful, contracts, and standups — all in one place.",
-  "start_url": "/index.html",
+  "description": "Unified client dashboard. Contacts, GitHub PRs, Jira tickets, Contentful stats, contracts, and standups — all in one place.",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0e1a",
-  "theme_color": "#14b8a6",
-  "orientation": "any",
+  "background_color": "#0d0d1a",
+  "theme_color": "#0891b2",
   "icons": [
-    {
-      "src": "icons/icon-192.svg",
-      "sizes": "192x192",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
-    }
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>", "sizes": "any", "type": "image/svg+xml" }
   ]
 }

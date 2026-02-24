@@ -68,6 +68,9 @@
       // In monorepo, this would be: setMeta('name', 'cc-base', '/shared/');
       setMeta('name', 'cc-base', 'https://shared.adam-harris.alphaclaw.app/');
 
+      // Theme color (brand amber)
+      setMeta('name', 'theme-color', '#f59e0b');
+
       // SEO meta
       setMeta('name', 'description', desc);
 
@@ -126,6 +129,14 @@
         fav.rel = 'icon';
         fav.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>";
         document.head.appendChild(fav);
+      }
+
+      // Manifest
+      if (!document.querySelector('link[rel="manifest"]')) {
+        const man = document.createElement('link');
+        man.rel = 'manifest';
+        man.href = base + 'manifest.json';
+        document.head.appendChild(man);
       }
 
       // Shared components

@@ -1,11 +1,11 @@
 {
-  "name": "Gen Y",
-  "short_name": "Gen Y",
-  "description": "Gen Y",
+  "name": "📱 GenY — Millennial Slang Dictionary",
+  "short_name": "GenY",
+  "description": "The definitive millennial slang dictionary, translator, and quiz. 40+ terms from the 2010s Twitter era — from 'YOLO' to 'I can't even.' TBH, it's lit, fam.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#1da1f2",
+  "theme_color": "#FF6B9D",
   "orientation": "any",
   "icons": [
     {

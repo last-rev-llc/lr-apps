@@ -1,11 +1,11 @@
 {
-  "name": "Client Health",
-  "short_name": "Health",
-  "description": "Client Health",
+  "name": "💚 Client Health Dashboard",
+  "short_name": "Client Health",
+  "description": "Real-time client project health tracking — sprint planning, backlog management, and meeting prep in one place.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#22c55e",
+  "theme_color": "#0891b2",
   "orientation": "any",
   "icons": [
     {

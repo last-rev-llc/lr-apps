@@ -63,7 +63,8 @@
 </style>
 </head>
 <body>
-<cc-app-nav app="gen-alpha" title="🧠 GenAlpha" active="battle"></cc-app-nav>
+<cc-app-topnav app="gen-alpha" title="🧠 GenAlpha" links='[{"id":"app","label":"App","href":"app.html"},{"id":"battle","label":"Battle","href":"battle.html"},{"id":"timeline","label":"Timeline","href":"timeline.html"},{"id":"apps","label":"Apps","href":"apps.html"}]' active="battle"></cc-app-topnav>
+<cc-app-nav app="gen-alpha" title="🧠 GenAlpha" active="battle" position="bottom"></cc-app-nav>
 <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 

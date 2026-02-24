@@ -1,7 +1,7 @@
 {
-  "name": "Leads",
+  "name": "CC Leads — Pipeline & Contact Management",
   "short_name": "Leads",
-  "description": "Leads",
+  "description": "Track prospects, manage pipeline stages, and convert leads into customers with visual pipeline management.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
@@ -9,20 +9,9 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "icons/icon-192.svg",
-      "sizes": "192x192",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>",
+      "sizes": "any",
       "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
     }
   ]
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f59e0b">
+<meta name="theme-color" content="#3b82f6">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
@@ -17,14 +17,20 @@
 </head>
 <body class="lp">
 
-<div class="lp-bg-fixed"></div>
+<div class="lp-bg-fixed" style="
+  --lp-glow-1: rgba(59,130,246,.28);
+  --lp-glow-2: rgba(99,102,241,.22);
+  --lp-glow-3: rgba(139,92,246,.18);
+  --lp-glow-4: rgba(168,85,247,.14);
+  --lp-glow-5: rgba(34,211,238,.12);
+"></div>
 <cc-app-nav app="cc-meeting-summaries" title="📝 Meeting Summaries" active="home" position="bottom"></cc-app-nav>
 
 <section class="lp-hero">
   <cc-fade-in>
-    <div class="lp-hero-badge">🎯 Meeting Intelligence</div>
-    <h1 class="lp-hero-title">Never Miss a<br><span class="lp-gradient-text">Decision</span> Again</h1>
-    <p class="lp-hero-sub">AI-powered Zoom meeting summaries, action items, and follow-ups — automatically extracted from every call.</p>
+    <div class="lp-hero-badge">✨ AI Meeting Intelligence</div>
+    <h1 class="lp-hero-title">Stop Taking Notes.<br><span class="lp-gradient-text">Start Remembering.</span></h1>
+    <p class="lp-hero-sub">Every Zoom meeting transcribed, summarized, and turned into action — automatically. Because if it wasn't written down, it didn't happen.</p>
     <div class="lp-hero-cta">
       <a href="index.html" class="btn btn-primary btn-lg">View Summaries →</a>
     </div>

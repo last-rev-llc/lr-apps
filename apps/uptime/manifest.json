@@ -1,7 +1,7 @@
 {
   "name": "Uptime Status",
   "short_name": "Uptime",
-  "description": "Uptime Status",
+  "description": "Know when your stuff goes down before your users do. Real-time service health monitoring.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",

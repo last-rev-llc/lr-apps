@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f59e0b">
+<meta name="theme-color" content="#7c3aed">
+<link rel="manifest" href="manifest.json">
 <title>AI Scripts — Evaluate, Process & Analyze AI Responses</title>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/landing.css">
@@ -13,11 +14,11 @@
 </head>
 <body class="lp">
 <div class="lp-bg-fixed" style="
-  --lp-glow-1: rgba(245,158,11,.28);
-  --lp-glow-2: rgba(124,58,237,.22);
+  --lp-glow-1: rgba(124,58,237,.28);
+  --lp-glow-2: rgba(79,70,229,.22);
   --lp-glow-3: rgba(59,130,246,.18);
-  --lp-glow-4: rgba(236,72,153,.14);
-  --lp-glow-5: rgba(34,197,94,.12);
+  --lp-glow-4: rgba(6,182,212,.14);
+  --lp-glow-5: rgba(139,92,246,.12);
 "></div>
 <cc-app-nav app="cc-ai-scripts" title="🤖 AI Scripts" active="home"></cc-app-nav>
 
@@ -25,10 +26,10 @@
 <cc-parallax bg-color="transparent" overlay="transparent" speed="0.2" height="100vh">
   <div class="hero-inner">
     <cc-fade-in>
-      <div class="neon-icon-lg neon-amber"><i data-lucide="bot"></i></div>
+      <div class="neon-icon-lg neon-violet"><i data-lucide="bot"></i></div>
     </cc-fade-in>
     <cc-fade-in delay="80">
-      <span class="lp-eyebrow">AI Response Toolkit</span>
+      <span class="lp-eyebrow">Intelligence evaluation toolkit</span>
     </cc-fade-in>
     <cc-fade-in delay="160">
       <h1 class="lp-h1">Evaluate. Process.<br>Analyze. Ship.</h1>
@@ -55,12 +56,12 @@
   <cc-stagger delay="60">
     <div class="features-grid">
       <div class="feature-card glass">
-        <div class="neon-icon neon-amber"><i data-lucide="file-question"></i></div>
+        <div class="neon-icon neon-violet"><i data-lucide="file-question"></i></div>
         <h3>Eval Questions</h3>
         <p>Build and run evaluation question sets against chatflows. Score responses, compare models, and track quality over time.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-violet"><i data-lucide="table"></i></div>
+        <div class="neon-icon neon-indigo"><i data-lucide="table"></i></div>
         <h3>CSV Chatflow Processing</h3>
         <p>Upload CSVs of prompts and batch-process them through any configured chatflow. Download results when done.</p>
       </div>
@@ -70,7 +71,7 @@
         <p>Validate URLs referenced in AI responses. Catch broken links, redirects, and hallucinated URLs before they ship.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-green"><i data-lucide="message-square-text"></i></div>
+        <div class="neon-icon neon-cyan"><i data-lucide="message-square-text"></i></div>
         <h3>Flowise Message Analysis</h3>
         <p>Pull and analyze message history from Flowise chatflows. Spot patterns, failures, and edge cases in production traffic.</p>
       </div>
@@ -80,7 +81,7 @@
         <p>Organize eval sets, CSVs, and results by client. Every artifact stays scoped to its project — no cross-contamination.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-cyan"><i data-lucide="settings"></i></div>
+        <div class="neon-icon neon-violet"><i data-lucide="settings"></i></div>
         <h3>Chatflow Configuration</h3>
         <p>Manage API endpoints, override IDs, and session configs per client. Switch contexts in one click.</p>
       </div>

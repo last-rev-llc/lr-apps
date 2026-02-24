@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Crons — Scheduling for AI Agents</title>
+<title>Crons — Precision Scheduling for AI Agents</title>
+<meta name="theme-color" content="#d4a574">
+<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/landing.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
@@ -12,11 +14,11 @@
 </head>
 <body class="lp">
 <div class="lp-bg-fixed" style="
-  --lp-glow-1: rgba(245,158,11,.28);
-  --lp-glow-2: rgba(124,58,237,.22);
-  --lp-glow-3: rgba(59,130,246,.18);
-  --lp-glow-4: rgba(236,72,153,.14);
-  --lp-glow-5: rgba(34,197,94,.12);
+  --lp-glow-1: rgba(212,165,116,.28);
+  --lp-glow-2: rgba(184,134,11,.22);
+  --lp-glow-3: rgba(139,92,31,.18);
+  --lp-glow-4: rgba(41,98,255,.14);
+  --lp-glow-5: rgba(30,58,138,.12);
 "></div>
 <cc-app-nav app="cc-crons" title="&#9200; Crons" active="home"></cc-app-nav>
 <cc-toast></cc-toast>
@@ -25,16 +27,16 @@
 <cc-parallax bg-color="transparent" overlay="transparent" speed="0.2" height="100vh">
   <div class="hero-inner">
     <cc-fade-in>
-      <div class="neon-icon-lg neon-amber"><i data-lucide="clock"></i></div>
+      <div class="neon-icon-lg" style="color: #d4a574; text-shadow: 0 0 30px rgba(212,165,116,0.6), 0 0 60px rgba(212,165,116,0.4);"><i data-lucide="clock"></i></div>
     </cc-fade-in>
     <cc-fade-in delay="80">
-      <span class="lp-eyebrow">Agent Scheduling Infrastructure</span>
+      <span class="lp-eyebrow">Precision scheduling infrastructure</span>
     </cc-fade-in>
     <cc-fade-in delay="160">
       <h1 class="lp-h1">Every Task on Time.<br>Every Trigger Tracked.</h1>
     </cc-fade-in>
     <cc-fade-in delay="240">
-      <p class="lp-body-lg" style="margin:0 auto;">Manage cron jobs, trigger queues, and batch scheduling for your AI agent system. Real-time monitoring with full revert capability.</p>
+      <p class="lp-body-lg" style="margin:0 auto;">Orchestrate cron jobs, trigger queues, and batch execution for your AI agent system. Real-time monitoring with atomic revert capability.</p>
     </cc-fade-in>
     <cc-fade-in delay="320">
       <div class="hero-ctas">
@@ -55,12 +57,12 @@
   <cc-stagger delay="60">
     <div class="features-grid">
       <div class="feature-card glass">
-        <div class="neon-icon neon-amber"><i data-lucide="clock"></i></div>
+        <div class="neon-icon" style="color: #d4a574; text-shadow: 0 0 20px rgba(212,165,116,0.5);"><i data-lucide="clock"></i></div>
         <h3>Cron Management</h3>
         <p>Create, edit, enable, and disable recurring jobs with human-readable schedules. Organized by category with inline prompt editing.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-violet"><i data-lucide="list-ordered"></i></div>
+        <div class="neon-icon" style="color: #b8860b; text-shadow: 0 0 20px rgba(184,134,11,0.5);"><i data-lucide="list-ordered"></i></div>
         <h3>Trigger Queue</h3>
         <p>Card and timeline views for queued tasks. Watch jobs flow from pending through processing to done, with full status history.</p>
       </div>
@@ -70,17 +72,17 @@
         <p>Group related jobs into batches that execute together. Perfect for nightly reviews, weekly reports, and coordinated workflows.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-green"><i data-lucide="rotate-ccw"></i></div>
-        <h3>Revert Capability</h3>
+        <div class="neon-icon neon-cyan"><i data-lucide="rotate-ccw"></i></div>
+        <h3>Atomic Revert</h3>
         <p>Made a mistake? Revert any queue item back to pending with one click. Full audit trail of every state change.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-pink"><i data-lucide="activity"></i></div>
+        <div class="neon-icon neon-violet"><i data-lucide="activity"></i></div>
         <h3>Real-Time Monitoring</h3>
         <p>Live status updates across all three systems. See what's running, what's queued, and what failed — as it happens.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-cyan"><i data-lucide="pen-line"></i></div>
+        <div class="neon-icon" style="color: #8b5c1f; text-shadow: 0 0 20px rgba(139,92,31,0.5);"><i data-lucide="pen-line"></i></div>
         <h3>Edit-in-Place Prompts</h3>
         <p>Click any cron job to edit its prompt inline. No modals, no page switches. Change what your agent does and save instantly.</p>
       </div>
@@ -140,7 +142,7 @@
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:900px;margin:0 auto;">
       <cc-slide-in direction="left">
         <div class="glass-strong" style="padding:28px;border-radius:16px;font-family:var(--font-mono,monospace);font-size:.85rem;line-height:1.7;color:var(--text-secondary);">
-          <div style="color:var(--amber-400,#f59e0b);margin-bottom:8px;font-weight:600;">crons table</div>
+          <div style="color:#d4a574;margin-bottom:8px;font-weight:600;">crons table</div>
           <span style="color:var(--text-tertiary);">id</span> &middot; name &middot; schedule<br>
           <span style="color:var(--text-tertiary);">prompt</span> &middot; category &middot; batch<br>
           <span style="color:var(--text-tertiary);">enabled</span> &middot; lastRun &middot; nextRun
@@ -148,7 +150,7 @@
       </cc-slide-in>
       <cc-slide-in direction="right">
         <div class="glass-strong" style="padding:28px;border-radius:16px;font-family:var(--font-mono,monospace);font-size:.85rem;line-height:1.7;color:var(--text-secondary);">
-          <div style="color:var(--violet-400,#a78bfa);margin-bottom:8px;font-weight:600;">trigger_queue table</div>
+          <div style="color:#b8860b;margin-bottom:8px;font-weight:600;">trigger_queue table</div>
           <span style="color:var(--text-tertiary);">id</span> &middot; message &middot; source<br>
           <span style="color:var(--text-tertiary);">status</span> &middot; created_at<br>
           <span style="color:var(--text-tertiary);">processed_at</span> &middot; error_message
@@ -169,12 +171,12 @@
   <cc-stagger delay="80">
     <div class="use-cases-grid">
       <div class="use-case-card glass">
-        <div class="neon-icon neon-amber"><i data-lucide="bot"></i></div>
+        <div class="neon-icon" style="color: #d4a574; text-shadow: 0 0 20px rgba(212,165,116,0.5);"><i data-lucide="bot"></i></div>
         <h3>Agent Operators</h3>
         <p>Schedule nightly code reviews, morning briefings, weekly reports, and health checks. See what ran, what failed, and what's next.</p>
       </div>
       <div class="use-case-card glass">
-        <div class="neon-icon neon-violet"><i data-lucide="workflow"></i></div>
+        <div class="neon-icon" style="color: #b8860b; text-shadow: 0 0 20px rgba(184,134,11,0.5);"><i data-lucide="workflow"></i></div>
         <h3>Automation Builders</h3>
         <p>Chain tasks with trigger queues. Drop a job from Slack, a webhook, or another agent — the queue picks it up and processes it.</p>
       </div>

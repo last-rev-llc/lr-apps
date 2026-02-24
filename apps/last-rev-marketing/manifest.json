@@ -1,0 +1,12 @@
+{
+  "name": "Last Rev — AI & Automation Development",
+  "short_name": "Last Rev",
+  "description": "AI-powered business applications and intelligent automation. We help companies build smarter, ship faster, and scale with confidence.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d1a",
+  "theme_color": "#f59e0b",
+  "icons": [
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

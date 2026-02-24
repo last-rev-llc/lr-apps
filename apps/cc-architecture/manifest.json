@@ -1,21 +1,12 @@
 {
-  "name": "Architecture Viewer",
+  "name": "OpenClaw Architecture",
   "short_name": "Architecture",
-  "description": "OpenClaw Command Center architecture overview and documentation",
+  "description": "System architecture deep-dive — 48 apps, 69 components, 37 skills, one unified stack.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#f59e0b",
+  "background_color": "#0d0d1a",
+  "theme_color": "#1E40AF",
   "icons": [
-    {
-      "src": "icons/icon-192.svg",
-      "sizes": "192x192",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-512.svg", 
-      "sizes": "512x512",
-      "type": "image/svg+xml"
-    }
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗️</text></svg>", "sizes": "any", "type": "image/svg+xml" }
   ]
 }

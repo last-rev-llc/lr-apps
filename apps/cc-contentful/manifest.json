@@ -1,11 +1,11 @@
 {
-  "name": "Contentful",
+  "name": "📋 Contentful Pipeline",
   "short_name": "Contentful",
-  "description": "Contentful",
+  "description": "Contentful content pipeline management — track entries, monitor health, and manage workflows.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
+  "theme_color": "#2563eb",
   "orientation": "any",
   "icons": [
     {
