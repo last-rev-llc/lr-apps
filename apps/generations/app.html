@@ -19,7 +19,8 @@
 <script src="modules/generations.js"></script>
 </head>
 <body>
-<cc-app-nav app="generations" title="Micro-Generations" active="app"></cc-app-nav>
+<cc-app-topnav app="generations" title="Micro-Generations" links='[{"id":"app","label":"App","href":"app.html"},{"id":"apps","label":"Apps","href":"apps.html"}]' active="app"></cc-app-topnav>
+<cc-app-nav app="generations" title="Micro-Generations" active="app" position="bottom"></cc-app-nav>
 <cc-toast></cc-toast>
 <cc-confetti></cc-confetti>
 <cc-generations></cc-generations>
