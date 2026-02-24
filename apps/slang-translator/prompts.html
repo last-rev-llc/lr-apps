@@ -18,7 +18,8 @@
 <script src="https://shared.adam-harris.alphaclaw.app/modules/cc-prompts.js"></script>
 </head>
 <body>
-<cc-app-nav app="slang-translator" title="Slang Translator" active="prompts"></cc-app-nav>
+<cc-app-topnav app="slang-translator" title="Slang Translator" links='[{"id":"app","label":"App","href":"app.html"}]' active="prompts"></cc-app-topnav>
+<cc-app-nav app="slang-translator" title="Slang Translator" active="prompts" position="bottom"></cc-app-nav>
 <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 <cc-prompts app="slang-translator"></cc-prompts>
