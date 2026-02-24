@@ -114,11 +114,12 @@ body { font-family: var(--mono); background: var(--bg); color: var(--text); min-
 </style>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 </head>
 <body>
 <cc-topbar></cc-topbar>
 <cc-nav></cc-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 
 <div class="topbar">
   <span>BRUTALIST_MONO</span>

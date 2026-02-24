@@ -11,6 +11,7 @@
   <title>🎯 HSPT Tutor</title>
   <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
   <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
   <style>
     /* Section cards grid */
     .sections-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:16px; margin-bottom:24px; }
@@ -98,7 +99,7 @@
 </head>
 <body>
   <cc-app-nav app="hspt-tutor" title="🎯 HSPT Tutor" active="home"></cc-app-nav>
-  <cc-auth></cc-auth>
+  <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
   <cc-toast></cc-toast>
 
   <cc-page-header icon="🎯" title="HSPT Tutor" description="High School Placement Test prep">

@@ -10,7 +10,7 @@
 </head>
 <body>
 <cc-app-nav active="ads"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 
 <div style="max-width:1600px;margin:0 auto;padding:2rem 1rem;">
   <h1 style="font-size:2rem;margin:0;">🏗️ Architecture Viewer — Ad Creatives</h1>
@@ -21,6 +21,7 @@
 
 <cc-toast></cc-toast>
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
 <script src="https://shared.adam-harris.alphaclaw.app/modules/cc-ads.js"></script>
 </body>

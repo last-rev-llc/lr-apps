@@ -13,6 +13,7 @@
   <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
   <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
   <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
   <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
   <script src="modules/cc-gallery.js"></script>
   <style>
@@ -56,7 +57,7 @@
 <body>
 <cc-app-nav app="cc-gallery" title="🖼️ Media Gallery" active="docs"></cc-app-nav>
 
-  <cc-auth></cc-auth>
+  <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
   <cc-toast></cc-toast>
 
   <div class="showcase-layout">
@@ -99,6 +100,7 @@
       <div class="prompt-block">&lt;!-- 1. Load shared components --&gt;
 &lt;link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css"&gt;
 &lt;script src="https://shared.adam-harris.alphaclaw.app/components/index.js"&gt;&lt;/script&gt;
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 
 &lt;!-- 2. Load this module --&gt;
 &lt;script src="https://cc-gallery.adam-harris.alphaclaw.app/modules/cc-gallery.js"&gt;&lt;/script&gt;

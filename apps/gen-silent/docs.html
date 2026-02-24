@@ -13,6 +13,7 @@
 <meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
 <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <style>
   .showcase-layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
   .showcase-sidebar{position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid var(--border);padding:24px 0;}
@@ -40,7 +41,7 @@
 </head>
 <body>
 <cc-app-nav app="gen-silent" title="🎺 GenSilent" active="docs"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <div class="showcase-layout">

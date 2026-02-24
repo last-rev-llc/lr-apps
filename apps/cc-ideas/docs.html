@@ -11,6 +11,7 @@
   <title>💡 Ideas — Docs</title>
   <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
   <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
   <meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
   <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
   <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
@@ -57,7 +58,7 @@
 <body>
 
   <cc-app-nav app="cc-ideas" title="💡 Ideas" active="docs"></cc-app-nav>
-  <cc-auth></cc-auth>
+  <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
   <cc-toast></cc-toast>
 
   <div class="showcase-layout">
@@ -114,6 +115,7 @@
       <div class="prompt-block"><span style="color:#52525b;">&lt;!-- 1. Include shared components (if not already loaded) --&gt;</span>
 &lt;link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css"&gt;
 &lt;script src="https://shared.adam-harris.alphaclaw.app/components/index.js"&gt;&lt;/script&gt;
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 
 <span style="color:#52525b;">&lt;!-- 2. Load the Ideas Summary module --&gt;</span>
 &lt;script src="https://cc-ideas.adam-harris.alphaclaw.app/modules/cc-ideas-summary.js"&gt;&lt;/script&gt;

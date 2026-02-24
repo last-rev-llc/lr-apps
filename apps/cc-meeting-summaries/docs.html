@@ -11,6 +11,7 @@
 <title>📝 Meeting Summaries — Docs</title>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <style>
   .docs-layout { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
   .docs-layout h2 { color: var(--accent); margin-top: 2rem; }
@@ -23,7 +24,7 @@
 </head>
 <body>
 <cc-app-nav app="cc-meeting-summaries" title="📝 Meeting Summaries" active="docs"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 
 <div class="docs-layout">
   <h1>📝 Meeting Summaries — Documentation</h1>

@@ -14,6 +14,7 @@
 <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <style>
 .tl-page { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
 .tl-hero { text-align: center; margin-bottom: 2rem; }
@@ -72,7 +73,7 @@
 </head>
 <body>
 <cc-app-nav app="gen-alpha" title="🧠 GenAlpha" active="timeline"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <div class="tl-page">

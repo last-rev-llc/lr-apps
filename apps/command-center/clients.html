@@ -6,6 +6,7 @@
 <title>⚡ Client Health Scorecard</title>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <style>
 .scorecard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; padding: 20px; }
 .client-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: border-color 0.2s; }
@@ -55,7 +56,7 @@
 <cc-topbar></cc-topbar>
 <cc-nav active="clients"></cc-nav>
 </div>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <cc-page-header icon="🏥" title="Client Health Scorecard" description="Last refreshed: —">

@@ -13,6 +13,7 @@
 <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--font, system-ui, -apple-system, sans-serif); background: var(--bg); color: var(--text); min-height: 100vh; padding: 24px; }
@@ -57,7 +58,7 @@
 </head>
 <body>
 <cc-app-nav app="ux-review" title="🎨 UX Review" active="home"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 
 <h1>🎨 UX Review Gallery</h1>
 <p class="sub">Design variations for the top 3 improvement opportunities — Feb 17, 2026</p>

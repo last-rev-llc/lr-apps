@@ -11,6 +11,7 @@
   <title>🎨 Design Review</title>
   <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
   <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
   <style>
     .app-layout { display: flex; flex-direction: column; height: 100vh; }
     .app-content { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
@@ -80,7 +81,7 @@
 <body>
   <div class="app-layout">
     <cc-app-nav app="lastrev-redesign" title="Design Review" active="home"></cc-app-nav>
-    <cc-auth></cc-auth>
+    <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
     <cc-toast></cc-toast>
 
     <div class="app-content">

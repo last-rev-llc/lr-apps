@@ -13,6 +13,7 @@
 <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <style>
   .ux-banner { background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(245,158,11,0.15)); border: 1px solid rgba(99,102,241,0.3); border-radius: 12px; padding: 14px 20px; margin: 16px 24px; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 10px; }
   .ux-banner strong { color: var(--accent); }
@@ -65,7 +66,7 @@
 </head>
 <body>
 <cc-app-nav app="command-center" title="⚡ Command Center" active="home"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <div class="ux-banner">

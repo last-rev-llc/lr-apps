@@ -6,6 +6,7 @@
 <title>💡 Ideas App — Ad Creatives</title>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <style>
 .ads-page { max-width: 1600px; margin: 0 auto; padding: 2rem 1rem; }
 .ads-page h1 { font-size: 2rem; margin: 0; }
@@ -23,7 +24,7 @@
 </style>
 </head>
 <body>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 
 <div class="sticky-header">
 <cc-topbar></cc-topbar>

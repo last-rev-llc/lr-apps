@@ -62,10 +62,11 @@
 }
 </style>
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 </head>
 <body>
 <cc-app-nav app="daily-updates" title="📱 Daily Updates" active="docs"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <cc-docs title="Daily Updates" icon="📱" subtitle="Component API, database layer, and integration guide for the social-feed update system.">

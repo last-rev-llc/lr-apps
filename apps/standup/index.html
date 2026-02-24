@@ -31,7 +31,7 @@
 </head>
 <body>
   <cc-app-nav app="standup" title="📋 Daily Standup" active="standup"></cc-app-nav>
-  <cc-auth></cc-auth>
+  <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 
   <cc-page-header icon="📋" title="Daily Standup" description="Team standup notes & updates">
     <div class="updated" id="updated"></div>
@@ -43,6 +43,7 @@
 
   <cc-toast></cc-toast>
   <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
   <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
   <script src="https://shared.adam-harris.alphaclaw.app/sql-sync.js"></script>
   <script src="db.js"></script>

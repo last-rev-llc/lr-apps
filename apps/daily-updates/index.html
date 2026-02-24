@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <link rel="stylesheet" href="style.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
 <script src="https://shared.adam-harris.alphaclaw.app/console-capture.js" data-app="daily-updates"></script>
 <script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
@@ -18,7 +19,7 @@
 </head>
 <body>
 <cc-app-nav app="daily-updates" title="📱 Daily Updates" active="home"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <daily-updates></daily-updates>

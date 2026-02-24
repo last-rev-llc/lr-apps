@@ -13,6 +13,7 @@
 <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7"></script>
 <script src="modules/hspt-practice.js"></script>
@@ -39,7 +40,7 @@
 </head>
 <body>
 <cc-app-nav app="hspt-practice" title="📝 HSPT Practice" active="home"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 <cc-hspt-practice></cc-hspt-practice>
 </body>

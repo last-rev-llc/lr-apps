@@ -1,0 +1,12 @@
+{
+  "libraries": [
+    "tailwind",
+    "googleFonts",
+    "jsdelivr"
+  ],
+  "csp": {
+    "connectSrc": [
+      "https://fzmhqcgzvgtvkswpwruc.supabase.co"
+    ]
+  }
+}

@@ -6,6 +6,7 @@
   <title>⚡ Command Center — Shared Library</title>
   <link rel="stylesheet" href="./theme.css">
   <script src="./components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
   <style>
     /* ── Layout: sidebar + content (only structural, not in theme.css) ── */
     .showcase-layout { display: flex; min-height: 100vh; padding: 0; }
@@ -90,7 +91,7 @@
 </head>
 <body class="showcase-layout">
   <cc-topbar></cc-topbar>
-  <cc-auth></cc-auth>
+  <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
   <cc-toast></cc-toast>
   <cc-lightbox></cc-lightbox>
 
@@ -180,6 +181,7 @@
   &lt;title&gt;Your App Name&lt;/title&gt;
   &lt;link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css"&gt;
   &lt;script src="https://shared.adam-harris.alphaclaw.app/components/index.js"&gt;&lt;/script&gt;
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 &lt;/head&gt;
 &lt;body&gt;
   &lt;cc-auth&gt;&lt;/cc-auth&gt;
@@ -198,6 +200,7 @@
       <h3>Local Development</h3>
       <div class="prompt-block">&lt;link rel="stylesheet" href="../shared/theme.css"&gt;
 &lt;script src="../shared/components/index.js"&gt;&lt;/script&gt;</div>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
     </section>
     </cc-fade-in>
 
@@ -424,6 +427,7 @@ export function TopbarLoader() {
   useEffect(() =&gt; {
     const script = document.createElement('script');
     script.src = 'https://shared.adam-harris.alphaclaw.app/components/index.js';
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
     document.head.appendChild(script);
   }, []);
   return &lt;cc-topbar /&gt;;

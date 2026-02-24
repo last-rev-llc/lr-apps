@@ -12,6 +12,7 @@
 <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
 <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <style>
   /* Summary cards */
   .sum-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; overflow: hidden; transition: border-color .2s; }
@@ -77,7 +78,7 @@
 <cc-topbar></cc-topbar>
 <cc-nav active="summaries"></cc-nav>
 </div>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <cc-fade-in>

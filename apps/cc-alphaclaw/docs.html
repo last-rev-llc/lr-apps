@@ -6,6 +6,7 @@
 <title>⚡ AlphaClaw — Docs</title>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 </head>
 <body>
 <cc-app-nav app="cc-alphaclaw" title="⚡ AlphaClaw" active="docs"></cc-app-nav>
@@ -37,10 +38,12 @@
       "icon": "🌐",
       "id": "web-apps",
       "content": "AlphaClaw builds and deploys static web apps to public URLs.\n\n- Apps live at `https://<name>.adam-harris.alphaclaw.app`\n- No login required, no CSP restrictions\n- SPA routing works automatically\n- Shared component library with glass/neon design system\n\n### Shared Components\n\n```html\n<!-- Load shared theme + components -->\n<link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n<script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n```\n\n### Available Components\n\n| Component | Description |\n|---|---|\n| `<cc-app-nav>` | App navigation bar |\n| `<cc-auth>` | Authentication gate |\n| `<cc-toast>` | Toast notifications |\n| `<cc-fade-in>` | Scroll-triggered fade animation |\n| `<cc-parallax>` | Parallax scrolling sections |\n| `<cc-stagger>` | Staggered child animations |\n| `<cc-slide-in>` | Directional slide animations |\n| `<cc-docs>` | Documentation layout |\n| `<cc-ads>` | Ad creatives display |\n| `<cc-prompts>` | Media prompt management |\n| `<cc-ideas>` | Ideas board |",
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
       "subsections": [
         {
           "title": "Embed Example",
           "content": "```html\n<link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n<script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n<script src=\"https://shared.adam-harris.alphaclaw.app/modules/cc-ads.js\"></script>\n\n<cc-ads app=\"cc-alphaclaw\"></cc-ads>\n```"
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
         }
       ]
     },

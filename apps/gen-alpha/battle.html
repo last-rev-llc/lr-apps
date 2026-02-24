@@ -14,6 +14,7 @@
 <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <style>
   :root { --amber: var(--accent, #f59e0b); --amber-dim: rgba(245,158,11,.15); --vs-red: var(--danger, var(--red, #ef4444)); --vs-blue: var(--info, var(--blue, #3b82f6)); }
   body { margin: 0; padding: 0; min-height: 100vh; background: var(--bg, #0a0a0a); color: var(--text, #e5e5e5); font-family: system-ui, -apple-system, sans-serif; }
@@ -63,7 +64,7 @@
 </head>
 <body>
 <cc-app-nav app="gen-alpha" title="🧠 GenAlpha" active="battle"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <div class="battle-wrap">

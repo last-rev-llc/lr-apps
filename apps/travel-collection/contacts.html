@@ -13,6 +13,7 @@
 <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <style>
   .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; padding: 0 24px 40px; }
   .contact-card { border-radius: 16px; padding: 20px; background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(12px); cursor: pointer; transition: all .3s; }
@@ -42,7 +43,7 @@
 </head>
 <body>
 <cc-app-nav app="travel-collection" title="Travel Collection" active="contacts"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <div class="page-header">

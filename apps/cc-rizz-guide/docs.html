@@ -60,10 +60,11 @@
 }
 </style>
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 </head>
 <body>
 <cc-app-nav app="cc-rizz-guide" title="The Rizz Guide" active="docs"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <cc-docs title="The Rizz Guide" icon="💜" subtitle="Documentation for the cc-rizz-guide web component.">

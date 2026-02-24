@@ -11,13 +11,14 @@
 <title>👥 Accounts — Console Logs</title>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
+    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
 <meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
 <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
 </head>
 <body>
 <cc-app-nav app="accounts" title="👥 Accounts" active="logs"></cc-app-nav>
-<cc-auth></cc-auth>
+<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 <div style="max-width:1100px;margin:40px auto;padding:0 20px;">
   <h1 style="font-family:var(--serif);margin-bottom:16px;">🖥️ Console Logs</h1>
