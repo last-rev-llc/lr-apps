@@ -14,6 +14,7 @@ export class TQAvatar extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-avatar');
     this.render();
   }
 

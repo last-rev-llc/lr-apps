@@ -6,7 +6,8 @@
   ],
   "csp": {
     "connectSrc": [
-      "https://fzmhqcgzvgtvkswpwruc.supabase.co"
+      "https://fzmhqcgzvgtvkswpwruc.supabase.co",
+      "https://lregiwsovpmljxjvrrsc.supabase.co"
     ]
   }
 }

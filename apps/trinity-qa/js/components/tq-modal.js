@@ -13,6 +13,7 @@ export class TQModal extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-modal');
     this.render();
     this.setupEventHandlers();
   }
@@ -91,6 +92,7 @@ export class TQModal extends HTMLElement {
   }
 
   disconnectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-modal');
     document.removeEventListener('keydown', this._escapeHandler);
     document.body.style.overflow = '';
   }

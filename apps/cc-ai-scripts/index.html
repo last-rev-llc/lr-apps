@@ -4,27 +4,186 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f59e0b">
-<title>🤖 AI Scripts</title>
-<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
-<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<title>AI Scripts — Evaluate, Process & Analyze AI Responses</title>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/landing.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
-    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
-<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
-<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
-<script src="db.js"></script>
-<script src="modules/cc-ai-scripts.js"></script>
-<style>
-  cc-ai-scripts table th { cursor: default; user-select: none; }
-  cc-ai-scripts table td, cc-ai-scripts table th { font-size: 0.9rem; }
-  cc-ai-scripts .pill { padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; }
-  cc-ai-scripts select, cc-ai-scripts input[type="text"], cc-ai-scripts input[type="number"], cc-ai-scripts input[type="password"] { font-size: 0.9rem; }
-</style>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
-<body>
+<body class="lp">
+<div class="lp-bg-fixed" style="
+  --lp-glow-1: rgba(245,158,11,.28);
+  --lp-glow-2: rgba(124,58,237,.22);
+  --lp-glow-3: rgba(59,130,246,.18);
+  --lp-glow-4: rgba(236,72,153,.14);
+  --lp-glow-5: rgba(34,197,94,.12);
+"></div>
 <cc-app-nav app="cc-ai-scripts" title="🤖 AI Scripts" active="home"></cc-app-nav>
-<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
-<cc-toast></cc-toast>
-<cc-ai-scripts></cc-ai-scripts>
+
+<!-- ═══ HERO ═══ -->
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.2" height="100vh">
+  <div class="hero-inner">
+    <cc-fade-in>
+      <div class="neon-icon-lg neon-amber"><i data-lucide="bot"></i></div>
+    </cc-fade-in>
+    <cc-fade-in delay="80">
+      <span class="lp-eyebrow">AI Response Toolkit</span>
+    </cc-fade-in>
+    <cc-fade-in delay="160">
+      <h1 class="lp-h1">Evaluate. Process.<br>Analyze. Ship.</h1>
+    </cc-fade-in>
+    <cc-fade-in delay="240">
+      <p class="lp-body-lg" style="margin:0 auto;">A complete toolkit for processing AI chatflow responses, running eval question sets, checking URLs, and managing per-client files — all in one place.</p>
+    </cc-fade-in>
+    <cc-fade-in delay="320">
+      <div class="hero-ctas">
+        <a href="index.html" class="btn-primary">Open AI Scripts →</a>
+        <a href="docs.html" class="btn-ghost">Read Docs</a>
+      </div>
+    </cc-fade-in>
+  </div>
+</cc-parallax>
+
+<!-- ═══ FEATURES ═══ -->
+<div class="lp-divider"></div>
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">What it does</span>
+    <h2 class="lp-h2">Six tools. One dashboard.</h2>
+    <p class="lp-body">Everything you need to test, validate, and process AI-generated content at scale — organized by client.</p>
+  </cc-fade-in>
+  <cc-stagger delay="60">
+    <div class="features-grid">
+      <div class="feature-card glass">
+        <div class="neon-icon neon-amber"><i data-lucide="file-question"></i></div>
+        <h3>Eval Questions</h3>
+        <p>Build and run evaluation question sets against chatflows. Score responses, compare models, and track quality over time.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-violet"><i data-lucide="table"></i></div>
+        <h3>CSV Chatflow Processing</h3>
+        <p>Upload CSVs of prompts and batch-process them through any configured chatflow. Download results when done.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-blue"><i data-lucide="link"></i></div>
+        <h3>URL Checker</h3>
+        <p>Validate URLs referenced in AI responses. Catch broken links, redirects, and hallucinated URLs before they ship.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-green"><i data-lucide="message-square-text"></i></div>
+        <h3>Flowise Message Analysis</h3>
+        <p>Pull and analyze message history from Flowise chatflows. Spot patterns, failures, and edge cases in production traffic.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-pink"><i data-lucide="folder-open"></i></div>
+        <h3>Per-Client File Management</h3>
+        <p>Organize eval sets, CSVs, and results by client. Every artifact stays scoped to its project — no cross-contamination.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-cyan"><i data-lucide="settings"></i></div>
+        <h3>Chatflow Configuration</h3>
+        <p>Manage API endpoints, override IDs, and session configs per client. Switch contexts in one click.</p>
+      </div>
+    </div>
+  </cc-stagger>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.15" height="auto">
+  <div class="lp-section">
+    <cc-fade-in>
+      <span class="lp-eyebrow">How it works</span>
+      <h2 class="lp-h2">Three steps to results.</h2>
+      <p class="lp-body">Pick a client, configure your chatflow, and run your tools. Results are stored locally and exportable.</p>
+    </cc-fade-in>
+    <div class="steps-list">
+      <cc-fade-in delay="0">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Select a Client</h3>
+            <p>Choose or create a client workspace. All question sets, chatflows, files, and results are scoped to that client.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="80">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Configure Chatflows</h3>
+            <p>Point to your Flowise endpoints, set override configs, and define evaluation question sets with expected answer criteria.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="160">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Run and Review</h3>
+            <p>Execute eval runs, batch-process CSVs, or check URLs. Review results inline, export to CSV, or drill into individual responses.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+    </div>
+  </div>
+</cc-parallax>
+
+<!-- ═══ USE CASES ═══ -->
+<div class="lp-divider"></div>
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">Who it's for</span>
+    <h2 class="lp-h2">Built for AI builders.</h2>
+    <p class="lp-body">Whether you're shipping chatbots, RAG pipelines, or AI-powered content — this is your QA layer.</p>
+  </cc-fade-in>
+  <cc-stagger delay="80">
+    <div class="use-cases-grid">
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-amber"><i data-lucide="code"></i></div>
+        <h3>AI Engineers</h3>
+        <p>Run structured evals against chatflow endpoints. Compare prompt variations, measure accuracy, and catch regressions before deploy.</p>
+      </div>
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-violet"><i data-lucide="users"></i></div>
+        <h3>Agency Teams</h3>
+        <p>Manage multiple client chatbots from one dashboard. Keep eval sets, configs, and results cleanly separated per engagement.</p>
+      </div>
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-blue"><i data-lucide="shield-check"></i></div>
+        <h3>QA & Content Reviewers</h3>
+        <p>Validate AI-generated URLs, check response quality at scale, and flag hallucinations before they reach production.</p>
+      </div>
+    </div>
+  </cc-stagger>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.18" height="auto">
+  <div class="cta-final">
+    <div class="cta-glow"></div>
+    <cc-fade-in>
+      <span class="lp-eyebrow">Get started</span>
+      <h2 class="lp-h2">Stop guessing.<br>Start evaluating.</h2>
+      <p class="lp-body" style="margin:0 auto 44px;">Your AI responses deserve real QA. Set up your first client and run an eval in under a minute.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;">
+        <a href="index.html" class="btn-primary">Open AI Scripts →</a>
+        <a href="docs.html" class="btn-ghost">Read Docs</a>
+      </div>
+    </cc-fade-in>
+  </div>
+</cc-parallax>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="lp-footer">
+  Part of <a href="https://command-center.adam-harris.alphaclaw.app">Command Center</a> · Built with <a href="https://adam-harris.alphaclaw.app">AlphaClaw</a>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const wait = setInterval(() => {
+      if (window.lucide) { clearInterval(wait); lucide.createIcons(); }
+    }, 50);
+  });
+</script>
 </body>
 </html>

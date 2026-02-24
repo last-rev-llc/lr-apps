@@ -8,24 +8,387 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192.svg">
-<title>💡 Ideas</title>
-<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
-<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<title>Ideas — Capture, Score & Ship Your Best Ideas</title>
+<meta name="description" content="Stop losing good ideas. Capture them from anywhere, auto-score by impact and feasibility, and track from spark to shipped.">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/landing.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
-    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
-<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
-<script src="https://shared.adam-harris.alphaclaw.app/trigger.js"></script>
-<script src="https://shared.adam-harris.alphaclaw.app/sql-sync.js"></script>
-<script src="db.js"></script>
-<script src="modules/cc-ideas.js"></script>
+<script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
 </head>
-<body>
+<body class="lp">
 
-<cc-app-nav app="cc-ideas" title="💡 Ideas" active="home"></cc-app-nav>
-<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
-<cc-toast></cc-toast>
 
-<cc-ideas></cc-ideas>
+<div class="lp-bg-fixed"></div>
+<cc-app-nav app="cc-ideas" title="💡 Ideas" active="home" position="bottom"></cc-app-nav>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════ -->
+<div id="hero-wrap" style="position:relative;width:100vw;height:100vh;overflow:hidden;background:#000;">
+  <!-- Video: sized to fill height based on 21:9 ratio, centered -->
+  <div id="yt-player-wrap" style="position:absolute;top:0;left:50%;transform:translateX(-50%);pointer-events:none;"></div>
+  <!-- Dark-blue overlay (fades in at end of video) -->
+  <div id="hero-bg-overlay" style="position:absolute;inset:0;background:rgb(10,14,26);opacity:0;transition:opacity 3s ease;z-index:1;"></div>
+  <!-- Text overlay -->
+  <div id="hero-text" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.5rem;z-index:2;background:rgba(0,0,0,0.35);opacity:0;transition:opacity 3s ease;">
+    <cc-fade-in delay="80">
+      <span class="lp-eyebrow">Idea Management</span>
+    </cc-fade-in>
+    <cc-fade-in delay="160">
+      <h1 class="lp-h1">Every good idea<br>deserves a system.</h1>
+    </cc-fade-in>
+    <cc-fade-in delay="240">
+      <p class="lp-body-lg" style="margin:0 auto;">
+        Capture ideas from Slack, AI brainstorms, and team conversations.
+        Score them objectively. Ship the ones that matter.
+      </p>
+    </cc-fade-in>
+    <cc-fade-in delay="320">
+      <div class="hero-ctas">
+        <a href="index.html" class="btn-primary">Open Ideas →</a>
+        <a href="docs.html" class="btn-ghost">Read Docs</a>
+      </div>
+    </cc-fade-in>
+  </div>
+</div>
+
+<!-- YouTube IFrame API: detect end of video for fade transitions -->
+<script>
+(function(){
+  // Load YT API
+  // Size video to fill viewport height using 21:9 math
+  var wrap = document.getElementById('yt-player-wrap');
+  function sizeVideo(){
+    var h = window.innerHeight;
+    var w = h * (21/9);
+    wrap.style.width = w + 'px';
+    wrap.style.height = h + 'px';
+  }
+  sizeVideo();
+  window.addEventListener('resize', sizeVideo);
+
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+
+  var player, poll;
+  window.onYouTubeIframeAPIReady = function(){
+    player = new YT.Player('yt-player-wrap', {
+      videoId: 'lcWE0rnLnkc',
+      width: '100%',
+      height: '100%',
+      playerVars: {
+        autoplay:1, mute:1, loop:0, controls:0, showinfo:0, rel:0,
+        modestbranding:1, playsinline:1, disablekb:1, iv_load_policy:3
+      },
+      events: {
+        onReady: function(e){ e.target.playVideo(); startPoll(); },
+        onStateChange: function(e){
+          if(e.data === YT.PlayerState.PLAYING) startPoll();
+        }
+      }
+    });
+  };
+
+  var textFaded = false;
+  function startPoll(){
+    if(poll) return;
+    poll = setInterval(function(){
+      if(!player || !player.getDuration) return;
+      var dur = player.getDuration();
+      var cur = player.getCurrentTime();
+      if(!dur) return;
+      var remaining = dur - cur;
+
+      // With 3s left: fade in hero text
+      if(remaining <= 3 && !textFaded){
+        textFaded = true;
+        document.getElementById('hero-text').style.opacity = '1';
+        document.getElementById('hero-bg-overlay').style.opacity = '0.65';
+      }
+      // Pause just before end to hold last frame
+      if(remaining <= 0.15){
+        player.pauseVideo();
+        clearInterval(poll);
+      }
+    }, 250);
+  }
+})();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════
+     WHAT IT DOES
+     ═══════════════════════════════════════════════════ -->
+<div class="lp-divider"></div>
+
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">What it does</span>
+    <h2 class="lp-h2">One place for every idea<br>your team will ever have.</h2>
+    <p class="lp-body">No more ideas lost in Slack threads, forgotten Notion pages, or half-remembered whiteboard sessions. Ideas captures everything and surfaces the best.</p>
+  </cc-fade-in>
+
+  <cc-stagger delay="60">
+    <div class="features-grid">
+      <div class="feature-card glass">
+        <div class="neon-icon neon-violet"><i data-lucide="brain"></i></div>
+        <h3>AI-Generated Ideas</h3>
+        <p>Your AI agent brainstorms based on your stack, industry, and goals. Fresh ideas waiting for you every morning.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-amber"><i data-lucide="scale"></i></div>
+        <h3>Composite Scoring</h3>
+        <p>Each idea gets a weighted score from feasibility and impact. No more loudest-voice-wins prioritization.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-pink"><i data-lucide="star"></i></div>
+        <h3>Personal Ratings</h3>
+        <p>Add your own 5-star rating. Your gut feeling plus the composite score gives you better signal.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-blue"><i data-lucide="sliders-horizontal"></i></div>
+        <h3>Smart Filtering</h3>
+        <p>Five categories. Freeform tags. Status tracking. Sort by score, date, effort, or your rating.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-green"><i data-lucide="link"></i></div>
+        <h3>Connected Context</h3>
+        <p>Link related ideas, attach resources, reference similar products. Every idea carries its context.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-cyan"><i data-lucide="layout-dashboard"></i></div>
+        <h3>Dashboard Widget</h3>
+        <p>Embed the Ideas Summary module anywhere. See your top-scored ideas at a glance on any page.</p>
+      </div>
+    </div>
+  </cc-stagger>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     HOW IT WORKS — Parallax
+     ═══════════════════════════════════════════════════ -->
+<cc-parallax
+  bg-color="transparent"
+  overlay="transparent"
+  speed="0.15"
+  height="auto">
+
+  <div class="lp-section">
+    <cc-fade-in>
+      <span class="lp-eyebrow">How it works</span>
+      <h2 class="lp-h2">From spark to shipped.</h2>
+      <p class="lp-body">Four steps. No complexity. Ideas flow through a system built to surface the best ones and let the rest fade.</p>
+    </cc-fade-in>
+
+    <div class="steps-list">
+      <cc-fade-in>
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Capture</h3>
+            <p>Ideas arrive from anywhere — Slack messages, AI brainstorm sessions, team meetings, or quick manual entry. Everything gets a card.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="80">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Score</h3>
+            <p>AI evaluates feasibility (1–10) and impact (1–10) to generate a composite score. Add your own effort estimate and star rating.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="160">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Prioritize</h3>
+            <p>Filter by category, sort by composite score, hide what doesn't matter. The highest-impact ideas rise to the top automatically.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="240">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Ship</h3>
+            <p>Move the best ideas to in-progress. Track completion. Archive what's done. Your backlog stays clean and current.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+    </div>
+  </div>
+</cc-parallax>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SCORING
+     ═══════════════════════════════════════════════════ -->
+<div class="lp-divider"></div>
+
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">Scoring</span>
+    <h2 class="lp-h2">Data beats opinions.</h2>
+    <p class="lp-body">Every idea gets a composite score weighted toward impact. The best ideas surface themselves.</p>
+  </cc-fade-in>
+
+  <div class="score-visual">
+    <cc-slide-in direction="left">
+      <div class="score-formula">
+        <div class="score-formula-box glass-strong">
+          <span style="color:var(--muted);">// composite score</span><br>
+          <span style="color:var(--accent);">score</span> = (<span style="color:var(--green);">feasibility</span> × 0.4)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (<span style="color:#3b82f6;">impact</span> × 0.6)<br><br>
+          <span style="color:var(--muted);">// example</span><br>
+          <span style="color:var(--green);">8</span> × 0.4 + <span style="color:#3b82f6;">9</span> × 0.6 = <span style="color:var(--accent);font-weight:700;">8.6</span>
+        </div>
+      </div>
+    </cc-slide-in>
+
+    <cc-slide-in direction="right">
+      <div class="score-bars">
+        <div>
+          <div class="score-bar-label">Impact (60% weight)</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width:90%;background:linear-gradient(90deg,#3b82f6,#60a5fa);"></div></div>
+        </div>
+        <div>
+          <div class="score-bar-label">Feasibility (40% weight)</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width:80%;background:linear-gradient(90deg,var(--green),var(--green));"></div></div>
+        </div>
+        <div>
+          <div class="score-bar-label">Your Rating (personal signal)</div>
+          <div class="score-bar-track"><div class="score-bar-fill" style="width:100%;background:linear-gradient(90deg,var(--accent),var(--yellow));"></div></div>
+        </div>
+      </div>
+    </cc-slide-in>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     CATEGORIES — Parallax
+     ═══════════════════════════════════════════════════ -->
+<cc-parallax
+  bg-color="transparent"
+  overlay="transparent"
+  speed="0.12"
+  height="auto">
+
+  <div class="lp-section" style="text-align:center;">
+    <cc-fade-in>
+      <span class="lp-eyebrow">Categories</span>
+      <h2 class="lp-h2">Five lanes. Zero chaos.</h2>
+      <p class="lp-body" style="margin:0 auto 64px;">Every idea belongs somewhere. Categories keep your board organized without adding process.</p>
+    </cc-fade-in>
+
+    <cc-stagger delay="60">
+      <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+        <div class="glass" style="padding:28px 32px;text-align:center;min-width:160px;">
+          <div class="cat-icon neon-violet" style="margin:0 auto 14px;"><i data-lucide="rocket"></i></div>
+          <div style="font-weight:700;font-size:14px;color:var(--accent2);margin-bottom:4px;">Product</div>
+          <div style="font-size:12px;color:var(--muted);">Features & UX</div>
+        </div>
+        <div class="glass" style="padding:28px 32px;text-align:center;min-width:160px;">
+          <div class="cat-icon neon-blue" style="margin:0 auto 14px;"><i data-lucide="pen-line"></i></div>
+          <div style="font-weight:700;font-size:14px;color:#60a5fa;margin-bottom:4px;">Content</div>
+          <div style="font-size:12px;color:var(--muted);">Posts & Campaigns</div>
+        </div>
+        <div class="glass" style="padding:28px 32px;text-align:center;min-width:160px;">
+          <div class="cat-icon neon-amber" style="margin:0 auto 14px;"><i data-lucide="trending-up"></i></div>
+          <div style="font-weight:700;font-size:14px;color:var(--yellow);margin-bottom:4px;">Business</div>
+          <div style="font-size:12px;color:var(--muted);">Growth & Revenue</div>
+        </div>
+        <div class="glass" style="padding:28px 32px;text-align:center;min-width:160px;">
+          <div class="cat-icon neon-green" style="margin:0 auto 14px;"><i data-lucide="settings"></i></div>
+          <div style="font-weight:700;font-size:14px;color:var(--green);margin-bottom:4px;">Technical</div>
+          <div style="font-size:12px;color:var(--muted);">Infra & Tooling</div>
+        </div>
+        <div class="glass" style="padding:28px 32px;text-align:center;min-width:160px;">
+          <div class="cat-icon neon-pink" style="margin:0 auto 14px;"><i data-lucide="palette"></i></div>
+          <div style="font-weight:700;font-size:14px;color:#f472b6;margin-bottom:4px;">Creative</div>
+          <div style="font-size:12px;color:var(--muted);">Design & Brand</div>
+        </div>
+      </div>
+    </cc-stagger>
+  </div>
+</cc-parallax>
+
+
+<!-- ═══════════════════════════════════════════════════
+     USE CASES
+     ═══════════════════════════════════════════════════ -->
+<div class="lp-divider"></div>
+
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">Who it's for</span>
+    <h2 class="lp-h2">Built for people who<br>build things.</h2>
+    <p class="lp-body">Whether you're shipping software, running campaigns, or managing a team — Ideas keeps your pipeline honest.</p>
+  </cc-fade-in>
+
+  <cc-stagger delay="80">
+    <div class="use-cases-grid">
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-blue"><i data-lucide="users"></i></div>
+        <h3>Product Teams</h3>
+        <p>Collect feature requests from every channel. Score them on impact, not politics. Build what actually moves the needle.</p>
+      </div>
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-amber"><i data-lucide="target"></i></div>
+        <h3>Founders & Solo Builders</h3>
+        <p>Your second brain for side projects. AI generates ideas based on your stack. You rate them and tackle the highest-impact ones first.</p>
+      </div>
+      <div class="use-case-card glass">
+        <div class="neon-icon neon-violet"><i data-lucide="building-2"></i></div>
+        <h3>Agencies</h3>
+        <p>Track campaign ideas, content concepts, and pitches by client. Score them, prioritize, and never lose a good one to a messy doc.</p>
+      </div>
+    </div>
+  </cc-stagger>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     FINAL CTA — Parallax
+     ═══════════════════════════════════════════════════ -->
+<cc-parallax
+  bg-color="transparent"
+  overlay="transparent"
+  speed="0.18"
+  height="auto">
+
+  <div class="cta-final">
+    <div class="cta-glow"></div>
+    <cc-fade-in>
+      <span class="lp-eyebrow">Get started</span>
+      <h2 class="lp-h2" style="margin-bottom:16px;">Stop losing good ideas.</h2>
+      <p class="lp-body" style="margin:0 auto 44px;">Start capturing, scoring, and shipping today.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;">
+        <a href="index.html" class="btn-primary">Open Ideas →</a>
+        <a href="docs.html" class="btn-ghost">Read Docs</a>
+      </div>
+    </cc-fade-in>
+  </div>
+</cc-parallax>
+
+
+<!-- Footer -->
+<footer class="lp-footer">
+  Part of <a href="https://command-center.adam-harris.alphaclaw.app">Command Center</a> · Built with <a href="https://adam-harris.alphaclaw.app">AlphaClaw</a>
+</footer>
+
+<!-- Init Lucide icons after DOM is ready -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const wait = setInterval(() => {
+      if (window.lucide) { clearInterval(wait); lucide.createIcons(); }
+    }, 50);
+  });
+</script>
+
 </body>
 </html>

@@ -20,6 +20,7 @@ export class TQInput extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-input');
     this.render();
     this.setupEventHandlers();
   }

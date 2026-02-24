@@ -18,6 +18,7 @@ export class TQHeader extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-header');
     this.render();
     this.setupEventHandlers();
   }

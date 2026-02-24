@@ -13,6 +13,7 @@ export class TQLocationCard extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-location-card');
     this.render();
   }
 
@@ -211,9 +212,9 @@ export class TQLocationCard extends HTMLElement {
           border-color: var(--trinity-blue, #2c5f8d);
         }
         .customer {
-          margin-bottom: 1rem;
-          padding-bottom: 1rem;
-          border-bottom: 1px solid var(--gray-200, #e5e7eb);
+          margin-top: 1rem;
+          padding-top: 1rem;
+          border-top: 1px solid var(--gray-200, #e5e7eb);
         }
         .header {
           display: flex;
@@ -260,13 +261,7 @@ export class TQLocationCard extends HTMLElement {
         }
       </style>
       <div class="expanded-card" role="button" tabindex="0">
-        <!-- CUSTOMER FIRST -->
-        <div class="customer">
-          ${data.customer_name || data.customer?.full_name 
-            ? `<tq-avatar name="${data.customer_name || data.customer?.full_name}" role="Customer" size="md"></tq-avatar>` 
-            : 'No customer'}
-        </div>
-
+        <!-- TITLE FIRST -->
         <div class="header">
           <div>
             <div class="title">📍 ${data.name || 'Unnamed Location'}</div>
@@ -280,6 +275,14 @@ export class TQLocationCard extends HTMLElement {
             <tq-badge variant="${data.is_active ? 'success' : 'neutral'}" value="${data.is_active ? 'Active' : 'Inactive'}"></tq-badge>
           </div>
         </div>
+
+        <!-- CUSTOMER BELOW -->
+        <div class="customer">
+          ${data.customer_name || data.customer?.full_name 
+            ? `<tq-avatar name="${data.customer_name || data.customer?.full_name}" role="Customer" size="md"></tq-avatar>` 
+            : 'No customer'}
+        </div>
+
         <div class="details-grid">
           <div class="detail-item">
             <div class="detail-label">Account Manager</div>

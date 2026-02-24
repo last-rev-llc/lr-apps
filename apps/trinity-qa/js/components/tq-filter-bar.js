@@ -20,6 +20,7 @@ export class TQFilterBar extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-filter-bar');
     this.render();
     this.setupEventHandlers();
   }
@@ -150,8 +151,9 @@ export class TQFilterBar extends HTMLElement {
         }
 
         .search-field {
-          flex: 1;
+          flex: 0 1 auto;
           min-width: 200px;
+          max-width: 300px;
         }
 
         .filter-field {
@@ -171,6 +173,7 @@ export class TQFilterBar extends HTMLElement {
 
         .clear-btn {
           align-self: flex-end;
+          margin-top: 1.75rem; /* Account for label height */
         }
 
         @media (max-width: 640px) {

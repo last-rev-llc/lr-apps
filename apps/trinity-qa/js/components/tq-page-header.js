@@ -24,6 +24,7 @@ export class TQPageHeader extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-page-header');
     this.render();
   }
 

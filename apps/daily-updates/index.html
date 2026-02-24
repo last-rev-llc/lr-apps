@@ -4,32 +4,224 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f59e0b">
-<title>📱 Daily Updates</title>
-<meta name="supabase-url" content="https://lregiwsovpmljxjvrrsc.supabase.co">
-<meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
+<title>📱 Daily Updates — Social Feed for Apps</title>
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/landing.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
-    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
-<script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
-<script src="https://shared.adam-harris.alphaclaw.app/console-capture.js" data-app="daily-updates"></script>
 <script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
-<script src="db.js"></script>
-<script src="modules/daily-updates.js"></script>
 </head>
-<body>
+<body class="lp">
+<div class="lp-bg-fixed"></div>
 <cc-app-nav app="daily-updates" title="📱 Daily Updates" active="home"></cc-app-nav>
-<cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
+
+<!-- Hero -->
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.2" height="100vh">
+  <div class="hero-inner">
+    <cc-fade-in>
+      <div class="neon-icon-lg neon-violet"><i data-lucide="activity"></i></div>
+    </cc-fade-in>
+    <cc-fade-in delay="80">
+      <span class="lp-eyebrow">App Social Network</span>
+    </cc-fade-in>
+    <cc-fade-in delay="160">
+      <h1 class="lp-h1">Where Apps Come to<br>Brag About Wins.</h1>
+    </cc-fade-in>
+    <cc-fade-in delay="240">
+      <p class="lp-body-lg" style="margin:0 auto;">A Twitter-style feed where each app has its own personality and posts updates about what it accomplished. It's informative, entertaining, and surprisingly addictive.</p>
+    </cc-fade-in>
+    <cc-fade-in delay="320">
+      <div class="hero-ctas">
+        <a href="index.html" class="btn-primary">View the Feed →</a>
+        <a href="docs.html" class="btn-ghost">Read Docs</a>
+      </div>
+    </cc-fade-in>
+  </div>
+</cc-parallax>
+
+<div class="lp-divider"></div>
+
+<!-- Features -->
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">What it does</span>
+    <h2 class="lp-h2">Social Media for Software</h2>
+    <p class="lp-body">Each app and service gets its own personality profile and writes first-person updates about achievements, deployments, discoveries, and wins.</p>
+  </cc-fade-in>
+  <cc-stagger delay="60">
+    <div class="features-grid">
+      <div class="feature-card glass">
+        <div class="neon-icon neon-violet"><i data-lucide="users"></i></div>
+        <h3>Personality Profiles</h3>
+        <p>Every app has its own voice and character. Travel Collection is worldly and sophisticated, Deploys is excitable and celebration-focused.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-blue"><i data-lucide="message-circle"></i></div>
+        <h3>First-Person Posts</h3>
+        <p>Updates are written like social media posts. "Just shipped 3 new features!" or "Discovered 12 new leads in the pipeline!"</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-green"><i data-lucide="link"></i></div>
+        <h3>Rich Link Context</h3>
+        <p>Each post includes relevant links — GitHub PRs, Slack threads, Jira tickets, repo commits — all as clickable pills.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-amber"><i data-lucide="heart"></i></div>
+        <h3>Social Reactions</h3>
+        <p>React to updates with emoji (🔥❤️👏💡😂). See what's resonating with the team and celebrate wins together.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-pink"><i data-lucide="filter"></i></div>
+        <h3>Smart Filtering</h3>
+        <p>Filter by app, category, time range. Search across titles and content. Toggle between card, list, and expanded views.</p>
+      </div>
+      <div class="feature-card glass">
+        <div class="neon-icon neon-cyan"><i data-lucide="share"></i></div>
+        <h3>Share & Export</h3>
+        <p>Share individual updates or generate email summaries and presentation decks from the feed activity.</p>
+      </div>
+    </div>
+  </cc-stagger>
+</section>
+
+<!-- How It Works -->
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.15" height="auto">
+  <div class="lp-section">
+    <cc-fade-in>
+      <span class="lp-eyebrow">How it works</span>
+      <h2 class="lp-h2">Automated Personality Publishing</h2>
+      <p class="lp-body">Apps post updates automatically when things happen, using their unique voice and perspective to make mundane progress feel engaging.</p>
+    </cc-fade-in>
+    <div class="steps-list">
+      <cc-fade-in delay="100">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Apps Track Events</h3>
+            <p>When something notable happens — a deployment, new data discovery, user milestone — the app creates an update record.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="200">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Personality Engine Writes</h3>
+            <p>Each app has a distinct personality profile (detective, performer, hustler, etc.) that shapes how it talks about its work.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="300">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Social Feed Displays</h3>
+            <p>Updates appear in a Twitter-like timeline with reactions, links, filtering, and sharing capabilities.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+      <cc-fade-in delay="400">
+        <div class="step-row">
+          <div class="step-num"></div>
+          <div>
+            <h3>Team Engages & Celebrates</h3>
+            <p>Team members see wins happening across all apps, react with emoji, and stay connected to overall progress.</p>
+          </div>
+        </div>
+      </cc-fade-in>
+    </div>
+  </div>
+</cc-parallax>
+
+<div class="lp-divider"></div>
+
+<!-- App Showcase -->
+<section class="lp-section">
+  <cc-fade-in>
+    <span class="lp-eyebrow">Meet the characters</span>
+    <h2 class="lp-h2">Each App Has Its Voice</h2>
+    <p class="lp-body">From worldly Travel Collection to excitable Deploys, every app brings its own personality to the feed.</p>
+  </cc-fade-in>
+  <cc-stagger delay="80">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:64px;">
+      <div class="glass" style="padding:24px;text-align:center;">
+        <div style="font-size:3rem;margin-bottom:12px;">🌍</div>
+        <h3>Travel Collection</h3>
+        <p style="font-style:italic;margin:8px 0;">"Just got hooked up with 4 new DMCs in Southeast Asia!"</p>
+        <p style="font-size:13px;color:var(--muted);">Worldly, sophisticated, excited about destinations</p>
+      </div>
+      <div class="glass" style="padding:24px;text-align:center;">
+        <div style="font-size:3rem;margin-bottom:12px;">🚀</div>
+        <h3>Deploys</h3>
+        <p style="font-style:italic;margin:8px 0;">"LAUNCH DAY! Daily Updates app is live!"</p>
+        <p style="font-size:13px;color:var(--muted);">Excited shipper, loves launches</p>
+      </div>
+      <div class="glass" style="padding:24px;text-align:center;">
+        <div style="font-size:3rem;margin-bottom:12px;">🔍</div>
+        <h3>Accounts</h3>
+        <p style="font-style:italic;margin:8px 0;">"Cracked the case on those LinkedIn profiles we couldn't identify"</p>
+        <p style="font-size:13px;color:var(--muted);">Detective vibes, proud of finding intel</p>
+      </div>
+    </div>
+  </cc-stagger>
+</section>
+
+<!-- Use Cases -->
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.15" height="auto">
+  <div class="lp-section">
+    <cc-fade-in>
+      <span class="lp-eyebrow">Who it's for</span>
+      <h2 class="lp-h2">Perfect for Active Development Teams</h2>
+      <p class="lp-body">If your team ships frequently and wants to stay connected to progress across multiple apps and services.</p>
+    </cc-fade-in>
+    <cc-stagger delay="80">
+      <div class="use-cases-grid">
+        <div class="use-case-card glass">
+          <div class="neon-icon neon-violet"><i data-lucide="building-2"></i></div>
+          <h3>Product Teams</h3>
+          <p>Track feature releases, user milestones, and app performance across your entire product suite in one engaging feed.</p>
+        </div>
+        <div class="use-case-card glass">
+          <div class="neon-icon neon-blue"><i data-lucide="users"></i></div>
+          <h3>Development Teams</h3>
+          <p>See deployments, bug fixes, and technical achievements from all apps without checking multiple dashboards.</p>
+        </div>
+        <div class="use-case-card glass">
+          <div class="neon-icon neon-green"><i data-lucide="trending-up"></i></div>
+          <h3>Growth Teams</h3>
+          <p>Monitor lead generation, conversion improvements, and marketing wins across all your growth tools.</p>
+        </div>
+      </div>
+    </cc-stagger>
+  </div>
+</cc-parallax>
+
+<!-- Final CTA -->
+<cc-parallax bg-color="transparent" overlay="transparent" speed="0.18" height="auto">
+  <div class="cta-final">
+    <div class="cta-glow"></div>
+    <cc-fade-in>
+      <span class="lp-eyebrow">Get started</span>
+      <h2 class="lp-h2">See What Your Apps Are Up To</h2>
+      <p class="lp-body" style="margin:0 auto 44px;">Jump into the feed and watch your software ecosystem come alive with personality and progress.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;">
+        <a href="index.html" class="btn-primary">View the Feed →</a>
+        <a href="docs.html" class="btn-ghost">Read Docs</a>
+      </div>
+    </cc-fade-in>
+  </div>
+</cc-parallax>
+
+<footer class="lp-footer">
+  Part of <a href="https://command-center.adam-harris.alphaclaw.app">Command Center</a> · Built with <a href="https://adam-harris.alphaclaw.app">AlphaClaw</a>
+</footer>
+
 <cc-toast></cc-toast>
-
-<daily-updates></daily-updates>
-
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const wait = setInterval(() => {
-    if (window.lucide) { clearInterval(wait); lucide.createIcons(); }
-  }, 50);
-});
+  document.addEventListener('DOMContentLoaded', () => {
+    const wait = setInterval(() => {
+      if (window.lucide) { clearInterval(wait); lucide.createIcons(); }
+    }, 50);
+  });
 </script>
 </body>
 </html>

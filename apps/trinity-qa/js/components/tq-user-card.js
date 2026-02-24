@@ -13,6 +13,7 @@ export class TQUserCard extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-user-card');
     this.render();
   }
 

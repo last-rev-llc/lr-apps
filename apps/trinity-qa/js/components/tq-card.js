@@ -17,6 +17,7 @@ export class TQCard extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-card');
     this.render();
     this.setupEventHandlers();
   }

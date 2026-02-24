@@ -17,6 +17,7 @@ export class TQTable extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-table');
     this.render();
   }
 

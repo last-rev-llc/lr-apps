@@ -11,6 +11,7 @@ export class TQForm extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-form');
     this.render();
     this.setupEventHandlers();
   }

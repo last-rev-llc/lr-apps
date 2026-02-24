@@ -14,6 +14,7 @@ export class TQViewToggle extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-view-toggle');
     // Restore from localStorage or use default
     const stored = localStorage.getItem(this._storageKey);
     const defaultView = this.getAttribute('default-view') || 'cards';

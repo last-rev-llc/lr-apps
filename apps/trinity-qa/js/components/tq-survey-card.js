@@ -13,6 +13,7 @@ export class TQSurveyCard extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-survey-card');
     this.render();
   }
 

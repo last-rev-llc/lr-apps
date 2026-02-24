@@ -11,6 +11,7 @@ export class TQToast extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-toast');
     this.render();
   }
 
@@ -128,6 +129,7 @@ class TQToastContainer extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!this.hasAttribute('data-tq-component')) this.setAttribute('data-tq-component', 'tq-toast');
     this.shadowRoot.innerHTML = `
       <style>
         :host {

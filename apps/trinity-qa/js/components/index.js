@@ -21,6 +21,7 @@ import './tq-form.js';
 import './tq-header.js';
 import './tq-footer.js';
 import './tq-page-header.js';
+import './tq-edit-mode.js';
 
 // View components
 import './tq-view-toggle.js';

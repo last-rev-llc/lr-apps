@@ -3,12 +3,12 @@
 // Attributes:
 //   app    — app slug used for URL building (e.g. "ideas")
 //   title  — display title with optional emoji (e.g. "💡 Ideas")
-//   active — current page: "home" | "landing" | "admin" (default: auto-detect)
+//   active — current page: "home" | "app" | "admin" (default: auto-detect)
 //   base   — base URL override (default: auto from location)
 //   repo   — GitHub repo override (default: last-rev-llc/ah-${app})
 //   pages  — JSON array of extra nav links (optional)
 //
-// Streamlined nav: Logo/Title | Landing | Admin
+// Streamlined nav: Logo/Title (home/landing) | App | Admin
 // GitHub moved to dev toolbar. Admin page uses <cc-tabs> for Ideas, Prompts, Ads, Docs sub-pages.
 class CcAppNav extends HTMLElement {
   connectedCallback() {
@@ -20,8 +20,8 @@ class CcAppNav extends HTMLElement {
     const repo = this.getAttribute('repo') || `last-rev-llc/ah-${app}`;
 
     const links = [
-      { id: 'landing', label: 'Landing', lucide: 'rocket',    href: `${base}/landing.html` },
-      { id: 'admin',   label: 'Admin',   lucide: 'settings',  href: `${base}/admin.html` },
+      { id: 'app',   label: 'App',   lucide: 'layout-dashboard', href: `${base}/app.html` },
+      { id: 'admin', label: 'Admin', lucide: 'settings',         href: `${base}/admin.html` },
     ];
 
     // Support app-specific extra pages via `pages` attribute (JSON array)
@@ -61,7 +61,7 @@ class CcAppNav extends HTMLElement {
   _detectActive() {
     const path = window.location.pathname;
     const file = path.split('/').pop().replace('.html', '');
-    if (['landing', 'admin'].includes(file)) return file;
+    if (['app', 'admin'].includes(file)) return file;
     return 'home';
   }
 }
