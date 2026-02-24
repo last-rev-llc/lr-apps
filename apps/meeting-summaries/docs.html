@@ -11,7 +11,6 @@
   <title>📝 Meeting Summaries — Docs</title>
   <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
   <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
-<script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
   <style>
     .showcase-layout { display: flex; min-height: 100vh; }
     .showcase-sidebar {
@@ -47,8 +46,7 @@
   </style>
 </head>
 <body>
-<cc-app-nav app="meeting-summaries" title="📝 Meeting Summaries" active="docs"></cc-app-nav>
-  <!-- no auth needed - docs page doesn't use Supabase -->
+<cc-app-topnav app="meeting-summaries" title="📝 Meeting Summaries" links='[{"href":"index.html","label":"Summaries"},{"href":"admin.html","label":"Admin"},{"href":"docs.html","label":"Docs"}]' active="docs"></cc-app-topnav>
   <cc-toast></cc-toast>
 
   <div class="showcase-layout">
@@ -167,5 +165,7 @@
     </section>
     </div>
   </div>
+
+<cc-app-nav app="meeting-summaries" title="📝 Meeting Summaries" active="docs" position="bottom"></cc-app-nav>
 </body>
 </html>

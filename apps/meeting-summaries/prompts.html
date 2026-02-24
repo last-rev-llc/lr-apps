@@ -9,15 +9,16 @@
 <meta name="supabase-key" content="sb_publishable_HPinRWPrX97uxshGM0u1rw_UAsQsyFq">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
-    <script src="https://shared.adam-harris.alphaclaw.app/supabase-auth.js"></script>
 <script src="https://shared.adam-harris.alphaclaw.app/supabase-client.js"></script>
 <script src="https://shared.adam-harris.alphaclaw.app/modules/cc-prompts.js"></script>
 </head>
 <body>
-<cc-app-nav app="meeting-summaries" title="📝 Meeting Summaries" active="prompts"></cc-app-nav>
+<cc-app-topnav app="meeting-summaries" title="📝 Meeting Summaries" links='[{"href":"index.html","label":"Summaries"},{"href":"admin.html","label":"Admin"},{"href":"docs.html","label":"Docs"}]' active="prompts"></cc-app-topnav>
 <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
 <cc-prompts app="meeting-summaries"></cc-prompts>
+
+<cc-app-nav app="meeting-summaries" title="📝 Meeting Summaries" active="prompts" position="bottom"></cc-app-nav>
 </body>
 </html>
