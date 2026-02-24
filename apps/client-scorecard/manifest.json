@@ -1,11 +1,11 @@
 {
-  "name": "Client Scorecard",
+  "name": "Client Health Scorecard",
   "short_name": "Scorecard",
-  "description": "Client Scorecard",
+  "description": "Real-time client health tracking based on GitHub activity, commits, and collaboration metrics",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
+  "theme_color": "#22c55e",
   "orientation": "any",
   "icons": [
     {

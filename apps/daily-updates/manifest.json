@@ -1,0 +1,12 @@
+{
+  "name": "Daily Updates",
+  "short_name": "Updates",
+  "description": "Social feed where apps post updates, wins, and personality. Twitter for software.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d1a",
+  "theme_color": "#7C3AED",
+  "icons": [
+    { "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📱</text></svg>", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

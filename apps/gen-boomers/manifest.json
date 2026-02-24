@@ -1,11 +1,11 @@
 {
-  "name": "Gen Boomers",
-  "short_name": "Boomers",
-  "description": "Gen Boomers",
+  "name": "Boomer Slang Dictionary",
+  "short_name": "Boomer",
+  "description": "The grooviest 60s/70s slang dictionary. 40+ far out terms, translator, quiz. Outta sight!",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#ff6347",
+  "theme_color": "#F59E0B",
   "orientation": "any",
   "icons": [
     {

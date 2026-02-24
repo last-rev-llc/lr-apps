@@ -1,11 +1,11 @@
 {
-  "name": "Gen Alpha",
-  "short_name": "Gen Alpha",
-  "description": "Gen Alpha",
+  "name": "GenAlpha Dictionary",
+  "short_name": "GenAlpha",
+  "description": "The ultimate brainrot dictionary. 50+ slang terms, translator, quiz. No cap fr fr.",
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#0a0e1a",
-  "theme_color": "#f59e0b",
+  "theme_color": "#EC4899",
   "orientation": "any",
   "icons": [
     {

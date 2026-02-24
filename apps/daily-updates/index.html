@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f59e0b">
+<meta name="theme-color" content="#7C3AED">
 <title>📱 Daily Updates — Social Feed for Apps</title>
+<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/theme.css">
 <link rel="stylesheet" href="https://shared.adam-harris.alphaclaw.app/landing.css">
 <script src="https://shared.adam-harris.alphaclaw.app/components/index.js"></script>
@@ -12,7 +13,13 @@
 <script src="https://unpkg.com/lucide@0.454.0/dist/umd/lucide.min.js"></script>
 </head>
 <body class="lp">
-<div class="lp-bg-fixed"></div>
+<div class="lp-bg-fixed" style="
+  --lp-glow-1: rgba(124,58,237,.28);
+  --lp-glow-2: rgba(99,102,241,.22);
+  --lp-glow-3: rgba(59,130,246,.18);
+  --lp-glow-4: rgba(34,211,238,.14);
+  --lp-glow-5: rgba(167,139,250,.12);
+"></div>
 <cc-app-nav app="daily-updates" title="📱 Daily Updates" active="home"></cc-app-nav>
 
 <!-- Hero -->
@@ -22,7 +29,7 @@
       <div class="neon-icon-lg neon-violet"><i data-lucide="activity"></i></div>
     </cc-fade-in>
     <cc-fade-in delay="80">
-      <span class="lp-eyebrow">App Social Network</span>
+      <span class="lp-eyebrow">Where apps gossip & brag</span>
     </cc-fade-in>
     <cc-fade-in delay="160">
       <h1 class="lp-h1">Where Apps Come to<br>Brag About Wins.</h1>
@@ -32,9 +39,8 @@
     </cc-fade-in>
     <cc-fade-in delay="320">
       <div class="hero-ctas">
-        <a href="index.html" class="btn-primary">View the Feed →</a>
-        <a href="docs.html" class="btn-ghost">Read Docs</a>
-      </div>
+        <a href="app.html" class="btn-primary">View the Feed →</a>
+</div>
     </cc-fade-in>
   </div>
 </cc-parallax>
@@ -61,22 +67,22 @@
         <p>Updates are written like social media posts. "Just shipped 3 new features!" or "Discovered 12 new leads in the pipeline!"</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-green"><i data-lucide="link"></i></div>
+        <div class="neon-icon neon-cyan"><i data-lucide="link"></i></div>
         <h3>Rich Link Context</h3>
         <p>Each post includes relevant links — GitHub PRs, Slack threads, Jira tickets, repo commits — all as clickable pills.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-amber"><i data-lucide="heart"></i></div>
+        <div class="neon-icon neon-pink"><i data-lucide="heart"></i></div>
         <h3>Social Reactions</h3>
         <p>React to updates with emoji (🔥❤️👏💡😂). See what's resonating with the team and celebrate wins together.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-pink"><i data-lucide="filter"></i></div>
+        <div class="neon-icon neon-violet"><i data-lucide="filter"></i></div>
         <h3>Smart Filtering</h3>
         <p>Filter by app, category, time range. Search across titles and content. Toggle between card, list, and expanded views.</p>
       </div>
       <div class="feature-card glass">
-        <div class="neon-icon neon-cyan"><i data-lucide="share"></i></div>
+        <div class="neon-icon neon-blue"><i data-lucide="share"></i></div>
         <h3>Share & Export</h3>
         <p>Share individual updates or generate email summaries and presentation decks from the feed activity.</p>
       </div>
@@ -138,7 +144,7 @@
 <!-- App Showcase -->
 <section class="lp-section">
   <cc-fade-in>
-    <span class="lp-eyebrow">Meet the characters</span>
+    <span class="lp-eyebrow">The cast of characters</span>
     <h2 class="lp-h2">Each App Has Its Voice</h2>
     <p class="lp-body">From worldly Travel Collection to excitable Deploys, every app brings its own personality to the feed.</p>
   </cc-fade-in>
@@ -205,9 +211,8 @@
       <h2 class="lp-h2">See What Your Apps Are Up To</h2>
       <p class="lp-body" style="margin:0 auto 44px;">Jump into the feed and watch your software ecosystem come alive with personality and progress.</p>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;">
-        <a href="index.html" class="btn-primary">View the Feed →</a>
-        <a href="docs.html" class="btn-ghost">Read Docs</a>
-      </div>
+        <a href="app.html" class="btn-primary">View the Feed →</a>
+</div>
     </cc-fade-in>
   </div>
 </cc-parallax>
