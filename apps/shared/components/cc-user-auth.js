@@ -155,6 +155,8 @@ class CcUserAuth extends HTMLElement {
         ${content}
       </div>`;
     
+    // Ensure modal is visible even when gate hides body
+    modal.style.visibility = 'visible';
     document.body.appendChild(modal);
     
     if (!isGate) {
