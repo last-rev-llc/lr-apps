@@ -53,6 +53,7 @@
   load('cc-search.js');
   load('cc-app-nav.js');
   load('cc-app-topnav.js');
+  load('cc-app-card.js');
   load('cc-pill-list.js');
   load('cc-star-rating.js');
   load('cc-apps.js');
