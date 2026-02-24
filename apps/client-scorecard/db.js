@@ -1,7 +1,7 @@
 /* Client Scorecard — SyncDB schema & helpers */
 
 const CC_DB_CONFIG = {
-  name: 'command-center',
+  name: 'client-scorecard',
   tables: {
     clientHealth: {
       columns: `id TEXT PRIMARY KEY, name TEXT, score REAL, metrics TEXT, updatedAt TEXT`,

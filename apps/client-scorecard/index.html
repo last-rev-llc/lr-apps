@@ -203,6 +203,7 @@ async function init() {
   } catch (e) {
     document.getElementById('empty').style.display = '';
     console.error('Failed to load client data', e);
+    window.showToast?.('Failed to load client data. Please refresh.', 5000);
   }
 }
 init();
