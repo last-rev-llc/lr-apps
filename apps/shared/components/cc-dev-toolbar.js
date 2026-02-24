@@ -23,8 +23,9 @@
 
   class CcDevToolbar extends HTMLElement {
     connectedCallback() {
-      // Only show on alphaclaw.app domains (dev/staging) — never on production
-      if (!location.hostname.endsWith('.alphaclaw.app') && !location.hostname.includes('localhost')) {
+      // Only show on alphaclaw.app, vercel.app domains, or localhost
+      const h = location.hostname;
+      if (!h.endsWith('.alphaclaw.app') && !h.endsWith('.vercel.app') && !h.includes('localhost')) {
         this.style.display = 'none';
         return;
       }
