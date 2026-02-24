@@ -1081,5 +1081,5 @@
       "destination": "/apps/ux-review/:path*"
     }
   ],
-  "trailingSlash": false
+  "trailingSlash": true
 }
