@@ -1590,7 +1590,7 @@ cc-ideas .prompt-block { background: var(--prompt-bg); border: 1px solid var(--b
 
 /* ── cc-app-nav — individual app top nav ── */
 .cc-app-nav { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; background: var(--card-bg, #1a1a2e); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 200; backdrop-filter: blur(12px); }
-.cc-app-nav.cc-app-nav-bottom { position: fixed; top: auto; bottom: 0; left: 0; right: 0; border-bottom: none; border-top: 1px solid var(--border); background: rgba(10,14,26,0.92); }
+.cc-app-nav.cc-app-nav-bottom { position: fixed; top: auto; bottom: 0; left: 0; right: 0; border-bottom: none; border-top: 1px solid var(--border); background: rgba(10,14,26,0.92); justify-content: flex-end; }
 .cc-app-nav-title { font-size: 16px; font-weight: 700; color: var(--heading, #fff); white-space: nowrap; text-decoration: none; transition: opacity .15s; }
 .cc-app-nav-title:hover { opacity: .75; }
 .cc-app-nav-links { display: flex; gap: 4px; }
