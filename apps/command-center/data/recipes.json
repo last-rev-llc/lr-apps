@@ -2270,5 +2270,176 @@
       "saas"
     ],
     "prompt": "## Launch App Skill\n\n### What It Does\nExtends the create-app skill to launch full standalone SaaS applications with user authentication, Stripe billing, and per-app user management. Each app gets isolated users, profiles, and subscription data.\n\n### Architecture\n- **Skill directory:** `skills/launch-app/`\n- **Files:** `SKILL.md`, auth setup scripts, billing integration helpers\n- **Extends:** create-app skill with authentication and billing layers\n\n### Key Features\n1. **Authentication System:**\n   - Supabase Auth integration\n   - User registration and login flows\n   - Email verification and password reset\n   - Social login options (Google, GitHub)\n2. **Billing Integration:**\n   - Stripe subscription management\n   - Multiple pricing tiers\n   - Trial periods and prorations\n   - Webhook handling for events\n3. **User Management:**\n   - Per-app user isolation\n   - Profile management\n   - Usage tracking and limits\n   - Admin dashboard\n4. **App Isolation:**\n   - Separate user tables per app\n   - Independent billing cycles\n   - Custom domain support\n\n### Setup Process\n1. Create base app using create-app skill\n2. Add Supabase Auth configuration\n3. Set up Stripe products and pricing\n4. Configure user onboarding flow\n5. Deploy with authentication middleware\n\n### Usage Examples\n- 'Launch HSPTutor as a standalone SaaS'\n- 'Add billing to the fitness tracker app'\n- 'Create subscription tiers for the calculator'\n\n### Integration Requirements\n- Supabase project with Auth enabled\n- Stripe account with configured products\n- Custom domain for professional appearance\n\n### Testing\n- Complete user signup and login flow\n- Process test subscription payments\n- Verify user isolation between apps"
+  },
+  {
+    "id": "command-center",
+    "name": "Command Center",
+    "title": "Command Center",
+    "type": "App",
+    "icon": "📊",
+    "description": "Central hub dashboard with calendar, PRs, Slack, client health, Contentful status, recipes, ideas, leads, crons, and more. Unified view of all Command Center modules.",
+    "integrations": [
+      "Google Calendar",
+      "GitHub",
+      "Slack",
+      "Contentful"
+    ],
+    "skills": [
+      "create-app",
+      "app-database"
+    ],
+    "tags": [
+      "dashboard",
+      "hub",
+      "productivity",
+      "central"
+    ],
+    "prompt": "## Command Center App\n\n### What It Does\nThe central hub dashboard at https://command-center.adam-harris.alphaclaw.app providing a unified view of all Command Center modules including calendar, GitHub PRs, Slack messages, client health, Contentful status, recipes, ideas, leads, crons, and more.\n\n### Architecture\n- **Tech stack:** Static HTML + vanilla JS + SyncDB\n- **File:** `apps/command-center/index.html` — main dashboard page\n- **Data:** `apps/command-center/data/` — JSON files for all modules\n- **SyncDB:** `db.js` config defining all Command Center tables\n- **Shared components:** `<cc-topbar>`, `<cc-nav>`, `<cc-auth>`, all module components\n- **Shared imports:**\n  ```html\n  <link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n  <script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n  <script src=\"https://shared.adam-harris.alphaclaw.app/modules/index.js\"></script>\n  <script src=\"https://shared.adam-harris.alphaclaw.app/sql-sync.js\"></script>\n  <script src=\"db.js\"></script>\n  ```\n\n### Key Features\n1. **Sticky Header** — topbar + nav always visible\n2. **Module Grid** — responsive grid of dashboard cards:\n   - Calendar (upcoming events with Zoom links)\n   - GitHub PRs (awaiting review)\n   - Slack (recent messages needing attention)\n   - Client Health (status indicators)\n   - Contentful Health (publication status)\n   - Ideas (unrated ideas count)\n   - Recipes (latest recipes)\n   - Leads (qualified leads)\n   - Crons (job status)\n3. **My Apps Panel** — links to all deployed apps as card grid\n4. **Data Refresh** — auto-refreshes every 30 min during business hours via cron\n\n### Integration Points\n- Google Calendar API for events\n- GitHub for PR data\n- Slack for messages\n- Contentful for CMS health\n- All data stored in SyncDB\n\n### Testing\n- Visit dashboard, verify all modules load\n- Check data is current and accurate\n- Verify links to sub-apps work"
+  },
+  {
+    "id": "shared",
+    "name": "Shared Component Library",
+    "title": "Shared Component Library",
+    "type": "Infrastructure",
+    "icon": "🧱",
+    "description": "Reusable Web Component library, theme CSS, SyncDB, and modules shared across ALL Command Center apps. No Shadow DOM, no build step — pure vanilla JS components.",
+    "integrations": [],
+    "skills": [
+      "create-app"
+    ],
+    "tags": [
+      "architecture",
+      "components",
+      "library",
+      "DRY"
+    ],
+    "prompt": "## Shared Component Library\n\n### What It Does\nA comprehensive reusable component library at https://shared.adam-harris.alphaclaw.app providing UI components, page modules, theme CSS, SyncDB infrastructure, and utility scripts used by ALL Command Center apps.\n\n### Architecture\n- **No Shadow DOM** — uses global CSS for consistent theming\n- **No build step** — static HTML + vanilla JS\n- **Barrel file pattern** — `components/index.js` and `modules/index.js` for easy imports\n- **Absolute URL imports** — works across all app subdomains\n\n### File Structure\n```\napps/shared/\n├── theme.css (Glass & Depth theme variables and styles)\n├── landing.css (marketing landing page styles)\n├── sql-sync.js (SyncDB client)\n├── supabase-client.js (Supabase client setup)\n├── supabase-auth.js (Supabase auth helpers)\n├── trigger.js (trigger_queue integration)\n├── components/\n│   ├── index.js (barrel file)\n│   ├── cc-topbar.js\n│   ├── cc-nav.js\n│   ├── cc-app-nav.js\n│   ├── cc-auth.js\n│   ├── cc-user-auth.js\n│   ├── cc-toast.js\n│   ├── cc-modal.js\n│   ├── cc-sidebar.js\n│   ├── cc-field.js\n│   ├── cc-helpers.js\n│   ├── cc-tabs.js\n│   ├── cc-fade-in.js\n│   ├── cc-parallax.js\n│   ├── cc-empty-state.js\n│   ├── cc-view-toggle.js\n│   └── [50+ more components]\n└── modules/\n    ├── index.js (barrel file)\n    ├── cc-calendar.js\n    ├── cc-prs.js\n    ├── cc-slack.js\n    ├── cc-recipes.js\n    ├── cc-ideas.js\n    ├── cc-gallery.js\n    ├── cc-crons.js\n    ├── cc-leads.js\n    ├── cc-community.js\n    ├── ads.js\n    ├── prompts.js\n    └── [30+ more modules]\n```\n\n### Theme: Glass & Depth\n```css\n--bg: #0a0e1a;\n--accent: #f59e0b;\n--card: rgba(255,255,255,0.08);\n--glass: rgba(255,255,255,0.08);\n--glass-border: rgba(255,255,255,0.1);\n--serif: Georgia, serif;\n--border-radius: 16px;\nbackdrop-filter: blur(16px);\n```\n\n### SyncDB Architecture\nIn-browser SQLite with IndexedDB caching and server-side JSON sync:\n```\nBrowser (sql.js WASM) ←→ IndexedDB ←→ Server (/api/sync/:file.json)\n```\n\n### Usage Pattern\n```html\n<!-- In any app -->\n<link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n<script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n<script src=\"https://shared.adam-harris.alphaclaw.app/modules/index.js\"></script>\n<script src=\"https://shared.adam-harris.alphaclaw.app/sql-sync.js\"></script>\n```\n\n### Component Examples\n- `<cc-topbar title=\"App Name\">` — sticky header\n- `<cc-nav active=\"home\">` — navigation tabs\n- `<cc-auth>` — password gate\n- `<cc-toast>` — notifications\n- `<cc-modal>` — dialogs\n- `<cc-ideas>` — ideas module\n- `<cc-recipes>` — recipes module\n\n### Testing\n- Load any app, verify shared components render\n- Check theme CSS applies correctly\n- Verify SyncDB syncs data across browsers"
+  },
+  {
+    "id": "area-52",
+    "name": "Area 52",
+    "title": "Area 52 — Investigations",
+    "type": "App",
+    "icon": "🛸",
+    "description": "Mystery investigations and research archive with custom teal/cyan theme, video embedding, content organization, and research tracking. Themed UI with Oswald/Inter fonts.",
+    "integrations": [
+      "YouTube",
+      "Web Search"
+    ],
+    "skills": [
+      "create-app",
+      "app-database"
+    ],
+    "tags": [
+      "investigations",
+      "research",
+      "mystery",
+      "archive"
+    ],
+    "prompt": "## Area 52 App\n\n### What It Does\nA mystery investigations and research archive at https://area-52.adam-harris.alphaclaw.app featuring video content, research notes, investigation tracking, and organized mystery topic collections with a distinctive teal/cyan theme.\n\n### Architecture\n- **Tech stack:** Static HTML + vanilla JS + Supabase\n- **File:** `apps/area-52/index.html` — single-page archive\n- **Custom theme:** Teal/cyan color scheme with custom fonts\n- **Shared components:** `<cc-app-nav>`, `<cc-user-auth>`, Supabase client\n- **Shared imports:**\n  ```html\n  <link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n  <script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n  <script src=\"https://shared.adam-harris.alphaclaw.app/supabase-client.js\"></script>\n  <script src=\"https://shared.adam-harris.alphaclaw.app/supabase-auth.js\"></script>\n  ```\n\n### Custom Theme Variables\n```css\n--a52-teal: #0D7377;\n--a52-dark-teal: #095256;\n--a52-cyan: #14919B;\n--a52-gradient: linear-gradient(180deg, #14919B 0%, #0D7377 40%, #095256 100%);\n--a52-glow: rgba(13, 115, 119, 0.4);\n--font-display: 'Oswald', sans-serif;\n--font-body: 'Inter', sans-serif;\n--font-mono: 'JetBrains Mono', monospace;\n```\n\n### Key Features\n1. **Investigation Cards** — grid of research topics with status indicators\n2. **Video Embedding** — YouTube iframe integration with CSP allowlist\n3. **Research Notes** — detailed investigation findings and sources\n4. **Category Organization** — topics grouped by theme\n5. **Custom Branding** — distinctive teal/cyan mystery aesthetic\n\n### Testing\n- Visit the app, verify custom theme loads\n- Check video embeds play correctly\n- Verify investigation content displays properly"
+  },
+  {
+    "id": "cc-shopping-list",
+    "name": "Shopping List",
+    "title": "Shopping List — Organize Every Trip",
+    "type": "App",
+    "icon": "🛒",
+    "description": "Multi-store shopping list app with swipe-to-delete, drag-to-reorder, and tap-to-check functionality. Built for mobile with separate lists per store.",
+    "integrations": [],
+    "skills": [
+      "create-app",
+      "app-database"
+    ],
+    "tags": [
+      "shopping",
+      "lists",
+      "mobile",
+      "productivity"
+    ],
+    "prompt": "## Shopping List App\n\n### What It Does\nA mobile-optimized shopping list application at https://cc-shopping-list.adam-harris.alphaclaw.app with separate lists for every store, swipe-to-delete, drag-to-reorder, and tap-to-check-off functionality. Built for use in the aisle.\n\n### Architecture\n- **Tech stack:** Static HTML + vanilla JS + Supabase\n- **Files:**\n  - `apps/cc-shopping-list/index.html` — marketing landing page\n  - `apps/cc-shopping-list/app.html` — main shopping list interface\n- **Shared components:** `<cc-app-nav>`, `<cc-user-auth>`, `<cc-parallax>`, `<cc-fade-in>`\n- **Shared imports:**\n  ```html\n  <link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n  <link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/landing.css\">\n  <script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n  <script src=\"https://shared.adam-harris.alphaclaw.app/supabase-auth.js\"></script>\n  ```\n\n### Key Features\n1. **Multi-Store Lists** — separate list for each store/location\n2. **Swipe to Delete** — touch-friendly gesture removal\n3. **Drag to Reorder** — organize items by aisle or priority\n4. **Tap to Check** — mark items as purchased\n5. **Mobile-Optimized** — large touch targets, fast interactions\n6. **Landing Page** — marketing page with neon amber theme and Lucide icons\n\n### Landing Page Theme\n```css\n--lp-glow-1: rgba(245,158,11,.28);  /* amber */\n--lp-glow-2: rgba(34,197,94,.22);   /* green */\n--lp-glow-3: rgba(59,130,246,.18);  /* blue */\n```\n\n### Testing\n- Visit landing page, verify hero and features display\n- Open app.html, create multiple store lists\n- Test swipe-to-delete and drag-to-reorder gestures\n- Verify items persist across sessions"
+  },
+  {
+    "id": "trinity-qa",
+    "name": "Trinity Building Services QA",
+    "title": "Trinity Building Services — QA Portal",
+    "type": "App",
+    "icon": "🏢",
+    "description": "Custom QA portal for Trinity Building Services with inspection checklists, photo uploads, issue tracking, and reporting. Client-branded interface.",
+    "integrations": [],
+    "skills": [
+      "create-app"
+    ],
+    "tags": [
+      "qa",
+      "inspections",
+      "client-app",
+      "construction"
+    ],
+    "prompt": "## Trinity Building Services QA Portal\n\n### What It Does\nA quality assurance portal at https://trinity-qa.adam-harris.alphaclaw.app for Trinity Building Services featuring inspection checklists, photo documentation, issue tracking, and reporting capabilities.\n\n### Architecture\n- **Tech stack:** Static HTML + vanilla JS\n- **File:** `apps/trinity-qa/index.html` — login screen + main QA interface\n- **Custom CSS:** `/css/main.css` for Trinity branding\n- **Loading states:** Loading screen → Login screen → Main QA interface\n\n### Key Features\n1. **Loading Screen** — branded loading experience with Trinity logo and spinner\n2. **Login Screen** — email/password authentication\n3. **Inspection Checklists** — customizable QA checklist items\n4. **Photo Uploads** — document issues and completed work\n5. **Issue Tracking** — log and track QA findings\n6. **Report Generation** — exportable inspection reports\n\n### UI Components\n- Login container with branded header\n- Form groups for authentication\n- Loading spinner and progress indicators\n- Trinity Building Services branding throughout\n\n### Testing\n- Visit the app, verify loading screen displays\n- Test login flow with valid credentials\n- Create an inspection checklist\n- Upload photos and track issues"
+  },
+  {
+    "id": "brommie-quake",
+    "name": "Brommie Starts the Quake",
+    "title": "Brommie Starts the Quake!!",
+    "type": "App",
+    "icon": "🏟️",
+    "description": "Sports-themed fan experience app celebrating Brommie with stadium atmosphere, interactive features, and community engagement elements.",
+    "integrations": [],
+    "skills": [
+      "create-app"
+    ],
+    "tags": [
+      "sports",
+      "fan-experience",
+      "entertainment",
+      "community"
+    ],
+    "prompt": "## Brommie Starts the Quake App\n\n### What It Does\nA sports fan experience application at https://brommie-quake.adam-harris.alphaclaw.app celebrating Brommie with stadium atmosphere, interactive fan features, and community engagement elements.\n\n### Architecture\n- **Tech stack:** Static HTML + vanilla JS\n- **File:** `apps/brommie-quake/index.html` — main fan experience page\n- **Theme:** Stadium/sports-oriented with dynamic energy\n\n### Key Features (based on stadium/quake theme)\n1. **Stadium Atmosphere** — immersive fan experience\n2. **Interactive Elements** — fan engagement tools\n3. **Community Features** — fan community interaction\n4. **Event Tracking** — upcoming games and events\n5. **Media Gallery** — photos and highlights\n\n### Testing\n- Visit the app, verify sports theme renders\n- Test interactive fan features\n- Check community engagement elements"
+  },
+  {
+    "id": "cc-app-access",
+    "name": "App Access",
+    "title": "App Access Control",
+    "type": "App",
+    "icon": "🔐",
+    "description": "App access management dashboard for controlling user permissions, viewing access logs, and managing authentication across Command Center apps.",
+    "integrations": [
+      "Supabase"
+    ],
+    "skills": [
+      "create-app",
+      "app-database"
+    ],
+    "tags": [
+      "security",
+      "access-control",
+      "permissions",
+      "management"
+    ],
+    "prompt": "## App Access Control\n\n### What It Does\nAn access management dashboard at https://cc-app-access.adam-harris.alphaclaw.app for controlling user permissions, viewing access logs, and managing authentication across all Command Center applications.\n\n### Architecture\n- **Tech stack:** Static HTML + vanilla JS + Supabase\n- **File:** `apps/cc-app-access/index.html` — access control dashboard\n- **Shared components:** `<cc-app-nav>`, `<cc-user-auth>`, Supabase client\n- **Shared imports:**\n  ```html\n  <link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n  <script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n  <script src=\"https://shared.adam-harris.alphaclaw.app/supabase-client.js\"></script>\n  ```\n\n### Key Features\n1. **User Directory** — list of all users across apps\n2. **Permission Management** — grant/revoke app access per user\n3. **Access Logs** — view login history and activity\n4. **App Registry** — all apps with access control enabled\n5. **Role Management** — create and assign user roles\n\n### Testing\n- Visit the app, verify user directory loads\n- Test permission changes for a user\n- Check access logs display correctly"
+  },
+  {
+    "id": "summaries",
+    "name": "Summaries",
+    "title": "Summaries — Cut Through the Noise",
+    "type": "App",
+    "icon": "📋",
+    "description": "Content summary aggregator pulling key points from Slack, meetings, docs, and news. AI-powered distillation of daily information overload.",
+    "integrations": [
+      "Slack",
+      "Zoom",
+      "OpenAI"
+    ],
+    "skills": [
+      "create-app",
+      "app-database"
+    ],
+    "tags": [
+      "summaries",
+      "content",
+      "aggregation",
+      "productivity"
+    ],
+    "prompt": "## Summaries App\n\n### What It Does\nA content summary aggregator at https://summaries.adam-harris.alphaclaw.app that pulls key points from Slack conversations, meeting transcripts, documents, and news sources. AI-powered distillation of daily information overload.\n\n### Architecture\n- **Tech stack:** Static HTML + vanilla JS + SyncDB\n- **File:** `apps/summaries/index.html` — summary dashboard\n- **Shared components:** `<cc-topbar>`, `<cc-nav>`, `<cc-auth>`\n- **Shared imports:**\n  ```html\n  <link rel=\"stylesheet\" href=\"https://shared.adam-harris.alphaclaw.app/theme.css\">\n  <script src=\"https://shared.adam-harris.alphaclaw.app/components/index.js\"></script>\n  <script src=\"https://shared.adam-harris.alphaclaw.app/sql-sync.js\"></script>\n  ```\n\n### Key Features\n1. **Daily Digest** — top summaries from the past 24 hours\n2. **Source Filtering** — filter by Slack, Zoom, Docs, News\n3. **Summary Cards** — clean card layout with source badges\n4. **Keyword Highlighting** — important terms highlighted\n5. **Full Text Access** — expand to view original content\n\n### Data Sources\n- Slack message threads\n- Zoom meeting transcripts\n- Google Docs updates\n- News feeds (RSS/API)\n\n### Testing\n- Visit the app, verify summaries display\n- Filter by source type\n- Expand a summary to view full content"
   }
 ]
