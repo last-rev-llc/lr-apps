@@ -17,7 +17,8 @@
 <script src="https://shared.adam-harris.alphaclaw.app/modules/cc-apps.js"></script>
 </head>
 <body>
-<cc-app-nav app="cc-meme-generator" title="🎭 Meme Generator" active="apps"></cc-app-nav>
+<cc-app-topnav app="cc-meme-generator" title="🎭 Meme Generator" links='[{"id":"app","label":"App","href":"app.html"}]' active=""></cc-app-topnav>
+<cc-app-nav app="cc-meme-generator" title="🎭 Meme Generator" active="apps" position="bottom"></cc-app-nav>
 <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 <cc-apps app="cc-meme-generator"></cc-apps>
