@@ -14,7 +14,8 @@ class CcAppNav extends HTMLElement {
   connectedCallback() {
     const app = this.getAttribute('app') || '';
     const title = this.getAttribute('title') || app;
-    const base = this.getAttribute('base') || window.location.origin;
+    const autoBase = window.location.pathname.replace(/\/[^/]*$/, '') || '/';
+    const base = this.getAttribute('base') || autoBase;
     let active = this.getAttribute('active') || this._detectActive();
     const repo = this.getAttribute('repo') || `last-rev-llc/ah-${app}`;
 
