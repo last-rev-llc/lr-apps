@@ -34,7 +34,8 @@
 <script src="modules/gen-y-summary.js"></script>
 </head>
 <body>
-<cc-app-nav app="gen-y" title="📱 GenY" active="docs"></cc-app-nav>
+<cc-app-topnav app="gen-y" title="📱 GenY" links='[{"id":"app","label":"App","href":"app.html"},{"id":"apps","label":"Apps","href":"apps.html"},{"id":"docs","label":"Docs","href":"docs.html"}]' active="docs"></cc-app-topnav>
+<cc-app-nav app="gen-y" title="📱 GenY" active="docs" position="bottom"></cc-app-nav>
 <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 

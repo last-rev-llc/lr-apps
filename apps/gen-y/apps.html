@@ -18,7 +18,8 @@
 <script src="https://shared.adam-harris.alphaclaw.app/modules/cc-apps.js"></script>
 </head>
 <body>
-<cc-app-nav app="gen-y" title="📱 GenY" active="apps"></cc-app-nav>
+<cc-app-topnav app="gen-y" title="📱 GenY" links='[{"id":"app","label":"App","href":"app.html"},{"id":"apps","label":"Apps","href":"apps.html"},{"id":"docs","label":"Docs","href":"docs.html"}]' active="apps"></cc-app-topnav>
+<cc-app-nav app="gen-y" title="📱 GenY" active="apps" position="bottom"></cc-app-nav>
 <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 
