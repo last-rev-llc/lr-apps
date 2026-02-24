@@ -18,6 +18,7 @@ class CcUserAuth extends HTMLElement {
     this._mode = this.getAttribute('mode') || 'menu';
     this._providers = (this.getAttribute('providers') || 'email').split(',').map(s => s.trim());
     this._redirect = this.getAttribute('redirect');
+    this._allowSignup = this.getAttribute('allow-signup') !== 'false';
     this._view = 'login'; // login | signup | forgot | account
     
     // Wait for sbAuth
@@ -180,8 +181,7 @@ class CcUserAuth extends HTMLElement {
       </form>
       <div class="ua-form-links">
         <button class="ua-link" data-goto="forgot">Forgot password?</button>
-        <span class="ua-separator">·</span>
-        <button class="ua-link" data-goto="signup">Create account</button>
+        ${this._allowSignup ? '<span class="ua-separator">·</span><button class="ua-link" data-goto="signup">Create account</button>' : ''}
       </div>
       ${this._oauthButtonsHTML()}`;
   }
@@ -276,7 +276,10 @@ class CcUserAuth extends HTMLElement {
   _bindModalEvents(view, modal, isGate) {
     // Navigation links
     modal.querySelectorAll('[data-goto]').forEach(link => {
-      link.onclick = () => this._showModal(link.dataset.goto, isGate);
+      link.onclick = () => {
+        if (link.dataset.goto === 'signup' && !this._allowSignup) return;
+        this._showModal(link.dataset.goto, isGate);
+      };
     });
     
     // OAuth buttons
