@@ -18,7 +18,8 @@
 <script src="modules/cc-shopping-list.js"></script>
 </head>
 <body>
-<cc-app-nav app="cc-shopping-list" title="🛒 Shopping List" active="app"></cc-app-nav>
+<cc-app-topnav app="cc-shopping-list" title="🛒 Shopping List" links='[{"id":"app","label":"App","href":"app.html"}]' active="app"></cc-app-topnav>
+<cc-app-nav app="cc-shopping-list" title="🛒 Shopping List" active="app" position="bottom"></cc-app-nav>
 <cc-toast></cc-toast>
 <cc-shopping-list></cc-shopping-list>
 <script>document.addEventListener('DOMContentLoaded',()=>{const w=setInterval(()=>{if(window.lucide){clearInterval(w);lucide.createIcons();}},50);});</script>
