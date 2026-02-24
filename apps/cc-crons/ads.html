@@ -18,7 +18,8 @@
 <script src="https://shared.adam-harris.alphaclaw.app/modules/cc-ads.js"></script>
 </head>
 <body>
-<cc-app-nav app="cc-crons" title="⏰ Crons" active="ads" pages='[{"id":"queue","label":"Queue","icon":"📋","href":"queue.html"},{"id":"batches","label":"Batches","icon":"📦","href":"batches.html"}]'></cc-app-nav>
+<cc-app-topnav app="cc-crons" title="⏰ Crons" links='[{"id":"app","label":"App","href":"app.html"},{"id":"apps","label":"Apps","href":"apps.html"},{"id":"batches","label":"Batches","href":"batches.html"},{"id":"queue","label":"Queue","href":"queue.html"},{"id":"docs","label":"Docs","href":"docs.html"}]' active="ads"></cc-app-topnav>
+<cc-app-nav app="cc-crons" title="⏰ Crons" active="ads" pages='[{"id":"queue","label":"Queue","icon":"📋","href":"queue.html"},{"id":"batches","label":"Batches","icon":"📦","href":"batches.html"}]' position="bottom"></cc-app-nav>
 <cc-user-auth mode="gate" allow-signup="false"></cc-user-auth>
 <cc-toast></cc-toast>
 

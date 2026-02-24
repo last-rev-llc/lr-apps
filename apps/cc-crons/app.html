@@ -22,7 +22,8 @@
 <script src="modules/cc-batches.js"></script>
 </head>
 <body>
-<cc-app-nav app="cc-crons" title="⏰ Crons" active="app"></cc-app-nav>
+<cc-app-topnav app="cc-crons" title="⏰ Crons" links='[{"id":"app","label":"App","href":"app.html"},{"id":"apps","label":"Apps","href":"apps.html"},{"id":"batches","label":"Batches","href":"batches.html"},{"id":"queue","label":"Queue","href":"queue.html"},{"id":"docs","label":"Docs","href":"docs.html"}]' active="app"></cc-app-topnav>
+<cc-app-nav app="cc-crons" title="⏰ Crons" active="app" position="bottom"></cc-app-nav>
 <cc-toast></cc-toast>
 
 <cc-tabs active="queue">
