@@ -1,0 +1,28 @@
+{
+  "name": "@repo/auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/require-access.ts",
+    "./client": "./src/auth-provider.tsx"
+  },
+  "dependencies": {
+    "@repo/db": "workspace:*",
+    "react": "^19"
+  },
+  "peerDependencies": {
+    "next": "^16"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@types/react": "^19",
+    "next": "^16",
+    "typescript": "^5",
+    "vitest": "^3"
+  }
+}
