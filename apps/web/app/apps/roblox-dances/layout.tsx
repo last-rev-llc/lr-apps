@@ -1,0 +1,41 @@
+import type { ReactNode } from "react";
+
+export const metadata = {
+  title: "Roblox Dance Marketplace",
+  description: "Animated dance moves for Roblox — browse, submit, and generate Motor6D Luau scripts.",
+};
+
+export const viewport = {
+  themeColor: "#EC4899",
+};
+
+export default function RobloxDancesLayout({ children }: { children: ReactNode }) {
+  return (
+    <div className="min-h-screen">
+      <header className="border-b border-white/10 backdrop-blur-sm sticky top-0 z-10 bg-background/80">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <h1 className="font-heading text-xl text-pink-400">
+              🕺 Roblox Dance Marketplace
+            </h1>
+            <nav className="flex gap-4 text-sm">
+              <a
+                href="/apps/roblox-dances"
+                className="text-foreground hover:text-pink-400 transition-colors"
+              >
+                App
+              </a>
+              <a
+                href="/"
+                className="text-muted-foreground hover:text-pink-400 transition-colors"
+              >
+                Dashboard
+              </a>
+            </nav>
+          </div>
+        </div>
+      </header>
+      <main className="max-w-6xl mx-auto px-4 py-6">{children}</main>
+    </div>
+  );
+}
