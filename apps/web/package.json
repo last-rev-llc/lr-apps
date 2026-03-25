@@ -1,0 +1,31 @@
+{
+  "name": "@repo/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "next": "^16",
+    "react": "^19",
+    "react-dom": "^19",
+    "geist": "^1",
+    "@repo/theme": "workspace:*"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "@tailwindcss/postcss": "^4",
+    "typescript": "^5",
+    "vitest": "^3"
+  }
+}
