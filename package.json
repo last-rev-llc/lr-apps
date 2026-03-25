@@ -1,5 +1,15 @@
 {
   "name": "lr-apps",
-  "version": "1.0.0",
-  "description": "Monorepo for Last Rev apps — wildcard subdomain routing via Vercel"
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^2"
+  },
+  "packageManager": "pnpm@9.15.4"
 }
