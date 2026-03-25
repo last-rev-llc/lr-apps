@@ -14,7 +14,7 @@ export async function getStandupDays(): Promise<StandupDay[]> {
   }
 
   // activities is stored as JSON in Supabase — parse if it comes back as a string
-  return (data ?? []).map((row) => ({
+  return ((data ?? []) as Record<string, unknown>[]).map((row) => ({
     ...row,
     activities:
       typeof row.activities === "string"

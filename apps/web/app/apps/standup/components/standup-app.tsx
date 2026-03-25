@@ -1,7 +1,7 @@
 "use client";
 
-import { Badge } from "@repo/design-system/components/ui/badge";
-import { Card, CardContent, CardHeader } from "@repo/design-system/components/ui/card";
+import { Badge } from "@repo/ui";
+import { Card, CardContent, CardHeader } from "@repo/ui";
 import { useState } from "react";
 import type { Activity, Source, StandupDay } from "../lib/types";
 

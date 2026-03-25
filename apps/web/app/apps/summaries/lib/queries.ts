@@ -23,7 +23,7 @@ export async function getZoomSummaries(): Promise<ZoomSummary[]> {
     return [];
   }
 
-  return (data ?? []).map((row) => ({
+  return ((data ?? []) as Record<string, unknown>[]).map((row) => ({
     ...row,
     action_items: parseJsonField<string>(row.action_items),
     key_decisions: parseJsonField<string>(row.key_decisions),
@@ -42,7 +42,7 @@ export async function getSlackSummaries(): Promise<SlackSummary[]> {
     return [];
   }
 
-  return (data ?? []).map((row) => ({
+  return ((data ?? []) as Record<string, unknown>[]).map((row) => ({
     ...row,
     participants: parseJsonField<string>(row.participants),
   })) as SlackSummary[];

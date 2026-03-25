@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@repo/design-system/components/ui/card";
+import { Card, CardContent } from "@repo/ui";
 
 export const metadata = {
   title: "Sales Dashboard — Last Rev",

@@ -1,6 +1,6 @@
 import { createClient } from "@repo/db/server";
-import { Badge } from "@repo/design-system/components/ui/badge";
-import { Card, CardContent, CardHeader } from "@repo/design-system/components/ui/card";
+import { Badge } from "@repo/ui";
+import { Card, CardContent, CardHeader } from "@repo/ui";
 import type { Site } from "./lib/types";
 
 export const dynamic = "force-dynamic";
