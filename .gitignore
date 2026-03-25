@@ -20,3 +20,4 @@ dist/
 
 # Backup
 package.json.bak
+.vercel
