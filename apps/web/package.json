@@ -16,7 +16,8 @@
     "react": "^19",
     "react-dom": "^19",
     "geist": "^1",
-    "@repo/theme": "workspace:*"
+    "@repo/theme": "workspace:*",
+    "@repo/ui": "workspace:*"
   },
   "devDependencies": {
     "@repo/config": "workspace:*",
