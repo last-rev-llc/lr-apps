@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    background: var(--gradient-navy);
+    @apply text-foreground min-h-screen antialiased;
+  }
+}
+
+@utility glass {
+  background-color: var(--color-surface);
+  backdrop-filter: blur(var(--blur-glass));
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-glass);
+  box-shadow: var(--shadow-glass);
+}
+
+@utility glass-sm {
+  background-color: var(--color-surface);
+  backdrop-filter: blur(var(--blur-glass));
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-glass);
+  box-shadow: var(--shadow-glass-sm);
+}
