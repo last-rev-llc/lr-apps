@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createClient } from "@repo/db/client";
 import { Button, Input, Label, Separator } from "@repo/ui";
 
@@ -10,7 +10,7 @@ export function SignupForm() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
