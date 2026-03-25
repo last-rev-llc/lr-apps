@@ -49,3 +49,37 @@ export type { TimelineEvent } from "./components/timeline";
 export { Testimonial } from "./components/testimonial";
 export { IntroText } from "./components/intro-text";
 export { Pricing } from "./components/pricing";
+
+// Interactive components
+export { Search } from "./components/search";
+export type { SearchProps } from "./components/search";
+export { FilterDrawer } from "./components/filter-drawer";
+export type { FilterDrawerProps } from "./components/filter-drawer";
+export { ViewToggle } from "./components/view-toggle";
+export type { ViewToggleView, ViewToggleProps } from "./components/view-toggle";
+export { StarRating } from "./components/star-rating";
+export type { StarRatingProps } from "./components/star-rating";
+export { PillList } from "./components/pill-list";
+export type { PillItem, PillListProps } from "./components/pill-list";
+export { EditMode } from "./components/edit-mode";
+export type { EditModeProps } from "./components/edit-mode";
+
+// Media components
+export { Lightbox } from "./components/lightbox";
+export type { LightboxImage, LightboxProps } from "./components/lightbox";
+export { Marquee } from "./components/marquee";
+export type { MarqueeProps } from "./components/marquee";
+export { MediaCard } from "./components/media-card";
+export type { MediaCardProps } from "./components/media-card";
+export { Mermaid } from "./components/mermaid";
+export type { MermaidProps } from "./components/mermaid";
+export { SlideDeck } from "./components/slide-deck";
+export type { SlideDeckProps } from "./components/slide-deck";
+
+// Utility components
+export { Placeholder } from "./components/placeholder";
+export type { PlaceholderProps } from "./components/placeholder";
+export { StatCard } from "./components/stat-card";
+export type { StatCardProps } from "./components/stat-card";
+export { ShareButton } from "./components/share-button";
+export type { ShareButtonProps } from "./components/share-button";

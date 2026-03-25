@@ -25,6 +25,7 @@
   "devDependencies": {
     "@repo/config": "workspace:*",
     "@types/react": "^19",
+    "mermaid": "^11.13.0",
     "typescript": "^5"
   }
 }
