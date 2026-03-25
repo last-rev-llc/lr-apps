@@ -6,7 +6,7 @@ import { SentimentChart } from "./sentiment-chart";
 import { StatsRow } from "./stats-row";
 import { MemberGrid } from "./member-grid";
 import { Timeline } from "./timeline";
-import { getMemberSummaries, groupByDate } from "../lib/queries";
+import { getMemberSummaries, groupByDate } from "../lib/utils";
 import type { SentimentEntry } from "../lib/types";
 
 interface SentimentDashboardProps {
