@@ -30,12 +30,12 @@ export async function requireAccess(
     );
   }
 
-  const { data: perm } = await supabase
+  const { data: perm } = (await supabase
     .from("app_permissions")
     .select("permission")
     .eq("user_id", user.id)
     .eq("app_slug", appSlug)
-    .single();
+    .single()) as { data: { permission: string } | null };
 
   if (!perm || !hasPermission(perm.permission as Permission, minPermission)) {
     redirect(`${AUTH_URL}/unauthorized`);
