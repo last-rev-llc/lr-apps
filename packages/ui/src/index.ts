@@ -28,3 +28,24 @@ export { StatCounter } from "./components/stat-counter";
 export { Typewriter } from "./components/typewriter";
 export { Confetti } from "./components/confetti";
 export { Particles } from "./components/particles";
+
+// Layout components
+export { Topbar } from "./components/topbar";
+export { Sidebar } from "./components/sidebar";
+export type { SidebarItem } from "./components/sidebar";
+export { AppNav } from "./components/app-nav";
+export type { AppNavItem } from "./components/app-nav";
+export { PageHeader } from "./components/page-header";
+export { EmptyState } from "./components/empty-state";
+
+// Content / marketing components
+export { Hero } from "./components/hero";
+export { CTA } from "./components/cta";
+export { FeatureList } from "./components/feature-list";
+export type { Feature } from "./components/feature-list";
+export { SectionIntro } from "./components/section-intro";
+export { Timeline } from "./components/timeline";
+export type { TimelineEvent } from "./components/timeline";
+export { Testimonial } from "./components/testimonial";
+export { IntroText } from "./components/intro-text";
+export { Pricing } from "./components/pricing";
