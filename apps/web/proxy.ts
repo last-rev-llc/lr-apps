@@ -1,8 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
+import { createMiddlewareClient } from "@repo/db/middleware";
 import { resolveSubdomain, getRouteForSubdomain } from "./lib/proxy-utils";
 
-export function proxy(request: NextRequest) {
-  // Dev mode: support ?app=<slug> query param for local testing
+export async function proxy(request: NextRequest) {
+  // Refresh Supabase session on every request.
+  const { response } = await createMiddlewareClient(request);
+
+  // Dev mode: support ?app=<subdomain> query param for local testing
   if (process.env.NODE_ENV === "development") {
     const appParam = request.nextUrl.searchParams.get("app");
     if (appParam) {
@@ -11,7 +15,11 @@ export function proxy(request: NextRequest) {
         const url = request.nextUrl.clone();
         url.searchParams.delete("app");
         url.pathname = `${routePath}${url.pathname}`;
-        return NextResponse.rewrite(url);
+        const rewrite = NextResponse.rewrite(url, { request });
+        response.cookies.getAll().forEach((cookie) => {
+          rewrite.cookies.set(cookie.name, cookie.value);
+        });
+        return rewrite;
       }
     }
   }
@@ -20,7 +28,7 @@ export function proxy(request: NextRequest) {
   const subdomain = resolveSubdomain(host);
 
   if (!subdomain) {
-    return NextResponse.next();
+    return response;
   }
 
   const routePath = getRouteForSubdomain(subdomain);
@@ -31,7 +39,11 @@ export function proxy(request: NextRequest) {
 
   const url = request.nextUrl.clone();
   url.pathname = `${routePath}${url.pathname}`;
-  return NextResponse.rewrite(url);
+  const rewrite = NextResponse.rewrite(url, { request });
+  response.cookies.getAll().forEach((cookie) => {
+    rewrite.cookies.set(cookie.name, cookie.value);
+  });
+  return rewrite;
 }
 
 export const config = {
