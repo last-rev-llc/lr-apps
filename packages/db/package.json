@@ -1,0 +1,25 @@
+{
+  "name": "@repo/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/server.ts",
+    "./client": "./src/client.ts",
+    "./middleware": "./src/middleware.ts",
+    "./types": "./src/types.ts"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.6",
+    "@supabase/supabase-js": "^2"
+  },
+  "peerDependencies": {
+    "next": "^16"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "next": "^16",
+    "typescript": "^5"
+  }
+}
