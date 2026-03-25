@@ -17,3 +17,14 @@ export {
 } from "./components/dropdown-menu";
 export { Avatar, AvatarFallback, AvatarImage } from "./components/avatar";
 export { Textarea } from "./components/textarea";
+
+// Animation components
+export { FadeIn } from "./components/fade-in";
+export { SlideIn } from "./components/slide-in";
+export { Stagger } from "./components/stagger";
+export { Reveal } from "./components/reveal";
+export { Parallax } from "./components/parallax";
+export { StatCounter } from "./components/stat-counter";
+export { Typewriter } from "./components/typewriter";
+export { Confetti } from "./components/confetti";
+export { Particles } from "./components/particles";
