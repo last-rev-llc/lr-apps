@@ -1,8 +1,10 @@
-export default function PrReviewPage() {
-  return (
-    <div>
-      <h1 className="font-heading text-2xl text-accent mb-2">🔍 PR Review</h1>
-      <p className="text-muted-foreground">Coming soon — this module is being migrated.</p>
-    </div>
-  );
+import { getPRs } from "./lib/queries";
+import { PrApp } from "./components/pr-app";
+
+export const dynamic = "force-dynamic";
+
+export default async function PrReviewPage() {
+  const prs = await getPRs();
+
+  return <PrApp initialPRs={prs} />;
 }
