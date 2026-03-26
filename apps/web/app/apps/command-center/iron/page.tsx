@@ -1,8 +1,5 @@
+import { IronApp } from "./components/iron-app";
+
 export default function IronPage() {
-  return (
-    <div>
-      <h1 className="font-heading text-2xl text-accent mb-2">🔩 Iron</h1>
-      <p className="text-muted-foreground">Coming soon — this module is being migrated.</p>
-    </div>
-  );
+  return <IronApp />;
 }

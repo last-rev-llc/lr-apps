@@ -1,8 +1,5 @@
+import { MemeGeneratorApp } from "./components/meme-generator-app";
+
 export default function MemeGeneratorPage() {
-  return (
-    <div>
-      <h1 className="font-heading text-2xl text-accent mb-2">😂 Meme Generator</h1>
-      <p className="text-muted-foreground">Coming soon — this module is being migrated.</p>
-    </div>
-  );
+  return <MemeGeneratorApp />;
 }

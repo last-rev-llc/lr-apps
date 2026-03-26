@@ -1,8 +1,9 @@
-export default function ContentfulPage() {
-  return (
-    <div>
-      <h1 className="font-heading text-2xl text-accent mb-2">📦 Contentful</h1>
-      <p className="text-muted-foreground">Coming soon — this module is being migrated.</p>
-    </div>
-  );
+import { getContentfulHealth } from "./lib/queries";
+import { ContentfulApp } from "./components/contentful-app";
+
+export const dynamic = "force-dynamic";
+
+export default async function ContentfulPage() {
+  const health = await getContentfulHealth();
+  return <ContentfulApp initialHealth={health} />;
 }
