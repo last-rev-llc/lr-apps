@@ -1,14 +1,29 @@
 import { getAllApps } from "@/lib/app-registry";
+import { headers } from "next/headers";
 import { Card, CardHeader, CardTitle, CardDescription } from "@repo/ui";
 
-const CATEGORY_COLORS: Record<string, string> = {
-  full: "text-accent",
-  minimal: "text-cyan-400",
-};
+function getAppUrl(subdomain: string, host: string): string {
+  // localhost / dev — use ?app= query param
+  if (host.includes("localhost") || host.includes("127.0.0.1")) {
+    const port = host.split(":")[1] ?? "3000";
+    return `http://localhost:${port}?app=${subdomain}`;
+  }
 
-export default function Home() {
+  // Vercel preview / branch deploys — use ?app= since no wildcard subdomain
+  if (host.includes("vercel.app")) {
+    return `https://${host}?app=${subdomain}`;
+  }
+
+  // Production — use subdomain
+  const baseDomain = host.replace(/^[^.]+\./, "");
+  return `https://${subdomain}.${baseDomain}`;
+}
+
+export default async function Home() {
+  const headersList = await headers();
+  const host = headersList.get("host") ?? "localhost:3000";
+
   const apps = getAllApps().filter((app) => app.slug !== "auth");
-
   const authApps = apps.filter((a) => a.auth);
   const publicApps = apps.filter((a) => !a.auth);
 
@@ -28,12 +43,12 @@ export default function Home() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {authApps.map((app) => (
-            <a key={app.slug} href={`https://${app.subdomain}.lastrev.com`}>
+            <a key={app.slug} href={getAppUrl(app.subdomain, host)}>
               <Card className="glass-sm hover:bg-surface-hover transition-colors h-full">
                 <CardHeader className="p-4">
                   <CardTitle className="text-sm">{app.name}</CardTitle>
                   <CardDescription className="text-xs">
-                    {app.subdomain}.lastrev.com
+                    {app.subdomain}
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -49,12 +64,12 @@ export default function Home() {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {publicApps.map((app) => (
-            <a key={app.slug} href={`https://${app.subdomain}.lastrev.com`}>
+            <a key={app.slug} href={getAppUrl(app.subdomain, host)}>
               <Card className="glass-sm hover:bg-surface-hover transition-colors h-full">
                 <CardHeader className="p-4">
                   <CardTitle className="text-sm">{app.name}</CardTitle>
                   <CardDescription className="text-xs">
-                    {app.subdomain}.lastrev.com
+                    {app.subdomain}
                   </CardDescription>
                 </CardHeader>
               </Card>
