@@ -1,8 +1,10 @@
-export default function CronsPage() {
-  return (
-    <div>
-      <h1 className="font-heading text-2xl text-accent mb-2">⏰ Crons</h1>
-      <p className="text-muted-foreground">Coming soon — this module is being migrated.</p>
-    </div>
-  );
+import { getCrons } from "./lib/queries";
+import { CronsApp } from "./components/crons-app";
+
+export const dynamic = "force-dynamic";
+
+export default async function CronsPage() {
+  const crons = await getCrons();
+
+  return <CronsApp initialCrons={crons} />;
 }
