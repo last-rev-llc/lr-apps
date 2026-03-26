@@ -51,7 +51,8 @@
       "Bash(grep -r process.env /Users/adamharris/Documents/repos/lr-apps/apps/web/app --include=*.ts --include=*.tsx -l)",
       "Bash(for app:*)",
       "Bash(grep:*)",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Bash(for module:*)"
     ]
   }
 }

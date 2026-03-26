@@ -347,11 +347,11 @@ function CronCard({
           >
             {cron.enabled ? "● Enabled" : "○ Disabled"}
           </span>
-          {(cron.created_at ?? cron.createdAt) && (
+          {cron.created_at && (
             <span>
               Created{" "}
               {new Date(
-                cron.created_at ?? cron.createdAt ?? "",
+                cron.created_at ?? "",
               ).toLocaleDateString()}
             </span>
           )}
