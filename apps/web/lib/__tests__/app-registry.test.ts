@@ -77,9 +77,23 @@ describe("app-registry", () => {
     });
 
     it("matches trailing /** glob patterns", () => {
-      // This tests the glob logic even though no current app uses it
-      // The matcher should handle prefix + /** correctly
       expect(isPublicRoute("ai-calculator", "/")).toBe(true);
     });
+  });
+
+  it("every app has a valid tier value", () => {
+    const apps = getAllApps();
+    const validTiers = ["free", "pro", "enterprise"];
+    for (const app of apps) {
+      expect(validTiers).toContain(app.tier);
+    }
+  });
+
+  it("every app has a features object", () => {
+    const apps = getAllApps();
+    for (const app of apps) {
+      expect(typeof app.features).toBe("object");
+      expect(app.features).not.toBeNull();
+    }
   });
 });
