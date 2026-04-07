@@ -32,8 +32,23 @@ export async function upsertSubscription(
       ? stripeSubscription.customer
       : stripeSubscription.customer.id;
 
+  // Look up the user_id from the existing row by stripe_customer_id,
+  // since the initial row (from getOrCreateCustomer) won't have stripe_subscription_id yet.
+  const { data: existing } = await db
+    .from("subscriptions")
+    .select("user_id")
+    .eq("stripe_customer_id", customerId)
+    .single();
+
+  if (!existing?.user_id) {
+    throw new Error(
+      `No subscription row found for Stripe customer ${customerId}`,
+    );
+  }
+
   await db.from("subscriptions").upsert(
     {
+      user_id: existing.user_id,
       stripe_subscription_id: stripeSubscription.id,
       stripe_customer_id: customerId,
       tier: extractTier(stripeSubscription),
@@ -46,7 +61,7 @@ export async function upsertSubscription(
       ).toISOString(),
       updated_at: new Date().toISOString(),
     },
-    { onConflict: "stripe_subscription_id" },
+    { onConflict: "user_id" },
   );
 }
 

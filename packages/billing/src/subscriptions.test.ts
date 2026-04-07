@@ -10,6 +10,9 @@ const mockFrom = vi.fn(() => ({
   upsert: mockUpsert,
 }));
 
+// For upsertSubscription, the first call to from().select().eq().single()
+// looks up user_id by stripe_customer_id, then the second call does the upsert.
+
 vi.mock("@repo/db/service-role", () => ({
   createServiceRoleClient: () => ({ from: mockFrom }),
 }));
@@ -22,6 +25,9 @@ describe("upsertSubscription", () => {
   });
 
   it("maps Stripe subscription data and upserts to DB", async () => {
+    // First call: lookup user_id by stripe_customer_id
+    mockSingle.mockResolvedValueOnce({ data: { user_id: "user-1" } });
+
     const stripeSub = {
       id: "sub_123",
       customer: "cus_456",
@@ -37,16 +43,19 @@ describe("upsertSubscription", () => {
 
     expect(mockUpsert).toHaveBeenCalledWith(
       expect.objectContaining({
+        user_id: "user-1",
         stripe_subscription_id: "sub_123",
         stripe_customer_id: "cus_456",
         tier: "pro",
         status: "active",
       }),
-      { onConflict: "stripe_subscription_id" },
+      { onConflict: "user_id" },
     );
   });
 
   it("defaults tier to free when metadata is missing", async () => {
+    mockSingle.mockResolvedValueOnce({ data: { user_id: "user-2" } });
+
     const stripeSub = {
       id: "sub_789",
       customer: "cus_000",
@@ -61,6 +70,23 @@ describe("upsertSubscription", () => {
     expect(mockUpsert).toHaveBeenCalledWith(
       expect.objectContaining({ tier: "free", status: "trialing" }),
       expect.anything(),
+    );
+  });
+
+  it("throws when no existing subscription row is found", async () => {
+    mockSingle.mockResolvedValueOnce({ data: null });
+
+    const stripeSub = {
+      id: "sub_999",
+      customer: "cus_unknown",
+      status: "active",
+      current_period_start: 1700000000,
+      current_period_end: 1702592000,
+      items: { data: [{ price: { metadata: { tier: "pro" } } }] },
+    } as unknown as Stripe.Subscription;
+
+    await expect(upsertSubscription(stripeSub)).rejects.toThrow(
+      "No subscription row found",
     );
   });
 });
