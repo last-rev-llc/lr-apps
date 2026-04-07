@@ -1,0 +1,14 @@
+{
+  "name": "@repo/theme",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./theme.css": "./src/theme.css",
+    "./globals.css": "./src/globals.css",
+    "./landing.css": "./src/landing.css",
+    "./components.css": "./src/components.css"
+  },
+  "dependencies": {
+    "tailwindcss": "^4"
+  }
+}

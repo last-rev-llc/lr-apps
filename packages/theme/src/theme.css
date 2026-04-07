@@ -1,0 +1,135 @@
+@theme {
+  /* ── Amber accent system ── */
+  --color-accent-50: #fffbeb;
+  --color-accent-100: #fef3c7;
+  --color-accent-200: #fde68a;
+  --color-accent-300: #fcd34d;
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+  --color-accent-700: #b45309;
+  --color-accent-800: #92400e;
+  --color-accent-900: #78350f;
+  --color-accent: #f59e0b;
+
+  /* ── Navy background system ── */
+  --color-navy-50: #e8eaf0;
+  --color-navy-100: #c5c9d8;
+  --color-navy-200: #9ea4be;
+  --color-navy-300: #777fa4;
+  --color-navy-400: #596391;
+  --color-navy-500: #3b477e;
+  --color-navy-600: #353f76;
+  --color-navy-700: #2d356b;
+  --color-navy-800: #252b61;
+  --color-navy-900: #171b4e;
+  --color-navy-950: #0a0e1a;
+  --color-navy: #0f1629;
+
+  /* ── Semantic status colors ── */
+  --color-green: #10b981;
+  --color-yellow: #f59e0b;
+  --color-red: #f87171;
+  --color-orange: #f97316;
+  --color-blue: #38bdf8;
+
+  /* ── Glass surface colors ── */
+  --color-surface: oklch(100% 0 0 / 0.05);
+  --color-surface-hover: oklch(100% 0 0 / 0.08);
+  --color-surface-active: oklch(100% 0 0 / 0.12);
+  --color-surface-border: oklch(100% 0 0 / 0.10);
+
+  /* ── shadcn-compatible semantic colors ── */
+  --color-background: oklch(13.7% 0.027 261);
+  --color-foreground: oklch(98.4% 0.003 247);
+  --color-card: oklch(17.2% 0.027 261);
+  --color-card-foreground: oklch(98.4% 0.003 247);
+  --color-popover: oklch(17.2% 0.027 261);
+  --color-popover-foreground: oklch(98.4% 0.003 247);
+  --color-primary: oklch(75.1% 0.159 62);
+  --color-primary-foreground: oklch(13.7% 0.027 261);
+  --color-secondary: oklch(24.3% 0.027 261);
+  --color-secondary-foreground: oklch(98.4% 0.003 247);
+  --color-muted: oklch(24.3% 0.027 261);
+  --color-muted-foreground: oklch(70.7% 0.015 261);
+  --color-destructive: oklch(57.7% 0.216 27);
+  --color-destructive-foreground: oklch(98.4% 0.003 247);
+  --color-border: oklch(24.3% 0.027 261);
+  --color-input: oklch(24.3% 0.027 261);
+  --color-ring: oklch(75.1% 0.159 62);
+
+  /* ── Pill palette (10 hues, hash-assigned by label) ── */
+  --color-pill-0: #7c3aed;
+  --color-pill-1: #2563eb;
+  --color-pill-2: #22c55e;
+  --color-pill-3: #eab308;
+  --color-pill-4: #ef4444;
+  --color-pill-5: #f97316;
+  --color-pill-6: #ec4899;
+  --color-pill-7: #06b6d4;
+  --color-pill-8: #8b5cf6;
+  --color-pill-9: #14b8a6;
+
+  /* ── Neon icon colors ── */
+  --color-neon-amber: #f59e0b;
+  --color-neon-violet: #a78bfa;
+  --color-neon-blue: #60a5fa;
+  --color-neon-green: #4ade80;
+  --color-neon-pink: #f472b6;
+  --color-neon-cyan: #22d3ee;
+
+  /* ── Gradients ── */
+  --gradient-navy: linear-gradient(135deg, #0a0e1a 0%, #1a1b3a 100%);
+  --gradient-navy-3: linear-gradient(135deg, #0a0e1a 0%, #0f1425 50%, #1a1b3a 100%);
+  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+
+  /* ── Landing page background glows (5 layers) ── */
+  --lp-glow-1: rgba(245, 158, 11, 0.30);
+  --lp-glow-2: rgba(124, 58, 237, 0.18);
+  --lp-glow-3: rgba(59, 130, 246, 0.15);
+  --lp-glow-4: rgba(236, 72, 153, 0.10);
+  --lp-glow-5: rgba(34, 197, 94, 0.10);
+
+  /* ── Shadows ── */
+  --shadow-glass: 0 8px 32px oklch(0% 0 0 / 0.3);
+  --shadow-glass-sm: 0 4px 16px oklch(0% 0 0 / 0.2);
+  --shadow-glass-hover: 0 8px 25px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px oklch(75.1% 0.159 62 / 0.3);
+  --shadow-glow-accent: 0 4px 12px rgba(245, 158, 11, 0.3);
+
+  /* ── Border radius ── */
+  --radius-glass: 12px;
+  --radius: 0.75rem;
+
+  /* ── Fonts ── */
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), "SF Mono", "Fira Code", "Monaco", "Menlo", ui-monospace, monospace;
+  --font-heading: Georgia, "Times New Roman", serif;
+
+  /* ── Backdrop blur ── */
+  --blur-glass: 12px;
+  --blur-glass-strong: 24px;
+}
+
+/* ── Light theme overrides ── */
+[data-theme="light"] {
+  --color-background: #f0f2f5;
+  --color-foreground: #1e293b;
+  --color-card: rgba(255, 255, 255, 0.85);
+  --color-card-foreground: #1e293b;
+  --color-muted-foreground: #64748b;
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-input: rgba(0, 0, 0, 0.1);
+  --color-surface: rgba(255, 255, 255, 0.85);
+  --color-surface-hover: rgba(255, 255, 255, 0.95);
+  --color-surface-border: rgba(0, 0, 0, 0.1);
+  --color-accent: #d97706;
+  --color-green: #16a34a;
+  --color-yellow: #ca8a04;
+  --color-red: #dc2626;
+  --color-orange: #ea580c;
+  --gradient-accent: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+  --shadow-glass: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-glass-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-glass-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+}

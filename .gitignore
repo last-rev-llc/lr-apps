@@ -1,1 +1,23 @@
+# Dependencies
 node_modules/
+
+# Build
+.next/
+.turbo/
+dist/
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Backup
+package.json.bak
+.vercel

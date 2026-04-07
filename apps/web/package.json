@@ -1,0 +1,36 @@
+{
+  "name": "@repo/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@auth0/nextjs-auth0": "^4",
+    "@repo/auth": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@repo/theme": "workspace:*",
+    "@repo/ui": "workspace:*",
+    "geist": "^1",
+    "next": "^16",
+    "react": "^19",
+    "react-dom": "^19",
+    "recharts": "^2"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^3"
+  }
+}

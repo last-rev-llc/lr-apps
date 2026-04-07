@@ -1,6 +1,0 @@
-[
-  {"id": "fillmore", "name": "The Fillmore", "tagline": "San Francisco's Legendary Music Venue", "url": "https://www.thefillmore.com", "image": null, "tier": "gold"},
-  {"id": "stubhub", "name": "StubHub", "tagline": "Find Your Next Show", "url": "https://www.stubhub.com", "image": null, "tier": "silver"},
-  {"id": "kqed", "name": "KQED", "tagline": "Arts & Culture in the Bay", "url": "https://www.kqed.org", "image": null, "tier": "silver"},
-  {"id": "amoeba", "name": "Amoeba Music", "tagline": "The World's Largest Independent Record Store", "url": "https://www.amoeba.com", "image": null, "tier": "bronze"}
-]

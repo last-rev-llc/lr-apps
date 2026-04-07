@@ -1,0 +1,44 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Last Rev" [ref=e5] [cursor=pointer]:
+          - /url: http://localhost:3000
+        - generic [ref=e6]: "|"
+        - navigation [ref=e7]:
+          - link "Dashboard" [ref=e8] [cursor=pointer]:
+            - /url: http://localhost:3000/my-apps
+      - link "Sign in" [ref=e10] [cursor=pointer]:
+        - /url: http://localhost:3000/login
+  - generic [ref=e12]:
+    - banner [ref=e13]:
+      - generic [ref=e14]:
+        - link "💀 Cringe Rizzler" [ref=e15] [cursor=pointer]:
+          - /url: /apps/cringe-rizzler
+        - navigation [ref=e16]:
+          - link "App" [ref=e17] [cursor=pointer]:
+            - /url: /apps/cringe-rizzler
+          - link "About" [ref=e18] [cursor=pointer]:
+            - /url: /apps/cringe-rizzler/about
+          - link "← Dashboard" [ref=e19] [cursor=pointer]:
+            - /url: /
+    - main [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - generic [ref=e23]: 💀
+          - heading "Cringe Rizzler" [level=1] [ref=e24]
+          - paragraph [ref=e25]: Embarrass Gen Alpha with hilariously bad slang usage
+        - generic [ref=e26]:
+          - tablist [ref=e27]:
+            - tab "💬 Phrases" [selected] [ref=e28]
+            - tab "🖼️ Memes" [ref=e29]
+            - tab "📖 Glossary" [ref=e30]
+          - tabpanel "💬 Phrases" [ref=e31]:
+            - generic [ref=e32]:
+              - generic [ref=e35]:
+                - generic [ref=e36]: 💀
+                - paragraph [ref=e37]: Hit the button to generate your first cringe phrase
+              - button "✨ Generate New Phrase" [ref=e39]
+  - button "Open Next.js Dev Tools" [ref=e45] [cursor=pointer]:
+    - img [ref=e46]
+  - alert [ref=e49]

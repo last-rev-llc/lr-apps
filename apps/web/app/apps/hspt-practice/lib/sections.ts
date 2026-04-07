@@ -1,0 +1,61 @@
+import type { SectionId, SectionConfig } from "./types";
+
+export const SECTIONS: Record<SectionId, SectionConfig> = {
+  verbal: {
+    name: "Verbal Skills",
+    icon: "🗣️",
+    time: 16,
+    count: 60,
+    types: ["analogy", "logic", "classification"],
+    color: "text-amber-400",
+  },
+  quantitative: {
+    name: "Quantitative Skills",
+    icon: "🔢",
+    time: 30,
+    count: 52,
+    types: ["sequence", "reasoning", "geometric", "comparison"],
+    color: "text-blue-400",
+  },
+  reading: {
+    name: "Reading",
+    icon: "📖",
+    time: 25,
+    count: 62,
+    types: ["comprehension"],
+    color: "text-green-400",
+  },
+  mathematics: {
+    name: "Mathematics",
+    icon: "📐",
+    time: 45,
+    count: 64,
+    types: [
+      "arithmetic",
+      "algebra",
+      "geometry",
+      "measurement",
+      "word_problem",
+      "fraction",
+      "percent",
+      "ratio",
+      "probability",
+    ],
+    color: "text-red-400",
+  },
+  language: {
+    name: "Language",
+    icon: "✍️",
+    time: 25,
+    count: 60,
+    types: [
+      "capitalization",
+      "punctuation",
+      "grammar",
+      "spelling",
+      "usage",
+      "composition",
+    ],
+    color: "text-purple-400",
+  },
+};

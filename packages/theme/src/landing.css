@@ -1,0 +1,288 @@
+/* ============================================================
+   landing.css — Landing Page Layout, Typography & Patterns
+   @repo/theme — Requires: globals.css (which imports theme.css)
+
+   Import in pages that need landing/marketing layout:
+     @import "@repo/theme/landing.css";
+   ============================================================ */
+
+/* ── Fixed background with 5-layer radial gradients ── */
+.lp-bg-fixed {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 25% 40%, var(--lp-glow-1) 0%, transparent 50%),
+    radial-gradient(ellipse at 75% 35%, var(--lp-glow-2) 0%, transparent 45%),
+    radial-gradient(ellipse at 55% 55%, var(--lp-glow-3) 0%, transparent 45%),
+    radial-gradient(ellipse at 20% 60%, var(--lp-glow-4) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 55%, var(--lp-glow-5) 0%, transparent 40%),
+    #08080f;
+}
+
+/* ── Landing page body variant ── */
+body.lp {
+  overflow-x: hidden;
+  background: #08080f;
+  color: #e2e2e8;
+  padding: 0;
+}
+
+/* ── Typography ── */
+
+.lp-eyebrow {
+  display: inline-block;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2.5px;
+  color: rgba(245, 158, 11, 0.8);
+  margin-bottom: 20px;
+}
+
+.lp-h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(44px, 8vw, 80px); font-weight: 800;
+  line-height: 1.02; letter-spacing: -1.5px;
+  margin-bottom: 28px;
+}
+
+.lp-h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 4.5vw, 48px); font-weight: 700;
+  line-height: 1.1; letter-spacing: -0.5px;
+  margin-bottom: 20px;
+}
+
+.lp-body {
+  font-size: 17px; line-height: 1.7;
+  color: rgba(255, 255, 255, 0.5); max-width: 520px;
+}
+
+.lp-body-lg {
+  font-size: 19px; line-height: 1.7;
+  color: rgba(255, 255, 255, 0.45); max-width: 560px;
+}
+
+.lp-subsection-label {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+
+/* ── Section wrapper ── */
+.lp-section {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 140px 32px;
+}
+.lp-section--narrow  { max-width: 700px; }
+.lp-section--medium  { max-width: 800px; }
+.lp-section--wide    { max-width: 1140px; }
+
+/* ── Divider with shimmer ── */
+.lp-divider {
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  position: relative;
+  overflow: hidden;
+}
+.lp-divider::after,
+.lp-divider::before {
+  content: '';
+  position: absolute;
+  top: 0; width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  animation: lp-divider-shimmer 6s ease-in-out infinite;
+}
+.lp-divider::before { animation-delay: -3s; }
+
+/* ── Grid utilities ── */
+.lp-grid-2, .lp-grid-3, .lp-grid-4 {
+  display: grid;
+  gap: 24px;
+}
+.lp-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.lp-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.lp-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.lp-grid-2 > *, .lp-grid-3 > *, .lp-grid-4 > * {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* ── Features grid (3-col) ── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* ── Use cases grid (auto-fit) ── */
+.use-cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* ── Hero layout ── */
+.hero-inner {
+  min-height: 75vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 0 32px;
+  position: relative;
+}
+.hero-inner .cc-hero {
+  padding-top: 120px;
+  padding-bottom: 120px;
+}
+.hero-ctas {
+  display: flex; gap: 16px; margin-top: 44px;
+  flex-wrap: wrap; justify-content: center;
+}
+
+/* ── Steps (numbered vertical list) ── */
+.steps-list {
+  display: flex; flex-direction: column;
+  counter-reset: step;
+}
+.step-row {
+  display: grid; grid-template-columns: 80px 1fr;
+  gap: 32px; padding: 48px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  align-items: start;
+}
+.step-row:last-child { border-bottom: none; }
+.step-num {
+  counter-increment: step;
+  font-family: var(--font-heading);
+  font-size: 48px; font-weight: 800;
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.25), rgba(245, 158, 11, 0.06));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; line-height: 1;
+}
+.step-num::before { content: counter(step); }
+.step-row h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+.step-row p { font-size: 15px; color: rgba(255, 255, 255, 0.4); line-height: 1.6; max-width: 480px; }
+
+/* ── Score visual (formula + bars) ── */
+.score-visual {
+  display: flex; align-items: center; gap: 48px;
+  flex-wrap: wrap;
+}
+.score-formula { flex: 1; min-width: 280px; }
+.score-formula-box {
+  padding: 32px;
+  font-family: var(--font-mono);
+  font-size: 14px; line-height: 2;
+}
+.score-bars { flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 20px; }
+.score-bar-label { font-size: 12px; font-weight: 600; color: rgba(255, 255, 255, 0.5); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+.score-bar-track { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 3px; transition: width 1.5s ease; }
+
+/* ── CTA section ── */
+.cta-final {
+  text-align: center; padding: 160px 32px; position: relative;
+}
+.cta-glow {
+  position: absolute; width: 500px; height: 300px;
+  background: radial-gradient(ellipse, rgba(245, 158, 11, 0.08), transparent 70%);
+  left: 50%; top: 60%; transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* ── Footer ── */
+.lp-footer {
+  text-align: center; padding: 40px 32px;
+  font-size: 12px; color: rgba(255, 255, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.lp-footer a { color: rgba(245, 158, 11, 0.5); text-decoration: none; }
+.lp-footer a:hover { color: #f59e0b; }
+
+/* ── Checklist ── */
+.lp-checklist-item {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  margin: 0;
+}
+.lp-check {
+  color: #34d399;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* ── Section intro badges ── */
+.si-badge {
+  display: inline-block;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+  padding: 6px 18px; border-radius: 20px;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.08); color: rgba(255, 255, 255, 0.6);
+}
+.si-badge--amber  { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.si-badge--violet { background: rgba(124, 58, 237, 0.15); color: #a78bfa; }
+.si-badge--pink   { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
+.si-badge--blue   { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+.si-badge--green  { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+
+/* ── Neon icon color variants ── */
+.neon-amber  { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); color: var(--color-neon-amber); }
+.neon-amber::after { background: rgba(245, 158, 11, 0.25); }
+.neon-violet { background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.2); color: var(--color-neon-violet); }
+.neon-violet::after { background: rgba(124, 58, 237, 0.25); }
+.neon-blue   { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); color: var(--color-neon-blue); }
+.neon-blue::after { background: rgba(59, 130, 246, 0.25); }
+.neon-green  { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); color: var(--color-neon-green); }
+.neon-green::after { background: rgba(34, 197, 94, 0.25); }
+.neon-pink   { background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.2); color: var(--color-neon-pink); }
+.neon-pink::after { background: rgba(236, 72, 153, 0.25); }
+.neon-cyan   { background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.2); color: var(--color-neon-cyan); }
+.neon-cyan::after { background: rgba(34, 211, 238, 0.25); }
+
+/* Neon icon glow pseudo-element */
+.neon-icon::after,
+.neon-icon-lg::after {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit;
+  opacity: 0.4; filter: blur(10px); z-index: -1;
+}
+.neon-icon-lg::after {
+  inset: -2px; opacity: 0.35; filter: blur(16px);
+}
+
+.neon-icon svg { width: 22px; height: 22px; stroke-width: 1.8; }
+.neon-icon-lg svg { width: 36px; height: 36px; stroke-width: 1.5; }
+
+/* Category icon (smaller variant) */
+.cat-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+}
+.cat-icon svg { width: 20px; height: 20px; stroke-width: 1.8; }
+
+/* ── Responsive ── */
+@media (max-width: 1040px) {
+  .lp-divider { max-width: calc(100vw - 64px); }
+}
+
+@media (max-width: 768px) {
+  .lp-section { padding: 100px 20px; }
+  .lp-grid-2, .lp-grid-3, .lp-grid-4 { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .step-row { grid-template-columns: 48px 1fr; gap: 20px; padding: 32px 0; }
+  .step-num { font-size: 36px; }
+  .score-visual { flex-direction: column; gap: 32px; }
+  .hero-inner { padding: 0 20px; }
+  .hero-inner .cc-hero { padding-top: 60px; padding-bottom: 80px; }
+  .lp-divider { max-width: calc(100vw - 32px); }
+}
