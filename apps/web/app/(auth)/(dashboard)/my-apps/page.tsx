@@ -51,11 +51,11 @@ export default async function MyAppsPage() {
   const allApps = getAllApps().filter((app) => app.slug !== "auth");
   const myApps = allApps.filter(
     (app) =>
-      !app.auth || app.publicEntry || permMap.has(app.slug),
+      !app.auth || app.publicRoutes?.length || permMap.has(app.slug),
   );
   const otherApps = allApps.filter(
     (app) =>
-      app.auth && !app.publicEntry && !permMap.has(app.slug),
+      app.auth && !app.publicRoutes?.length && !permMap.has(app.slug),
   );
 
   return (
@@ -139,9 +139,9 @@ function AppTile({
                 {permMap.get(app.slug)}
               </Badge>
             ) : null}
-            {!locked && (!app.auth || app.publicEntry) ? (
+            {!locked && (!app.auth || app.publicRoutes?.length) ? (
               <Badge variant="outline" className="text-xs text-accent shrink-0">
-                {app.publicEntry && app.auth ? "open entry" : "public"}
+                {app.publicRoutes?.length && app.auth ? "open entry" : "public"}
               </Badge>
             ) : null}
           </div>

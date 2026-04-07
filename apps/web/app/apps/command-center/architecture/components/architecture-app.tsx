@@ -23,7 +23,7 @@ const ARCH_SECTIONS: ArchSection[] = [
       "apps/web — Next.js 15 App Router, primary application",
       "packages/ui — Shared component library (React + Tailwind)",
       "packages/db — Supabase client + server wrappers, type definitions",
-      "packages/auth — requireAccess; web uses requireAppLayoutAccess + AppConfig.publicEntry",
+      "packages/auth — requireAccess; web uses requireAppLayoutAccess + AppConfig.publicRoutes",
       "Turborepo remote caching via Vercel for fast CI builds",
     ],
     tags: ["turborepo", "next.js", "typescript"],
@@ -62,7 +62,7 @@ const ARCH_SECTIONS: ArchSection[] = [
     icon: "🔐",
     description: "Supabase Auth with per-app access control via app_permissions table.",
     details: [
-      "requireAppLayoutAccess + publicEntry for hybrid apps (e.g. ai-calculator landing → /calculator gated)",
+      "requireAppLayoutAccess + publicRoutes for hybrid apps (e.g. ai-calculator landing → /calculator gated)",
       "app_permissions table: user_id, app_slug, permission (view/edit/admin)",
       "Server-side auth checks via @repo/auth/server",
       "Session management handled by Supabase Auth helpers",

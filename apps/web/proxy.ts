@@ -23,10 +23,15 @@ export async function proxy(request: NextRequest) {
     if (appParam) {
       const routePath = getRouteForSubdomain(appParam);
       if (routePath) {
+        const devPathname = request.nextUrl.pathname;
         const url = request.nextUrl.clone();
         url.searchParams.delete("app");
         url.pathname = `${routePath}${url.pathname}`;
-        const rewrite = NextResponse.rewrite(url, { request });
+        const devHeaders = new Headers(request.headers);
+        devHeaders.set("x-app-pathname", devPathname);
+        const rewrite = NextResponse.rewrite(url, {
+          request: { headers: devHeaders },
+        });
         return withAuth(rewrite);
       }
     }
