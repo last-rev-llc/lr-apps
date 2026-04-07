@@ -1,0 +1,27 @@
+{
+  "name": "@repo/billing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./stripe-client": "./src/stripe-client.ts",
+    "./customers": "./src/customers.ts",
+    "./subscriptions": "./src/subscriptions.ts",
+    "./has-feature-access": "./src/has-feature-access.ts",
+    "./webhook-handler": "./src/webhook-handler.ts",
+    "./types": "./src/types.ts"
+  },
+  "dependencies": {
+    "@repo/db": "workspace:*",
+    "stripe": "^17"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "typescript": "^5",
+    "vitest": "^3"
+  }
+}
