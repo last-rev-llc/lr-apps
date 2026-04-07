@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "scripts": {
+    "test": "vitest run --passWithNoTests"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./server": "./src/server.ts",
@@ -20,7 +23,9 @@
   },
   "devDependencies": {
     "@repo/config": "workspace:*",
+    "@repo/test-utils": "workspace:*",
     "next": "^16",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3"
   }
 }

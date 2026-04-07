@@ -2,6 +2,9 @@
   "name": "@repo/config",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "test": "echo no tests"
+  },
   "exports": {
     "./tsconfig/base": "./tsconfig/base.json",
     "./tsconfig/nextjs": "./tsconfig/nextjs.json",
