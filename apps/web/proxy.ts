@@ -48,9 +48,14 @@ export async function proxy(request: NextRequest) {
     );
   }
 
+  const originalPathname = request.nextUrl.pathname;
   const url = request.nextUrl.clone();
   url.pathname = `${routePath}${url.pathname}`;
-  const rewrite = NextResponse.rewrite(url, { request });
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-app-pathname", originalPathname);
+  const rewrite = NextResponse.rewrite(url, {
+    request: { headers: requestHeaders },
+  });
   return withAuth(rewrite);
 }
 

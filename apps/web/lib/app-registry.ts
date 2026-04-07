@@ -14,11 +14,11 @@ export interface AppConfig {
   permission: "view" | "edit" | "admin";
   template: "full" | "minimal";
   /**
-   * When true, the app root layout skips `requireAppLayoutAccess` so anyone can
-   * open the app URL. Use for landing pages, lead capture, or Stripe links; gate
-   * sensitive segments with `requireAccess` on nested layouts/routes.
+   * Paths that skip `requireAppLayoutAccess` and remain publicly accessible.
+   * Patterns are relative to the app root (e.g. `"/"`, `"/pricing"`,
+   * `"/api/webhooks/**"`). Supports exact matches and trailing `**` globs.
    */
-  publicEntry?: boolean;
+  publicRoutes?: string[];
   /** Primary way to get access when self-enroll is off (Stripe, waitlist, etc.). */
   accessRequest?: AppAccessRequest;
   /**
@@ -56,7 +56,7 @@ const apps: AppConfig[] = [
     auth: true,
     permission: "view",
     template: "minimal",
-    publicEntry: true,
+    publicRoutes: ["/"],
     postEnrollPath: "calculator",
   },
 
@@ -89,4 +89,20 @@ export function getAppBySlug(slug: string): AppConfig | undefined {
 
 export function getAllApps(): AppConfig[] {
   return [...apps];
+}
+
+/**
+ * Returns true when `pathname` matches one of the app's `publicRoutes` patterns.
+ * Supports exact matches and trailing `**` globs (e.g. `/api/webhooks/**`).
+ */
+export function isPublicRoute(appSlug: string, pathname: string): boolean {
+  const cfg = slugIndex.get(appSlug);
+  if (!cfg?.publicRoutes) return false;
+  return cfg.publicRoutes.some((pattern) => {
+    if (pattern.endsWith("/**")) {
+      const prefix = pattern.slice(0, -3);
+      return pathname === prefix || pathname.startsWith(prefix + "/");
+    }
+    return pathname === pattern;
+  });
 }

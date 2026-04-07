@@ -1,13 +1,15 @@
 import { requireAccess } from "@repo/auth/server";
-import { getAppBySlug } from "./app-registry";
+import { isPublicRoute } from "./app-registry";
 
 /**
- * Layout-level gate: respects {@link AppConfig.publicEntry} so an app can expose
- * a public marketing or lead surface while other routes add their own
- * `requireAccess` (or stay open).
+ * Layout-level gate: all apps are gated by default. If the app declares
+ * `publicRoutes` and the current `pathname` matches, access is allowed
+ * without authentication.
  */
-export async function requireAppLayoutAccess(appSlug: string) {
-  const cfg = getAppBySlug(appSlug);
-  if (cfg?.publicEntry) return;
+export async function requireAppLayoutAccess(
+  appSlug: string,
+  pathname?: string,
+) {
+  if (pathname && isPublicRoute(appSlug, pathname)) return;
   await requireAccess(appSlug);
 }
