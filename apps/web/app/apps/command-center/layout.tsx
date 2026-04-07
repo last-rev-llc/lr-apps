@@ -1,4 +1,4 @@
-import { requireAccess } from "@repo/auth/server";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -36,7 +36,7 @@ export default async function CommandCenterLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAccess("command-center");
+  await requireAppLayoutAccess("command-center");
 
   return (
     <div className="min-h-screen flex flex-col">

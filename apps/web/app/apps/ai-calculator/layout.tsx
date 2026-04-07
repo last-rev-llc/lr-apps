@@ -1,10 +1,13 @@
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import type { ReactNode } from "react";
 
-export default function AiCalculatorLayout({
+export default async function AiCalculatorLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  await requireAppLayoutAccess("ai-calculator");
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-gradient-to-r from-cyan-500 to-purple-500 text-white">

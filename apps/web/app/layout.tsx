@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { LastRevMiniHeader } from "@/components/last-rev-mini-header";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,7 +19,11 @@ export default function RootLayout({
       lang="en"
       className={`${GeistSans.variable} ${GeistMono.variable} dark`}
     >
-      <body>{children}</body>
+      <body className="min-h-screen flex flex-col">
+        <LastRevMiniHeader />
+        <div className="flex-1">{children}</div>
+        <script src="http://localhost:4747/widget.js" data-project="lr-apps" />
+      </body>
     </html>
   );
 }

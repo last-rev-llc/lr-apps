@@ -1,12 +1,23 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { createMiddlewareClient } from "@repo/db/middleware";
+import {
+  getAuth0ClientForHost,
+  getHostFromRequestHeaders,
+} from "@repo/auth/auth0-factory";
+import { mergeAuthMiddlewareResponse } from "@repo/auth/merge-auth-middleware";
 import { resolveSubdomain, getRouteForSubdomain } from "./lib/proxy-utils";
 
 export async function proxy(request: NextRequest) {
-  // Refresh Supabase session on every request.
-  const { response } = await createMiddlewareClient(request);
+  const host = getHostFromRequestHeaders(request.headers);
+  const auth0 = getAuth0ClientForHost(host);
+  const authResponse = await auth0.middleware(request);
 
-  // Dev mode: support ?app=<subdomain> query param for local testing
+  if (request.nextUrl.pathname.startsWith("/auth")) {
+    return authResponse;
+  }
+
+  const withAuth = (inner: NextResponse) =>
+    mergeAuthMiddlewareResponse(authResponse, inner);
+
   if (process.env.NODE_ENV === "development") {
     const appParam = request.nextUrl.searchParams.get("app");
     if (appParam) {
@@ -16,34 +27,31 @@ export async function proxy(request: NextRequest) {
         url.searchParams.delete("app");
         url.pathname = `${routePath}${url.pathname}`;
         const rewrite = NextResponse.rewrite(url, { request });
-        response.cookies.getAll().forEach((cookie) => {
-          rewrite.cookies.set(cookie.name, cookie.value);
-        });
-        return rewrite;
+        return withAuth(rewrite);
       }
     }
   }
 
-  const host = request.headers.get("host") ?? "";
-  const subdomain = resolveSubdomain(host);
+  const hostHeader = request.headers.get("host") ?? "";
+  const subdomain = resolveSubdomain(hostHeader);
 
   if (!subdomain) {
-    return response;
+    return withAuth(NextResponse.next({ request }));
   }
 
   const routePath = getRouteForSubdomain(subdomain);
 
   if (!routePath) {
-    return NextResponse.redirect(new URL("https://auth.lastrev.com"));
+    return mergeAuthMiddlewareResponse(
+      authResponse,
+      NextResponse.redirect(new URL("https://auth.lastrev.com")),
+    );
   }
 
   const url = request.nextUrl.clone();
   url.pathname = `${routePath}${url.pathname}`;
   const rewrite = NextResponse.rewrite(url, { request });
-  response.cookies.getAll().forEach((cookie) => {
-    rewrite.cookies.set(cookie.name, cookie.value);
-  });
-  return rewrite;
+  return withAuth(rewrite);
 }
 
 export const config = {

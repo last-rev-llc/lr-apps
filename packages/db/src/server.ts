@@ -4,12 +4,20 @@ import type { Database } from "./types";
 
 const isProduction = process.env.NODE_ENV === "production";
 
+/** Prefer service role on the server when Auth0 (or any non-Supabase session) fronts the app. */
+function serverSupabaseKey(): string {
+  return (
+    process.env.SUPABASE_SERVICE_ROLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
+
 export async function createClient() {
   const cookieStore = await cookies();
 
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    serverSupabaseKey(),
     {
       cookies: {
         getAll() {

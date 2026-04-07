@@ -9,9 +9,13 @@
   "exports": {
     ".": "./src/index.ts",
     "./server": "./src/require-access.ts",
-    "./client": "./src/auth-provider.tsx"
+    "./client": "./src/auth-provider.tsx",
+    "./auth0-factory": "./src/auth0-factory.ts",
+    "./merge-auth-middleware": "./src/merge-auth-middleware.ts",
+    "./self-enroll": "./src/self-enroll.ts"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^4",
     "@repo/db": "workspace:*",
     "react": "^19"
   },

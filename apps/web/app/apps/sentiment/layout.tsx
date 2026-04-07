@@ -1,4 +1,4 @@
-import { requireAccess } from "@repo/auth/server";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import type { ReactNode } from "react";
 
 export default async function SentimentLayout({
@@ -6,7 +6,7 @@ export default async function SentimentLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAccess("sentiment");
+  await requireAppLayoutAccess("sentiment");
 
   return (
     <div className="min-h-screen">

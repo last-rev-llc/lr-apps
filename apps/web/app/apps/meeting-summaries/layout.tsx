@@ -1,4 +1,4 @@
-import { requireAccess } from "@repo/auth/server";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import type { ReactNode } from "react";
 
 export default async function MeetingSummariesLayout({
@@ -6,7 +6,7 @@ export default async function MeetingSummariesLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAccess("meeting-summaries");
+  await requireAppLayoutAccess("meeting-summaries");
 
   return (
     <div className="min-h-screen">

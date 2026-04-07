@@ -4,7 +4,9 @@
   "private": true,
   "exports": {
     "./theme.css": "./src/theme.css",
-    "./globals.css": "./src/globals.css"
+    "./globals.css": "./src/globals.css",
+    "./landing.css": "./src/landing.css",
+    "./components.css": "./src/components.css"
   },
   "dependencies": {
     "tailwindcss": "^4"

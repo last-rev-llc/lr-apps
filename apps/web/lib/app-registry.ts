@@ -1,3 +1,10 @@
+/** Shown on /unauthorized when instant access isn’t available (e.g. checkout, pricing). */
+export interface AppAccessRequest {
+  label: string;
+  href: string;
+  description?: string;
+}
+
 export interface AppConfig {
   slug: string;
   name: string;
@@ -6,6 +13,19 @@ export interface AppConfig {
   auth: boolean;
   permission: "view" | "edit" | "admin";
   template: "full" | "minimal";
+  /**
+   * When true, the app root layout skips `requireAppLayoutAccess` so anyone can
+   * open the app URL. Use for landing pages, lead capture, or Stripe links; gate
+   * sensitive segments with `requireAccess` on nested layouts/routes.
+   */
+  publicEntry?: boolean;
+  /** Primary way to get access when self-enroll is off (Stripe, waitlist, etc.). */
+  accessRequest?: AppAccessRequest;
+  /**
+   * After self-enroll, redirect to `/${routeGroup}/${postEnrollPath}` instead of
+   * the app root (hybrid: public landing at root, gated tool on a subpath).
+   */
+  postEnrollPath?: string;
 }
 
 const apps: AppConfig[] = [
@@ -28,7 +48,17 @@ const apps: AppConfig[] = [
   { slug: "summaries", name: "Summaries", subdomain: "summaries", routeGroup: "apps/summaries", auth: true, permission: "view", template: "full" },
   { slug: "lighthouse", name: "Lighthouse", subdomain: "lighthouse", routeGroup: "apps/lighthouse", auth: true, permission: "view", template: "full" },
   { slug: "slang-translator", name: "Slang Translator", subdomain: "slang", routeGroup: "apps/slang-translator", auth: true, permission: "view", template: "minimal" },
-  { slug: "ai-calculator", name: "AI Calculator", subdomain: "calculator", routeGroup: "apps/ai-calculator", auth: true, permission: "view", template: "minimal" },
+  {
+    slug: "ai-calculator",
+    name: "AI Calculator",
+    subdomain: "calculator",
+    routeGroup: "apps/ai-calculator",
+    auth: true,
+    permission: "view",
+    template: "minimal",
+    publicEntry: true,
+    postEnrollPath: "calculator",
+  },
 
   // Standalone — minimal (public, no auth)
   { slug: "dad-joke-of-the-day", name: "Dad Joke of the Day", subdomain: "dad-jokes", routeGroup: "apps/dad-joke-of-the-day", auth: false, permission: "view", template: "minimal" },

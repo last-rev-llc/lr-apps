@@ -10,7 +10,10 @@ export async function getAllJokes(): Promise<DadJoke[]> {
     .select("*")
     .order("featured_date", { ascending: false });
 
-  if (error) throw error;
+  if (error) {
+    console.error("dad_jokes fetch error:", error.message ?? error);
+    return [];
+  }
   return (data ?? []) as DadJoke[];
 }
 

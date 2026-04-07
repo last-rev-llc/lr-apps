@@ -1,4 +1,4 @@
-import { requireAccess } from "@repo/auth/server";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import type { ReactNode } from "react";
 
 export default async function DailyUpdatesLayout({
@@ -6,7 +6,7 @@ export default async function DailyUpdatesLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAccess("daily-updates");
+  await requireAppLayoutAccess("daily-updates");
 
   return (
     <div className="min-h-screen">

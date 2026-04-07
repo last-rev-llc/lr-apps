@@ -1,0 +1,113 @@
+[     319ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0m~-_next_dist_0adwku7._.js:2431
+[     350ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0m~-_next_dist_0adwku7._.js:2431
+[   23578ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0m~-_next_dist_0adwku7._.js:2431
+[   23679ms] [LOG] [Fast Refresh] done in 202ms @ http://localhost:3000/_next/static/chunks/0m~-_next_dist_0adwku7._.js:2431
+[   24126ms] [ERROR] Access to fetch at 'https://dev-niyfwh8x8jfasxid.us.auth0.com/authorize?scope=openid+profile+email+offline_access&client_id=Bf1l863GFxPr8kuQfN6A4kmjw4rk14Yu&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&response_type=code&code_challenge=if3msyJ0XVuBjv-5xgchvMD5X9qw3IjlzbhQetwBwcU&code_challenge_method=S256&state=_2zlMrh_L5T5R6Br4YoET-O4I9lrN-BT4kmK57sGkXc&nonce=YNLQ57VCZfEvjbv-KVuzy38rim1YBZWZUPDsTzoZfjk' (redirected from 'http://localhost:3000/auth/login?_rsc=mli8w') from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:3000/my-apps:0
+[   24127ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://dev-niyfwh8x8jfasxid.us.auth0.com/authorize?scope=openid+profile+email+offline_access&client_id=Bf1l863GFxPr8kuQfN6A4kmjw4rk14Yu&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&response_type=code&code_challenge=if3msyJ0XVuBjv-5xgchvMD5X9qw3IjlzbhQetwBwcU&code_challenge_method=S256&state=_2zlMrh_L5T5R6Br4YoET-O4I9lrN-BT4kmK57sGkXc&nonce=YNLQ57VCZfEvjbv-KVuzy38rim1YBZWZUPDsTzoZfjk:0
+[   24128ms] [ERROR] Failed to fetch RSC payload for http://localhost:3000/auth/login. Falling back to browser navigation. TypeError: Failed to fetch
+    at createFetch (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:8084:21)
+    at fetchServerResponse (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:7928:27)
+    at navigateToUnknownRoute (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:10094:90)
+    at navigateImpl (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:9989:12)
+    at navigate (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:9953:12)
+    at navigateReducer (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:10530:37)
+    at clientReducer (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11382:61)
+    at Object.action (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11631:55)
+    at runAction (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11536:38)
+    at dispatchAction (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11611:9)
+    at Object.dispatch (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11629:40)
+    at http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:963:29
+    at startTransition (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:5469:31)
+    at nextDispatch (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:962:13)
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:922:5)
+    at dispatchNavigateAction (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11688:49)
+    at http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11770:13
+    at startTransition (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_0bneya7._.js:1279:31)
+    at Object.replace (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11769:36)
+    at http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:12523:24
+    at Object.startTransition (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_0bneya7._.js:1279:31)
+    at http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:12519:24
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:15087:22)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:965:74)
+    at commitHookEffectListMount (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:7255:167)
+    at commitHookPassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:7290:60)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8779:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8793:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8778:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8778:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8778:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8778:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8793:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8778:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8778:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8793:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8793:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13)
+    at reconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8778:17)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8766:13) @ http://localhost:3000/_next/static/chunks/0m~-_next_dist_0adwku7._.js:3272
+[   24130ms] [ERROR] Access to fetch at 'https://dev-niyfwh8x8jfasxid.us.auth0.com/authorize?scope=openid+profile+email+offline_access&client_id=Bf1l863GFxPr8kuQfN6A4kmjw4rk14Yu&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&response_type=code&code_challenge=pO1LlvtxJxOjJDy_XHMf8F3HwflKRIOG9BrBOKLF0pA&code_challenge_method=S256&state=lfuKCzW1C_X253fYMxGztEfQhczGduswWWJaQfOqAWc&nonce=8p5QStNoKlESzHzLRh6IObV1mXNr0c1QD-qMyrOFUgk' (redirected from 'http://localhost:3000/auth/login?_rsc=mli8w') from origin 'http://localhost:3000' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:3000/my-apps:0
+[   24130ms] [ERROR] Failed to load resource: net::ERR_FAILED @ https://dev-niyfwh8x8jfasxid.us.auth0.com/authorize?scope=openid+profile+email+offline_access&client_id=Bf1l863GFxPr8kuQfN6A4kmjw4rk14Yu&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fcallback&response_type=code&code_challenge=pO1LlvtxJxOjJDy_XHMf8F3HwflKRIOG9BrBOKLF0pA&code_challenge_method=S256&state=lfuKCzW1C_X253fYMxGztEfQhczGduswWWJaQfOqAWc&nonce=8p5QStNoKlESzHzLRh6IObV1mXNr0c1QD-qMyrOFUgk:0
+[   24130ms] [ERROR] Failed to fetch RSC payload for http://localhost:3000/auth/login. Falling back to browser navigation. TypeError: Failed to fetch
+    at createFetch (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:8084:21)
+    at fetchServerResponse (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:7928:27)
+    at navigateToUnknownRoute (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:10094:90)
+    at navigateImpl (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:9989:12)
+    at navigate (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:9953:12)
+    at navigateReducer (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:10530:37)
+    at clientReducer (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11382:61)
+    at Object.action (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11631:55)
+    at runAction (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11536:38)
+    at dispatchAction (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11599:9)
+    at Object.dispatch (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11629:40)
+    at http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:963:29
+    at startTransition (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:5469:31)
+    at nextDispatch (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:962:13)
+    at dispatchAppRouterAction (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:922:5)
+    at dispatchNavigateAction (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11688:49)
+    at http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11770:13
+    at startTransition (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_0bneya7._.js:1279:31)
+    at Object.replace (http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:11769:36)
+    at http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:12523:24
+    at Object.startTransition (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_0bneya7._.js:1279:31)
+    at http://localhost:3000/_next/static/chunks/0m~-_next_dist_client_0hf680_._.js:12519:24
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:15087:22)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:965:74)
+    at commitHookEffectListMount (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:7255:167)
+    at commitHookPassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:7290:60)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8689:33)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8693:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8693:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8750:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8750:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316)
+    at commitPassiveMountOnFiber (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8688:17)
+    at recursivelyTraversePassiveMountEffects (http://localhost:3000/_next/static/chunks/0m~-_next_dist_compiled_react-dom_0jflhpm._.js:8676:316) @ http://localhost:3000/_next/static/chunks/0m~-_next_dist_0adwku7._.js:3272
+[   24277ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0m~-_next_dist_0adwku7._.js:2431
+[   24700ms] [LOG] [Fast Refresh] done in 525ms @ http://localhost:3000/_next/static/chunks/0m~-_next_dist_0adwku7._.js:2431
+[   25191ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://dev-niyfwh8x8jfasxid.us.auth0.com/favicon.ico:0

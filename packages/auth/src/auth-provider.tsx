@@ -3,49 +3,54 @@
 import {
   createContext,
   useContext,
-  useEffect,
-  useState,
   type ReactNode,
 } from "react";
-import { createClient } from "@repo/db/client";
-import type { User } from "@supabase/supabase-js";
+import {
+  Auth0Provider as Auth0ProviderBase,
+  useUser,
+} from "@auth0/nextjs-auth0/client";
+import type { User } from "@auth0/nextjs-auth0/types";
 
 interface AuthContextValue {
   user: User | null;
   loading: boolean;
-  signOut: () => Promise<void>;
+  signOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+function AuthContextBridge({ children }: { children: ReactNode }) {
+  const { user, isLoading } = useUser();
 
-  useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [supabase]);
-
-  const authUrl =
-    process.env.NEXT_PUBLIC_AUTH_URL ?? "https://auth.lastrev.com";
-
-  const signOut = async () => {
-    await supabase.auth.signOut();
-    window.location.href = `${authUrl}/login`;
+  const signOut = () => {
+    const w = globalThis as unknown as Window;
+    w.location.href = "/auth/logout";
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signOut }}>
+    <AuthContext.Provider
+      value={{
+        user: user ?? null,
+        loading: isLoading,
+        signOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
+  );
+}
+
+export function AuthProvider({
+  user,
+  children,
+}: {
+  user?: User;
+  children: ReactNode;
+}) {
+  return (
+    <Auth0ProviderBase user={user}>
+      <AuthContextBridge>{children}</AuthContextBridge>
+    </Auth0ProviderBase>
   );
 }
 

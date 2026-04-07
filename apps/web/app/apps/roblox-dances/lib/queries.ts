@@ -30,10 +30,20 @@ export async function getDances(): Promise<Dance[]> {
 
 export async function getDanceSubmissions(): Promise<DanceSubmission[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase
+  // Try createdAt first (camelCase column), fall back to created_at
+  let result = await supabase
     .from("dance_submissions")
     .select("*")
     .order("created_at", { ascending: false });
+
+  if (result.error?.message?.includes("does not exist")) {
+    result = await supabase
+      .from("dance_submissions")
+      .select("*")
+      .order("createdAt", { ascending: false });
+  }
+
+  const { data, error } = result;
 
   if (error) {
     console.error("dance_submissions fetch error:", error.message);

@@ -51,4 +51,10 @@ describe("app-registry", () => {
     expect(app).toBeDefined();
     expect(app?.slug).toBe("meeting-summaries");
   });
+
+  it("marks public-entry apps for open URL access", () => {
+    const calc = getAppBySlug("ai-calculator");
+    expect(calc?.publicEntry).toBe(true);
+    expect(calc?.postEnrollPath).toBe("calculator");
+  });
 });

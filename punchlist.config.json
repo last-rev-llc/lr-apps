@@ -1,0 +1,26 @@
+{
+  "projectName": "lr-apps",
+  "issueTracker": {
+    "type": "github",
+    "repo": "last-rev-llc/lr-apps"
+  },
+  "storage": {
+    "type": "sqlite",
+    "path": ".punchlist/punchlist.db"
+  },
+  "auth": {
+    "type": "token"
+  },
+  "widget": {
+    "position": "bottom-right",
+    "theme": "dark",
+    "corsDomains": [
+      "http://localhost:3000"
+    ],
+    "categories": []
+  },
+  "aiTool": "claude-code",
+  "categories": [],
+  "testCases": [],
+  "testers": []
+}

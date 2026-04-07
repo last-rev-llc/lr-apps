@@ -1,4 +1,4 @@
-import { requireAccess } from "@repo/auth/server";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import type { ReactNode } from "react";
 
 export default async function SprintPlanningLayout({
@@ -6,7 +6,7 @@ export default async function SprintPlanningLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAccess("sprint-planning");
+  await requireAppLayoutAccess("sprint-planning");
 
   return (
     <div className="min-h-screen">

@@ -1,0 +1,48 @@
+{
+  "skill_name": "image-prompt-craft",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "I need a hero image for a blog post about AI agents in production. The post is about monitoring, reliability, and circuit breakers for AI systems. Dark tech aesthetic to match the site.",
+      "expected_output": "A detailed image prompt with cinematic direction, site color references, anti-stock-photo techniques, and paired alt text.",
+      "files": [],
+      "assertions": [
+        {"text": "Prompt includes site brand colors as hex codes (e.g., #f59e0b amber, #8b5cf6 violet)", "type": "content_check"},
+        {"text": "No CSS notation in prompt (no rgba(), box-shadow, px, opacity percentages)", "type": "anti_pattern_check"},
+        {"text": "No stock-photo poses (no arms crossed, no looking at camera smiling, no handshake)", "type": "anti_pattern_check"},
+        {"text": "Lighting described in photographic terms (not 'glowing orbs' or 'radial gradient')", "type": "anti_pattern_check"},
+        {"text": "Includes specific composition direction (camera angle, depth of field)", "type": "content_check"},
+        {"text": "Includes photography style closing (e.g., 'documentary style', 'editorial portrait')", "type": "content_check"},
+        {"text": "Alt text is included, under 125 chars, does not start with 'Image of'", "type": "content_check"},
+        {"text": "Specifies 16:9 aspect ratio for blog hero", "type": "content_check"}
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "Write prompts for 3 hero images: one for our AI offerings page, one for the web development page, and one for client stories. These need to feel like a cohesive set.",
+      "expected_output": "Three distinct prompts with pose variety, consistent brand colors, and CSV output format.",
+      "files": [],
+      "assertions": [
+        {"text": "Output is in CSV format with page_path, placement, prompt, alt_text columns", "type": "format_check"},
+        {"text": "Three distinct prompts with different poses/compositions (not repeated setups)", "type": "variety_check"},
+        {"text": "Camera angles vary across the set (not all the same angle)", "type": "variety_check"},
+        {"text": "All three use consistent brand color palette", "type": "consistency_check"},
+        {"text": "Each prompt has paired alt text under 125 chars", "type": "content_check"},
+        {"text": "At least one 'imperfect detail' per prompt (pushed-up sleeves, coffee cup, etc.)", "type": "content_check"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I want a hero image showing someone using our command center dashboard. They should be at a desk with the dashboard on screen. Make it feel real, not stock-photo-ish.",
+      "expected_output": "A prompt with explicit screen content description, natural device interaction, and candid pose.",
+      "files": [],
+      "assertions": [
+        {"text": "Screen content described spatially ('navigation bar across the top', 'cards below', etc.) not abstractly ('a dashboard')", "type": "content_check"},
+        {"text": "Person is mid-action (typing, looking at screen absorbed) not posed", "type": "anti_pattern_check"},
+        {"text": "Device interaction is natural (hands on keyboard, or leaning back reading)", "type": "anti_pattern_check"},
+        {"text": "Includes at least one imperfect/authentic detail", "type": "content_check"},
+        {"text": "Three-point lighting or equivalent photographic direction included", "type": "content_check"}
+      ]
+    }
+  ]
+}

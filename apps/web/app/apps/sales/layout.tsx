@@ -1,4 +1,4 @@
-import { requireAccess } from "@repo/auth/server";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -12,7 +12,7 @@ export default async function SalesLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAccess("sales");
+  await requireAppLayoutAccess("sales");
 
   return (
     <div className="min-h-screen">

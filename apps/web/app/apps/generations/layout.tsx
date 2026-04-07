@@ -1,4 +1,4 @@
-import { requireAccess } from "@repo/auth/server";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { GENERATIONS } from "./lib/generations";
@@ -8,7 +8,7 @@ export default async function GenerationsLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAccess("generations");
+  await requireAppLayoutAccess("generations");
 
   return (
     <div className="min-h-screen">
