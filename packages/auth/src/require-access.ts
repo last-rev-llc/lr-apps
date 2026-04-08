@@ -26,7 +26,11 @@ export async function requireAccess(
   const session = await auth0.getSession();
 
   if (!session?.user) {
-    redirect(`/login?redirect=${encodeURIComponent(appSlug)}`);
+    // Distinguish between no session and expired/invalid session
+    const errorParam = session ? "&error=session_expired" : "";
+    redirect(
+      `/login?redirect=${encodeURIComponent(appSlug)}${errorParam}`,
+    );
   }
 
   const userId = session.user.sub;
