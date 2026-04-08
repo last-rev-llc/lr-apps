@@ -47,39 +47,6 @@ const SKIP_PATTERNS = [
   /dist\//,
 ];
 
-// ── Detection Patterns ──
-
-// Hex colors: #xxx, #xxxx, #xxxxxx, #xxxxxxxx
-const HEX_COLOR_RE = /#[0-9a-fA-F]{3,8}\b/g;
-
-// RGB/RGBA values
-const RGB_RE = /rgba?\(\s*\d+/g;
-
-// OKLCH values (not in CSS var context)
-const OKLCH_RE = /oklch\([^)]+\)/g;
-
-// Tailwind hardcoded color classes (color-number pattern)
-// Matches: text-red-500, bg-blue-400/20, border-amber-500, from-cyan-500, to-purple-600, ring-slate-300, etc.
-const TW_COLOR_CLASS_RE = /\b(?:text|bg|border|from|to|via|ring|outline|accent|fill|stroke|shadow|divide|placeholder)-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-\d{2,3}(?:\/\d+)?\b/g;
-
-// Hardcoded shadow values in style objects
-const SHADOW_STYLE_RE = /boxShadow\s*:\s*["'`][^"'`]+["'`]/g;
-
-// Tailwind arbitrary shadow: shadow-[...]
-const TW_SHADOW_RE = /shadow-\[[^\]]+\]/g;
-
-// Hardcoded border-radius in style objects
-const RADIUS_STYLE_RE = /borderRadius\s*:\s*["'`]?[\d.]+(?:px|rem|em|%)["'`]?/g;
-
-// Tailwind arbitrary radius: rounded-[...]
-const TW_RADIUS_RE = /rounded-\[[^\]]+\]/g;
-
-// Hardcoded font-family in style objects
-const FONT_STYLE_RE = /fontFamily\s*:\s*["'`][^"'`]+["'`]/g;
-
-// Tailwind arbitrary font: font-[...]
-const TW_FONT_RE = /font-\[["'][^\]]+\]/g;
-
 // ── Helpers ──
 
 function globFiles(dir: string, extensions: string[]): string[] {
@@ -125,25 +92,6 @@ function deriveAppName(filePath: string): string {
     return `command-center/${parts[1]}`;
   }
   return parts[0];
-}
-
-function classifySeverity(
-  type: Violation["type"],
-  value: string,
-  context: string,
-): Violation["severity"] {
-  // High: inline hex/rgb/oklch in style objects or JSX attributes
-  if (type === "color") {
-    if (/style\s*=/.test(context) || /:\s*["'`]/.test(context)) return "high";
-    if (HEX_COLOR_RE.test(value) || RGB_RE.test(value) || OKLCH_RE.test(value)) return "high";
-    // Medium: Tailwind hardcoded color classes
-    if (TW_COLOR_CLASS_RE.test(value)) return "medium";
-  }
-  if (type === "shadow" || type === "radius" || type === "font") {
-    if (/style\s*=/.test(context)) return "high";
-    return "medium";
-  }
-  return "low";
 }
 
 // ── Scanner ──
