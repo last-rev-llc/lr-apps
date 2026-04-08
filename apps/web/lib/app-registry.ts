@@ -66,7 +66,7 @@ const apps: AppConfig[] = [
     features: {},
   },
 
-  // Standalone — minimal (public, no auth)
+  // Standalone — minimal (auth required)
   { slug: "dad-joke-of-the-day", name: "Dad Joke of the Day", subdomain: "dad-jokes", routeGroup: "apps/dad-joke-of-the-day", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "superstars", name: "Superstars", subdomain: "superstars", routeGroup: "apps/superstars", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "travel-collection", name: "Travel Collection", subdomain: "travel", routeGroup: "apps/travel-collection", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
