@@ -23,10 +23,15 @@ export async function proxy(request: NextRequest) {
     if (appParam) {
       const routePath = getRouteForSubdomain(appParam);
       if (routePath) {
+        const devPathname = request.nextUrl.pathname;
         const url = request.nextUrl.clone();
         url.searchParams.delete("app");
         url.pathname = `${routePath}${url.pathname}`;
-        const rewrite = NextResponse.rewrite(url, { request });
+        const devHeaders = new Headers(request.headers);
+        devHeaders.set("x-app-pathname", devPathname);
+        const rewrite = NextResponse.rewrite(url, {
+          request: { headers: devHeaders },
+        });
         return withAuth(rewrite);
       }
     }
@@ -48,9 +53,14 @@ export async function proxy(request: NextRequest) {
     );
   }
 
+  const originalPathname = request.nextUrl.pathname;
   const url = request.nextUrl.clone();
   url.pathname = `${routePath}${url.pathname}`;
-  const rewrite = NextResponse.rewrite(url, { request });
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-app-pathname", originalPathname);
+  const rewrite = NextResponse.rewrite(url, {
+    request: { headers: requestHeaders },
+  });
   return withAuth(rewrite);
 }
 

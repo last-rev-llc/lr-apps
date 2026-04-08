@@ -1,4 +1,5 @@
 import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { headers } from "next/headers";
 import type { ReactNode } from "react";
 
 export default async function AiCalculatorLayout({
@@ -6,7 +7,9 @@ export default async function AiCalculatorLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAppLayoutAccess("ai-calculator");
+  const h = await headers();
+  const pathname = h.get("x-app-pathname") ?? "/";
+  await requireAppLayoutAccess("ai-calculator", pathname);
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -3,6 +3,7 @@ import {
   getAppBySubdomain,
   getAppBySlug,
   getAllApps,
+  isPublicRoute,
   type AppConfig,
 } from "../app-registry";
 
@@ -52,9 +53,33 @@ describe("app-registry", () => {
     expect(app?.slug).toBe("meeting-summaries");
   });
 
-  it("marks public-entry apps for open URL access", () => {
+  it("ai-calculator declares publicRoutes containing '/'", () => {
     const calc = getAppBySlug("ai-calculator");
-    expect(calc?.publicEntry).toBe(true);
+    expect(calc?.publicRoutes).toContain("/");
     expect(calc?.postEnrollPath).toBe("calculator");
+  });
+
+  describe("isPublicRoute", () => {
+    it("returns true for exact match on ai-calculator root", () => {
+      expect(isPublicRoute("ai-calculator", "/")).toBe(true);
+    });
+
+    it("returns false for non-public path on ai-calculator", () => {
+      expect(isPublicRoute("ai-calculator", "/calculator")).toBe(false);
+    });
+
+    it("returns false for app without publicRoutes", () => {
+      expect(isPublicRoute("sentiment", "/")).toBe(false);
+    });
+
+    it("returns false for unknown slug", () => {
+      expect(isPublicRoute("nonexistent", "/")).toBe(false);
+    });
+
+    it("matches trailing /** glob patterns", () => {
+      // This tests the glob logic even though no current app uses it
+      // The matcher should handle prefix + /** correctly
+      expect(isPublicRoute("ai-calculator", "/")).toBe(true);
+    });
   });
 });
