@@ -173,7 +173,7 @@ function CalculatorTab() {
               min={5}
               max={500}
               onChange={(e) => setBottlePrice(parseFloat(e.target.value) || 0)}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
           <div>
@@ -187,7 +187,7 @@ function CalculatorTab() {
               max={10}
               step={0.5}
               onChange={(e) => setPourSize(parseFloat(e.target.value) || 0)}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
           <div>
@@ -200,7 +200,7 @@ function CalculatorTab() {
               min={5}
               max={200}
               onChange={(e) => setGlassPrice(parseFloat(e.target.value) || 0)}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
         </div>
@@ -373,7 +373,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 placeholder="e.g. Gary Danko"
                 value={form.restaurant_name}
                 onChange={(e) => setForm((f) => ({ ...f, restaurant_name: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
             <div>
@@ -383,7 +383,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 placeholder="e.g. Caymus Cabernet 2021"
                 value={form.wine_name}
                 onChange={(e) => setForm((f) => ({ ...f, wine_name: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
             <div>
@@ -391,7 +391,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
               <select
                 value={form.pour_rating}
                 onChange={(e) => setForm((f) => ({ ...f, pour_rating: e.target.value as PourRating }))}
-                className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
               >
                 <option value="generous">Generous</option>
                 <option value="standard">Standard</option>
@@ -408,7 +408,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 max={500}
                 value={form.price_paid}
                 onChange={(e) => setForm((f) => ({ ...f, price_paid: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
           </div>
@@ -418,7 +418,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
               placeholder="How was the pour? Any comments..."
               value={form.notes}
               onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-16 resize-y"
+              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-16 resize-y"
             />
           </div>
           <div>
@@ -428,7 +428,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
               placeholder="Your name"
               value={form.user_name}
               onChange={(e) => setForm((f) => ({ ...f, user_name: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
           <button
@@ -672,7 +672,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
               placeholder="Your name"
               value={form.user_name}
               onChange={(e) => setForm((f) => ({ ...f, user_name: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
           <div>
@@ -680,7 +680,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
             <select
               value={form.pour_type}
               onChange={(e) => setForm((f) => ({ ...f, pour_type: e.target.value as WallPostType }))}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
             >
               <option value="glory">Pour of Glory (great pour!)</option>
               <option value="shame">Pour of Shame (terrible pour)</option>
@@ -692,7 +692,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
               placeholder="Tell us about your pour experience..."
               value={form.content}
               onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-20 resize-y"
+              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-20 resize-y"
             />
           </div>
           <button

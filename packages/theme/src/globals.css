@@ -82,6 +82,23 @@
   border-radius: 24px;
 }
 
+@utility glass-header {
+  background-color: oklch(from var(--color-background) l c h / 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-surface-border);
+}
+
+@utility glass-input {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-glass);
+}
+
+@utility glass-overlay {
+  background: oklch(0% 0 0 / 0.6);
+  backdrop-filter: blur(4px);
+}
+
 /* ── Text utilities ── */
 @utility text-gradient {
   background: var(--gradient-accent);
@@ -144,4 +161,23 @@
 
 @utility animate-pulse-grow {
   animation: pulse-grow 2s infinite;
+}
+
+@utility animate-cc-pop {
+  animation: cc-es-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ── Shared keyframes used by inline components ── */
+@keyframes cc-es-pop {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes tw-blink {
+  50% { opacity: 0; }
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }

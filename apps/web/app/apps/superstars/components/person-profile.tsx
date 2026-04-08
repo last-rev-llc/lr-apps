@@ -147,7 +147,7 @@ function StatCard({
   accent: string;
 }) {
   return (
-    <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+    <div className="glass-sm p-4 text-center">
       <div className="text-2xl font-bold" style={{ color: accent }}>
         {value}
         {suffix}
@@ -351,7 +351,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
       <div className="max-w-4xl mx-auto px-4 pb-20">
         {/* Bio */}
         <div
-          className="rounded-2xl border border-white/10 bg-white/5 p-8 mb-12 text-white/85 text-base leading-relaxed"
+          className="glass-sm p-8 mb-12 text-white/85 text-base leading-relaxed"
           dangerouslySetInnerHTML={{ __html: person.bio }}
         />
 
@@ -398,7 +398,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
                     >
                       {t.icon}
                     </div>
-                    <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                    <div className="glass-sm p-4">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-xs font-mono" style={{ color: accent }}>
                           {t.year}
@@ -420,7 +420,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
             <SectionHeader>🎓 Education</SectionHeader>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
               {person.education.map((e, i) => (
-                <div key={i} className="rounded-xl border border-white/10 bg-white/5 p-5">
+                <div key={i} className="glass-sm p-5">
                   <div className="font-bold text-sm mb-1" style={{ color: accent }}>
                     {e.school}
                   </div>
@@ -443,7 +443,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
             <SectionHeader>🏆 Career Highlights</SectionHeader>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
               {person.careerHighlights.map((c, i) => (
-                <div key={i} className="rounded-xl border border-white/10 bg-white/5 p-5">
+                <div key={i} className="glass-sm p-5">
                   <div className="font-bold text-sm mb-1" style={{ color: accent }}>
                     {c.title}
                   </div>
@@ -472,7 +472,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
               {person.careerTeams.map((t, i) => (
                 <div
                   key={i}
-                  className="relative rounded-xl border border-white/10 bg-white/5 p-4 text-center overflow-hidden"
+                  className="relative glass-sm p-4 text-center overflow-hidden"
                 >
                   <div
                     className="absolute top-0 left-0 right-0 h-1 rounded-t-xl"
@@ -497,7 +497,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
               {person.internationalExhibitions.map((e, i) => (
                 <div
                   key={i}
-                  className="rounded-xl border border-white/10 bg-white/5 p-4 flex items-center gap-3"
+                  className="glass-sm p-4 flex items-center gap-3"
                 >
                   <div
                     className="font-mono font-bold text-xs min-w-[40px]"
@@ -521,7 +521,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
             <SectionHeader>🧤 Goalkeepers Developed</SectionHeader>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
               {person.coachingHighlights.map((c, i) => (
-                <div key={i} className="rounded-xl border border-white/10 bg-white/5 p-5">
+                <div key={i} className="glass-sm p-5">
                   <div className="font-bold text-sm mb-1" style={{ color: accent }}>
                     {c.player}
                   </div>
@@ -544,7 +544,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
                   href={a.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4 hover:translate-x-1 transition-transform duration-200 no-underline group"
+                  className="flex items-center gap-4 glass-sm p-4 hover:translate-x-1 transition-transform duration-200 no-underline group"
                 >
                   <span className="text-2xl shrink-0">📰</span>
                   <div>
@@ -569,7 +569,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
               {person.quotes.map((q, i) => (
                 <blockquote
                   key={i}
-                  className="rounded-xl border border-white/10 bg-white/5 p-6 relative"
+                  className="glass-sm p-6 relative"
                 >
                   <div
                     className="absolute top-4 left-5 text-4xl font-serif leading-none opacity-30"
@@ -629,7 +629,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
         </div>
       </div>
 
-      {/* CSS for animations */}
+      {/* CSS for dynamic animations (colors depend on person data) */}
       <style>{`
         @keyframes hero-glow {
           from { box-shadow: 0 0 40px ${accent}30, 0 0 80px ${primary}40; }
@@ -644,12 +644,8 @@ export function PersonProfile({ person }: PersonProfileProps) {
         .action-photo:hover {
           transform: rotate(0deg) scale(1.1) !important;
         }
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
         .animate-marquee {
-          animation: marquee 20s linear infinite;
+          animation: marquee-scroll 20s linear infinite;
         }
       `}</style>
     </>

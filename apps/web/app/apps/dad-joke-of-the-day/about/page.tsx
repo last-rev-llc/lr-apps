@@ -107,7 +107,7 @@ export default function DadJokeAboutPage() {
           {features.map((f) => (
             <Card
               key={f.title}
-              className="bg-white/5 border-white/10 backdrop-blur-sm"
+              className="glass-sm"
             >
               <CardContent className="p-5 space-y-2">
                 <div className={`text-2xl ${f.color}`}>{f.icon}</div>
@@ -188,7 +188,7 @@ export default function DadJokeAboutPage() {
           ].map((uc) => (
             <Card
               key={uc.title}
-              className="bg-white/5 border-white/10 backdrop-blur-sm"
+              className="glass-sm"
             >
               <CardContent className="p-5 space-y-2">
                 <div className={`text-2xl ${uc.color}`}>{uc.icon}</div>

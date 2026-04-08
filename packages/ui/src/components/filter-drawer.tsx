@@ -49,7 +49,7 @@ export function FilterDrawer({
       <div
         className={cn(
           "fixed inset-y-0 right-0 z-[1000] flex w-80 max-w-[90vw] flex-col",
-          "border-l border-white/10 bg-[#0a0e1a] shadow-[−4px_0_30px_rgba(0,0,0,0.5)]",
+          "border-l border-white/10 bg-[#0a0e1a] shadow-glass",
           "overflow-y-auto transition-transform duration-250 ease-[cubic-bezier(0.4,0,0.2,1)]",
           open ? "translate-x-0" : "translate-x-full",
           className,

@@ -32,7 +32,7 @@ export function Pricing({
       className={cn(
         "glass relative flex flex-col rounded-2xl border p-8 transition-transform hover:-translate-y-0.5",
         highlighted
-          ? "border-amber-400/60 shadow-[0_0_24px_rgba(245,158,11,0.15)]"
+          ? "border-amber-400/60 shadow-glow-accent-md"
           : "border-white/10",
         className,
       )}

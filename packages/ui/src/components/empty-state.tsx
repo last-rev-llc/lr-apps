@@ -18,7 +18,7 @@ export function EmptyState({ icon, title, description, action, className }: Empt
       )}
     >
       {icon && (
-        <div className="mb-3 text-4xl animate-[cc-es-pop_0.5s_cubic-bezier(0.34,1.56,0.64,1)_both]">
+        <div className="mb-3 text-4xl animate-cc-pop">
           {icon}
         </div>
       )}
