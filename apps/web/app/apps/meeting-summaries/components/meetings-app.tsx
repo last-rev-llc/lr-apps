@@ -38,9 +38,9 @@ function textOf(item: unknown): string {
 // ── Sentiment Badge ────────────────────────────────────────────────────────
 
 const SENTIMENT_STYLES: Record<Sentiment, string> = {
-  productive: "bg-green-500/12 text-green-400 border-green-500/20",
-  tense: "bg-red-500/12 text-red-400 border-red-500/20",
-  neutral: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
+  productive: "bg-green/12 text-green border-green/20",
+  tense: "bg-red/12 text-red border-red/20",
+  neutral: "bg-slate/12 text-muted-foreground border-slate/20",
 };
 
 function SentimentBadge({ sentiment }: { sentiment?: Sentiment }) {
@@ -66,7 +66,7 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
   const hasSummary = !!meeting.summary;
 
   return (
-    <Card className="mb-3 overflow-hidden glass border-surface-border hover:border-amber-500/30 transition-colors">
+    <Card className="mb-3 overflow-hidden glass border-surface-border hover:border-accent/30 transition-colors">
       {/* Header */}
       <button
         className="w-full flex items-center gap-2.5 px-4 py-3.5 text-left flex-wrap"
@@ -82,16 +82,16 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
         </span>
         <div className="flex flex-wrap gap-2 items-center">
           {meeting.client_id && (
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400">
+            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-accent/15 text-accent">
               {meeting.client_id}
             </span>
           )}
-          <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-blue-500/12 text-blue-400">
+          <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-blue/12 text-blue">
             ⏱️ {meeting.duration ?? 0}m
           </span>
           <SentimentBadge sentiment={meeting.sentiment} />
           {!hasSummary && (
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-red-500/12 text-red-400">
+            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-red/12 text-red">
               ⏳ pending
             </span>
           )}
@@ -116,7 +116,7 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
           {hasSummary ? (
             <div className="space-y-4">
               <div>
-                <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-1.5">
+                <div className="text-[11px] font-bold text-accent uppercase tracking-widest mb-1.5">
                   Summary
                 </div>
                 <p className="text-[13px] text-foreground leading-relaxed">
@@ -126,7 +126,7 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
 
               {decisions.length > 0 && (
                 <div>
-                  <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-1.5">
+                  <div className="text-[11px] font-bold text-accent uppercase tracking-widest mb-1.5">
                     Decisions
                   </div>
                   <ul className="space-y-0">
@@ -144,7 +144,7 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
 
               {actions.length > 0 && (
                 <div>
-                  <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-1.5">
+                  <div className="text-[11px] font-bold text-accent uppercase tracking-widest mb-1.5">
                     Action Items ({actions.length})
                   </div>
                   <ul className="space-y-0">
@@ -155,7 +155,7 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
                       >
                         {textOf(a)}
                         {a.owner && (
-                          <strong className="text-amber-400 ml-2">
+                          <strong className="text-accent ml-2">
                             — {a.owner}
                           </strong>
                         )}
@@ -167,14 +167,14 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
 
               {topics.length > 0 && (
                 <div>
-                  <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-1.5">
+                  <div className="text-[11px] font-bold text-accent uppercase tracking-widest mb-1.5">
                     Topics
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {topics.map((t, i) => (
                       <span
                         key={i}
-                        className="text-[11px] px-2 py-0.5 rounded bg-purple-500/12 text-purple-400"
+                        className="text-[11px] px-2 py-0.5 rounded bg-pill-0/12 text-pill-0"
                       >
                         {typeof t === "string" ? t : t.name}
                       </span>
@@ -198,9 +198,9 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
 // ── Action Items Tab ───────────────────────────────────────────────────────
 
 const PRIORITY_STYLES: Record<string, string> = {
-  high: "bg-red-500/15 text-red-400 border-red-500/20",
-  medium: "bg-amber-500/15 text-amber-400 border-amber-500/20",
-  low: "bg-green-500/15 text-green-400 border-green-500/20",
+  high: "bg-red/15 text-red border-red/20",
+  medium: "bg-accent/15 text-accent border-accent/20",
+  low: "bg-green/15 text-green border-green/20",
 };
 
 function ActionItemCard({
@@ -241,7 +241,7 @@ function ActionItemCard({
         </div>
         <div className="flex flex-wrap gap-2 items-center text-[12px] text-muted-foreground mb-3">
           {item.owner && (
-            <span className="px-2 py-0.5 rounded bg-amber-500/12 text-amber-400 font-semibold">
+            <span className="px-2 py-0.5 rounded bg-accent/12 text-accent font-semibold">
               👤 {item.owner}
             </span>
           )}
@@ -263,7 +263,7 @@ function ActionItemCard({
             </span>
           )}
           {item._clientId && (
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400">
+            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-accent/15 text-accent">
               {item._clientId}
             </span>
           )}
@@ -272,14 +272,14 @@ function ActionItemCard({
           <button
             onClick={handleCopyFollowup}
             disabled={done}
-            className="text-[12px] font-semibold px-3.5 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-amber-500/40 hover:bg-amber-500/8 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            className="text-[12px] font-semibold px-3.5 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-accent/40 hover:bg-accent/8 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {copied ? "📋 Copied" : "📧 Generate Follow-up"}
           </button>
           <button
             onClick={handleMarkDone}
             disabled={done}
-            className="text-[12px] font-semibold px-3.5 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-green-500/40 hover:bg-green-500/8 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            className="text-[12px] font-semibold px-3.5 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-green/40 hover:bg-green/8 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {done ? "✅" : "✅ Done"}
           </button>
@@ -397,7 +397,7 @@ export function MeetingsApp({ meetings }: MeetingsAppProps) {
             placeholder="Search meetings…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-amber-500/60"
+            className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/60"
           />
           <div className="flex gap-1">
             {[
@@ -411,8 +411,8 @@ export function MeetingsApp({ meetings }: MeetingsAppProps) {
                 onClick={() => setRangeFilter(r.value)}
                 className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
                   rangeFilter === r.value
-                    ? "bg-amber-500 text-black border-amber-500"
-                    : "border-surface-border text-muted-foreground hover:border-amber-500/40"
+                    ? "bg-accent text-black border-accent"
+                    : "border-surface-border text-muted-foreground hover:border-accent/40"
                 }`}
               >
                 {r.label}
@@ -441,7 +441,7 @@ export function MeetingsApp({ meetings }: MeetingsAppProps) {
             placeholder="Search action items…"
             value={actionSearch}
             onChange={(e) => setActionSearch(e.target.value)}
-            className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-amber-500/60"
+            className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/60"
           />
 
           {/* Status filter */}
@@ -452,8 +452,8 @@ export function MeetingsApp({ meetings }: MeetingsAppProps) {
                 onClick={() => setStatusFilter(s)}
                 className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
                   statusFilter === s
-                    ? "bg-amber-500 text-black border-amber-500"
-                    : "border-surface-border text-muted-foreground hover:border-amber-500/40"
+                    ? "bg-accent text-black border-accent"
+                    : "border-surface-border text-muted-foreground hover:border-accent/40"
                 }`}
               >
                 {s === "all" ? "All" : s === "open" ? "Open" : "Done"}
@@ -469,8 +469,8 @@ export function MeetingsApp({ meetings }: MeetingsAppProps) {
                 onClick={() => setPriorityFilter(p)}
                 className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
                   priorityFilter === p
-                    ? "bg-amber-500 text-black border-amber-500"
-                    : "border-surface-border text-muted-foreground hover:border-amber-500/40"
+                    ? "bg-accent text-black border-accent"
+                    : "border-surface-border text-muted-foreground hover:border-accent/40"
                 }`}
               >
                 {p === "all" ? "All" : p}

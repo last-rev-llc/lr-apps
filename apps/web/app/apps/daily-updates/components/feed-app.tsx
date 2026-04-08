@@ -166,8 +166,8 @@ function UpdateCard({
               onClick={() => onReact(update.id, emoji)}
               className={`text-sm px-2.5 py-1 rounded-full border transition-all hover:scale-110 ${
                 count > 0
-                  ? "border-amber-500/40 bg-amber-500/10"
-                  : "border-surface-border bg-surface-hover hover:border-amber-500/30"
+                  ? "border-accent/40 bg-accent/10"
+                  : "border-surface-border bg-surface-hover hover:border-accent/30"
               }`}
             >
               {emoji} {count > 0 && <span className="text-[11px]">{count}</span>}
@@ -290,7 +290,7 @@ export function FeedApp({
           onChange={(e) =>
             setFilters((f) => ({ ...f, search: e.target.value }))
           }
-          className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-amber-500/60"
+          className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/60"
         />
 
         {/* App filter */}
@@ -300,7 +300,7 @@ export function FeedApp({
             onChange={(e) =>
               setFilters((f) => ({ ...f, source_app: e.target.value }))
             }
-            className="bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-amber-500/60"
+            className="bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-accent/60"
           >
             <option value="all">All Apps</option>
             {sourceApps.map((a) => (
@@ -318,7 +318,7 @@ export function FeedApp({
             onChange={(e) =>
               setFilters((f) => ({ ...f, category: e.target.value }))
             }
-            className="bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-amber-500/60"
+            className="bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-accent/60"
           >
             <option value="all">All Categories</option>
             {categories.map((c) => (
@@ -338,7 +338,7 @@ export function FeedApp({
             onClick={() => setFilters((f) => ({ ...f, time_range: range }))}
             className={`text-sm px-4 py-1.5 rounded-full transition-colors ${
               filters.time_range === range
-                ? "bg-amber-500 text-black font-semibold"
+                ? "bg-accent text-black font-semibold"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
@@ -370,7 +370,7 @@ export function FeedApp({
               <button
                 onClick={loadMore}
                 disabled={loadingMore}
-                className="px-6 py-2.5 bg-surface border border-surface-border rounded-xl text-sm text-muted-foreground hover:text-foreground hover:border-amber-500/40 transition-colors disabled:opacity-50"
+                className="px-6 py-2.5 bg-surface border border-surface-border rounded-xl text-sm text-muted-foreground hover:text-foreground hover:border-accent/40 transition-colors disabled:opacity-50"
               >
                 {loadingMore ? "Loading…" : "Load more"}
               </button>

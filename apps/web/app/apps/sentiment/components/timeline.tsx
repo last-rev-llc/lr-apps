@@ -38,12 +38,12 @@ export function Timeline({ groups }: TimelineProps) {
                     {entry.work_summary}
                   </p>
                   {entry.highlights?.length > 0 && (
-                    <p className="text-xs text-green-400">
+                    <p className="text-xs text-green">
                       Highlights: {entry.highlights.join(", ")}
                     </p>
                   )}
                   {entry.blockers?.length > 0 && (
-                    <p className="text-xs text-red-400">
+                    <p className="text-xs text-red">
                       Blockers: {entry.blockers.join(", ")}
                     </p>
                   )}

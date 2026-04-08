@@ -28,15 +28,15 @@ function StatusBadge({ status }: { status: string }) {
   const variants: Record<string, { label: string; className: string }> = {
     up: {
       label: "🟢 Operational",
-      className: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
+      className: "bg-green/15 text-green border-green/30",
     },
     down: {
       label: "🔴 Down",
-      className: "bg-red-500/15 text-red-400 border-red-500/30",
+      className: "bg-red/15 text-red border-red/30",
     },
     degraded: {
       label: "🟡 Degraded",
-      className: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
+      className: "bg-yellow/15 text-yellow border-yellow/30",
     },
   };
   const v = variants[status] ?? variants.degraded;
@@ -55,10 +55,10 @@ function UptimeBars({ history }: { history: Array<{ date: string; status: string
 
   const barColor = (s: string) =>
     s === "up"
-      ? "bg-emerald-500"
+      ? "bg-green"
       : s === "down"
-        ? "bg-red-500"
-        : "bg-yellow-500";
+        ? "bg-red"
+        : "bg-yellow";
 
   return (
     <div className="flex gap-0.5 items-end h-8 mt-3">
@@ -99,11 +99,11 @@ export default async function UptimePage() {
 
       {/* Banner */}
       {issues.length === 0 ? (
-        <div className="rounded-xl px-6 py-4 text-center font-semibold text-base bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+        <div className="rounded-xl px-6 py-4 text-center font-semibold text-base bg-green/15 text-green border border-green/30">
           ✅ All Systems Operational
         </div>
       ) : (
-        <div className="rounded-xl px-6 py-4 text-center font-semibold text-base bg-red-500/15 text-red-400 border border-red-500/30">
+        <div className="rounded-xl px-6 py-4 text-center font-semibold text-base bg-red/15 text-red border border-red/30">
           ⚠️ {issues.length} System{issues.length > 1 ? "s" : ""} Experiencing Issues
         </div>
       )}

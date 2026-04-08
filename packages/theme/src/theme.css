@@ -79,10 +79,10 @@
   --color-brand-linkedin: #0a66c2;
   --color-brand-slack: #4a154b;
   --color-brand-slack-accent: #e01e5a;
-  --color-brand-jira: #0052CC;
-  --color-brand-zoom: #2D8CFF;
+  --color-brand-jira: #0052cc;
+  --color-brand-zoom: #2d8cff;
   --color-brand-github: #333333;
-  --color-brand-google: #4285F4;
+  --color-brand-google: #4285f4;
 
   /* ── Neon icon colors ── */
   --color-neon-amber: #f59e0b;
@@ -109,11 +109,11 @@
   --shadow-glass-sm: 0 4px 16px oklch(0% 0 0 / 0.2);
   --shadow-glass-hover: 0 8px 25px rgba(0, 0, 0, 0.4);
   --shadow-glow: 0 0 20px oklch(75.1% 0.159 62 / 0.3);
-  --shadow-glow-accent: 0 4px 12px rgba(245, 158, 11, 0.3);
-  --shadow-glow-accent-sm: 0 8px 32px rgba(245, 158, 11, 0.12);
+  --shadow-glow-accent: 0 4px 12px oklch(from var(--color-accent) l c h / 0.3);
+  --shadow-glow-accent-sm: 0 8px 32px oklch(from var(--color-accent) l c h / 0.12);
   --shadow-glass-hover-strong: 0 8px 32px oklch(0% 0 0 / 0.4);
-  --shadow-lightbox: 0 0 60px rgba(0, 0, 0, 0.5);
-  --shadow-glow-accent-md: 0 0 24px rgba(245, 158, 11, 0.15);
+  --shadow-lightbox: 0 0 60px oklch(0% 0 0 / 0.5);
+  --shadow-glow-accent-md: 0 0 24px oklch(from var(--color-accent) l c h / 0.15);
 
   /* ── Border radius ── */
   --radius-glass: 12px;

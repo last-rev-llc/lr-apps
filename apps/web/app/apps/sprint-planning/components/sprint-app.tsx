@@ -31,12 +31,12 @@ const STATUS_LABELS: Record<SprintStatus, string> = {
 };
 
 const STATUS_DOT_COLORS: Record<SprintStatus, string> = {
-  blocked: "bg-red-500",
-  "in-progress": "bg-amber-500",
-  "in-review": "bg-purple-500",
-  "not-started": "bg-gray-400",
-  discussion: "bg-blue-500",
-  done: "bg-green-500",
+  blocked: "bg-red",
+  "in-progress": "bg-accent",
+  "in-review": "bg-pill-0",
+  "not-started": "bg-slate",
+  discussion: "bg-blue",
+  done: "bg-green",
 };
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -62,9 +62,9 @@ function formatLastUpdated(iso: string) {
 function PriorityBadge({ priority }: { priority?: string }) {
   if (!priority) return null;
   const variants: Record<string, string> = {
-    high: "bg-red-500/15 text-red-400 border-red-500/20",
-    medium: "bg-amber-500/15 text-amber-400 border-amber-500/20",
-    low: "bg-green-500/15 text-green-400 border-green-500/20",
+    high: "bg-red/15 text-red border-red/20",
+    medium: "bg-accent/15 text-accent border-accent/20",
+    low: "bg-green/15 text-green border-green/20",
   };
   return (
     <span
@@ -90,8 +90,8 @@ function DueDateBadge({ dueDate }: { dueDate?: string }) {
     <span
       className={`inline-flex items-center text-[11px] font-semibold px-2 py-0.5 rounded ${
         isOverdue
-          ? "bg-red-500/12 text-red-400"
-          : "bg-amber-500/12 text-amber-400"
+          ? "bg-red/12 text-red"
+          : "bg-accent/12 text-accent"
       }`}
     >
       📅 {label}
@@ -120,7 +120,7 @@ function SourceLinks({ sources }: { sources?: SprintItem["sources"] }) {
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] text-amber-400 px-1.5 py-0.5 rounded bg-amber-500/8 hover:bg-amber-500/18 transition-colors"
+              className="text-[11px] text-accent px-1.5 py-0.5 rounded bg-accent/8 hover:bg-accent/18 transition-colors"
             >
               {icon} {label}
             </a>
@@ -129,7 +129,7 @@ function SourceLinks({ sources }: { sources?: SprintItem["sources"] }) {
         return (
           <span
             key={i}
-            className="text-[11px] text-amber-400 px-1.5 py-0.5 rounded bg-amber-500/8"
+            className="text-[11px] text-accent px-1.5 py-0.5 rounded bg-accent/8"
           >
             {icon} {label}
           </span>
@@ -150,7 +150,7 @@ function SprintItemRow({ item }: { item: SprintItem }) {
             href={jiraLink.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-amber-400 hover:underline"
+            className="text-accent hover:underline"
           >
             {item.title}
           </a>
@@ -224,7 +224,7 @@ function DoneSection({
         >
           ▶
         </span>
-        <span className="w-2 h-2 rounded-full bg-green-500" />
+        <span className="w-2 h-2 rounded-full bg-green" />
         {STATUS_LABELS.done}
         <span className="opacity-50">({items.length})</span>
       </button>
@@ -266,7 +266,7 @@ function ClientCard({
   return (
     <Card className="mb-6 overflow-hidden glass border-surface-border">
       {/* Header */}
-      <div className="flex items-center gap-2.5 px-4 py-3 bg-surface border-b-2 border-amber-500/60">
+      <div className="flex items-center gap-2.5 px-4 py-3 bg-surface border-b-2 border-accent/60">
         <span className="font-bold text-base text-foreground">{client.name}</span>
         <span className="text-[12px] text-muted-foreground">
           {totalItems} item{totalItems !== 1 ? "s" : ""}
@@ -274,10 +274,10 @@ function ClientCard({
         <div className="ml-auto flex gap-3 text-[11px] text-muted-foreground">
           <span>{outstandingCount} outstanding</span>
           {blockedCount > 0 && (
-            <span className="text-red-400">{blockedCount} blocked</span>
+            <span className="text-red">{blockedCount} blocked</span>
           )}
           {doneItems.length > 0 && (
-            <span className="text-green-400">{doneItems.length} done</span>
+            <span className="text-green">{doneItems.length} done</span>
           )}
         </div>
       </div>
@@ -286,7 +286,7 @@ function ClientCard({
       <div className="rounded-b-lg overflow-hidden bg-surface">
         {/* Outstanding section label */}
         {OUTSTANDING_ORDER.some((s) => byStatus[s]?.length) && (
-          <div className="px-4 py-2.5 text-[11px] font-bold text-amber-400 uppercase tracking-widest bg-amber-500/[0.04] border-b border-surface-border">
+          <div className="px-4 py-2.5 text-[11px] font-bold text-accent uppercase tracking-widest bg-accent/[0.04] border-b border-surface-border">
             📌 Outstanding &amp; Next Week
           </div>
         )}
@@ -323,9 +323,9 @@ function ClientCard({
 // ── Archives Tab ───────────────────────────────────────────────────────────
 
 const ARCHIVE_TYPE_COLORS: Record<ArchiveType, string> = {
-  digest: "bg-amber-500/15 text-amber-400",
-  overview: "bg-blue-500/15 text-blue-400",
-  weekly: "bg-purple-500/15 text-purple-400",
+  digest: "bg-accent/15 text-accent",
+  overview: "bg-blue/15 text-blue",
+  weekly: "bg-pill-0/15 text-pill-0",
 };
 
 const SERVICE_COLORS: Record<string, string> = {
@@ -345,7 +345,7 @@ function ArchiveCard({ record }: { record: ArchiveRecord }) {
     if (!arr?.length) return null;
     return (
       <div className="mt-3">
-        <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-1">
+        <div className="text-[11px] font-bold text-accent uppercase tracking-widest mb-1">
           {label}
         </div>
         {arr.map((item, i) => (
@@ -362,7 +362,7 @@ function ArchiveCard({ record }: { record: ArchiveRecord }) {
 
   return (
     <div
-      className="glass border border-surface-border rounded-lg p-4 mb-2.5 cursor-pointer hover:border-amber-500/40 transition-colors"
+      className="glass border border-surface-border rounded-lg p-4 mb-2.5 cursor-pointer hover:border-accent/40 transition-colors"
       onClick={() => setOpen((o) => !o)}
     >
       <div className="flex items-center gap-2 flex-wrap">
@@ -400,7 +400,7 @@ function ArchiveCard({ record }: { record: ArchiveRecord }) {
         <div className="mt-3 pt-3 border-t border-surface-border">
           {summary.length > 200 && (
             <div className="mb-3">
-              <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-1">
+              <div className="text-[11px] font-bold text-accent uppercase tracking-widest mb-1">
                 Full Summary
               </div>
               <p className="text-[13px] text-foreground leading-relaxed">
@@ -461,8 +461,8 @@ function ArchivesTab({ archives }: { archives: ArchiveRecord[] }) {
               onClick={() => setTypeFilter(t)}
               className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
                 typeFilter === t
-                  ? "bg-amber-500 text-black border-amber-500"
-                  : "border-surface-border text-muted-foreground hover:border-amber-500/40"
+                  ? "bg-accent text-black border-accent"
+                  : "border-surface-border text-muted-foreground hover:border-accent/40"
               }`}
             >
               {t === "all"
@@ -486,8 +486,8 @@ function ArchivesTab({ archives }: { archives: ArchiveRecord[] }) {
                   onClick={() => setServiceFilter(s)}
                   className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
                     serviceFilter === s
-                      ? "bg-amber-500 text-black border-amber-500"
-                      : "border-surface-border text-muted-foreground hover:border-amber-500/40"
+                      ? "bg-accent text-black border-accent"
+                      : "border-surface-border text-muted-foreground hover:border-accent/40"
                   }`}
                 >
                   {s === "all" ? "All" : s}
@@ -509,8 +509,8 @@ function ArchivesTab({ archives }: { archives: ArchiveRecord[] }) {
               onClick={() => setRangeFilter(r.value)}
               className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
                 rangeFilter === r.value
-                  ? "bg-amber-500 text-black border-amber-500"
-                  : "border-surface-border text-muted-foreground hover:border-amber-500/40"
+                  ? "bg-accent text-black border-accent"
+                  : "border-surface-border text-muted-foreground hover:border-accent/40"
               }`}
             >
               {r.label}
