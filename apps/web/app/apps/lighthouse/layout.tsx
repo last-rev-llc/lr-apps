@@ -17,5 +17,5 @@ export default async function LighthouseLayout({
 }) {
   await requireAppLayoutAccess("lighthouse");
 
-  return <>{children}</>;
+  return children;
 }
