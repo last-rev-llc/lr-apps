@@ -1,3 +1,4 @@
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import type { ReactNode } from "react";
 
 export const metadata = {
@@ -9,6 +10,12 @@ export const viewport = {
   themeColor: "#22c55e",
 };
 
-export default function Area52Layout({ children }: { children: ReactNode }) {
-  return <>{children}</>;
+export default async function Area52Layout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  await requireAppLayoutAccess("area-52");
+
+  return children;
 }
