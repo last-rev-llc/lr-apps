@@ -58,7 +58,7 @@ const EFFORT_COLORS: Record<string, string> = {
 };
 
 const SOURCE_COLORS: Record<string, string> = {
-  generated: "var(--color-pill-8)",
+  generated: "var(--color-pill-1)",
   community: "var(--color-pill-8)",
   manual: "var(--color-accent)",
 };

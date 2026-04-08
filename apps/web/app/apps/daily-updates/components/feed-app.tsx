@@ -10,12 +10,12 @@ const REACTIONS = ["🔥", "❤️", "👏", "💡", "😂"];
 
 const APP_NEON_COLORS: Record<string, string> = {
   "command-center": "var(--color-accent)",
-  "media-gallery": "var(--color-pill-8)",
+  "media-gallery": "var(--color-pill-0)",
   crm: "var(--color-blue)",
   travel: "var(--color-pill-7)",
   "daily-updates": "var(--color-green)",
   kanban: "var(--color-pill-4)",
-  accounts: "var(--color-pill-8)",
+  accounts: "var(--color-pill-1)",
   recipes: "var(--color-pill-6)",
   crons: "var(--color-pill-9)",
   prompts: "var(--color-pill-8)",
