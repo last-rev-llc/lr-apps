@@ -68,7 +68,7 @@ const apps: AppConfig[] = [
 
   // Standalone — minimal (public, no auth)
   { slug: "dad-joke-of-the-day", name: "Dad Joke of the Day", subdomain: "dad-jokes", routeGroup: "apps/dad-joke-of-the-day", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "superstars", name: "Superstars", subdomain: "superstars", routeGroup: "apps/superstars", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "superstars", name: "Superstars", subdomain: "superstars", routeGroup: "apps/superstars", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "travel-collection", name: "Travel Collection", subdomain: "travel", routeGroup: "apps/travel-collection", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "cringe-rizzler", name: "Cringe Rizzler", subdomain: "cringe", routeGroup: "apps/cringe-rizzler", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "proper-wine-pour", name: "Proper Wine Pour", subdomain: "wine", routeGroup: "apps/proper-wine-pour", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
