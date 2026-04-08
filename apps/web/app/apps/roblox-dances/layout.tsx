@@ -1,4 +1,6 @@
+import React from "react";
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 export const metadata = {
   title: "Roblox Dance Marketplace",
@@ -9,7 +11,8 @@ export const viewport = {
   themeColor: "#EC4899",
 };
 
-export default function RobloxDancesLayout({ children }: { children: ReactNode }) {
+export default async function RobloxDancesLayout({ children }: { children: ReactNode }) {
+  await requireAppLayoutAccess("roblox-dances");
   return (
     <div className="min-h-screen">
       <header className="border-b border-white/10 backdrop-blur-sm sticky top-0 z-10 bg-background/80">
