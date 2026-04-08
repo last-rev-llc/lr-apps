@@ -43,7 +43,7 @@ export function MediaCard({
       className={cn(
         "group overflow-hidden rounded-xl border border-white/10 bg-white/5",
         "transition-all duration-200",
-        "hover:-translate-y-1 hover:border-amber-500/50 hover:shadow-glow-accent-sm",
+        "hover:-translate-y-1 hover:border-accent/50 hover:shadow-glow-accent-sm",
         onClick && "cursor-pointer",
         className,
       )}

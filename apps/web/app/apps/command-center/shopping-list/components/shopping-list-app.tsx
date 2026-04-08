@@ -7,15 +7,15 @@ import type { ShoppingItem, ItemCategory } from "../lib/types";
 const CATEGORIES: ItemCategory[] = ["produce", "dairy", "meat", "bakery", "frozen", "pantry", "beverages", "household", "other"];
 
 const CATEGORY_STYLE: Record<ItemCategory, { icon: string; color: string }> = {
-  produce:    { icon: "🥦", color: "#4ade80" },
-  dairy:      { icon: "🥛", color: "#60a5fa" },
-  meat:       { icon: "🥩", color: "#f87171" },
-  bakery:     { icon: "🍞", color: "#fb923c" },
-  frozen:     { icon: "🧊", color: "#7dd8ff" },
-  pantry:     { icon: "🫙", color: "#fbbf24" },
-  beverages:  { icon: "🧃", color: "#a78bfa" },
-  household:  { icon: "🧹", color: "#94a3b8" },
-  other:      { icon: "📦", color: "#e2e8f0" },
+  produce:    { icon: "🥦", color: "var(--color-neon-green)" },
+  dairy:      { icon: "🥛", color: "var(--color-neon-blue)" },
+  meat:       { icon: "🥩", color: "var(--color-red)" },
+  bakery:     { icon: "🍞", color: "var(--color-orange)" },
+  frozen:     { icon: "🧊", color: "var(--color-blue)" },
+  pantry:     { icon: "🫙", color: "var(--color-accent-400)" },
+  beverages:  { icon: "🧃", color: "var(--color-neon-violet)" },
+  household:  { icon: "🧹", color: "var(--color-slate)" },
+  other:      { icon: "📦", color: "var(--color-slate-light)" },
 };
 
 const STORAGE_KEY = "cc-shopping-list";

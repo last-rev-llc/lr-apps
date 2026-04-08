@@ -23,10 +23,10 @@ import type { Recipe, ViewMode } from "../lib/types";
 const RECIPE_TYPES = ["All", "App", "Automation", "Skill", "Rule"] as const;
 
 const TYPE_COLORS: Record<string, { bg: string; text: string }> = {
-  App: { bg: "rgba(99,102,241,0.15)", text: "#818cf8" },
-  Automation: { bg: "rgba(16,185,129,0.15)", text: "#34d399" },
-  Skill: { bg: "rgba(245,158,11,0.15)", text: "#fbbf24" },
-  Rule: { bg: "rgba(239,68,68,0.15)", text: "#f87171" },
+  App: { bg: "color-mix(in srgb, var(--color-pill-8) 15%, transparent)", text: "var(--color-pill-8)" },
+  Automation: { bg: "color-mix(in srgb, var(--color-green) 15%, transparent)", text: "var(--color-green)" },
+  Skill: { bg: "color-mix(in srgb, var(--color-accent) 15%, transparent)", text: "var(--color-accent-400)" },
+  Rule: { bg: "color-mix(in srgb, var(--color-pill-4) 15%, transparent)", text: "var(--color-red)" },
 };
 
 // ── Component ────────────────────────────────────────────────────────────────
@@ -128,7 +128,7 @@ export function RecipesApp({ initialRecipes }: RecipesAppProps) {
           }
         }}
       >
-        <DialogContent className="max-w-2xl bg-[#12121e] border-white/15 text-white">
+        <DialogContent className="max-w-2xl bg-popover border-white/15 text-white">
           {selectedRecipe && (
             <>
               <DialogHeader>
@@ -162,8 +162,8 @@ function RecipeDetail({
   onCopy: () => void;
 }) {
   const typeStyle = TYPE_COLORS[recipe.type ?? ""] ?? {
-    bg: "rgba(100,116,139,0.15)",
-    text: "#94a3b8",
+    bg: "color-mix(in srgb, var(--color-slate) 15%, transparent)",
+    text: "var(--color-slate)",
   };
 
   return (
@@ -271,8 +271,8 @@ function RecipeCard({
   onOpen: (r: Recipe) => void;
 }) {
   const typeStyle = TYPE_COLORS[recipe.type ?? ""] ?? {
-    bg: "rgba(100,116,139,0.15)",
-    text: "#94a3b8",
+    bg: "color-mix(in srgb, var(--color-slate) 15%, transparent)",
+    text: "var(--color-slate)",
   };
 
   return (
@@ -339,8 +339,8 @@ function ListView({
     <div className="flex flex-col gap-2">
       {recipes.map((r) => {
         const typeStyle = TYPE_COLORS[r.type ?? ""] ?? {
-          bg: "rgba(100,116,139,0.15)",
-          text: "#94a3b8",
+          bg: "color-mix(in srgb, var(--color-slate) 15%, transparent)",
+          text: "var(--color-slate)",
         };
         return (
           <div

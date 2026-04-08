@@ -79,30 +79,30 @@ function inDateRange(
 // ── Pill ───────────────────────────────────────────────────────────────────
 
 const SOURCE_PILL: Record<string, string> = {
-  zoom: "bg-blue-500/12 text-blue-400 border-blue-500/20",
-  slack: "bg-purple-500/12 text-purple-400 border-purple-500/20",
-  jira: "bg-cyan-500/12 text-cyan-400 border-cyan-500/20",
+  zoom: "bg-blue/12 text-blue border-blue/20",
+  slack: "bg-pill-0/12 text-pill-0 border-pill-0/20",
+  jira: "bg-pill-7/12 text-pill-7 border-pill-7/20",
 };
 
 const TONE_PILL: Record<string, string> = {
-  positive: "bg-green-500/12 text-green-400 border-green-500/20",
-  neutral: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
-  negative: "bg-red-500/12 text-red-400 border-red-500/20",
+  positive: "bg-green/12 text-green border-green/20",
+  neutral: "bg-slate/12 text-muted-foreground border-slate/20",
+  negative: "bg-red/12 text-red border-red/20",
 };
 
 const PRIORITY_PILL: Record<string, string> = {
-  highest: "bg-red-500/12 text-red-400 border-red-500/20",
-  high: "bg-amber-500/12 text-amber-400 border-amber-500/20",
-  medium: "bg-blue-500/12 text-blue-400 border-blue-500/20",
-  low: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
-  lowest: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
+  highest: "bg-red/12 text-red border-red/20",
+  high: "bg-accent/12 text-accent border-accent/20",
+  medium: "bg-blue/12 text-blue border-blue/20",
+  low: "bg-slate/12 text-muted-foreground border-slate/20",
+  lowest: "bg-slate/12 text-muted-foreground border-slate/20",
 };
 
 const STATUS_PILL: Record<string, string> = {
-  done: "bg-green-500/12 text-green-400 border-green-500/20",
-  in_review: "bg-blue-500/12 text-blue-400 border-blue-500/20",
-  in_progress: "bg-amber-500/12 text-amber-400 border-amber-500/20",
-  to_do: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
+  done: "bg-green/12 text-green border-green/20",
+  in_review: "bg-blue/12 text-blue border-blue/20",
+  in_progress: "bg-accent/12 text-accent border-accent/20",
+  to_do: "bg-slate/12 text-muted-foreground border-slate/20",
 };
 
 function Pill({
@@ -130,7 +130,7 @@ function SummaryCard({ item }: { item: SummaryItem }) {
   const date = formatDayLabel(item.created_at);
 
   return (
-    <Card className="overflow-hidden glass border-surface-border hover:border-sky-500/30 transition-colors">
+    <Card className="overflow-hidden glass border-surface-border hover:border-blue/30 transition-colors">
       <button
         className="w-full flex items-start gap-2.5 px-4 py-3.5 text-left"
         onClick={() => setOpen((o) => !o)}
@@ -198,7 +198,7 @@ function SummaryCard({ item }: { item: SummaryItem }) {
         <div className="px-4 pb-4 border-t border-surface-border space-y-4">
           {/* Short summary */}
           <div>
-            <div className="text-[11px] font-bold text-sky-400 uppercase tracking-widest mt-3 mb-1.5">
+            <div className="text-[11px] font-bold text-blue uppercase tracking-widest mt-3 mb-1.5">
               Summary
             </div>
             <p className="text-[13px] text-foreground leading-relaxed">{short}</p>
@@ -207,7 +207,7 @@ function SummaryCard({ item }: { item: SummaryItem }) {
           {/* Long summary */}
           {item.long_summary && item.long_summary !== short && (
             <div>
-              <div className="text-[11px] font-bold text-sky-400 uppercase tracking-widest mb-1.5">
+              <div className="text-[11px] font-bold text-blue uppercase tracking-widest mb-1.5">
                 Full Summary
               </div>
               <p className="text-[13px] text-foreground leading-relaxed">
@@ -221,7 +221,7 @@ function SummaryCard({ item }: { item: SummaryItem }) {
             <>
               {item.action_items && item.action_items.length > 0 && (
                 <div>
-                  <div className="text-[11px] font-bold text-sky-400 uppercase tracking-widest mb-1.5">
+                  <div className="text-[11px] font-bold text-blue uppercase tracking-widest mb-1.5">
                     Action Items
                   </div>
                   <ul className="space-y-0">
@@ -238,7 +238,7 @@ function SummaryCard({ item }: { item: SummaryItem }) {
               )}
               {item.key_decisions && item.key_decisions.length > 0 && (
                 <div>
-                  <div className="text-[11px] font-bold text-sky-400 uppercase tracking-widest mb-1.5">
+                  <div className="text-[11px] font-bold text-blue uppercase tracking-widest mb-1.5">
                     Key Decisions
                   </div>
                   <ul className="space-y-0">
@@ -259,14 +259,14 @@ function SummaryCard({ item }: { item: SummaryItem }) {
           {/* Slack-specific: participants */}
           {item.source === "slack" && item.participants && item.participants.length > 0 && (
             <div>
-              <div className="text-[11px] font-bold text-sky-400 uppercase tracking-widest mb-1.5">
+              <div className="text-[11px] font-bold text-blue uppercase tracking-widest mb-1.5">
                 Participants
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {item.participants.map((p, i) => (
                   <span
                     key={i}
-                    className="text-[11px] px-2 py-0.5 rounded bg-purple-500/12 text-purple-400"
+                    className="text-[11px] px-2 py-0.5 rounded bg-pill-0/12 text-pill-0"
                   >
                     {p}
                   </span>
@@ -319,7 +319,7 @@ function GroupedList({ items }: { items: SummaryItem[] }) {
 // ── Filter bar ─────────────────────────────────────────────────────────────
 
 const inputCls =
-  "bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-sky-500/60";
+  "bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-blue/60";
 
 function DateRange({
   from,

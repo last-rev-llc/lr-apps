@@ -10,22 +10,22 @@ const STATUS_FILTERS: StatusFilter[] = ["All", "open", "merged", "closed"];
 
 const STATUS_STYLES: Record<PrStatus, { bg: string; text: string; border: string; dot: string }> = {
   open: {
-    bg: "rgba(34,197,94,0.12)",
-    text: "#4ade80",
-    border: "rgba(34,197,94,0.35)",
-    dot: "#4ade80",
+    bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",
+    text: "var(--color-neon-green)",
+    border: "color-mix(in srgb, var(--color-neon-green) 35%, transparent)",
+    dot: "var(--color-neon-green)",
   },
   merged: {
-    bg: "rgba(139,92,246,0.12)",
-    text: "#a78bfa",
-    border: "rgba(139,92,246,0.35)",
-    dot: "#a78bfa",
+    bg: "color-mix(in srgb, var(--color-neon-violet) 12%, transparent)",
+    text: "var(--color-neon-violet)",
+    border: "color-mix(in srgb, var(--color-neon-violet) 35%, transparent)",
+    dot: "var(--color-neon-violet)",
   },
   closed: {
-    bg: "rgba(239,68,68,0.12)",
-    text: "#f87171",
-    border: "rgba(239,68,68,0.35)",
-    dot: "#f87171",
+    bg: "color-mix(in srgb, var(--color-pill-4) 12%, transparent)",
+    text: "var(--color-red)",
+    border: "color-mix(in srgb, var(--color-pill-4) 35%, transparent)",
+    dot: "var(--color-red)",
   },
 };
 
@@ -43,12 +43,12 @@ function formatDate(iso?: string | null): string {
 // A simple label-color hash so each label gets a consistent tint
 function labelStyle(label: string): { background: string; color: string } {
   const PALETTES = [
-    { background: "rgba(59,130,246,0.15)", color: "#60a5fa" },
-    { background: "rgba(245,158,11,0.15)", color: "#fbbf24" },
-    { background: "rgba(139,92,246,0.15)", color: "#a78bfa" },
-    { background: "rgba(34,197,94,0.15)", color: "#4ade80" },
-    { background: "rgba(239,68,68,0.15)", color: "#f87171" },
-    { background: "rgba(20,184,166,0.15)", color: "#2dd4bf" },
+    { background: "color-mix(in srgb, var(--color-blue) 15%, transparent)", color: "var(--color-neon-blue)" },
+    { background: "color-mix(in srgb, var(--color-accent) 15%, transparent)", color: "var(--color-accent-400)" },
+    { background: "color-mix(in srgb, var(--color-neon-violet) 15%, transparent)", color: "var(--color-neon-violet)" },
+    { background: "color-mix(in srgb, var(--color-neon-green) 15%, transparent)", color: "var(--color-neon-green)" },
+    { background: "color-mix(in srgb, var(--color-pill-4) 15%, transparent)", color: "var(--color-red)" },
+    { background: "color-mix(in srgb, var(--color-pill-9) 15%, transparent)", color: "var(--color-pill-9)" },
   ];
   let hash = 0;
   for (let i = 0; i < label.length; i++) hash = (hash * 31 + label.charCodeAt(i)) & 0xffffff;

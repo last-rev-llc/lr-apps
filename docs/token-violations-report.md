@@ -2,20 +2,20 @@
 
 > Generated: 2026-04-08
 > Scanned: `apps/web/app/apps/` (27 apps)
-> Total violations: **1525**
+> Total violations: **943**
 
 ## Summary
 
 | Severity | Count |
 |----------|-------|
-| High (inline hex/rgb/oklch) | 593 |
-| Medium (Tailwind hardcoded colors) | 932 |
+| High (inline hex/rgb/oklch) | 261 |
+| Medium (Tailwind hardcoded colors) | 682 |
 | Low | 0 |
 
 | Violation Type | Count |
 |----------------|-------|
-| Color | 1512 |
-| Shadow | 10 |
+| Color | 931 |
+| Shadow | 9 |
 | Border Radius | 3 |
 | Font Family | 0 |
 
@@ -23,33 +23,33 @@
 
 | App | Total | Color | Shadow | Radius | Font | High | Medium | Low |
 |-----|-------|-------|--------|--------|------|------|--------|-----|
-| command-center | 560 | 559 | 1 | 0 | 0 | 309 | 251 | 0 |
+| command-center | 265 | 264 | 1 | 0 | 0 | 14 | 251 | 0 |
 | cringe-rizzler | 111 | 108 | 3 | 0 | 0 | 64 | 47 | 0 |
 | soccer-training | 72 | 72 | 0 | 0 | 0 | 1 | 71 | 0 |
 | hspt-tutor | 60 | 60 | 0 | 0 | 0 | 17 | 43 | 0 |
 | ai-calculator | 58 | 58 | 0 | 0 | 0 | 0 | 58 | 0 |
 | proper-wine-pour | 56 | 55 | 1 | 0 | 0 | 39 | 17 | 0 |
 | slang-translator | 56 | 55 | 1 | 0 | 0 | 21 | 35 | 0 |
-| sprint-planning | 54 | 54 | 0 | 0 | 0 | 5 | 49 | 0 |
 | roblox-dances | 53 | 53 | 0 | 0 | 0 | 1 | 52 | 0 |
-| meeting-summaries | 50 | 50 | 0 | 0 | 0 | 0 | 50 | 0 |
-| summaries | 50 | 50 | 0 | 0 | 0 | 0 | 50 | 0 |
-| accounts | 49 | 49 | 0 | 0 | 0 | 0 | 49 | 0 |
 | hspt-practice | 45 | 45 | 0 | 0 | 0 | 12 | 33 | 0 |
 | brommie-quake | 41 | 41 | 0 | 0 | 0 | 41 | 0 | 0 |
 | dad-joke-of-the-day | 35 | 35 | 0 | 0 | 0 | 1 | 34 | 0 |
-| sentiment | 30 | 28 | 0 | 2 | 0 | 20 | 10 | 0 |
 | generations | 24 | 23 | 1 | 0 | 0 | 13 | 11 | 0 |
-| daily-updates | 23 | 23 | 0 | 0 | 0 | 12 | 11 | 0 |
-| superstars | 23 | 22 | 1 | 0 | 0 | 23 | 0 | 0 |
+| superstars | 22 | 21 | 1 | 0 | 0 | 22 | 0 | 0 |
 | age-of-apes | 18 | 18 | 0 | 0 | 0 | 8 | 10 | 0 |
-| uptime | 18 | 18 | 0 | 0 | 0 | 0 | 18 | 0 |
 | alpha-wins | 16 | 14 | 1 | 1 | 0 | 2 | 14 | 0 |
-| standup | 12 | 12 | 0 | 0 | 0 | 0 | 12 | 0 |
-| travel-collection | 9 | 8 | 1 | 0 | 0 | 2 | 7 | 0 |
+| travel-collection | 7 | 7 | 0 | 0 | 0 | 1 | 6 | 0 |
+| sentiment | 2 | 0 | 0 | 2 | 0 | 2 | 0 | 0 |
 | area-52 | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 0 |
 | lighthouse | 1 | 1 | 0 | 0 | 0 | 1 | 0 | 0 |
+| accounts | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| daily-updates | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| meeting-summaries | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | sales | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sprint-planning | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| standup | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| summaries | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| uptime | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ## Available Theme Tokens
 
@@ -82,195 +82,13 @@ Use these tokens instead of hardcoded values. Defined in `packages/theme/src/the
 
 ## Per-App Violation Details
 
-### command-center (560 violations)
+### command-center (265 violations)
 
-**High severity** (309)
+**High severity** (14)
 
 | File | Line | Type | Value |
 |------|------|------|-------|
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 18 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 18 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 18 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 19 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 19 | color | `#f59e0b` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 19 | color | `rgba(245,158,11...)` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 20 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 20 | color | `#64748b` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 20 | color | `rgba(100,116,139...)` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 21 | color | `#f87171` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 21 | color | `#ef4444` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 21 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 79 | color | `#e2e8f0` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 80 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 81 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/agents/components/agents-app.tsx` | 82 | color | `#f87171` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 17 | color | `#60a5fa` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 17 | color | `rgba(59,130,246...)` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 18 | color | `#facc15` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 18 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 19 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 19 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 20 | color | `#c084fc` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 20 | color | `rgba(168,85,247...)` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 21 | color | `#fb923c` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 21 | color | `rgba(249,115,22...)` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 93 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx` | 93 | color | `rgba(100,116,139...)` |
-| `apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx` | 37 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx` | 37 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx` | 38 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx` | 38 | color | `#f59e0b` |
-| `apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx` | 39 | color | `#f87171` |
-| `apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx` | 39 | color | `#ef4444` |
-| `apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx` | 55 | color | `#a78bfa` |
-| `apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx` | 56 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx` | 57 | color | `#60a5fa` |
-| `apps/web/app/apps/command-center/app-access/components/app-access-app.tsx` | 8 | color | `#f87171` |
-| `apps/web/app/apps/command-center/app-access/components/app-access-app.tsx` | 8 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/app-access/components/app-access-app.tsx` | 9 | color | `#facc15` |
-| `apps/web/app/apps/command-center/app-access/components/app-access-app.tsx` | 9 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/app-access/components/app-access-app.tsx` | 10 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/app-access/components/app-access-app.tsx` | 10 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 10 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 10 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 10 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 10 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 11 | color | `#f87171` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 11 | color | `#f87171` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 11 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 11 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 12 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 12 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 12 | color | `rgba(245,158,11...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 12 | color | `rgba(245,158,11...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 37 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 38 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 39 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 40 | color | `#f87171` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 44 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 45 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 46 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 47 | color | `#f87171` |
 | `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 59 | shadow | `0 0 6px ${s.dot}80` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 74 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 76 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 77 | color | `rgba(245,158,11...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 79 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 81 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 82 | color | `rgba(245,158,11...)` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 83 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 83 | color | `#f87171` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 83 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 176 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/client-health/components/health-app.tsx` | 176 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/concerts/components/concerts-app.tsx` | 18 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/concerts/components/concerts-app.tsx` | 18 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/concerts/components/concerts-app.tsx` | 19 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/concerts/components/concerts-app.tsx` | 19 | color | `rgba(100,116,139...)` |
-| `apps/web/app/apps/command-center/concerts/components/concerts-app.tsx` | 20 | color | `#f87171` |
-| `apps/web/app/apps/command-center/concerts/components/concerts-app.tsx` | 20 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/concerts/components/concerts-app.tsx` | 21 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/concerts/components/concerts-app.tsx` | 21 | color | `rgba(245,158,11...)` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 13 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 13 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 14 | color | `#60a5fa` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 14 | color | `rgba(59,130,246...)` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 15 | color | `#facc15` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 15 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 16 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 16 | color | `rgba(100,116,139...)` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 65 | color | `#e2e8f0` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 66 | color | `#60a5fa` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 67 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 68 | color | `#f87171` |
-| `apps/web/app/apps/command-center/contentful/components/contentful-app.tsx` | 68 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 29 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 30 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 31 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 35 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 36 | color | `#f87171` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 37 | color | `#ef4444` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 41 | color | `rgba(245,158,11...)` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 42 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 43 | color | `#f59e0b` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 47 | color | `rgba(100,116,139...)` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 48 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 49 | color | `#64748b` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 55 | color | `rgba(100,116,139...)` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 56 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/crons/components/crons-app.tsx` | 57 | color | `#64748b` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 29 | color | `#3b82f6` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 29 | color | `rgba(59,130,246...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 30 | color | `#8b5cf6` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 30 | color | `rgba(139,92,246...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 31 | color | `#f59e0b` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 31 | color | `rgba(245,158,11...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 32 | color | `#22c55e` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 32 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 33 | color | `#ef4444` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 33 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 34 | color | `#facc15` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 34 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 51 | color | `rgba(113,113,122...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 51 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 105 | color | `rgba(113,113,122...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 106 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 145 | color | `rgba(113,113,122...)` |
-| `apps/web/app/apps/command-center/gallery/components/gallery-app.tsx` | 146 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 38 | color | `#a855f7` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 39 | color | `#14b8a6` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 40 | color | `#eab308` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 41 | color | `#3b82f6` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 42 | color | `#ec4899` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 43 | color | `#f97316` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 47 | color | `#3b82f6` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 48 | color | `#6b7280` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 49 | color | `#f97316` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 50 | color | `#22c55e` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 51 | color | `#6b7280` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 55 | color | `#22c55e` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 56 | color | `#eab308` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 57 | color | `#ef4444` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 61 | color | `#6366f1` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 62 | color | `#a855f7` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 63 | color | `#eab308` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 476 | color | `#1e1e2e` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 578 | color | `#6b7280` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 579 | color | `#6b7280` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 580 | color | `#6b7280` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 644 | color | `#3b82f6` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 649 | color | `#22c55e` |
-| `apps/web/app/apps/command-center/ideas/components/ideas-app.tsx` | 701 | color | `#6b7280` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 47 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 48 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 49 | color | `#f87171` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 50 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 53 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 53 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 54 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 54 | color | `#f59e0b` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 55 | color | `#f87171` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 55 | color | `#ef4444` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 75 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 75 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 76 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/iron/components/iron-app.tsx` | 76 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 42 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 43 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 44 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 48 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 49 | color | `#facc15` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 50 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 53 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 54 | color | `#f87171` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 55 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 313 | color | `#a78bfa` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 313 | color | `rgba(124,58,237...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 315 | color | `rgba(113,113,122...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 316 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 463 | color | `#facc15` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 463 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/leads/components/leads-app.tsx` | 487 | color | `#0a66c2` |
 | `apps/web/app/apps/command-center/meme-generator/components/meme-generator-app.tsx` | 15 | color | `#0d0d0d` |
 | `apps/web/app/apps/command-center/meme-generator/components/meme-generator-app.tsx` | 15 | color | `#ffffff` |
 | `apps/web/app/apps/command-center/meme-generator/components/meme-generator-app.tsx` | 16 | color | `#001a00` |
@@ -284,119 +102,6 @@ Use these tokens instead of hardcoded values. Defined in `packages/theme/src/the
 | `apps/web/app/apps/command-center/meme-generator/components/meme-generator-app.tsx` | 20 | color | `#ffffff` |
 | `apps/web/app/apps/command-center/meme-generator/components/meme-generator-app.tsx` | 20 | color | `#000000` |
 | `apps/web/app/apps/command-center/meme-generator/components/meme-generator-app.tsx` | 95 | color | `#000000` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 13 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 14 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 15 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 16 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 19 | color | `rgba(139,92,246...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 20 | color | `#a78bfa` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 21 | color | `rgba(139,92,246...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 22 | color | `#a78bfa` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 25 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 26 | color | `#f87171` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 27 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 28 | color | `#f87171` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 46 | color | `#60a5fa` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 46 | color | `rgba(59,130,246...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 47 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 47 | color | `rgba(245,158,11...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 48 | color | `#a78bfa` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 48 | color | `rgba(139,92,246...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 49 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 49 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 50 | color | `#f87171` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 50 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 51 | color | `#2dd4bf` |
-| `apps/web/app/apps/command-center/pr-review/components/pr-app.tsx` | 51 | color | `rgba(20,184,166...)` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 26 | color | `#818cf8` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 26 | color | `rgba(99,102,241...)` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 27 | color | `#34d399` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 27 | color | `rgba(16,185,129...)` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 28 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 28 | color | `rgba(245,158,11...)` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 29 | color | `#f87171` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 29 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 131 | color | `#12121e` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 165 | color | `rgba(100,116,139...)` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 166 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 274 | color | `rgba(100,116,139...)` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 275 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 342 | color | `rgba(100,116,139...)` |
-| `apps/web/app/apps/command-center/recipes/components/recipes-app.tsx` | 343 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx` | 10 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx` | 11 | color | `#60a5fa` |
-| `apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx` | 12 | color | `#f87171` |
-| `apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx` | 13 | color | `#fb923c` |
-| `apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx` | 14 | color | `#7dd8ff` |
-| `apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx` | 15 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx` | 16 | color | `#a78bfa` |
-| `apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx` | 17 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx` | 18 | color | `#e2e8f0` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 8 | color | `#f87171` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 8 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 9 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 9 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 10 | color | `#facc15` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 10 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 11 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 11 | color | `rgba(100,116,139...)` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 15 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 15 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 16 | color | `#fbbf24` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 16 | color | `#f59e0b` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 17 | color | `#94a3b8` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 17 | color | `#64748b` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 18 | color | `#f87171` |
-| `apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx` | 18 | color | `#ef4444` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 37 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 38 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 39 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 42 | color | `#facc15` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 43 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 44 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 47 | color | `#f87171` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 48 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 49 | color | `rgba(239,68,68...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 75 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 76 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 77 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 341 | color | `#0a66c2` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 342 | color | `#0a66c2` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 342 | color | `#0a66c2` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 375 | color | `#4a154b` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 376 | color | `#e01e5a` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 376 | color | `#e01e5a` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 505 | color | `rgba(124,58,237...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 506 | color | `#a78bfa` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 507 | color | `rgba(124,58,237...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 510 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 511 | color | `#4ade80` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 512 | color | `rgba(34,197,94...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 515 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 516 | color | `#facc15` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 517 | color | `rgba(234,179,8...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 520 | color | `rgba(14,165,233...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 521 | color | `#38bdf8` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 522 | color | `rgba(14,165,233...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 525 | color | `rgba(249,115,22...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 526 | color | `#fb923c` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 527 | color | `rgba(249,115,22...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 530 | color | `rgba(236,72,153...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 531 | color | `#f472b6` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 532 | color | `rgba(236,72,153...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 535 | color | `rgba(20,184,166...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 536 | color | `#2dd4bf` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 537 | color | `rgba(20,184,166...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 541 | color | `rgba(113,113,122...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 542 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/users/components/contact-detail.tsx` | 543 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/command-center/users/components/users-app.tsx` | 291 | color | `#0a66c2` |
-| `apps/web/app/apps/command-center/users/components/users-app.tsx` | 315 | color | `#e01e5a` |
-| `apps/web/app/apps/command-center/users/components/users-app.tsx` | 324 | color | `#a78bfa` |
-| `apps/web/app/apps/command-center/users/components/users-app.tsx` | 324 | color | `rgba(124,58,237...)` |
-| `apps/web/app/apps/command-center/users/components/users-app.tsx` | 373 | color | `rgba(124,58,237...)` |
-| `apps/web/app/apps/command-center/users/components/users-app.tsx` | 374 | color | `#a78bfa` |
-| `apps/web/app/apps/command-center/users/components/users-app.tsx` | 375 | color | `rgba(124,58,237...)` |
 
 **Medium severity** (251)
 
@@ -1134,72 +839,6 @@ Use these tokens instead of hardcoded values. Defined in `packages/theme/src/the
 | `apps/web/app/apps/slang-translator/components/slang-app.tsx` | 739 | color | `border-red-500` |
 | `apps/web/app/apps/slang-translator/components/slang-app.tsx` | 739 | color | `bg-red-500/15` |
 
-### sprint-planning (54 violations)
-
-**High severity** (5)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 332 | color | `#4A154B` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 333 | color | `#0052CC` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 334 | color | `#2D8CFF` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 335 | color | `#333` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 336 | color | `#4285F4` |
-
-**Medium severity** (49)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 34 | color | `bg-red-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 35 | color | `bg-amber-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 36 | color | `bg-purple-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 37 | color | `bg-gray-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 38 | color | `bg-blue-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 39 | color | `bg-green-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 65 | color | `bg-red-500/15` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 65 | color | `text-red-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 65 | color | `border-red-500/20` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 66 | color | `bg-amber-500/15` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 66 | color | `text-amber-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 66 | color | `border-amber-500/20` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 67 | color | `bg-green-500/15` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 67 | color | `text-green-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 67 | color | `border-green-500/20` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 93 | color | `bg-red-500/12` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 93 | color | `text-red-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 94 | color | `bg-amber-500/12` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 94 | color | `text-amber-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 123 | color | `text-amber-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 123 | color | `bg-amber-500/8` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 123 | color | `bg-amber-500/18` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 132 | color | `text-amber-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 132 | color | `bg-amber-500/8` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 153 | color | `text-amber-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 227 | color | `bg-green-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 269 | color | `border-amber-500/60` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 277 | color | `text-red-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 280 | color | `text-green-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 289 | color | `text-amber-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 289 | color | `bg-amber-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 326 | color | `bg-amber-500/15` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 326 | color | `text-amber-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 327 | color | `bg-blue-500/15` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 327 | color | `text-blue-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 328 | color | `bg-purple-500/15` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 328 | color | `text-purple-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 348 | color | `text-amber-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 365 | color | `border-amber-500/40` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 403 | color | `text-amber-400` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 464 | color | `bg-amber-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 464 | color | `border-amber-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 465 | color | `border-amber-500/40` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 489 | color | `bg-amber-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 489 | color | `border-amber-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 490 | color | `border-amber-500/40` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 512 | color | `bg-amber-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 512 | color | `border-amber-500` |
-| `apps/web/app/apps/sprint-planning/components/sprint-app.tsx` | 513 | color | `border-amber-500/40` |
-
 ### roblox-dances (53 violations)
 
 **High severity** (1)
@@ -1265,176 +904,6 @@ Use these tokens instead of hardcoded values. Defined in `packages/theme/src/the
 | `apps/web/app/apps/roblox-dances/layout.tsx` | 30 | color | `text-pink-400` |
 | `apps/web/app/apps/roblox-dances/page.tsx` | 15 | color | `text-pink-400` |
 
-### meeting-summaries (50 violations)
-
-**Medium severity** (50)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 41 | color | `bg-green-500/12` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 41 | color | `text-green-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 41 | color | `border-green-500/20` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 42 | color | `bg-red-500/12` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 42 | color | `text-red-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 42 | color | `border-red-500/20` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 43 | color | `bg-gray-500/12` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 43 | color | `border-gray-500/20` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 69 | color | `border-amber-500/30` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 85 | color | `bg-amber-500/15` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 85 | color | `text-amber-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 89 | color | `bg-blue-500/12` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 89 | color | `text-blue-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 94 | color | `bg-red-500/12` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 94 | color | `text-red-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 119 | color | `text-amber-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 129 | color | `text-amber-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 147 | color | `text-amber-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 158 | color | `text-amber-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 170 | color | `text-amber-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 177 | color | `bg-purple-500/12` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 177 | color | `text-purple-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 201 | color | `bg-red-500/15` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 201 | color | `text-red-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 201 | color | `border-red-500/20` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 202 | color | `bg-amber-500/15` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 202 | color | `text-amber-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 202 | color | `border-amber-500/20` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 203 | color | `bg-green-500/15` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 203 | color | `text-green-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 203 | color | `border-green-500/20` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 244 | color | `bg-amber-500/12` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 244 | color | `text-amber-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 266 | color | `bg-amber-500/15` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 266 | color | `text-amber-400` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 275 | color | `border-amber-500/40` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 275 | color | `bg-amber-500/8` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 282 | color | `border-green-500/40` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 282 | color | `bg-green-500/8` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 400 | color | `border-amber-500/60` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 414 | color | `bg-amber-500` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 414 | color | `border-amber-500` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 415 | color | `border-amber-500/40` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 444 | color | `border-amber-500/60` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 455 | color | `bg-amber-500` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 455 | color | `border-amber-500` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 456 | color | `border-amber-500/40` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 472 | color | `bg-amber-500` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 472 | color | `border-amber-500` |
-| `apps/web/app/apps/meeting-summaries/components/meetings-app.tsx` | 473 | color | `border-amber-500/40` |
-
-### summaries (50 violations)
-
-**Medium severity** (50)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 82 | color | `bg-blue-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 82 | color | `text-blue-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 82 | color | `border-blue-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 83 | color | `bg-purple-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 83 | color | `text-purple-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 83 | color | `border-purple-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 84 | color | `bg-cyan-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 84 | color | `text-cyan-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 84 | color | `border-cyan-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 88 | color | `bg-green-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 88 | color | `text-green-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 88 | color | `border-green-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 89 | color | `bg-gray-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 89 | color | `border-gray-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 90 | color | `bg-red-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 90 | color | `text-red-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 90 | color | `border-red-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 94 | color | `bg-red-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 94 | color | `text-red-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 94 | color | `border-red-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 95 | color | `bg-amber-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 95 | color | `text-amber-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 95 | color | `border-amber-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 96 | color | `bg-blue-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 96 | color | `text-blue-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 96 | color | `border-blue-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 97 | color | `bg-gray-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 97 | color | `border-gray-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 98 | color | `bg-gray-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 98 | color | `border-gray-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 102 | color | `bg-green-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 102 | color | `text-green-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 102 | color | `border-green-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 103 | color | `bg-blue-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 103 | color | `text-blue-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 103 | color | `border-blue-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 104 | color | `bg-amber-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 104 | color | `text-amber-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 104 | color | `border-amber-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 105 | color | `bg-gray-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 105 | color | `border-gray-500/20` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 133 | color | `border-sky-500/30` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 201 | color | `text-sky-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 210 | color | `text-sky-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 224 | color | `text-sky-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 241 | color | `text-sky-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 262 | color | `text-sky-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 269 | color | `bg-purple-500/12` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 269 | color | `text-purple-400` |
-| `apps/web/app/apps/summaries/components/summaries-app.tsx` | 322 | color | `border-sky-500/60` |
-
-### accounts (49 violations)
-
-**Medium severity** (49)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 42 | color | `text-sky-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 42 | color | `text-sky-300` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 62 | color | `bg-green-500/12` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 62 | color | `text-green-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 62 | color | `border-green-500/20` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 63 | color | `bg-amber-500/12` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 63 | color | `text-amber-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 63 | color | `border-amber-500/20` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 64 | color | `bg-red-500/12` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 64 | color | `text-red-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 64 | color | `border-red-500/20` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 65 | color | `bg-purple-500/12` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 65 | color | `text-purple-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 65 | color | `border-purple-500/20` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 66 | color | `bg-blue-500/12` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 66 | color | `text-blue-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 66 | color | `border-blue-500/20` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 67 | color | `bg-gray-500/12` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 67 | color | `border-gray-500/20` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 68 | color | `bg-cyan-500/12` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 68 | color | `text-cyan-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 68 | color | `border-cyan-500/20` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 143 | color | `border-teal-500/40` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 153 | color | `border-teal-500/40` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 163 | color | `border-teal-500/40` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 174 | color | `border-teal-500/40` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 187 | color | `text-green-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 203 | color | `text-amber-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 303 | color | `border-teal-500/30` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 303 | color | `bg-teal-500/5` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 317 | color | `text-sky-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 317 | color | `text-sky-300` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 327 | color | `text-sky-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 327 | color | `text-sky-300` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 347 | color | `text-amber-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 364 | color | `border-teal-500/40` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 392 | color | `text-sky-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 443 | color | `text-purple-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 455 | color | `text-blue-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 478 | color | `text-teal-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 529 | color | `bg-amber-500/8` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 529 | color | `border-amber-500/20` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 530 | color | `text-amber-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 531 | color | `text-amber-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 544 | color | `text-amber-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 706 | color | `border-teal-500/60` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 715 | color | `bg-teal-500/12` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 715 | color | `text-teal-400` |
-| `apps/web/app/apps/accounts/components/accounts-app.tsx` | 715 | color | `border-teal-500/20` |
-
 ### hspt-practice (45 violations)
 
 **High severity** (12)
@@ -1498,47 +967,47 @@ Use these tokens instead of hardcoded values. Defined in `packages/theme/src/the
 
 | File | Line | Type | Value |
 |------|------|------|-------|
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 74 | color | `rgba(206,15,45...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 98 | color | `rgba(206,15,45...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 123 | color | `rgba(212, 168, 67...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 133 | color | `rgba(212, 168, 67...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 147 | color | `rgba(255,255,255...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 148 | color | `rgba(255,255,255...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 185 | color | `rgba(206, 15, 45...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 199 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 200 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 251 | color | `rgba(212, 168, 67...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 265 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 275 | color | `#8B0000` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 275 | color | `rgba(206, 15, 45...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 275 | color | `rgba(206, 15, 45...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 291 | color | `rgba(255,100,50...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 310 | color | `rgba(255,255,255...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 337 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 348 | color | `#001428` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 362 | color | `rgba(255,255,255...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 411 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 426 | color | `#001428` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 426 | color | `#002952` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 432 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 433 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 451 | color | `#0a0a0a` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 458 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 459 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 475 | color | `rgba(212, 168, 67...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 481 | color | `rgba(255,255,255...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 488 | color | `#0a0a0a` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 488 | color | `#001428` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 507 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 508 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 533 | color | `rgba(255,255,255...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 573 | color | `rgba(0, 103, 177...)` |
+| `apps/web/app/apps/brommie-quake/brommie-quake.css` | 576 | color | `rgba(255,255,255...)` |
 | `apps/web/app/apps/brommie-quake/layout.tsx` | 9 | color | `#0067B1` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 84 | color | `#0067B1` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 84 | color | `#CE0F2D` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 84 | color | `#D4A843` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 84 | color | `#003DA5` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 219 | color | `rgba(206,15,45...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 243 | color | `rgba(206,15,45...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 268 | color | `rgba(212, 168, 67...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 278 | color | `rgba(212, 168, 67...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 292 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 293 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 330 | color | `rgba(206, 15, 45...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 344 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 345 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 396 | color | `rgba(212, 168, 67...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 410 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 420 | color | `#8B0000` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 420 | color | `rgba(206, 15, 45...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 420 | color | `rgba(206, 15, 45...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 436 | color | `rgba(255,100,50...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 455 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 482 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 493 | color | `#001428` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 507 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 556 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 571 | color | `#001428` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 571 | color | `#002952` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 577 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 578 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 596 | color | `#0a0a0a` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 603 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 604 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 620 | color | `rgba(212, 168, 67...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 626 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 633 | color | `#0a0a0a` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 633 | color | `#001428` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 652 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 653 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 678 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 718 | color | `rgba(0, 103, 177...)` |
-| `apps/web/app/apps/brommie-quake/page.tsx` | 721 | color | `rgba(255,255,255...)` |
+| `apps/web/app/apps/brommie-quake/page.tsx` | 85 | color | `#0067B1` |
+| `apps/web/app/apps/brommie-quake/page.tsx` | 85 | color | `#CE0F2D` |
+| `apps/web/app/apps/brommie-quake/page.tsx` | 85 | color | `#D4A843` |
+| `apps/web/app/apps/brommie-quake/page.tsx` | 85 | color | `#003DA5` |
 
 ### dad-joke-of-the-day (35 violations)
 
@@ -1587,48 +1056,6 @@ Use these tokens instead of hardcoded values. Defined in `packages/theme/src/the
 | `apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx` | 254 | color | `bg-blue-600` |
 | `apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx` | 254 | color | `bg-blue-500` |
 
-### sentiment (30 violations)
-
-**High severity** (20)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 15 | color | `#f59e0b` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 15 | color | `#3b82f6` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 15 | color | `#22c55e` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 15 | color | `#ef4444` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 15 | color | `#a855f7` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 15 | color | `#06b6d4` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 15 | color | `#ec4899` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 43 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 44 | color | `#9ca3af` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 45 | color | `#9ca3af` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 48 | color | `rgba(15, 22, 41...)` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 49 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 50 | radius | `8px` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 53 | color | `#f59e0b` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 77 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 78 | color | `#9ca3af` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 79 | color | `#9ca3af` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 82 | color | `rgba(15, 22, 41...)` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 83 | color | `rgba(255,255,255...)` |
-| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 84 | radius | `8px` |
-
-**Medium severity** (10)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/sentiment/components/mood-badge.tsx` | 4 | color | `bg-green-500/20` |
-| `apps/web/app/apps/sentiment/components/mood-badge.tsx` | 4 | color | `text-green-400` |
-| `apps/web/app/apps/sentiment/components/mood-badge.tsx` | 5 | color | `bg-purple-500/20` |
-| `apps/web/app/apps/sentiment/components/mood-badge.tsx` | 5 | color | `text-purple-400` |
-| `apps/web/app/apps/sentiment/components/mood-badge.tsx` | 7 | color | `bg-orange-500/20` |
-| `apps/web/app/apps/sentiment/components/mood-badge.tsx` | 7 | color | `text-orange-400` |
-| `apps/web/app/apps/sentiment/components/mood-badge.tsx` | 8 | color | `bg-red-500/20` |
-| `apps/web/app/apps/sentiment/components/mood-badge.tsx` | 8 | color | `text-red-400` |
-| `apps/web/app/apps/sentiment/components/timeline.tsx` | 41 | color | `text-green-400` |
-| `apps/web/app/apps/sentiment/components/timeline.tsx` | 46 | color | `text-red-400` |
-
 ### generations (24 violations)
 
 **High severity** (13)
@@ -1665,44 +1092,9 @@ Use these tokens instead of hardcoded values. Defined in `packages/theme/src/the
 | `apps/web/app/apps/generations/components/slang-quiz.tsx` | 191 | color | `bg-red-500/10` |
 | `apps/web/app/apps/generations/components/slang-quiz.tsx` | 191 | color | `text-red-400` |
 
-### daily-updates (23 violations)
+### superstars (22 violations)
 
-**High severity** (12)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 12 | color | `#f59e0b` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 13 | color | `#a855f7` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 14 | color | `#3b82f6` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 15 | color | `#06b6d4` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 16 | color | `#10b981` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 17 | color | `#ef4444` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 18 | color | `#6366f1` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 19 | color | `#ec4899` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 20 | color | `#14b8a6` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 21 | color | `#8b5cf6` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 22 | color | `#f97316` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 26 | color | `#f59e0b` |
-
-**Medium severity** (11)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/daily-updates/about/page.tsx` | 5 | color | `text-amber-400` |
-| `apps/web/app/apps/daily-updates/about/page.tsx` | 103 | color | `bg-amber-500` |
-| `apps/web/app/apps/daily-updates/about/page.tsx` | 103 | color | `bg-amber-400` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 169 | color | `border-amber-500/40` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 169 | color | `bg-amber-500/10` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 170 | color | `border-amber-500/30` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 293 | color | `border-amber-500/60` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 303 | color | `border-amber-500/60` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 321 | color | `border-amber-500/60` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 341 | color | `bg-amber-500` |
-| `apps/web/app/apps/daily-updates/components/feed-app.tsx` | 373 | color | `border-amber-500/40` |
-
-### superstars (23 violations)
-
-**High severity** (23)
+**High severity** (22)
 
 | File | Line | Type | Value |
 |------|------|------|-------|
@@ -1720,7 +1112,6 @@ Use these tokens instead of hardcoded values. Defined in `packages/theme/src/the
 | `apps/web/app/apps/superstars/components/person-profile.tsx` | 623 | color | `#FDBB30` |
 | `apps/web/app/apps/superstars/layout.tsx` | 12 | color | `#FDBB30` |
 | `apps/web/app/apps/superstars/layout.tsx` | 19 | color | `#0a0e1a` |
-| `apps/web/app/apps/superstars/layout.tsx` | 21 | color | `rgba(10,14,26...)` |
 | `apps/web/app/apps/superstars/layout.tsx` | 25 | color | `#FDBB30` |
 | `apps/web/app/apps/superstars/layout.tsx` | 37 | color | `#00543C` |
 | `apps/web/app/apps/superstars/layout.tsx` | 37 | color | `#FDBB30` |
@@ -1760,31 +1151,6 @@ Use these tokens instead of hardcoded values. Defined in `packages/theme/src/the
 | `apps/web/app/apps/age-of-apes/page.tsx` | 89 | color | `border-amber-500/40` |
 | `apps/web/app/apps/age-of-apes/page.tsx` | 89 | color | `text-amber-500` |
 
-### uptime (18 violations)
-
-**Medium severity** (18)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/uptime/page.tsx` | 31 | color | `bg-emerald-500/15` |
-| `apps/web/app/apps/uptime/page.tsx` | 31 | color | `text-emerald-400` |
-| `apps/web/app/apps/uptime/page.tsx` | 31 | color | `border-emerald-500/30` |
-| `apps/web/app/apps/uptime/page.tsx` | 35 | color | `bg-red-500/15` |
-| `apps/web/app/apps/uptime/page.tsx` | 35 | color | `text-red-400` |
-| `apps/web/app/apps/uptime/page.tsx` | 35 | color | `border-red-500/30` |
-| `apps/web/app/apps/uptime/page.tsx` | 39 | color | `bg-yellow-500/15` |
-| `apps/web/app/apps/uptime/page.tsx` | 39 | color | `text-yellow-400` |
-| `apps/web/app/apps/uptime/page.tsx` | 39 | color | `border-yellow-500/30` |
-| `apps/web/app/apps/uptime/page.tsx` | 58 | color | `bg-emerald-500` |
-| `apps/web/app/apps/uptime/page.tsx` | 60 | color | `bg-red-500` |
-| `apps/web/app/apps/uptime/page.tsx` | 61 | color | `bg-yellow-500` |
-| `apps/web/app/apps/uptime/page.tsx` | 102 | color | `bg-emerald-500/15` |
-| `apps/web/app/apps/uptime/page.tsx` | 102 | color | `text-emerald-400` |
-| `apps/web/app/apps/uptime/page.tsx` | 102 | color | `border-emerald-500/30` |
-| `apps/web/app/apps/uptime/page.tsx` | 106 | color | `bg-red-500/15` |
-| `apps/web/app/apps/uptime/page.tsx` | 106 | color | `text-red-400` |
-| `apps/web/app/apps/uptime/page.tsx` | 106 | color | `border-red-500/30` |
-
 ### alpha-wins (16 violations)
 
 **High severity** (2)
@@ -1813,45 +1179,33 @@ Use these tokens instead of hardcoded values. Defined in `packages/theme/src/the
 | `apps/web/app/apps/alpha-wins/components/wins-gallery.tsx` | 290 | color | `border-blue-500/30` |
 | `apps/web/app/apps/alpha-wins/components/wins-gallery.tsx` | 290 | color | `text-blue-400` |
 
-### standup (12 violations)
+### travel-collection (7 violations)
 
-**Medium severity** (12)
-
-| File | Line | Type | Value |
-|------|------|------|-------|
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 12 | color | `bg-purple-500/15` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 12 | color | `text-purple-400` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 12 | color | `border-purple-500/30` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 17 | color | `bg-slate-500/15` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 17 | color | `text-slate-300` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 17 | color | `border-slate-500/30` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 22 | color | `bg-blue-500/15` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 22 | color | `text-blue-400` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 22 | color | `border-blue-500/30` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 27 | color | `bg-sky-500/15` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 27 | color | `text-sky-400` |
-| `apps/web/app/apps/standup/components/standup-app.tsx` | 27 | color | `border-sky-500/30` |
-
-### travel-collection (9 violations)
-
-**High severity** (2)
+**High severity** (1)
 
 | File | Line | Type | Value |
 |------|------|------|-------|
-| `apps/web/app/apps/travel-collection/components/travel-app.tsx` | 171 | color | `oklch(0%_0_0/0.4)` |
 | `apps/web/app/apps/travel-collection/layout.tsx` | 11 | color | `#14B8A6` |
 
-**Medium severity** (7)
+**Medium severity** (6)
 
 | File | Line | Type | Value |
 |------|------|------|-------|
-| `apps/web/app/apps/travel-collection/components/travel-app.tsx` | 171 | shadow | `shadow-[0_8px_32px_oklch(0%_0_0/0.4)]` |
 | `apps/web/app/apps/travel-collection/components/travel-app.tsx` | 204 | color | `bg-green-500/20` |
 | `apps/web/app/apps/travel-collection/components/travel-app.tsx` | 204 | color | `text-green-400` |
 | `apps/web/app/apps/travel-collection/components/travel-app.tsx` | 204 | color | `border-green-500/30` |
 | `apps/web/app/apps/travel-collection/components/travel-app.tsx` | 271 | color | `bg-green-500/20` |
 | `apps/web/app/apps/travel-collection/components/travel-app.tsx` | 271 | color | `text-green-400` |
 | `apps/web/app/apps/travel-collection/components/travel-app.tsx` | 271 | color | `border-green-500/30` |
+
+### sentiment (2 violations)
+
+**High severity** (2)
+
+| File | Line | Type | Value |
+|------|------|------|-------|
+| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 50 | radius | `8px` |
+| `apps/web/app/apps/sentiment/components/sentiment-chart.tsx` | 84 | radius | `8px` |
 
 ### area-52 (1 violations)
 

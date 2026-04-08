@@ -15,10 +15,10 @@ const STATUS_FILTERS: Array<{ value: StatusFilter; label: string }> = [
 ];
 
 const STATUS_STYLE: Record<string, { bg: string; text: string }> = {
-  upcoming:  { bg: "rgba(34,197,94,0.12)",  text: "#4ade80" },
-  past:      { bg: "rgba(100,116,139,0.12)", text: "#94a3b8" },
-  cancelled: { bg: "rgba(239,68,68,0.12)",  text: "#f87171" },
-  tbd:       { bg: "rgba(245,158,11,0.12)", text: "#fbbf24" },
+  upcoming:  { bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",  text: "var(--color-neon-green)" },
+  past:      { bg: "color-mix(in srgb, var(--color-slate) 12%, transparent)", text: "var(--color-slate)" },
+  cancelled: { bg: "color-mix(in srgb, var(--color-pill-4) 12%, transparent)",  text: "var(--color-red)" },
+  tbd:       { bg: "color-mix(in srgb, var(--color-accent) 12%, transparent)", text: "var(--color-accent-400)" },
 };
 
 function formatDate(iso: string | null | undefined): string {

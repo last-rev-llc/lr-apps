@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import type { SentimentEntry } from "../lib/types";
 
-const COLORS = ["#f59e0b", "#3b82f6", "#22c55e", "#ef4444", "#a855f7", "#06b6d4", "#ec4899"];
+const COLORS = ["var(--color-accent)", "var(--color-blue)", "var(--color-pill-2)", "var(--color-pill-4)", "var(--color-pill-8)", "var(--color-pill-7)", "var(--color-pill-6)"];
 
 interface SentimentChartProps {
   entries: SentimentEntry[];
@@ -40,17 +40,17 @@ export function SentimentChart({ entries, selectedMember }: SentimentChartProps)
         <h3 className="text-sm font-medium mb-4">Sentiment Trend — {selectedMember}</h3>
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-            <XAxis dataKey="date" tick={{ fontSize: 11, fill: "#9ca3af" }} />
-            <YAxis domain={[0, 10]} tick={{ fontSize: 11, fill: "#9ca3af" }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-surface-border)" />
+            <XAxis dataKey="date" tick={{ fontSize: 11, fill: "var(--color-slate)" }} />
+            <YAxis domain={[0, 10]} tick={{ fontSize: 11, fill: "var(--color-slate)" }} />
             <Tooltip
               contentStyle={{
-                background: "rgba(15, 22, 41, 0.95)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                background: "color-mix(in srgb, var(--color-navy) 95%, transparent)",
+                border: "1px solid var(--color-surface-border)",
                 borderRadius: "8px",
               }}
             />
-            <Line type="monotone" dataKey="score" stroke="#f59e0b" strokeWidth={2} dot={{ r: 4 }} />
+            <Line type="monotone" dataKey="score" stroke="var(--color-accent)" strokeWidth={2} dot={{ r: 4 }} />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -74,13 +74,13 @@ export function SentimentChart({ entries, selectedMember }: SentimentChartProps)
       <h3 className="text-sm font-medium mb-4">Team Sentiment Trends</h3>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-          <XAxis dataKey="date" tick={{ fontSize: 11, fill: "#9ca3af" }} />
-          <YAxis domain={[0, 10]} tick={{ fontSize: 11, fill: "#9ca3af" }} />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--color-surface-border)" />
+          <XAxis dataKey="date" tick={{ fontSize: 11, fill: "var(--color-slate)" }} />
+          <YAxis domain={[0, 10]} tick={{ fontSize: 11, fill: "var(--color-slate)" }} />
           <Tooltip
             contentStyle={{
-              background: "rgba(15, 22, 41, 0.95)",
-              border: "1px solid rgba(255,255,255,0.1)",
+              background: "color-mix(in srgb, var(--color-navy) 95%, transparent)",
+              border: "1px solid var(--color-surface-border)",
               borderRadius: "8px",
             }}
           />

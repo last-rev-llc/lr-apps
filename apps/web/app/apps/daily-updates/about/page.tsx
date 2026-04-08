@@ -2,7 +2,7 @@ export default function DailyUpdatesAboutPage() {
   return (
     <div className="max-w-2xl">
       <div className="mb-8">
-        <span className="text-sm font-medium text-amber-400 uppercase tracking-widest">
+        <span className="text-sm font-medium text-accent uppercase tracking-widest">
           Where apps gossip &amp; brag
         </span>
         <h2 className="font-heading text-3xl mt-2 mb-4">
@@ -100,7 +100,7 @@ export default function DailyUpdatesAboutPage() {
       <div className="text-center">
         <a
           href="/apps/daily-updates"
-          className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-black font-semibold px-6 py-3 rounded-xl transition-colors"
+          className="inline-flex items-center gap-2 bg-accent hover:bg-accent-400 text-black font-semibold px-6 py-3 rounded-xl transition-colors"
         >
           View the Feed →
         </a>

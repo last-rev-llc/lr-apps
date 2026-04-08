@@ -44,15 +44,15 @@ const QUICK_ACTIONS = [
 
 const STATUS_STYLE = {
   deploy: {
-    ready:    { color: "#4ade80", label: "Ready" },
-    building: { color: "#fbbf24", label: "Building" },
-    error:    { color: "#f87171", label: "Error" },
-    unknown:  { color: "#94a3b8", label: "Unknown" },
+    ready:    { color: "var(--color-neon-green)", label: "Ready" },
+    building: { color: "var(--color-accent-400)", label: "Building" },
+    error:    { color: "var(--color-red)", label: "Error" },
+    unknown:  { color: "var(--color-slate)", label: "Unknown" },
   },
   infra: {
-    up:       { color: "#4ade80", dot: "#4ade80", label: "Up" },
-    degraded: { color: "#fbbf24", dot: "#f59e0b", label: "Degraded" },
-    down:     { color: "#f87171", dot: "#ef4444", label: "Down" },
+    up:       { color: "var(--color-neon-green)", dot: "var(--color-neon-green)", label: "Up" },
+    degraded: { color: "var(--color-accent-400)", dot: "var(--color-accent)", label: "Degraded" },
+    down:     { color: "var(--color-red)", dot: "var(--color-pill-4)", label: "Down" },
   },
 };
 
@@ -72,8 +72,8 @@ export function IronApp({}: IronAppProps) {
       <div
         className="rounded-xl p-4 flex items-center gap-3"
         style={{
-          background: allUp ? "rgba(34,197,94,0.08)" : "rgba(239,68,68,0.08)",
-          border: `1px solid ${allUp ? "rgba(34,197,94,0.25)" : "rgba(239,68,68,0.25)"}`,
+          background: allUp ? "color-mix(in srgb, var(--color-neon-green) 8%, transparent)" : "color-mix(in srgb, var(--color-pill-4) 8%, transparent)",
+          border: `1px solid ${allUp ? "color-mix(in srgb, var(--color-neon-green) 25%, transparent)" : "color-mix(in srgb, var(--color-pill-4) 25%, transparent)"}`,
         }}
       >
         <span className="text-2xl">{allUp ? "✅" : "⚠️"}</span>
