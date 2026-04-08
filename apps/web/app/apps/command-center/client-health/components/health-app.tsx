@@ -34,14 +34,14 @@ function sslDaysLeft(sslExpiry?: string | null): number | null {
 }
 
 function uptimeColor(uptime?: number | null): string {
-  if (uptime == null) return "var(--color-slate-light)";
+  if (uptime == null) return "color-mix(in srgb, white 30%, transparent)";
   if (uptime >= 99.5) return "var(--color-neon-green)";
   if (uptime >= 98) return "var(--color-accent-400)";
   return "var(--color-red)";
 }
 
 function responseTimeColor(ms?: number | null): string {
-  if (ms == null) return "var(--color-slate-light)";
+  if (ms == null) return "color-mix(in srgb, white 30%, transparent)";
   if (ms < 300) return "var(--color-neon-green)";
   if (ms < 800) return "var(--color-accent-400)";
   return "var(--color-red)";

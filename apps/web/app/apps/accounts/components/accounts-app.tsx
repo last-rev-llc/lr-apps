@@ -39,7 +39,7 @@ function extLink(url?: string | null, label?: string) {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[11px] text-blue hover:text-blue underline-offset-2 hover:underline"
+      className="text-[11px] text-blue hover:text-blue/80 underline-offset-2 hover:underline"
       title={label ?? url}
     >
       ↗
@@ -314,7 +314,7 @@ function ContactRow({ contact: c }: { contact: Contact }) {
       {c.email && (
         <a
           href={`mailto:${c.email}`}
-          className="text-blue hover:text-blue text-[12px]"
+          className="text-blue hover:text-blue/80 text-[12px]"
         >
           {c.email}
         </a>
@@ -324,7 +324,7 @@ function ContactRow({ contact: c }: { contact: Contact }) {
           href={c.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue hover:text-blue text-[12px]"
+          className="text-blue hover:text-blue/80 text-[12px]"
         >
           LinkedIn ↗
         </a>
