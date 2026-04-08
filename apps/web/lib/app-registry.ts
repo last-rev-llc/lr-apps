@@ -74,7 +74,7 @@ const apps: AppConfig[] = [
   { slug: "proper-wine-pour", name: "Proper Wine Pour", subdomain: "wine", routeGroup: "apps/proper-wine-pour", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "roblox-dances", name: "Roblox Dances", subdomain: "roblox", routeGroup: "apps/roblox-dances", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "alpha-wins", name: "Alpha Wins", subdomain: "alpha-wins", routeGroup: "apps/alpha-wins", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "soccer-training", name: "Soccer Training", subdomain: "soccer", routeGroup: "apps/soccer-training", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "soccer-training", name: "Soccer Training", subdomain: "soccer", routeGroup: "apps/soccer-training", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "hspt-practice", name: "HSPT Practice", subdomain: "hspt-practice", routeGroup: "apps/hspt-practice", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "hspt-tutor", name: "HSPT Tutor", subdomain: "hspt-tutor", routeGroup: "apps/hspt-tutor", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "area-52", name: "Area 52", subdomain: "area-52", routeGroup: "apps/area-52", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },

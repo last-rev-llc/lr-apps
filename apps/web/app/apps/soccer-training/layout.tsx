@@ -1,4 +1,6 @@
+import React from "react";
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 export const metadata = {
   title: "Soccer Training",
@@ -10,11 +12,13 @@ export const viewport = {
   themeColor: "#22c55e",
 };
 
-export default function SoccerTrainingLayout({
+export default async function SoccerTrainingLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  await requireAppLayoutAccess("soccer-training");
+
   return (
     <div className="min-h-screen">
       <header className="border-b border-white/10 backdrop-blur-sm sticky top-0 z-10 bg-background/80">
