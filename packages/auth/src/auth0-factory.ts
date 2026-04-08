@@ -1,6 +1,32 @@
 import { Auth0Client } from "@auth0/nextjs-auth0/server";
 import { NextResponse } from "next/server";
-import { maybeSelfEnrollAfterLogin } from "./self-enroll";
+import { maybeSelfEnrollAfterLogin, appSlugFromReturnTo } from "./self-enroll";
+
+const ALLOWED_RETURN_HOSTS = [
+  "apps.lastrev.com",
+  "apps.lastrev.localhost",
+];
+
+/**
+ * Validates that returnTo is a safe redirect target:
+ * - Relative paths (starting with `/`) are always allowed
+ * - Absolute URLs must be under a known app domain
+ * - Everything else is rejected (returns false)
+ */
+export function isSafeReturnTo(returnTo: string): boolean {
+  if (!returnTo) return false;
+  // Reject protocol-relative URLs like "//evil.com" which resolve to external domains
+  if (returnTo.startsWith("//")) return false;
+  if (returnTo.startsWith("/")) return true;
+  try {
+    const url = new URL(returnTo);
+    return ALLOWED_RETURN_HOSTS.some(
+      (d) => url.hostname === d || url.hostname.endsWith(`.${d}`),
+    );
+  } catch {
+    return false;
+  }
+}
 
 export type ProductAuth0Config = {
   clientId: string;
@@ -79,18 +105,39 @@ export function getAuth0ClientForHost(host: string): Auth0Client {
       if (error) {
         const u = new URL("/login", appBaseUrl);
         u.searchParams.set("error", error.message);
+        // Preserve the redirect param so the user can retry without losing their destination
+        const slug = appSlugFromReturnTo(ctx.returnTo);
+        if (slug) {
+          u.searchParams.set("redirect", slug);
+        }
         return NextResponse.redirect(u);
       }
 
-      if (session?.user?.sub) {
-        try {
-          await maybeSelfEnrollAfterLogin(session.user.sub, ctx.returnTo);
-        } catch (e) {
-          console.error("[auth] self-enroll skipped:", e);
+      // Handle expired/invalid session: redirect to login with session_expired error
+      if (!session?.user?.sub) {
+        const u = new URL("/login", appBaseUrl);
+        u.searchParams.set("error", "session_expired");
+        const slug = appSlugFromReturnTo(ctx.returnTo);
+        if (slug) {
+          u.searchParams.set("redirect", slug);
         }
+        return NextResponse.redirect(u);
       }
 
-      const target = ctx.returnTo || "/my-apps";
+      try {
+        await maybeSelfEnrollAfterLogin(session.user.sub, ctx.returnTo);
+      } catch (e) {
+        console.error("[auth] self-enroll skipped:", e);
+      }
+
+      // Validate returnTo to prevent open-redirect
+      const rawTarget = ctx.returnTo || "/my-apps";
+      const target = isSafeReturnTo(rawTarget) ? rawTarget : "/my-apps";
+      if (target !== rawTarget) {
+        console.warn(
+          `[auth] rejected unsafe returnTo "${rawTarget}", redirecting to /my-apps`,
+        );
+      }
       return NextResponse.redirect(new URL(target, appBaseUrl));
     },
   });

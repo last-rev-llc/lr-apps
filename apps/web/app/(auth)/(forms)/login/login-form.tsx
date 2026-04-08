@@ -5,9 +5,11 @@ import { Button } from "@repo/ui";
 export function LoginForm({
   loginHref,
   error,
+  redirectSlug,
 }: {
   loginHref: string;
   error?: string;
+  redirectSlug?: string;
 }) {
   return (
     <div>
@@ -22,7 +24,9 @@ export function LoginForm({
         <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md mb-4">
           {error === "forbidden"
             ? "You do not have access to that app."
-            : error}
+            : error === "session_expired"
+              ? "Your session expired — please sign in again."
+              : error}
         </div>
       )}
 
@@ -32,7 +36,10 @@ export function LoginForm({
 
       <p className="text-sm text-muted-foreground text-center mt-6">
         New here?{" "}
-        <a href="/signup" className="text-accent hover:underline">
+        <a
+          href={redirectSlug ? `/signup?redirect=${encodeURIComponent(redirectSlug)}` : "/signup"}
+          className="text-accent hover:underline"
+        >
           Create an account
         </a>
       </p>
