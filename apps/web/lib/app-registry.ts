@@ -71,7 +71,7 @@ const apps: AppConfig[] = [
   { slug: "superstars", name: "Superstars", subdomain: "superstars", routeGroup: "apps/superstars", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "travel-collection", name: "Travel Collection", subdomain: "travel", routeGroup: "apps/travel-collection", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "cringe-rizzler", name: "Cringe Rizzler", subdomain: "cringe", routeGroup: "apps/cringe-rizzler", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "proper-wine-pour", name: "Proper Wine Pour", subdomain: "wine", routeGroup: "apps/proper-wine-pour", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "proper-wine-pour", name: "Proper Wine Pour", subdomain: "wine", routeGroup: "apps/proper-wine-pour", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "roblox-dances", name: "Roblox Dances", subdomain: "roblox", routeGroup: "apps/roblox-dances", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "alpha-wins", name: "Alpha Wins", subdomain: "alpha-wins", routeGroup: "apps/alpha-wins", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "soccer-training", name: "Soccer Training", subdomain: "soccer", routeGroup: "apps/soccer-training", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
