@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import { CALCULATORS } from "./lib/calculators";
 
 export const metadata = {
@@ -12,7 +13,8 @@ export const viewport = {
   themeColor: "#F59E0B",
 };
 
-export default function AgeOfApesLayout({ children }: { children: ReactNode }) {
+export default async function AgeOfApesLayout({ children }: { children: ReactNode }) {
+  await requireAppLayoutAccess("age-of-apes");
   return (
     <div className="min-h-screen">
       {/* Sticky header */}
