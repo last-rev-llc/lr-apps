@@ -18,7 +18,7 @@ export default function TravelCollectionLayout({
 }) {
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-50 border-b border-surface-border backdrop-blur-md bg-background/85">
+      <header className="glass-header sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link
             href="/apps/travel-collection"

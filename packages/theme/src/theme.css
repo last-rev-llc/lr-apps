@@ -96,6 +96,10 @@
   --shadow-glass-hover: 0 8px 25px rgba(0, 0, 0, 0.4);
   --shadow-glow: 0 0 20px oklch(75.1% 0.159 62 / 0.3);
   --shadow-glow-accent: 0 4px 12px rgba(245, 158, 11, 0.3);
+  --shadow-glow-accent-sm: 0 8px 32px rgba(245, 158, 11, 0.12);
+  --shadow-glass-hover-strong: 0 8px 32px oklch(0% 0 0 / 0.4);
+  --shadow-lightbox: 0 0 60px rgba(0, 0, 0, 0.5);
+  --shadow-glow-accent-md: 0 0 24px rgba(245, 158, 11, 0.15);
 
   /* ── Border radius ── */
   --radius-glass: 12px;

@@ -117,7 +117,7 @@ function PhraseTab() {
   return (
     <div className="max-w-2xl mx-auto space-y-5">
       {/* Result card */}
-      <Card className="border-pink-500/20 bg-white/5 backdrop-blur-sm">
+      <Card className="border-pink-500/20 glass-sm">
         <CardContent className="p-6 text-center min-h-[180px] flex flex-col items-center justify-center">
           {isPending ? (
             <div className="space-y-3">
@@ -391,7 +391,7 @@ function MemeTab() {
       )}
 
       {!isPending && meme && (
-        <Card className="border-violet-500/20 bg-white/5 backdrop-blur-sm">
+        <Card className="border-violet-500/20 glass-sm">
           <CardContent className="p-5 space-y-4">
             {/* Caption display */}
             <div className="text-center space-y-1">

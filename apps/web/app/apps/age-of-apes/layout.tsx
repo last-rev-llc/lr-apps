@@ -16,7 +16,7 @@ export default function AgeOfApesLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen">
       {/* Sticky header */}
-      <header className="sticky top-0 z-50 border-b border-surface-border backdrop-blur-md bg-surface-bg/85">
+      <header className="glass-header sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 min-w-0">
             <Link

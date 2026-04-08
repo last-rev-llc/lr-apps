@@ -171,7 +171,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
       </div>
 
       {/* Joke card */}
-      <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+      <Card className="glass-sm">
         <CardContent className="p-8 text-center space-y-6">
           {/* Mode badge */}
           <div>

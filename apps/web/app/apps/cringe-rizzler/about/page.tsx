@@ -136,7 +136,7 @@ export default function CringeRizzlerAboutPage() {
           {FEATURES.map((f) => (
             <div
               key={f.title}
-              className="p-5 rounded-2xl border border-white/8 bg-white/5 backdrop-blur-sm space-y-3 hover:bg-white/8 transition-all"
+              className="glass-sm p-5 space-y-3 hover:bg-white/8 transition-all"
             >
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
@@ -168,7 +168,7 @@ export default function CringeRizzlerAboutPage() {
           {STEPS.map((step, i) => (
             <div
               key={step.num}
-              className="flex gap-5 p-5 rounded-2xl border border-white/8 bg-white/5 backdrop-blur-sm"
+              className="glass-sm flex gap-5 p-5"
             >
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg shrink-0"

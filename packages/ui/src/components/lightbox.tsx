@@ -72,7 +72,7 @@ export function Lightbox({
         onClick={(e) => e.stopPropagation()}
         className={cn(
           "max-h-[90vh] max-w-[90vw] cursor-default rounded-lg",
-          "shadow-[0_0_60px_rgba(0,0,0,0.5)]",
+          "shadow-lightbox",
           "animate-in zoom-in-90 duration-300",
         )}
       />

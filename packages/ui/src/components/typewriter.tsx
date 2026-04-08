@@ -121,9 +121,6 @@ export function Typewriter({
           }}
         />
       )}
-      {showCursor && (
-        <style>{`@keyframes tw-blink { 50% { opacity: 0; } }`}</style>
-      )}
     </span>
   );
 }

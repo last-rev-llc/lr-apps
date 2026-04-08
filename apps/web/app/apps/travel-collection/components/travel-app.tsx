@@ -168,7 +168,7 @@ function PropertyCard({
     <button
       type="button"
       onClick={onClick}
-      className="text-left w-full rounded-2xl overflow-hidden border border-surface-border bg-surface backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_32px_oklch(0%_0_0/0.4)] hover:border-accent cursor-pointer group"
+      className="text-left w-full rounded-2xl overflow-hidden border border-surface-border bg-surface backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-glass-hover-strong hover:border-accent cursor-pointer group"
     >
       {/* Photo */}
       <div className="w-full h-48 overflow-hidden bg-surface flex items-center justify-center text-5xl">
