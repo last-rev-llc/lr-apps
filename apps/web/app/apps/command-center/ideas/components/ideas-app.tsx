@@ -35,32 +35,32 @@ const CATEGORIES: IdeaCategory[] = [
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Product: "#a855f7",
-  Content: "#14b8a6",
-  Business: "#eab308",
-  Technical: "#3b82f6",
-  Creative: "#ec4899",
-  Skills: "#f97316",
+  Product: "var(--color-pill-8)",
+  Content: "var(--color-pill-9)",
+  Business: "var(--color-accent)",
+  Technical: "var(--color-blue)",
+  Creative: "var(--color-pill-6)",
+  Skills: "var(--color-orange)",
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  new: "#3b82f6",
-  backlog: "#6b7280",
-  "in-progress": "#f97316",
-  completed: "#22c55e",
-  archived: "#6b7280",
+  new: "var(--color-blue)",
+  backlog: "var(--color-slate-dim)",
+  "in-progress": "var(--color-orange)",
+  completed: "var(--color-pill-2)",
+  archived: "var(--color-slate-dim)",
 };
 
 const EFFORT_COLORS: Record<string, string> = {
-  Low: "#22c55e",
-  Medium: "#eab308",
-  High: "#ef4444",
+  Low: "var(--color-pill-2)",
+  Medium: "var(--color-accent)",
+  High: "var(--color-pill-4)",
 };
 
 const SOURCE_COLORS: Record<string, string> = {
-  generated: "#6366f1",
-  community: "#a855f7",
-  manual: "#eab308",
+  generated: "var(--color-pill-8)",
+  community: "var(--color-pill-8)",
+  manual: "var(--color-accent)",
 };
 
 const QUICK_FILTERS: Array<{
@@ -473,7 +473,7 @@ function CardActions({
           ⏰
         </button>
         {snoozeMenuId === idea.id && (
-          <div className="absolute bottom-full right-0 z-50 mb-1 rounded-xl border border-white/15 bg-[#1e1e2e] p-1 shadow-xl min-w-[110px]">
+          <div className="absolute bottom-full right-0 z-50 mb-1 rounded-xl border border-white/15 bg-popover p-1 shadow-xl min-w-[110px]">
             {snoozed && (
               <button
                 onClick={() => onSnooze(idea.id, "show")}
@@ -575,9 +575,9 @@ function IdeaCard({
 }: {
   idea: Idea;
 } & Omit<ViewProps, "ideas">) {
-  const catColor = CATEGORY_COLORS[idea.category] ?? "#6b7280";
-  const effortColor = EFFORT_COLORS[idea.effort ?? ""] ?? "#6b7280";
-  const statusColor = STATUS_COLORS[idea.status] ?? "#6b7280";
+  const catColor = CATEGORY_COLORS[idea.category] ?? "var(--color-slate-dim)";
+  const effortColor = EFFORT_COLORS[idea.effort ?? ""] ?? "var(--color-slate-dim)";
+  const statusColor = STATUS_COLORS[idea.status] ?? "var(--color-slate-dim)";
   const snoozed = isSnoozed(idea);
 
   return (
@@ -641,12 +641,12 @@ function IdeaCard({
         {(idea.impact || idea.feasibility) && (
           <div className="flex gap-3">
             {idea.impact != null && (
-              <BarTrack value={idea.impact} color="#3b82f6" label="Impact" />
+              <BarTrack value={idea.impact} color="var(--color-blue)" label="Impact" />
             )}
             {idea.feasibility != null && (
               <BarTrack
                 value={idea.feasibility}
-                color="#22c55e"
+                color="var(--color-pill-2)"
                 label="Feas."
               />
             )}
@@ -698,7 +698,7 @@ function ListView(props: ViewProps) {
   return (
     <div className="flex flex-col gap-2">
       {ideas.map((idea) => {
-        const catColor = CATEGORY_COLORS[idea.category] ?? "#6b7280";
+        const catColor = CATEGORY_COLORS[idea.category] ?? "var(--color-slate-dim)";
         const snoozed = isSnoozed(idea);
         return (
           <div

@@ -9,21 +9,21 @@ import type { DailyUpdate, AppProfile, FeedFilters, TimeRange, UpdateLink } from
 const REACTIONS = ["🔥", "❤️", "👏", "💡", "😂"];
 
 const APP_NEON_COLORS: Record<string, string> = {
-  "command-center": "#f59e0b",
-  "media-gallery": "#a855f7",
-  crm: "#3b82f6",
-  travel: "#06b6d4",
-  "daily-updates": "#10b981",
-  kanban: "#ef4444",
-  accounts: "#6366f1",
-  recipes: "#ec4899",
-  crons: "#14b8a6",
-  prompts: "#8b5cf6",
-  ideas: "#f97316",
+  "command-center": "var(--color-accent)",
+  "media-gallery": "var(--color-pill-8)",
+  crm: "var(--color-blue)",
+  travel: "var(--color-pill-7)",
+  "daily-updates": "var(--color-green)",
+  kanban: "var(--color-pill-4)",
+  accounts: "var(--color-pill-8)",
+  recipes: "var(--color-pill-6)",
+  crons: "var(--color-pill-9)",
+  prompts: "var(--color-pill-8)",
+  ideas: "var(--color-orange)",
 };
 
 function neonColor(sourceApp: string): string {
-  return APP_NEON_COLORS[sourceApp] ?? "#f59e0b";
+  return APP_NEON_COLORS[sourceApp] ?? "var(--color-accent)";
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────

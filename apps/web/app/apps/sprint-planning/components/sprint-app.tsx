@@ -329,11 +329,11 @@ const ARCHIVE_TYPE_COLORS: Record<ArchiveType, string> = {
 };
 
 const SERVICE_COLORS: Record<string, string> = {
-  slack: "bg-[#4A154B] text-white",
-  jira: "bg-[#0052CC] text-white",
-  zoom: "bg-[#2D8CFF] text-white",
-  github: "bg-[#333] text-white",
-  calendar: "bg-[#4285F4] text-white",
+  slack: "bg-brand-slack text-white",
+  jira: "bg-brand-jira text-white",
+  zoom: "bg-brand-zoom text-white",
+  github: "bg-brand-github text-white",
+  calendar: "bg-brand-google text-white",
 };
 
 function ArchiveCard({ record }: { record: ArchiveRecord }) {
