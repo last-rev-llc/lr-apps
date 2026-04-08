@@ -1,5 +1,8 @@
+import React from "react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 export const metadata = {
   title: "Cringe Rizzler — Embarrass Gen Alpha",
@@ -11,7 +14,8 @@ export const viewport = {
   themeColor: "#ec4899",
 };
 
-export default function CringeRizzlerLayout({ children }: { children: ReactNode }) {
+export default async function CringeRizzlerLayout({ children }: { children: ReactNode }) {
+  await requireAppLayoutAccess("cringe-rizzler");
   return (
     <div
       className="min-h-screen relative"
