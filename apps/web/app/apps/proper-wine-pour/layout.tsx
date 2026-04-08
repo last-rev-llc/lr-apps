@@ -1,4 +1,6 @@
+import React from "react";
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 export const metadata = {
   title: "Proper Wine Pour",
@@ -9,7 +11,8 @@ export const viewport = {
   themeColor: "#722F37",
 };
 
-export default function ProperWinePourLayout({ children }: { children: ReactNode }) {
+export default async function ProperWinePourLayout({ children }: { children: ReactNode }) {
+  await requireAppLayoutAccess("proper-wine-pour");
   return (
     <div className="min-h-screen">
       <header className="border-b border-surface-border">
