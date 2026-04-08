@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@repo/config": "workspace:*",
+    "@repo/test-utils": "workspace:*",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^22",
     "@types/react": "^19",

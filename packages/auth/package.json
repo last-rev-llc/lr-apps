@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@repo/config": "workspace:*",
+    "@repo/test-utils": "workspace:*",
     "@types/react": "^19",
     "next": "^16",
     "typescript": "^5",
