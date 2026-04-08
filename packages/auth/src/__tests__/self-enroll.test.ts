@@ -66,6 +66,33 @@ describe("appSlugFromReturnTo", () => {
   it("strips query params from path-based returnTo", () => {
     expect(appSlugFromReturnTo("/apps/foo?bar=1")).toBe("foo");
   });
+
+  it("resolves subdomain to canonical slug when they differ", () => {
+    expect(
+      appSlugFromReturnTo("https://meetings.apps.lastrev.com/"),
+    ).toBe("meeting-summaries");
+    expect(
+      appSlugFromReturnTo("https://sprint.apps.lastrev.com/dashboard"),
+    ).toBe("sprint-planning");
+    expect(
+      appSlugFromReturnTo("https://updates.apps.lastrev.com/"),
+    ).toBe("daily-updates");
+    expect(
+      appSlugFromReturnTo("https://slang.apps.lastrev.com/"),
+    ).toBe("slang-translator");
+    expect(
+      appSlugFromReturnTo("https://calculator.apps.lastrev.com/"),
+    ).toBe("ai-calculator");
+  });
+
+  it("passes through subdomain unchanged when it matches its slug", () => {
+    expect(
+      appSlugFromReturnTo("https://sentiment.apps.lastrev.com/"),
+    ).toBe("sentiment");
+    expect(
+      appSlugFromReturnTo("https://lighthouse.apps.lastrev.com/"),
+    ).toBe("lighthouse");
+  });
 });
 
 describe("isSelfEnrollAllowedForSlug", () => {

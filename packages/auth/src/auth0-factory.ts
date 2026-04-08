@@ -14,6 +14,9 @@ const ALLOWED_RETURN_HOSTS = [
  * - Everything else is rejected (returns false)
  */
 export function isSafeReturnTo(returnTo: string): boolean {
+  if (!returnTo) return false;
+  // Reject protocol-relative URLs like "//evil.com" which resolve to external domains
+  if (returnTo.startsWith("//")) return false;
   if (returnTo.startsWith("/")) return true;
   try {
     const url = new URL(returnTo);

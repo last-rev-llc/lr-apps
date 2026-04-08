@@ -45,4 +45,9 @@ describe("isSafeReturnTo", () => {
   it("rejects empty string", () => {
     expect(isSafeReturnTo("")).toBe(false);
   });
+
+  it("rejects protocol-relative URLs (open redirect vector)", () => {
+    expect(isSafeReturnTo("//evil.com")).toBe(false);
+    expect(isSafeReturnTo("//evil.com/apps/sentiment")).toBe(false);
+  });
 });
