@@ -78,7 +78,7 @@ const apps: AppConfig[] = [
   { slug: "hspt-practice", name: "HSPT Practice", subdomain: "hspt-practice", routeGroup: "apps/hspt-practice", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "hspt-tutor", name: "HSPT Tutor", subdomain: "hspt-tutor", routeGroup: "apps/hspt-tutor", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "area-52", name: "Area 52", subdomain: "area-52", routeGroup: "apps/area-52", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "brommie-quake", name: "Brommie Quake", subdomain: "brommie", routeGroup: "apps/brommie-quake", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "brommie-quake", name: "Brommie Quake", subdomain: "brommie", routeGroup: "apps/brommie-quake", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "age-of-apes", name: "Age of Apes", subdomain: "apes", routeGroup: "apps/age-of-apes", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
 ];
 
