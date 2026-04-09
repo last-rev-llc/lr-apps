@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Card, CardContent, Timeline } from "@repo/ui";
+import type { TimelineEvent } from "@repo/ui";
 import { GENERATIONS } from "./lib/generations";
 import { GenerationCard } from "./components/generation-card";
 import type { SlangTerm } from "./lib/types";
@@ -23,9 +25,40 @@ export const metadata = {
     "Explore slang dictionaries, translators, and quizzes for every generation — from Silent Gen to Gen Alpha.",
 };
 
+const FEATURES = [
+  {
+    icon: "📖",
+    title: "Dictionary",
+    desc: "Browse and search every slang term with definitions, examples, and vibe scores.",
+  },
+  {
+    icon: "🔄",
+    title: "Translator",
+    desc: "Translate plain English into generational slang, or decode slang back to English.",
+  },
+  {
+    icon: "🎯",
+    title: "Quiz",
+    desc: "Test your knowledge with a 10-question multiple-choice quiz on each generation.",
+  },
+  {
+    icon: "🔥",
+    title: "Trending Wall",
+    desc: "See the top-rated slang terms by vibe score for each generation.",
+  },
+];
+
 export default async function GenerationsHubPage() {
   const termCounts = await getTermCounts();
   const totalTerms = Object.values(termCounts).reduce((a, b) => a + b, 0);
+
+  const timelineEvents: TimelineEvent[] = GENERATIONS.slice()
+    .reverse()
+    .map((gen) => ({
+      date: gen.era,
+      title: gen.name,
+      icon: <span>{gen.emoji}</span>,
+    }));
 
   return (
     <div className="space-y-10">
@@ -76,74 +109,29 @@ export default async function GenerationsHubPage() {
           What&apos;s Inside Each Generation
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            {
-              icon: "📖",
-              title: "Dictionary",
-              desc: "Browse and search every slang term with definitions, examples, and vibe scores.",
-            },
-            {
-              icon: "🔄",
-              title: "Translator",
-              desc: "Translate plain English into generational slang, or decode slang back to English.",
-            },
-            {
-              icon: "🎯",
-              title: "Quiz",
-              desc: "Test your knowledge with a 10-question multiple-choice quiz on each generation.",
-            },
-            {
-              icon: "🔥",
-              title: "Trending Wall",
-              desc: "See the top-rated slang terms by vibe score for each generation.",
-            },
-          ].map((f) => (
-            <div
+          {FEATURES.map((f) => (
+            <Card
               key={f.title}
-              className="p-4 rounded-xl border border-surface-border bg-surface-card text-center"
+              className="border-surface-border bg-surface-card text-center"
             >
-              <div className="text-2xl mb-2">{f.icon}</div>
-              <h3 className="font-semibold mb-1">{f.title}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                {f.desc}
-              </p>
-            </div>
+              <CardContent className="p-4">
+                <div className="text-2xl mb-2">{f.icon}</div>
+                <h3 className="font-semibold mb-1">{f.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {f.desc}
+                </p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>
 
-      {/* Timeline teaser */}
+      {/* Timeline */}
       <section className="border-t border-surface-border pt-8">
         <h2 className="font-heading text-xl font-bold mb-4 text-center">
           The Language Timeline
         </h2>
-        <div className="relative">
-          {/* Horizontal line */}
-          <div className="absolute top-5 left-0 right-0 h-px bg-surface-border" />
-          <div className="relative flex justify-between gap-2 overflow-x-auto pb-4">
-            {GENERATIONS.slice().reverse().map((gen) => (
-              <Link
-                key={gen.slug}
-                href={`/apps/generations/${gen.slug}`}
-                className="flex flex-col items-center gap-2 min-w-[80px] group"
-              >
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-xl border-2 border-surface-bg relative z-10 group-hover:scale-110 transition-transform"
-                  style={{
-                    background: gen.color + "20",
-                    borderColor: gen.color,
-                  }}
-                >
-                  {gen.emoji}
-                </div>
-                <div className="text-center">
-                  <p className="text-xs font-semibold">{gen.name}</p>
-                  <p className="text-[10px] text-muted-foreground">{gen.era}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <Timeline events={timelineEvents} />
       </section>
     </div>
   );
