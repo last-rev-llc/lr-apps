@@ -143,32 +143,42 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
     <div className="space-y-6">
       {/* Category filter */}
       <div className="flex flex-wrap gap-2 justify-center">
-        <Badge
-          variant="outline"
+        <button
+          type="button"
           onClick={() => handleCategoryChange("all")}
-          className={[
-            "cursor-pointer rounded-full transition-colors",
-            selectedCategory === "all"
-              ? "border-amber-400 bg-amber-400/10 text-amber-400"
-              : "border-white/10 text-muted-foreground hover:border-white/30",
-          ].join(" ")}
+          className="focus:outline-none"
         >
-          All
-        </Badge>
-        {categories.map((cat) => (
           <Badge
-            key={cat}
             variant="outline"
-            onClick={() => handleCategoryChange(cat)}
             className={[
               "cursor-pointer rounded-full transition-colors",
-              selectedCategory === cat
+              selectedCategory === "all"
                 ? "border-amber-400 bg-amber-400/10 text-amber-400"
                 : "border-white/10 text-muted-foreground hover:border-white/30",
             ].join(" ")}
           >
-            {cat}
+            All
           </Badge>
+        </button>
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            type="button"
+            onClick={() => handleCategoryChange(cat)}
+            className="focus:outline-none"
+          >
+            <Badge
+              variant="outline"
+              className={[
+                "cursor-pointer rounded-full transition-colors",
+                selectedCategory === cat
+                  ? "border-amber-400 bg-amber-400/10 text-amber-400"
+                  : "border-white/10 text-muted-foreground hover:border-white/30",
+              ].join(" ")}
+            >
+              {cat}
+            </Badge>
+          </button>
         ))}
       </div>
 
