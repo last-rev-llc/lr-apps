@@ -143,29 +143,30 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
     <div className="space-y-6">
       {/* Category filter */}
       <div className="flex flex-wrap gap-2 justify-center">
-        <button
-          onClick={() => handleCategoryChange("all")}
-          className={[
-            "px-3 py-1 rounded-full text-sm border transition-colors",
-            selectedCategory === "all"
-              ? "border-accent bg-accent/10 text-accent"
-              : "border-white/10 text-muted-foreground hover:border-white/30",
-          ].join(" ")}
-        >
-          All
+        <button onClick={() => handleCategoryChange("all")} className="focus:outline-none">
+          <Badge
+            variant="outline"
+            className={
+              selectedCategory === "all"
+                ? "cursor-pointer border-accent bg-accent/10 text-accent"
+                : "cursor-pointer border-white/10 text-muted-foreground hover:border-white/30"
+            }
+          >
+            All
+          </Badge>
         </button>
         {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => handleCategoryChange(cat)}
-            className={[
-              "px-3 py-1 rounded-full text-sm border transition-colors",
-              selectedCategory === cat
-                ? "border-accent bg-accent/10 text-accent"
-                : "border-white/10 text-muted-foreground hover:border-white/30",
-            ].join(" ")}
-          >
-            {cat}
+          <button key={cat} onClick={() => handleCategoryChange(cat)} className="focus:outline-none">
+            <Badge
+              variant="outline"
+              className={
+                selectedCategory === cat
+                  ? "cursor-pointer border-accent bg-accent/10 text-accent"
+                  : "cursor-pointer border-white/10 text-muted-foreground hover:border-white/30"
+              }
+            >
+              {cat}
+            </Badge>
           </button>
         ))}
       </div>
