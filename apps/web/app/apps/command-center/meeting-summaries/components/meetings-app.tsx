@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { Card, EmptyState, PageHeader, Tabs, TabsContent, TabsList, TabsTrigger } from "@repo/ui";
+import { Badge, Button, Card, EmptyState, PageHeader, Tabs, TabsContent, TabsList, TabsTrigger } from "@repo/ui";
 import type { ZoomTranscript, ActionItem, Sentiment } from "../lib/types";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -81,18 +81,18 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
         </span>
         <div className="flex flex-wrap gap-2 items-center">
           {meeting.client_id && (
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400">
+            <Badge variant="secondary" className="text-[11px] bg-amber-500/15 text-amber-400 border-0">
               {meeting.client_id}
-            </span>
+            </Badge>
           )}
-          <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-blue-500/12 text-blue-400">
+          <Badge variant="secondary" className="text-[11px] bg-blue-500/12 text-blue-400 border-0">
             ⏱️ {meeting.duration ?? 0}m
-          </span>
+          </Badge>
           <SentimentBadge sentiment={meeting.sentiment} />
           {!hasSummary && (
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-red-500/12 text-red-400">
+            <Badge variant="secondary" className="text-[11px] bg-red-500/12 text-red-400 border-0">
               ⏳ pending
-            </span>
+            </Badge>
           )}
           <span className="text-[12px] text-muted-foreground">
             {formatDate(meeting.start_time)}
@@ -213,14 +213,14 @@ function ActionItemRow({ item, onMarkDone }: { item: ActionItem; onMarkDone: (it
         </div>
         <div className="flex flex-wrap gap-2 items-center text-[12px] text-muted-foreground mb-2">
           {item.owner && (
-            <span className="px-2 py-0.5 rounded bg-amber-500/12 text-amber-400 font-semibold">
+            <Badge variant="secondary" className="bg-amber-500/12 text-amber-400 border-0">
               👤 {item.owner}
-            </span>
+            </Badge>
           )}
           {item.priority && (
-            <span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded border ${PRIORITY_STYLES[pri] ?? PRIORITY_STYLES.medium}`}>
+            <Badge variant="outline" className={`text-[11px] ${PRIORITY_STYLES[pri] ?? PRIORITY_STYLES.medium}`}>
               {item.priority}
-            </span>
+            </Badge>
           )}
           {item.deadline && (
             <span className="text-[11px]">📅 {item.deadline}</span>
@@ -231,9 +231,9 @@ function ActionItemRow({ item, onMarkDone }: { item: ActionItem; onMarkDone: (it
             </span>
           )}
           {item._clientId && (
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400">
+            <Badge variant="secondary" className="text-[11px] bg-amber-500/15 text-amber-400 border-0">
               {item._clientId}
-            </span>
+            </Badge>
           )}
         </div>
         <button
@@ -361,17 +361,15 @@ export function MeetingsApp({ initialMeetings }: MeetingsAppProps) {
                 { value: "90", label: "90 days" },
                 { value: "all", label: "All" },
               ].map((r) => (
-                <button
+                <Button
                   key={r.value}
+                  variant={rangeFilter === r.value ? "outline" : "ghost"}
+                  size="sm"
                   onClick={() => setRangeFilter(r.value)}
-                  className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
-                    rangeFilter === r.value
-                      ? "bg-amber-500 text-black border-amber-500"
-                      : "border-surface-border text-muted-foreground hover:border-amber-500/40"
-                  }`}
+                  className={rangeFilter === r.value ? "bg-amber-500 text-black border-amber-500" : ""}
                 >
                   {r.label}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -403,32 +401,28 @@ export function MeetingsApp({ initialMeetings }: MeetingsAppProps) {
             />
             <div className="flex gap-1">
               {["all", "open", "done"].map((s) => (
-                <button
+                <Button
                   key={s}
+                  variant={statusFilter === s ? "outline" : "ghost"}
+                  size="sm"
                   onClick={() => setStatusFilter(s)}
-                  className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
-                    statusFilter === s
-                      ? "bg-amber-500 text-black border-amber-500"
-                      : "border-surface-border text-muted-foreground hover:border-amber-500/40"
-                  }`}
+                  className={statusFilter === s ? "bg-amber-500 text-black border-amber-500" : ""}
                 >
                   {s === "all" ? "All" : s === "open" ? "Open" : "Done"}
-                </button>
+                </Button>
               ))}
             </div>
             <div className="flex gap-1">
               {["all", "high", "medium", "low"].map((p) => (
-                <button
+                <Button
                   key={p}
+                  variant={priorityFilter === p ? "outline" : "ghost"}
+                  size="sm"
                   onClick={() => setPriorityFilter(p)}
-                  className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
-                    priorityFilter === p
-                      ? "bg-amber-500 text-black border-amber-500"
-                      : "border-surface-border text-muted-foreground hover:border-amber-500/40"
-                  }`}
+                  className={priorityFilter === p ? "bg-amber-500 text-black border-amber-500" : ""}
                 >
                   {p === "all" ? "All Priority" : p}
-                </button>
+                </Button>
               ))}
             </div>
           </div>

@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import {
   Badge,
+  Button,
   Card,
   CardContent,
   EmptyState,
@@ -156,20 +157,18 @@ export function UsersApp({ initialContacts }: UsersAppProps) {
         {/* Sort buttons */}
         <div className="flex gap-1">
           {SORT_OPTIONS.map((opt) => (
-            <button
+            <Button
               key={opt.value}
+              variant={sortKey === opt.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => handleSort(opt.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                sortKey === opt.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={sortKey === opt.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {opt.label}
               {sortKey === opt.value && (
                 <span className="ml-0.5">{sortDir === "asc" ? " ↑" : " ↓"}</span>
               )}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -183,18 +182,16 @@ export function UsersApp({ initialContacts }: UsersAppProps) {
           const count = typeCounts[f.value] ?? 0;
           if (f.value !== "all" && count === 0) return null;
           return (
-            <button
+            <Button
               key={f.value}
+              variant={typeFilter === f.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setTypeFilter(f.value)}
-              className={`px-3 py-1 rounded-full border text-xs font-semibold transition-colors ${
-                typeFilter === f.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/12 bg-white/5 text-white/40 hover:text-white/70"
-              }`}
+              className={`rounded-full ${typeFilter === f.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}`}
             >
               {f.label}
               <span className="ml-1.5 opacity-60">{count}</span>
-            </button>
+            </Button>
           );
         })}
       </div>

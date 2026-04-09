@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Card, CardContent, PageHeader } from "@repo/ui";
+import { Button, Card, CardContent, PageHeader } from "@repo/ui";
 
 interface MemeTemplate {
   id: string;
@@ -188,13 +188,15 @@ export function MemeGeneratorApp() {
               <h3 className="text-sm font-semibold text-white mb-3">Style</h3>
               <div className="grid grid-cols-3 gap-2">
                 {TEMPLATES.map((t) => (
-                  <button
+                  <Button
                     key={t.id}
+                    variant={selectedTemplate === t.id ? "outline" : "ghost"}
+                    size="sm"
                     onClick={() => setSelectedTemplate(t.id)}
-                    className={`flex flex-col items-center gap-1 p-2 rounded-lg border text-xs transition-all ${
+                    className={`flex flex-col items-center gap-1 h-auto p-2 ${
                       selectedTemplate === t.id
                         ? "border-amber-500/60 bg-amber-500/10 text-amber-400"
-                        : "border-white/10 bg-white/5 text-white/50 hover:text-white"
+                        : ""
                     }`}
                     style={{
                       background: selectedTemplate === t.id ? undefined : t.bg + "40",
@@ -202,7 +204,7 @@ export function MemeGeneratorApp() {
                   >
                     <span className="text-lg">{t.emoji}</span>
                     <span>{t.name}</span>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </CardContent>
@@ -210,18 +212,22 @@ export function MemeGeneratorApp() {
 
           {/* Actions */}
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={downloadMeme}
-              className="flex-1 px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-400 text-sm font-semibold hover:bg-amber-500/30 transition-colors"
+              className="flex-1 bg-amber-500/20 border-amber-500/40 text-amber-400 hover:bg-amber-500/30"
             >
               ⬇ Download
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={copyMeme}
-              className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/15 text-white/70 text-sm font-semibold hover:bg-white/10 transition-colors"
+              className="flex-1"
             >
               📋 Copy
-            </button>
+            </Button>
           </div>
         </div>
 
