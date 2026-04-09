@@ -6,7 +6,7 @@ export default function HsptPracticePage() {
   return (
     <div>
       <div className="mb-6">
-        <h2 className="font-heading text-2xl text-indigo-400 mb-1">
+        <h2 className="font-heading text-2xl text-pill-0 mb-1">
           HSPT Practice
         </h2>
         <p className="text-muted-foreground text-sm">

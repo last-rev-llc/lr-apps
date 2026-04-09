@@ -15,7 +15,7 @@ export default function ProperWinePourLayout({ children }: { children: ReactNode
       <header className="border-b border-surface-border">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <h1 className="font-heading text-xl" style={{ color: "#e74c6f" }}>
+            <h1 className="font-heading text-xl" style={{ color: "var(--color-pill-6)" }}>
               🍷 Proper Wine Pour
             </h1>
             <nav className="flex gap-4 text-sm">

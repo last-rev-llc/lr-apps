@@ -38,7 +38,7 @@ export function Pricing({
       )}
     >
       {highlighted && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-amber-400 px-4 py-0.5 text-xs font-bold text-black">
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent-400 px-4 py-0.5 text-xs font-bold text-black">
           Most Popular
         </div>
       )}

@@ -12,7 +12,7 @@ export default async function RobloxDancesPage() {
   return (
     <div>
       <div className="mb-6 text-center">
-        <h1 className="font-heading text-3xl text-pink-400 mb-1">
+        <h1 className="font-heading text-3xl text-pill-6 mb-1">
           🕺 Roblox Dance Marketplace
         </h1>
         <p className="text-muted-foreground text-sm">

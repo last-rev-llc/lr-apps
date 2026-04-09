@@ -37,32 +37,32 @@ const SECTION_META: Record<
   verbal: {
     label: "Verbal",
     emoji: "📖",
-    color: "text-amber-400",
-    strokeColor: "#f59e0b",
+    color: "text-accent",
+    strokeColor: "var(--color-accent)",
   },
   quantitative: {
     label: "Quantitative",
     emoji: "🔢",
-    color: "text-blue-400",
-    strokeColor: "#3b82f6",
+    color: "text-blue",
+    strokeColor: "var(--color-pill-1)",
   },
   reading: {
     label: "Reading",
     emoji: "📚",
-    color: "text-emerald-400",
-    strokeColor: "#10b981",
+    color: "text-green",
+    strokeColor: "var(--color-green)",
   },
   math: {
     label: "Math",
     emoji: "➗",
-    color: "text-red-400",
-    strokeColor: "#ef4444",
+    color: "text-red",
+    strokeColor: "var(--color-pill-4)",
   },
   language: {
     label: "Language",
     emoji: "✍️",
-    color: "text-purple-400",
-    strokeColor: "#a855f7",
+    color: "text-pill-0",
+    strokeColor: "var(--color-pill-0)",
   },
 };
 
@@ -120,21 +120,21 @@ function computeTopicStats(quizHistory: QuizRecord[]): Map<string, TopicStat> {
 }
 
 function getPctColor(pct: number): string {
-  if (pct >= 75) return "text-emerald-400";
-  if (pct >= 50) return "text-amber-400";
-  return "text-red-400";
+  if (pct >= 75) return "text-green";
+  if (pct >= 50) return "text-accent";
+  return "text-red";
 }
 
 function getPctBorderColor(pct: number): string {
-  if (pct >= 75) return "border-emerald-500";
-  if (pct >= 50) return "border-amber-500";
-  return "border-red-500";
+  if (pct >= 75) return "border-green";
+  if (pct >= 50) return "border-accent";
+  return "border-red";
 }
 
 function getPctBarColor(pct: number): string {
-  if (pct >= 75) return "bg-emerald-500";
-  if (pct >= 50) return "bg-amber-500";
-  return "bg-red-500";
+  if (pct >= 75) return "bg-green";
+  if (pct >= 50) return "bg-accent";
+  return "bg-red";
 }
 
 function getPctEmoji(pct: number): string {
@@ -193,7 +193,7 @@ function ProgressRing({
 
   // map text class to stroke color
   const strokeColor =
-    pct >= 75 ? "#10b981" : pct >= 50 ? "#f59e0b" : "#ef4444";
+    pct >= 75 ? "var(--color-green)" : pct >= 50 ? "var(--color-accent)" : "var(--color-red)";
 
   return (
     <svg
@@ -207,7 +207,7 @@ function ProgressRing({
         cy={cx}
         r={r}
         fill="none"
-        stroke="rgba(255,255,255,0.1)"
+        stroke="var(--color-surface-border)"
         strokeWidth={strokeWidth}
       />
       <circle
@@ -253,7 +253,7 @@ function Sparkline({ values }: { values: number[] }) {
       <polyline
         points={pts}
         fill="none"
-        stroke="#10b981"
+        stroke="var(--color-green)"
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -325,7 +325,7 @@ function DashboardTab({
             <div className="text-sm text-muted-foreground mb-1">
               Overall Readiness
             </div>
-            <div className="text-emerald-400 font-semibold text-sm">
+            <div className="text-green font-semibold text-sm">
               {encourageMsg}
             </div>
           </>
@@ -340,7 +340,7 @@ function DashboardTab({
             <p className="text-sm text-muted-foreground mb-4">
               {encourageMsg}
             </p>
-            <Button onClick={onStartQuiz} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            <Button onClick={onStartQuiz} className="bg-green hover:bg-green/80 text-white">
               Start First Practice
             </Button>
           </>
@@ -547,7 +547,7 @@ function QuizTab({
         <Button
           onClick={startQuiz}
           disabled={allQuestions.length === 0}
-          className="px-8 py-6 text-lg bg-emerald-600 hover:bg-emerald-700 text-white"
+          className="px-8 py-6 text-lg bg-green hover:bg-green/80 text-white"
         >
           Practice Weak Areas
         </Button>
@@ -605,7 +605,7 @@ function QuizTab({
         <div className="text-center">
           <Button
             onClick={startQuiz}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white"
+            className="bg-green hover:bg-green/80 text-white"
           >
             Practice Again
           </Button>
@@ -628,10 +628,10 @@ function QuizTab({
           if (i < quizState.current) {
             const a = quizState.answers[i];
             cls += a?.correct
-              ? " bg-emerald-500 w-6"
-              : " bg-red-500 w-6";
+              ? " bg-green w-6"
+              : " bg-red w-6";
           } else if (i === quizState.current) {
-            cls += " bg-emerald-400 w-8";
+            cls += " bg-green w-8";
           } else {
             cls += " bg-white/20 w-6";
           }
@@ -672,13 +672,13 @@ function QuizTab({
             "w-full text-left px-4 py-3 rounded-xl border text-sm transition-all font-medium ";
           if (!isAnswered) {
             cls +=
-              "border-white/10 bg-white/5 text-muted-foreground hover:border-emerald-500/50 hover:bg-white/10 hover:text-foreground cursor-pointer";
+              "border-white/10 bg-white/5 text-muted-foreground hover:border-green/50 hover:bg-white/10 hover:text-foreground cursor-pointer";
           } else if (isCorrect) {
             cls +=
-              "border-emerald-500 bg-emerald-500/15 text-foreground cursor-default";
+              "border-green bg-green/15 text-foreground cursor-default";
           } else if (isSelected && !isCorrect) {
             cls +=
-              "border-red-500 bg-red-500/15 text-foreground cursor-default";
+              "border-red bg-red/15 text-foreground cursor-default";
           } else {
             cls +=
               "border-white/10 bg-white/5 text-muted-foreground cursor-default opacity-60";
@@ -693,10 +693,10 @@ function QuizTab({
             >
               {choice}
               {isAnswered && isCorrect && (
-                <span className="ml-2 text-emerald-400">✓</span>
+                <span className="ml-2 text-green">✓</span>
               )}
               {isAnswered && isSelected && !isCorrect && (
-                <span className="ml-2 text-red-400">✗</span>
+                <span className="ml-2 text-red">✗</span>
               )}
             </button>
           );
@@ -708,18 +708,18 @@ function QuizTab({
         <div
           className={`p-4 rounded-xl border text-sm mb-4 leading-relaxed ${
             quizState.answers[quizState.answers.length - 1]?.correct
-              ? "bg-emerald-500/10 border-emerald-500/40 text-foreground"
-              : "bg-red-500/10 border-red-500/40 text-foreground"
+              ? "bg-green/10 border-green/40 text-foreground"
+              : "bg-red/10 border-red/40 text-foreground"
           }`}
         >
           {quizState.answers[quizState.answers.length - 1]?.correct ? (
             <>
-              <strong className="text-emerald-400">Correct!</strong>{" "}
+              <strong className="text-green">Correct!</strong>{" "}
               {q.explanation}
             </>
           ) : (
             <>
-              <strong className="text-red-400">Not quite.</strong> The answer
+              <strong className="text-red">Not quite.</strong> The answer
               is <strong>{q.correct}</strong>. {q.explanation}
             </>
           )}
@@ -730,7 +730,7 @@ function QuizTab({
       {quizState.answered && (
         <Button
           onClick={nextQuestion}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white"
+          className="bg-green hover:bg-green/80 text-white"
         >
           {quizState.current === total - 1 ? "See Results 🎉" : "Next →"}
         </Button>
@@ -798,7 +798,7 @@ function ProgressTab({
               {mastered.map((t) => (
                 <Badge
                   key={`${t.section}/${t.topic}`}
-                  className="bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 px-3 py-1 text-xs font-semibold"
+                  className="bg-green/15 text-green border border-green/40 px-3 py-1 text-xs font-semibold"
                 >
                   🏅 {t.topic} ({t.pct}%)
                 </Badge>
@@ -819,23 +819,23 @@ function ProgressTab({
               <LineChart data={chartData}>
                 <CartesianGrid
                   strokeDasharray="3 3"
-                  stroke="rgba(255,255,255,0.06)"
+                  stroke="var(--color-surface-border)"
                 />
                 <XAxis
                   dataKey="quiz"
-                  tick={{ fill: "#888", fontSize: 11 }}
+                  tick={{ fill: "var(--color-slate-dim)", fontSize: 11 }}
                   stroke="transparent"
                 />
                 <YAxis
                   domain={[0, 100]}
-                  tick={{ fill: "#888", fontSize: 11 }}
+                  tick={{ fill: "var(--color-slate-dim)", fontSize: 11 }}
                   stroke="transparent"
                   tickFormatter={(v) => `${v}%`}
                 />
                 <Tooltip
                   contentStyle={{
-                    background: "rgba(0,0,0,0.8)",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    background: "var(--color-popover)",
+                    border: "1px solid var(--color-surface-border)",
                     borderRadius: 8,
                     fontSize: 12,
                   }}
@@ -844,7 +844,7 @@ function ProgressTab({
                 <Line
                   type="monotone"
                   dataKey="score"
-                  stroke="#10b981"
+                  stroke="var(--color-green)"
                   dot={{ r: 3 }}
                   strokeWidth={2}
                 />

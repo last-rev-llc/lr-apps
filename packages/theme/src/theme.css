@@ -150,4 +150,8 @@
   --shadow-glass: 0 4px 12px rgba(0, 0, 0, 0.1);
   --shadow-glass-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-glass-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+  --shadow-glow-accent-sm: 0 8px 32px oklch(from var(--color-accent) l c h / 0.06);
+  --shadow-glow-accent-md: 0 0 24px oklch(from var(--color-accent) l c h / 0.08);
+  --shadow-lightbox: 0 0 60px rgba(0, 0, 0, 0.25);
+  --shadow-glass-hover-strong: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
