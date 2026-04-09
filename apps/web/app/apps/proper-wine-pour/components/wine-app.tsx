@@ -2,6 +2,17 @@
 
 import { useState, useMemo } from "react";
 import { createClient } from "@repo/db/client";
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  Card,
+  CardContent,
+  Input,
+  Button,
+  Badge,
+} from "@repo/ui";
 import type { Restaurant, WinePour, WallPost, PourRating, WallPostType } from "../lib/types";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -24,11 +35,11 @@ function formatDate(iso: string): string {
   });
 }
 
-const POUR_RATING_COLORS: Record<PourRating, string> = {
-  generous: "bg-green/15 text-green",
-  standard: "bg-yellow/15 text-yellow",
-  stingy: "bg-orange/15 text-orange",
-  criminal: "bg-red/15 text-red",
+const POUR_RATING_BADGE: Record<PourRating, { variant: "secondary" | "destructive" | "outline"; className: string }> = {
+  generous: { variant: "secondary", className: "bg-green/15 text-green border-green/30" },
+  standard: { variant: "secondary", className: "" },
+  stingy: { variant: "outline", className: "bg-orange/15 text-orange border-orange/30" },
+  criminal: { variant: "destructive", className: "" },
 };
 
 // ─── Wine Glass SVG ───────────────────────────────────────────────────────────
@@ -161,95 +172,101 @@ function CalculatorTab() {
         <p className="text-muted-foreground text-sm">Find out if you're getting ripped off.</p>
       </div>
 
-      <div className="glass rounded-xl p-5">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1">
-              Retail Bottle Price ($)
-            </label>
-            <input
-              type="number"
-              value={bottlePrice}
-              min={5}
-              max={500}
-              onChange={(e) => setBottlePrice(parseFloat(e.target.value) || 0)}
-              className="w-full px-3 py-2 glass-input text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
-            />
+      <Card className="glass border-surface-border">
+        <CardContent className="p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1">
+                Retail Bottle Price ($)
+              </label>
+              <Input
+                type="number"
+                value={bottlePrice}
+                min={5}
+                max={500}
+                onChange={(e) => setBottlePrice(parseFloat(e.target.value) || 0)}
+                className="glass-input focus-visible:ring-accent"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1">
+                Pour Size (oz)
+              </label>
+              <Input
+                type="number"
+                value={pourSize}
+                min={1}
+                max={10}
+                step={0.5}
+                onChange={(e) => setPourSize(parseFloat(e.target.value) || 0)}
+                className="glass-input focus-visible:ring-accent"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1">
+                Restaurant Glass Price ($)
+              </label>
+              <Input
+                type="number"
+                value={glassPrice}
+                min={5}
+                max={200}
+                onChange={(e) => setGlassPrice(parseFloat(e.target.value) || 0)}
+                className="glass-input focus-visible:ring-accent"
+              />
+            </div>
           </div>
-          <div>
-            <label className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1">
-              Pour Size (oz)
-            </label>
-            <input
-              type="number"
-              value={pourSize}
-              min={1}
-              max={10}
-              step={0.5}
-              onChange={(e) => setPourSize(parseFloat(e.target.value) || 0)}
-              className="w-full px-3 py-2 glass-input text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
-            />
-          </div>
-          <div>
-            <label className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1">
-              Restaurant Glass Price ($)
-            </label>
-            <input
-              type="number"
-              value={glassPrice}
-              min={5}
-              max={200}
-              onChange={(e) => setGlassPrice(parseFloat(e.target.value) || 0)}
-              className="w-full px-3 py-2 glass-input text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
-            />
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Results */}
-      <div className="glass rounded-xl p-5 space-y-3">
-        {[
-          { label: "Your cost per glass (retail)", value: `$${costPerGlass}`, color: "text-foreground" },
-          { label: "Cost per oz (retail)", value: `$${costPerOz}`, color: "text-foreground" },
-          { label: "Restaurant price per glass", value: `$${glassPrice.toFixed(2)}`, color: "text-foreground" },
-          { label: "Actual markup", value: `${markupPct}%`, color: "" },
-          { label: "Glasses per bottle", value: glassesPerBottle.toFixed(1), color: "text-foreground" },
-        ].map((row) => (
-          <div key={row.label} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
-            <span className="text-muted-foreground text-sm">{row.label}</span>
-            <span
-              className="font-bold text-base"
-              style={row.label.includes("markup") ? { color: markupColor } : undefined}
-            >
-              {row.value}
-            </span>
-          </div>
-        ))}
-      </div>
+      <Card className="glass border-surface-border">
+        <CardContent className="p-5 space-y-3">
+          {[
+            { label: "Your cost per glass (retail)", value: `$${costPerGlass}`, color: "text-foreground" },
+            { label: "Cost per oz (retail)", value: `$${costPerOz}`, color: "text-foreground" },
+            { label: "Restaurant price per glass", value: `$${glassPrice.toFixed(2)}`, color: "text-foreground" },
+            { label: "Actual markup", value: `${markupPct}%`, color: "" },
+            { label: "Glasses per bottle", value: glassesPerBottle.toFixed(1), color: "text-foreground" },
+          ].map((row) => (
+            <div key={row.label} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
+              <span className="text-muted-foreground text-sm">{row.label}</span>
+              <span
+                className="font-bold text-base"
+                style={row.label.includes("markup") ? { color: markupColor } : undefined}
+              >
+                {row.value}
+              </span>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
 
       {/* Rip-off meter */}
-      <div className="glass rounded-xl p-5">
-        <h4 className="font-heading text-center mb-3">
-          Rip-Off Meter:{" "}
-          <span style={{ color: markupColor }}>{ripLabel}</span>
-        </h4>
-        <div
-          className="h-6 rounded-full relative overflow-hidden"
-          style={{ background: "linear-gradient(90deg, var(--color-green), var(--color-yellow), var(--color-orange), var(--color-red), oklch(from var(--color-red) calc(l - 0.2) c h))" }}
-        >
+      <Card className="glass border-surface-border">
+        <CardContent className="p-5">
+          <h4 className="font-heading text-center mb-3">
+            Rip-Off Meter:{" "}
+            <span style={{ color: markupColor }}>{ripLabel}</span>
+          </h4>
           <div
-            className="absolute top-[-4px] w-1 h-8 bg-white rounded-sm shadow-[0_0_8px_oklch(100%_0_0/0.8)] transition-all duration-500"
-            style={{ left: `calc(${ripOff}% - 2px)` }}
-          />
-        </div>
-        <div className="flex justify-between text-[11px] text-muted-foreground mt-1">
-          <span>Fair Deal</span>
-          <span>Normal</span>
-          <span>Steep</span>
-          <span>Outrageous</span>
-          <span>Robbery</span>
-        </div>
-      </div>
+            className="h-6 rounded-full relative overflow-hidden"
+            style={{ background: "linear-gradient(90deg, var(--color-green), var(--color-yellow), var(--color-orange), var(--color-red), oklch(from var(--color-red) calc(l - 0.2) c h))" }}
+          >
+            <div
+              className="absolute top-[-4px] w-1 h-8 bg-white rounded-sm shadow-[0_0_8px_oklch(100%_0_0/0.8)] transition-all duration-500"
+              style={{ left: `calc(${ripOff}% - 2px)` }}
+            />
+          </div>
+          <div className="flex justify-between text-[11px] text-muted-foreground mt-1">
+            <span>Fair Deal</span>
+            <span>Normal</span>
+            <span>Steep</span>
+            <span>Outrageous</span>
+            <span>Robbery</span>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -331,114 +348,115 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
       {/* Filter pills */}
       <div className="flex flex-wrap gap-2 items-center">
         {(["all", "generous", "standard", "stingy", "criminal"] as const).map((r) => (
-          <button
+          <Button
             key={r}
+            variant={filterRating === r ? "default" : "outline"}
+            size="sm"
             onClick={() => setFilterRating(r)}
-            className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors capitalize ${
-              filterRating === r
-                ? "bg-accent text-black"
-                : "bg-white/5 text-muted-foreground hover:bg-white/10"
-            }`}
+            className={`rounded-full text-xs capitalize ${filterRating === r ? "bg-accent text-black border-accent" : ""}`}
           >
             {r === "all" ? "All" : r}
-          </button>
+          </Button>
         ))}
-        <input
+        <Input
           type="text"
           placeholder="Search restaurants..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="ml-auto px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-accent w-48"
+          className="ml-auto w-48 glass-input text-sm"
         />
       </div>
 
       <div className="flex justify-end">
-        <button
+        <Button
+          variant={showForm ? "outline" : "default"}
           onClick={() => setShowForm((v) => !v)}
-          className="px-4 py-1.5 rounded-lg bg-accent text-black text-sm font-semibold hover:opacity-90 transition-opacity"
+          className={showForm ? "" : "bg-accent text-black hover:opacity-90"}
         >
           {showForm ? "Cancel" : "+ Log Pour"}
-        </button>
+        </Button>
       </div>
 
       {/* Log pour form */}
       {showForm && (
-        <div className="glass rounded-xl p-5 space-y-3">
-          <h3 className="font-heading text-base mb-2">Log a Pour</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <Card className="glass border-surface-border">
+          <CardContent className="p-5 space-y-3">
+            <h3 className="font-heading text-base mb-2">Log a Pour</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-muted-foreground font-semibold mb-1">Restaurant Name *</label>
+                <Input
+                  type="text"
+                  placeholder="e.g. Gary Danko"
+                  value={form.restaurant_name}
+                  onChange={(e) => setForm((f) => ({ ...f, restaurant_name: e.target.value }))}
+                  className="glass-input"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-muted-foreground font-semibold mb-1">Wine Ordered *</label>
+                <Input
+                  type="text"
+                  placeholder="e.g. Caymus Cabernet 2021"
+                  value={form.wine_name}
+                  onChange={(e) => setForm((f) => ({ ...f, wine_name: e.target.value }))}
+                  className="glass-input"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-muted-foreground font-semibold mb-1">Pour Rating</label>
+                <select
+                  value={form.pour_rating}
+                  onChange={(e) => setForm((f) => ({ ...f, pour_rating: e.target.value as PourRating }))}
+                  className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                >
+                  <option value="generous">Generous</option>
+                  <option value="standard">Standard</option>
+                  <option value="stingy">Stingy</option>
+                  <option value="criminal">Criminal</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-muted-foreground font-semibold mb-1">Price Paid ($)</label>
+                <Input
+                  type="number"
+                  placeholder="18"
+                  min={1}
+                  max={500}
+                  value={form.price_paid}
+                  onChange={(e) => setForm((f) => ({ ...f, price_paid: e.target.value }))}
+                  className="glass-input"
+                />
+              </div>
+            </div>
             <div>
-              <label className="block text-xs text-muted-foreground font-semibold mb-1">Restaurant Name *</label>
-              <input
+              <label className="block text-xs text-muted-foreground font-semibold mb-1">Notes</label>
+              <textarea
+                placeholder="How was the pour? Any comments..."
+                value={form.notes}
+                onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-16 resize-y"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-muted-foreground font-semibold mb-1">Your Name</label>
+              <Input
                 type="text"
-                placeholder="e.g. Gary Danko"
-                value={form.restaurant_name}
-                onChange={(e) => setForm((f) => ({ ...f, restaurant_name: e.target.value }))}
-                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                placeholder="Your name"
+                value={form.user_name}
+                onChange={(e) => setForm((f) => ({ ...f, user_name: e.target.value }))}
+                className="glass-input"
               />
             </div>
-            <div>
-              <label className="block text-xs text-muted-foreground font-semibold mb-1">Wine Ordered *</label>
-              <input
-                type="text"
-                placeholder="e.g. Caymus Cabernet 2021"
-                value={form.wine_name}
-                onChange={(e) => setForm((f) => ({ ...f, wine_name: e.target.value }))}
-                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-muted-foreground font-semibold mb-1">Pour Rating</label>
-              <select
-                value={form.pour_rating}
-                onChange={(e) => setForm((f) => ({ ...f, pour_rating: e.target.value as PourRating }))}
-                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
-              >
-                <option value="generous">Generous</option>
-                <option value="standard">Standard</option>
-                <option value="stingy">Stingy</option>
-                <option value="criminal">Criminal</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs text-muted-foreground font-semibold mb-1">Price Paid ($)</label>
-              <input
-                type="number"
-                placeholder="18"
-                min={1}
-                max={500}
-                value={form.price_paid}
-                onChange={(e) => setForm((f) => ({ ...f, price_paid: e.target.value }))}
-                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-xs text-muted-foreground font-semibold mb-1">Notes</label>
-            <textarea
-              placeholder="How was the pour? Any comments..."
-              value={form.notes}
-              onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-16 resize-y"
-            />
-          </div>
-          <div>
-            <label className="block text-xs text-muted-foreground font-semibold mb-1">Your Name</label>
-            <input
-              type="text"
-              placeholder="Your name"
-              value={form.user_name}
-              onChange={(e) => setForm((f) => ({ ...f, user_name: e.target.value }))}
-              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
-            />
-          </div>
-          <button
-            onClick={handleSave}
-            disabled={saving || !form.restaurant_name || !form.wine_name}
-            className="px-5 py-2 rounded-lg bg-accent text-black text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
-          >
-            {saving ? "Saving…" : "Save Pour"}
-          </button>
-        </div>
+            <Button
+              onClick={handleSave}
+              disabled={saving || !form.restaurant_name || !form.wine_name}
+              className="bg-accent text-black hover:opacity-90"
+            >
+              {saving ? "Saving…" : "Save Pour"}
+            </Button>
+          </CardContent>
+        </Card>
       )}
 
       {/* Restaurant list */}
@@ -450,27 +468,32 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
           </div>
         ) : (
           filtered.map((r) => (
-            <div key={r.id} className="glass rounded-xl p-4 flex items-start justify-between gap-3">
-              <div>
-                <h4 className="font-semibold text-sm">{r.name}</h4>
-                <p className="text-muted-foreground text-xs mt-0.5">
-                  {r.neighborhood} · Avg ${r.avg_glass_price}/glass
-                </p>
-                <div className="flex gap-0.5 mt-1">
-                  {Array.from({ length: 5 }, (_, i) => (
-                    <span key={i} className={i < r.wine_list_rating ? "text-red" : "text-muted-foreground"}>
-                      {i < r.wine_list_rating ? "🍷" : "○"}
-                    </span>
-                  ))}
+            <Card key={r.id} className="glass border-surface-border">
+              <CardContent className="p-4 flex items-start justify-between gap-3">
+                <div>
+                  <h4 className="font-semibold text-sm">{r.name}</h4>
+                  <p className="text-muted-foreground text-xs mt-0.5">
+                    {r.neighborhood} · Avg ${r.avg_glass_price}/glass
+                  </p>
+                  <div className="flex gap-0.5 mt-1">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <span key={i} className={i < r.wine_list_rating ? "text-red" : "text-muted-foreground"}>
+                        {i < r.wine_list_rating ? "🍷" : "○"}
+                      </span>
+                    ))}
+                  </div>
+                  {r.notes && (
+                    <p className="text-muted-foreground text-xs mt-1 line-clamp-2">{r.notes}</p>
+                  )}
                 </div>
-                {r.notes && (
-                  <p className="text-muted-foreground text-xs mt-1 line-clamp-2">{r.notes}</p>
-                )}
-              </div>
-              <span className={`shrink-0 px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase ${POUR_RATING_COLORS[r.pour_rating]}`}>
-                {r.pour_rating}
-              </span>
-            </div>
+                <Badge
+                  variant={POUR_RATING_BADGE[r.pour_rating].variant}
+                  className={`shrink-0 uppercase text-xs ${POUR_RATING_BADGE[r.pour_rating].className}`}
+                >
+                  {r.pour_rating}
+                </Badge>
+              </CardContent>
+            </Card>
           ))
         )}
       </div>
@@ -641,68 +664,69 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
 
       <div className="flex items-center gap-3 flex-wrap">
         {(["all", "glory", "shame"] as const).map((t) => (
-          <button
+          <Button
             key={t}
+            variant={filterType === t ? "default" : "outline"}
+            size="sm"
             onClick={() => setFilterType(t)}
-            className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors capitalize ${
-              filterType === t
-                ? "bg-accent text-black"
-                : "bg-white/5 text-muted-foreground hover:bg-white/10"
-            }`}
+            className={`rounded-full capitalize ${filterType === t ? "bg-accent text-black border-accent" : ""}`}
           >
             {t === "all" ? "All" : t === "glory" ? "Pour of Glory" : "Pour of Shame"}
-          </button>
+          </Button>
         ))}
-        <button
+        <Button
+          variant={showForm ? "outline" : "default"}
           onClick={() => setShowForm((v) => !v)}
-          className="ml-auto px-4 py-1.5 rounded-lg bg-accent text-black text-sm font-semibold hover:opacity-90 transition-opacity"
+          className={`ml-auto ${showForm ? "" : "bg-accent text-black hover:opacity-90"}`}
         >
           {showForm ? "Cancel" : "+ Share Story"}
-        </button>
+        </Button>
       </div>
 
       {/* Add story form */}
       {showForm && (
-        <div className="glass rounded-xl p-5 space-y-3">
-          <h3 className="font-heading text-base">Share a Pour Story</h3>
-          <div>
-            <label className="block text-xs text-muted-foreground font-semibold mb-1">Your Name</label>
-            <input
-              type="text"
-              placeholder="Your name"
-              value={form.user_name}
-              onChange={(e) => setForm((f) => ({ ...f, user_name: e.target.value }))}
-              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
-            />
-          </div>
-          <div>
-            <label className="block text-xs text-muted-foreground font-semibold mb-1">Story Type</label>
-            <select
-              value={form.pour_type}
-              onChange={(e) => setForm((f) => ({ ...f, pour_type: e.target.value as WallPostType }))}
-              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+        <Card className="glass border-surface-border">
+          <CardContent className="p-5 space-y-3">
+            <h3 className="font-heading text-base">Share a Pour Story</h3>
+            <div>
+              <label className="block text-xs text-muted-foreground font-semibold mb-1">Your Name</label>
+              <Input
+                type="text"
+                placeholder="Your name"
+                value={form.user_name}
+                onChange={(e) => setForm((f) => ({ ...f, user_name: e.target.value }))}
+                className="glass-input"
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-muted-foreground font-semibold mb-1">Story Type</label>
+              <select
+                value={form.pour_type}
+                onChange={(e) => setForm((f) => ({ ...f, pour_type: e.target.value as WallPostType }))}
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+              >
+                <option value="glory">Pour of Glory (great pour!)</option>
+                <option value="shame">Pour of Shame (terrible pour)</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs text-muted-foreground font-semibold mb-1">Your Story *</label>
+              <textarea
+                placeholder="Tell us about your pour experience..."
+                value={form.content}
+                onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-20 resize-y"
+              />
+            </div>
+            <Button
+              onClick={handleSave}
+              disabled={saving || !form.content.trim()}
+              className="bg-accent text-black hover:opacity-90"
             >
-              <option value="glory">Pour of Glory (great pour!)</option>
-              <option value="shame">Pour of Shame (terrible pour)</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs text-muted-foreground font-semibold mb-1">Your Story *</label>
-            <textarea
-              placeholder="Tell us about your pour experience..."
-              value={form.content}
-              onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-20 resize-y"
-            />
-          </div>
-          <button
-            onClick={handleSave}
-            disabled={saving || !form.content.trim()}
-            className="px-5 py-2 rounded-lg bg-accent text-black text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
-          >
-            {saving ? "Posting…" : "Post Story"}
-          </button>
-        </div>
+              {saving ? "Posting…" : "Post Story"}
+            </Button>
+          </CardContent>
+        </Card>
       )}
 
       {/* Posts */}
@@ -714,29 +738,32 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
       ) : (
         <div className="space-y-3">
           {filtered.map((post) => (
-            <div key={post.id} className="glass rounded-xl p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-semibold text-sm">{post.user_name}</span>
-                <span
-                  className={`text-xs font-semibold uppercase tracking-wide ${
-                    post.pour_type === "glory" ? "text-green" : "text-red"
-                  }`}
-                >
-                  {post.pour_type === "glory" ? "Pour of Glory" : "Pour of Shame"}
-                </span>
-              </div>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-3">{post.content}</p>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => handleUpvote(post)}
-                  disabled={upvoting === post.id}
-                  className="px-3 py-1 rounded-lg border border-white/10 text-xs text-muted-foreground hover:border-accent hover:text-accent transition-colors disabled:opacity-50"
-                >
-                  👍 {post.upvotes}
-                </button>
-                <span className="text-xs text-muted-foreground">{formatDate(post.created_at)}</span>
-              </div>
-            </div>
+            <Card key={post.id} className="glass border-surface-border">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold text-sm">{post.user_name}</span>
+                  <Badge
+                    variant={post.pour_type === "glory" ? "secondary" : "destructive"}
+                    className={post.pour_type === "glory" ? "text-green bg-green/15 border-green/30" : ""}
+                  >
+                    {post.pour_type === "glory" ? "Pour of Glory" : "Pour of Shame"}
+                  </Badge>
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-3">{post.content}</p>
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleUpvote(post)}
+                    disabled={upvoting === post.id}
+                    className="text-xs"
+                  >
+                    👍 {post.upvotes}
+                  </Button>
+                  <span className="text-xs text-muted-foreground">{formatDate(post.created_at)}</span>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       )}
@@ -747,17 +774,8 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export function WineApp({ restaurants, initialPourLogs, initialWallPosts }: Props) {
-  const [activeTab, setActiveTab] = useState<Tab>("guide");
   const [pourLogs, setPourLogs] = useState<WinePour[]>(initialPourLogs);
   const [wallPosts, setWallPosts] = useState<WallPost[]>(initialWallPosts);
-
-  const TABS: { id: Tab; label: string; emoji: string }[] = [
-    { id: "guide", label: "Pour Guide", emoji: "🍷" },
-    { id: "calculator", label: "Calculator", emoji: "🧮" },
-    { id: "tracker", label: "Tracker", emoji: "📋" },
-    { id: "knowledge", label: "Knowledge", emoji: "📖" },
-    { id: "wall", label: "Community", emoji: "💬" },
-  ];
 
   async function handleAddPour(pour: Omit<WinePour, "id" | "created_at">) {
     const supabase = createClient();
@@ -801,42 +819,39 @@ export function WineApp({ restaurants, initialPourLogs, initialWallPosts }: Prop
 
   return (
     <div>
-      {/* Tab bar */}
-      <div className="flex gap-1 flex-wrap border-b border-white/10 mb-6">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 text-sm font-semibold transition-colors rounded-t-lg ${
-              activeTab === tab.id
-                ? "text-accent border-b-2 border-accent"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            <span className="mr-1.5">{tab.emoji}</span>
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      <Tabs defaultValue="guide">
+        <TabsList className="w-full flex-wrap h-auto gap-1 border-b border-surface-border rounded-none bg-transparent pb-0 mb-6">
+          <TabsTrigger value="guide">🍷 Pour Guide</TabsTrigger>
+          <TabsTrigger value="calculator">🧮 Calculator</TabsTrigger>
+          <TabsTrigger value="tracker">📋 Tracker</TabsTrigger>
+          <TabsTrigger value="knowledge">📖 Knowledge</TabsTrigger>
+          <TabsTrigger value="wall">💬 Community</TabsTrigger>
+        </TabsList>
 
-      {/* Tab content */}
-      {activeTab === "guide" && <GuideTab />}
-      {activeTab === "calculator" && <CalculatorTab />}
-      {activeTab === "tracker" && (
-        <TrackerTab
-          restaurants={restaurants}
-          pourLogs={pourLogs}
-          onAddPour={handleAddPour}
-        />
-      )}
-      {activeTab === "knowledge" && <KnowledgeTab />}
-      {activeTab === "wall" && (
-        <WallTab
-          wallPosts={wallPosts}
-          onAddPost={handleAddWallPost}
-          onUpvote={handleUpvote}
-        />
-      )}
+        <TabsContent value="guide">
+          <GuideTab />
+        </TabsContent>
+        <TabsContent value="calculator">
+          <CalculatorTab />
+        </TabsContent>
+        <TabsContent value="tracker">
+          <TrackerTab
+            restaurants={restaurants}
+            pourLogs={pourLogs}
+            onAddPour={handleAddPour}
+          />
+        </TabsContent>
+        <TabsContent value="knowledge">
+          <KnowledgeTab />
+        </TabsContent>
+        <TabsContent value="wall">
+          <WallTab
+            wallPosts={wallPosts}
+            onAddPost={handleAddWallPost}
+            onUpvote={handleUpvote}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
