@@ -80,19 +80,19 @@ describe("ErrorBoundary", () => {
     );
     expect(screen.getByText("Something went wrong")).toBeInTheDocument();
 
-    // Click Try again — this resets internal state, but the component still throws.
-    // We test that the reset mechanism fires.
-    await user.click(screen.getByText("Try again"));
-    // After reset, the component will re-render and throw again,
-    // showing the fallback again (since shouldThrow is still true).
-    // This validates the reset mechanism works.
+    // Rerender with a non-throwing child first, then click reset.
+    // (Clicking reset while shouldThrow=true would just re-throw immediately.)
     rerender(
       <ErrorBoundary>
         <ThrowingComponent shouldThrow={false} />
       </ErrorBoundary>,
     );
-    // After rerender with shouldThrow=false, content should show
-    // Note: ErrorBoundary state persists, so we need the reset to clear it.
-    // The click above already called reset, so the rerender picks up the clean state.
+    // Still showing error fallback because ErrorBoundary state hasn't been reset
+    expect(screen.getByText("Something went wrong")).toBeInTheDocument();
+
+    // Now click Try again to clear the error state
+    await user.click(screen.getByText("Try again"));
+    // After reset, child renders successfully
+    expect(screen.getByText("Content rendered")).toBeInTheDocument();
   });
 });
