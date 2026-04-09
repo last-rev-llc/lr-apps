@@ -143,31 +143,36 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
     <div className="space-y-6">
       {/* Category filter */}
       <div className="flex flex-wrap gap-2 justify-center">
-        <button onClick={() => handleCategoryChange("all")} className="focus:outline-none">
+        <Badge
+          role="button"
+          tabIndex={0}
+          onClick={() => handleCategoryChange("all")}
+          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCategoryChange("all"); } }}
+          variant="outline"
+          className={
+            selectedCategory === "all"
+              ? "cursor-pointer border-accent bg-accent/10 text-accent"
+              : "cursor-pointer border-white/10 text-muted-foreground hover:border-white/30"
+          }
+        >
+          All
+        </Badge>
+        {categories.map((cat) => (
           <Badge
+            key={cat}
+            role="button"
+            tabIndex={0}
+            onClick={() => handleCategoryChange(cat)}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCategoryChange(cat); } }}
             variant="outline"
             className={
-              selectedCategory === "all"
+              selectedCategory === cat
                 ? "cursor-pointer border-accent bg-accent/10 text-accent"
                 : "cursor-pointer border-white/10 text-muted-foreground hover:border-white/30"
             }
           >
-            All
+            {cat}
           </Badge>
-        </button>
-        {categories.map((cat) => (
-          <button key={cat} onClick={() => handleCategoryChange(cat)} className="focus:outline-none">
-            <Badge
-              variant="outline"
-              className={
-                selectedCategory === cat
-                  ? "cursor-pointer border-accent bg-accent/10 text-accent"
-                  : "cursor-pointer border-white/10 text-muted-foreground hover:border-white/30"
-              }
-            >
-              {cat}
-            </Badge>
-          </button>
         ))}
       </div>
 
