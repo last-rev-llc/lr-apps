@@ -1,7 +1,18 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger, Card } from "@repo/ui";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Card,
+  Badge,
+  Button,
+  EmptyState,
+  Search,
+  PillList,
+} from "@repo/ui";
 import type { ZoomTranscript, ActionItem, Sentiment } from "../lib/types";
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -46,11 +57,12 @@ const SENTIMENT_STYLES: Record<Sentiment, string> = {
 function SentimentBadge({ sentiment }: { sentiment?: Sentiment }) {
   if (!sentiment) return null;
   return (
-    <span
-      className={`text-[11px] font-semibold px-2 py-0.5 rounded border ${SENTIMENT_STYLES[sentiment] ?? SENTIMENT_STYLES.neutral}`}
+    <Badge
+      variant="outline"
+      className={SENTIMENT_STYLES[sentiment] ?? SENTIMENT_STYLES.neutral}
     >
       {sentiment}
-    </span>
+    </Badge>
   );
 }
 
@@ -82,18 +94,18 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
         </span>
         <div className="flex flex-wrap gap-2 items-center">
           {meeting.client_id && (
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400">
+            <Badge variant="outline" className="bg-amber-500/15 text-amber-400">
               {meeting.client_id}
-            </span>
+            </Badge>
           )}
-          <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-blue-500/12 text-blue-400">
+          <Badge variant="outline" className="bg-blue-500/12 text-blue-400">
             ⏱️ {meeting.duration ?? 0}m
-          </span>
+          </Badge>
           <SentimentBadge sentiment={meeting.sentiment} />
           {!hasSummary && (
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-red-500/12 text-red-400">
+            <Badge variant="outline" className="bg-red-500/12 text-red-400">
               ⏳ pending
-            </span>
+            </Badge>
           )}
           <span className="text-[12px] text-muted-foreground">
             {formatDate(meeting.start_time)}
@@ -172,12 +184,13 @@ function SummaryCard({ meeting }: { meeting: ZoomTranscript }) {
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {topics.map((t, i) => (
-                      <span
+                      <Badge
                         key={i}
-                        className="text-[11px] px-2 py-0.5 rounded bg-purple-500/12 text-purple-400"
+                        variant="outline"
+                        className="bg-purple-500/12 text-purple-400"
                       >
                         {typeof t === "string" ? t : t.name}
-                      </span>
+                      </Badge>
                     ))}
                   </div>
                 </div>
@@ -241,16 +254,17 @@ function ActionItemCard({
         </div>
         <div className="flex flex-wrap gap-2 items-center text-[12px] text-muted-foreground mb-3">
           {item.owner && (
-            <span className="px-2 py-0.5 rounded bg-amber-500/12 text-amber-400 font-semibold">
+            <Badge variant="outline" className="bg-amber-500/12 text-amber-400">
               👤 {item.owner}
-            </span>
+            </Badge>
           )}
           {item.priority && (
-            <span
-              className={`text-[11px] font-semibold px-1.5 py-0.5 rounded border ${PRIORITY_STYLES[pri] ?? PRIORITY_STYLES.medium}`}
+            <Badge
+              variant="outline"
+              className={PRIORITY_STYLES[pri] ?? PRIORITY_STYLES.medium}
             >
               {item.priority}
-            </span>
+            </Badge>
           )}
           {item.deadline && (
             <span className="text-[11px] text-muted-foreground">
@@ -263,30 +277,68 @@ function ActionItemCard({
             </span>
           )}
           {item._clientId && (
-            <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-amber-500/15 text-amber-400">
+            <Badge variant="outline" className="bg-amber-500/15 text-amber-400">
               {item._clientId}
-            </span>
+            </Badge>
           )}
         </div>
         <div className="flex gap-2 flex-wrap">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleCopyFollowup}
             disabled={done}
-            className="text-[12px] font-semibold px-3.5 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-amber-500/40 hover:bg-amber-500/8 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {copied ? "📋 Copied" : "📧 Generate Follow-up"}
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleMarkDone}
             disabled={done}
-            className="text-[12px] font-semibold px-3.5 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-green-500/40 hover:bg-green-500/8 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {done ? "✅" : "✅ Done"}
-          </button>
+          </Button>
         </div>
       </div>
     </Card>
   );
+}
+
+// ── Filter constants ──────────────────────────────────────────────────────
+
+const DATE_RANGE_ITEMS = [
+  { label: "Last 7 days", value: "7" },
+  { label: "Last 30 days", value: "30" },
+  { label: "Last 90 days", value: "90" },
+  { label: "All", value: "all" },
+];
+
+const STATUS_ITEMS = [
+  { label: "All", value: "all" },
+  { label: "Open", value: "open" },
+  { label: "Done", value: "done" },
+];
+
+const PRIORITY_ITEMS = [
+  { label: "All", value: "all" },
+  { label: "High", value: "high" },
+  { label: "Medium", value: "medium" },
+  { label: "Low", value: "low" },
+];
+
+function labelForValue(
+  items: { label: string; value: string }[],
+  value: string,
+): string {
+  return items.find((i) => i.value === value)?.label ?? value;
+}
+
+function valueForLabel(
+  items: { label: string; value: string }[],
+  label: string,
+): string {
+  return items.find((i) => i.label === label)?.value ?? label;
 }
 
 // ── Main Component ─────────────────────────────────────────────────────────
@@ -392,40 +444,23 @@ export function MeetingsApp({ meetings }: MeetingsAppProps) {
       {/* Summaries Tab */}
       <TabsContent value="summaries">
         <div className="flex flex-wrap gap-3 mb-5">
-          <input
-            type="text"
-            placeholder="Search meetings…"
+          <Search
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-amber-500/60"
+            onChange={setSearch}
+            placeholder="Search meetings…"
+            debounce={0}
+            className="flex-1 min-w-[180px]"
           />
-          <div className="flex gap-1">
-            {[
-              { value: "7", label: "Last 7 days" },
-              { value: "30", label: "Last 30 days" },
-              { value: "90", label: "Last 90 days" },
-              { value: "all", label: "All" },
-            ].map((r) => (
-              <button
-                key={r.value}
-                onClick={() => setRangeFilter(r.value)}
-                className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
-                  rangeFilter === r.value
-                    ? "bg-amber-500 text-black border-amber-500"
-                    : "border-surface-border text-muted-foreground hover:border-amber-500/40"
-                }`}
-              >
-                {r.label}
-              </button>
-            ))}
-          </div>
+          <PillList
+            items={DATE_RANGE_ITEMS.map((i) => i.label)}
+            selected={labelForValue(DATE_RANGE_ITEMS, rangeFilter)}
+            onSelect={(label) => setRangeFilter(valueForLabel(DATE_RANGE_ITEMS, label))}
+            size="sm"
+          />
         </div>
 
         {filteredMeetings.length === 0 ? (
-          <div className="text-center py-16 text-muted-foreground">
-            <div className="text-4xl mb-3">📝</div>
-            <p>No meetings found</p>
-          </div>
+          <EmptyState icon="📝" title="No meetings found" />
         ) : (
           filteredMeetings.map((m) => (
             <SummaryCard key={m.id} meeting={m} />
@@ -436,54 +471,33 @@ export function MeetingsApp({ meetings }: MeetingsAppProps) {
       {/* Action Items Tab */}
       <TabsContent value="actions">
         <div className="flex flex-wrap gap-3 mb-5">
-          <input
-            type="text"
-            placeholder="Search action items…"
+          <Search
             value={actionSearch}
-            onChange={(e) => setActionSearch(e.target.value)}
-            className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-amber-500/60"
+            onChange={setActionSearch}
+            placeholder="Search action items…"
+            debounce={0}
+            className="flex-1 min-w-[180px]"
           />
 
           {/* Status filter */}
-          <div className="flex gap-1">
-            {["all", "open", "done"].map((s) => (
-              <button
-                key={s}
-                onClick={() => setStatusFilter(s)}
-                className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
-                  statusFilter === s
-                    ? "bg-amber-500 text-black border-amber-500"
-                    : "border-surface-border text-muted-foreground hover:border-amber-500/40"
-                }`}
-              >
-                {s === "all" ? "All" : s === "open" ? "Open" : "Done"}
-              </button>
-            ))}
-          </div>
+          <PillList
+            items={STATUS_ITEMS.map((i) => i.label)}
+            selected={labelForValue(STATUS_ITEMS, statusFilter)}
+            onSelect={(label) => setStatusFilter(valueForLabel(STATUS_ITEMS, label))}
+            size="sm"
+          />
 
           {/* Priority filter */}
-          <div className="flex gap-1">
-            {["all", "high", "medium", "low"].map((p) => (
-              <button
-                key={p}
-                onClick={() => setPriorityFilter(p)}
-                className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
-                  priorityFilter === p
-                    ? "bg-amber-500 text-black border-amber-500"
-                    : "border-surface-border text-muted-foreground hover:border-amber-500/40"
-                }`}
-              >
-                {p === "all" ? "All" : p}
-              </button>
-            ))}
-          </div>
+          <PillList
+            items={PRIORITY_ITEMS.map((i) => i.label)}
+            selected={labelForValue(PRIORITY_ITEMS, priorityFilter)}
+            onSelect={(label) => setPriorityFilter(valueForLabel(PRIORITY_ITEMS, label))}
+            size="sm"
+          />
         </div>
 
         {filteredActions.length === 0 ? (
-          <div className="text-center py-16 text-muted-foreground">
-            <div className="text-4xl mb-3">⚡</div>
-            <p>No action items found</p>
-          </div>
+          <EmptyState icon="⚡" title="No action items found" />
         ) : (
           filteredActions.map((item, i) => (
             <ActionItemCard
