@@ -37,7 +37,7 @@ export default function CringeRizzlerLayout({ children }: { children: ReactNode 
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/8 backdrop-blur-md bg-black/30">
+      <header className="sticky top-0 z-50 border-b border-surface-border backdrop-blur-md bg-surface">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <Link
             href="/apps/cringe-rizzler"
@@ -54,19 +54,19 @@ export default function CringeRizzlerLayout({ children }: { children: ReactNode 
           <nav className="flex gap-3 text-sm">
             <Link
               href="/apps/cringe-rizzler"
-              className="text-white/60 hover:text-pink-400 transition-colors"
+              className="text-muted-foreground hover:text-pink-400 transition-colors"
             >
               App
             </Link>
             <Link
               href="/apps/cringe-rizzler/about"
-              className="text-white/60 hover:text-pink-400 transition-colors"
+              className="text-muted-foreground hover:text-pink-400 transition-colors"
             >
               About
             </Link>
             <Link
               href="/"
-              className="text-white/40 hover:text-white/70 transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               ← Dashboard
             </Link>

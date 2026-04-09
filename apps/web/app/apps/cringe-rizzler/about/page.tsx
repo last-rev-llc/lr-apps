@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Card, CardContent, Button } from "@repo/ui";
 
 export const metadata = {
   title: "About Cringe Rizzler — Embarrass Gen Alpha",
@@ -103,50 +104,52 @@ export default function CringeRizzlerAboutPage() {
           Embarrass Gen Alpha.<br />
           One Phrase at a Time.
         </h1>
-        <p className="text-white/60 text-lg max-w-xl mx-auto leading-relaxed">
+        <p className="text-muted-foreground text-lg max-w-xl mx-auto leading-relaxed">
           AI-powered cringe phrases and memes that weaponize Gen Alpha slang for maximum
           parental embarrassment. No cap fr fr.
         </p>
-        <Link
-          href="/apps/cringe-rizzler"
-          className="inline-block px-8 py-3 rounded-xl font-bold text-white transition-all hover:opacity-90 hover:scale-105"
+        <Button
+          asChild
+          className="rounded-xl px-8 py-3 font-bold text-white hover:opacity-90 hover:scale-105 border-0"
           style={{
             background: "linear-gradient(135deg, #ec4899, #a855f7)",
             boxShadow: "0 0 24px rgba(236,72,153,0.4)",
           }}
         >
-          Start the Cringe →
-        </Link>
+          <Link href="/apps/cringe-rizzler">Start the Cringe →</Link>
+        </Button>
       </div>
 
       {/* Features */}
       <section className="space-y-6">
         <div className="text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">
             What it does
           </p>
-          <h2 className="font-heading text-2xl font-bold text-white">
+          <h2 className="font-heading text-2xl font-bold text-foreground">
             Your Dad Joke Arsenal,<br />Gen Alpha Edition
           </h2>
-          <p className="text-white/50 mt-2 text-sm">
+          <p className="text-muted-foreground mt-2 text-sm">
             Tools designed to make your kids cringe so hard they question their life choices.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {FEATURES.map((f) => (
-            <div
+            <Card
               key={f.title}
-              className="p-5 rounded-2xl border border-white/8 bg-white/5 backdrop-blur-sm space-y-3 hover:bg-white/8 transition-all"
+              className="glass-sm hover:bg-white/8 transition-all"
             >
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                style={{ background: f.color + "20", border: `1px solid ${f.color}30` }}
-              >
-                {f.icon}
-              </div>
-              <h3 className="font-semibold text-white">{f.title}</h3>
-              <p className="text-white/50 text-sm leading-relaxed">{f.desc}</p>
-            </div>
+              <CardContent className="p-5 space-y-3">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
+                  style={{ background: f.color + "20", border: `1px solid ${f.color}30` }}
+                >
+                  {f.icon}
+                </div>
+                <h3 className="font-semibold text-foreground">{f.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{f.desc}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>
@@ -154,40 +157,42 @@ export default function CringeRizzlerAboutPage() {
       {/* How it works */}
       <section className="space-y-6">
         <div className="text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">
             How it works
           </p>
-          <h2 className="font-heading text-2xl font-bold text-white">
+          <h2 className="font-heading text-2xl font-bold text-foreground">
             Three Steps to<br />Maximum Embarrassment
           </h2>
-          <p className="text-white/50 mt-2 text-sm">
+          <p className="text-muted-foreground mt-2 text-sm">
             It&apos;s never been easier to ruin your kid&apos;s social standing.
           </p>
         </div>
         <div className="space-y-3">
           {STEPS.map((step, i) => (
-            <div
+            <Card
               key={step.num}
-              className="flex gap-5 p-5 rounded-2xl border border-white/8 bg-white/5 backdrop-blur-sm"
+              className="glass-sm"
             >
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg shrink-0"
-                style={{
-                  background: i === 0
-                    ? "linear-gradient(135deg, #ec4899, #a855f7)"
-                    : i === 1
-                    ? "linear-gradient(135deg, #a855f7, #3b82f6)"
-                    : "linear-gradient(135deg, #f59e0b, #ec4899)",
-                  color: "white",
-                }}
-              >
-                {step.num}
-              </div>
-              <div>
-                <h3 className="font-bold text-white mb-1">{step.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{step.desc}</p>
-              </div>
-            </div>
+              <CardContent className="flex gap-5 p-5">
+                <div
+                  className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg shrink-0"
+                  style={{
+                    background: i === 0
+                      ? "linear-gradient(135deg, #ec4899, #a855f7)"
+                      : i === 1
+                      ? "linear-gradient(135deg, #a855f7, #3b82f6)"
+                      : "linear-gradient(135deg, #f59e0b, #ec4899)",
+                    color: "white",
+                  }}
+                >
+                  {step.num}
+                </div>
+                <div>
+                  <h3 className="font-bold text-foreground mb-1">{step.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>
@@ -195,56 +200,58 @@ export default function CringeRizzlerAboutPage() {
       {/* Who it's for */}
       <section className="space-y-6">
         <div className="text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-white/40 mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">
             Who it&apos;s for
           </p>
-          <h2 className="font-heading text-2xl font-bold text-white">
+          <h2 className="font-heading text-2xl font-bold text-foreground">
             Built for Parents.<br />Feared by Teenagers.
           </h2>
-          <p className="text-white/50 mt-2 text-sm">
+          <p className="text-muted-foreground mt-2 text-sm">
             If you&apos;ve ever said &ldquo;that&apos;s fire&rdquo; and gotten an eye roll, this is your app.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {USE_CASES.map((u) => (
-            <div
+            <Card
               key={u.title}
-              className="p-5 rounded-2xl border border-white/8 bg-white/5 space-y-3 hover:bg-white/8 transition-all"
+              className="glass-sm hover:bg-white/8 transition-all"
             >
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                style={{ background: u.color + "20", border: `1px solid ${u.color}30` }}
-              >
-                {u.icon}
-              </div>
-              <h3 className="font-semibold text-white">{u.title}</h3>
-              <p className="text-white/50 text-sm leading-relaxed">{u.desc}</p>
-            </div>
+              <CardContent className="p-5 space-y-3">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
+                  style={{ background: u.color + "20", border: `1px solid ${u.color}30` }}
+                >
+                  {u.icon}
+                </div>
+                <h3 className="font-semibold text-foreground">{u.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{u.desc}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>
 
       {/* Final CTA */}
       <section className="text-center py-8 space-y-4">
-        <p className="text-xs font-bold uppercase tracking-widest text-white/40">
+        <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
           Get started
         </p>
-        <h2 className="font-heading text-2xl font-bold text-white">
+        <h2 className="font-heading text-2xl font-bold text-foreground">
           Ready to Be the Most<br />Embarrassing Parent Ever?
         </h2>
-        <p className="text-white/50 text-sm">
+        <p className="text-muted-foreground text-sm">
           Your kids will never recover. That&apos;s the point.
         </p>
-        <Link
-          href="/apps/cringe-rizzler"
-          className="inline-block px-8 py-3 rounded-xl font-bold text-white transition-all hover:opacity-90 hover:scale-105"
+        <Button
+          asChild
+          className="rounded-xl px-8 py-3 font-bold text-white hover:opacity-90 hover:scale-105 border-0"
           style={{
             background: "linear-gradient(135deg, #ec4899, #a855f7)",
             boxShadow: "0 0 24px rgba(236,72,153,0.4)",
           }}
         >
-          Start the Cringe →
-        </Link>
+          <Link href="/apps/cringe-rizzler">Start the Cringe →</Link>
+        </Button>
       </section>
     </div>
   );
