@@ -1,6 +1,12 @@
 import { createClient } from "@repo/db/server";
-import { Badge } from "@repo/ui";
-import { Card, CardContent, CardHeader } from "@repo/ui";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  EmptyState,
+  PageHeader,
+  StatusBadge,
+} from "@repo/ui";
 import type { Site } from "./lib/types";
 
 export const dynamic = "force-dynamic";
@@ -24,30 +30,11 @@ async function getSites(): Promise<Site[]> {
   return (data ?? []) as Site[];
 }
 
-function StatusBadge({ status }: { status: string }) {
-  const variants: Record<string, { label: string; className: string }> = {
-    up: {
-      label: "🟢 Operational",
-      className: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
-    },
-    down: {
-      label: "🔴 Down",
-      className: "bg-red-500/15 text-red-400 border-red-500/30",
-    },
-    degraded: {
-      label: "🟡 Degraded",
-      className: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
-    },
-  };
-  const v = variants[status] ?? variants.degraded;
-  return (
-    <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${v.className}`}
-    >
-      {v.label}
-    </span>
-  );
-}
+const statusVariantMap: Record<string, { variant: "success" | "warning" | "error"; label: string }> = {
+  up: { variant: "success", label: "Operational" },
+  down: { variant: "error", label: "Down" },
+  degraded: { variant: "warning", label: "Degraded" },
+};
 
 function UptimeBars({ history }: { history: Array<{ date: string; status: string; responseTimeMs?: number }> }) {
   const days = [...(history ?? [])].slice(0, 30).reverse();
@@ -58,7 +45,7 @@ function UptimeBars({ history }: { history: Array<{ date: string; status: string
       ? "bg-emerald-500"
       : s === "down"
         ? "bg-red-500"
-        : "bg-yellow-500";
+        : "bg-amber-500";
 
   return (
     <div className="flex gap-0.5 items-end h-8 mt-3">
@@ -87,47 +74,39 @@ export default async function UptimePage() {
 
   return (
     <div className="space-y-6">
-      {/* Page header */}
-      <div>
-        <h1 className="font-heading text-2xl font-bold text-foreground">
-          📡 Uptime Status
-        </h1>
-        <p className="text-muted-foreground text-sm mt-1">
-          Know when your stuff goes down before your users do.
-        </p>
-      </div>
+      <PageHeader
+        title="📡 Uptime Status"
+        subtitle="Know when your stuff goes down before your users do."
+      />
 
       {/* Banner */}
       {issues.length === 0 ? (
-        <div className="rounded-xl px-6 py-4 text-center font-semibold text-base bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-          ✅ All Systems Operational
-        </div>
+        <StatusBadge variant="success" dot className="w-full justify-center rounded-xl px-6 py-4 text-base">
+          All Systems Operational
+        </StatusBadge>
       ) : (
-        <div className="rounded-xl px-6 py-4 text-center font-semibold text-base bg-red-500/15 text-red-400 border border-red-500/30">
+        <StatusBadge variant="error" dot className="w-full justify-center rounded-xl px-6 py-4 text-base">
           ⚠️ {issues.length} System{issues.length > 1 ? "s" : ""} Experiencing Issues
-        </div>
+        </StatusBadge>
       )}
 
       {/* Sites grid */}
       {sites.length === 0 ? (
-        <Card className="bg-surface-card border-surface-border">
-          <CardContent className="py-12 text-center text-muted-foreground">
-            <p className="text-3xl mb-3">📡</p>
-            <p>No sites are being monitored yet.</p>
-            <p className="text-xs mt-2">
-              Sites are managed via the{" "}
-              <a
-                href="https://github.com/last-rev-llc/status-pulse"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-accent hover:underline"
-              >
-                status-pulse
-              </a>{" "}
-              repo.
-            </p>
-          </CardContent>
-        </Card>
+        <EmptyState
+          icon="📡"
+          title="No sites are being monitored yet."
+          description="Sites are managed via the status-pulse repo."
+          action={
+            <a
+              href="https://github.com/last-rev-llc/status-pulse"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent hover:underline text-sm"
+            >
+              last-rev-llc/status-pulse →
+            </a>
+          }
+        />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {sites.map((site) => (
@@ -143,7 +122,12 @@ export default async function UptimePage() {
                       {site.url}
                     </p>
                   </div>
-                  <StatusBadge status={site.status} />
+                  <StatusBadge
+                    variant={statusVariantMap[site.status]?.variant ?? "warning"}
+                    dot
+                  >
+                    {statusVariantMap[site.status]?.label ?? "Unknown"}
+                  </StatusBadge>
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
