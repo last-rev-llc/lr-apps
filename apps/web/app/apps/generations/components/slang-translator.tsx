@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@repo/ui";
+import { Button, Textarea } from "@repo/ui";
 import type { SlangTerm, GenerationConfig } from "../lib/types";
 import { TRANSLATOR_MAPS } from "../lib/generations";
 
@@ -139,7 +139,7 @@ export function SlangTranslator({ terms, gen }: Props) {
       </div>
 
       {/* Input */}
-      <textarea
+      <Textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder={
@@ -147,7 +147,7 @@ export function SlangTranslator({ terms, gen }: Props) {
             ? "Type normal English here..."
             : `Type ${gen.name} slang here...`
         }
-        className="w-full min-h-[120px] px-4 py-3 rounded-xl border border-surface-border bg-surface-card text-foreground text-sm resize-vertical outline-none focus:border-accent transition-colors placeholder:text-muted-foreground"
+        className="min-h-[120px] resize-vertical bg-surface-card font-sans"
         onKeyDown={(e) => {
           if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleTranslate();
         }}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Input, Badge, Card, CardContent } from "@repo/ui";
+import { Input, Badge, Button, Card, CardContent } from "@repo/ui";
 import type { SlangTerm, GenerationConfig } from "../lib/types";
 
 function vibeColor(score: number): string {
@@ -76,20 +76,16 @@ export function SlangDictionary({ terms, gen }: Props) {
       {/* Category pills */}
       <div className="flex flex-wrap gap-1.5">
         {categories.map((cat) => (
-          <button
+          <Button
             key={cat}
+            variant={activeCategory === cat ? "default" : "ghost"}
+            size="sm"
             onClick={() => setActiveCategory(cat)}
-            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all capitalize ${
-              activeCategory === cat
-                ? "text-black"
-                : "bg-surface-raised text-muted-foreground hover:text-foreground"
-            }`}
-            style={
-              activeCategory === cat ? { background: gen.color } : undefined
-            }
+            className="rounded-full capitalize h-7 px-3 text-xs font-semibold"
+            style={activeCategory === cat ? { background: gen.color, color: "black" } : undefined}
           >
             {cat}
-          </button>
+          </Button>
         ))}
       </div>
 
