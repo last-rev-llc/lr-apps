@@ -7,6 +7,19 @@ export { Label } from "./components/label";
 export { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/tabs";
 export { Separator } from "./components/separator";
 export { Badge, badgeVariants } from "./components/badge";
+export { StatusBadge, statusBadgeVariants } from "./components/status-badge";
+export type { StatusBadgeProps } from "./components/status-badge";
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from "./components/table";
+export type { TableHeadProps } from "./components/table";
 export {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,6 +63,10 @@ export { Testimonial } from "./components/testimonial";
 export { IntroText } from "./components/intro-text";
 export { Pricing } from "./components/pricing";
 
+// Data components
+export { DataGrid } from "./components/data-grid";
+export type { DataGridColumn, DataGridProps } from "./components/data-grid";
+
 // Interactive components
 export { Search } from "./components/search";
 export type { SearchProps } from "./components/search";
@@ -75,6 +92,12 @@ export { Mermaid } from "./components/mermaid";
 export type { MermaidProps } from "./components/mermaid";
 export { SlideDeck } from "./components/slide-deck";
 export type { SlideDeckProps } from "./components/slide-deck";
+
+// Loading / feedback components
+export { LoadingSkeleton, loadingSkeletonVariants } from "./components/loading-skeleton";
+export type { LoadingSkeletonProps } from "./components/loading-skeleton";
+export { ErrorBoundary } from "./components/error-boundary";
+export type { ErrorBoundaryProps } from "./components/error-boundary";
 
 // Utility components
 export { Placeholder } from "./components/placeholder";
