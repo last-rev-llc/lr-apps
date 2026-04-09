@@ -5,6 +5,14 @@ import { Button, Textarea } from "@repo/ui";
 import type { SlangTerm, GenerationConfig } from "../lib/types";
 import { TRANSLATOR_MAPS } from "../lib/generations";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 interface Props {
   terms: SlangTerm[];
   gen: GenerationConfig;
@@ -16,7 +24,7 @@ function translateToGen(
   terms: SlangTerm[]
 ): string {
   const map = TRANSLATOR_MAPS[slug] ?? {};
-  let result = text;
+  let result = escapeHtml(text);
   let anyReplaced = false;
 
   // Sort by key length descending to replace longer phrases first
@@ -56,7 +64,7 @@ function translateFromGen(text: string, terms: SlangTerm[]): string {
   const sorted = Object.entries(slangMap).sort(
     (a, b) => b[0].length - a[0].length
   );
-  let result = text;
+  let result = escapeHtml(text);
   let found = false;
 
   for (const [slang, def] of sorted) {
