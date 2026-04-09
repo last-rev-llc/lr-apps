@@ -1,5 +1,12 @@
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
+import noHardcodedColors from "./rules/no-hardcoded-colors.mjs";
+
+const repoPlugin = {
+  rules: {
+    "no-hardcoded-colors": noHardcodedColors,
+  },
+};
 
 export default tseslint.config(
   js.configs.recommended,
@@ -11,6 +18,15 @@ export default tseslint.config(
         { argsIgnorePattern: "^_" },
       ],
       "@typescript-eslint/no-explicit-any": "warn",
+    },
+  },
+  {
+    files: ["**/*.tsx"],
+    plugins: {
+      "@repo": repoPlugin,
+    },
+    rules: {
+      "@repo/no-hardcoded-colors": "warn",
     },
   },
   {
