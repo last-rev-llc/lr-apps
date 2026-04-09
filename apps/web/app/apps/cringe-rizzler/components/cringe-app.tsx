@@ -28,7 +28,7 @@ function VibeBar({ score }: { score: number }) {
   const pct = Math.min(100, (score / 10) * 100);
   return (
     <div className="flex items-center gap-2 mt-1">
-      <span className="text-[11px] text-white/40">Vibe</span>
+      <span className="text-[11px] text-muted-foreground">Vibe</span>
       <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-white/10">
         <div
           className="h-full rounded-full transition-all"
@@ -196,7 +196,7 @@ function PhraseTab() {
             Saved This Session
           </h3>
           {saved.map((item) => (
-            <Card key={item.id} className="border-white/10 bg-white/5">
+            <Card key={item.id} className="glass-sm">
               <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
@@ -527,7 +527,7 @@ function GlossaryTab() {
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {filtered.map((item) => (
-          <Card key={item.term} className="border-white/8 bg-white/5 hover:bg-white/8 transition-all">
+          <Card key={item.term} className="glass-sm hover:bg-white/8 transition-all">
             <CardContent className="p-4 space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <h3 className="font-bold text-white text-base">{item.term}</h3>
