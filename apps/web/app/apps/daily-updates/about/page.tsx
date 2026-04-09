@@ -1,3 +1,5 @@
+import { Card, CardHeader, CardContent, Button } from "@repo/ui";
+
 export default function DailyUpdatesAboutPage() {
   return (
     <div className="max-w-2xl">
@@ -48,14 +50,15 @@ export default function DailyUpdatesAboutPage() {
             desc: "Share individual updates or generate email summaries and presentation decks from feed activity.",
           },
         ].map(({ icon, title, desc }) => (
-          <div
-            key={title}
-            className="glass border border-surface-border rounded-xl p-5"
-          >
-            <div className="text-2xl mb-2">{icon}</div>
-            <h3 className="font-semibold text-foreground mb-1">{title}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
-          </div>
+          <Card key={title} className="glass border-surface-border">
+            <CardHeader className="pb-2">
+              <div className="text-2xl mb-2">{icon}</div>
+              <h3 className="font-semibold text-foreground">{title}</h3>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
+            </CardContent>
+          </Card>
         ))}
       </div>
 
@@ -82,28 +85,24 @@ export default function DailyUpdatesAboutPage() {
               vibe: "Detective vibes, proud of finding intel",
             },
           ].map(({ icon, name, quote, vibe }) => (
-            <div
-              key={name}
-              className="glass border border-surface-border rounded-xl p-5 text-center"
-            >
-              <div className="text-4xl mb-2">{icon}</div>
-              <h4 className="font-semibold mb-1">{name}</h4>
-              <p className="text-sm italic text-foreground mb-1">
-                &quot;{quote}&quot;
-              </p>
-              <p className="text-xs text-muted-foreground">{vibe}</p>
-            </div>
+            <Card key={name} className="glass border-surface-border text-center">
+              <CardContent className="pt-5">
+                <div className="text-4xl mb-2">{icon}</div>
+                <h4 className="font-semibold mb-1">{name}</h4>
+                <p className="text-sm italic text-foreground mb-1">
+                  &quot;{quote}&quot;
+                </p>
+                <p className="text-xs text-muted-foreground">{vibe}</p>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
 
       <div className="text-center">
-        <a
-          href="/apps/daily-updates"
-          className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-black font-semibold px-6 py-3 rounded-xl transition-colors"
-        >
-          View the Feed →
-        </a>
+        <Button asChild className="bg-amber-500 hover:bg-amber-400 text-black font-semibold px-6 py-3 rounded-xl">
+          <a href="/apps/daily-updates">View the Feed →</a>
+        </Button>
       </div>
     </div>
   );
