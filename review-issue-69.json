@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "summary": "All ~219 Tailwind default palette violations replaced with theme tokens across all 10 consumer apps. Build passes.",
+  "findings": [
+    {
+      "severity": "critical",
+      "description": "~219 Tailwind default palette classes (amber-400, green-500, pink-400, etc.) across all 10 consumer apps replaced with project theme tokens (accent, green, pill-*, etc.)",
+      "fixed": true,
+      "file": "apps/web/app/apps/*/components/*.tsx"
+    },
+    {
+      "severity": "warning",
+      "description": "proper-wine-pour gradient had hardcoded #7f1d1d and rgba(255,255,255,0.8) — replaced with oklch-based expressions",
+      "fixed": true,
+      "file": "apps/web/app/apps/proper-wine-pour/components/wine-app.tsx"
+    },
+    {
+      "severity": "info",
+      "description": "themeColor metadata values in layout.tsx files use hex — acceptable since browser meta theme-color API requires literal color values",
+      "fixed": false,
+      "file": "apps/web/app/apps/*/layout.tsx"
+    },
+    {
+      "severity": "info",
+      "description": "Canvas API colors (#ffffff, #000000) in cringe-rizzler meme generator are acceptable — Canvas 2D context requires literal color strings",
+      "fixed": false,
+      "file": "apps/web/app/apps/cringe-rizzler/components/cringe-app.tsx"
+    }
+  ]
+}
