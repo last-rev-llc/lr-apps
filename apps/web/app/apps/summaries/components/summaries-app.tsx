@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger, Card } from "@repo/ui";
+import { Tabs, TabsContent, TabsList, TabsTrigger, Card, Badge, EmptyState, Search, Input } from "@repo/ui";
 import type {
   SummaryItem,
   ZoomSummary,
@@ -76,50 +76,34 @@ function inDateRange(
   return true;
 }
 
-// ── Pill ───────────────────────────────────────────────────────────────────
+// ── Badge color maps ──────────────────────────────────────────────────────
 
-const SOURCE_PILL: Record<string, string> = {
-  zoom: "bg-blue-500/12 text-blue-400 border-blue-500/20",
-  slack: "bg-purple-500/12 text-purple-400 border-purple-500/20",
-  jira: "bg-cyan-500/12 text-cyan-400 border-cyan-500/20",
+const SOURCE_BADGE: Record<string, string> = {
+  zoom: "bg-blue-500/15 text-blue-400 border-0",
+  slack: "bg-purple-500/15 text-purple-400 border-0",
+  jira: "bg-cyan-500/15 text-cyan-400 border-0",
 };
 
-const TONE_PILL: Record<string, string> = {
-  positive: "bg-green-500/12 text-green-400 border-green-500/20",
-  neutral: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
-  negative: "bg-red-500/12 text-red-400 border-red-500/20",
+const TONE_BADGE: Record<string, string> = {
+  positive: "bg-green-500/15 text-green-400 border-0",
+  neutral: "bg-gray-500/15 text-muted-foreground border-0",
+  negative: "bg-red-500/15 text-red-400 border-0",
 };
 
-const PRIORITY_PILL: Record<string, string> = {
-  highest: "bg-red-500/12 text-red-400 border-red-500/20",
-  high: "bg-amber-500/12 text-amber-400 border-amber-500/20",
-  medium: "bg-blue-500/12 text-blue-400 border-blue-500/20",
-  low: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
-  lowest: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
+const PRIORITY_BADGE: Record<string, string> = {
+  highest: "bg-red-500/15 text-red-400 border-0",
+  high: "bg-amber-500/15 text-amber-400 border-0",
+  medium: "bg-blue-500/15 text-blue-400 border-0",
+  low: "bg-gray-500/15 text-muted-foreground border-0",
+  lowest: "bg-gray-500/15 text-muted-foreground border-0",
 };
 
-const STATUS_PILL: Record<string, string> = {
-  done: "bg-green-500/12 text-green-400 border-green-500/20",
-  in_review: "bg-blue-500/12 text-blue-400 border-blue-500/20",
-  in_progress: "bg-amber-500/12 text-amber-400 border-amber-500/20",
-  to_do: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
+const STATUS_BADGE: Record<string, string> = {
+  done: "bg-green-500/15 text-green-400 border-0",
+  in_review: "bg-blue-500/15 text-blue-400 border-0",
+  in_progress: "bg-amber-500/15 text-amber-400 border-0",
+  to_do: "bg-gray-500/15 text-muted-foreground border-0",
 };
-
-function Pill({
-  text,
-  className,
-}: {
-  text: string;
-  className: string;
-}) {
-  return (
-    <span
-      className={`text-[11px] font-semibold px-2 py-0.5 rounded border ${className}`}
-    >
-      {text}
-    </span>
-  );
-}
 
 // ── Summary Card ───────────────────────────────────────────────────────────
 
@@ -145,36 +129,42 @@ function SummaryCard({ item }: { item: SummaryItem }) {
             {title}
           </div>
           <div className="flex flex-wrap gap-1.5 items-center mb-1.5">
-            {/* Source pill */}
-            <Pill
-              text={
-                item.source === "zoom"
-                  ? "📹 Zoom"
-                  : item.source === "slack"
-                    ? "💬 Slack"
-                    : "🎯 Jira"
-              }
-              className={SOURCE_PILL[item.source]}
-            />
+            {/* Source badge */}
+            <Badge
+              variant="secondary"
+              className={`text-[11px] ${SOURCE_BADGE[item.source]}`}
+            >
+              {item.source === "zoom"
+                ? "📹 Zoom"
+                : item.source === "slack"
+                  ? "💬 Slack"
+                  : "🎯 Jira"}
+            </Badge>
             {/* Tone (slack) */}
             {item.source === "slack" && item.tone && (
-              <Pill
-                text={item.tone}
-                className={TONE_PILL[item.tone] ?? TONE_PILL.neutral}
-              />
+              <Badge
+                variant="secondary"
+                className={`text-[11px] ${TONE_BADGE[item.tone] ?? TONE_BADGE.neutral}`}
+              >
+                {item.tone}
+              </Badge>
             )}
             {/* Priority + status (jira) */}
             {item.source === "jira" && item.priority && (
-              <Pill
-                text={item.priority}
-                className={PRIORITY_PILL[item.priority] ?? PRIORITY_PILL.medium}
-              />
+              <Badge
+                variant="secondary"
+                className={`text-[11px] ${PRIORITY_BADGE[item.priority] ?? PRIORITY_BADGE.medium}`}
+              >
+                {item.priority}
+              </Badge>
             )}
             {item.source === "jira" && item.status && (
-              <Pill
-                text={item.status.replace("_", " ")}
-                className={STATUS_PILL[item.status] ?? STATUS_PILL.to_do}
-              />
+              <Badge
+                variant="secondary"
+                className={`text-[11px] ${STATUS_BADGE[item.status] ?? STATUS_BADGE.to_do}`}
+              >
+                {item.status.replace("_", " ")}
+              </Badge>
             )}
             {/* Channel (slack) */}
             {item.source === "slack" && item.channel_id && (
@@ -264,12 +254,13 @@ function SummaryCard({ item }: { item: SummaryItem }) {
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {item.participants.map((p, i) => (
-                  <span
+                  <Badge
                     key={i}
-                    className="text-[11px] px-2 py-0.5 rounded bg-purple-500/12 text-purple-400"
+                    variant="secondary"
+                    className="text-[11px] bg-purple-500/15 text-purple-400 border-0"
                   >
                     {p}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </div>
@@ -285,11 +276,11 @@ function SummaryCard({ item }: { item: SummaryItem }) {
 function GroupedList({ items }: { items: SummaryItem[] }) {
   if (items.length === 0) {
     return (
-      <div className="text-center py-16 text-muted-foreground">
-        <div className="text-4xl mb-3">📋</div>
-        <p>No summaries found</p>
-        <p className="text-sm mt-1 opacity-60">Try adjusting your filters</p>
-      </div>
+      <EmptyState
+        icon="📋"
+        title="No summaries found"
+        description="Try adjusting your filters"
+      />
     );
   }
 
@@ -318,7 +309,7 @@ function GroupedList({ items }: { items: SummaryItem[] }) {
 
 // ── Filter bar ─────────────────────────────────────────────────────────────
 
-const inputCls =
+const selectCls =
   "bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-sky-500/60";
 
 function DateRange({
@@ -334,18 +325,18 @@ function DateRange({
 }) {
   return (
     <div className="flex items-center gap-2">
-      <input
+      <Input
         type="date"
         value={from}
         onChange={(e) => onFrom(e.target.value)}
-        className={`${inputCls} w-36`}
+        className="w-36"
       />
       <span className="text-muted-foreground text-sm">—</span>
-      <input
+      <Input
         type="date"
         value={to}
         onChange={(e) => onTo(e.target.value)}
-        className={`${inputCls} w-36`}
+        className="w-36"
       />
     </div>
   );
@@ -446,12 +437,12 @@ export function SummariesApp({
       {/* ── All Tab ── */}
       <TabsContent value="all">
         <div className="flex flex-wrap gap-3 mb-5">
-          <input
-            type="text"
-            placeholder="Search all summaries…"
+          <Search
             value={allSearch}
-            onChange={(e) => setAllSearch(e.target.value)}
-            className={`flex-1 min-w-[200px] ${inputCls}`}
+            onChange={setAllSearch}
+            placeholder="Search all summaries…"
+            debounce={0}
+            className="flex-1 min-w-[200px]"
           />
           <DateRange
             from={allFrom}
@@ -466,12 +457,12 @@ export function SummariesApp({
       {/* ── Zoom Tab ── */}
       <TabsContent value="zoom">
         <div className="flex flex-wrap gap-3 mb-5">
-          <input
-            type="text"
-            placeholder="Search Zoom summaries…"
+          <Search
             value={zoomSearch}
-            onChange={(e) => setZoomSearch(e.target.value)}
-            className={`flex-1 min-w-[200px] ${inputCls}`}
+            onChange={setZoomSearch}
+            placeholder="Search Zoom summaries…"
+            debounce={0}
+            className="flex-1 min-w-[200px]"
           />
           <DateRange
             from={zoomFrom}
@@ -486,17 +477,17 @@ export function SummariesApp({
       {/* ── Slack Tab ── */}
       <TabsContent value="slack">
         <div className="flex flex-wrap gap-3 mb-5">
-          <input
-            type="text"
-            placeholder="Search Slack summaries…"
+          <Search
             value={slackSearch}
-            onChange={(e) => setSlackSearch(e.target.value)}
-            className={`flex-1 min-w-[200px] ${inputCls}`}
+            onChange={setSlackSearch}
+            placeholder="Search Slack summaries…"
+            debounce={0}
+            className="flex-1 min-w-[200px]"
           />
           <select
             value={slackChannel}
             onChange={(e) => setSlackChannel(e.target.value)}
-            className={inputCls}
+            className={selectCls}
           >
             <option value="">All Channels</option>
             {slackChannels.map((ch) => (
@@ -518,17 +509,17 @@ export function SummariesApp({
       {/* ── Jira Tab ── */}
       <TabsContent value="jira">
         <div className="flex flex-wrap gap-3 mb-5">
-          <input
-            type="text"
-            placeholder="Search Jira summaries…"
+          <Search
             value={jiraSearch}
-            onChange={(e) => setJiraSearch(e.target.value)}
-            className={`flex-1 min-w-[200px] ${inputCls}`}
+            onChange={setJiraSearch}
+            placeholder="Search Jira summaries…"
+            debounce={0}
+            className="flex-1 min-w-[200px]"
           />
           <select
             value={jiraPriority}
             onChange={(e) => setJiraPriority(e.target.value as JiraPriority | "")}
-            className={inputCls}
+            className={selectCls}
           >
             <option value="">All Priorities</option>
             <option value="highest">Highest</option>
@@ -540,7 +531,7 @@ export function SummariesApp({
           <select
             value={jiraStatus}
             onChange={(e) => setJiraStatus(e.target.value as JiraStatus | "")}
-            className={inputCls}
+            className={selectCls}
           >
             <option value="">All Statuses</option>
             <option value="to_do">To Do</option>
