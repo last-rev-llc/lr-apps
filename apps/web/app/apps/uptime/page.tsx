@@ -58,10 +58,10 @@ function UptimeBars({ history }: { history: Array<{ date: string; status: string
 
   const barColor = (s: string) =>
     s === "up"
-      ? "bg-green"
+      ? "bg-emerald-500"
       : s === "down"
-        ? "bg-red"
-        : "bg-yellow";
+        ? "bg-red-500"
+        : "bg-amber-500";
 
   return (
     <div className="flex gap-0.5 items-end h-8 mt-3">
