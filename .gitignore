@@ -23,3 +23,7 @@ package.json.bak
 .vercel
 
 .alpha-loop/auth/
+.alpha-loop/sessions/
+.alpha-loop/learnings/proposed-updates/
+.alpha-loop/traces/
+.playwright-cli/
