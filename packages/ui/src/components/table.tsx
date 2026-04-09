@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { cn } from "../lib/utils";
 
@@ -71,6 +73,7 @@ const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         className,
       )}
       onClick={onSort}
+      aria-sort={sorted === "asc" ? "ascending" : sorted === "desc" ? "descending" : undefined}
       {...props}
     >
       <span className={cn("inline-flex items-center gap-1", onSort && "hover:text-foreground")}>
