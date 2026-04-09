@@ -21,7 +21,7 @@ export default function SuperstarsPage() {
         <p className="text-white/50 text-sm mb-6">Redirecting to profile…</p>
         <Link
           href={`/apps/superstars/${p.id}`}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#00543C] border border-[#FDBB30] text-[#FDBB30] font-semibold hover:opacity-80 transition-opacity"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--ss-primary)] border border-[var(--ss-accent)] text-[var(--ss-accent)] font-semibold hover:opacity-80 transition-opacity"
         >
           View {p.name}&apos;s Profile →
         </Link>

@@ -8,6 +8,10 @@
   --quake-red: #CE0F2D;
   --quake-gold: #D4A843;
   --glow-blue: rgba(0, 103, 177, 0.6);
+  --quake-navy: #001428;
+  --quake-navy-deep: #002952;
+  --quake-near-black: #0a0a0a;
+  --quake-dark-red: #8B0000;
 }
 
 @keyframes bqScreenShake {
@@ -71,7 +75,7 @@
     transform: translateY(-25px) translateX(0) rotate(0deg) scale(1.1);
     opacity: 1;
     filter: brightness(2.5);
-    text-shadow: 0 0 60px #fff, 0 0 120px rgba(206,15,45,1);
+    text-shadow: 0 0 60px var(--quake-white), 0 0 120px var(--quake-red);
   }
   65% {
     transform: translateY(40px) translateX(var(--fall-x)) rotate(calc(var(--fall-rot) * 0.5)) scale(0.9);
@@ -95,7 +99,7 @@
     transform: translateY(-60px) scale(1.3);
     opacity: 1;
     filter: brightness(3);
-    text-shadow: 0 0 80px #fff, 0 0 160px rgba(206,15,45,1);
+    text-shadow: 0 0 80px var(--quake-white), 0 0 160px var(--quake-red);
   }
   96% {
     transform: translateY(5px) scale(0.98);
@@ -120,7 +124,7 @@
 
 @keyframes bqWaveUp {
   0%, 40%, 100% { transform: translateY(0); background: var(--quake-blue); }
-  20% { transform: translateY(-50px); background: var(--quake-gold); box-shadow: 0 0 25px rgba(212, 168, 67, 0.8); }
+  20% { transform: translateY(-50px); background: var(--quake-gold); box-shadow: 0 0 25px color-mix(in srgb, var(--quake-gold) 80%, transparent); }
 }
 
 @keyframes bqHandsUp {
@@ -130,7 +134,7 @@
 
 @keyframes bqBorderPulse {
   0%, 100% { border-color: var(--quake-blue); box-shadow: 0 0 40px var(--glow-blue); }
-  50% { border-color: var(--quake-gold); box-shadow: 0 0 60px rgba(212, 168, 67, 0.4); }
+  50% { border-color: var(--quake-gold); box-shadow: 0 0 60px color-mix(in srgb, var(--quake-gold) 40%, transparent); }
 }
 
 @keyframes bqPulse {
@@ -144,8 +148,8 @@
 }
 
 @keyframes bqRoarPulse {
-  from { transform: scale(1); text-shadow: 0 0 20px rgba(255,255,255,0.3); }
-  to { transform: scale(1.03); text-shadow: 0 0 60px rgba(255,255,255,0.8); }
+  from { transform: scale(1); text-shadow: 0 0 20px color-mix(in srgb, var(--quake-white) 30%, transparent); }
+  to { transform: scale(1.03); text-shadow: 0 0 60px color-mix(in srgb, var(--quake-white) 80%, transparent); }
 }
 
 @keyframes bqEmojiWave {
@@ -182,7 +186,7 @@
   background:
     radial-gradient(ellipse at 50% 0%, var(--quake-blue) 0%, transparent 60%),
     radial-gradient(ellipse at 20% 80%, var(--quake-dark-blue) 0%, transparent 40%),
-    radial-gradient(ellipse at 80% 80%, rgba(206, 15, 45, 0.3) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 80%, color-mix(in srgb, var(--quake-red) 30%, transparent) 0%, transparent 40%),
     var(--quake-black);
   overflow: hidden;
   font-family: 'Inter', sans-serif;
@@ -196,8 +200,8 @@
     0deg,
     transparent,
     transparent 40px,
-    rgba(0, 103, 177, 0.05) 40px,
-    rgba(0, 103, 177, 0.05) 41px
+    color-mix(in srgb, var(--quake-blue) 5%, transparent) 40px,
+    color-mix(in srgb, var(--quake-blue) 5%, transparent) 41px
   );
   pointer-events: none;
 }
@@ -248,7 +252,7 @@
   text-transform: uppercase;
   margin-bottom: 0.5rem;
   animation: bqFadeSlideDown 1s ease-out 0.2s both;
-  text-shadow: 0 0 20px rgba(212, 168, 67, 0.5);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--quake-gold) 50%, transparent);
   position: relative;
   z-index: 2;
 }
@@ -262,7 +266,7 @@
   animation: bqTitleSlam 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
   text-shadow:
     0 0 40px var(--glow-blue),
-    0 0 80px rgba(0, 103, 177, 0.3),
+    0 0 80px color-mix(in srgb, var(--quake-blue) 30%, transparent),
     4px 4px 0 var(--quake-dark-blue);
   position: relative;
   z-index: 2;
@@ -272,7 +276,7 @@
   display: inline-block;
   font-size: 2.2em;
   color: var(--quake-red);
-  text-shadow: 0 0 80px rgba(206, 15, 45, 0.9), 0 0 150px rgba(206, 15, 45, 0.4), 8px 8px 0 #8B0000;
+  text-shadow: 0 0 80px color-mix(in srgb, var(--quake-red) 90%, transparent), 0 0 150px color-mix(in srgb, var(--quake-red) 40%, transparent), 8px 8px 0 var(--quake-dark-red);
   position: relative;
   filter: brightness(1.2);
   animation: bqWordTremor 5s ease-in-out infinite;
@@ -307,7 +311,7 @@
 .bq-hero-sub {
   font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(1rem, 2.5vw, 1.8rem);
-  color: rgba(255,255,255,0.7);
+  color: color-mix(in srgb, var(--quake-white) 70%, transparent);
   letter-spacing: 0.3em;
   animation: bqFadeSlideDown 1s ease-out 1s both;
   margin-bottom: 2rem;
@@ -334,7 +338,7 @@
 }
 .bq-quake-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 50px var(--glow-blue), 0 0 100px rgba(0, 103, 177, 0.3);
+  box-shadow: 0 0 50px var(--glow-blue), 0 0 100px color-mix(in srgb, var(--quake-blue) 30%, transparent);
   background: linear-gradient(135deg, var(--quake-dark-blue), var(--quake-blue));
 }
 .bq-quake-btn:active {
@@ -345,7 +349,7 @@
 .bq-wave-section {
   position: relative;
   padding: 4rem 2rem;
-  background: linear-gradient(180deg, var(--quake-black) 0%, #001428 50%, var(--quake-black) 100%);
+  background: linear-gradient(180deg, var(--quake-black) 0%, var(--quake-navy) 50%, var(--quake-black) 100%);
   overflow: hidden;
   text-align: center;
   font-family: 'Inter', sans-serif;
@@ -359,7 +363,7 @@
 }
 .bq-wave-section p {
   font-size: clamp(1rem, 2vw, 1.3rem);
-  color: rgba(255,255,255,0.6);
+  color: color-mix(in srgb, var(--quake-white) 60%, transparent);
   max-width: 600px;
   margin: 0 auto 3rem;
 }
@@ -408,7 +412,7 @@
   padding: 4rem 2rem;
   text-align: center;
   background:
-    radial-gradient(ellipse at center, rgba(0, 103, 177, 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse at center, color-mix(in srgb, var(--quake-blue) 15%, transparent) 0%, transparent 70%),
     var(--quake-black);
   font-family: 'Inter', sans-serif;
   color: var(--quake-white);
@@ -423,14 +427,14 @@
   max-width: 900px;
   margin: 0 auto;
   aspect-ratio: 16/9;
-  background: linear-gradient(135deg, #001428 0%, #002952 100%);
+  background: linear-gradient(135deg, var(--quake-navy) 0%, var(--quake-navy-deep) 100%);
   border: 3px solid var(--quake-blue);
   border-radius: 16px;
   overflow: hidden;
   box-shadow:
     0 0 40px var(--glow-blue),
-    0 0 80px rgba(0, 103, 177, 0.2),
-    inset 0 0 60px rgba(0, 103, 177, 0.1);
+    0 0 80px color-mix(in srgb, var(--quake-blue) 20%, transparent),
+    inset 0 0 60px color-mix(in srgb, var(--quake-blue) 10%, transparent);
   animation: bqBorderPulse 3s ease-in-out infinite;
 }
 .bq-video-container iframe {
@@ -448,15 +452,15 @@
   justify-content: center;
   gap: 3rem;
   flex-wrap: wrap;
-  background: linear-gradient(180deg, var(--quake-black) 0%, #0a0a0a 100%);
+  background: linear-gradient(180deg, var(--quake-black) 0%, var(--quake-near-black) 100%);
   font-family: 'Inter', sans-serif;
   color: var(--quake-white);
 }
 .bq-stat-card {
   text-align: center;
   padding: 2rem;
-  background: rgba(0, 103, 177, 0.1);
-  border: 1px solid rgba(0, 103, 177, 0.3);
+  background: color-mix(in srgb, var(--quake-blue) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--quake-blue) 30%, transparent);
   border-radius: 16px;
   min-width: 180px;
   transition: transform 0.3s, box-shadow 0.3s;
@@ -472,20 +476,20 @@
   font-family: 'Russo One', sans-serif;
   font-size: 2.5rem;
   color: var(--quake-gold);
-  text-shadow: 0 0 20px rgba(212, 168, 67, 0.5);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--quake-gold) 50%, transparent);
 }
 .bq-stat-label {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 1.1rem;
   letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.6);
+  color: color-mix(in srgb, var(--quake-white) 60%, transparent);
   margin-top: 0.3rem;
 }
 
 /* Quotes section */
 .bq-quotes-section {
   padding: 4rem 2rem;
-  background: linear-gradient(180deg, #0a0a0a 0%, #001428 50%, var(--quake-black) 100%);
+  background: linear-gradient(180deg, var(--quake-near-black) 0%, var(--quake-navy) 50%, var(--quake-black) 100%);
   text-align: center;
   font-family: 'Inter', sans-serif;
   color: var(--quake-white);
@@ -504,8 +508,8 @@
   margin: 0 auto;
 }
 .bq-quote-card {
-  background: rgba(0, 103, 177, 0.08);
-  border: 1px solid rgba(0, 103, 177, 0.2);
+  background: color-mix(in srgb, var(--quake-blue) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--quake-blue) 20%, transparent);
   border-radius: 16px;
   padding: 2rem;
   text-align: left;
@@ -530,7 +534,7 @@
 .bq-quote-text {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: rgba(255,255,255,0.85);
+  color: color-mix(in srgb, var(--quake-white) 85%, transparent);
   margin-bottom: 1rem;
   padding-top: 1rem;
 }
@@ -570,10 +574,10 @@
   padding: 2rem;
   text-align: center;
   background: var(--quake-black);
-  border-top: 2px solid rgba(0, 103, 177, 0.2);
+  border-top: 2px solid color-mix(in srgb, var(--quake-blue) 20%, transparent);
   font-family: 'Bebas Neue', sans-serif;
   letter-spacing: 0.3em;
-  color: rgba(255,255,255,0.3);
+  color: color-mix(in srgb, var(--quake-white) 30%, transparent);
   font-size: 0.9rem;
 }
 
