@@ -28,7 +28,7 @@ function VibeBar({ score }: { score: number }) {
   const pct = Math.min(100, (score / 10) * 100);
   return (
     <div className="flex items-center gap-2 mt-1">
-      <span className="text-[11px] text-white/40">Vibe</span>
+      <span className="text-[11px] text-muted-foreground">Vibe</span>
       <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-white/10">
         <div
           className="h-full rounded-full transition-all"
@@ -122,7 +122,7 @@ function PhraseTab() {
           {isPending ? (
             <div className="space-y-3">
               <div className="w-8 h-8 border-2 border-pink-400 border-t-transparent rounded-full animate-spin mx-auto" />
-              <p className="text-white/40 text-sm">Generating maximum cringe...</p>
+              <p className="text-muted-foreground text-sm">Generating maximum cringe...</p>
             </div>
           ) : phrase ? (
             <div className="space-y-4 w-full">
@@ -166,7 +166,7 @@ function PhraseTab() {
           ) : (
             <div className="space-y-3">
               <div className="text-5xl opacity-30">💀</div>
-              <p className="text-white/40 text-sm">
+              <p className="text-muted-foreground text-sm">
                 Hit the button to generate your first cringe phrase
               </p>
               {error && <p className="text-red-400 text-sm">{error}</p>}
@@ -192,11 +192,11 @@ function PhraseTab() {
       {/* Saved collection */}
       {saved.length > 0 && (
         <div className="space-y-3 pt-2">
-          <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider">
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
             Saved This Session
           </h3>
           {saved.map((item) => (
-            <Card key={item.id} className="border-white/10 bg-white/5">
+            <Card key={item.id} className="glass-sm">
               <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
@@ -217,18 +217,20 @@ function PhraseTab() {
                       </div>
                     )}
                   </div>
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() =>
                       copyToClipboard(item.content, () => {
                         setCopied(true);
                         setTimeout(() => setCopied(false), 1500);
                       })
                     }
-                    className="text-white/30 hover:text-white/70 transition-colors shrink-0 text-xs"
+                    className="text-muted-foreground hover:text-foreground shrink-0 text-xs px-2"
                     title="Copy"
                   >
                     ⎘
-                  </button>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -363,21 +365,23 @@ function MemeTab() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-5">
-      <p className="text-white/50 text-sm text-center">
+      <p className="text-muted-foreground text-sm text-center">
         Pick a scenario → get a cringe caption → cycle through classic meme templates
       </p>
 
       {/* Scenario grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
         {SCENARIOS.map((s) => (
-          <button
+          <Button
             key={s}
+            variant="outline"
+            size="sm"
             onClick={() => handlePickScenario(s)}
             disabled={isPending}
-            className="px-3 py-2.5 rounded-xl text-sm text-left font-medium transition-all border border-violet-500/20 bg-violet-500/10 hover:bg-violet-500/20 hover:border-violet-400/40 text-violet-200 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="justify-start rounded-xl text-left font-medium border-violet-500/20 bg-violet-500/10 hover:bg-violet-500/20 hover:border-violet-400/40 text-violet-200"
           >
             🎭 {s}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -385,7 +389,7 @@ function MemeTab() {
         <Card className="border-violet-500/20 bg-white/5">
           <CardContent className="p-8 text-center">
             <div className="w-8 h-8 border-2 border-violet-400 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-white/40 text-sm">Generating cringe caption...</p>
+            <p className="text-muted-foreground text-sm">Generating cringe caption...</p>
           </CardContent>
         </Card>
       )}
@@ -395,7 +399,7 @@ function MemeTab() {
           <CardContent className="p-5 space-y-4">
             {/* Caption display */}
             <div className="text-center space-y-1">
-              <p className="text-xs text-white/40">Scenario: {meme.scenario}</p>
+              <p className="text-xs text-muted-foreground">Scenario: {meme.scenario}</p>
               <p className="font-bold text-white/90">
                 &ldquo;{meme.topText}&rdquo; / &ldquo;{meme.bottomText}&rdquo;
               </p>
@@ -412,26 +416,30 @@ function MemeTab() {
             {templates.length > 0 && (
               <>
                 <div className="flex items-center gap-3 justify-center">
-                  <button
+                  <Button
+                    variant="outline"
+                    size="icon"
                     onClick={() => cycleMeme(-1)}
-                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:border-violet-400/50 hover:bg-violet-500/10 text-white/60 hover:text-violet-300 transition-all flex items-center justify-center text-xl font-bold"
+                    className="w-10 h-10 rounded-full border-surface-border bg-surface hover:border-violet-400/50 hover:bg-violet-500/10 text-muted-foreground hover:text-violet-300 text-xl font-bold"
                     aria-label="Previous template"
                   >
                     ‹
-                  </button>
+                  </Button>
                   <div className="text-center">
                     <p className="text-sm font-medium text-white/80">{currentTemplate?.name}</p>
-                    <p className="text-xs text-white/40">
+                    <p className="text-xs text-muted-foreground">
                       {meme.templateIdx + 1} of {templates.length}
                     </p>
                   </div>
-                  <button
+                  <Button
+                    variant="outline"
+                    size="icon"
                     onClick={() => cycleMeme(1)}
-                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:border-violet-400/50 hover:bg-violet-500/10 text-white/60 hover:text-violet-300 transition-all flex items-center justify-center text-xl font-bold"
+                    className="w-10 h-10 rounded-full border-surface-border bg-surface hover:border-violet-400/50 hover:bg-violet-500/10 text-muted-foreground hover:text-violet-300 text-xl font-bold"
                     aria-label="Next template"
                   >
                     ›
-                  </button>
+                  </Button>
                 </div>
 
                 {/* Hidden image triggers canvas draw */}
@@ -454,7 +462,7 @@ function MemeTab() {
             )}
 
             {loadingTemplates && (
-              <p className="text-xs text-white/40 text-center">Loading templates...</p>
+              <p className="text-xs text-muted-foreground text-center">Loading templates...</p>
             )}
 
             <div className="flex gap-2 justify-center">
@@ -512,20 +520,20 @@ function GlossaryTab() {
         </select>
       </div>
 
-      <p className="text-xs text-white/30">
+      <p className="text-xs text-muted-foreground">
         {filtered.length} term{filtered.length !== 1 ? "s" : ""} — sorted by vibe score
       </p>
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {filtered.map((item) => (
-          <Card key={item.term} className="border-white/8 bg-white/5 hover:bg-white/8 transition-all">
+          <Card key={item.term} className="glass-sm hover:bg-white/8 transition-all">
             <CardContent className="p-4 space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <h3 className="font-bold text-white text-base">{item.term}</h3>
                 <CategoryBadge cat={item.category} />
               </div>
-              <p className="text-white/60 text-sm leading-relaxed">{item.definition}</p>
+              <p className="text-muted-foreground text-sm leading-relaxed">{item.definition}</p>
               <VibeBar score={item.vibeScore} />
             </CardContent>
           </Card>
@@ -533,7 +541,7 @@ function GlossaryTab() {
       </div>
 
       {filtered.length === 0 && (
-        <div className="text-center py-12 text-white/30">
+        <div className="text-center py-12 text-muted-foreground">
           <div className="text-4xl mb-3">🤔</div>
           <p>No slang found. Try a different search.</p>
         </div>
@@ -560,29 +568,29 @@ export function CringeApp() {
         >
           Cringe Rizzler
         </h1>
-        <p className="text-white/50 text-sm">
+        <p className="text-muted-foreground text-sm">
           Embarrass Gen Alpha with hilariously bad slang usage
         </p>
       </div>
 
       {/* Tabs */}
       <Tabs defaultValue="phrases" className="w-full">
-        <TabsList className="w-full max-w-md mx-auto flex bg-white/5 border border-white/10 p-1 rounded-xl">
+        <TabsList className="w-full max-w-md mx-auto flex bg-surface border border-surface-border p-1 rounded-xl">
           <TabsTrigger
             value="phrases"
-            className="flex-1 text-sm data-[state=active]:bg-pink-500/20 data-[state=active]:text-pink-300 data-[state=active]:shadow-none rounded-lg transition-all text-white/50"
+            className="flex-1 text-sm data-[state=active]:bg-pink-500/20 data-[state=active]:text-pink-300 data-[state=active]:shadow-none rounded-lg transition-all text-muted-foreground"
           >
             💬 Phrases
           </TabsTrigger>
           <TabsTrigger
             value="memes"
-            className="flex-1 text-sm data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-300 data-[state=active]:shadow-none rounded-lg transition-all text-white/50"
+            className="flex-1 text-sm data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-300 data-[state=active]:shadow-none rounded-lg transition-all text-muted-foreground"
           >
             🖼️ Memes
           </TabsTrigger>
           <TabsTrigger
             value="glossary"
-            className="flex-1 text-sm data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-300 data-[state=active]:shadow-none rounded-lg transition-all text-white/50"
+            className="flex-1 text-sm data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-300 data-[state=active]:shadow-none rounded-lg transition-all text-muted-foreground"
           >
             📖 Glossary
           </TabsTrigger>
