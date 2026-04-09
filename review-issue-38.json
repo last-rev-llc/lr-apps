@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "summary": "Component migration to @repo/ui is complete, all 71 tests pass, no TS errors in changed files, exports verified",
+  "findings": [
+    {
+      "severity": "info",
+      "description": "sprint-app.tsx declares `const [error, setError] = useState<string | null>(null)` but neither `error` nor `setError` are ever used — dead code from a removed error-display path",
+      "fixed": false,
+      "file": "apps/web/app/apps/sprint-planning/components/sprint-app.tsx"
+    },
+    {
+      "severity": "info",
+      "description": "Uptime page defines a local `StatusBadge` function while @repo/ui also exports StatusBadge — works fine due to local scope, but could cause confusion during future refactoring",
+      "fixed": false,
+      "file": "apps/web/app/apps/uptime/page.tsx"
+    }
+  ]
+}

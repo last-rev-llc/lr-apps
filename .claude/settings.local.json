@@ -94,7 +94,10 @@
       "Bash(yes \"\")",
       "Bash(lsof -ti:4747)",
       "Bash(gh api:*)",
-      "Bash(xargs -I {} basename {})"
+      "Bash(xargs -I {} basename {})",
+      "Bash(gh pr:*)",
+      "Bash(npx vercel:*)",
+      "Bash(gh issue:*)"
     ]
   }
 }

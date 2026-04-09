@@ -1,0 +1,54 @@
+{
+  "passed": false,
+  "summary": "Sentiment mood-badge regression replaces @repo/ui StatusBadge with raw HTML, violating CLAUDE.md non-negotiable; slang-translator XSS fix is good but incomplete for suggestion fallback text",
+  "findings": [
+    {
+      "severity": "critical",
+      "description": "Sentiment mood-badge.tsx replaces StatusBadge (a @repo/ui component) with raw HTML <span> elements and hardcoded styles. This directly violates the CLAUDE.md non-negotiable: 'All shared UI goes through @repo/ui. Do not create app-local copies of components that belong in the shared library.' StatusBadge is active, exported, and working. This change should be reverted — the current code is correct.",
+      "fixed": false,
+      "file": "apps/web/app/apps/sentiment/components/mood-badge.tsx"
+    },
+    {
+      "severity": "warning",
+      "description": "slang-translator escapeHtml is added for user input in translateToGen/translateFromGen (good XSS fix), but the suggestion fallback text still interpolates term names from data without escaping: `Try terms like: ${suggestions}`. While these come from JSON/DB, consistency demands escaping all interpolated content rendered via dangerouslySetInnerHTML.",
+      "fixed": false,
+      "file": "apps/web/app/apps/generations/components/slang-translator.tsx"
+    },
+    {
+      "severity": "warning",
+      "description": "slang-translator layout test (slang-translator/__tests__/layout.test.tsx) expects Topbar component, but the diff was truncated and may not include the actual slang-translator/layout.tsx migration. If the layout file change is missing, tests will fail because the current layout uses a custom <header>, not <Topbar>.",
+      "fixed": false,
+      "file": "apps/web/app/apps/slang-translator/layout.tsx"
+    },
+    {
+      "severity": "info",
+      "description": "Generations layout migration from custom header to Topbar/AppNav is well-done and consistent with the shared component pattern. Good use of navItems array derived from GENERATIONS config.",
+      "fixed": false,
+      "file": "apps/web/app/apps/generations/layout.tsx"
+    },
+    {
+      "severity": "info",
+      "description": "Generation-card migration to Card/CardContent wrapping is clean. Link moved inside CardContent maintains clickability while gaining consistent card styling.",
+      "fixed": false,
+      "file": "apps/web/app/apps/generations/components/generation-card.tsx"
+    },
+    {
+      "severity": "info",
+      "description": "Slang-quiz migration from raw <button> to <Button variant='outline'> with cn() for conditional styling is a clean improvement. Quiz logic and state management are solid.",
+      "fixed": false,
+      "file": "apps/web/app/apps/generations/components/slang-quiz.tsx"
+    },
+    {
+      "severity": "info",
+      "description": "Test coverage is comprehensive: gen-page, generation-card, layout, slang-dictionary, slang-quiz, slang-translator queries/layout/app, and gen-x-map all have meaningful tests with proper mocking patterns.",
+      "fixed": false,
+      "file": "apps/web/app/apps/generations/__tests__/"
+    },
+    {
+      "severity": "info",
+      "description": "Cringe-rizzler changes (Button, Input, Badge migrations) are well-executed but extend beyond the 'Generations' scope in the issue title. Consider whether these belong in a separate PR or are intentionally bundled.",
+      "fixed": false,
+      "file": "apps/web/app/apps/cringe-rizzler/"
+    }
+  ]
+}
