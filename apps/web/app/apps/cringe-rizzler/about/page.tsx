@@ -11,37 +11,37 @@ const FEATURES = [
     icon: "✨",
     title: "AI Phrase Generator",
     desc: "One-click cringe phrases that hilariously misuse Gen Alpha slang in Boomer speech patterns.",
-    color: "#f59e0b",
+    color: "var(--color-accent)",
   },
   {
     icon: "🖼️",
     title: "Meme Generator",
     desc: "AI-captioned memes on classic templates for every awkward parent scenario — from family dinner to parent-teacher night.",
-    color: "#a855f7",
+    color: "var(--color-pill-0)",
   },
   {
     icon: "📖",
     title: "Slang Glossary",
     desc: "Every generated phrase shows the Gen Alpha terms used with definitions so you know exactly what you're mangling.",
-    color: "#22c55e",
+    color: "var(--color-pill-2)",
   },
   {
     icon: "⎘",
     title: "Copy & Share",
     desc: "One-tap copy to clipboard. Paste into the family group chat for instant chaos.",
-    color: "#ec4899",
+    color: "var(--color-pill-6)",
   },
   {
     icon: "🏆",
     title: "Vibe Scores",
     desc: "Each slang term is rated 1–10 so you know which words pack the most cringe power.",
-    color: "#3b82f6",
+    color: "var(--color-pill-1)",
   },
   {
     icon: "🎯",
     title: "Category Filters",
     desc: "Browse slang by personality, fashion, internet culture, and more. Study before you deploy.",
-    color: "#f43f5e",
+    color: "var(--color-pill-6)",
   },
 ];
 
@@ -50,19 +50,19 @@ const USE_CASES = [
     icon: "👨‍👩‍👧",
     title: "Gen X Parents",
     desc: "You grew up saying \"radical\" and \"gnarly.\" Now weaponize \"sigma\" and \"rizz\" with the same chaotic energy.",
-    color: "#f59e0b",
+    color: "var(--color-accent)",
   },
   {
     icon: "☕",
     title: "Boomer Grandparents",
     desc: "Take your \"back in my day\" energy and combine it with Gen Alpha brainrot for legendary family dinners.",
-    color: "#a855f7",
+    color: "var(--color-pill-0)",
   },
   {
     icon: "💼",
     title: "Cool Coworkers",
     desc: "Spice up that Slack message or all-hands meeting. \"This quarterly report is bussin no cap fr fr.\"",
-    color: "#22c55e",
+    color: "var(--color-pill-2)",
   },
 ];
 
@@ -89,13 +89,13 @@ export default function CringeRizzlerAboutPage() {
     <div className="max-w-3xl mx-auto space-y-16">
       {/* Hero */}
       <div className="text-center space-y-4 py-8">
-        <p className="text-xs font-bold uppercase tracking-widest text-pink-400">
+        <p className="text-xs font-bold uppercase tracking-widest text-pill-6">
           🔥 Maximum Cringe Unlocked 🔥
         </p>
         <h1
           className="font-heading text-4xl font-black leading-tight"
           style={{
-            background: "linear-gradient(135deg, #ec4899, #a855f7, #f59e0b)",
+            background: "linear-gradient(135deg, var(--color-pill-6), var(--color-pill-0), var(--color-accent))",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
@@ -111,8 +111,8 @@ export default function CringeRizzlerAboutPage() {
           href="/apps/cringe-rizzler"
           className="inline-block px-8 py-3 rounded-xl font-bold text-white transition-all hover:opacity-90 hover:scale-105"
           style={{
-            background: "linear-gradient(135deg, #ec4899, #a855f7)",
-            boxShadow: "0 0 24px rgba(236,72,153,0.4)",
+            background: "linear-gradient(135deg, var(--color-pill-6), var(--color-pill-0))",
+            boxShadow: "0 0 24px color-mix(in srgb, var(--color-pill-6) 40%, transparent)",
           }}
         >
           Start the Cringe →
@@ -136,7 +136,7 @@ export default function CringeRizzlerAboutPage() {
           {FEATURES.map((f) => (
             <div
               key={f.title}
-              className="p-5 rounded-2xl border border-white/8 bg-white/5 backdrop-blur-sm space-y-3 hover:bg-white/8 transition-all"
+              className="glass-sm p-5 space-y-3 hover:bg-white/8 transition-all"
             >
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
@@ -168,16 +168,16 @@ export default function CringeRizzlerAboutPage() {
           {STEPS.map((step, i) => (
             <div
               key={step.num}
-              className="flex gap-5 p-5 rounded-2xl border border-white/8 bg-white/5 backdrop-blur-sm"
+              className="glass-sm flex gap-5 p-5"
             >
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg shrink-0"
                 style={{
                   background: i === 0
-                    ? "linear-gradient(135deg, #ec4899, #a855f7)"
+                    ? "linear-gradient(135deg, var(--color-pill-6), var(--color-pill-0))"
                     : i === 1
-                    ? "linear-gradient(135deg, #a855f7, #3b82f6)"
-                    : "linear-gradient(135deg, #f59e0b, #ec4899)",
+                    ? "linear-gradient(135deg, var(--color-pill-0), var(--color-pill-1))"
+                    : "linear-gradient(135deg, var(--color-accent), var(--color-pill-6))",
                   color: "white",
                 }}
               >
@@ -239,8 +239,8 @@ export default function CringeRizzlerAboutPage() {
           href="/apps/cringe-rizzler"
           className="inline-block px-8 py-3 rounded-xl font-bold text-white transition-all hover:opacity-90 hover:scale-105"
           style={{
-            background: "linear-gradient(135deg, #ec4899, #a855f7)",
-            boxShadow: "0 0 24px rgba(236,72,153,0.4)",
+            background: "linear-gradient(135deg, var(--color-pill-6), var(--color-pill-0))",
+            boxShadow: "0 0 24px color-mix(in srgb, var(--color-pill-6) 40%, transparent)",
           }}
         >
           Start the Cringe →

@@ -148,7 +148,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
           className={[
             "px-3 py-1 rounded-full text-sm border transition-colors",
             selectedCategory === "all"
-              ? "border-amber-400 bg-amber-400/10 text-amber-400"
+              ? "border-accent bg-accent/10 text-accent"
               : "border-white/10 text-muted-foreground hover:border-white/30",
           ].join(" ")}
         >
@@ -161,7 +161,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
             className={[
               "px-3 py-1 rounded-full text-sm border transition-colors",
               selectedCategory === cat
-                ? "border-amber-400 bg-amber-400/10 text-amber-400"
+                ? "border-accent bg-accent/10 text-accent"
                 : "border-white/10 text-muted-foreground hover:border-white/30",
             ].join(" ")}
           >
@@ -171,13 +171,13 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
       </div>
 
       {/* Joke card */}
-      <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
+      <Card className="glass-sm">
         <CardContent className="p-8 text-center space-y-6">
           {/* Mode badge */}
           <div>
             <Badge
               variant="outline"
-              className="border-amber-400/40 text-amber-400 bg-amber-400/10"
+              className="border-accent/40 text-accent bg-accent/10"
             >
               {mode === "jotd" ? "🗓️ Joke of the Day" : "🎲 Random Joke"}
             </Badge>
@@ -191,7 +191,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
           {/* Punchline / reveal */}
           {punchlineRevealed ? (
             <div className="space-y-6 animate-in fade-in duration-300">
-              <p className="text-xl text-amber-400 font-medium">
+              <p className="text-xl text-accent font-medium">
                 {currentJoke.punchline}
               </p>
 
@@ -208,7 +208,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
                         title={label}
                         onClick={() => rateJoke(key)}
                         disabled={ratingSubmitting}
-                        className="text-2xl p-2 rounded-xl border-2 border-white/10 bg-white/5 hover:border-amber-400 hover:scale-110 transition-all disabled:opacity-50"
+                        className="text-2xl p-2 rounded-xl border-2 border-white/10 bg-white/5 hover:border-accent hover:scale-110 transition-all disabled:opacity-50"
                       >
                         {emoji}
                       </button>
@@ -226,7 +226,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
           ) : (
             <Button
               onClick={() => setPunchlineRevealed(true)}
-              className="bg-amber-500 hover:bg-amber-400 text-black font-semibold"
+              className="bg-accent hover:bg-accent-400 text-black font-semibold"
             >
               👇 Reveal Punchline
             </Button>
@@ -251,7 +251,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
       <div className="flex gap-3 justify-center flex-wrap">
         <Button
           onClick={showRandom}
-          className="bg-blue-600 hover:bg-blue-500 text-white"
+          className="bg-pill-1 hover:bg-pill-1/80 text-white"
         >
           🎲 Random Joke
         </Button>

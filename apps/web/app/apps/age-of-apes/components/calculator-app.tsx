@@ -103,7 +103,7 @@ function CheckboxField({
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="rounded border-surface-border accent-amber-500"
+        className="rounded border-surface-border accent-accent"
       />
       {label}
     </label>
@@ -131,7 +131,7 @@ function ResultGrid({ items }: { items: ResultItem[] }) {
           key={item.label}
           className={`rounded-xl p-3 border ${
             item.highlight
-              ? "border-amber-500/40 bg-amber-500/10"
+              ? "border-accent/40 bg-accent/10"
               : "border-surface-border bg-surface-card"
           }`}
         >

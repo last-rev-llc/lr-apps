@@ -41,7 +41,7 @@ export default async function CommandCenterLayout({
   return (
     <div className="min-h-screen flex flex-col">
       {/* Topbar */}
-      <header className="sticky top-0 z-50 border-b border-surface-border backdrop-blur-md bg-background/80">
+      <header className="glass-header sticky top-0 z-50">
         <div className="flex items-center gap-4 px-4 py-3">
           <Link
             href="/apps/command-center"

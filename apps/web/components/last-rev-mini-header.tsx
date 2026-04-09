@@ -28,7 +28,7 @@ export async function LastRevMiniHeader() {
       : null;
 
   return (
-    <header className="sticky top-0 z-100 border-b border-border bg-background/90 backdrop-blur-md">
+    <header className="glass-header sticky top-0 z-100">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 h-10 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
           <Link

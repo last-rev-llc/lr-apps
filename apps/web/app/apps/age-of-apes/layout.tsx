@@ -18,12 +18,12 @@ export default async function AgeOfApesLayout({ children }: { children: ReactNod
   return (
     <div className="min-h-screen">
       {/* Sticky header */}
-      <header className="sticky top-0 z-50 border-b border-surface-border backdrop-blur-md bg-surface-bg/85">
+      <header className="glass-header sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 min-w-0">
             <Link
               href="/apps/age-of-apes"
-              className="font-heading text-xl font-bold text-amber-500 hover:opacity-80 transition-opacity shrink-0"
+              className="font-heading text-xl font-bold text-accent hover:opacity-80 transition-opacity shrink-0"
             >
               🦍 Age of Apes
             </Link>
@@ -44,7 +44,7 @@ export default async function AgeOfApesLayout({ children }: { children: ReactNod
 
           <Link
             href="/"
-            className="text-xs text-muted-foreground hover:text-amber-500 transition-colors shrink-0"
+            className="text-xs text-muted-foreground hover:text-accent transition-colors shrink-0"
           >
             ← Dashboard
           </Link>

@@ -25,10 +25,10 @@ function formatDate(iso: string): string {
 }
 
 const POUR_RATING_COLORS: Record<PourRating, string> = {
-  generous: "bg-green-500/15 text-green-400",
-  standard: "bg-yellow-500/15 text-yellow-400",
-  stingy: "bg-orange-500/15 text-orange-400",
-  criminal: "bg-red-500/15 text-red-400",
+  generous: "bg-green/15 text-green",
+  standard: "bg-yellow/15 text-yellow",
+  stingy: "bg-orange/15 text-orange",
+  criminal: "bg-red/15 text-red",
 };
 
 // ─── Wine Glass SVG ───────────────────────────────────────────────────────────
@@ -37,7 +37,7 @@ function WineGlass({
   fillPct,
   size,
   id,
-  color = "#722F37",
+  color = "var(--color-red)",
 }: {
   fillPct: number;
   size: number;
@@ -49,8 +49,8 @@ function WineGlass({
   const y = 30 + bowlH - fillH;
   return (
     <svg viewBox="0 0 80 160" width={size} className="inline-block">
-      <ellipse cx="40" cy="30" rx="28" ry="8" fill="none" stroke="#666" strokeWidth="1.5" />
-      <path d="M12,30 Q12,110 30,115 L30,140 L50,140 L50,115 Q68,110 68,30" fill="none" stroke="#666" strokeWidth="1.5" />
+      <ellipse cx="40" cy="30" rx="28" ry="8" fill="none" stroke="var(--color-slate-dim)" strokeWidth="1.5" />
+      <path d="M12,30 Q12,110 30,115 L30,140 L50,140 L50,115 Q68,110 68,30" fill="none" stroke="var(--color-slate-dim)" strokeWidth="1.5" />
       <rect
         x="12"
         y={y}
@@ -66,8 +66,8 @@ function WineGlass({
           <path d="M12,30 Q12,110 30,115 L50,115 Q68,110 68,30 Z" />
         </clipPath>
       </defs>
-      <line x1="20" y1="140" x2="60" y2="140" stroke="#666" strokeWidth="2" />
-      <ellipse cx="40" cy="142" rx="22" ry="5" fill="none" stroke="#666" strokeWidth="1.5" />
+      <line x1="20" y1="140" x2="60" y2="140" stroke="var(--color-slate-dim)" strokeWidth="2" />
+      <ellipse cx="40" cy="142" rx="22" ry="5" fill="none" stroke="var(--color-slate-dim)" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -85,10 +85,10 @@ function GuideTab() {
       {/* Pour size cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
-          { fill: 0.25, label: "Tasting Pour", size: "2 oz (60ml)", note: "Wine tastings only", color: "#722F37", noteColor: "text-yellow-400" },
-          { fill: 0.5, label: "Standard Pour", size: "5 oz (150ml)", note: "What you SHOULD get", color: "#8B0000", noteColor: "text-green-400" },
-          { fill: 0.62, label: "Full Glass", size: "6 oz (175ml)", note: "Generous pour", color: "#722F37", noteColor: "text-green-400" },
-          { fill: 0.15, label: "Criminal Pour", size: "< 3 oz", note: "Unacceptable", color: "#ef4444", noteColor: "text-red-400" },
+          { fill: 0.25, label: "Tasting Pour", size: "2 oz (60ml)", note: "Wine tastings only", color: "var(--color-red)", noteColor: "text-yellow" },
+          { fill: 0.5, label: "Standard Pour", size: "5 oz (150ml)", note: "What you SHOULD get", color: "var(--color-red)", noteColor: "text-green" },
+          { fill: 0.62, label: "Full Glass", size: "6 oz (175ml)", note: "Generous pour", color: "var(--color-red)", noteColor: "text-green" },
+          { fill: 0.15, label: "Criminal Pour", size: "< 3 oz", note: "Unacceptable", color: "var(--color-pill-4)", noteColor: "text-red" },
         ].map((g) => (
           <div key={g.label} className="glass text-center p-4 rounded-xl">
             <div className="flex justify-center mb-3">
@@ -102,8 +102,8 @@ function GuideTab() {
       </div>
 
       {/* Golden rule */}
-      <div className="border border-[#722F37] rounded-xl p-5 text-center" style={{ background: "linear-gradient(135deg, rgba(114,47,55,0.3), rgba(139,0,0,0.2))" }}>
-        <h3 className="font-heading text-xl mb-2" style={{ color: "#e74c6f" }}>The Golden Rule</h3>
+      <div className="border border-red rounded-xl p-5 text-center" style={{ background: "linear-gradient(135deg, color-mix(in srgb, var(--color-red) 30%, transparent), color-mix(in srgb, var(--color-red) 20%, transparent))" }}>
+        <h3 className="font-heading text-xl mb-2" style={{ color: "var(--color-pill-6)" }}>The Golden Rule</h3>
         <p className="text-sm font-semibold mb-1">1 bottle (750ml) = 5 standard glasses (5oz each)</p>
         <p className="text-muted-foreground text-xs">If a restaurant charges you $18/glass for a $45 bottle, that's 5 glasses at $9 cost each.</p>
         <p className="text-muted-foreground text-xs mt-1">If you're getting less than 5oz, you're being shorted. Period.</p>
@@ -114,10 +114,10 @@ function GuideTab() {
         <h3 className="font-heading text-lg mb-4">Glass Types &amp; Proper Fill Levels</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { fill: 0.38, label: "Red Wine Glass", sublabel: "Fill to widest point", note: "~1/3 full", color: "#722F37" },
-            { fill: 0.5, label: "White Wine Glass", sublabel: "Fill slightly higher", note: "~1/2 full", color: "#e8d44d" },
-            { fill: 0.65, label: "Champagne Flute", sublabel: "Fill to ~3/4", note: "Preserves bubbles", color: "#f0e68c" },
-            { fill: 0.45, label: "Rosé Glass", sublabel: "Similar to white wine", note: "Slightly tapered", color: "#ffb6c1" },
+            { fill: 0.38, label: "Red Wine Glass", sublabel: "Fill to widest point", note: "~1/3 full", color: "var(--color-red)" },
+            { fill: 0.5, label: "White Wine Glass", sublabel: "Fill slightly higher", note: "~1/2 full", color: "var(--color-accent)" },
+            { fill: 0.65, label: "Champagne Flute", sublabel: "Fill to ~3/4", note: "Preserves bubbles", color: "var(--color-accent)" },
+            { fill: 0.45, label: "Rosé Glass", sublabel: "Similar to white wine", note: "Slightly tapered", color: "var(--color-pill-6)" },
           ].map((g) => (
             <div key={g.label} className="glass text-center p-4 rounded-xl">
               <div className="flex justify-center mb-3">
@@ -152,7 +152,7 @@ function CalculatorTab() {
   else if (ripOff > 15) ripLabel = "Normal Markup";
 
   const markupPct = (markup * 100).toFixed(0);
-  const markupColor = ripOff > 55 ? "#ef4444" : ripOff > 30 ? "#f97316" : "#22c55e";
+  const markupColor = ripOff > 55 ? "var(--color-red)" : ripOff > 30 ? "var(--color-orange)" : "var(--color-green)";
 
   return (
     <div className="space-y-6">
@@ -173,7 +173,7 @@ function CalculatorTab() {
               min={5}
               max={500}
               onChange={(e) => setBottlePrice(parseFloat(e.target.value) || 0)}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
           <div>
@@ -187,7 +187,7 @@ function CalculatorTab() {
               max={10}
               step={0.5}
               onChange={(e) => setPourSize(parseFloat(e.target.value) || 0)}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
           <div>
@@ -200,7 +200,7 @@ function CalculatorTab() {
               min={5}
               max={200}
               onChange={(e) => setGlassPrice(parseFloat(e.target.value) || 0)}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-foreground text-base focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
         </div>
@@ -235,10 +235,10 @@ function CalculatorTab() {
         </h4>
         <div
           className="h-6 rounded-full relative overflow-hidden"
-          style={{ background: "linear-gradient(90deg, #22c55e, #eab308, #f97316, #ef4444, #7f1d1d)" }}
+          style={{ background: "linear-gradient(90deg, var(--color-green), var(--color-yellow), var(--color-orange), var(--color-red), oklch(from var(--color-red) calc(l - 0.2) c h))" }}
         >
           <div
-            className="absolute top-[-4px] w-1 h-8 bg-white rounded-sm shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-500"
+            className="absolute top-[-4px] w-1 h-8 bg-white rounded-sm shadow-[0_0_8px_oklch(100%_0_0/0.8)] transition-all duration-500"
             style={{ left: `calc(${ripOff}% - 2px)` }}
           />
         </div>
@@ -315,7 +315,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3 text-center">
         <div className="glass rounded-xl p-3">
-          <div className="text-2xl font-bold text-green-400">{generous}</div>
+          <div className="text-2xl font-bold text-green">{generous}</div>
           <div className="text-xs text-muted-foreground">Generous Spots</div>
         </div>
         <div className="glass rounded-xl p-3">
@@ -373,7 +373,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 placeholder="e.g. Gary Danko"
                 value={form.restaurant_name}
                 onChange={(e) => setForm((f) => ({ ...f, restaurant_name: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
             <div>
@@ -383,7 +383,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 placeholder="e.g. Caymus Cabernet 2021"
                 value={form.wine_name}
                 onChange={(e) => setForm((f) => ({ ...f, wine_name: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
             <div>
@@ -391,7 +391,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
               <select
                 value={form.pour_rating}
                 onChange={(e) => setForm((f) => ({ ...f, pour_rating: e.target.value as PourRating }))}
-                className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
               >
                 <option value="generous">Generous</option>
                 <option value="standard">Standard</option>
@@ -408,7 +408,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 max={500}
                 value={form.price_paid}
                 onChange={(e) => setForm((f) => ({ ...f, price_paid: e.target.value }))}
-                className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+                className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
               />
             </div>
           </div>
@@ -418,7 +418,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
               placeholder="How was the pour? Any comments..."
               value={form.notes}
               onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-16 resize-y"
+              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-16 resize-y"
             />
           </div>
           <div>
@@ -428,7 +428,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
               placeholder="Your name"
               value={form.user_name}
               onChange={(e) => setForm((f) => ({ ...f, user_name: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
           <button
@@ -458,7 +458,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 </p>
                 <div className="flex gap-0.5 mt-1">
                   {Array.from({ length: 5 }, (_, i) => (
-                    <span key={i} className={i < r.wine_list_rating ? "text-[#722F37]" : "text-muted-foreground"}>
+                    <span key={i} className={i < r.wine_list_rating ? "text-red" : "text-muted-foreground"}>
                       {i < r.wine_list_rating ? "🍷" : "○"}
                     </span>
                   ))}
@@ -672,7 +672,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
               placeholder="Your name"
               value={form.user_name}
               onChange={(e) => setForm((f) => ({ ...f, user_name: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
             />
           </div>
           <div>
@@ -680,7 +680,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
             <select
               value={form.pour_type}
               onChange={(e) => setForm((f) => ({ ...f, pour_type: e.target.value as WallPostType }))}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent"
+              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
             >
               <option value="glory">Pour of Glory (great pour!)</option>
               <option value="shame">Pour of Shame (terrible pour)</option>
@@ -692,7 +692,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
               placeholder="Tell us about your pour experience..."
               value={form.content}
               onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-              className="w-full px-3 py-2 rounded-lg bg-black/20 border border-white/10 text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-20 resize-y"
+              className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-20 resize-y"
             />
           </div>
           <button
@@ -719,7 +719,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
                 <span className="font-semibold text-sm">{post.user_name}</span>
                 <span
                   className={`text-xs font-semibold uppercase tracking-wide ${
-                    post.pour_type === "glory" ? "text-green-400" : "text-red-400"
+                    post.pour_type === "glory" ? "text-green" : "text-red"
                   }`}
                 >
                   {post.pour_type === "glory" ? "Pour of Glory" : "Pour of Shame"}

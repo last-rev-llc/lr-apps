@@ -13,8 +13,8 @@ interface PersonCardProps {
 }
 
 export function PersonCard({ person }: PersonCardProps) {
-  const primary = person.theme?.primary ?? "#00543C";
-  const accent = person.theme?.accent ?? "#FDBB30";
+  const primary = person.theme?.primary ?? "var(--ss-primary)";
+  const accent = person.theme?.accent ?? "var(--ss-accent)";
   const headshot = person.photos?.headshot;
 
   return (

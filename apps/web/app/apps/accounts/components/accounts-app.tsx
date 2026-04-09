@@ -39,7 +39,7 @@ function extLink(url?: string | null, label?: string) {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[11px] text-sky-400 hover:text-sky-300 underline-offset-2 hover:underline"
+      className="text-[11px] text-blue hover:text-blue/80 underline-offset-2 hover:underline"
       title={label ?? url}
     >
       ↗
@@ -59,13 +59,13 @@ type BadgeColor =
   | "cyan";
 
 const BADGE_STYLES: Record<BadgeColor, string> = {
-  green: "bg-green-500/12 text-green-400 border-green-500/20",
-  amber: "bg-amber-500/12 text-amber-400 border-amber-500/20",
-  red: "bg-red-500/12 text-red-400 border-red-500/20",
-  purple: "bg-purple-500/12 text-purple-400 border-purple-500/20",
-  blue: "bg-blue-500/12 text-blue-400 border-blue-500/20",
-  gray: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
-  cyan: "bg-cyan-500/12 text-cyan-400 border-cyan-500/20",
+  green: "bg-green/12 text-green border-green/20",
+  amber: "bg-accent/12 text-accent border-accent/20",
+  red: "bg-red/12 text-red border-red/20",
+  purple: "bg-pill-0/12 text-pill-0 border-pill-0/20",
+  blue: "bg-blue/12 text-blue border-blue/20",
+  gray: "bg-slate/12 text-muted-foreground border-slate/20",
+  cyan: "bg-pill-7/12 text-pill-7 border-pill-7/20",
 };
 
 function Badge({
@@ -140,7 +140,7 @@ function OverviewTab({ client }: { client: Client }) {
                 href={urls.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
+                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-pill-9/40 transition-colors"
               >
                 🌐 Website
               </a>
@@ -150,7 +150,7 @@ function OverviewTab({ client }: { client: Client }) {
                 href={urls.production}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
+                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-pill-9/40 transition-colors"
               >
                 🚀 Production
               </a>
@@ -160,7 +160,7 @@ function OverviewTab({ client }: { client: Client }) {
                 href={urls.staging}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
+                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-pill-9/40 transition-colors"
               >
                 🧪 Staging
               </a>
@@ -171,7 +171,7 @@ function OverviewTab({ client }: { client: Client }) {
                 href={`https://github.com/last-rev-llc/${repo}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
+                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-pill-9/40 transition-colors"
               >
                 🐙 {repo}
               </a>
@@ -184,7 +184,7 @@ function OverviewTab({ client }: { client: Client }) {
       <SectionCard title="Weekly Highlights & Challenges">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <div className="text-[11px] font-bold text-green-400 uppercase tracking-widest mb-2">
+            <div className="text-[11px] font-bold text-green uppercase tracking-widest mb-2">
               Highlights
             </div>
             {client.highlights?.length ? (
@@ -200,7 +200,7 @@ function OverviewTab({ client }: { client: Client }) {
             )}
           </div>
           <div>
-            <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-2">
+            <div className="text-[11px] font-bold text-accent uppercase tracking-widest mb-2">
               Challenges
             </div>
             {client.challenges?.length ? (
@@ -300,7 +300,7 @@ function ContactRow({ contact: c }: { contact: Contact }) {
     <div
       className={`flex flex-wrap items-center gap-2 py-2 px-3 rounded-lg border text-[13px] ${
         c.isPrimary
-          ? "border-teal-500/30 bg-teal-500/5"
+          ? "border-pill-9/30 bg-pill-9/5"
           : "border-surface-border"
       }`}
     >
@@ -314,7 +314,7 @@ function ContactRow({ contact: c }: { contact: Contact }) {
       {c.email && (
         <a
           href={`mailto:${c.email}`}
-          className="text-sky-400 hover:text-sky-300 text-[12px]"
+          className="text-blue hover:text-blue/80 text-[12px]"
         >
           {c.email}
         </a>
@@ -324,7 +324,7 @@ function ContactRow({ contact: c }: { contact: Contact }) {
           href={c.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sky-400 hover:text-sky-300 text-[12px]"
+          className="text-blue hover:text-blue/80 text-[12px]"
         >
           LinkedIn ↗
         </a>
@@ -344,7 +344,7 @@ function ReposTab({ client }: { client: Client }) {
       {/* PR count */}
       <div className="flex items-baseline gap-2">
         <span
-          className={`text-3xl font-bold ${prCount > 5 ? "text-amber-400" : "text-foreground"}`}
+          className={`text-3xl font-bold ${prCount > 5 ? "text-accent" : "text-foreground"}`}
         >
           {prCount}
         </span>
@@ -361,7 +361,7 @@ function ReposTab({ client }: { client: Client }) {
               href={`https://github.com/last-rev-llc/${repo}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
+              className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-pill-9/40 transition-colors"
             >
               🐙 {repo}
             </a>
@@ -389,7 +389,7 @@ function PRRow({ pr }: { pr: GithubPR }) {
   const url = `https://github.com/last-rev-llc/${encodeURIComponent(pr.repo)}/pull/${pr.number}`;
   return (
     <Row>
-      <span className="text-sky-400 font-bold min-w-[44px]">
+      <span className="text-blue font-bold min-w-[44px]">
         #{pr.number}
       </span>
       <span className="flex-1 text-foreground">{pr.title}</span>
@@ -440,7 +440,7 @@ function StandupSection({
       {hasData ? (
         <div className="space-y-4">
           <div>
-            <div className="text-[11px] font-bold text-purple-400 uppercase tracking-widest mb-2">
+            <div className="text-[11px] font-bold text-pill-0 uppercase tracking-widest mb-2">
               Yesterday
             </div>
             {standup!.yesterday?.length ? (
@@ -452,7 +452,7 @@ function StandupSection({
             )}
           </div>
           <div>
-            <div className="text-[11px] font-bold text-blue-400 uppercase tracking-widest mb-2">
+            <div className="text-[11px] font-bold text-blue uppercase tracking-widest mb-2">
               Today
             </div>
             {standup!.today?.length ? (
@@ -475,7 +475,7 @@ function StandupRow({ item: s }: { item: StandupItem }) {
   return (
     <Row>
       <span
-        className="font-semibold text-teal-400 min-w-[100px] text-[12px] shrink-0"
+        className="font-semibold text-pill-9 min-w-[100px] text-[12px] shrink-0"
       >
         {s.user}
       </span>
@@ -526,9 +526,9 @@ function JiraSection({ client }: { client: Client }) {
   return (
     <SectionCard title="Jira">
       {jira.status === "pending-reauth" ? (
-        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-500/8 border border-amber-500/20">
-          <span className="text-amber-400 text-sm">⚠️</span>
-          <span className="text-[13px] text-amber-400">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-accent/8 border border-accent/20">
+          <span className="text-accent text-sm">⚠️</span>
+          <span className="text-[13px] text-accent">
             Jira integration pending re-auth
           </span>
         </div>
@@ -541,7 +541,7 @@ function JiraSection({ client }: { client: Client }) {
             <span className="text-muted-foreground text-xs ml-1">open</span>
           </div>
           <div>
-            <span className="text-2xl font-bold text-amber-400">
+            <span className="text-2xl font-bold text-accent">
               {jira.staleTickets ?? 0}
             </span>
             <span className="text-muted-foreground text-xs ml-1">stale</span>
@@ -703,7 +703,7 @@ export function AccountsApp({ clients }: AccountsAppProps) {
         <select
           value={selectedId}
           onChange={(e) => setSelectedId(e.target.value)}
-          className="flex-1 bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-teal-500/60"
+          className="flex-1 bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-pill-9/60"
         >
           {clients.map((c) => (
             <option key={c.id} value={c.id}>
@@ -712,7 +712,7 @@ export function AccountsApp({ clients }: AccountsAppProps) {
           ))}
         </select>
         {selectedClient?.industry && (
-          <span className="text-[11px] font-semibold px-2 py-0.5 rounded border bg-teal-500/12 text-teal-400 border-teal-500/20 shrink-0">
+          <span className="text-[11px] font-semibold px-2 py-0.5 rounded border bg-pill-9/12 text-pill-9 border-pill-9/20 shrink-0">
             {selectedClient.industry}
           </span>
         )}

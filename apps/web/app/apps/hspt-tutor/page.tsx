@@ -6,7 +6,7 @@ export default function HsptTutorPage() {
   return (
     <div>
       <div className="mb-6">
-        <h2 className="font-heading text-2xl text-emerald-400 mb-1">
+        <h2 className="font-heading text-2xl text-green mb-1">
           HSPT Tutor
         </h2>
         <p className="text-muted-foreground text-sm">

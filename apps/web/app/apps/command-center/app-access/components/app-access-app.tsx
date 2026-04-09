@@ -5,9 +5,9 @@ import { Badge, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/
 import type { AppPermissionRow, Permission } from "../lib/types";
 
 const PERMISSION_STYLE: Record<Permission, { bg: string; text: string }> = {
-  admin: { bg: "rgba(239,68,68,0.15)",  text: "#f87171" },
-  edit:  { bg: "rgba(234,179,8,0.15)",  text: "#facc15" },
-  view:  { bg: "rgba(34,197,94,0.12)",  text: "#4ade80" },
+  admin: { bg: "color-mix(in srgb, var(--color-pill-4) 15%, transparent)",  text: "var(--color-red)" },
+  edit:  { bg: "color-mix(in srgb, var(--color-accent) 15%, transparent)",  text: "var(--color-accent-300)" },
+  view:  { bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",  text: "var(--color-neon-green)" },
 };
 
 function groupByApp(rows: AppPermissionRow[]): Record<string, AppPermissionRow[]> {

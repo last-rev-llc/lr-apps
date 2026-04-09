@@ -7,7 +7,7 @@ export const SECTIONS: Record<SectionId, SectionConfig> = {
     time: 16,
     count: 60,
     types: ["analogy", "logic", "classification"],
-    color: "text-amber-400",
+    color: "text-accent",
   },
   quantitative: {
     name: "Quantitative Skills",
@@ -15,7 +15,7 @@ export const SECTIONS: Record<SectionId, SectionConfig> = {
     time: 30,
     count: 52,
     types: ["sequence", "reasoning", "geometric", "comparison"],
-    color: "text-blue-400",
+    color: "text-blue",
   },
   reading: {
     name: "Reading",
@@ -23,7 +23,7 @@ export const SECTIONS: Record<SectionId, SectionConfig> = {
     time: 25,
     count: 62,
     types: ["comprehension"],
-    color: "text-green-400",
+    color: "text-green",
   },
   mathematics: {
     name: "Mathematics",
@@ -41,7 +41,7 @@ export const SECTIONS: Record<SectionId, SectionConfig> = {
       "ratio",
       "probability",
     ],
-    color: "text-red-400",
+    color: "text-red",
   },
   language: {
     name: "Language",
@@ -56,6 +56,6 @@ export const SECTIONS: Record<SectionId, SectionConfig> = {
       "usage",
       "composition",
     ],
-    color: "text-purple-400",
+    color: "text-pill-0",
   },
 };

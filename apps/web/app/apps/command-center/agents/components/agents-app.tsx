@@ -15,10 +15,10 @@ const STATUS_FILTERS: Array<{ value: StatusFilter; label: string }> = [
 ];
 
 const STATUS_STYLE: Record<string, { bg: string; text: string; dot: string }> = {
-  active:   { bg: "rgba(34,197,94,0.12)",  text: "#4ade80", dot: "#4ade80" },
-  running:  { bg: "rgba(245,158,11,0.12)", text: "#fbbf24", dot: "#f59e0b" },
-  inactive: { bg: "rgba(100,116,139,0.12)",text: "#94a3b8", dot: "#64748b" },
-  error:    { bg: "rgba(239,68,68,0.12)",  text: "#f87171", dot: "#ef4444" },
+  active:   { bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",  text: "var(--color-neon-green)", dot: "var(--color-neon-green)" },
+  running:  { bg: "color-mix(in srgb, var(--color-accent) 12%, transparent)", text: "var(--color-accent-400)", dot: "var(--color-accent)" },
+  inactive: { bg: "color-mix(in srgb, var(--color-slate) 12%, transparent)",text: "var(--color-slate)", dot: "var(--color-slate-dim)" },
+  error:    { bg: "color-mix(in srgb, var(--color-pill-4) 12%, transparent)",  text: "var(--color-red)", dot: "var(--color-pill-4)" },
 };
 
 function relDate(iso: string | null | undefined): string {
@@ -76,10 +76,10 @@ export function AgentsApp({ initialAgents }: AgentsAppProps) {
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: "Total", value: agents.length, color: "#e2e8f0" },
-          { label: "Active", value: counts.active, color: "#4ade80" },
-          { label: "Running", value: counts.running, color: "#fbbf24" },
-          { label: "Errors", value: counts.error, color: "#f87171" },
+          { label: "Total", value: agents.length, color: "var(--color-slate-light)" },
+          { label: "Active", value: counts.active, color: "var(--color-neon-green)" },
+          { label: "Running", value: counts.running, color: "var(--color-accent-400)" },
+          { label: "Errors", value: counts.error, color: "var(--color-red)" },
         ].map((s) => (
           <Card key={s.label} className="p-3">
             <CardContent className="p-0 text-center">

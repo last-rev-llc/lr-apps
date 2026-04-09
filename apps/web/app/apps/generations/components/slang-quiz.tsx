@@ -108,7 +108,7 @@ export function SlangQuiz({ terms, gen }: Props) {
           {answered.map((correct, i) => (
             <div
               key={i}
-              className={`w-2.5 h-2.5 rounded-full ${correct ? "bg-green-500" : "bg-red-500"}`}
+              className={`w-2.5 h-2.5 rounded-full ${correct ? "bg-green" : "bg-red"}`}
             />
           ))}
         </div>
@@ -130,7 +130,7 @@ export function SlangQuiz({ terms, gen }: Props) {
               style={{
                 width: `${pct}%`,
                 background:
-                  pct >= 70 ? "#22c55e" : pct >= 50 ? "#eab308" : "#ef4444",
+                  pct >= 70 ? "var(--color-green)" : pct >= 50 ? "var(--color-yellow)" : "var(--color-red)",
               }}
             />
           </div>
@@ -156,7 +156,7 @@ export function SlangQuiz({ terms, gen }: Props) {
         {questions.map((_, i) => {
           let cls = "w-2.5 h-2.5 rounded-full ";
           if (i < answered.length) {
-            cls += answered[i] ? "bg-green-500" : "bg-red-500";
+            cls += answered[i] ? "bg-green" : "bg-red";
           } else if (i === current) {
             cls += "bg-accent shadow-[0_0_8px_var(--accent)]";
           } else {
@@ -186,9 +186,9 @@ export function SlangQuiz({ terms, gen }: Props) {
             "w-full text-left px-4 py-3 rounded-xl border text-sm transition-all ";
           if (isAnswered) {
             if (opt === q.correctDef) {
-              cls += "border-green-500 bg-green-500/10 text-green-400 font-semibold";
+              cls += "border-green bg-green/10 text-green font-semibold";
             } else if (opt === lastPick && opt !== q.correctDef) {
-              cls += "border-red-500 bg-red-500/10 text-red-400";
+              cls += "border-red bg-red/10 text-red";
             } else {
               cls += "border-surface-border bg-surface-card text-muted-foreground opacity-50";
             }

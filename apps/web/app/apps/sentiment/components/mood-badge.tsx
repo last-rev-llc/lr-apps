@@ -1,11 +1,11 @@
 import { cn } from "@repo/ui";
 
 const moodColors: Record<string, string> = {
-  positive: "bg-green-500/20 text-green-400",
-  excited: "bg-purple-500/20 text-purple-400",
+  positive: "bg-green/20 text-green",
+  excited: "bg-pill-0/20 text-pill-0",
   neutral: "bg-muted text-muted-foreground",
-  frustrated: "bg-orange-500/20 text-orange-400",
-  blocked: "bg-red-500/20 text-red-400",
+  frustrated: "bg-orange/20 text-orange",
+  blocked: "bg-red/20 text-red",
 };
 
 export function MoodBadge({ mood }: { mood: string }) {

@@ -9,22 +9,22 @@ const SOURCE_META: Record<Source, { icon: string; label: string; color: string }
   slack: {
     icon: "💬",
     label: "Slack",
-    color: "bg-purple-500/15 text-purple-400 border-purple-500/30",
+    color: "bg-pill-0/15 text-pill-0 border-pill-0/30",
   },
   github: {
     icon: "🔧",
     label: "GitHub",
-    color: "bg-slate-500/15 text-slate-300 border-slate-500/30",
+    color: "bg-slate/15 text-slate-light border-slate/30",
   },
   workspace: {
     icon: "📝",
     label: "Workspace",
-    color: "bg-blue-500/15 text-blue-400 border-blue-500/30",
+    color: "bg-blue/15 text-blue border-blue/30",
   },
   jira: {
     icon: "📋",
     label: "Jira",
-    color: "bg-sky-500/15 text-sky-400 border-sky-500/30",
+    color: "bg-pill-7/15 text-pill-7 border-pill-7/30",
   },
 };
 

@@ -26,35 +26,35 @@ const STATUS_STYLE: Record<
   { bg: string; text: string; dot: string; label: string }
 > = {
   success: {
-    bg: "rgba(34,197,94,0.12)",
-    text: "#4ade80",
-    dot: "#4ade80",
+    bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",
+    text: "var(--color-neon-green)",
+    dot: "var(--color-neon-green)",
     label: "Success",
   },
   failed: {
-    bg: "rgba(239,68,68,0.12)",
-    text: "#f87171",
-    dot: "#ef4444",
+    bg: "color-mix(in srgb, var(--color-pill-4) 12%, transparent)",
+    text: "var(--color-red)",
+    dot: "var(--color-pill-4)",
     label: "Failed",
   },
   running: {
-    bg: "rgba(245,158,11,0.12)",
-    text: "#fbbf24",
-    dot: "#f59e0b",
+    bg: "color-mix(in srgb, var(--color-accent) 12%, transparent)",
+    text: "var(--color-accent-400)",
+    dot: "var(--color-accent)",
     label: "Running",
   },
   pending: {
-    bg: "rgba(100,116,139,0.12)",
-    text: "#94a3b8",
-    dot: "#64748b",
+    bg: "color-mix(in srgb, var(--color-slate) 12%, transparent)",
+    text: "var(--color-slate)",
+    dot: "var(--color-slate-dim)",
     label: "Pending",
   },
 };
 
 const DEFAULT_STATUS_STYLE = {
-  bg: "rgba(100,116,139,0.12)",
-  text: "#94a3b8",
-  dot: "#64748b",
+  bg: "color-mix(in srgb, var(--color-slate) 12%, transparent)",
+  text: "var(--color-slate)",
+  dot: "var(--color-slate-dim)",
   label: "—",
 };
 

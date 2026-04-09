@@ -26,12 +26,12 @@ const TYPE_ICONS: Record<MediaType, string> = {
 };
 
 const TYPE_STYLES: Record<MediaType, { bg: string; text: string }> = {
-  Image: { bg: "rgba(59,130,246,0.15)", text: "#3b82f6" },
-  Video: { bg: "rgba(139,92,246,0.15)", text: "#8b5cf6" },
-  GIF: { bg: "rgba(245,158,11,0.15)", text: "#f59e0b" },
-  Audio: { bg: "rgba(34,197,94,0.15)", text: "#22c55e" },
-  PDF: { bg: "rgba(239,68,68,0.15)", text: "#ef4444" },
-  Presentation: { bg: "rgba(234,179,8,0.15)", text: "#facc15" },
+  Image: { bg: "color-mix(in srgb, var(--color-blue) 15%, transparent)", text: "var(--color-blue)" },
+  Video: { bg: "color-mix(in srgb, var(--color-pill-8) 15%, transparent)", text: "var(--color-pill-8)" },
+  GIF: { bg: "color-mix(in srgb, var(--color-accent) 15%, transparent)", text: "var(--color-accent)" },
+  Audio: { bg: "color-mix(in srgb, var(--color-neon-green) 15%, transparent)", text: "var(--color-pill-2)" },
+  PDF: { bg: "color-mix(in srgb, var(--color-pill-4) 15%, transparent)", text: "var(--color-pill-4)" },
+  Presentation: { bg: "color-mix(in srgb, var(--color-accent) 15%, transparent)", text: "var(--color-accent-300)" },
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -48,7 +48,7 @@ function formatDate(iso?: string | null): string {
 // ── Type Badge ────────────────────────────────────────────────────────────────
 
 function TypeBadge({ type }: { type: MediaType }) {
-  const style = TYPE_STYLES[type] ?? { bg: "rgba(113,113,122,0.2)", text: "rgba(255,255,255,0.5)" };
+  const style = TYPE_STYLES[type] ?? { bg: "color-mix(in srgb, var(--color-slate) 20%, transparent)", text: "var(--color-slate-light)" };
   return (
     <span
       className="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide"
@@ -102,8 +102,8 @@ function MediaGridCard({ item }: { item: MediaItem }) {
                   key={tag}
                   className="text-[10px] px-1.5 py-0.5 border-0"
                   style={{
-                    background: "rgba(113,113,122,0.2)",
-                    color: "rgba(255,255,255,0.5)",
+                    background: "color-mix(in srgb, var(--color-slate) 20%, transparent)",
+                    color: "var(--color-slate-light)",
                   }}
                 >
                   {tag}
@@ -142,8 +142,8 @@ function MediaListRow({ item }: { item: MediaItem }) {
             key={tag}
             className="text-[10px] px-1.5 py-0.5 border-0"
             style={{
-              background: "rgba(113,113,122,0.2)",
-              color: "rgba(255,255,255,0.5)",
+              background: "color-mix(in srgb, var(--color-slate) 20%, transparent)",
+              color: "var(--color-slate-light)",
             }}
           >
             {tag}
