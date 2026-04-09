@@ -11,4 +11,5 @@ export {
   waitFor,
   within,
   act,
+  fireEvent,
 } from "./render-with-providers";
