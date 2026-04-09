@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@repo/ui";
+import { StatCard } from "@repo/ui";
 import type { SentimentEntry } from "../lib/types";
 
 interface StatsRowProps {
@@ -32,12 +32,7 @@ export function StatsRow({ entries }: StatsRowProps) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
       {stats.map((stat) => (
-        <Card key={stat.label} className="glass-sm">
-          <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-accent">{stat.value}</p>
-            <p className="text-xs text-muted-foreground">{stat.label}</p>
-          </CardContent>
-        </Card>
+        <StatCard key={stat.label} value={stat.value} label={stat.label} size="sm" />
       ))}
     </div>
   );
