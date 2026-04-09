@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
+import { Badge, Button, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
 import type { PR, PrStatus, StatusFilter } from "../lib/types";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -60,8 +60,9 @@ function labelStyle(label: string): { background: string; color: string } {
 function StatusBadge({ status }: { status: PrStatus }) {
   const s = STATUS_STYLES[status] ?? STATUS_STYLES.closed;
   return (
-    <span
-      className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded border"
+    <Badge
+      variant="outline"
+      className="text-[11px] gap-1"
       style={{ background: s.bg, color: s.text, borderColor: s.border }}
     >
       <span
@@ -69,7 +70,7 @@ function StatusBadge({ status }: { status: PrStatus }) {
         style={{ background: s.dot }}
       />
       {status}
-    </span>
+    </Badge>
   );
 }
 
@@ -203,17 +204,15 @@ export function PrApp({ initialPRs }: PrAppProps) {
         {/* Status */}
         <div className="flex gap-1">
           {STATUS_FILTERS.map((f) => (
-            <button
+            <Button
               key={f}
+              variant={statusFilter === f ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setStatusFilter(f)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                statusFilter === f
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={statusFilter === f ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {f === "All" ? "All Status" : f.charAt(0).toUpperCase() + f.slice(1)}
-            </button>
+            </Button>
           ))}
         </div>
 

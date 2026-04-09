@@ -27,6 +27,7 @@
     "@repo/config": "workspace:*",
     "@repo/test-utils": "workspace:*",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",

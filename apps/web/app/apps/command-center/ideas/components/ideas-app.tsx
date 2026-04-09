@@ -343,8 +343,10 @@ export function IdeasApp({ initialIdeas }: IdeasAppProps) {
           <div className="flex items-center gap-1 text-xs text-white/50">
             <span>Sort:</span>
             {SORT_OPTIONS.map((opt) => (
-              <button
+              <Button
                 key={opt.value}
+                variant={sortKey === opt.value ? "outline" : "ghost"}
+                size="sm"
                 onClick={() => {
                   if (sortKey === opt.value) {
                     setSortAsc((p) => !p);
@@ -353,17 +355,13 @@ export function IdeasApp({ initialIdeas }: IdeasAppProps) {
                     setSortAsc(false);
                   }
                 }}
-                className={`px-2 py-0.5 rounded text-xs transition-colors ${
-                  sortKey === opt.value
-                    ? "bg-amber-500/20 text-amber-400"
-                    : "text-white/50 hover:text-white"
-                }`}
+                className={sortKey === opt.value ? "bg-amber-500/20 text-amber-400" : ""}
               >
                 {opt.label}
                 {sortKey === opt.value && (
                   <span className="ml-0.5">{sortAsc ? "↑" : "↓"}</span>
                 )}
-              </button>
+              </Button>
             ))}
           </div>
           {/* Show filter */}
@@ -378,17 +376,15 @@ export function IdeasApp({ initialIdeas }: IdeasAppProps) {
                 { v: "all", label: "All" },
               ] as Array<{ v: ShowFilter; label: string }>
             ).map(({ v, label }) => (
-              <button
+              <Button
                 key={v}
+                variant={showFilter === v ? "outline" : "ghost"}
+                size="sm"
                 onClick={() => setShowFilter(v)}
-                className={`px-2 py-0.5 rounded text-xs transition-colors ${
-                  showFilter === v
-                    ? "bg-amber-500/20 text-amber-400"
-                    : "text-white/50 hover:text-white"
-                }`}
+                className={showFilter === v ? "bg-amber-500/20 text-amber-400" : ""}
               >
                 {label}
-              </button>
+              </Button>
             ))}
           </div>
         </div>

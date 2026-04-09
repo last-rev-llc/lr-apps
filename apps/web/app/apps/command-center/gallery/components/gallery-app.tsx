@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Card, EmptyState, PageHeader, Search } from "@repo/ui";
+import { Badge, Button, Card, EmptyState, PageHeader, Search } from "@repo/ui";
 import type { MediaItem, MediaType, TypeFilter, ViewMode } from "../lib/types";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -50,12 +50,9 @@ function formatDate(iso?: string | null): string {
 function TypeBadge({ type }: { type: MediaType }) {
   const style = TYPE_STYLES[type] ?? { bg: "color-mix(in srgb, var(--color-slate) 20%, transparent)", text: "var(--color-slate-light)" };
   return (
-    <span
-      className="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide"
-      style={{ background: style.bg, color: style.text }}
-    >
+    <Badge variant="outline" className="text-[10px] uppercase tracking-wide" style={{ background: style.bg, color: style.text }}>
       {type}
-    </span>
+    </Badge>
   );
 }
 
@@ -209,17 +206,15 @@ export function GalleryApp({ initialItems }: GalleryAppProps) {
         {/* View toggle */}
         <div className="flex gap-1 border border-white/15 rounded-lg p-0.5">
           {(["grid", "list"] as ViewMode[]).map((mode) => (
-            <button
+            <Button
               key={mode}
+              variant={viewMode === mode ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setViewMode(mode)}
-              className={`px-3 py-1 rounded text-xs font-semibold transition-colors ${
-                viewMode === mode
-                  ? "bg-amber-500/20 text-amber-400"
-                  : "text-white/40 hover:text-white"
-              }`}
+              className={viewMode === mode ? "bg-amber-500/20 text-amber-400" : ""}
             >
               {mode === "grid" ? "⊞ Grid" : "☰ List"}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -227,18 +222,16 @@ export function GalleryApp({ initialItems }: GalleryAppProps) {
       {/* Type filter pills */}
       <div className="flex flex-wrap gap-1.5">
         {TYPE_FILTERS.map((f) => (
-          <button
+          <Button
             key={f}
+            variant={typeFilter === f ? "outline" : "ghost"}
+            size="sm"
             onClick={() => setTypeFilter(f)}
-            className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-              typeFilter === f
-                ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-            }`}
+            className={typeFilter === f ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
           >
             {f !== "All" && <span className="mr-1">{TYPE_ICONS[f as MediaType]}</span>}
             {f}
-          </button>
+          </Button>
         ))}
       </div>
 

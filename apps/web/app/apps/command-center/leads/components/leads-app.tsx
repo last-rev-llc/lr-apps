@@ -150,36 +150,32 @@ export function LeadsApp({ initialLeads }: LeadsAppProps) {
         {/* Fit filter */}
         <div className="flex gap-1">
           {FIT_FILTERS.map((f) => (
-            <button
+            <Button
               key={f.value}
+              variant={fitFilter === f.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setFitFilter(f.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                fitFilter === f.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={fitFilter === f.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {f.label}
-            </button>
+            </Button>
           ))}
         </div>
         {/* Sort */}
         <div className="flex gap-1">
           {SORT_OPTIONS.map((opt) => (
-            <button
+            <Button
               key={opt.value}
+              variant={sortKey === opt.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => handleSort(opt.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                sortKey === opt.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={sortKey === opt.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {opt.label}
               {sortKey === opt.value && (
                 <span className="ml-0.5">{sortDir === "desc" ? " ↓" : " ↑"}</span>
               )}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

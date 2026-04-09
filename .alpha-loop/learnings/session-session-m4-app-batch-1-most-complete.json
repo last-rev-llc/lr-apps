@@ -1,0 +1,174 @@
+{
+  "name": "session/m4-app-batch-1-most-complete",
+  "branch": "session/m4-app-batch-1-most-complete",
+  "completed": "2026-04-09T07:22:58.189Z",
+  "results": [
+    {
+      "issueNum": 23,
+      "title": "Extend @repo/ui with missing common components",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/113",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 1154,
+      "filesChanged": 5
+    },
+    {
+      "issueNum": 24,
+      "title": "Command Center: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/116",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 1724,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 25,
+      "title": "Command Center: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/117",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 766,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 26,
+      "title": "Accounts: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/118",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 581,
+      "filesChanged": 1
+    },
+    {
+      "issueNum": 27,
+      "title": "Accounts: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/119",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 882,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 28,
+      "title": "Standup: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/120",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 359,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 29,
+      "title": "Standup: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/122",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 535,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 30,
+      "title": "Summaries: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/124",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 452,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 31,
+      "title": "Summaries: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/126",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 704,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 32,
+      "title": "Meeting Summaries: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/128",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 527,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 33,
+      "title": "Meeting Summaries: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/131",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 976,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 34,
+      "title": "Uptime: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/132",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 443,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 35,
+      "title": "Uptime: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/134",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 429,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 36,
+      "title": "Sentiment: component migration",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 814,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 37,
+      "title": "Sentiment: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/138",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 560,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 38,
+      "title": "Sprint Planning: component migration",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 55,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 39,
+      "title": "Sprint Planning: app-specific tests",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 33,
+      "filesChanged": 0
+    }
+  ]
+}
