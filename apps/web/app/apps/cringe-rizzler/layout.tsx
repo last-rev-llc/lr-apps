@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { Button } from "@repo/ui";
 
 export const metadata = {
   title: "Cringe Rizzler — Embarrass Gen Alpha",
@@ -55,25 +56,16 @@ export default async function CringeRizzlerLayout({ children }: { children: Reac
             💀 Cringe Rizzler
           </Link>
 
-          <nav className="flex gap-3 text-sm">
-            <Link
-              href="/apps/cringe-rizzler"
-              className="text-white/60 hover:text-pill-6 transition-colors"
-            >
-              App
-            </Link>
-            <Link
-              href="/apps/cringe-rizzler/about"
-              className="text-white/60 hover:text-pill-6 transition-colors"
-            >
-              About
-            </Link>
-            <Link
-              href="/"
-              className="text-white/40 hover:text-white/70 transition-colors"
-            >
-              ← Dashboard
-            </Link>
+          <nav className="flex gap-1 text-sm">
+            <Button variant="ghost" size="sm" asChild className="text-white/60 hover:text-pill-6">
+              <Link href="/apps/cringe-rizzler">App</Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild className="text-white/60 hover:text-pill-6">
+              <Link href="/apps/cringe-rizzler/about">About</Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild className="text-white/40 hover:text-white/70">
+              <Link href="/">← Dashboard</Link>
+            </Button>
           </nav>
         </div>
       </header>

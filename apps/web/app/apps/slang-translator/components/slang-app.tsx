@@ -11,6 +11,10 @@ import {
   Button,
   Card,
   CardContent,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Textarea,
 } from "@repo/ui";
 import { GEN_X_MAP } from "../lib/gen-x-map";
 import type {
@@ -170,29 +174,19 @@ function SlangDetailModal({
   slang,
   onClose,
 }: {
-  slang: SlangEntry;
+  slang: SlangEntry | null;
   onClose: () => void;
 }) {
+  if (!slang) return null;
   const eq = getEquivalent(slang);
   const vs = slang.vibeScore ?? slang.vibe_score ?? 0;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 glass-overlay"
-      onClick={onClose}
-    >
-      <div
-        className="glass max-w-md w-full rounded-2xl p-6 space-y-3 relative"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          className="absolute top-4 right-4 text-muted-foreground hover:text-foreground text-lg leading-none"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          ×
-        </button>
-        <h2 className="font-heading text-2xl text-accent">{slang.term}</h2>
+    <Dialog open={!!slang} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="glass max-w-md space-y-3">
+        <DialogTitle className="font-heading text-2xl text-accent">
+          {slang.term}
+        </DialogTitle>
         <div className="flex gap-1.5 flex-wrap">
           <GenBadge gen={slang.generation} />
           <CategoryBadge category={slang.category} />
@@ -230,8 +224,8 @@ function SlangDetailModal({
             <strong className="font-bold">{eq.text}</strong>
           </div>
         )}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -274,34 +268,34 @@ function DictionaryTab({ allSlang }: { allSlang: SlangEntry[] }) {
       {/* Generation filter */}
       <div className="flex gap-2 flex-wrap">
         {(["all", "gen-alpha", "gen-x"] as const).map((g) => (
-          <button
+          <Button
             key={g}
+            variant="outline"
+            size="sm"
             onClick={() => setGenFilter(g)}
-            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
-              genFilter === g
-                ? "border-accent bg-accent/15 text-accent"
-                : "border-border text-muted-foreground hover:border-accent/50"
+            className={`rounded-full text-xs ${
+              genFilter === g ? "border-accent bg-accent/15 text-accent" : ""
             }`}
           >
             {g === "all" ? "All Generations" : g === "gen-alpha" ? "Gen Alpha" : "Gen X"}
-          </button>
+          </Button>
         ))}
       </div>
 
       {/* Category filter */}
       <div className="flex gap-1.5 flex-wrap">
         {categories.map((c) => (
-          <button
+          <Button
             key={c}
+            variant="outline"
+            size="sm"
             onClick={() => setCatFilter(c)}
-            className={`text-xs px-2.5 py-1 rounded-lg border transition-colors capitalize ${
-              catFilter === c
-                ? "border-accent bg-accent/15 text-accent"
-                : "border-border text-muted-foreground hover:border-accent/50"
+            className={`rounded-lg capitalize text-xs ${
+              catFilter === c ? "border-accent bg-accent/15 text-accent" : ""
             }`}
           >
             {c === "all" ? "All Categories" : c}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -321,9 +315,7 @@ function DictionaryTab({ allSlang }: { allSlang: SlangEntry[] }) {
         </div>
       )}
 
-      {selected && (
-        <SlangDetailModal slang={selected} onClose={() => setSelected(null)} />
-      )}
+      <SlangDetailModal slang={selected} onClose={() => setSelected(null)} />
     </div>
   );
 }
@@ -439,8 +431,8 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
           >
             {isA2X ? "Gen Alpha" : "Gen X"}
           </p>
-          <textarea
-            className="w-full min-h-[160px] bg-transparent text-sm text-foreground placeholder:text-muted-foreground resize-y outline-none border border-border rounded-lg p-3 focus:border-accent transition-colors font-sans"
+          <Textarea
+            className="min-h-[160px] bg-transparent resize-y font-sans"
             placeholder={`Type or paste ${isA2X ? "Gen Alpha" : "Gen X"} slang here…`}
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -730,28 +722,22 @@ function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
       </p>
 
       <div className="space-y-2">
-        {curr.options.map((opt) => {
-          let cls =
-            "w-full px-4 py-3 rounded-xl border text-sm text-left transition-all ";
-          if (hasAnswered) {
-            if (opt === curr.correct) cls += "border-green bg-green/15";
-            else if (opt === quiz.lastPick)
-              cls += "border-red bg-red/15";
-            else cls += "border-border text-muted-foreground";
-          } else {
-            cls += "border-border bg-card hover:border-accent cursor-pointer";
-          }
-          return (
-            <button
-              key={opt}
-              className={cls}
-              onClick={() => handleAnswer(opt)}
-              disabled={hasAnswered}
-            >
-              {opt}
-            </button>
-          );
-        })}
+        {curr.options.map((opt) => (
+          <Button
+            key={opt}
+            variant="outline"
+            className={[
+              "w-full justify-start h-auto px-4 py-3 text-sm text-left whitespace-normal",
+              hasAnswered && opt === curr.correct ? "border-green bg-green/15 hover:bg-green/15" : "",
+              hasAnswered && opt === quiz.lastPick && opt !== curr.correct ? "border-red bg-red/15 hover:bg-red/15" : "",
+              hasAnswered && opt !== curr.correct && opt !== quiz.lastPick ? "text-muted-foreground opacity-70" : "",
+            ].filter(Boolean).join(" ")}
+            onClick={() => handleAnswer(opt)}
+            disabled={hasAnswered}
+          >
+            {opt}
+          </Button>
+        ))}
       </div>
 
       {hasAnswered && (
