@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import peopleData from "./data/people.json";
 
 export const metadata = {
@@ -12,7 +13,8 @@ export const viewport = {
   themeColor: "#FDBB30",
 };
 
-export default function SuperstarsLayout({ children }: { children: ReactNode }) {
+export default async function SuperstarsLayout({ children }: { children: ReactNode }) {
+  await requireAppLayoutAccess("superstars");
   const people = peopleData as Array<{ id: string; name: string }>;
 
   return (

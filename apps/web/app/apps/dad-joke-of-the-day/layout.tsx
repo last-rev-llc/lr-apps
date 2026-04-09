@@ -1,4 +1,6 @@
+import React from "react";
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 export const metadata = {
   title: "Dad Joke of the Day",
@@ -10,7 +12,8 @@ export const viewport = {
   themeColor: "#f59e0b",
 };
 
-export default function DadJokeLayout({ children }: { children: ReactNode }) {
+export default async function DadJokeLayout({ children }: { children: ReactNode }) {
+  await requireAppLayoutAccess("dad-joke-of-the-day");
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-white/10 backdrop-blur-sm sticky top-0 z-10 bg-background/80">

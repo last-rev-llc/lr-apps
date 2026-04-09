@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 export const metadata = {
   title: "Alpha Wins",
@@ -9,6 +10,7 @@ export const viewport = {
   themeColor: "#f59e0b",
 };
 
-export default function AlphaWinsLayout({ children }: { children: ReactNode }) {
+export default async function AlphaWinsLayout({ children }: { children: ReactNode }) {
+  await requireAppLayoutAccess("alpha-wins");
   return <>{children}</>;
 }

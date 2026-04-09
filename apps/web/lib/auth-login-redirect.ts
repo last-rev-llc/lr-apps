@@ -39,6 +39,10 @@ export function buildAuthLoginHref(opts: {
       returnTo = usePathBasedReturn(host)
         ? `/${app.routeGroup}`
         : `${productionAppOrigin(app.subdomain)}/`;
+    } else {
+      console.warn(
+        `[auth] buildAuthLoginHref: unknown app slug "${redirectSlug}", falling back to ${defaultReturnTo}`,
+      );
     }
   }
   qs.set("returnTo", returnTo);

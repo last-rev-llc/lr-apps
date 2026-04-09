@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 export const metadata = {
   title: "Brommie Starts the Quake!!",
@@ -9,10 +10,11 @@ export const viewport = {
   themeColor: "#0067B1",
 };
 
-export default function BrommieQuakeLayout({
+export default async function BrommieQuakeLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  return <>{children}</>;
+  await requireAppLayoutAccess("brommie-quake");
+  return children;
 }

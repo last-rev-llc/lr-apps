@@ -66,20 +66,20 @@ const apps: AppConfig[] = [
     features: {},
   },
 
-  // Standalone — minimal (public, no auth)
-  { slug: "dad-joke-of-the-day", name: "Dad Joke of the Day", subdomain: "dad-jokes", routeGroup: "apps/dad-joke-of-the-day", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "superstars", name: "Superstars", subdomain: "superstars", routeGroup: "apps/superstars", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+  // Standalone — minimal (auth required)
+  { slug: "dad-joke-of-the-day", name: "Dad Joke of the Day", subdomain: "dad-jokes", routeGroup: "apps/dad-joke-of-the-day", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "superstars", name: "Superstars", subdomain: "superstars", routeGroup: "apps/superstars", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "travel-collection", name: "Travel Collection", subdomain: "travel", routeGroup: "apps/travel-collection", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "cringe-rizzler", name: "Cringe Rizzler", subdomain: "cringe", routeGroup: "apps/cringe-rizzler", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "proper-wine-pour", name: "Proper Wine Pour", subdomain: "wine", routeGroup: "apps/proper-wine-pour", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "roblox-dances", name: "Roblox Dances", subdomain: "roblox", routeGroup: "apps/roblox-dances", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "alpha-wins", name: "Alpha Wins", subdomain: "alpha-wins", routeGroup: "apps/alpha-wins", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "soccer-training", name: "Soccer Training", subdomain: "soccer", routeGroup: "apps/soccer-training", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "hspt-practice", name: "HSPT Practice", subdomain: "hspt-practice", routeGroup: "apps/hspt-practice", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "hspt-tutor", name: "HSPT Tutor", subdomain: "hspt-tutor", routeGroup: "apps/hspt-tutor", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "area-52", name: "Area 52", subdomain: "area-52", routeGroup: "apps/area-52", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "brommie-quake", name: "Brommie Quake", subdomain: "brommie", routeGroup: "apps/brommie-quake", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
-  { slug: "age-of-apes", name: "Age of Apes", subdomain: "apes", routeGroup: "apps/age-of-apes", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "cringe-rizzler", name: "Cringe Rizzler", subdomain: "cringe", routeGroup: "apps/cringe-rizzler", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "proper-wine-pour", name: "Proper Wine Pour", subdomain: "wine", routeGroup: "apps/proper-wine-pour", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "roblox-dances", name: "Roblox Dances", subdomain: "roblox", routeGroup: "apps/roblox-dances", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "alpha-wins", name: "Alpha Wins", subdomain: "alpha-wins", routeGroup: "apps/alpha-wins", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "soccer-training", name: "Soccer Training", subdomain: "soccer", routeGroup: "apps/soccer-training", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "hspt-practice", name: "HSPT Practice", subdomain: "hspt-practice", routeGroup: "apps/hspt-practice", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "hspt-tutor", name: "HSPT Tutor", subdomain: "hspt-tutor", routeGroup: "apps/hspt-tutor", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "area-52", name: "Area 52", subdomain: "area-52", routeGroup: "apps/area-52", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "brommie-quake", name: "Brommie Quake", subdomain: "brommie", routeGroup: "apps/brommie-quake", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "age-of-apes", name: "Age of Apes", subdomain: "apes", routeGroup: "apps/age-of-apes", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
 ];
 
 const subdomainIndex = new Map(apps.map((app) => [app.subdomain, app]));

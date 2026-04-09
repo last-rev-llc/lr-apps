@@ -1,0 +1,147 @@
+{
+  "name": "session/m2-universal-auth-gate",
+  "branch": "session/m2-universal-auth-gate",
+  "completed": "2026-04-08T17:10:48.489Z",
+  "results": [
+    {
+      "issueNum": 6,
+      "title": "Auth gate: Area 52",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/93",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 346,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 7,
+      "title": "Auth gate: Lighthouse",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/94",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 312,
+      "filesChanged": 5
+    },
+    {
+      "issueNum": 8,
+      "title": "Update login/signup flows for universal auth",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/95",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 1116,
+      "filesChanged": 9
+    },
+    {
+      "issueNum": 12,
+      "title": "Auth gate: Age of Apes",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/96",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 355,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 13,
+      "title": "Auth gate: Alpha Wins",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/97",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 217,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 14,
+      "title": "Auth gate: Brommie Quake",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/98",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 229,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 15,
+      "title": "Auth gate: Cringe Rizzler",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/99",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 289,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 16,
+      "title": "Auth gate: Dad Joke of the Day",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/100",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 240,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 17,
+      "title": "Auth gate: HSPT Practice",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/101",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 299,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 18,
+      "title": "Auth gate: HSPT Tutor",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/102",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 248,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 19,
+      "title": "Auth gate: Proper Wine Pour",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/103",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 229,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 20,
+      "title": "Auth gate: Roblox Dances",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/104",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 240,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 21,
+      "title": "Auth gate: Soccer Training",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/105",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 245,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 22,
+      "title": "Auth gate: Superstars",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/106",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 257,
+      "filesChanged": 8
+    }
+  ]
+}

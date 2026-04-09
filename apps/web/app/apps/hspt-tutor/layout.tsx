@@ -1,4 +1,6 @@
+import React from "react";
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 export const metadata = {
   title: "HSPT Tutor",
@@ -10,11 +12,12 @@ export const viewport = {
   themeColor: "#10B981",
 };
 
-export default function HsptTutorLayout({
+export default async function HsptTutorLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  await requireAppLayoutAccess("hspt-tutor");
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-white/10 backdrop-blur-sm sticky top-0 z-10 bg-background/80">

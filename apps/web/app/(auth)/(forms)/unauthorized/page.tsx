@@ -49,7 +49,11 @@ export default async function UnauthorizedPage({
   return (
     <div className="text-center max-w-md mx-auto">
       <h1 className="font-heading text-2xl text-accent mb-2">
-        {signedIn ? "Access required" : "Sign in or sign up"}
+        {signedIn
+          ? app
+            ? `Access required — ${app.name}`
+            : "Access required"
+          : "Sign in or sign up"}
       </h1>
 
       {error === "closed" && (
@@ -97,7 +101,7 @@ export default async function UnauthorizedPage({
           <form action={requestAppAccess}>
             <input type="hidden" name="app" value={appSlug} />
             <Button type="submit" className="w-full">
-              Get access
+              Request access
             </Button>
           </form>
         )}
@@ -135,9 +139,9 @@ export default async function UnauthorizedPage({
 
       {signedIn && appSlug && !canRequestAccess && !gate && error !== "closed" ? (
         <p className="text-xs text-muted-foreground mt-6">
-          Self-service access is off for this app in this environment. Ask an
-          admin to add your account in{" "}
-          <code className="bg-muted px-1 rounded">app_permissions</code>.
+          Self-service access is not available for{" "}
+          {app ? app.name : "this app"}. Please contact a Last Rev admin to
+          request access.
         </p>
       ) : null}
     </div>
