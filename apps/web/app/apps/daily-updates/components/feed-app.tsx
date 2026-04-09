@@ -1,7 +1,21 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { Card } from "@repo/ui";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+  Badge,
+  Avatar,
+  AvatarFallback,
+  Button,
+  Input,
+  EmptyState,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+} from "@repo/ui";
 import type { DailyUpdate, AppProfile, FeedFilters, TimeRange, UpdateLink } from "../lib/types";
 
 // ── Constants ──────────────────────────────────────────────────────────────
@@ -95,13 +109,15 @@ function UpdateCard({
       style={{ borderLeft: `3px solid ${neon}` }}
     >
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 pt-4 pb-2">
-        <div
-          className="w-10 h-10 rounded-full flex items-center justify-center text-xl flex-shrink-0"
+      <CardHeader className="flex flex-row items-center gap-3 px-4 pt-4 pb-2">
+        <Avatar
+          className="w-10 h-10 flex-shrink-0"
           style={{ background: `${neon}18`, border: `1px solid ${neon}55` }}
         >
-          {update.source_icon}
-        </div>
+          <AvatarFallback className="text-xl bg-transparent">
+            {update.source_icon}
+          </AvatarFallback>
+        </Avatar>
         <div className="flex-1 min-w-0">
           <div className="font-semibold text-sm" style={{ color: neon }}>
             {update.source_name}
@@ -111,19 +127,19 @@ function UpdateCard({
           </div>
         </div>
         {update.priority === "high" && (
-          <span className="text-sm" title="High priority">
+          <Badge variant="destructive" title="High priority">
             🔥
-          </span>
+          </Badge>
         )}
         {update.category && (
-          <span className="text-[11px] text-muted-foreground px-2 py-0.5 rounded bg-surface-hover">
+          <Badge variant="secondary" className="text-[11px]">
             {formatCategoryName(update.category)}
-          </span>
+          </Badge>
         )}
-      </div>
+      </CardHeader>
 
       {/* Body */}
-      <div className="px-4 pb-3">
+      <CardContent className="px-4 pb-3 pt-0">
         <h3 className="font-semibold text-base text-foreground mb-1">
           {update.title}
         </h3>
@@ -137,32 +153,40 @@ function UpdateCard({
         {links.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mt-3">
             {links.map((link, i) => (
-              <a
+              <Button
                 key={i}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[12px] px-2.5 py-1 rounded-full border transition-colors hover:opacity-80"
+                variant="outline"
+                size="sm"
+                asChild
+                className="text-[12px] rounded-full"
                 style={{
                   color: neon,
                   borderColor: `${neon}44`,
                   background: `${neon}08`,
                 }}
               >
-                {link.label}
-              </a>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {link.label}
+                </a>
+              </Button>
             ))}
           </div>
         )}
-      </div>
+      </CardContent>
 
       {/* Reactions */}
-      <div className="px-4 pb-4 flex items-center gap-2 flex-wrap border-t border-surface-border pt-3">
+      <CardFooter className="px-4 pb-4 flex items-center gap-2 flex-wrap border-t border-surface-border pt-3">
         {REACTIONS.map((emoji) => {
           const count = reactions[emoji] ?? 0;
           return (
-            <button
+            <Button
               key={emoji}
+              variant="ghost"
+              size="sm"
               onClick={() => onReact(update.id, emoji)}
               className={`text-sm px-2.5 py-1 rounded-full border transition-all hover:scale-110 ${
                 count > 0
@@ -171,10 +195,10 @@ function UpdateCard({
               }`}
             >
               {emoji} {count > 0 && <span className="text-[11px]">{count}</span>}
-            </button>
+            </Button>
           );
         })}
-      </div>
+      </CardFooter>
     </Card>
   );
 }
@@ -283,14 +307,14 @@ export function FeedApp({
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-4">
         {/* Search */}
-        <input
+        <Input
           type="text"
           placeholder="Search updates…"
           value={filters.search}
           onChange={(e) =>
             setFilters((f) => ({ ...f, search: e.target.value }))
           }
-          className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-amber-500/60"
+          className="flex-1 min-w-[180px]"
         />
 
         {/* App filter */}
@@ -331,34 +355,27 @@ export function FeedApp({
       </div>
 
       {/* Time range tabs */}
-      <div className="flex gap-1 mb-6 border-b border-surface-border pb-3">
-        {(["all", "day", "week", "month"] as const).map((range) => (
-          <button
-            key={range}
-            onClick={() => setFilters((f) => ({ ...f, time_range: range }))}
-            className={`text-sm px-4 py-1.5 rounded-full transition-colors ${
-              filters.time_range === range
-                ? "bg-amber-500 text-black font-semibold"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {range === "all"
-              ? "All Time"
-              : range === "day"
-                ? "Today"
-                : range === "week"
-                  ? "This Week"
-                  : "This Month"}
-          </button>
-        ))}
-      </div>
+      <Tabs
+        value={filters.time_range}
+        onValueChange={(value) =>
+          setFilters((f) => ({ ...f, time_range: value as TimeRange }))
+        }
+        className="mb-6"
+      >
+        <TabsList>
+          <TabsTrigger value="all">All Time</TabsTrigger>
+          <TabsTrigger value="day">Today</TabsTrigger>
+          <TabsTrigger value="week">This Week</TabsTrigger>
+          <TabsTrigger value="month">This Month</TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* Feed */}
       {filtered.length === 0 ? (
-        <div className="text-center py-20 text-muted-foreground">
-          <div className="text-5xl mb-3">📭</div>
-          <p>No updates yet — the feed is waiting for its first post!</p>
-        </div>
+        <EmptyState
+          icon="📭"
+          title="No updates yet — the feed is waiting for its first post!"
+        />
       ) : (
         <>
           {filtered.map((update) => (
@@ -367,13 +384,13 @@ export function FeedApp({
 
           {hasMore && (
             <div className="text-center pt-4 pb-8">
-              <button
+              <Button
+                variant="outline"
                 onClick={loadMore}
                 disabled={loadingMore}
-                className="px-6 py-2.5 bg-surface border border-surface-border rounded-xl text-sm text-muted-foreground hover:text-foreground hover:border-amber-500/40 transition-colors disabled:opacity-50"
               >
                 {loadingMore ? "Loading…" : "Load more"}
-              </button>
+              </Button>
             </div>
           )}
         </>
