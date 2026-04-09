@@ -1,7 +1,19 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger, Card } from "@repo/ui";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Card,
+  Badge,
+  Button,
+  StatusBadge,
+  EmptyState,
+  CardHeader,
+  CardTitle,
+} from "@repo/ui";
 import type {
   SprintData,
   SprintClient,
@@ -30,13 +42,16 @@ const STATUS_LABELS: Record<SprintStatus, string> = {
   done: "✅ Completed This Week",
 };
 
-const STATUS_DOT_COLORS: Record<SprintStatus, string> = {
-  blocked: "bg-red",
-  "in-progress": "bg-accent",
-  "in-review": "bg-pill-0",
-  "not-started": "bg-slate",
-  discussion: "bg-blue",
-  done: "bg-green",
+const STATUS_VARIANT_MAP: Record<
+  SprintStatus,
+  "error" | "warning" | "info" | "neutral" | "success" | "pending"
+> = {
+  blocked: "error",
+  "in-progress": "warning",
+  "in-review": "info",
+  "not-started": "neutral",
+  discussion: "info",
+  done: "success",
 };
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -61,17 +76,15 @@ function formatLastUpdated(iso: string) {
 
 function PriorityBadge({ priority }: { priority?: string }) {
   if (!priority) return null;
-  const variants: Record<string, string> = {
-    high: "bg-red/15 text-red border-red/20",
-    medium: "bg-accent/15 text-accent border-accent/20",
-    low: "bg-green/15 text-green border-green/20",
+  const variantMap: Record<string, "destructive" | "secondary" | "outline"> = {
+    high: "destructive",
+    medium: "secondary",
+    low: "outline",
   };
   return (
-    <span
-      className={`inline-flex items-center text-[11px] font-semibold px-1.5 py-0.5 rounded border ${variants[priority] ?? variants.medium}`}
-    >
+    <Badge variant={variantMap[priority] ?? "secondary"} className="text-[11px] px-1.5 py-0.5">
       {priority}
-    </span>
+    </Badge>
   );
 }
 
@@ -87,15 +100,12 @@ function DueDateBadge({ dueDate }: { dueDate?: string }) {
       : `Due ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
 
   return (
-    <span
-      className={`inline-flex items-center text-[11px] font-semibold px-2 py-0.5 rounded ${
-        isOverdue
-          ? "bg-red/12 text-red"
-          : "bg-accent/12 text-accent"
-      }`}
+    <Badge
+      variant={isOverdue ? "destructive" : "secondary"}
+      className="text-[11px] px-2 py-0.5"
     >
       📅 {label}
-    </span>
+    </Badge>
   );
 }
 
@@ -162,12 +172,9 @@ function SprintItemRow({ item }: { item: SprintItem }) {
       </div>
       <div className="flex gap-2 items-center flex-wrap text-xs text-muted-foreground">
         {item.assignees?.map((a) => (
-          <span
-            key={a}
-            className="px-1.5 py-0.5 rounded bg-surface-hover text-foreground text-[11px]"
-          >
+          <Badge key={a} variant="secondary" className="text-[11px]">
             {a}
-          </span>
+          </Badge>
         ))}
         <SourceLinks sources={item.sources} />
       </div>
@@ -189,12 +196,15 @@ function StatusGroup({
 }) {
   return (
     <div>
-      <div className="flex items-center gap-1.5 px-4 py-2 bg-white/[0.02] border-b border-surface-border text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
-        <span
-          className={`w-2 h-2 rounded-full ${STATUS_DOT_COLORS[status]}`}
-        />
-        {STATUS_LABELS[status]}
-        <span className="opacity-50">({items.length})</span>
+      <div className="flex items-center gap-1.5 px-4 py-2 bg-white/[0.02] border-b border-surface-border">
+        <StatusBadge
+          variant={STATUS_VARIANT_MAP[status]}
+          dot
+          className="text-[11px] font-semibold uppercase tracking-wide"
+        >
+          {STATUS_LABELS[status]}
+          <span className="opacity-50 ml-1">({items.length})</span>
+        </StatusBadge>
       </div>
       {items.map((item, i) => (
         <SprintItemRow key={i} item={item} />
@@ -205,7 +215,7 @@ function StatusGroup({
 
 function DoneSection({
   items,
-  clientIndex,
+  clientIndex: _clientIndex,
 }: {
   items: SprintItem[];
   clientIndex: number;
@@ -215,19 +225,22 @@ function DoneSection({
 
   return (
     <>
-      <button
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 px-4 py-2 w-full text-left text-[11px] font-semibold text-muted-foreground uppercase tracking-wide hover:bg-white/[0.03] border-b border-surface-border transition-colors"
+        className="flex items-center gap-1.5 px-4 py-2 w-full justify-start text-[11px] font-semibold text-muted-foreground uppercase tracking-wide border-b border-surface-border rounded-none h-auto"
       >
         <span
           className={`transition-transform duration-200 ${open ? "rotate-90" : ""}`}
         >
           ▶
         </span>
-        <span className="w-2 h-2 rounded-full bg-green" />
-        {STATUS_LABELS.done}
-        <span className="opacity-50">({items.length})</span>
-      </button>
+        <StatusBadge variant="success" dot className="text-[11px] font-semibold uppercase tracking-wide">
+          {STATUS_LABELS.done}
+          <span className="opacity-50 ml-1">({items.length})</span>
+        </StatusBadge>
+      </Button>
       {open && (
         <div>
           {items.map((item, i) => (
@@ -286,9 +299,11 @@ function ClientCard({
       <div className="rounded-b-lg overflow-hidden bg-surface">
         {/* Outstanding section label */}
         {OUTSTANDING_ORDER.some((s) => byStatus[s]?.length) && (
-          <div className="px-4 py-2.5 text-[11px] font-bold text-accent uppercase tracking-widest bg-accent/[0.04] border-b border-surface-border">
-            📌 Outstanding &amp; Next Week
-          </div>
+          <CardHeader className="px-4 py-2.5 bg-accent/[0.04] border-b border-surface-border space-y-0">
+            <CardTitle className="text-[11px] text-accent uppercase tracking-widest font-bold">
+              📌 Outstanding &amp; Next Week
+            </CardTitle>
+          </CardHeader>
         )}
 
         {OUTSTANDING_ORDER.map((status) => {
@@ -302,18 +317,18 @@ function ClientCard({
         {/* Done section label + collapsible */}
         {doneItems.length > 0 && (
           <>
-            <div className="px-4 py-2.5 text-[11px] font-bold text-muted-foreground uppercase tracking-widest border-b border-surface-border">
-              Highlights — What Got Done
-            </div>
+            <CardHeader className="px-4 py-2.5 border-b border-surface-border space-y-0">
+              <CardTitle className="text-[11px] text-muted-foreground uppercase tracking-widest font-bold">
+                Highlights — What Got Done
+              </CardTitle>
+            </CardHeader>
             <DoneSection items={doneItems} clientIndex={index} />
           </>
         )}
 
         {!OUTSTANDING_ORDER.some((s) => byStatus[s]?.length) &&
           !doneItems.length && (
-            <div className="px-4 py-8 text-center text-muted-foreground text-sm">
-              ✨ No items
-            </div>
+            <EmptyState icon="✨" title="No items" className="py-8" />
           )}
       </div>
     </Card>
@@ -322,18 +337,24 @@ function ClientCard({
 
 // ── Archives Tab ───────────────────────────────────────────────────────────
 
-const ARCHIVE_TYPE_COLORS: Record<ArchiveType, string> = {
-  digest: "bg-accent/15 text-accent",
-  overview: "bg-blue/15 text-blue",
-  weekly: "bg-pill-0/15 text-pill-0",
+const ARCHIVE_TYPE_VARIANT_MAP: Record<ArchiveType, "info" | "neutral" | "success"> = {
+  digest: "info",
+  overview: "info",
+  weekly: "success",
 };
 
-const SERVICE_COLORS: Record<string, string> = {
-  slack: "bg-brand-slack text-white",
-  jira: "bg-brand-jira text-white",
-  zoom: "bg-brand-zoom text-white",
-  github: "bg-brand-github text-white",
-  calendar: "bg-brand-google text-white",
+const ARCHIVE_TYPE_LABELS: Record<ArchiveType, string> = {
+  digest: "Digest",
+  overview: "Overview",
+  weekly: "Weekly",
+};
+
+const SERVICE_CLASS_MAP: Record<string, string> = {
+  slack: "bg-brand-slack text-white border-brand-slack",
+  jira: "bg-brand-jira text-white border-brand-jira",
+  zoom: "bg-brand-zoom text-white border-brand-zoom",
+  github: "bg-brand-github text-white border-brand-github",
+  calendar: "bg-brand-google text-white border-brand-google",
 };
 
 function ArchiveCard({ record }: { record: ArchiveRecord }) {
@@ -369,21 +390,16 @@ function ArchiveCard({ record }: { record: ArchiveRecord }) {
         <span className="font-semibold text-sm text-foreground">
           {formatDate(record.date)}
         </span>
-        <span
-          className={`text-[11px] font-semibold px-2 py-0.5 rounded ${ARCHIVE_TYPE_COLORS[record._type]}`}
-        >
-          {record._type === "digest"
-            ? "Digest"
-            : record._type === "overview"
-              ? "Overview"
-              : "Weekly"}
-        </span>
+        <StatusBadge variant={ARCHIVE_TYPE_VARIANT_MAP[record._type]} className="text-[11px] font-semibold">
+          {ARCHIVE_TYPE_LABELS[record._type]}
+        </StatusBadge>
         {record.service && (
-          <span
-            className={`text-[11px] font-semibold px-2 py-0.5 rounded ${SERVICE_COLORS[record.service] ?? "bg-surface text-muted-foreground"}`}
+          <Badge
+            variant="outline"
+            className={`text-[11px] font-semibold ${SERVICE_CLASS_MAP[record.service] ?? "bg-surface text-muted-foreground"}`}
           >
             {record.service}
-          </span>
+          </Badge>
         )}
         {record.item_count && (
           <span className="ml-auto text-[11px] text-muted-foreground">
@@ -456,14 +472,12 @@ function ArchivesTab({ archives }: { archives: ArchiveRecord[] }) {
         {/* Type filter */}
         <div className="flex gap-1">
           {(["all", "digest", "overview", "weekly"] as const).map((t) => (
-            <button
+            <Button
               key={t}
               onClick={() => setTypeFilter(t)}
-              className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
-                typeFilter === t
-                  ? "bg-accent text-black border-accent"
-                  : "border-surface-border text-muted-foreground hover:border-accent/40"
-              }`}
+              variant={typeFilter === t ? "default" : "outline"}
+              size="sm"
+              className="rounded-full text-[12px]"
             >
               {t === "all"
                 ? "All"
@@ -472,7 +486,7 @@ function ArchivesTab({ archives }: { archives: ArchiveRecord[] }) {
                   : t === "overview"
                     ? "Daily Overviews"
                     : "Weekly Summaries"}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -481,17 +495,15 @@ function ArchivesTab({ archives }: { archives: ArchiveRecord[] }) {
           <div className="flex gap-1">
             {(["all", "slack", "jira", "zoom", "github", "calendar"] as const).map(
               (s) => (
-                <button
+                <Button
                   key={s}
                   onClick={() => setServiceFilter(s)}
-                  className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
-                    serviceFilter === s
-                      ? "bg-accent text-black border-accent"
-                      : "border-surface-border text-muted-foreground hover:border-accent/40"
-                  }`}
+                  variant={serviceFilter === s ? "default" : "outline"}
+                  size="sm"
+                  className="rounded-full text-[12px]"
                 >
                   {s === "all" ? "All" : s}
-                </button>
+                </Button>
               ),
             )}
           </div>
@@ -504,26 +516,21 @@ function ArchivesTab({ archives }: { archives: ArchiveRecord[] }) {
             { value: "30", label: "Last 30 days" },
             { value: "all", label: "All time" },
           ].map((r) => (
-            <button
+            <Button
               key={r.value}
               onClick={() => setRangeFilter(r.value)}
-              className={`text-[12px] font-medium px-3 py-1.5 rounded-full border transition-colors ${
-                rangeFilter === r.value
-                  ? "bg-accent text-black border-accent"
-                  : "border-surface-border text-muted-foreground hover:border-accent/40"
-              }`}
+              variant={rangeFilter === r.value ? "default" : "outline"}
+              size="sm"
+              className="rounded-full text-[12px]"
             >
               {r.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
 
       {filtered.length === 0 ? (
-        <div className="text-center py-16 text-muted-foreground">
-          <div className="text-4xl mb-3">📁</div>
-          <p>No archive records found</p>
-        </div>
+        <EmptyState icon="📁" title="No archive records found" className="py-16" />
       ) : (
         filtered.map((r) => <ArchiveCard key={r.id} record={r} />)
       )}
@@ -580,11 +587,13 @@ export function SprintApp({ archives }: SprintAppProps) {
           </div>
         )}
 
-        {!loading && (!sprintData?.clients.length) && (
-          <div className="text-center py-16 text-muted-foreground">
-            <div className="text-4xl mb-3">📋</div>
-            <p>No backlog data yet — will populate on next update</p>
-          </div>
+        {!loading && !sprintData?.clients.length && (
+          <EmptyState
+            icon="📋"
+            title="No backlog data yet"
+            description="will populate on next update"
+            className="py-16"
+          />
         )}
 
         {!loading &&

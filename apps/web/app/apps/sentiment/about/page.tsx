@@ -1,3 +1,5 @@
+import { Card, CardContent } from "@repo/ui";
+
 export default function AboutPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
@@ -19,10 +21,12 @@ export default function AboutPage() {
           { title: "Team Dashboard", desc: "At-a-glance view of every team member" },
           { title: "Member Filtering", desc: "Drill into individual team member data" },
         ].map((f) => (
-          <div key={f.title} className="glass-sm p-4">
-            <h3 className="text-sm font-medium text-accent mb-1">{f.title}</h3>
-            <p className="text-xs text-muted-foreground">{f.desc}</p>
-          </div>
+          <Card key={f.title} className="glass-sm">
+            <CardContent className="p-4">
+              <h3 className="text-sm font-medium text-accent mb-1">{f.title}</h3>
+              <p className="text-xs text-muted-foreground">{f.desc}</p>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>
