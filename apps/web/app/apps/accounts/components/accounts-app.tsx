@@ -1,7 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger, Card } from "@repo/ui";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  Button,
+  Badge,
+  StatusBadge,
+  EmptyState,
+  cn,
+} from "@repo/ui";
 import type {
   Client,
   Contact,
@@ -47,7 +61,7 @@ function extLink(url?: string | null, label?: string) {
   );
 }
 
-// ── Badge ──────────────────────────────────────────────────────────────────
+// ── Badge color mapping ───────────────────────────────────────────────────
 
 type BadgeColor =
   | "green"
@@ -58,66 +72,33 @@ type BadgeColor =
   | "gray"
   | "cyan";
 
-const BADGE_STYLES: Record<BadgeColor, string> = {
-  green: "bg-green-500/12 text-green-400 border-green-500/20",
-  amber: "bg-amber-500/12 text-amber-400 border-amber-500/20",
-  red: "bg-red-500/12 text-red-400 border-red-500/20",
-  purple: "bg-purple-500/12 text-purple-400 border-purple-500/20",
-  blue: "bg-blue-500/12 text-blue-400 border-blue-500/20",
-  gray: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
-  cyan: "bg-cyan-500/12 text-cyan-400 border-cyan-500/20",
+const STATUS_VARIANT_MAP: Record<
+  BadgeColor,
+  "success" | "warning" | "error" | "info" | "neutral"
+> = {
+  green: "success",
+  amber: "warning",
+  red: "error",
+  blue: "info",
+  gray: "neutral",
+  purple: "neutral",
+  cyan: "neutral",
 };
 
-function Badge({
-  text,
-  color = "gray",
-}: {
-  text: string;
-  color?: BadgeColor;
-}) {
+const BADGE_CLASS_OVERRIDES: Partial<Record<BadgeColor, string>> = {
+  purple:
+    "border-purple-500/20 bg-purple-500/10 text-purple-600 dark:text-purple-400",
+  cyan: "border-cyan-500/20 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400",
+};
+
+function ColorBadge({ text, color = "gray" }: { text: string; color?: BadgeColor }) {
   return (
-    <span
-      className={`text-[11px] font-semibold px-2 py-0.5 rounded border ${BADGE_STYLES[color]}`}
+    <StatusBadge
+      variant={STATUS_VARIANT_MAP[color]}
+      className={BADGE_CLASS_OVERRIDES[color]}
     >
       {text}
-    </span>
-  );
-}
-
-// ── Section Card ───────────────────────────────────────────────────────────
-
-function SectionCard({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Card className="glass border-surface-border">
-      <div className="px-4 py-3 border-b border-surface-border">
-        <h3 className="font-semibold text-sm text-foreground">{title}</h3>
-      </div>
-      <div className="px-4 py-3">{children}</div>
-    </Card>
-  );
-}
-
-// ── Empty ──────────────────────────────────────────────────────────────────
-
-function Empty({ message }: { message: string }) {
-  return (
-    <p className="text-[13px] text-muted-foreground italic">{message}</p>
-  );
-}
-
-// ── Row ────────────────────────────────────────────────────────────────────
-
-function Row({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-2 py-1.5 border-b border-surface-border last:border-0 text-[13px]">
-      {children}
-    </div>
+    </StatusBadge>
   );
 }
 
@@ -129,122 +110,133 @@ function OverviewTab({ client }: { client: Client }) {
   return (
     <div className="space-y-4">
       {/* Company info */}
-      <SectionCard title="Company">
-        <p className="text-[13px] text-muted-foreground mb-3">
-          {client.industry ?? "—"}
-        </p>
-        {urls && (
-          <div className="flex flex-wrap gap-2">
-            {urls.website && (
-              <a
-                href={urls.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
-              >
-                🌐 Website
-              </a>
-            )}
-            {urls.production && urls.production !== urls.website && (
-              <a
-                href={urls.production}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
-              >
-                🚀 Production
-              </a>
-            )}
-            {urls.staging && (
-              <a
-                href={urls.staging}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
-              >
-                🧪 Staging
-              </a>
-            )}
-            {urls.github?.map((repo) => (
-              <a
-                key={repo}
-                href={`https://github.com/last-rev-llc/${repo}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
-              >
-                🐙 {repo}
-              </a>
-            ))}
-          </div>
-        )}
-      </SectionCard>
+      <Card className="glass border-surface-border">
+        <CardHeader className="px-4 py-3">
+          <CardTitle className="text-sm">Company</CardTitle>
+        </CardHeader>
+        <CardContent className="px-4 py-3">
+          <p className="text-[13px] text-muted-foreground mb-3">
+            {client.industry ?? "—"}
+          </p>
+          {urls && (
+            <div className="flex flex-wrap gap-2">
+              {urls.website && (
+                <Button variant="outline" size="sm" asChild>
+                  <a href={urls.website} target="_blank" rel="noopener noreferrer">
+                    🌐 Website
+                  </a>
+                </Button>
+              )}
+              {urls.production && urls.production !== urls.website && (
+                <Button variant="outline" size="sm" asChild>
+                  <a href={urls.production} target="_blank" rel="noopener noreferrer">
+                    🚀 Production
+                  </a>
+                </Button>
+              )}
+              {urls.staging && (
+                <Button variant="outline" size="sm" asChild>
+                  <a href={urls.staging} target="_blank" rel="noopener noreferrer">
+                    🧪 Staging
+                  </a>
+                </Button>
+              )}
+              {urls.github?.map((repo) => (
+                <Button key={repo} variant="outline" size="sm" asChild>
+                  <a
+                    href={`https://github.com/last-rev-llc/${repo}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    🐙 {repo}
+                  </a>
+                </Button>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Highlights & Challenges */}
-      <SectionCard title="Weekly Highlights & Challenges">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <div className="text-[11px] font-bold text-green-400 uppercase tracking-widest mb-2">
-              Highlights
+      <Card className="glass border-surface-border">
+        <CardHeader className="px-4 py-3">
+          <CardTitle className="text-sm">Weekly Highlights & Challenges</CardTitle>
+        </CardHeader>
+        <CardContent className="px-4 py-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <div className="text-[11px] font-bold text-green-400 uppercase tracking-widest mb-2">
+                Highlights
+              </div>
+              {client.highlights?.length ? (
+                <ul className="space-y-1">
+                  {client.highlights.map((h, i) => (
+                    <li key={i} className="text-[13px] text-foreground">
+                      ✅ {h}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <EmptyState title="None this week" className="py-2" />
+              )}
             </div>
-            {client.highlights?.length ? (
-              <ul className="space-y-1">
-                {client.highlights.map((h, i) => (
-                  <li key={i} className="text-[13px] text-foreground">
-                    ✅ {h}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <Empty message="None this week" />
-            )}
-          </div>
-          <div>
-            <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-2">
-              Challenges
+            <div>
+              <div className="text-[11px] font-bold text-amber-400 uppercase tracking-widest mb-2">
+                Challenges
+              </div>
+              {client.challenges?.length ? (
+                <ul className="space-y-1">
+                  {client.challenges.map((c, i) => (
+                    <li key={i} className="text-[13px] text-foreground">
+                      ⚠️ {c}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <EmptyState title="None this week" className="py-2" />
+              )}
             </div>
-            {client.challenges?.length ? (
-              <ul className="space-y-1">
-                {client.challenges.map((c, i) => (
-                  <li key={i} className="text-[13px] text-foreground">
-                    ⚠️ {c}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <Empty message="None this week" />
-            )}
           </div>
-        </div>
-      </SectionCard>
+        </CardContent>
+      </Card>
 
       {/* Upcoming Focus */}
-      <SectionCard title="Upcoming Focus">
-        {client.upcomingFocus?.length ? (
-          <ul className="space-y-1">
-            {client.upcomingFocus.map((f, i) => (
-              <li key={i} className="text-[13px] text-foreground">
-                ▸ {f}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <Empty message="No priorities set for next week" />
-        )}
-      </SectionCard>
+      <Card className="glass border-surface-border">
+        <CardHeader className="px-4 py-3">
+          <CardTitle className="text-sm">Upcoming Focus</CardTitle>
+        </CardHeader>
+        <CardContent className="px-4 py-3">
+          {client.upcomingFocus?.length ? (
+            <ul className="space-y-1">
+              {client.upcomingFocus.map((f, i) => (
+                <li key={i} className="text-[13px] text-foreground">
+                  ▸ {f}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyState title="No priorities set for next week" className="py-2" />
+          )}
+        </CardContent>
+      </Card>
 
       {/* Contracts */}
-      <SectionCard title="Contracts">
-        {client.contracts?.length ? (
-          <div className="space-y-2">
-            {client.contracts.map((ct, i) => (
-              <ContractRow key={i} contract={ct} />
-            ))}
-          </div>
-        ) : (
-          <Empty message="No contracts on file" />
-        )}
-      </SectionCard>
+      <Card className="glass border-surface-border">
+        <CardHeader className="px-4 py-3">
+          <CardTitle className="text-sm">Contracts</CardTitle>
+        </CardHeader>
+        <CardContent className="px-4 py-3">
+          {client.contracts?.length ? (
+            <div className="space-y-2">
+              {client.contracts.map((ct, i) => (
+                <ContractRow key={i} contract={ct} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState title="No contracts on file" className="py-2" />
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -257,9 +249,9 @@ function ContractRow({ contract: ct }: { contract: Contract }) {
   };
   return (
     <div className="flex flex-wrap items-center gap-2 py-1.5 border-b border-surface-border last:border-0 text-[13px]">
-      {ct.type && <Badge text={ct.type} color="purple" />}
+      {ct.type && <ColorBadge text={ct.type} color="purple" />}
       {ct.status && (
-        <Badge
+        <ColorBadge
           text={ct.status}
           color={statusColor[ct.status] ?? "gray"}
         />
@@ -284,7 +276,7 @@ function ContractRow({ contract: ct }: { contract: Contract }) {
 function ContactsTab({ client }: { client: Client }) {
   const contacts = client.contacts ?? [];
   if (!contacts.length)
-    return <Empty message="No contacts added yet" />;
+    return <EmptyState title="No contacts added yet" className="py-4" />;
 
   return (
     <div className="space-y-2">
@@ -298,16 +290,17 @@ function ContactsTab({ client }: { client: Client }) {
 function ContactRow({ contact: c }: { contact: Contact }) {
   return (
     <div
-      className={`flex flex-wrap items-center gap-2 py-2 px-3 rounded-lg border text-[13px] ${
+      className={cn(
+        "flex flex-wrap items-center gap-2 py-2 px-3 rounded-lg border text-[13px]",
         c.isPrimary
           ? "border-teal-500/30 bg-teal-500/5"
-          : "border-surface-border"
-      }`}
+          : "border-surface-border",
+      )}
     >
       <span className="font-semibold text-foreground min-w-[120px]">
         {c.name}
       </span>
-      {c.isPrimary && <Badge text="Primary" color="cyan" />}
+      {c.isPrimary && <ColorBadge text="Primary" color="cyan" />}
       {c.role && (
         <span className="text-muted-foreground">{c.role}</span>
       )}
@@ -344,42 +337,50 @@ function ReposTab({ client }: { client: Client }) {
       {/* PR count */}
       <div className="flex items-baseline gap-2">
         <span
-          className={`text-3xl font-bold ${prCount > 5 ? "text-amber-400" : "text-foreground"}`}
+          className={cn(
+            "text-3xl font-bold",
+            prCount > 5 ? "text-amber-400" : "text-foreground",
+          )}
         >
           {prCount}
         </span>
         <span className="text-muted-foreground text-sm">open PRs</span>
-        {prCount > 10 && <Badge text="Needs attention" color="amber" />}
+        {prCount > 10 && <StatusBadge variant="warning">Needs attention</StatusBadge>}
       </div>
 
       {/* Repo links */}
       {gh?.repos?.length ? (
         <div className="flex flex-wrap gap-2">
           {gh.repos.map((repo) => (
-            <a
-              key={repo}
-              href={`https://github.com/last-rev-llc/${repo}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
-            >
-              🐙 {repo}
-            </a>
+            <Button key={repo} variant="outline" size="sm" asChild>
+              <a
+                href={`https://github.com/last-rev-llc/${repo}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                🐙 {repo}
+              </a>
+            </Button>
           ))}
         </div>
       ) : null}
 
       {/* PR list */}
       {gh?.prs?.length ? (
-        <SectionCard title="Open Pull Requests">
-          <div className="space-y-0">
-            {gh.prs.map((pr) => (
-              <PRRow key={`${pr.repo}-${pr.number}`} pr={pr} />
-            ))}
-          </div>
-        </SectionCard>
+        <Card className="glass border-surface-border">
+          <CardHeader className="px-4 py-3">
+            <CardTitle className="text-sm">Open Pull Requests</CardTitle>
+          </CardHeader>
+          <CardContent className="px-4 py-3">
+            <div className="space-y-0">
+              {gh.prs.map((pr) => (
+                <PRRow key={`${pr.repo}-${pr.number}`} pr={pr} />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       ) : (
-        !gh?.repos?.length && <Empty message="No repos linked" />
+        !gh?.repos?.length && <EmptyState title="No repos linked" className="py-4" />
       )}
     </div>
   );
@@ -388,7 +389,7 @@ function ReposTab({ client }: { client: Client }) {
 function PRRow({ pr }: { pr: GithubPR }) {
   const url = `https://github.com/last-rev-llc/${encodeURIComponent(pr.repo)}/pull/${pr.number}`;
   return (
-    <Row>
+    <div className="flex items-center gap-2 py-1.5 border-b border-surface-border last:border-0 text-[13px]">
       <span className="text-sky-400 font-bold min-w-[44px]">
         #{pr.number}
       </span>
@@ -397,7 +398,7 @@ function PRRow({ pr }: { pr: GithubPR }) {
         {pr.authorName ?? pr.author}
       </span>
       {extLink(url, "View PR")}
-    </Row>
+    </div>
   );
 }
 
@@ -412,17 +413,22 @@ function MeetingsTab({ client }: { client: Client }) {
       <StandupSection standup={client.standup} />
 
       {/* Upcoming meetings */}
-      <SectionCard title="Upcoming Meetings (2 weeks)">
-        {meetings.length ? (
-          <div className="space-y-3">
-            {meetings.map((m, i) => (
-              <MeetingRow key={i} meeting={m} />
-            ))}
-          </div>
-        ) : (
-          <Empty message="No upcoming meetings scheduled" />
-        )}
-      </SectionCard>
+      <Card className="glass border-surface-border">
+        <CardHeader className="px-4 py-3">
+          <CardTitle className="text-sm">Upcoming Meetings (2 weeks)</CardTitle>
+        </CardHeader>
+        <CardContent className="px-4 py-3">
+          {meetings.length ? (
+            <div className="space-y-3">
+              {meetings.map((m, i) => (
+                <MeetingRow key={i} meeting={m} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState title="No upcoming meetings scheduled" className="py-2" />
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -436,54 +442,57 @@ function StandupSection({
     standup && (standup.yesterday?.length || standup.today?.length);
 
   return (
-    <SectionCard title="Daily Standup">
-      {hasData ? (
-        <div className="space-y-4">
-          <div>
-            <div className="text-[11px] font-bold text-purple-400 uppercase tracking-widest mb-2">
-              Yesterday
+    <Card className="glass border-surface-border">
+      <CardHeader className="px-4 py-3">
+        <CardTitle className="text-sm">Daily Standup</CardTitle>
+      </CardHeader>
+      <CardContent className="px-4 py-3">
+        {hasData ? (
+          <div className="space-y-4">
+            <div>
+              <div className="text-[11px] font-bold text-purple-400 uppercase tracking-widest mb-2">
+                Yesterday
+              </div>
+              {standup!.yesterday?.length ? (
+                standup!.yesterday.map((s, i) => (
+                  <StandupRow key={i} item={s} />
+                ))
+              ) : (
+                <EmptyState title="Nothing logged" className="py-2" />
+              )}
             </div>
-            {standup!.yesterday?.length ? (
-              standup!.yesterday.map((s, i) => (
-                <StandupRow key={i} item={s} />
-              ))
-            ) : (
-              <Empty message="Nothing logged" />
-            )}
-          </div>
-          <div>
-            <div className="text-[11px] font-bold text-blue-400 uppercase tracking-widest mb-2">
-              Today
+            <div>
+              <div className="text-[11px] font-bold text-blue-400 uppercase tracking-widest mb-2">
+                Today
+              </div>
+              {standup!.today?.length ? (
+                standup!.today.map((s, i) => (
+                  <StandupRow key={i} item={s} />
+                ))
+              ) : (
+                <EmptyState title="Nothing planned" className="py-2" />
+              )}
             </div>
-            {standup!.today?.length ? (
-              standup!.today.map((s, i) => (
-                <StandupRow key={i} item={s} />
-              ))
-            ) : (
-              <Empty message="Nothing planned" />
-            )}
           </div>
-        </div>
-      ) : (
-        <Empty message="No standup data" />
-      )}
-    </SectionCard>
+        ) : (
+          <EmptyState title="No standup data" className="py-2" />
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
 function StandupRow({ item: s }: { item: StandupItem }) {
   return (
-    <Row>
-      <span
-        className="font-semibold text-teal-400 min-w-[100px] text-[12px] shrink-0"
-      >
+    <div className="flex items-center gap-2 py-1.5 border-b border-surface-border last:border-0 text-[13px]">
+      <span className="font-semibold text-teal-400 min-w-[100px] text-[12px] shrink-0">
         {s.user}
       </span>
       <span className="flex-1 text-foreground">{s.item}</span>
-      {s.ticket && <Badge text={s.ticket} color="purple" />}
+      {s.ticket && <ColorBadge text={s.ticket} color="purple" />}
       {extLink(s.ticketUrl, s.ticket ?? undefined)}
       {extLink(s.prUrl, "PR")}
-    </Row>
+    </div>
   );
 }
 
@@ -518,54 +527,66 @@ function JiraSection({ client }: { client: Client }) {
   const jira = client.jira;
   if (!jira)
     return (
-      <SectionCard title="Jira">
-        <Empty message="No Jira integration configured" />
-      </SectionCard>
+      <Card className="glass border-surface-border">
+        <CardHeader className="px-4 py-3">
+          <CardTitle className="text-sm">Jira</CardTitle>
+        </CardHeader>
+        <CardContent className="px-4 py-3">
+          <EmptyState title="No Jira integration configured" className="py-2" />
+        </CardContent>
+      </Card>
     );
 
   return (
-    <SectionCard title="Jira">
-      {jira.status === "pending-reauth" ? (
-        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-500/8 border border-amber-500/20">
-          <span className="text-amber-400 text-sm">⚠️</span>
-          <span className="text-[13px] text-amber-400">
+    <Card className="glass border-surface-border">
+      <CardHeader className="px-4 py-3">
+        <CardTitle className="text-sm">Jira</CardTitle>
+      </CardHeader>
+      <CardContent className="px-4 py-3">
+        {jira.status === "pending-reauth" ? (
+          <StatusBadge variant="warning" dot>
             Jira integration pending re-auth
-          </span>
-        </div>
-      ) : (
-        <div className="flex gap-6">
-          <div>
-            <span className="text-2xl font-bold text-foreground">
-              {jira.openTickets ?? 0}
-            </span>
-            <span className="text-muted-foreground text-xs ml-1">open</span>
+          </StatusBadge>
+        ) : (
+          <div className="flex gap-6">
+            <div>
+              <span className="text-2xl font-bold text-foreground">
+                {jira.openTickets ?? 0}
+              </span>
+              <span className="text-muted-foreground text-xs ml-1">open</span>
+            </div>
+            <div>
+              <span className="text-2xl font-bold text-amber-400">
+                {jira.staleTickets ?? 0}
+              </span>
+              <span className="text-muted-foreground text-xs ml-1">stale</span>
+            </div>
           </div>
-          <div>
-            <span className="text-2xl font-bold text-amber-400">
-              {jira.staleTickets ?? 0}
-            </span>
-            <span className="text-muted-foreground text-xs ml-1">stale</span>
-          </div>
-        </div>
-      )}
-    </SectionCard>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
 function NetlifySection({ client }: { client: Client }) {
   const sites = client.netlify ?? [];
   return (
-    <SectionCard title="Netlify Status">
-      {sites.length ? (
-        <div className="space-y-0">
-          {sites.map((n, i) => (
-            <NetlifyRow key={i} site={n} />
-          ))}
-        </div>
-      ) : (
-        <Empty message="No Netlify sites configured" />
-      )}
-    </SectionCard>
+    <Card className="glass border-surface-border">
+      <CardHeader className="px-4 py-3">
+        <CardTitle className="text-sm">Netlify Status</CardTitle>
+      </CardHeader>
+      <CardContent className="px-4 py-3">
+        {sites.length ? (
+          <div className="space-y-0">
+            {sites.map((n, i) => (
+              <NetlifyRow key={i} site={n} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState title="No Netlify sites configured" className="py-2" />
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
@@ -576,10 +597,10 @@ function NetlifyRow({ site: n }: { site: NetlifySite }) {
     pending: "amber",
   };
   return (
-    <Row>
+    <div className="flex items-center gap-2 py-1.5 border-b border-surface-border last:border-0 text-[13px]">
       <span className="font-semibold flex-1 text-foreground">{n.site}</span>
       {n.status && (
-        <Badge
+        <ColorBadge
           text={n.status}
           color={statusColor[n.status] ?? "gray"}
         />
@@ -587,24 +608,29 @@ function NetlifyRow({ site: n }: { site: NetlifySite }) {
       <span className="text-muted-foreground text-[12px]">
         {n.lastDeploy ?? "—"}
       </span>
-    </Row>
+    </div>
   );
 }
 
 function ContentfulSection({ client }: { client: Client }) {
   const spaces = client.contentfulSpaces ?? [];
   return (
-    <SectionCard title="Contentful">
-      {spaces.length ? (
-        <div className="space-y-3">
-          {spaces.map((sp, i) => (
-            <ContentfulSpaceRow key={i} space={sp} />
-          ))}
-        </div>
-      ) : (
-        <Empty message="No Contentful spaces linked" />
-      )}
-    </SectionCard>
+    <Card className="glass border-surface-border">
+      <CardHeader className="px-4 py-3">
+        <CardTitle className="text-sm">Contentful</CardTitle>
+      </CardHeader>
+      <CardContent className="px-4 py-3">
+        {spaces.length ? (
+          <div className="space-y-3">
+            {spaces.map((sp, i) => (
+              <ContentfulSpaceRow key={i} space={sp} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState title="No Contentful spaces linked" className="py-2" />
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
@@ -619,7 +645,9 @@ function ContentfulSpaceRow({ space: sp }: { space: ContentfulSpace }) {
       {sp.environments?.length ? (
         <div className="flex flex-wrap gap-1">
           {sp.environments.map((e, i) => (
-            <Badge key={i} text={e} color="gray" />
+            <Badge key={i} variant="outline">
+              {e}
+            </Badge>
           ))}
         </div>
       ) : null}
@@ -686,10 +714,7 @@ export function AccountsApp({ clients }: AccountsAppProps) {
 
   if (!clients.length) {
     return (
-      <div className="text-center py-16 text-muted-foreground">
-        <div className="text-4xl mb-3">👥</div>
-        <p>No clients found</p>
-      </div>
+      <EmptyState icon="👥" title="No clients found" />
     );
   }
 
@@ -712,9 +737,12 @@ export function AccountsApp({ clients }: AccountsAppProps) {
           ))}
         </select>
         {selectedClient?.industry && (
-          <span className="text-[11px] font-semibold px-2 py-0.5 rounded border bg-teal-500/12 text-teal-400 border-teal-500/20 shrink-0">
+          <StatusBadge
+            variant="neutral"
+            className="border-teal-500/20 bg-teal-500/10 text-teal-600 dark:text-teal-400 shrink-0"
+          >
             {selectedClient.industry}
-          </span>
+          </StatusBadge>
         )}
       </div>
 
@@ -722,16 +750,18 @@ export function AccountsApp({ clients }: AccountsAppProps) {
       {selectedClient?.health && (
         <div className="mb-4 flex items-center gap-2">
           <span className="text-[12px] text-muted-foreground">Health:</span>
-          <Badge
-            text={selectedClient.health}
-            color={
+          <StatusBadge
+            variant={
               selectedClient.health === "good"
-                ? "green"
+                ? "success"
                 : selectedClient.health === "at-risk"
-                  ? "amber"
-                  : "red"
+                  ? "warning"
+                  : "error"
             }
-          />
+            dot
+          >
+            {selectedClient.health}
+          </StatusBadge>
         </div>
       )}
 
@@ -739,7 +769,7 @@ export function AccountsApp({ clients }: AccountsAppProps) {
       {selectedClient ? (
         <ClientDashboard key={selectedClient.id} client={selectedClient} />
       ) : (
-        <Empty message="Select a client above" />
+        <EmptyState title="Select a client above" className="py-4" />
       )}
     </div>
   );
