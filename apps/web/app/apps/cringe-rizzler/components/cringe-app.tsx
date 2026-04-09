@@ -10,6 +10,7 @@ import {
   Button,
   Card,
   CardContent,
+  Input,
 } from "@repo/ui";
 import { SLANG_GLOSSARY, SLANG_MAP, SCENARIOS, CATEGORIES } from "../data/slang";
 import { generatePhrase, generateMemeCaption } from "../lib/actions";
@@ -28,7 +29,7 @@ function VibeBar({ score }: { score: number }) {
   const pct = Math.min(100, (score / 10) * 100);
   return (
     <div className="flex items-center gap-2 mt-1">
-      <span className="text-[11px] text-white/40">Vibe</span>
+      <span className="text-[11px] text-muted-foreground">Vibe</span>
       <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-white/10">
         <div
           className="h-full rounded-full transition-all"
@@ -59,12 +60,13 @@ function CategoryBadge({ cat }: { cat: string }) {
   };
   const color = colors[cat] ?? "var(--color-slate)";
   return (
-    <span
-      className="inline-block text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wide"
-      style={{ background: color + "20", color }}
+    <Badge
+      variant="outline"
+      className="text-[10px] font-semibold uppercase tracking-wide"
+      style={{ background: color + "20", color, borderColor: color + "40" }}
     >
       {cat}
-    </span>
+    </Badge>
   );
 }
 
@@ -217,18 +219,20 @@ function PhraseTab() {
                       </div>
                     )}
                   </div>
-                  <button
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     onClick={() =>
                       copyToClipboard(item.content, () => {
                         setCopied(true);
                         setTimeout(() => setCopied(false), 1500);
                       })
                     }
-                    className="text-white/30 hover:text-white/70 transition-colors shrink-0 text-xs"
+                    className="text-muted-foreground hover:text-white/70 transition-colors shrink-0 text-xs px-2"
                     title="Copy"
                   >
                     ⎘
-                  </button>
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -370,14 +374,15 @@ function MemeTab() {
       {/* Scenario grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
         {SCENARIOS.map((s) => (
-          <button
+          <Button
             key={s}
+            variant="outline"
             onClick={() => handlePickScenario(s)}
             disabled={isPending}
-            className="px-3 py-2.5 rounded-xl text-sm text-left font-medium transition-all border border-pill-8/20 bg-pill-8/10 hover:bg-pill-8/20 hover:border-pill-8/40 text-pill-8 disabled:opacity-40 disabled:cursor-not-allowed"
+            className="h-auto px-3 py-2.5 rounded-xl text-sm text-left justify-start font-medium border-pill-8/20 bg-pill-8/10 hover:bg-pill-8/20 hover:border-pill-8/40 text-pill-8"
           >
             🎭 {s}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -412,26 +417,28 @@ function MemeTab() {
             {templates.length > 0 && (
               <>
                 <div className="flex items-center gap-3 justify-center">
-                  <button
+                  <Button
+                    variant="outline"
                     onClick={() => cycleMeme(-1)}
-                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:border-pill-8/50 hover:bg-pill-8/10 text-white/60 hover:text-pill-8 transition-all flex items-center justify-center text-xl font-bold"
+                    className="w-10 h-10 rounded-full border-white/10 bg-white/5 hover:border-pill-8/50 hover:bg-pill-8/10 text-white/60 hover:text-pill-8 p-0 text-xl font-bold"
                     aria-label="Previous template"
                   >
                     ‹
-                  </button>
+                  </Button>
                   <div className="text-center">
                     <p className="text-sm font-medium text-white/80">{currentTemplate?.name}</p>
                     <p className="text-xs text-white/40">
                       {meme.templateIdx + 1} of {templates.length}
                     </p>
                   </div>
-                  <button
+                  <Button
+                    variant="outline"
                     onClick={() => cycleMeme(1)}
-                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:border-pill-8/50 hover:bg-pill-8/10 text-white/60 hover:text-pill-8 transition-all flex items-center justify-center text-xl font-bold"
+                    className="w-10 h-10 rounded-full border-white/10 bg-white/5 hover:border-pill-8/50 hover:bg-pill-8/10 text-white/60 hover:text-pill-8 p-0 text-xl font-bold"
                     aria-label="Next template"
                   >
                     ›
-                  </button>
+                  </Button>
                 </div>
 
                 {/* Hidden image triggers canvas draw */}
@@ -492,12 +499,12 @@ function GlossaryTab() {
     <div className="max-w-3xl mx-auto space-y-4">
       {/* Search + filter */}
       <div className="flex flex-col sm:flex-row gap-3">
-        <input
+        <Input
           type="text"
           placeholder="Search slang or definition..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 px-4 py-2.5 rounded-xl bg-white/8 border border-white/10 text-white placeholder-white/30 text-sm focus:outline-none focus:border-pill-6/50 focus:bg-white/10 transition-all"
+          className="flex-1 bg-transparent text-white border-white/10 focus:border-pill-6/50 placeholder:text-muted-foreground"
         />
         <select
           value={activeCategory}
@@ -512,7 +519,7 @@ function GlossaryTab() {
         </select>
       </div>
 
-      <p className="text-xs text-white/30">
+      <p className="text-xs text-muted-foreground">
         {filtered.length} term{filtered.length !== 1 ? "s" : ""} — sorted by vibe score
       </p>
 

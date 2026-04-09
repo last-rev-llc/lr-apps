@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@repo/ui";
+import { Button, Textarea } from "@repo/ui";
 import type { SlangTerm, GenerationConfig } from "../lib/types";
 import { TRANSLATOR_MAPS } from "../lib/generations";
 
@@ -10,13 +10,21 @@ interface Props {
   gen: GenerationConfig;
 }
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function translateToGen(
   text: string,
   slug: string,
   terms: SlangTerm[]
 ): string {
   const map = TRANSLATOR_MAPS[slug] ?? {};
-  let result = text;
+  let result = escapeHtml(text);
   let anyReplaced = false;
 
   // Sort by key length descending to replace longer phrases first
@@ -27,7 +35,7 @@ function translateToGen(
       anyReplaced = true;
       result = result.replace(
         re,
-        `<strong class="text-accent">${gen}</strong>`
+        `<strong class="text-accent">${escapeHtml(gen)}</strong>`
       );
     }
   }
@@ -56,7 +64,7 @@ function translateFromGen(text: string, terms: SlangTerm[]): string {
   const sorted = Object.entries(slangMap).sort(
     (a, b) => b[0].length - a[0].length
   );
-  let result = text;
+  let result = escapeHtml(text);
   let found = false;
 
   for (const [slang, def] of sorted) {
@@ -67,7 +75,7 @@ function translateFromGen(text: string, terms: SlangTerm[]): string {
       const shortDef = def.split(".")[0].trim();
       result = result.replace(
         re,
-        `<strong class="text-accent" title="${def}">[${shortDef}]</strong>`
+        `<strong class="text-accent" title="${escapeHtml(def)}">[${escapeHtml(shortDef)}]</strong>`
       );
     }
   }
@@ -139,7 +147,7 @@ export function SlangTranslator({ terms, gen }: Props) {
       </div>
 
       {/* Input */}
-      <textarea
+      <Textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder={
@@ -147,7 +155,7 @@ export function SlangTranslator({ terms, gen }: Props) {
             ? "Type normal English here..."
             : `Type ${gen.name} slang here...`
         }
-        className="w-full min-h-[120px] px-4 py-3 rounded-xl border border-surface-border bg-surface-card text-foreground text-sm resize-vertical outline-none focus:border-accent transition-colors placeholder:text-muted-foreground"
+        className="min-h-[120px] resize-vertical bg-surface-card font-sans"
         onKeyDown={(e) => {
           if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleTranslate();
         }}
