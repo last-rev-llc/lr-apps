@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
+import { Badge, Button, Card, CardContent, EmptyState, PageHeader, Search, StatCard } from "@repo/ui";
 import type { Agent, AgentStatus } from "../lib/types";
 
 type StatusFilter = "all" | AgentStatus;
@@ -76,17 +76,12 @@ export function AgentsApp({ initialAgents }: AgentsAppProps) {
       {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: "Total", value: agents.length, color: "#e2e8f0" },
-          { label: "Active", value: counts.active, color: "#4ade80" },
-          { label: "Running", value: counts.running, color: "#fbbf24" },
-          { label: "Errors", value: counts.error, color: "#f87171" },
+          { label: "Total", value: agents.length },
+          { label: "Active", value: counts.active },
+          { label: "Running", value: counts.running },
+          { label: "Errors", value: counts.error },
         ].map((s) => (
-          <Card key={s.label} className="p-3">
-            <CardContent className="p-0 text-center">
-              <div className="text-2xl font-extrabold" style={{ color: s.color }}>{s.value}</div>
-              <div className="text-xs text-white/40 mt-0.5">{s.label}</div>
-            </CardContent>
-          </Card>
+          <StatCard key={s.label} value={s.value} label={s.label} size="sm" />
         ))}
       </div>
 
@@ -95,17 +90,15 @@ export function AgentsApp({ initialAgents }: AgentsAppProps) {
         <Search value={search} onChange={setSearch} placeholder="Search agents…" className="flex-1 min-w-[200px]" />
         <div className="flex gap-1 flex-wrap">
           {STATUS_FILTERS.map((f) => (
-            <button
+            <Button
               key={f.value}
+              variant={statusFilter === f.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setStatusFilter(f.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                statusFilter === f.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={statusFilter === f.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {f.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -139,9 +132,9 @@ export function AgentsApp({ initialAgents }: AgentsAppProps) {
                         >
                           {agent.status}
                         </Badge>
-                        <span className="text-xs text-white/40 bg-white/5 px-2 py-0.5 rounded">
+                        <Badge variant="secondary" className="text-xs text-white/40 bg-white/5 border-0">
                           {agent.type}
-                        </span>
+                        </Badge>
                       </div>
                       {agent.description && (
                         <p className="text-xs text-white/50 mt-1">{agent.description}</p>

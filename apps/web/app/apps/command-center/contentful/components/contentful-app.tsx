@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
+import { Badge, Card, CardContent, EmptyState, PageHeader, Search, StatCard } from "@repo/ui";
 import type { ContentfulHealth, ContentfulEntry } from "../lib/types";
 
 function relDate(iso: string | null | undefined): string {
@@ -62,17 +62,12 @@ export function ContentfulApp({ initialHealth }: ContentfulAppProps) {
       {/* Summary stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: "Spaces",    value: spaces.length, color: "#e2e8f0" },
-          { label: "Total",     value: totalEntries,  color: "#60a5fa" },
-          { label: "Drafts",    value: totalDraft,    color: "#fbbf24" },
-          { label: "Stale",     value: totalStale,    color: totalStale > 0 ? "#f87171" : "#4ade80" },
+          { label: "Spaces",    value: spaces.length },
+          { label: "Total",     value: totalEntries },
+          { label: "Drafts",    value: totalDraft },
+          { label: "Stale",     value: totalStale },
         ].map((s) => (
-          <Card key={s.label} className="p-3">
-            <CardContent className="p-0 text-center">
-              <div className="text-2xl font-extrabold" style={{ color: s.color }}>{s.value}</div>
-              <div className="text-xs text-white/40 mt-0.5">{s.label}</div>
-            </CardContent>
-          </Card>
+          <StatCard key={s.label} value={s.value} label={s.label} size="sm" />
         ))}
       </div>
 

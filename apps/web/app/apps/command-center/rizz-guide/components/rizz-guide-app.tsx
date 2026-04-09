@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, PageHeader } from "@repo/ui";
+import { Button, Card, CardContent, PageHeader } from "@repo/ui";
 
 interface RizzTip {
   id: string;
@@ -110,18 +110,16 @@ export function RizzGuideApp() {
       {/* Scenario selector */}
       <div className="flex gap-2 flex-wrap">
         {SCENARIOS.map((s) => (
-          <button
+          <Button
             key={s.id}
+            variant={activeScenario === s.id ? "outline" : "ghost"}
+            size="sm"
             onClick={() => setActiveScenario(s.id)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-semibold transition-colors ${
-              activeScenario === s.id
-                ? "border-purple-500/60 bg-purple-500/15 text-purple-400"
-                : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-            }`}
+            className={activeScenario === s.id ? "border-purple-500/60 bg-purple-500/15 text-purple-400" : ""}
           >
             <span>{s.icon}</span>
             <span>{s.label}</span>
-          </button>
+          </Button>
         ))}
       </div>
 

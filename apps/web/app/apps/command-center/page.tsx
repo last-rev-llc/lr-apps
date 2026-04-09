@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui";
-import { Badge } from "@repo/ui";
+import { Card, CardContent, CardHeader, CardTitle, Badge, PageHeader, StatCard } from "@repo/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -175,32 +174,17 @@ export default function CommandCenterPage() {
 
   return (
     <div>
-      {/* Page header */}
-      <div className="mb-6">
-        <h1 className="font-heading text-3xl text-accent">⚡ Command Center</h1>
-        <p className="text-muted-foreground text-sm mt-1">
-          Mission control for all operations &mdash; last updated {now}
-        </p>
-      </div>
+      <PageHeader
+        title="⚡ Command Center"
+        subtitle={`Mission control for all operations \u2014 last updated ${now}`}
+      />
 
       {/* Quick stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-        {[
-          { value: MODULES.length, label: "Modules" },
-          { value: "21", label: "Routes" },
-          { value: "7", label: "Categories" },
-          { value: "Active", label: "Status" },
-        ].map(({ value, label }) => (
-          <div
-            key={label}
-            className="glass border border-surface-border rounded-lg px-4 py-3 text-center"
-          >
-            <div className="text-2xl font-bold text-accent">{value}</div>
-            <div className="text-[11px] text-muted-foreground uppercase tracking-widest mt-0.5">
-              {label}
-            </div>
-          </div>
-        ))}
+        <StatCard value={MODULES.length} label="Modules" size="sm" />
+        <StatCard value="21" label="Routes" size="sm" />
+        <StatCard value="7" label="Categories" size="sm" />
+        <StatCard value="Active" label="Status" size="sm" />
       </div>
 
       {/* Module grid */}
@@ -230,11 +214,9 @@ export default function CommandCenterPage() {
                         {mod.label}
                       </CardTitle>
                     </div>
-                    <span
-                      className={`shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${categoryClass}`}
-                    >
+                    <Badge variant="outline" className={`shrink-0 text-[10px] rounded-full ${categoryClass}`}>
                       {mod.category}
-                    </span>
+                    </Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
