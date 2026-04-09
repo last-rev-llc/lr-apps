@@ -1,3 +1,5 @@
+import { Card, CardContent, Button } from "@repo/ui";
+
 export default function SlangTranslatorAboutPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
@@ -37,10 +39,14 @@ export default function SlangTranslatorAboutPage() {
             desc: "Filter by generation, category, and vibe score to find exactly what you need.",
           },
         ].map((f) => (
-          <div key={f.title} className="glass-sm p-4">
-            <h3 className="text-sm font-medium text-accent mb-1">{f.title}</h3>
-            <p className="text-xs text-muted-foreground">{f.desc}</p>
-          </div>
+          <Card key={f.title} className="glass-sm">
+            <CardContent className="p-4">
+              <h3 className="text-sm font-medium text-accent mb-1">
+                {f.title}
+              </h3>
+              <p className="text-xs text-muted-foreground">{f.desc}</p>
+            </CardContent>
+          </Card>
         ))}
       </div>
 
@@ -61,26 +67,27 @@ export default function SlangTranslatorAboutPage() {
               desc: "Take the cross-generational quiz to see if you can speak both languages fluently.",
             },
           ].map((item, i) => (
-            <li key={item.step} className="glass-sm p-4 flex gap-4">
-              <span className="text-accent font-bold text-lg shrink-0">
-                {i + 1}.
-              </span>
-              <div>
-                <h3 className="text-sm font-medium mb-0.5">{item.step}</h3>
-                <p className="text-xs text-muted-foreground">{item.desc}</p>
-              </div>
+            <li key={item.step}>
+              <Card className="glass-sm">
+                <CardContent className="p-4 flex gap-4">
+                  <span className="text-accent font-bold text-lg shrink-0">
+                    {i + 1}.
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-medium mb-0.5">{item.step}</h3>
+                    <p className="text-xs text-muted-foreground">{item.desc}</p>
+                  </div>
+                </CardContent>
+              </Card>
             </li>
           ))}
         </ol>
       </div>
 
       <div className="text-center">
-        <a
-          href="/apps/slang-translator"
-          className="inline-block px-6 py-2.5 bg-accent text-accent-foreground rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
-        >
-          Open Translator →
-        </a>
+        <Button asChild className="rounded-xl">
+          <a href="/apps/slang-translator">Open Translator →</a>
+        </Button>
       </div>
     </div>
   );
