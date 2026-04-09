@@ -25,26 +25,29 @@ async function getSites(): Promise<Site[]> {
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const variants: Record<string, { label: string; className: string }> = {
+  const variants: Record<string, { emoji: string; label: string; className: string }> = {
     up: {
-      label: "🟢 Operational",
+      emoji: "🟢",
+      label: "Operational",
       className: "bg-green/15 text-green border-green/30",
     },
     down: {
-      label: "🔴 Down",
+      emoji: "🔴",
+      label: "Down",
       className: "bg-red/15 text-red border-red/30",
     },
     degraded: {
-      label: "🟡 Degraded",
+      emoji: "🟡",
+      label: "Degraded",
       className: "bg-yellow/15 text-yellow border-yellow/30",
     },
   };
-  const v = variants[status] ?? variants.degraded;
+  const v = variants[status] ?? { emoji: "⚪", label: "Unknown", className: "bg-surface/15 text-muted-foreground border-surface-border" };
   return (
     <span
       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${v.className}`}
     >
-      {v.label}
+      {v.emoji} <span>{v.label}</span>
     </span>
   );
 }
@@ -100,7 +103,7 @@ export default async function UptimePage() {
       {/* Banner */}
       {issues.length === 0 ? (
         <div className="rounded-xl px-6 py-4 text-center font-semibold text-base bg-green/15 text-green border border-green/30">
-          ✅ All Systems Operational
+          ✅ <span>All Systems Operational</span>
         </div>
       ) : (
         <div className="rounded-xl px-6 py-4 text-center font-semibold text-base bg-red/15 text-red border border-red/30">

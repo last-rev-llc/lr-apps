@@ -473,7 +473,7 @@ export function MeetingsApp({ meetings }: MeetingsAppProps) {
                     : "border-surface-border text-muted-foreground hover:border-accent/40"
                 }`}
               >
-                {p === "all" ? "All" : p}
+                {p.charAt(0).toUpperCase() + p.slice(1)}
               </button>
             ))}
           </div>
