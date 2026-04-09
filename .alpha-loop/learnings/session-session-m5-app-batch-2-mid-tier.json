@@ -1,0 +1,196 @@
+{
+  "name": "session/m5-app-batch-2-mid-tier",
+  "branch": "session/m5-app-batch-2-mid-tier",
+  "completed": "2026-04-09T07:26:30.900Z",
+  "results": [
+    {
+      "issueNum": 40,
+      "title": "Dad Joke of the Day: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/123",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 388,
+      "filesChanged": 1
+    },
+    {
+      "issueNum": 41,
+      "title": "Dad Joke of the Day: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/125",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 698,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 42,
+      "title": "Generations: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/127",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 661,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 43,
+      "title": "Generations: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/129",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 597,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 44,
+      "title": "Slang Translator: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/130",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 523,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 45,
+      "title": "Slang Translator: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/133",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 520,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 46,
+      "title": "Cringe Rizzler: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/135",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 612,
+      "filesChanged": 1
+    },
+    {
+      "issueNum": 47,
+      "title": "Cringe Rizzler: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/136",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 424,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 48,
+      "title": "Daily Updates: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/137",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 424,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 49,
+      "title": "Daily Updates: app-specific tests",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 235,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 50,
+      "title": "Proper Wine Pour: component migration",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 33,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 51,
+      "title": "Proper Wine Pour: app-specific tests",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 25,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 52,
+      "title": "HSPT Practice: component migration",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 27,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 53,
+      "title": "HSPT Practice: app-specific tests",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 27,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 54,
+      "title": "HSPT Tutor: component migration",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 25,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 55,
+      "title": "HSPT Tutor: app-specific tests",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 23,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 56,
+      "title": "Roblox Dances: component migration",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 23,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 57,
+      "title": "Roblox Dances: app-specific tests",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 24,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 58,
+      "title": "AI Calculator: component migration",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 22,
+      "filesChanged": 0
+    },
+    {
+      "issueNum": 59,
+      "title": "AI Calculator: app-specific tests",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 17,
+      "filesChanged": 0
+    }
+  ]
+}
