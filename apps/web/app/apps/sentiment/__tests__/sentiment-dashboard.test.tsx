@@ -74,7 +74,7 @@ describe("SentimentDashboard", () => {
       expect(positive.className).toContain("bg-green/20");
 
       const neutral = screen.getAllByText("neutral")[0];
-      expect(neutral.className).toContain("bg-muted");
+      expect(neutral.className).toContain("bg-zinc-500/10"); // neutral variant
 
       const frustrated = screen.getAllByText("frustrated")[0];
       expect(frustrated.className).toContain("bg-orange/20");

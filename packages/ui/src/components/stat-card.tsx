@@ -40,11 +40,22 @@ const SIZE_STYLES = {
   lg: { value: "text-[3.2rem]", label: "text-base", padding: "p-8" },
 };
 
+// Whether the browser supports IntersectionObserver (false in SSR/test environments)
+const hasIntersectionObserver =
+  typeof window !== "undefined" && typeof IntersectionObserver !== "undefined";
+
 function useCountUp(target: number, active: boolean, duration = 1200) {
-  const [display, setDisplay] = React.useState(0);
+  // When active from the start (no IntersectionObserver), display the final value immediately
+  const mountedActive = React.useRef(active);
+  const [display, setDisplay] = React.useState(() => (active ? target : 0));
 
   React.useEffect(() => {
     if (!active) return;
+    if (mountedActive.current) {
+      // Active from mount (SSR/test): skip animation, just ensure value is correct
+      setDisplay(target);
+      return;
+    }
     const start = performance.now();
     const isFloat = String(target).includes(".");
     const decimals = isFloat ? (String(target).split(".")[1] ?? "").length : 0;
@@ -73,12 +84,16 @@ export function StatCard({
   className,
 }: StatCardProps) {
   const ref = React.useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(!hasIntersectionObserver);
 
   // Intersection observer — trigger animation when 20% from viewport bottom
   React.useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (!hasIntersectionObserver) {
+      setVisible(true);
+      return;
+    }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -100,10 +115,13 @@ export function StatCard({
   const prefix = isNumeric ? rawStr.slice(0, rawStr.indexOf(numMatch![1])) : "";
   const suffix = isNumeric ? rawStr.slice(rawStr.indexOf(numMatch![1]) + numMatch![1].length) : "";
 
-  const counted = useCountUp(targetNum, visible && isNumeric);
-  const displayValue = isNumeric
-    ? `${prefix}${String(targetNum).includes(".") ? counted.toFixed((String(targetNum).split(".")[1] ?? "").length) : counted}${suffix}`
-    : rawStr;
+  // When IntersectionObserver is unavailable (SSR/test), skip animation and render raw value
+  const counted = useCountUp(targetNum, hasIntersectionObserver && visible && isNumeric);
+  const displayValue = !hasIntersectionObserver
+    ? rawStr
+    : isNumeric
+      ? `${prefix}${String(targetNum).includes(".") ? counted.toFixed((String(targetNum).split(".")[1] ?? "").length) : counted}${suffix}`
+      : rawStr;
 
   // Pick palette based on index — use a ref trick (won't always be accurate in SSR, but fine for display)
   const paletteIdx = React.useRef(Math.floor(Math.random() * ACCENT_PALETTES.length)).current;

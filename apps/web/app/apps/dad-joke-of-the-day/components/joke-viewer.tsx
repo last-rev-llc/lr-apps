@@ -143,30 +143,36 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
     <div className="space-y-6">
       {/* Category filter */}
       <div className="flex flex-wrap gap-2 justify-center">
-        <button
+        <Badge
+          role="button"
+          tabIndex={0}
           onClick={() => handleCategoryChange("all")}
-          className={[
-            "px-3 py-1 rounded-full text-sm border transition-colors",
+          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCategoryChange("all"); } }}
+          variant="outline"
+          className={
             selectedCategory === "all"
-              ? "border-accent bg-accent/10 text-accent"
-              : "border-white/10 text-muted-foreground hover:border-white/30",
-          ].join(" ")}
+              ? "cursor-pointer border-accent bg-accent/10 text-accent"
+              : "cursor-pointer border-white/10 text-muted-foreground hover:border-white/30"
+          }
         >
           All
-        </button>
+        </Badge>
         {categories.map((cat) => (
-          <button
+          <Badge
             key={cat}
+            role="button"
+            tabIndex={0}
             onClick={() => handleCategoryChange(cat)}
-            className={[
-              "px-3 py-1 rounded-full text-sm border transition-colors",
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCategoryChange(cat); } }}
+            variant="outline"
+            className={
               selectedCategory === cat
-                ? "border-accent bg-accent/10 text-accent"
-                : "border-white/10 text-muted-foreground hover:border-white/30",
-            ].join(" ")}
+                ? "cursor-pointer border-accent bg-accent/10 text-accent"
+                : "cursor-pointer border-white/10 text-muted-foreground hover:border-white/30"
+            }
           >
             {cat}
-          </button>
+          </Badge>
         ))}
       </div>
 

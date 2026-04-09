@@ -1,22 +1,18 @@
-import { cn } from "@repo/ui";
+import { StatusBadge } from "@repo/ui";
+import type { StatusBadgeProps } from "@repo/ui";
 
-const moodColors: Record<string, string> = {
-  positive: "bg-green/20 text-green",
-  excited: "bg-pill-0/20 text-pill-0",
-  neutral: "bg-muted text-muted-foreground",
-  frustrated: "bg-orange/20 text-orange",
-  blocked: "bg-red/20 text-red",
+const moodToVariant: Record<string, StatusBadgeProps["variant"]> = {
+  positive: "success",
+  excited: "info",
+  neutral: "neutral",
+  frustrated: "warning",
+  blocked: "error",
 };
 
 export function MoodBadge({ mood }: { mood: string }) {
   return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize",
-        moodColors[mood] ?? moodColors.neutral,
-      )}
-    >
+    <StatusBadge variant={moodToVariant[mood] ?? "neutral"} className="capitalize">
       {mood}
-    </span>
+    </StatusBadge>
   );
 }
