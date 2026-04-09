@@ -15,7 +15,7 @@ export default function CringeRizzlerLayout({ children }: { children: ReactNode 
   return (
     <div
       className="min-h-screen relative"
-      style={{ background: "linear-gradient(135deg, #0d0d1a 0%, #12091e 50%, #0a0d1a 100%)" }}
+      style={{ background: "linear-gradient(135deg, var(--color-navy-950) 0%, var(--color-navy-950) 50%, var(--color-navy-950) 100%)" }}
     >
       {/* Ambient glow blobs */}
       <div
@@ -24,15 +24,15 @@ export default function CringeRizzlerLayout({ children }: { children: ReactNode 
       >
         <div
           className="absolute -top-40 -left-40 w-96 h-96 rounded-full opacity-20 blur-3xl"
-          style={{ background: "radial-gradient(circle, #ec4899, transparent)" }}
+          style={{ background: "radial-gradient(circle, var(--color-pill-6), transparent)" }}
         />
         <div
           className="absolute top-1/3 -right-40 w-80 h-80 rounded-full opacity-15 blur-3xl"
-          style={{ background: "radial-gradient(circle, #a855f7, transparent)" }}
+          style={{ background: "radial-gradient(circle, var(--color-pill-0), transparent)" }}
         />
         <div
           className="absolute bottom-20 left-1/4 w-72 h-72 rounded-full opacity-10 blur-3xl"
-          style={{ background: "radial-gradient(circle, #f59e0b, transparent)" }}
+          style={{ background: "radial-gradient(circle, var(--color-accent), transparent)" }}
         />
       </div>
 
@@ -43,7 +43,7 @@ export default function CringeRizzlerLayout({ children }: { children: ReactNode 
             href="/apps/cringe-rizzler"
             className="font-heading text-xl font-black hover:opacity-80 transition-opacity shrink-0"
             style={{
-              background: "linear-gradient(135deg, #ec4899, #a855f7)",
+              background: "linear-gradient(135deg, var(--color-pill-6), var(--color-pill-0))",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}

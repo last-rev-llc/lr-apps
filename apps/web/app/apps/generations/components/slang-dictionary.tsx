@@ -5,10 +5,10 @@ import { Input, Badge, Card, CardContent } from "@repo/ui";
 import type { SlangTerm, GenerationConfig } from "../lib/types";
 
 function vibeColor(score: number): string {
-  if (score >= 9) return "#22c55e";
-  if (score >= 7) return "#06b6d4";
-  if (score >= 5) return "#eab308";
-  return "#ef4444";
+  if (score >= 9) return "var(--color-green)";
+  if (score >= 7) return "var(--color-pill-7)";
+  if (score >= 5) return "var(--color-yellow)";
+  return "var(--color-red)";
 }
 
 function VibeBar({ score }: { score: number }) {

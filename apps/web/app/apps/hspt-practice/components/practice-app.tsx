@@ -583,11 +583,11 @@ function ReviewView({
 }
 
 const SECTION_COLORS: Record<SectionId, string> = {
-  verbal: "#f59e0b",
-  quantitative: "#3b82f6",
-  reading: "#10b981",
-  mathematics: "#ef4444",
-  language: "#a855f7",
+  verbal: "var(--color-accent)",
+  quantitative: "var(--color-pill-1)",
+  reading: "var(--color-green)",
+  mathematics: "var(--color-pill-4)",
+  language: "var(--color-pill-0)",
 };
 
 function HistoryView({
@@ -645,29 +645,29 @@ function HistoryView({
           <CardContent className="p-4">
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={chartRows}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-surface-border)" />
                 <XAxis
                   dataKey="date"
-                  tick={{ fill: "#888", fontSize: 11 }}
+                  tick={{ fill: "var(--color-slate-dim)", fontSize: 11 }}
                   stroke="transparent"
                 />
                 <YAxis
                   domain={[0, 100]}
-                  tick={{ fill: "#888", fontSize: 11 }}
+                  tick={{ fill: "var(--color-slate-dim)", fontSize: 11 }}
                   stroke="transparent"
                   tickFormatter={(v) => `${v}%`}
                 />
                 <Tooltip
                   contentStyle={{
-                    background: "rgba(0,0,0,0.8)",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    background: "var(--color-popover)",
+                    border: "1px solid var(--color-surface-border)",
                     borderRadius: 8,
                     fontSize: 12,
                   }}
                   formatter={(value: number) => [`${value}%`, ""]}
                 />
                 <Legend
-                  wrapperStyle={{ fontSize: 12, color: "#aaa" }}
+                  wrapperStyle={{ fontSize: 12, color: "var(--color-slate)" }}
                   formatter={(value) =>
                     SECTIONS[value as SectionId]?.name ?? value
                   }

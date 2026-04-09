@@ -130,7 +130,7 @@ export function SlangQuiz({ terms, gen }: Props) {
               style={{
                 width: `${pct}%`,
                 background:
-                  pct >= 70 ? "#22c55e" : pct >= 50 ? "#eab308" : "#ef4444",
+                  pct >= 70 ? "var(--color-green)" : pct >= 50 ? "var(--color-yellow)" : "var(--color-red)",
               }}
             />
           </div>

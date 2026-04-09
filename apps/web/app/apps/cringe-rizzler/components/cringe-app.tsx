@@ -19,9 +19,9 @@ import type { GeneratedPhrase, SavedItem, FilterType } from "../lib/types";
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
 function vibeColor(score: number) {
-  if (score >= 8) return "#22c55e";
-  if (score >= 5) return "#eab308";
-  return "#ef4444";
+  if (score >= 8) return "var(--color-green)";
+  if (score >= 5) return "var(--color-accent)";
+  return "var(--color-pill-6)";
 }
 
 function VibeBar({ score }: { score: number }) {
@@ -44,20 +44,20 @@ function VibeBar({ score }: { score: number }) {
 
 function CategoryBadge({ cat }: { cat: string }) {
   const colors: Record<string, string> = {
-    personality: "#ec4899",
-    expression: "#a855f7",
-    quality: "#f59e0b",
-    achievement: "#22c55e",
-    internet: "#3b82f6",
-    fashion: "#f43f5e",
-    relationship: "#fb7185",
-    food: "#fb923c",
-    looksmax: "#c084fc",
-    action: "#34d399",
-    behavior: "#60a5fa",
-    judgment: "#fbbf24",
+    personality: "var(--color-pill-6)",
+    expression: "var(--color-pill-0)",
+    quality: "var(--color-accent)",
+    achievement: "var(--color-pill-2)",
+    internet: "var(--color-pill-1)",
+    fashion: "var(--color-pill-6)",
+    relationship: "var(--color-pill-6)",
+    food: "var(--color-orange)",
+    looksmax: "var(--color-pill-8)",
+    action: "var(--color-green)",
+    behavior: "var(--color-neon-blue)",
+    judgment: "var(--color-accent-400)",
   };
-  const color = colors[cat] ?? "#94a3b8";
+  const color = colors[cat] ?? "var(--color-slate)";
   return (
     <span
       className="inline-block text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wide"
@@ -135,9 +135,9 @@ function PhraseTab() {
                     key={t.term}
                     className="text-xs px-3 py-1.5 rounded-xl font-medium"
                     style={{
-                      background: "rgba(236,72,153,0.15)",
-                      color: "#f9a8d4",
-                      border: "1px solid rgba(236,72,153,0.2)",
+                      background: "color-mix(in srgb, var(--color-pill-6) 15%, transparent)",
+                      color: "var(--color-pill-6)",
+                      border: "1px solid color-mix(in srgb, var(--color-pill-6) 20%, transparent)",
                     }}
                   >
                     <span className="font-bold">{t.term}</span>{" "}
@@ -181,8 +181,8 @@ function PhraseTab() {
           disabled={isPending}
           className="px-8 py-3 text-base font-bold rounded-xl text-white border-0"
           style={{
-            background: "linear-gradient(135deg, #ec4899, #a855f7)",
-            boxShadow: "0 0 20px rgba(236,72,153,0.4)",
+            background: "linear-gradient(135deg, var(--color-pill-6), var(--color-pill-0))",
+            boxShadow: "0 0 20px color-mix(in srgb, var(--color-pill-6) 40%, transparent)",
           }}
         >
           {isPending ? "Generating..." : "✨ Generate New Phrase"}
@@ -505,7 +505,7 @@ function GlossaryTab() {
           className="px-3 py-2.5 rounded-xl bg-white/8 border border-white/10 text-white text-sm focus:outline-none focus:border-pink-500/50 transition-all"
         >
           {CATEGORIES.map((c) => (
-            <option key={c} value={c} className="bg-[#0d0d1a]">
+            <option key={c} value={c} className="bg-navy-950">
               {c === "all" ? "All categories" : c}
             </option>
           ))}
@@ -553,7 +553,7 @@ export function CringeApp() {
         <h1
           className="font-heading text-3xl font-black"
           style={{
-            background: "linear-gradient(135deg, #ec4899, #a855f7, #f59e0b)",
+            background: "linear-gradient(135deg, var(--color-pill-6), var(--color-pill-0), var(--color-accent))",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}

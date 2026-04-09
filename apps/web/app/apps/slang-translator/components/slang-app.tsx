@@ -23,9 +23,9 @@ import type {
 // ─── helpers ────────────────────────────────────────────────────────────────
 
 function vibeColor(score: number) {
-  if (score >= 8) return "#22c55e";
-  if (score >= 6) return "#eab308";
-  return "#ef4444";
+  if (score >= 8) return "var(--color-green)";
+  if (score >= 6) return "var(--color-yellow)";
+  return "var(--color-red)";
 }
 
 function VibeBar({ score }: { score: number }) {
@@ -63,20 +63,20 @@ function GenBadge({ gen }: { gen: "gen-alpha" | "gen-x" }) {
 
 function CategoryBadge({ category }: { category: string }) {
   const colorMap: Record<string, string> = {
-    compliment: "#22c55e",
-    Approval: "#22c55e",
-    insult: "#ef4444",
-    Insult: "#ef4444",
-    reaction: "#eab308",
-    Reaction: "#eab308",
-    lifestyle: "#8b5cf6",
-    Lifestyle: "#8b5cf6",
-    "internet culture": "#06b6d4",
-    "Internet Culture": "#ec4899",
-    Disapproval: "#f97316",
-    Greeting: "#06b6d4",
+    compliment: "var(--color-green)",
+    Approval: "var(--color-green)",
+    insult: "var(--color-red)",
+    Insult: "var(--color-red)",
+    reaction: "var(--color-yellow)",
+    Reaction: "var(--color-yellow)",
+    lifestyle: "var(--color-pill-8)",
+    Lifestyle: "var(--color-pill-8)",
+    "internet culture": "var(--color-pill-7)",
+    "Internet Culture": "var(--color-pill-6)",
+    Disapproval: "var(--color-orange)",
+    Greeting: "var(--color-pill-7)",
   };
-  const color = colorMap[category] ?? "#6b7280";
+  const color = colorMap[category] ?? "var(--color-slate-dim)";
   return (
     <span
       className="inline-block text-[11px] px-2.5 py-0.5 rounded-lg font-semibold uppercase tracking-wide"
@@ -400,7 +400,7 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
     return applyTranslationMap(
       input,
       translationMap,
-      isA2X ? "#fbbf24" : "#a78bfa"
+      isA2X ? "var(--color-accent-400)" : "var(--color-neon-violet)"
     );
   }, [input, translationMap, isA2X]);
 
@@ -641,7 +641,7 @@ function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
       title = "Generation Gap";
       msg = "Time to brush up on both eras of slang!";
     }
-    const barColor = pct >= 60 ? "#22c55e" : pct >= 40 ? "#eab308" : "#ef4444";
+    const barColor = pct >= 60 ? "var(--color-green)" : pct >= 40 ? "var(--color-yellow)" : "var(--color-red)";
     return (
       <div className="max-w-md mx-auto text-center space-y-4 py-4">
         {/* Progress dots */}

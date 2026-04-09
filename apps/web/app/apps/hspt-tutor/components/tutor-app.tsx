@@ -38,31 +38,31 @@ const SECTION_META: Record<
     label: "Verbal",
     emoji: "📖",
     color: "text-amber-400",
-    strokeColor: "#f59e0b",
+    strokeColor: "var(--color-accent)",
   },
   quantitative: {
     label: "Quantitative",
     emoji: "🔢",
     color: "text-blue-400",
-    strokeColor: "#3b82f6",
+    strokeColor: "var(--color-pill-1)",
   },
   reading: {
     label: "Reading",
     emoji: "📚",
     color: "text-emerald-400",
-    strokeColor: "#10b981",
+    strokeColor: "var(--color-green)",
   },
   math: {
     label: "Math",
     emoji: "➗",
     color: "text-red-400",
-    strokeColor: "#ef4444",
+    strokeColor: "var(--color-pill-4)",
   },
   language: {
     label: "Language",
     emoji: "✍️",
     color: "text-purple-400",
-    strokeColor: "#a855f7",
+    strokeColor: "var(--color-pill-0)",
   },
 };
 
@@ -193,7 +193,7 @@ function ProgressRing({
 
   // map text class to stroke color
   const strokeColor =
-    pct >= 75 ? "#10b981" : pct >= 50 ? "#f59e0b" : "#ef4444";
+    pct >= 75 ? "var(--color-green)" : pct >= 50 ? "var(--color-accent)" : "var(--color-red)";
 
   return (
     <svg
@@ -207,7 +207,7 @@ function ProgressRing({
         cy={cx}
         r={r}
         fill="none"
-        stroke="rgba(255,255,255,0.1)"
+        stroke="var(--color-surface-border)"
         strokeWidth={strokeWidth}
       />
       <circle
@@ -253,7 +253,7 @@ function Sparkline({ values }: { values: number[] }) {
       <polyline
         points={pts}
         fill="none"
-        stroke="#10b981"
+        stroke="var(--color-green)"
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -819,23 +819,23 @@ function ProgressTab({
               <LineChart data={chartData}>
                 <CartesianGrid
                   strokeDasharray="3 3"
-                  stroke="rgba(255,255,255,0.06)"
+                  stroke="var(--color-surface-border)"
                 />
                 <XAxis
                   dataKey="quiz"
-                  tick={{ fill: "#888", fontSize: 11 }}
+                  tick={{ fill: "var(--color-slate-dim)", fontSize: 11 }}
                   stroke="transparent"
                 />
                 <YAxis
                   domain={[0, 100]}
-                  tick={{ fill: "#888", fontSize: 11 }}
+                  tick={{ fill: "var(--color-slate-dim)", fontSize: 11 }}
                   stroke="transparent"
                   tickFormatter={(v) => `${v}%`}
                 />
                 <Tooltip
                   contentStyle={{
-                    background: "rgba(0,0,0,0.8)",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    background: "var(--color-popover)",
+                    border: "1px solid var(--color-surface-border)",
                     borderRadius: 8,
                     fontSize: 12,
                   }}
@@ -844,7 +844,7 @@ function ProgressTab({
                 <Line
                   type="monotone"
                   dataKey="score"
-                  stroke="#10b981"
+                  stroke="var(--color-green)"
                   dot={{ r: 3 }}
                   strokeWidth={2}
                 />

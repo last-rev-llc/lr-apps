@@ -2,7 +2,7 @@ export default function ProperWinePourAboutPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <div className="text-center">
-        <h1 className="font-heading text-3xl mb-2" style={{ color: "#e74c6f" }}>
+        <h1 className="font-heading text-3xl mb-2" style={{ color: "var(--color-pill-6)" }}>
           Every Glass Deserves a Proper Pour.
         </h1>
         <p className="text-muted-foreground">
@@ -14,13 +14,13 @@ export default function ProperWinePourAboutPage() {
       <div
         className="rounded-xl p-5 text-center border"
         style={{
-          background: "linear-gradient(135deg, rgba(114,47,55,0.25), rgba(139,0,0,0.18))",
-          borderColor: "#722F37",
+          background: "linear-gradient(135deg, color-mix(in srgb, var(--color-red) 25%, transparent), color-mix(in srgb, var(--color-red) 18%, transparent))",
+          borderColor: "var(--color-red)",
         }}
       >
         <div className="flex items-center justify-center gap-6 flex-wrap">
           <div>
-            <div className="text-3xl font-bold" style={{ color: "#e74c6f" }}>750ml</div>
+            <div className="text-3xl font-bold" style={{ color: "var(--color-pill-6)" }}>750ml</div>
             <div className="text-xs text-muted-foreground">Standard Bottle</div>
           </div>
           <div className="text-muted-foreground text-2xl">=</div>
@@ -63,7 +63,7 @@ export default function ProperWinePourAboutPage() {
           },
         ].map((f) => (
           <div key={f.title} className="glass-sm p-4">
-            <h3 className="text-sm font-medium mb-1" style={{ color: "#e74c6f" }}>{f.title}</h3>
+            <h3 className="text-sm font-medium mb-1" style={{ color: "var(--color-pill-6)" }}>{f.title}</h3>
             <p className="text-xs text-muted-foreground">{f.desc}</p>
           </div>
         ))}
@@ -71,7 +71,7 @@ export default function ProperWinePourAboutPage() {
 
       {/* How it works */}
       <div className="space-y-4">
-        <h2 className="font-heading text-xl" style={{ color: "#e74c6f" }}>Three Steps to Pour Justice</h2>
+        <h2 className="font-heading text-xl" style={{ color: "var(--color-pill-6)" }}>Three Steps to Pour Justice</h2>
         <ol className="space-y-3">
           {[
             {
@@ -88,7 +88,7 @@ export default function ProperWinePourAboutPage() {
             },
           ].map((item, i) => (
             <li key={item.step} className="glass-sm p-4 flex gap-4">
-              <span className="font-bold text-lg shrink-0" style={{ color: "#e74c6f" }}>
+              <span className="font-bold text-lg shrink-0" style={{ color: "var(--color-pill-6)" }}>
                 {i + 1}.
               </span>
               <div>
@@ -104,7 +104,7 @@ export default function ProperWinePourAboutPage() {
         <a
           href="/apps/proper-wine-pour"
           className="inline-block px-6 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-opacity"
-          style={{ background: "#722F37", color: "#fff" }}
+          style={{ background: "var(--color-red)", color: "white" }}
         >
           Check Your Pour →
         </a>
