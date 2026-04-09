@@ -68,19 +68,19 @@ describe("SentimentDashboard", () => {
       renderWithProviders(<SentimentDashboard entries={testEntries} />);
 
       const excited = screen.getAllByText("excited")[0];
-      expect(excited.className).toContain("bg-purple-500/20");
+      expect(excited.className).toContain("bg-pill-0/20");
 
       const positive = screen.getAllByText("positive")[0];
-      expect(positive.className).toContain("bg-green-500/20");
+      expect(positive.className).toContain("bg-green/20");
 
       const neutral = screen.getAllByText("neutral")[0];
       expect(neutral.className).toContain("bg-muted");
 
       const frustrated = screen.getAllByText("frustrated")[0];
-      expect(frustrated.className).toContain("bg-orange-500/20");
+      expect(frustrated.className).toContain("bg-orange/20");
 
       const blocked = screen.getAllByText("blocked")[0];
-      expect(blocked.className).toContain("bg-red-500/20");
+      expect(blocked.className).toContain("bg-red/20");
     });
   });
 
