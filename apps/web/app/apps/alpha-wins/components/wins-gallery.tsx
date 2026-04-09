@@ -167,7 +167,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                   {(win.integrations ?? []).map((x) => (
                     <span
                       key={x}
-                      className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-500/15 text-amber-400"
+                      className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-accent/15 text-accent"
                     >
                       {x}
                     </span>
@@ -175,7 +175,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                   {(win.skills ?? []).map((x) => (
                     <span
                       key={x}
-                      className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-500/15 text-blue-400"
+                      className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue/15 text-blue"
                     >
                       {x}
                     </span>
@@ -211,7 +211,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                 {(selectedWin.integrations ?? []).map((x) => (
                   <span
                     key={x}
-                    className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-500/15 text-amber-400"
+                    className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-accent/15 text-accent"
                   >
                     {x}
                   </span>
@@ -219,7 +219,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                 {(selectedWin.skills ?? []).map((x) => (
                   <span
                     key={x}
-                    className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-500/15 text-blue-400"
+                    className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue/15 text-blue"
                   >
                     {x}
                   </span>
@@ -271,7 +271,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {selectedWin.integrations!.map((x) => (
-                      <Badge key={x} variant="outline" className="border-amber-500/30 text-amber-400">
+                      <Badge key={x} variant="outline" className="border-accent/30 text-accent">
                         {x}
                       </Badge>
                     ))}
@@ -287,7 +287,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {selectedWin.skills!.map((x) => (
-                      <Badge key={x} variant="outline" className="border-blue-500/30 text-blue-400">
+                      <Badge key={x} variant="outline" className="border-blue/30 text-blue">
                         {x}
                       </Badge>
                     ))}

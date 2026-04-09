@@ -130,7 +130,7 @@ function SectionHeader({ children }: { children: React.ReactNode }) {
       <h2 className="font-heading text-xl font-bold text-white whitespace-nowrap">
         {children}
       </h2>
-      <div className="flex-1 h-px rounded bg-gradient-to-r from-[#FDBB30] to-transparent" />
+      <div className="flex-1 h-px rounded bg-gradient-to-r from-[var(--ss-accent)] to-transparent" />
     </div>
   );
 }
@@ -158,8 +158,8 @@ function StatCard({
 }
 
 export function PersonProfile({ person }: PersonProfileProps) {
-  const primary = person.theme?.primary ?? "#00543C";
-  const accent = person.theme?.accent ?? "#FDBB30";
+  const primary = person.theme?.primary ?? "var(--ss-primary)";
+  const accent = person.theme?.accent ?? "var(--ss-accent)";
   const headshot = person.photos?.headshot;
   const actionPhoto = person.photos?.action;
   const allPhotos = Object.entries(person.photos ?? {}).filter(([, v]) => v);
@@ -232,7 +232,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
         }}
       >
         {/* Fade bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-[#0a0e1a] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-navy pointer-events-none" />
 
         {/* Photos */}
         <div className="relative inline-block mb-7">
@@ -393,7 +393,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
                 {person.timeline.map((t, i) => (
                   <div key={i} className="relative">
                     <div
-                      className="absolute -left-[calc(2rem+1px)] top-1 w-8 h-8 rounded-full flex items-center justify-center text-base border border-white/20 bg-[#0a0e1a]"
+                      className="absolute -left-[calc(2rem+1px)] top-1 w-8 h-8 rounded-full flex items-center justify-center text-base border border-white/20 bg-navy"
                       style={{ borderColor: `${primary}60` }}
                     >
                       {t.icon}
@@ -548,7 +548,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
                 >
                   <span className="text-2xl shrink-0">📰</span>
                   <div>
-                    <div className="text-white font-semibold text-sm group-hover:text-[#FDBB30] transition-colors">
+                    <div className="text-white font-semibold text-sm group-hover:text-[var(--ss-accent)] transition-colors">
                       {a.title}
                     </div>
                     <div className="text-white/40 text-xs mt-0.5">
@@ -600,7 +600,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
                 href={person.currentOrgUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#FDBB30] transition-colors"
+                className="hover:text-[var(--ss-accent)] transition-colors"
               >
                 {person.currentOrg}
               </a>
@@ -610,7 +610,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
                 href={person.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#FDBB30] transition-colors"
+                className="hover:text-[var(--ss-accent)] transition-colors"
               >
                 LinkedIn
               </a>
@@ -620,7 +620,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
                 href={person.wikiUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#FDBB30] transition-colors"
+                className="hover:text-[var(--ss-accent)] transition-colors"
               >
                 Wikipedia
               </a>
