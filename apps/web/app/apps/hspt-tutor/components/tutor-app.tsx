@@ -2,12 +2,17 @@
 
 import { useState, useEffect, useCallback } from "react";
 import {
+  cn,
   Button,
   Badge,
   Card,
   CardContent,
   CardHeader,
   CardTitle,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
 } from "@repo/ui";
 import {
   LineChart,
@@ -668,26 +673,20 @@ function QuizTab({
             quizState.answers[quizState.answers.length - 1]?.userAnswer ===
               letter;
 
-          let cls =
-            "w-full text-left px-4 py-3 rounded-xl border text-sm transition-all font-medium ";
-          if (!isAnswered) {
-            cls +=
-              "border-white/10 bg-white/5 text-muted-foreground hover:border-green/50 hover:bg-white/10 hover:text-foreground cursor-pointer";
-          } else if (isCorrect) {
-            cls +=
-              "border-green bg-green/15 text-foreground cursor-default";
-          } else if (isSelected && !isCorrect) {
-            cls +=
-              "border-red bg-red/15 text-foreground cursor-default";
-          } else {
-            cls +=
-              "border-white/10 bg-white/5 text-muted-foreground cursor-default opacity-60";
-          }
-
           return (
-            <button
+            <Button
               key={choice}
-              className={cls}
+              variant="ghost"
+              className={cn(
+                "w-full justify-start text-left h-auto px-4 py-3 rounded-xl border text-sm font-medium transition-all",
+                !isAnswered
+                  ? "border-white/10 bg-white/5 text-muted-foreground hover:border-green/50 hover:bg-white/10 hover:text-foreground"
+                  : isCorrect
+                    ? "border-green bg-green/15 text-foreground cursor-default"
+                    : isSelected && !isCorrect
+                      ? "border-red bg-red/15 text-foreground cursor-default"
+                      : "border-white/10 bg-white/5 text-muted-foreground cursor-default opacity-60"
+              )}
               onClick={() => selectAnswer(choice, q)}
               disabled={isAnswered}
             >
@@ -698,7 +697,7 @@ function QuizTab({
               {isAnswered && isSelected && !isCorrect && (
                 <span className="ml-2 text-red">✗</span>
               )}
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -932,42 +931,32 @@ export function TutorApp({ questions }: { questions: TutorQuestion[] }) {
   }, []);
 
   return (
-    <div>
-      {/* Tab bar */}
-      <div className="flex gap-1 mb-6 bg-white/5 rounded-xl p-1 border border-white/10">
+    <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as AppTab)}>
+      <TabsList className="w-full mb-6 bg-white/5 border border-white/10">
         {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-              activeTab === tab.id
-                ? "bg-white/15 text-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground hover:bg-white/5"
-            }`}
-          >
+          <TabsTrigger key={tab.id} value={tab.id} className="flex-1">
             {tab.label}
-          </button>
+          </TabsTrigger>
         ))}
-      </div>
+      </TabsList>
 
-      {/* Tab content */}
-      {activeTab === "dashboard" && (
+      <TabsContent value="dashboard">
         <DashboardTab
           topicStats={topicStats}
           quizHistory={quizHistory}
           onStartQuiz={() => setActiveTab("quiz")}
         />
-      )}
-      {activeTab === "quiz" && (
+      </TabsContent>
+      <TabsContent value="quiz">
         <QuizTab
           allQuestions={questions}
           topicStats={topicStats}
           onComplete={handleQuizComplete}
         />
-      )}
-      {activeTab === "progress" && (
+      </TabsContent>
+      <TabsContent value="progress">
         <ProgressTab topicStats={topicStats} quizHistory={quizHistory} />
-      )}
-    </div>
+      </TabsContent>
+    </Tabs>
   );
 }
