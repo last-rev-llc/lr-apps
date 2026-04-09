@@ -42,7 +42,7 @@ function StatusBadge({ status }: { status: string }) {
       className: "bg-yellow/15 text-yellow border-yellow/30",
     },
   };
-  const v = variants[status] ?? { emoji: "⚪", label: "Unknown", className: "bg-surface/15 text-muted-foreground border-surface-border" };
+  const v = variants[status] ?? { emoji: "❓", label: "Unknown", className: "bg-muted text-muted-foreground border-muted/30" };
   return (
     <span
       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${v.className}`}

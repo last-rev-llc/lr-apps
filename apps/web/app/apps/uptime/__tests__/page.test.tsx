@@ -224,9 +224,9 @@ describe("UptimePage", () => {
       const bars = container.querySelectorAll("[title]");
       const classes = Array.from(bars).map((b) => b.className);
 
-      expect(classes.some((c) => c.includes("bg-emerald-500"))).toBe(true);
-      expect(classes.some((c) => c.includes("bg-red-500"))).toBe(true);
-      expect(classes.some((c) => c.includes("bg-amber-500"))).toBe(true);
+      expect(classes.some((c) => c.includes("bg-green"))).toBe(true);
+      expect(classes.some((c) => c.includes("bg-red"))).toBe(true);
+      expect(classes.some((c) => c.includes("bg-yellow"))).toBe(true);
     });
 
     it("renders no bars when site has no history", async () => {
