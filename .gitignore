@@ -21,3 +21,5 @@ dist/
 # Backup
 package.json.bak
 .vercel
+
+.alpha-loop/auth/

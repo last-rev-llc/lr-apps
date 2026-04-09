@@ -1,0 +1,50 @@
+repo: last-rev-llc/lr-apps
+repo_owner: last-rev-llc
+project: 2
+base_branch: main
+label: ready
+
+# Agent & models
+agent: claude
+model: claude-sonnet-4-6
+review_model: claude-opus-4-6
+
+# Per-step model overrides (haiku for cheap steps, opus for review)
+pipeline:
+  plan:
+    model: claude-sonnet-4-6
+  implement:
+    model: claude-sonnet-4-6
+  review:
+    model: claude-opus-4-6
+  learn:
+    model: claude-haiku-4-5
+
+# Commands
+test_command: pnpm test
+dev_command: pnpm dev
+
+# Session limits
+auto_merge: true
+max_issues: 0
+max_session_duration: 7200
+max_test_retries: 3
+
+# Batch mode (enable via --batch flag per run)
+batch: false
+batch_size: 5
+
+# Evals
+auto_capture: true
+eval_dir: .alpha-loop/evals
+eval_model: claude-haiku-4-5
+eval_timeout: 300
+
+# Post-session
+post_session:
+  review: true
+  security_scan: true
+
+# Harnesses
+harnesses:
+  - claude-code
