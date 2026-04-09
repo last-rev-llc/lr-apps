@@ -21,4 +21,4 @@ export function renderWithProviders(
 }
 
 // Re-export everything from testing-library for convenience
-export { screen, waitFor, within, act } from "@testing-library/react";
+export { screen, waitFor, within, act, fireEvent } from "@testing-library/react";
