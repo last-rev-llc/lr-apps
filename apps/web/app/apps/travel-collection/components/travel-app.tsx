@@ -201,7 +201,7 @@ function PropertyCard({
             {property.region}
           </Badge>
           {property.researched ? (
-            <span className="text-[10px] px-2 py-0.5 rounded-md bg-green-500/20 text-green-400 font-semibold border border-green-500/30">
+            <span className="text-[10px] px-2 py-0.5 rounded-md bg-green/20 text-green font-semibold border border-green/30">
               ✓ Researched
             </span>
           ) : (
@@ -268,7 +268,7 @@ function PropertyModal({
           <Badge variant="secondary">{property.category}</Badge>
           <Badge variant="outline">{property.type}</Badge>
           {property.researched ? (
-            <span className="text-[10px] px-2 py-0.5 rounded-md bg-green-500/20 text-green-400 font-semibold border border-green-500/30">
+            <span className="text-[10px] px-2 py-0.5 rounded-md bg-green/20 text-green font-semibold border border-green/30">
               ✓ Researched
             </span>
           ) : (
