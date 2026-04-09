@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Card, CardContent, EmptyState, PageHeader } from "@repo/ui";
+import { Badge, Button, Card, CardContent, EmptyState, PageHeader } from "@repo/ui";
 import type { HealthSite, SiteStatus, SortKey } from "../lib/types";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -129,12 +129,9 @@ function SiteCard({ site }: { site: HealthSite }) {
               {site.url}
             </a>
           </div>
-          <span
-            className="text-[11px] font-bold px-2 py-0.5 rounded border shrink-0"
-            style={{ background: s.bg, color: s.text, borderColor: s.border }}
-          >
+          <Badge variant="outline" className="text-[11px] uppercase tracking-wide shrink-0" style={{ background: s.bg, color: s.text, borderColor: s.border }}>
             {site.status.toUpperCase()}
-          </span>
+          </Badge>
         </div>
 
         {/* Metrics row */}
@@ -268,17 +265,15 @@ export function HealthApp({ initialSites }: HealthAppProps) {
         {/* Status filter */}
         <div className="flex gap-1">
           {(["All", "up", "degraded", "down"] as const).map((f) => (
-            <button
+            <Button
               key={f}
+              variant={statusFilter === f ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setStatusFilter(f)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                statusFilter === f
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={statusFilter === f ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {f === "All" ? "All" : f.charAt(0).toUpperCase() + f.slice(1)}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -286,17 +281,15 @@ export function HealthApp({ initialSites }: HealthAppProps) {
         <div className="flex gap-1 ml-auto">
           <span className="text-xs text-white/30 self-center">Sort:</span>
           {SORT_OPTIONS.map((opt) => (
-            <button
+            <Button
               key={opt.value}
+              variant={sortKey === opt.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setSortKey(opt.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                sortKey === opt.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={sortKey === opt.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {opt.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

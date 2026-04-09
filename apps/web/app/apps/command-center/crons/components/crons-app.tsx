@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback } from "react";
 import { createClient } from "@repo/db/client";
 import {
   Badge,
+  Button,
   Card,
   CardContent,
   EmptyState,
@@ -176,17 +177,15 @@ export function CronsApp({ initialCrons }: CronsAppProps) {
         />
         <div className="flex gap-1">
           {STATUS_FILTERS.map((f) => (
-            <button
+            <Button
               key={f.value}
+              variant={statusFilter === f.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setStatusFilter(f.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                statusFilter === f.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={statusFilter === f.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {f.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

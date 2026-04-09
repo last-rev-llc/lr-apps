@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, PageHeader } from "@repo/ui";
+import { Card, CardContent, PageHeader, StatCard } from "@repo/ui";
 
 interface QuickLink {
   label: string;
@@ -52,17 +52,11 @@ export function AlphaclawApp({}: AlphaclawAppProps) {
       {/* Overview cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[
-          { label: "Platform", value: "v2.4.1", icon: "🦅", color: "#a78bfa" },
-          { label: "Uptime", value: "99.97%", icon: "⚡", color: "#4ade80" },
-          { label: "Active Users", value: "—", icon: "👥", color: "#60a5fa" },
+          { label: "Platform", value: "v2.4.1" },
+          { label: "Uptime", value: "99.97%" },
+          { label: "Active Users", value: "—" },
         ].map((stat) => (
-          <Card key={stat.label} className="p-4">
-            <CardContent className="p-0 text-center">
-              <div className="text-2xl mb-1">{stat.icon}</div>
-              <div className="text-lg font-bold" style={{ color: stat.color }}>{stat.value}</div>
-              <div className="text-xs text-white/40 mt-0.5">{stat.label}</div>
-            </CardContent>
-          </Card>
+          <StatCard key={stat.label} value={stat.value} label={stat.label} size="sm" />
         ))}
       </div>
 
