@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
+  cn,
   Button,
   Badge,
   Card,
@@ -111,12 +112,13 @@ function SectionMenu({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         {(Object.entries(SECTIONS) as [SectionId, (typeof SECTIONS)[SectionId]][]).map(
           ([key, cfg]) => (
-            <button
+            <Button
               key={key}
+              variant="ghost"
               onClick={() => onStart(key)}
-              className="text-left group"
+              className="text-left h-auto p-0 w-full group"
             >
-              <Card className="h-full bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10 transition-all cursor-pointer group-focus-visible:ring-2 group-focus-visible:ring-white/40">
+              <Card className="w-full h-full bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10 transition-all cursor-pointer group-focus-visible:ring-2 group-focus-visible:ring-white/40">
                 <CardContent className="p-5">
                   <div className="text-3xl mb-2">{cfg.icon}</div>
                   <h3 className={`font-semibold text-lg mb-1 ${cfg.color}`}>
@@ -146,7 +148,7 @@ function SectionMenu({
                   </div>
                 </CardContent>
               </Card>
-            </button>
+            </Button>
           )
         )}
       </div>
@@ -243,7 +245,7 @@ function QuizView({
           {cfg.icon} {cfg.name}
         </h2>
         <span
-          className={`font-mono text-xl font-bold ${isWarning ? "text-red animate-pulse" : "text-foreground"}`}
+          className={cn("font-mono text-xl font-bold", isWarning ? "text-red animate-pulse" : "text-foreground")}
         >
           {formatTime(timeLeft)}
         </span>
@@ -288,19 +290,19 @@ function QuizView({
               const letter = letters[i];
               const isSelected = answers[currentQ] === letter;
               return (
-                <button
+                <Button
                   key={letter}
+                  variant="ghost"
                   onClick={() => onAnswer(letter)}
-                  className={`w-full text-left px-4 py-3 rounded-lg border text-sm transition-all
-                    ${
-                      isSelected
-                        ? "border-pill-0 bg-pill-0/15 text-foreground"
-                        : "border-white/10 bg-white/5 text-muted-foreground hover:border-white/30 hover:bg-white/10 hover:text-foreground"
-                    }
-                  `}
+                  className={cn(
+                    "w-full justify-start text-left h-auto px-4 py-3 rounded-lg border text-sm transition-all",
+                    isSelected
+                      ? "border-pill-0 bg-pill-0/15 text-foreground hover:bg-pill-0/15"
+                      : "border-white/10 bg-white/5 text-muted-foreground hover:border-white/30 hover:bg-white/10 hover:text-foreground"
+                  )}
                 >
                   <strong className="text-foreground">{letter}.</strong> {opt}
-                </button>
+                </Button>
               );
             })}
           </div>
@@ -334,21 +336,21 @@ function QuizView({
         </summary>
         <div className="flex flex-wrap gap-1.5 mt-2">
           {questions.map((_, i) => (
-            <button
+            <Button
               key={i}
+              variant="ghost"
               onClick={() => onNavigate(i)}
-              className={`w-9 h-9 rounded text-[11px] border transition-all
-                ${
-                  i === currentQ
-                    ? "ring-2 ring-pill-0 border-pill-0 text-foreground"
-                    : answers[i] !== undefined
-                      ? "bg-pill-0 border-pill-0 text-white"
-                      : "border-white/20 bg-white/5 text-muted-foreground hover:border-white/40"
-                }
-              `}
+              className={cn(
+                "w-9 h-9 p-0 rounded text-[11px] border transition-all",
+                i === currentQ
+                  ? "ring-2 ring-pill-0 border-pill-0 text-foreground"
+                  : answers[i] !== undefined
+                    ? "bg-pill-0 border-pill-0 text-white hover:bg-pill-0/80"
+                    : "border-white/20 bg-white/5 text-muted-foreground hover:border-white/40"
+              )}
             >
               {i + 1}
-            </button>
+            </Button>
           ))}
         </div>
       </details>
