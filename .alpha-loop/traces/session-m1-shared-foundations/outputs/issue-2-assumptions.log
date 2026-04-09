@@ -1,0 +1,23 @@
+## Assumptions
+
+- **Stripe API version `2025-03-31.basil`** — Pinned to a specific version since none was specified. You may want to align this with your team's Stripe dashboard API version.
+- **Tier is stored in Stripe price metadata** — `extractTier()` reads `tier` from the first subscription item's price metadata. This assumes you'll set `metadata.tier = "pro"` (or `"enterprise"`) on each Stripe Price object.
+- **Free tier is the default** — Users without a subscription or with unrecognized tier metadata default to `"free"` tier with `"active"` status.
+- **Service role client for all DB operations** — Since this is server-only billing infrastructure, all queries use the service role client (bypassing RLS), while RLS is still set up for direct client access.
+
+## Decisions
+
+- **Lazy singleton for Stripe client** — Defers initialization until first call so the module can be imported without env vars being present (e.g., during builds or type-checking).
+- **Status mapping defaults** — `paused` → `"active"`, `unpaid` → `"past_due"`, unknown → `"active"`. These are opinionated mappings; e.g., treating `paused` as `active` means paused users retain feature access.
+- **Soft-delete on subscription cancellation** — Webhook `customer.subscription.deleted` sets status to `"canceled"` rather than removing the row, preserving an audit trail.
+- **Hardcoded feature-tier map** — `FEATURE_TIER` in `has-feature-access.ts` uses a static object (`basic`/`advanced`/`custom`) rather than a config file or DB lookup. This keeps it simple but means adding features requires a code change.
+- **`upsertSubscription` requires existing row** — Throws if no subscription row exists for the customer, meaning `getOrCreateCustomer` must be called first (during signup/checkout). A webhook for a customer with no row will error.
+- **Cascade delete from `auth.users`** — Deleting a user removes their subscription row. This is clean but irreversible.
+
+## Items to Validate
+
+- **Stripe price metadata convention** — Confirm your team will tag each Stripe Price with `metadata.tier = "pro" | "enterprise"`. Without this, all subscriptions default to `"free"`.
+- **Feature names (`basic`, `advanced`, `custom`)** — These are placeholders. Replace with your actual feature identifiers before wiring up `hasFeatureAccess` in app code.
+- **Webhook error handling** — If Stripe sends a `customer.subscription.created` event before the user has a subscription row (race condition with checkout), `upsertSubscription` will throw. Decide if the webhook should gracefully handle this or if your checkout flow guarantees the row exists first.
+- **`paused` → `"active"` mapping** — Verify this matches your business intent. Some teams want paused subscribers to lose access.
+- **Migration file naming** — `002_subscriptions.sql` assumes `001` already exists. Confirm this fits your migration sequence.

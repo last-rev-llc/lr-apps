@@ -1,0 +1,17 @@
+{
+  "summary": "Add authentication gate to HSPT Tutor app requiring login and permission check",
+  "files": [
+    "apps/web/app/apps/hspt-tutor/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/hspt-tutor/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/app/apps/hspt-tutor/layout.tsx: Import React and requireAppLayoutAccess from '@/lib/require-app-layout-access'. Make HsptTutorLayout async. Add 'await requireAppLayoutAccess(\"hspt-tutor\")' as first line of function body.\n2. apps/web/lib/app-registry.ts: Change hspt-tutor entry from auth: false to auth: true.\n3. apps/web/app/apps/hspt-tutor/__tests__/layout.test.tsx: Create test file following hspt-practice test pattern — mock requireAppLayoutAccess, test it's called with 'hspt-tutor', test unauthenticated redirect to /login, test unauthorized redirect to /unauthorized, test authenticated user renders children.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gate changes app behavior — unauthenticated/unauthorized users get redirected. Smoke tests verify the guard is wired correctly."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate logic is tested via unit tests mocking requireAppLayoutAccess. Browser verification would require auth credentials and session setup not suitable for automated playwright checks."
+  }
+}

@@ -1,0 +1,2 @@
+Review: All acceptance criteria met: layout calls requireAppLayoutAccess('lighthouse'), registry has auth:true, and all redirect/access tests pass.
+- [info] Branch includes Area 52 auth gate changes (issue #6) which are unrelated to issue #7 but functionally correct and already merged via PR #93 (unfixed)

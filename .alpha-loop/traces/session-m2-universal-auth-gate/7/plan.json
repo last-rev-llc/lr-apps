@@ -1,0 +1,15 @@
+{
+  "summary": "Add auth gate tests for the Lighthouse app (layout and registry already wired up)",
+  "files": [
+    "apps/web/app/apps/lighthouse/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. Create apps/web/app/apps/lighthouse/__tests__/layout.test.tsx following the Area 52 test pattern:\n   - Mock @/lib/require-app-layout-access\n   - Test: calls requireAppLayoutAccess with 'lighthouse'\n   - Test: unauthenticated request rejects with NEXT_REDIRECT to /login\n   - Test: unauthorized user rejects with NEXT_REDIRECT to /unauthorized\n   - Test: authenticated user with permission renders children successfully\n2. Verify layout.tsx already calls requireAppLayoutAccess('lighthouse') — confirmed present\n3. Verify app-registry.ts already has auth: true for lighthouse — confirmed present",
+  "testing": {
+    "needed": true,
+    "reason": "The acceptance criteria explicitly require three test cases (unauthenticated redirect, unauthorized redirect, smoke test). The layout and registry code exist but have no test coverage."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate is server-side redirect logic tested via unit tests. No new UI components or user-visible changes to verify in browser."
+  }
+}

@@ -1,0 +1,21 @@
+## Review: Issue #30 — Summaries: Component Migration
+
+**Result: PASSED**
+
+### What was migrated
+- **Inline `Pill` component** replaced with `<Badge>` from `@repo/ui` (source badges, tone badges, priority/status badges, participant badges)
+- **Inline page header** replaced with `<PageHeader>` from `@repo/ui`
+- **Inline stat cards** replaced with `<StatCard>` from `@repo/ui`
+- **Inline empty state** replaced with `<EmptyState>` from `@repo/ui`
+- **Inline `<input>` elements** replaced with `<Input>` (date pickers) and `<Search>` (search bars) from `@repo/ui`
+- **Card component** already used `@repo/ui` `Card` — retained correctly
+
+### Verification
+- `pnpm build` passes
+- `@repo/ui` tests pass (42/42)
+- No remaining inline badge/pill `<span>` elements
+- All badge color maps properly updated from `_PILL` to `_BADGE` naming
+
+### Notes (info only, non-blocking)
+1. Three native `<select>` elements still use inline styling — acceptable since `@repo/ui` has no Select component
+2. No app-specific tests for summaries (unlike standup/accounts which got test suites in their respective issues)

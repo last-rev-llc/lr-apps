@@ -1,0 +1,17 @@
+{
+  "summary": "Add authentication gate to the HSPT Practice app requiring login and permission checks.",
+  "files": [
+    "apps/web/app/apps/hspt-practice/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/hspt-practice/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/lib/app-registry.ts: Change hspt-practice entry from `auth: false` to `auth: true`.\n2. apps/web/app/apps/hspt-practice/layout.tsx: (a) Add `import React from 'react'` and `import { requireAppLayoutAccess } from '@/lib/require-app-layout-access'`. (b) Change `export default function HsptPracticeLayout` to `export default async function HsptPracticeLayout`. (c) Add `await requireAppLayoutAccess('hspt-practice');` as the first line inside the function body.\n3. Create apps/web/app/apps/hspt-practice/__tests__/layout.test.tsx following the identical pattern from dad-joke-of-the-day/__tests__/layout.test.tsx: mock requireAppLayoutAccess, test it's called with 'hspt-practice', test unauthenticated redirect to /login, test unauthorized redirect to /unauthorized, test authenticated user renders children.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gate changes affect runtime behavior — unauthenticated/unauthorized users must be redirected. Smoke tests verify the layout calls requireAppLayoutAccess correctly and propagates redirect errors."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate is server-side redirect logic fully covered by unit tests. No visual UI changes to verify in a browser — the layout markup is unchanged."
+  }
+}

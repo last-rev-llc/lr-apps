@@ -1,0 +1,26 @@
+## Review Summary
+
+**PASSED** — all acceptance criteria met.
+
+### Acceptance Criteria Check
+
+| Criteria | Status |
+|----------|--------|
+| Script scans all TSX/CSS files under `apps/web/app/apps/` | Scans 217 files across 27 apps |
+| Detects hardcoded hex values | `#[0-9a-fA-F]{3,8}` pattern, confirmed working |
+| Detects hardcoded rgb/rgba/oklch values | Separate patterns for each, confirmed |
+| Detects hardcoded shadow values | `boxShadow:` in style objects + `shadow-[...]` Tailwind arbitrary |
+| Detects hardcoded border-radius | `borderRadius:` in style objects + `rounded-[...]` Tailwind arbitrary |
+| Detects hardcoded font-family | `fontFamily:` in style objects + `font-[...]` Tailwind arbitrary |
+| Per-app violation report generated | Markdown report at `docs/token-violations-report.md` |
+| Report categorizes by type and severity | Per-app tables with high/medium/low and color/shadow/radius/font |
+| Report committed to `docs/` | Yes |
+
+### What I Fixed
+
+- **Dead code** (warning): Removed `classifySeverity` function and 10 unused module-level regex constants. Severity was being assigned inline in `scanFile`, making these definitions unreachable.
+
+### Info Notes (non-blocking)
+
+1. **False positives on viewport metadata**: `themeColor: "#22c55e"` in Next.js viewport exports requires literal hex — CSS vars can't be used there. The audit correctly flags these, but remediation guides should note the exception.
+2. **#fff/#000 skip**: The script excludes `#fff` and `#000` to reduce noise, which is reasonable but may miss legitimate hardcoded black/white values.

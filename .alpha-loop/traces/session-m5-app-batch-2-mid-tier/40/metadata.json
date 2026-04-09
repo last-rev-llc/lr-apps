@@ -1,0 +1,15 @@
+{
+  "issueNum": 40,
+  "title": "Dad Joke of the Day: component migration",
+  "status": "success",
+  "duration": 388,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 1,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/123",
+  "timestamp": "2026-04-09T05:59:53.320Z",
+  "agent": "claude",
+  "model": ""
+}

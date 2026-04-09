@@ -1,0 +1,13 @@
+All done. Here's a summary of the changes:
+
+**5 files changed** (-71 lines, +57 lines):
+
+1. **stats-row.tsx** — Replaced `Card`+`CardContent` with `StatCard` from `@repo/ui`, gaining count-up animations and gradient styling
+2. **mood-badge.tsx** — Replaced custom inline badge with `StatusBadge`, mapping moods to semantic variants (positive→success, excited→info, neutral→neutral, frustrated→warning, blocked→error) with dot indicators
+3. **about/page.tsx** — Replaced inline hero h1 with `PageHeader` and glass-sm feature grid with `FeatureList` (2 columns)
+4. **changelog/page.tsx** — Replaced inline h1 with `PageHeader` and glass-sm version cards with `Timeline` component
+5. **docs/page.tsx** — Replaced inline h1 with `PageHeader`, kept semantic HTML content sections as-is
+
+**member-grid.tsx** and **timeline.tsx** (dashboard) already use `@repo/ui` Card components correctly and only needed the `MoodBadge` import, which didn't change since it's still exported from the same path.
+
+`pnpm build` passes cleanly.

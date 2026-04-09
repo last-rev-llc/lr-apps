@@ -1,0 +1,16 @@
+Now I have a clear picture of the changes. Here's the analysis:
+
+## Assumptions
+- **SourceBadge kept custom color classes on top of Badge component** — the issue said "replace inline badges with `@repo/ui` Badge" but the SourceBadge had source-specific colors (green for GitHub, purple for Slack, etc.). Assumed wrapping with the Badge component while preserving the custom color overrides was acceptable rather than creating new Badge variants.
+- **Filter buttons retained custom active-state styling** — the Button component was used but inline conditional classes still control the accent highlight. Assumed this was acceptable since the issue focused on using shared components, not eliminating all inline styles.
+- **Scope extended beyond Standup** — the commit also migrated Command Center and Accounts components (24+ files changed across those apps). Assumed this was intentional consolidation since those were tracked by separate issues (#24–#27) that appear already closed.
+
+## Decisions
+- **Created new shared components (DataGrid, Table, StatusBadge, ErrorBoundary, LoadingSkeleton)** in `@repo/ui` rather than only using existing ones. These were needed for patterns in Accounts/Command Center that had no shared equivalent.
+- **EmptyState component used for the "no entries" card** — replaced a `Card > CardContent` wrapper with the more semantic `EmptyState` component, which changes the DOM structure slightly.
+- **Button `asChild` pattern for the dashboard link** — used Radix-style composition (`<Button asChild><Link>`) rather than a plain styled link or a `LinkButton` variant.
+
+## Items to Validate
+- **Visual regression on SourceBadge pills** — the switch from `<span>` to `<Badge variant="outline">` may alter padding/border-radius since Badge has its own base styles that layer under the custom classes.
+- **Filter button sizing** — switching from raw `<button>` with `px-3 py-1.5 text-xs` to `<Button size="sm">` with overridden `rounded-full` may produce slightly different dimensions. Worth a visual check.
+- **Scope creep** — this single commit includes Accounts tests, Command Center tests, and 5 new `@repo/ui` components. Confirm you're comfortable with all of that landing under issue #28 rather than split across the earlier issues.

@@ -1,0 +1,15 @@
+{
+  "issueNum": 27,
+  "title": "Accounts: app-specific tests",
+  "status": "success",
+  "duration": 882,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/119",
+  "timestamp": "2026-04-09T05:39:52.366Z",
+  "agent": "claude",
+  "model": ""
+}

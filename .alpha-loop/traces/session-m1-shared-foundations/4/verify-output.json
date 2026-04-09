@@ -1,0 +1,1 @@
+Verification skipped by plan: This is a shared library package with no UI. Changes are internal typed helpers consumed by other packages. Correctness is verified via unit tests.

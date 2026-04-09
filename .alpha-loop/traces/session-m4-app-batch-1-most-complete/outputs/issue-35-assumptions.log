@@ -1,0 +1,18 @@
+## Assumptions
+- **Status values limited to three**: Assumed only `up`, `down`, and `degraded` are valid statuses for the status badge color/label mapping, with an `"Unknown"` fallback for anything else (the type allows only those three, but the component handles unexpected values defensively)
+- **History chart = UptimeBars inline component**: The acceptance criteria said "history chart renders with mock data" — assumed the `UptimeBars` bar visualization (not a full charting library like Recharts) was the intended "chart" to test
+- **Auth gate = layout-level `requireAppLayoutAccess`**: Assumed the "auth gate redirects work" criterion meant testing that the layout calls the shared auth guard with the correct app slug, and that rejection propagates — not testing the redirect mechanism itself (which lives in the shared utility)
+- **Supabase query shape for mock data**: Assumed `sites` table returns flat rows matching the `Site` type with nested `history` arrays (either via JSON column or a view), since no DB schema was specified
+- **Empty state on DB error**: Assumed a Supabase fetch error should gracefully degrade to empty state (no sites) rather than showing an error page, matching the existing `console.error` + `return []` pattern in the page
+
+## Decisions
+- **Tested the server component directly** (`await UptimePage()` then render the JSX) rather than using a router/integration harness — this is consistent with the pattern used in other app test suites in this repo (accounts, summaries, etc.)
+- **Mocked at the `@repo/db/server` boundary** rather than at the network level (e.g., MSW) — matches the established mocking pattern across existing test files
+- **Used `title` attribute selectors** for history bar assertions rather than test-ids — the bars already had `title` attributes with date/status info, so this avoided adding test-only markup
+- **Tested singular/plural grammar** ("1 System" vs "2 Systems") as a separate case — the acceptance criteria said "status badge renders correct color/label for each status" but the issue count banner grammar was a natural edge case to cover
+
+## Items to Validate
+- **"Unknown" status fallback**: The component shows "Unknown" with a warning variant for unrecognized statuses — verify this is the desired UX vs. hiding the badge or showing an error state
+- **Empty sites + "All Systems Operational"**: When no sites exist, the banner still shows "All Systems Operational" (0 issues = operational). Verify this is correct vs. showing a neutral/info state
+- **DB error handling**: Errors silently fall back to empty state with a `console.error`. Confirm this is acceptable vs. surfacing an error message to the user
+- **`status-pulse` repo link**: The empty state and footer reference `last-rev-llc/status-pulse` — confirm this repo exists and is the correct destination

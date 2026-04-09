@@ -1,0 +1,15 @@
+{
+  "issueNum": 17,
+  "title": "Auth gate: HSPT Practice",
+  "status": "success",
+  "duration": 299,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 8,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/101",
+  "timestamp": "2026-04-08T16:44:29.030Z",
+  "agent": "claude",
+  "model": ""
+}

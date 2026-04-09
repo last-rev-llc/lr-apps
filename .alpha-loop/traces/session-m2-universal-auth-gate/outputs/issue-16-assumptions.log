@@ -1,0 +1,14 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- **Added `redirectSlug` pass-through to signup link** in `login-form.tsx` — so users redirected from a gated app preserve the redirect target when switching from login to signup. This wasn't in the requirements but was a gap discovered during implementation.
+- **Added `session_expired` error message handling** in login form — a new friendly message for expired sessions, alongside the existing `forbidden` case. This emerged from the auth flow rather than the issue spec.
+- **Changed "Get access" button to "Request access"** on the unauthorized page — more accurate wording since the action submits a request, not an instant grant.
+- **Enhanced unauthorized page heading** to include the app name (e.g., "Access required — Dad Joke of the Day") when the app is known, giving users clearer context.
+- **Rewrote the "no self-service" copy** on the unauthorized page to reference "Last Rev admin" instead of the technical `app_permissions` table name.
+- **Added smoke tests for all previously-shipped auth-gated apps** (age-of-apes, alpha-wins, brommie-quake, cringe-rizzler) — the issue only required tests for dad-joke-of-the-day, but the other apps lacked test coverage.
+
+## Items to Validate
+- **"Last Rev admin" wording** on the unauthorized page — confirm this is the right term for your audience vs. something more generic like "an administrator"
+- **Scope of cross-app changes** — login form, unauthorized page, and signup link changes affect all auth-gated apps, not just Dad Joke of the Day. Verify these UX tweaks are welcome globally.

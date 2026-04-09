@@ -1,0 +1,1 @@
+Review: All acceptance criteria met: layout.tsx calls requireAppLayoutAccess, registry has auth: true, smoke tests cover unauth/unauthorized/happy paths, all tests pass.

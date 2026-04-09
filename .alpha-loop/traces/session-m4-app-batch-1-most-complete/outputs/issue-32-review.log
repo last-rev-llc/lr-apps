@@ -1,0 +1,23 @@
+## Review Result: PASSED
+
+**Issue #32: Meeting Summaries component migration** is complete and meets all acceptance criteria.
+
+### Acceptance Criteria Status
+
+| Criteria | Status |
+|----------|--------|
+| Meeting list uses shared Table/Card components | **Met** |
+| Meeting detail view uses shared components | **Met** |
+| All buttons, badges, inputs use `@repo/ui` | **Met** (primary app) |
+| `pnpm build` passes | **Met** |
+
+### What was done well
+- Primary meeting-summaries app fully migrated: `Badge`, `Button`, `Search`, `PillList`, `EmptyState`, `StatCard`, `PageHeader`, `Card`, `Tabs` all from `@repo/ui`
+- 5 new shared UI components (`table`, `data-grid`, `status-badge`, `loading-skeleton`, `error-boundary`) properly built with `forwardRef`, `displayName`, CVA variants, and TypeScript generics
+- All new components properly exported from `packages/ui/src/index.ts`
+
+### Info-level notes (non-blocking)
+- The **command-center** version of meeting-summaries still has some inline patterns (badges, buttons, inputs, filter pills) — these could be migrated in a follow-up
+- No app-specific tests yet under `meeting-summaries/__tests__/` — likely planned as a separate issue (matching the pattern of other apps like standup #29, summaries #31)
+
+Gate result written to `review-issue-32.json`.

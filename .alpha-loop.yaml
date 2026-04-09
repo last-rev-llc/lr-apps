@@ -1,0 +1,14 @@
+repo: last-rev-llc/lr-apps
+repo_owner: last-rev-llc
+project: 2
+agent: claude
+base_branch: main
+label: ready
+test_command: pnpm test
+dev_command: pnpm dev
+auto_merge: true
+max_issues: 0
+max_session_duration: 0
+max_test_retries: 3
+harnesses:
+  - claude-code

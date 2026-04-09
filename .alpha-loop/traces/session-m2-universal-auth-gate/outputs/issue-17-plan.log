@@ -1,0 +1,7 @@
+Plan written to `plan-issue-17.json`. It covers three files:
+
+1. **app-registry.ts** — flip `auth: false` → `auth: true` for hspt-practice
+2. **layout.tsx** — make async, import and call `requireAppLayoutAccess("hspt-practice")`
+3. **`__tests__/layout.test.tsx`** — new test file with 4 smoke tests (calls gate, unauthenticated redirect, unauthorized redirect, authenticated render)
+
+All following the exact pattern established by the 5 recently gated apps.

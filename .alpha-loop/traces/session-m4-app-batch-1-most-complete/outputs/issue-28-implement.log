@@ -1,0 +1,10 @@
+Done. Here's what was migrated across 2 files:
+
+| Pattern | Before | After |
+|---|---|---|
+| SourceBadge | Inline `<span>` with manual styling | `@repo/ui` `Badge` (outline variant + custom className) |
+| Filter pills | Raw `<button>` elements | `@repo/ui` `Button` (ghost/outline variants, `rounded-full`) |
+| Empty state | Inline `Card` + `CardContent` markup | `@repo/ui` `EmptyState` component |
+| Back link (layout) | Raw `<Link>` with manual styling | `@repo/ui` `Button` (ghost, `asChild` wrapping Link) |
+
+`pnpm build` passes. Committed on `agent/issue-28`.

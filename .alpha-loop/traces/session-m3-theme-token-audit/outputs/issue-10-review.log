@@ -1,0 +1,15 @@
+## Review Complete — PASSED
+
+### What was done well
+- **New shared utilities** (`glass-header`, `glass-input`, `glass-overlay`) and **shadow tokens** (`shadow-lightbox`, `shadow-glow-accent-sm`, `shadow-glow-accent-md`, `shadow-glass-hover-strong`) properly defined in theme
+- **Animations centralized**: `cc-es-pop`, `tw-blink`, `marquee-scroll` keyframes moved to globals.css; `animate-cc-pop` utility created
+- **10 layout headers** standardized to use `glass-header`
+- **Brommie-quake** CSS properly extracted from inline `<style>` block (590 lines) into a separate `.css` file
+- **Confetti, typewriter, marquee** duplicate keyframe injections removed
+- **Build and typecheck pass** cleanly
+
+### Info-level notes (non-blocking)
+1. **Remaining inline `shadow-[...]`** in 4 untouched files — these are context-specific (pour meter glow, quiz answer highlight, gallery hover) and don't map cleanly to shared tokens
+2. **Remaining `backdrop-blur`** in ~8 untouched files — varying blur intensities per context
+3. **`glass-header` normalizes** slightly different header backgrounds (e.g. `bg-black/30` vs `bg-background/80`) into one consistent style — intentional per the standardization goal
+4. **`docs/token-violations-report.md`** (1871 lines) could be `.gitignore`d and generated on-demand via `npm run audit:tokens`

@@ -1,0 +1,3 @@
+Review: Accounts app fully migrated to @repo/ui components; build passes, all 42 new UI tests pass, no inline button/card patterns remain
+- [info] Client selector uses raw <select> element — acceptable since @repo/ui has no Select component (unfixed)
+- [info] DataGrid, ErrorBoundary, and LoadingSkeleton added to @repo/ui but not consumed by accounts app — useful shared components for other apps (unfixed)

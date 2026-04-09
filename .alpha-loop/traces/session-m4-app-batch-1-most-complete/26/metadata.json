@@ -1,0 +1,15 @@
+{
+  "issueNum": 26,
+  "title": "Accounts: component migration",
+  "status": "success",
+  "duration": 581,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 1,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/118",
+  "timestamp": "2026-04-09T05:24:41.383Z",
+  "agent": "claude",
+  "model": ""
+}

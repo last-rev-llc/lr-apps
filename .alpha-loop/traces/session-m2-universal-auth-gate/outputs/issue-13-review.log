@@ -1,0 +1,3 @@
+**Review: PASSED**
+
+All acceptance criteria met. No issues found. The implementation is minimal and correct — `layout.tsx` gates on `"alpha-wins"`, the registry entry sets `auth: true`, and the test suite covers authenticated access, unauthenticated redirect to `/login`, and unauthorized redirect to `/unauthorized`.

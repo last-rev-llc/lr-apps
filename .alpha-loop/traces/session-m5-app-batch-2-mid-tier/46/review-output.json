@@ -1,0 +1,6 @@
+Review: Cringe Rizzler component migration complete — all acceptance criteria met after fixing remaining token inconsistencies
+- [warning] Remaining hardcoded text-white/40 on VibeBar label not migrated to text-muted-foreground (fixed)
+- [warning] Saved items card used inline border-white/10 bg-white/5 instead of glass-sm utility (fixed)
+- [warning] Glossary cards used inline border-white/8 bg-white/5 instead of glass-sm utility (fixed)
+- [info] A few text-white/80 and text-white/90 usages remain on primary content text (saved phrase content, meme caption, template name) — these represent intentional near-white emphasis distinct from muted-foreground and are acceptable (unfixed)
+- [info] Search input and select elements use inline bg-white/8 border-white/10 — no @repo/ui Input component was in scope for this migration (unfixed)

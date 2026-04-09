@@ -1,0 +1,9 @@
+Plan written to `plan-issue-36.json`. Key decisions:
+
+- **stats-row.tsx** — swap inline Card stat display for `StatCard` (gets animated count-up + gradient styling for free)
+- **mood-badge.tsx** — replace custom badge with `StatusBadge` using variant mapping (positive→success, blocked→error, etc.)
+- **member-grid.tsx** — already uses Card correctly, just picks up the updated MoodBadge
+- **timeline.tsx** — keep domain-specific grouped timeline (NOT the @repo/ui Timeline, which is for sequential event lists), just picks up updated MoodBadge
+- **about/page.tsx** — replace inline feature grid with `FeatureList` + `PageHeader`
+- **changelog/page.tsx** — replace inline divs with `@repo/ui Timeline` + `PageHeader`
+- **docs/page.tsx** — add `PageHeader`, keep semantic HTML content sections as-is

@@ -1,0 +1,34 @@
+{
+  "summary": "Replace all hardcoded hex/rgb/rgba color values with theme token references across 10 consumer apps, following the batch 1 pattern of using CSS custom properties (var(--color-*)) for inline styles and Tailwind token classes for utility classes.",
+  "files": [
+    "apps/web/app/apps/dad-joke-of-the-day/layout.tsx",
+    "apps/web/app/apps/cringe-rizzler/layout.tsx",
+    "apps/web/app/apps/cringe-rizzler/about/page.tsx",
+    "apps/web/app/apps/cringe-rizzler/components/cringe-app.tsx",
+    "apps/web/app/apps/generations/lib/generations.ts",
+    "apps/web/app/apps/generations/components/slang-dictionary.tsx",
+    "apps/web/app/apps/generations/components/slang-quiz.tsx",
+    "apps/web/app/apps/slang-translator/components/slang-app.tsx",
+    "apps/web/app/apps/hspt-practice/layout.tsx",
+    "apps/web/app/apps/hspt-practice/components/practice-app.tsx",
+    "apps/web/app/apps/hspt-tutor/layout.tsx",
+    "apps/web/app/apps/hspt-tutor/components/tutor-app.tsx",
+    "apps/web/app/apps/proper-wine-pour/layout.tsx",
+    "apps/web/app/apps/proper-wine-pour/page.tsx",
+    "apps/web/app/apps/proper-wine-pour/about/page.tsx",
+    "apps/web/app/apps/proper-wine-pour/components/wine-app.tsx",
+    "apps/web/app/apps/roblox-dances/layout.tsx",
+    "apps/web/app/apps/soccer-training/layout.tsx",
+    "apps/web/app/apps/age-of-apes/layout.tsx",
+    "apps/web/app/apps/age-of-apes/lib/calculators.ts"
+  ],
+  "implementation": "Follow the batch 1 pattern (commit 3dc5db8): replace inline hex/rgb values with var(--color-*) CSS custom properties, and Tailwind hardcoded color classes with theme token classes.\n\nToken mapping for common colors:\n- #f59e0b / amber → var(--color-accent) or accent\n- #ec4899 / pink → var(--color-pill-6) or pill-6\n- #a855f7 / purple → var(--color-pill-0) or pill-0\n- #22c55e / green → var(--color-green) or green\n- #ef4444 / red → var(--color-red) or red\n- #3b82f6 / blue → var(--color-blue) or blue\n- #f97316 / orange → var(--color-orange) or orange\n- #06b6d4 / cyan → var(--color-pill-7) or pill-7\n- #8b5cf6 / violet → var(--color-pill-8) or pill-8\n- #10b981 / emerald → var(--color-green) or green\n- #eab308 / yellow → var(--color-yellow) or yellow\n- #94a3b8 / slate → var(--color-slate) or slate\n- #6b7280 / gray → var(--color-slate-dim) or slate-dim\n- rgba(0,0,0,*) / rgba(255,255,255,*) → use Tailwind opacity modifiers on black/white or surface tokens\n- #888 / #aaa / #666 → var(--color-slate-dim) or var(--color-slate)\n\nApp-specific notes:\n\nStep 1 — Simple layout-only apps (themeColor metadata):\n- dad-joke-of-the-day/layout.tsx: #f59e0b → var(--color-accent)\n- roblox-dances/layout.tsx: #EC4899 → var(--color-pill-6)\n- soccer-training/layout.tsx: #22c55e → var(--color-green)\n- hspt-practice/layout.tsx: #4F46E5 → var(--color-pill-0) (indigo → closest pill)\n- hspt-tutor/layout.tsx: #10B981 → var(--color-green)\n- age-of-apes/layout.tsx: #F59E0B → var(--color-accent)\n\nStep 2 — Moderate apps (layout + data/config colors):\n- age-of-apes/lib/calculators.ts: Replace 7 calculator color hex values with var(--color-*) tokens using pill palette for category differentiation.\n- generations/lib/generations.ts: Replace 6 generation color hex values with pill palette tokens.\n- generations/components/slang-dictionary.tsx: Replace 4 status colors with semantic tokens (green/cyan/yellow/red).\n- generations/components/slang-quiz.tsx: Replace 3 score-indicator colors (green/yellow/red) with semantic tokens.\n\nStep 3 — Heavy apps (many inline styles + gradients):\n- cringe-rizzler/layout.tsx: Replace themeColor + gradient background hex values with theme tokens. Use var(--color-navy-950) for dark bg, var(--gradient-navy) for gradients.\n- cringe-rizzler/about/page.tsx: Replace ~20 hex values across category indicators, gradients, and box-shadows with pill palette and accent tokens.\n- cringe-rizzler/components/cringe-app.tsx: Replace ~25+ hex values: status colors → semantic tokens, neon palette → pill tokens, gradients → var(--gradient-*), rgba box-shadows → shadow tokens, #0d0d1a → var(--color-navy-950), #ffffff/#000000 → white/black Tailwind.\n- slang-translator/components/slang-app.tsx: Replace ~15 hex values: status colors → semantic, category colors → pill palette, #6b7280 → var(--color-slate-dim).\n- hspt-practice/components/practice-app.tsx: Replace section colors with pill tokens, rgba overlays with surface/opacity tokens, #888/#aaa → var(--color-slate-dim)/var(--color-slate).\n- hspt-tutor/components/tutor-app.tsx: Replace section colors with pill tokens (matching hspt-practice), status indicators with semantic tokens, rgba overlays with surface tokens.\n- proper-wine-pour/layout.tsx: Replace #722F37 themeColor and #e74c6f accent. May need a new app-specific token or use closest pill.\n- proper-wine-pour/page.tsx: Replace #e74c6f accent reference.\n- proper-wine-pour/about/page.tsx: Replace ~8 hex values (wine red #722F37, accent #e74c6f, rgba backgrounds).\n- proper-wine-pour/components/wine-app.tsx: Heaviest file — replace ~20+ hex values: #722F37 wine-red → app accent token, #e74c6f → accent variant, pour-level colors (green/yellow/orange/red) → semantic tokens, #666 → slate-dim, rgba overlays → surface tokens, gold #e8d44d/#f0e68c → accent variants.\n\nStep 4 — Verify no remaining hardcoded colors:\n- Run grep across all 10 app directories for hex/rgb/rgba/oklch/hsl patterns.\n- Confirm zero violations (excluding content strings like meme templates if any).",
+  "testing": {
+    "needed": true,
+    "reason": "Color token replacements change visual rendering. While semantically equivalent, incorrect mappings could break visual hierarchy or make elements invisible. Build verification and visual snapshot comparison are needed."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "These are token-for-token color replacements with no behavioral changes. Visual regression is best caught by snapshot baselines (listed in acceptance criteria) rather than interactive browser testing. No user flows or interactions change."
+  }
+}

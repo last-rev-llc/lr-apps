@@ -1,0 +1,24 @@
+Done. Here's what was implemented:
+
+**Files created (10):**
+- `vitest.workspace.ts` — workspace config pointing to `apps/*` and `packages/*`
+- `packages/test-utils/package.json` — `@repo/test-utils` with testing-library, jsdom deps
+- `packages/test-utils/tsconfig.json` — extends `@repo/config/tsconfig/base`
+- `packages/test-utils/vitest.config.ts` — jsdom environment, globals enabled
+- `packages/test-utils/src/mock-supabase.ts` — `createMockSupabase()` with chainable query builder
+- `packages/test-utils/src/mock-auth0.ts` — `createMockAuth0()` + `createMockAuth0Client()` with deep-merge overrides
+- `packages/test-utils/src/render-with-providers.tsx` — `renderWithProviders()` wrapper
+- `packages/test-utils/src/index.ts` — barrel exports
+- `packages/test-utils/src/__tests__/mock-supabase.test.ts` — 8 tests
+- `packages/test-utils/src/__tests__/mock-auth0.test.ts` — 7 tests
+
+**Files modified (7):**
+- `apps/web/package.json` — added `@repo/test-utils` devDep
+- `packages/auth/package.json` — added `@repo/test-utils` devDep
+- `packages/db/package.json` — added `test` script, vitest, `@repo/test-utils` devDep
+- `packages/ui/package.json` — added `test` script, vitest, `@repo/test-utils` devDep
+- `packages/theme/package.json` — added `test: echo no tests` placeholder
+- `packages/config/package.json` — added `test: echo no tests` placeholder
+- `pnpm-lock.yaml`
+
+**Test results:** `pnpm test` — 7/7 packages pass, 64 total tests green.

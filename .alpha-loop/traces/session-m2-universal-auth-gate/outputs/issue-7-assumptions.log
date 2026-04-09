@@ -1,0 +1,10 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- **Also added auth gate to Area 52 layout** — the diff shows Area 52's layout was updated alongside Lighthouse (matching the pattern from issue #6). This was bundled into the same commit rather than kept separate.
+- **Layout returns `children` directly instead of `<>{children}</>`** — both Area 52 and Lighthouse layouts were simplified to `return children` rather than wrapping in a fragment, since the fragment adds no value for a single child.
+- **Tests use dynamic `import()` to call the layout function** rather than rendering with a test renderer — this keeps tests lightweight and focused on the auth gate call rather than DOM output.
+
+## Items to Validate
+- **Area 52 changes in a Lighthouse issue** — the diff includes Area 52 layout + test changes. Verify this was intentional (perhaps from the prior PR #93) and not accidentally squashed into the Lighthouse commit. The commit message says "closes #7" (Lighthouse) but the diff touches Area 52 files too.

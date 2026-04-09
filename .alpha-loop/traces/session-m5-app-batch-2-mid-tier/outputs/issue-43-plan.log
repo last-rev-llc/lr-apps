@@ -1,0 +1,9 @@
+Plan written to `plan-issue-43.json`. It covers 5 test files following the Dad Joke of the Day patterns:
+
+1. **`lib/__tests__/generations.test.ts`** — `getGeneration()`, GENERATIONS array, TRANSLATOR_MAPS
+2. **`components/__tests__/slang-dictionary.test.tsx`** — search, category filtering, empty state, vibe sort
+3. **`components/__tests__/slang-quiz.test.tsx`** — full quiz flow: answer selection, scoring, result tiers, restart
+4. **`components/__tests__/slang-app.test.tsx`** — tab switching, header rendering, trending wall
+5. **`components/__tests__/generation-card.test.tsx`** — card rendering, link targets
+
+Auth gate coverage is included via mocking `requireAppLayoutAccess`. All tests use Vitest + jsdom with `@repo/test-utils` and mocked `@repo/ui` components.

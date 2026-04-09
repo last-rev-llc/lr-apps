@@ -1,0 +1,10 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- None — implementation was straightforward (layout calls `requireAppLayoutAccess`, registry sets `auth: true`, smoke tests follow the established pattern from other auth-gated apps like HSPT Tutor, Dad Joke, etc.)
+
+## Items to Validate
+- **Login form changes**: The diff includes changes beyond the issue scope — `redirectSlug` prop threading to the signup link, and a new `session_expired` error message in `login-form.tsx`. Verify these were intentional shared improvements and not unintended scope creep from a prior branch.
+- **Unauthorized page copy changes**: "Get access" → "Request access" button text, and the self-service-off message was reworded. Confirm the new copy matches your team's preferred language.
+- **Age of Apes tests**: A new test file for `age-of-apes` layout appeared in this diff. Verify this was backfill you intended to land here vs. in its own PR.

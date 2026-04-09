@@ -1,0 +1,18 @@
+{
+  "summary": "Add test coverage for Accounts app — layout auth gate, page rendering, client list, PR aggregation, contacts display, and query helpers.",
+  "files": [
+    "apps/web/app/apps/accounts/__tests__/layout.test.tsx",
+    "apps/web/app/apps/accounts/__tests__/page.test.tsx",
+    "apps/web/app/apps/accounts/__tests__/accounts-app.test.tsx",
+    "apps/web/app/apps/accounts/lib/__tests__/queries.test.ts"
+  ],
+  "implementation": "1. Create `accounts/__tests__/layout.test.tsx`: Mock `requireAppLayoutAccess`, verify it's called with 'accounts', verify children render when authed, verify layout header shows 'Accounts' title, verify auth error propagation on rejection. Follow command-center layout test pattern exactly.\n2. Create `accounts/__tests__/page.test.tsx`: Mock `./lib/queries` to return mock client array via `getClients` and `computeOverviewStats`. Verify PageHeader renders 'Accounts'. Verify 4 StatCard labels render (Clients, Open PRs, Contacts, Jira Tickets). Verify AccountsApp receives clients prop. Need IntersectionObserver mock for StatCard count-up.\n3. Create `accounts/__tests__/accounts-app.test.tsx`: Import AccountsApp directly with 2-3 mock Client objects. Test: (a) client selector dropdown renders all client names as options, (b) selecting a client updates the dashboard, (c) health badge renders for selected client, (d) empty state shows when clients array is empty. Test contacts tab: render ContactsTab content — verify contact names, roles, emails, isPrimary badge ('Primary' text), LinkedIn links. Test PR/repos tab: verify open PR count displays, PR list renders with #number and title, repo links render, 'Needs attention' badge when prCount > 10. Use `userEvent` for dropdown/tab interactions.\n4. Create `accounts/lib/__tests__/queries.test.ts`: Unit test `computeOverviewStats` — verify totals for clients count, PRs, contacts, jira tickets with mock data. Test edge cases: empty array, clients with missing optional fields.",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for the Accounts app components and utilities."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "This issue only adds test files — no UI changes, no behavioral changes. Verification is `pnpm test` passing."
+  }
+}

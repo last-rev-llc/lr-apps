@@ -1,0 +1,8 @@
+Done. All acceptance criteria met:
+
+- **Test: summary list renders with mock data** — tab triggers with counts, card titles for all sources
+- **Test: Zoom summary rendering** — badges, expandable action_items and key_decisions
+- **Test: Slack summary rendering** — badges, tone, channel_id, expandable participants
+- **Test: Jira summary rendering** — badges, priority, status (with underscore→space formatting)
+- **Test: auth gate redirects work** — layout calls `requireAppLayoutAccess("summaries")`, error propagation
+- **`pnpm test` passes** — 140/140 tests across 17 files

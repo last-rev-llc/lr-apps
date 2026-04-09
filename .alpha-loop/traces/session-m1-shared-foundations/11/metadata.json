@@ -1,0 +1,15 @@
+{
+  "issueNum": 11,
+  "title": "Extend app registry with billing metadata",
+  "status": "success",
+  "duration": 227,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/91",
+  "timestamp": "2026-04-07T23:24:16.883Z",
+  "agent": "claude",
+  "model": ""
+}

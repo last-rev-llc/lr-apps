@@ -1,0 +1,4 @@
+Review: ESLint rule is well-implemented with good test coverage; fixed critical wiring gap where no app consumed the shared config.
+- [critical] The @repo/config ESLint config (containing the no-hardcoded-colors rule) was never imported by apps/web — no eslint.config.mjs existed, so `next lint` could not find or run the custom rule. The rule could not prevent regressions as required by acceptance criteria. (fixed)
+- [info] Remaining hex colors in TSX files are in metadata objects (themeColor) and JS constants (CONFETTI_COLORS), not in className/style attributes. These are correctly not flagged by the rule — they are intentional non-violations. (fixed)
+- [info] The regex alternation order ({3,4}|{6}|{8}) causes extra backtracking vs ({8}|{6}|{3,4}) but has no correctness impact due to \b assertions. Not worth changing. (unfixed)

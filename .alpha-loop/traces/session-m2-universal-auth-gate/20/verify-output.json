@@ -1,0 +1,1 @@
+Verification skipped by plan: Auth gate is a server-side redirect — no visible UI changes to verify in browser. Unit tests cover the redirect logic. Pattern is identical to 5 previously shipped auth gates (cringe-rizzler, dad-joke, hspt-practice, hspt-tutor, proper-wine-pour).

@@ -1,0 +1,15 @@
+{
+  "issueNum": 10,
+  "title": "Standardize glass/shadow/animation usage",
+  "status": "success",
+  "duration": 991,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 2,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/108",
+  "timestamp": "2026-04-08T17:53:03.389Z",
+  "agent": "claude",
+  "model": ""
+}

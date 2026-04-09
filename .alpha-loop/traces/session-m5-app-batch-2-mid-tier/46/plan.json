@@ -1,0 +1,18 @@
+{
+  "summary": "Replace raw HTML buttons/cards in Cringe Rizzler with @repo/ui components and adopt dark theme tokens consistently.",
+  "files": [
+    "apps/web/app/apps/cringe-rizzler/components/cringe-app.tsx",
+    "apps/web/app/apps/cringe-rizzler/about/page.tsx",
+    "apps/web/app/apps/cringe-rizzler/layout.tsx"
+  ],
+  "implementation": "1. cringe-app.tsx: Replace 3 raw <button> elements with @repo/ui Button — scenario buttons (line 373), template cycler prev/next buttons (lines 416, 429), and copy button (line 221). Replace hardcoded color classes (text-white/50, text-white/40, bg-white/5, border-white/10) with theme tokens (text-muted-foreground, bg-surface, border-surface-border) where the slang-translator pattern uses them. Keep inline gradient styles and custom CategoryBadge/VibeBar as-is since they are app-specific.\n2. about/page.tsx: Import Card, CardContent, Button from @repo/ui. Replace raw <div> feature cards (line 138), step cards (line 170), and use-case cards (line 210) with Card+CardContent. Replace the two CTA <Link> elements (lines 110-119 and 238-247) with Button asChild wrapping Link. Replace hardcoded text-white/50 etc. with theme tokens (text-muted-foreground, text-foreground) following the slang-translator about page pattern.\n3. layout.tsx: Preserve all blob animation divs unchanged. Replace hardcoded color references (border-white/8, bg-black/30, text-white/60) with theme tokens (border-surface-border, bg-surface, text-muted-foreground) where applicable, keeping the custom gradient background and brand colors.",
+  "testing": {
+    "needed": true,
+    "reason": "Component imports and class names are changing, which could affect rendering and interactivity. Build verification and app-specific tests should confirm nothing breaks."
+  },
+  "verification": {
+    "needed": true,
+    "instructions": "1. Navigate to /apps/cringe-rizzler — verify blob animations render, tabs work, generate button has gradient styling. 2. Click 'Generate New Phrase' — verify result card renders with save/copy buttons. 3. Switch to Memes tab — verify scenario buttons render and are clickable, template prev/next buttons work. 4. Switch to Glossary tab — verify cards render with category badges and vibe bars. 5. Navigate to /apps/cringe-rizzler/about — verify feature cards, step cards, and CTA buttons render correctly with dark theme.",
+    "reason": "UI components are being swapped which directly affects user-visible rendering and interactions."
+  }
+}

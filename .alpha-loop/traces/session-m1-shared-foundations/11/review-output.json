@@ -1,0 +1,2 @@
+Review: All acceptance criteria met: AppConfig extended with tier/features, all 29 entries updated, tests pass, typecheck passes
+- [info] Unrelated .env.compose file added in this branch (COMPOSE_PROJECT_NAME=lr-apps) — not part of issue #11 scope (unfixed)

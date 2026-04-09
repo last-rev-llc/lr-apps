@@ -1,0 +1,8 @@
+Plan written to `plan-issue-47.json`. It covers 6 test files following the established Slang Translator pattern:
+
+- **actions.test.ts** — phrase/meme generation with mocked OpenAI, fallback handling
+- **utils.test.ts** — `getRandomTerms()` correctness and edge cases
+- **slang.test.ts** — data validation (42 glossary entries, SLANG_MAP, SCENARIOS)
+- **cringe-app.test.tsx** — component rendering, tab switching, generate/save/search flows
+- **layout.test.tsx** — header, nav links, children slot
+- **about/page.test.tsx** — about page sections render

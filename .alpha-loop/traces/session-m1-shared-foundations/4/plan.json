@@ -1,0 +1,20 @@
+{
+  "summary": "Add typed query helpers to @repo/db for app_permissions and subscriptions, replacing raw Supabase chains across the codebase.",
+  "files": [
+    "packages/db/src/queries.ts",
+    "packages/db/src/types.ts",
+    "packages/db/src/index.ts",
+    "packages/db/src/__tests__/queries.test.ts",
+    "packages/db/vitest.config.ts",
+    "packages/db/package.json"
+  ],
+  "implementation": "1. Update packages/db/src/types.ts: Add SubscriptionRow type (id, user_id, stripe_customer_id, stripe_subscription_id, status, plan, current_period_start, current_period_end, created_at, updated_at). Add subscriptions table to Database interface with Row/Insert/Update variants matching existing app_permissions pattern.\n2. Create packages/db/src/queries.ts with three typed helpers: (a) getAppPermission(client, userId, slug) — queries app_permissions with .eq('user_id').eq('app_slug').maybeSingle(), returns Permission | null by extracting the permission field; (b) getUserSubscription(client, userId) — queries subscriptions with .eq('user_id').maybeSingle(), returns SubscriptionRow | null; (c) upsertPermission(client, userId, appSlug, permission) — uses .upsert() with onConflict on user_id+app_slug, returns AppPermission. All helpers accept a SupabaseClient<Database> as first argument so they work with both server and service-role clients.\n3. Update packages/db/src/index.ts: Re-export all three query helpers and the new SubscriptionRow type.\n4. Add vitest to packages/db: Create packages/db/vitest.config.ts (copy pattern from apps/web). Add vitest@^3 as devDependency and 'test': 'vitest run' script to packages/db/package.json.\n5. Create packages/db/src/__tests__/queries.test.ts: Mock @supabase/supabase-js client with chained .from().select().eq().maybeSingle() and .upsert() methods. Test getAppPermission returns Permission | null, getUserSubscription returns SubscriptionRow | null, upsertPermission returns AppPermission. Test error/null cases.",
+  "testing": {
+    "needed": true,
+    "reason": "New query helpers are core data-access functions used across auth and billing. Unit tests with mocked Supabase client verify correct query construction and return type handling."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "This is a shared library package with no UI. Changes are internal typed helpers consumed by other packages. Correctness is verified via unit tests."
+  }
+}

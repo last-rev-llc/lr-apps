@@ -1,0 +1,8 @@
+id: captured-051-proper-wine-pour-app-specific-tests
+description: "Proper Wine Pour: app-specific tests"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 51
+  session: session/m5-app-batch-2-mid-tier
+  date: 2026-04-09

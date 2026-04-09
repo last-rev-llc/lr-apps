@@ -1,0 +1,22 @@
+## Review Summary
+
+### Acceptance Criteria Check
+
+| Criteria | Status |
+|----------|--------|
+| Redirect-after-login preserves original app subdomain for all 27 apps | **Fixed** — subdomain→slug mismatch was breaking 5 apps |
+| Unauthorized page shows app name and "request access" CTA | Pass |
+| Self-enroll support with `APP_SELF_ENROLL_SLUGS` | **Fixed** — was enrolling with subdomain instead of slug |
+| `APP_SELF_ENROLL_SLUGS` env var documented and configurable | Pass (`.env.compose`) |
+| Login flow handles edge cases (expired sessions, invalid redirects, unknown apps) | **Fixed** — protocol-relative URL bypass |
+| Signup flow redirects to my-apps after email confirmation | Pass |
+| All 14+ already-gated apps have registry `auth: true` | Pass (15 apps now gated) |
+
+### Critical Fixes Applied
+
+1. **Open redirect via `//evil.com`** (`auth0-factory.ts:16-18`) — `isSafeReturnTo` now rejects protocol-relative URLs before the `startsWith("/")` check.
+
+2. **Subdomain→slug mismatch** (`self-enroll.ts:10-23`) — Added `SUBDOMAIN_TO_SLUG` reverse map so `appSlugFromReturnTo("https://meetings.apps.lastrev.com/")` correctly returns `"meeting-summaries"` instead of `"meetings"`. Affects 13 apps where subdomain differs from slug.
+
+### Test Results
+All 107 tests pass (38 auth + 69 web), including 4 new test cases covering both fixes.

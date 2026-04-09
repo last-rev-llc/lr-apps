@@ -1,0 +1,29 @@
+{
+  "summary": "Add Vitest workspace config at monorepo root and create @repo/test-utils with mock helpers for Supabase, Auth0, and React rendering.",
+  "files": [
+    "vitest.workspace.ts",
+    "packages/test-utils/package.json",
+    "packages/test-utils/tsconfig.json",
+    "packages/test-utils/src/index.ts",
+    "packages/test-utils/src/mock-supabase.ts",
+    "packages/test-utils/src/mock-auth0.ts",
+    "packages/test-utils/src/render-with-providers.tsx",
+    "packages/test-utils/src/__tests__/mock-supabase.test.ts",
+    "packages/test-utils/src/__tests__/mock-auth0.test.ts",
+    "packages/db/package.json",
+    "packages/ui/package.json",
+    "packages/theme/package.json",
+    "apps/web/package.json",
+    "apps/web/vitest.config.ts",
+    "packages/auth/package.json"
+  ],
+  "implementation": "Step 1 — Create vitest.workspace.ts at monorepo root. Define workspace array pointing to ['apps/*', 'packages/*'] so each package uses its own vitest.config.ts (or defaults). No root-level vitest.config.ts needed since turbo orchestrates.\n\nStep 2 — Create packages/test-utils/package.json. Name: @repo/test-utils, type: module. Exports: '.' -> ./src/index.ts. Dependencies: @supabase/supabase-js ^2, @auth0/nextjs-auth0 ^4, @testing-library/react, @testing-library/jest-dom, react, react-dom. DevDeps: @repo/config, typescript ^5, vitest ^3, @types/react ^19, @types/react-dom ^19, jsdom. Scripts: { test: 'vitest run' }. Add tsconfig.json extending @repo/config/tsconfig/base.\n\nStep 3 — Create src/mock-supabase.ts. Export createMockSupabase() that returns a chainable mock SupabaseClient using vi.fn(). Mock .from() returning an object with .select(), .insert(), .update(), .delete(), .eq(), .single(), .maybeSingle() — each returning the chain plus a terminal data/error promise via mockResolvedValue. Use the Database type from @repo/db/types for type safety.\n\nStep 4 — Create src/mock-auth0.ts. Export createMockAuth0() that returns a mock Auth0 session object matching the shape returned by auth0.getSession(): { user: { sub, email, name, picture, email_verified, org_id }, accessToken, ... }. Accept partial overrides. Also export createMockAuth0Client() that returns a mock object with getSession/getAccessToken/handleAuth vi.fn() stubs.\n\nStep 5 — Create src/render-with-providers.tsx. Export renderWithProviders(ui, options?) that wraps the component in any shared providers (React context providers used across the app). Use @testing-library/react render() under the hood. For now, the wrapper is a simple fragment since the monorepo doesn't have a global provider tree yet — but the function signature is in place for future providers.\n\nStep 6 — Create src/index.ts barrel file re-exporting everything from mock-supabase, mock-auth0, and render-with-providers.\n\nStep 7 — Add basic self-tests: src/__tests__/mock-supabase.test.ts (verify chainable API works, data resolves), src/__tests__/mock-auth0.test.ts (verify session shape, overrides).\n\nStep 8 — Add 'test': 'vitest run' script to packages missing it: packages/db/package.json, packages/ui/package.json. Add vitest ^3 as devDependency to both. Skip packages/theme (CSS-only, nothing to test) and packages/config (config-only) — add a 'test': 'echo no tests' placeholder script so turbo doesn't error.\n\nStep 9 — Add @repo/test-utils as devDependency (workspace:*) to packages that will use it: apps/web, packages/auth, packages/db, packages/ui.\n\nStep 10 — Verify: run 'pnpm install' then 'pnpm test' from root. All workspace packages should be discovered and tests should pass.",
+  "testing": {
+    "needed": true,
+    "reason": "The test-utils package itself needs self-tests to verify the mock helpers work correctly (chainable Supabase mock, Auth0 session shape, renderWithProviders output). These confirm the utilities are functional before other packages depend on them."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "This is a developer tooling / test infrastructure change with no user-visible UI. Verification is done by running 'pnpm test' from the monorepo root."
+  }
+}

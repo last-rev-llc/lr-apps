@@ -1,0 +1,7 @@
+Plan written to `plan-issue-6.json`. 
+
+**Key decisions:**
+- **Pattern**: Follows the Sentiment app's simple auth gate (async layout + `requireAppLayoutAccess("area-52")`)
+- **Registry**: Flip `auth: false` → `auth: true` on line 80 of `app-registry.ts`
+- **Tests**: Unit tests mocking `requireAccess` to verify all three states (unauthed → `/login`, no permission → `/unauthorized`, permitted → renders)
+- **No browser verification**: The page is just "under construction" — unit tests cover the auth behavior sufficiently

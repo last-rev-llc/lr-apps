@@ -1,0 +1,17 @@
+{
+  "summary": "Add auth gate to Roblox Dances app: update layout with requireAppLayoutAccess, set auth:true in registry, add smoke tests.",
+  "files": [
+    "apps/web/app/apps/roblox-dances/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/roblox-dances/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/app/apps/roblox-dances/layout.tsx: Import requireAppLayoutAccess from '@/lib/require-app-layout-access'. Make RobloxDancesLayout async. Add 'await requireAppLayoutAccess(\"roblox-dances\")' as first line of function body. 2. apps/web/lib/app-registry.ts: Change roblox-dances entry from auth:false to auth:true (line 75). 3. apps/web/app/apps/roblox-dances/__tests__/layout.test.tsx: Create test file following cringe-rizzler pattern — mock requireAppLayoutAccess, test it's called with 'roblox-dances', test NEXT_REDIRECT to /login for unauthenticated, test NEXT_REDIRECT to /unauthorized for unauthorized, test children render for authenticated user.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gate changes behavior for unauthenticated/unauthorized users. Smoke tests verify the guard is wired correctly and redirects fire as expected."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate is a server-side redirect — no visible UI changes to verify in browser. Unit tests cover the redirect logic. Pattern is identical to 5 previously shipped auth gates (cringe-rizzler, dad-joke, hspt-practice, hspt-tutor, proper-wine-pour)."
+  }
+}

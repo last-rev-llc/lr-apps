@@ -1,0 +1,15 @@
+## Assumptions
+- **Mock data structure mirrors DB schema**: Assumed `activities` are stored as JSON strings in Supabase and parsed at query time, since the schema wasn't explicitly documented in the issue
+- **"Slack data aggregation" and "GitHub data aggregation" map to source filtering**: The acceptance criteria mentioned testing these separately — interpreted as testing the source filter buttons (`Slack`, `GitHub`) rather than testing actual API integrations with Slack/GitHub
+- **Auth gate test uses `requireAppLayoutAccess`**: Assumed the existing shared auth pattern (`requireAppLayoutAccess("standup")`) is the "auth gate" referenced in the acceptance criteria, rather than testing a redirect flow in a browser
+- **Timezone for `lastUpdated` is America/Los_Angeles**: Hardcoded Pacific time for the formatted timestamp — this wasn't specified
+
+## Decisions
+- **Mocked StandupApp in page test**: The page test mocks the client component to isolate server-side data fetching logic (computing `lastUpdated`, calling `getStandupDays`) from UI rendering, which is covered separately in `standup-app.test.tsx`
+- **Four source types (slack, github, workspace, jira)**: The issue only mentions Slack and GitHub, but the component supports all four sources — tests cover all of them for completeness
+- **Query test validates Supabase call chain**: Tested the exact `.from().select().order()` chain rather than just the return value, to catch query regressions
+
+## Items to Validate
+- **Timezone assumption**: Verify that `America/Los_Angeles` is the intended timezone for the "last updated" display, or if it should be user-local
+- **"Workspace" and "Jira" sources**: The issue only mentions Slack and GitHub — confirm that including workspace and Jira source types in the standup app aligns with the product intent
+- **Activities stored as JSON strings**: Verify this matches your actual Supabase schema — if activities are stored as native JSONB, the parsing logic in `queries.ts` may be unnecessary

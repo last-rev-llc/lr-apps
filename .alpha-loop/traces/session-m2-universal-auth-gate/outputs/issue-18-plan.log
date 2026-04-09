@@ -1,0 +1,5 @@
+Plan written to `plan-issue-18.json`. Three files to touch:
+
+1. **layout.tsx** — make async, add `requireAppLayoutAccess("hspt-tutor")` call
+2. **app-registry.ts** — flip `auth: false` → `auth: true` for hspt-tutor
+3. **New test file** — 4 smoke tests matching the hspt-practice pattern

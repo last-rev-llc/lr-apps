@@ -1,0 +1,18 @@
+{
+  "summary": "Add Vitest test coverage for the Standup app: component rendering, Slack/GitHub/Workspace/Jira data display, source filtering, auth gate, and server page.",
+  "files": [
+    "apps/web/app/apps/standup/__tests__/standup-app.test.tsx",
+    "apps/web/app/apps/standup/__tests__/page.test.tsx",
+    "apps/web/app/apps/standup/__tests__/layout.test.tsx",
+    "apps/web/app/apps/standup/lib/__tests__/queries.test.ts"
+  ],
+  "implementation": "Follow the exact patterns from Accounts app tests (apps/web/app/apps/accounts/__tests__/). Create four test files:\n\n1. __tests__/standup-app.test.tsx — Client component tests using renderWithProviders from @repo/test-utils:\n   - Renders heading 'Daily Standup' and subtitle text\n   - Renders all 5 filter buttons (All Sources, Slack, GitHub, Workspace, Jira)\n   - Renders DayCards with day-of-week, formatted date, activity count, and source badges for mock StandupDay[] data\n   - Slack activities: renders source group with icon/label, sorted activity times and descriptions\n   - GitHub activities: same verification with GitHub-specific mock data\n   - Workspace/Jira activities: same pattern\n   - Filtering: clicking 'Slack' filter hides GitHub/Workspace/Jira activities; clicking 'All Sources' restores all\n   - Empty state: passing days=[] shows 'No standup entries yet'\n   - lastUpdated: when provided, renders 'Last updated:' with the value; when null, omits it\n\n2. __tests__/page.test.tsx — Server component test:\n   - Mock '@/app/apps/standup/lib/queries' with vi.mock, return mock StandupDay[]\n   - Mock StandupApp component to a simple div that renders props\n   - Await StandupPage(), renderWithProviders the JSX, assert StandupApp received days and lastUpdated props\n\n3. __tests__/layout.test.tsx — Auth gate test:\n   - Mock '@/lib/require-app-layout-access' with vi.mock\n   - Await StandupLayout({ children: <div>test</div> }), renderWithProviders\n   - Assert requireAppLayoutAccess called with 'standup'\n   - Assert children rendered, header with 'Daily Standup' present, Dashboard link present\n\n4. lib/__tests__/queries.test.ts — Query logic test:\n   - Mock '@repo/db/server' createClient to return createMockSupabase from @repo/test-utils\n   - Test getStandupDays returns parsed StandupDay[] from mock data\n   - Test JSON string activities get parsed correctly\n   - Test error case returns empty array\n   - Test empty data returns empty array\n\nMock data shape: { id, date: '2025-04-07', dayOfWeek: 'Monday', activities: [{ source: 'slack'|'github'|'workspace'|'jira', time: '9:00', description: 'text' }], createdAt, updatedAt }",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for the Standup app."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "No UI changes — this issue only adds test files. Verification is running pnpm test."
+  }
+}

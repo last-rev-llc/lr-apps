@@ -1,0 +1,3 @@
+Review: Daily Updates component migration is complete — all major UI elements use @repo/ui. Two select dropdowns remain as raw HTML since @repo/ui lacks a Select component.
+- [warning] App filter and category filter (lines 322-354 in feed-app.tsx) still use raw <select> elements with inline Tailwind classes instead of shared components. @repo/ui has PillList but no Select component, so this is a reasonable trade-off to preserve dropdown UX. (unfixed)
+- [info] Time range filter was well-migrated from custom buttons to @repo/ui Tabs/TabsTrigger. Feed cards, avatars, badges, buttons, empty state, and input all properly use shared components. (unfixed)

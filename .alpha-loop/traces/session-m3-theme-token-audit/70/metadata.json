@@ -1,0 +1,15 @@
+{
+  "issueNum": 70,
+  "title": "Replace hardcoded tokens — batch 3 (showcase apps)",
+  "status": "success",
+  "duration": 1013,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 6,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/114",
+  "timestamp": "2026-04-09T04:41:10.124Z",
+  "agent": "claude",
+  "model": ""
+}

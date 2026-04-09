@@ -1,0 +1,14 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- **Scope expanded beyond issue #14**: The branch includes auth gates and tests for Age of Apes, Alpha Wins, and Area 52 (issues #12, #13), plus shared auth infrastructure changes (login form redirect preservation, session_expired error handling, unauthorized page copy updates). These were likely batched from prior PRs but are all in this single branch's diff against main.
+- **Changed `<>{children}</>` to just `children`** in the layout return — functionally equivalent, slightly simpler.
+- **UX copy changes on the unauthorized page**: Changed "Get access" → "Request access", replaced the `app_permissions` code reference with "Please contact a Last Rev admin", and added the app name to the heading. These weren't in the issue spec.
+- **Login form now preserves redirect slug through to the signup link**, so users who click "Create an account" from a gated app flow don't lose their redirect destination. Not in the spec but a reasonable UX improvement.
+- **Added `session_expired` error handling** in the login form — not requested by this issue.
+
+## Items to Validate
+- **Verify the shared auth/UX changes are intentional for this PR** — the login form redirect preservation, session_expired error, and unauthorized page copy changes go beyond the Brommie Quake scope. If these shipped in earlier PRs (#94–#97), confirm they're not being double-committed here.
+- **Verify "Please contact a Last Rev admin"** is the desired phrasing — the previous version referenced `app_permissions` which was more technical but actionable for internal users.
+- **Confirm "Request access" vs "Get access"** matches the team's preferred terminology.

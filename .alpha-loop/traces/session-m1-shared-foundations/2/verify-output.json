@@ -1,0 +1,1 @@
+Verification skipped by plan: This is infrastructure-only with no UI changes. The issue explicitly states 'no app-level gating' — all code is server-side utilities and types with no user-visible interface.

@@ -1,0 +1,12 @@
+Plan written to `plan-issue-10.json`. Here's what it covers:
+
+**Scope**: 64 files across `packages/theme`, `packages/ui`, and `apps/web`.
+
+**Key decisions**:
+- **4 new utilities** added to the shared theme: `glass-header` (sticky nav pattern used in ~10 layouts), `glass-input` (dark translucent inputs), `glass-overlay` (modal backdrops), `animate-cc-pop` (empty-state bounce)
+- **New shadow tokens**: `--shadow-glass-hover-strong`, `--shadow-glow-accent-sm`, `--shadow-lightbox` to replace 4 inline `shadow-[...]` values in UI components
+- **Inline keyframes** in confetti, typewriter, and superstars extracted to shared `globals.css`
+- **brommie-quake exception**: Its 15+ unique earthquake-themed keyframes stay app-scoped (extracted to a CSS file, not polluting shared theme)
+- **`bg-white/5 border-white/10`** pattern (appears 100+ times) maps to existing `glass-sm` utility
+
+**6 implementation steps**: extend theme utilities, replace shadows, replace glass patterns, replace animations, grep-verify no duplicates, build check.

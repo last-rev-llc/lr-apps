@@ -1,0 +1,15 @@
+{
+  "issueNum": 4,
+  "title": "Expand  with typed query helpers",
+  "status": "success",
+  "duration": 316,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 8,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/89",
+  "timestamp": "2026-04-07T23:08:10.981Z",
+  "agent": "claude",
+  "model": ""
+}

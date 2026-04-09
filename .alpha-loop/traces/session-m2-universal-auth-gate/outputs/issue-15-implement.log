@@ -1,0 +1,8 @@
+Done. All acceptance criteria met:
+
+- **layout.tsx** — calls `requireAppLayoutAccess("cringe-rizzler")` (made async)
+- **app-registry.ts** — `auth: true` for cringe-rizzler
+- **Tests** — 4 smoke tests passing: auth call verification, unauthenticated redirect to `/login`, unauthorized redirect to `/unauthorized`, authenticated user renders children
+- **`pnpm test`** — all 85 tests pass across 8 packages
+
+Also added `import React from "react"` to `layout.tsx` since the vitest esbuild transform uses classic JSX mode and the layout has extensive JSX.

@@ -1,0 +1,19 @@
+
+
+## Assumptions
+- **Zoom card title uses `meeting_topic`**, Slack uses `short_summary`, Jira uses `ticket_key` — the issue didn't specify what field should serve as each card's display title
+- **Emoji prefixes for source badges** (📹 Zoom, 💬 Slack, 🎯 Jira) — the issue didn't specify badge styling or iconography
+- **Jira status values use underscores internally** (`in_progress`, `to_do`) and display with spaces — no formatting spec was given
+- **Expand/collapse interaction** for viewing detail fields (action items, participants, etc.) — the issue said "rendering" but didn't specify whether details should be inline or expandable
+- **Slack `tone` is rendered as a badge** — the issue required "Slack summary rendering" but didn't define how tone should appear
+
+## Decisions
+- **Used factory functions** (`makeZoom`, `makeSlack`, `makeJira`) with Partial overrides rather than inline object literals — keeps mock data DRY across 19 tests
+- **Tested tab switching via Radix `data-state="active"` attribute** rather than checking DOM visibility — couples to the Radix implementation but gives reliable panel isolation
+- **Used `getAllByText` for Slack titles** because `short_summary` appears as both the card title and summary text — avoids false uniqueness failures
+- **Auth gate tested at the layout level** (`layout.test.tsx`) rather than in the component tests — matches the existing pattern where `requireAppLayoutAccess` lives in the layout
+
+## Items to Validate
+- **Verify the expand trigger is correct**: tests assume clicking the card title's closest `button` expands it — confirm this matches the actual component's click target
+- **Confirm tone badge values**: tests check for literal strings `"positive"` and `"neutral"` — verify these match the actual allowed tone enum/values from your API
+- **Check Jira priority/status display casing**: tests expect lowercase (`"high"`, `"in progress"`) — confirm this matches your design intent vs. capitalized labels

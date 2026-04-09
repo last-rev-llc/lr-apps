@@ -1,0 +1,17 @@
+{
+  "summary": "Replace inline UI in Daily Updates app with @repo/ui shared components (Card, Badge, Avatar, Button, Input, EmptyState, Tabs).",
+  "files": [
+    "apps/web/app/apps/daily-updates/components/feed-app.tsx",
+    "apps/web/app/apps/daily-updates/about/page.tsx"
+  ],
+  "implementation": "1. feed-app.tsx — UpdateCard component:\n   a. Already imports Card; add CardHeader, CardContent, CardFooter wrapping the header/body/reactions sections.\n   b. Replace the inline profile icon div (lines 99-104) with Avatar + AvatarFallback (emoji icon), styled with neon background via style prop.\n   c. Replace the category span (line 119-121) with Badge variant=\"secondary\".\n   d. Replace the priority emoji span (lines 113-117) with Badge variant=\"destructive\" containing the fire emoji.\n   e. Replace link anchor pills (lines 140-154) with Button variant=\"outline\" size=\"sm\" wrapped in asChild with <a>.\n   f. Replace reaction buttons (lines 164-175) with Button variant=\"ghost\" size=\"sm\" with conditional className for active state.\n\n2. feed-app.tsx — Filter controls:\n   a. Replace the search <input> (lines 286-294) with Input from @repo/ui.\n   b. Replace time range buttons (lines 336-353) with Tabs/TabsList/TabsTrigger for the all/day/week/month toggle.\n   c. Replace the load-more button (lines 370-376) with Button variant=\"outline\".\n\n3. feed-app.tsx — Empty state:\n   a. Replace the inline empty-state div (lines 358-361) with EmptyState component (icon, title props).\n\n4. about/page.tsx:\n   a. Replace feature card divs (lines 51-58) with Card + CardHeader + CardContent.\n   b. Replace character card divs (lines 85-96) with Card + CardContent.\n   c. Replace the CTA anchor (lines 101-106) with Button asChild wrapping the <a>.\n\n5. Update imports in both files to pull Card, CardHeader, CardContent, CardFooter, Badge, Avatar, AvatarFallback, Button, Input, EmptyState, Tabs, TabsList, TabsTrigger from @repo/ui.\n\n6. Run pnpm build to verify no regressions.",
+  "testing": {
+    "needed": true,
+    "reason": "Component migration changes rendered output and event handling. Existing tests (if any) must pass, and new tests should verify that feed cards render with shared components, filters work, and reactions still toggle."
+  },
+  "verification": {
+    "needed": true,
+    "instructions": "1. Navigate to /apps/daily-updates and verify feed cards render with proper Card structure, Avatar icons, Badge categories, and Button reactions.\n2. Click reaction emoji buttons and verify counts increment.\n3. Type in the search input and verify filtering works.\n4. Click time range tabs (Today, This Week, This Month) and verify feed filters.\n5. Select different apps and categories from dropdowns and verify filtering.\n6. Navigate to /apps/daily-updates/about and verify feature cards, character cards, and CTA button render correctly.\n7. Click the 'View the Feed' CTA button and verify navigation.",
+    "reason": "This migration changes all user-visible UI components in the Daily Updates app — feed cards, filters, buttons, badges, and the about page."
+  }
+}

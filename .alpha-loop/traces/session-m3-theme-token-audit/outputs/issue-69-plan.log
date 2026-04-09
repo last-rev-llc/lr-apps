@@ -1,0 +1,9 @@
+Plan written to `plan-issue-69.json`. 
+
+**Summary**: 20 files across 10 consumer apps need hardcoded color replacements. The plan follows the batch 1 pattern (commit `3dc5db8`):
+
+- **3 apps** (roblox-dances, soccer-training, dad-joke-of-the-day) only need a single `themeColor` metadata fix
+- **3 apps** (age-of-apes, generations, hspt-practice/layout) need layout + data/config color swaps
+- **4 apps** (cringe-rizzler, slang-translator, hspt-tutor, proper-wine-pour) are heavy — 15-25+ inline hex values each in gradients, box-shadows, and status indicators
+
+The implementation maps each hardcoded color to the existing theme token system (`var(--color-*)` for inline styles, Tailwind token classes for utilities), using semantic tokens (green/red/yellow) for status indicators and the pill palette for category differentiation.

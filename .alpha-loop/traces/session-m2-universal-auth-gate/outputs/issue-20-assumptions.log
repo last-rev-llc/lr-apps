@@ -1,0 +1,8 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- None — implementation was straightforward. The commit follows the exact same pattern established by the 10+ prior auth gate implementations on this branch (same test structure, same layout change, same registry toggle).
+
+## Items to Validate
+- The `import React from "react"` added to `layout.tsx` — this was added for consistency with the test file pattern but may be unnecessary depending on your JSX transform config. Other auth-gated layouts in this branch have the same import, so it's consistent either way.

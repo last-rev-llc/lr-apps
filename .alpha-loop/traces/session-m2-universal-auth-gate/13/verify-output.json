@@ -1,0 +1,1 @@
+Verification skipped by plan: Auth gate redirects require real Auth0 sessions and Supabase permission checks that cannot be exercised in a local Playwright test without full auth infrastructure. The unit tests adequately cover the behavior.

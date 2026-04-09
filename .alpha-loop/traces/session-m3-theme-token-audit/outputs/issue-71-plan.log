@@ -1,0 +1,7 @@
+Plan written to `plan-issue-71.json`. Key decisions:
+
+- **Custom rule file** at `packages/config/rules/no-hardcoded-colors.mjs` — keeps it co-located with the shared config
+- **Flat config plugin registration** — ESLint v9 flat config doesn't use `.eslintrc` plugins; the rule gets registered inline as a plugin object
+- **Scoped to `*.tsx` only** — avoids false positives in non-component files (data files, configs)
+- **Warn severity** — lets the team address violations incrementally rather than blocking builds
+- **No browser verification needed** — this is purely developer tooling

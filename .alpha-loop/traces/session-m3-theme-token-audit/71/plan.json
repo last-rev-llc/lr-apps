@@ -1,0 +1,18 @@
+{
+  "summary": "Add custom ESLint rule to @repo/config that warns on hardcoded hex color values in TSX className strings, preventing regression after theme token migration.",
+  "files": [
+    "packages/config/rules/no-hardcoded-colors.mjs",
+    "packages/config/eslint.config.mjs",
+    "packages/config/rules/__tests__/no-hardcoded-colors.test.mjs",
+    "packages/config/package.json"
+  ],
+  "implementation": "1. Create `packages/config/rules/no-hardcoded-colors.mjs` — custom ESLint rule that inspects JSX attributes (className, style) for hardcoded hex color patterns (#rgb, #rrggbb, #rrggbbaa). Use AST visitors for JSXAttribute nodes; check string literals and template literal quasi values. Report with message suggesting CSS custom property tokens (var(--color-*)). Allow an exemption comment (e.g. `// eslint-disable-next-line`) for legitimate cases like metadata themeColor.\n2. Wire into `packages/config/eslint.config.mjs` — import the custom rule, register it as a plugin (flat config plugin object with rules map), and add a config entry enabling `no-hardcoded-colors: warn` for `**/*.tsx` files only.\n3. Add `@eslint/rule-tester` (or vitest) as a devDependency in `packages/config/package.json` and update the test script.\n4. Create `packages/config/rules/__tests__/no-hardcoded-colors.test.mjs` — test valid cases (theme tokens, non-color hex strings) and invalid cases (hex colors in className, style objects, template literals).\n5. Run the rule across the monorepo (`pnpm -w eslint . --ext tsx`) to catalog existing violations. Document them in the PR description or add inline eslint-disable comments for accepted exceptions (e.g. meme-generator template data, metadata themeColor).",
+  "testing": {
+    "needed": true,
+    "reason": "Custom ESLint rule is new logic that parses AST nodes — unit tests with RuleTester are essential to verify correct detection of hex colors and absence of false positives."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "This is a developer-tooling change (ESLint rule). No UI changes — verification is done by running the linter and unit tests, not browser testing."
+  }
+}

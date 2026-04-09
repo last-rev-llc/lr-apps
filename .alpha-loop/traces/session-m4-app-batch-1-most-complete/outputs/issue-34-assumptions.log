@@ -1,0 +1,16 @@
+
+
+## Assumptions
+- **Assumed `StatusBadge` should use semantic variant names (`success`/`warning`/`error`) instead of domain-specific status strings (`up`/`down`/`degraded`)** — the original inline component used status strings directly; the shared component uses generic variants with a mapping object in the page
+- **Assumed emoji prefixes (🟢/🔴/🟡) in status labels should be replaced with the `dot` prop** — the shared `StatusBadge` uses a colored dot indicator instead of emoji, which is more consistent but visually different
+- **Assumed `yellow-500` should become `amber-500` in the uptime bars** — aligned the degraded-state bar color with the shared `StatusBadge` warning variant's amber palette, changing the exact shade slightly
+
+## Decisions
+- **Used `className` overrides on `StatusBadge` for the full-width banner** — the "All Systems Operational" banner uses the same `StatusBadge` component with layout classes (`w-full justify-center rounded-xl px-6 py-4 text-base`) rather than creating a separate banner component. This keeps component count low but stretches the badge beyond its typical inline usage.
+- **Kept `UptimeBars` as a local component** — the history bar chart is uptime-specific with hardcoded color logic; it wasn't migrated to `@repo/ui` since no other app needs it. The bar colors are raw Tailwind classes, not theme tokens from StatusBadge variants.
+- **Created a `statusVariantMap` lookup at module scope** — maps domain status strings to `StatusBadge` props, keeping the mapping explicit and co-located with the page rather than baking domain knowledge into the shared component
+
+## Items to Validate
+- **Visual diff on the status banner** — the old banner used `/15` opacity backgrounds and `/30` borders; the shared `StatusBadge` uses `/10` and `/20`. The banner will appear slightly more subtle than before.
+- **"All Systems Operational" lost the ✅ emoji** — the success banner no longer has the checkmark prefix (switched to a dot indicator). The error banner still has ⚠️. Verify this asymmetry is acceptable or if both emojis should be removed.
+- **`UptimeBars` color consistency** — the bars still use raw `bg-emerald-500`/`bg-red-500`/`bg-amber-500` rather than referencing `StatusBadge` variant tokens. If the shared component's palette changes later, the bars won't update automatically.

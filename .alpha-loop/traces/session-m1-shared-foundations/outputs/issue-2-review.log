@@ -1,0 +1,13 @@
+## Review Complete
+
+**Gate: PASSED**
+
+### Critical fix applied
+- **`subscriptions.ts`**: `upsertSubscription()` was missing `user_id` in its upsert payload and used `stripe_subscription_id` as the conflict key. Since `getOrCreateCustomer` creates the initial row *without* `stripe_subscription_id`, any webhook-driven upsert would attempt an INSERT without `user_id`, hitting a NOT NULL violation. Fixed by looking up `user_id` via `stripe_customer_id` first and using `user_id` as the conflict key.
+
+### Info notes (non-blocking)
+1. `customers.ts` doesn't check the upsert error result — low risk but worth noting
+2. `Subscription` type is duplicated between `@repo/billing/types` and `@repo/db/types` — consider re-exporting to prevent drift
+
+### All acceptance criteria met
+All 18 tests pass. Package structure, exports, migration SQL, turbo.json env vars — all present and correct.

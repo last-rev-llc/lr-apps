@@ -1,0 +1,18 @@
+All done. Here's what was implemented:
+
+**`packages/billing/`** — new `@repo/billing` package with:
+- `src/types.ts` — `Tier`, `SubscriptionStatus`, `Subscription`, `WebhookEventType` types
+- `src/stripe-client.ts` — `getStripe()` singleton with env var validation
+- `src/customers.ts` — `getOrCreateCustomer(userId, email)` creates Stripe customer + free subscription row
+- `src/subscriptions.ts` — `upsertSubscription()` maps Stripe data to DB, `getSubscription(userId)` queries by user
+- `src/has-feature-access.ts` — `hasFeatureAccess(userId, feature)` with tier hierarchy (free < pro < enterprise)
+- `src/webhook-handler.ts` — handles `customer.subscription.created/updated/deleted`, verifies signatures
+- `src/index.ts` — barrel exports all public API
+- 4 test files, 17 tests passing
+
+**Other changes:**
+- `packages/db/src/types.ts` — added `SubscriptionRow` and `subscriptions` table to `Database` interface
+- `supabase/migrations/002_subscriptions.sql` — subscriptions table with RLS, indexes, constraints
+- `turbo.json` — added `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` to globalEnv
+
+Ready to commit when you are.

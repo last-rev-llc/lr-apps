@@ -1,0 +1,17 @@
+{
+  "summary": "Add authentication gate to the Alpha Wins app so unauthenticated/unauthorized users are redirected",
+  "files": [
+    "apps/web/app/apps/alpha-wins/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/alpha-wins/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/lib/app-registry.ts: Change alpha-wins entry from `auth: false` to `auth: true`.\n2. apps/web/app/apps/alpha-wins/layout.tsx: Import `requireAppLayoutAccess` from `@/lib/require-app-layout-access`. Make the default export `async`. Call `await requireAppLayoutAccess(\"alpha-wins\")` at the top of the function body.\n3. apps/web/app/apps/alpha-wins/__tests__/layout.test.tsx: Create smoke tests following the age-of-apes/area-52/lighthouse pattern — mock `requireAppLayoutAccess`, test four cases: (a) calls requireAppLayoutAccess with \"alpha-wins\", (b) unauthenticated redirects to /login, (c) unauthorized redirects to /unauthorized, (d) authenticated user renders children.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gate changes runtime behavior — unauthenticated users will be redirected. Smoke tests verify the layout calls the gate and handles redirect errors correctly."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate redirects require real Auth0 sessions and Supabase permission checks that cannot be exercised in a local Playwright test without full auth infrastructure. The unit tests adequately cover the behavior."
+  }
+}

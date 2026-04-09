@@ -1,0 +1,17 @@
+{
+  "summary": "Replace inline UI elements in Slang Translator with @repo/ui shared components (Badge, Button, Textarea, Card, Dialog).",
+  "files": [
+    "apps/web/app/apps/slang-translator/components/slang-app.tsx",
+    "apps/web/app/apps/slang-translator/about/page.tsx"
+  ],
+  "implementation": "1. slang-app.tsx — Add Textarea and Dialog imports from @repo/ui.\n2. slang-app.tsx — GenBadge helper (lines ~52-62): replace raw <span> elements with <Badge variant=\"secondary\"> styled via className overrides for gen-alpha (violet) and gen-z (blue) colors.\n3. slang-app.tsx — CategoryBadge helper (lines ~64-88): replace raw <span> with <Badge variant=\"outline\"> and move dynamic color into className/style prop.\n4. slang-app.tsx — SlangDetailModal (line ~188): replace raw <button> close with <Button variant=\"ghost\" size=\"icon\">. Consider migrating the modal overlay to <Dialog>/<DialogContent> from @repo/ui.\n5. slang-app.tsx — DictionaryTab generation filter buttons (lines ~277-289): replace raw <button> with <Button variant=\"outline\" size=\"sm\">, toggle active state via conditional variant=\"default\".\n6. slang-app.tsx — DictionaryTab category filter buttons (lines ~292-306): same pattern as generation filters — <Button variant=\"outline\" size=\"sm\"> with active variant swap.\n7. slang-app.tsx — TranslatorTab textarea (lines ~442-448): replace raw <textarea> with <Textarea> from @repo/ui.\n8. slang-app.tsx — QuizTab answer buttons (lines ~745-751): replace raw <button> with <Button>, use variant props for correct/incorrect/default states.\n9. about/page.tsx — CTA link (lines ~78-83): wrap <a> with <Button asChild>.\n10. about/page.tsx — Feature cards (lines ~14-45): replace glass-sm divs with <Card>/<CardContent>.\n11. about/page.tsx — How-it-works list items (lines ~63-74): replace glass-sm <li> wrappers with <Card>/<CardContent>.\n12. Run pnpm build to verify no regressions.",
+  "testing": {
+    "needed": true,
+    "reason": "Component migration changes rendered markup and class names which could affect interactive behavior (filter toggles, quiz answer selection, modal open/close, translator input). Existing tests should be verified and updated if selectors changed."
+  },
+  "verification": {
+    "needed": true,
+    "instructions": "1. Navigate to /apps/slang-translator. 2. Dictionary tab: verify search input works, generation filter buttons toggle correctly, category filter buttons toggle, clicking a slang entry opens detail modal, modal close button works. 3. Translator tab: type text in textarea, verify translation output renders. 4. Quiz tab: start quiz, click answer buttons, verify correct/incorrect styling. 5. Navigate to /apps/slang-translator/about, verify feature cards and CTA button render and link correctly.",
+    "reason": "UI component migration changes rendered elements and styling — visual and interactive verification needed to ensure no regressions in translator input, filter buttons, quiz interactions, and modal behavior."
+  }
+}

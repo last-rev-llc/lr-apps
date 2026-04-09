@@ -1,0 +1,15 @@
+{
+  "issueNum": 24,
+  "title": "Command Center: component migration",
+  "status": "success",
+  "duration": 1724,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 4,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/116",
+  "timestamp": "2026-04-09T05:01:05.555Z",
+  "agent": "claude",
+  "model": ""
+}

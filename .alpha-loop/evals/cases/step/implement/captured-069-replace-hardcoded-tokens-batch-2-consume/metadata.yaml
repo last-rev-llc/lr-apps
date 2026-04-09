@@ -1,0 +1,8 @@
+id: captured-069-replace-hardcoded-tokens-batch-2-consume
+description: Replace hardcoded tokens — batch 2 (consumer apps)
+tags: []
+source: auto-captured
+captured_from:
+  issue: 69
+  session: session/m3-theme-token-audit
+  date: 2026-04-08

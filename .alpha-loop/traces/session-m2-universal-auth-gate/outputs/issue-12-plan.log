@@ -1,0 +1,5 @@
+Plan written to `plan-issue-12.json`. Three files to touch:
+
+1. **app-registry.ts** — flip `auth: false` → `auth: true`
+2. **layout.tsx** — add async + `await requireAppLayoutAccess("age-of-apes")`
+3. **`__tests__/layout.test.tsx`** — create smoke tests (4 cases) following the Area 52 pattern

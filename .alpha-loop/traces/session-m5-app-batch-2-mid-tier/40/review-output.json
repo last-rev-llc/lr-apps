@@ -1,0 +1,3 @@
+Review: Component migration complete — Badge, Button, Card all wired from @repo/ui; fixed a11y regression where clickable Badge (div) replaced original button elements
+- [warning] Category filter Badges used onClick on a <div> element (Badge renders a div), losing keyboard navigation and screen reader support that the original <button> elements had. Wrapped each interactive Badge in a <button> to restore a11y. (fixed)
+- [info] Only joke-viewer.tsx was modified. The issue mentions 'joke cards' and 'joke viewer UI' as separate items, but all inline UI lives in this single component — the page.tsx is a server component with no inline UI to migrate. Coverage is complete. (fixed)

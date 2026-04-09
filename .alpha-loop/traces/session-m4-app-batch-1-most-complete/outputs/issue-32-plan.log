@@ -1,0 +1,13 @@
+Plan written to `plan-issue-32.json`. Here's a quick overview:
+
+**3 files** to modify:
+- `page.tsx` — inline stats grid → `StatCard`, inline header → `PageHeader`
+- `layout.tsx` — inline header → `PageHeader`
+- `meetings-app.tsx` — the bulk of the work:
+  - All inline `<span>` badges → `Badge` (sentiment, client, duration, priority, topics)
+  - Inline `<button>` elements → `Button` (follow-up, mark done)
+  - Inline `<input>` fields → `Search` component
+  - Inline filter button groups → `PillList` (date range, status, priority)
+  - Inline empty-state divs → `EmptyState`
+
+The plan follows the same migration pattern used in the Standup app (Badge with variant="outline" + color className overrides, shared layout components).

@@ -1,0 +1,8 @@
+Done. All acceptance criteria met:
+
+- **meetings-app.test.tsx** (12 tests): Renders meeting list, card expansion with summary/decisions/actions/topics/attendees, pending badge, sentiment badges, search by topic/client_id, date range filtering, empty state, Action Items tab switching, status/priority filters, mark-done behavior
+- **page.test.tsx** (2 tests): Server component passes meetings to MeetingsApp, renders stat cards
+- **layout.test.tsx** (4 tests): Auth gate calls `requireAppLayoutAccess('meeting-summaries')`, renders children, shows header title, propagates auth errors
+- **queries.test.ts** (6 tests): Queries `zoom_transcripts` table with correct ordering, throws on error, `computeStats` computes totals/summarized/actionItems/hours correctly including empty arrays and string-encoded JSON
+
+**164 tests pass** across 21 test files. 4 new files, 520 lines added.

@@ -1,0 +1,1 @@
+Verification skipped by plan: Auth gating is server-side redirect logic fully covered by unit tests. No new UI elements to visually verify.

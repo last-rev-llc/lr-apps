@@ -1,0 +1,15 @@
+{
+  "issueNum": 14,
+  "title": "Auth gate: Brommie Quake",
+  "status": "success",
+  "duration": 229,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 8,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/98",
+  "timestamp": "2026-04-08T16:29:06.311Z",
+  "agent": "claude",
+  "model": ""
+}

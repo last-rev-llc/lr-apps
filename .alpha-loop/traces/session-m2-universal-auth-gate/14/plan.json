@@ -1,0 +1,17 @@
+{
+  "summary": "Add authentication gate to Brommie Quake app: update layout, registry, and add smoke tests.",
+  "files": [
+    "apps/web/app/apps/brommie-quake/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/brommie-quake/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/lib/app-registry.ts: Change brommie-quake entry from `auth: false` to `auth: true`.\n2. apps/web/app/apps/brommie-quake/layout.tsx: Import `requireAppLayoutAccess` from `@/lib/require-app-layout-access`, make component async, add `await requireAppLayoutAccess(\"brommie-quake\")` before return, change `return <>{children}</>` to `return children`.\n3. apps/web/app/apps/brommie-quake/__tests__/layout.test.tsx: Create test file following Area-52 pattern. Mock `requireAppLayoutAccess`, test four cases: (a) calls requireAppLayoutAccess with 'brommie-quake', (b) unauthenticated redirects to /login, (c) unauthorized redirects to /unauthorized, (d) authenticated user renders children.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gating changes runtime behavior—unauthenticated/unauthorized users must be redirected. Smoke tests confirm the layout calls requireAppLayoutAccess and propagates redirect errors correctly."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate is server-side redirect logic with no visible UI changes. Behavior is fully covered by unit tests mocking requireAppLayoutAccess. Browser verification would require authenticated session state which is better validated by the test suite."
+  }
+}

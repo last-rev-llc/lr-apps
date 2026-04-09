@@ -1,0 +1,1 @@
+Verification skipped by plan: This is a developer-tooling change (ESLint rule). No UI changes — verification is done by running the linter and unit tests, not browser testing.

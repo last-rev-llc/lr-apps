@@ -1,0 +1,15 @@
+Done. Here's what was implemented:
+
+**New files:**
+- `packages/config/rules/no-hardcoded-colors.mjs` — Custom ESLint rule that detects hardcoded hex colors (#rgb, #rrggbb, #rrggbbaa) in JSX `className` and `style` attributes
+- `packages/config/rules/__tests__/no-hardcoded-colors.test.mjs` — 14 test cases (6 valid, 8 invalid) covering string literals, template literals, expression containers, and style objects
+- `packages/config/vitest.config.ts` — Vitest config for the config package
+
+**Modified files:**
+- `packages/config/eslint.config.mjs` — Registered rule as `@repo/no-hardcoded-colors: warn` for `**/*.tsx` files via a flat config plugin
+- `packages/config/package.json` — Added vitest dependency, updated test script
+
+**Results:**
+- All 8 packages pass (107 tests), including the new rule tests
+- Zero existing violations found — the token migration batches (#68-#70) already cleaned up the codebase
+- The rule will prevent regressions going forward

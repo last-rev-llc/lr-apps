@@ -1,0 +1,8 @@
+Done. All acceptance criteria met:
+
+- **layout.tsx** calls `requireAppLayoutAccess("hspt-tutor")` (async layout)
+- **app-registry.ts** updated to `auth: true` for hspt-tutor
+- **4 smoke tests** pass: auth call verification, unauthenticated redirect to `/login`, unauthorized redirect to `/unauthorized`, authenticated user renders children
+- **All 97 tests pass** across 14 test files
+
+3 files changed, following the exact same pattern as hspt-practice and other auth-gated apps.

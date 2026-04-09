@@ -1,0 +1,15 @@
+{
+  "issueNum": 23,
+  "title": "Extend @repo/ui with missing common components",
+  "status": "success",
+  "duration": 1154,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 5,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/113",
+  "timestamp": "2026-04-09T04:31:50.901Z",
+  "agent": "claude",
+  "model": ""
+}

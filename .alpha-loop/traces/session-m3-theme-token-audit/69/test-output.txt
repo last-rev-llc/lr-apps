@@ -1,0 +1,119 @@
+> lr-apps@ test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-69
+> turbo run test
+
+
+   • Packages in scope: @repo/auth, @repo/billing, @repo/config, @repo/db, @repo/test-utils, @repo/theme, @repo/ui, @repo/web
+   • Running test in 8 packages
+   • Remote caching disabled, using shared worktree cache
+
+@repo/ui:test: cache hit, replaying logs 361a436506fd8cd3
+@repo/theme:test: cache hit, replaying logs 617c4ba2bec266e7
+@repo/config:test: cache hit, replaying logs 08f68c4bbdc65c72
+@repo/web:test: cache hit, replaying logs 27d802f8fda66f4e
+@repo/billing:test: cache hit, replaying logs 09550b0cdf22f303
+@repo/db:test: cache hit, replaying logs 259ec1fe8c84ba76
+@repo/test-utils:test: cache hit, replaying logs 45a3317fe92ecea5
+@repo/ui:test: 
+@repo/ui:test: > @repo/ui@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-69/packages/ui
+@repo/auth:test: cache hit, replaying logs a1639241c4f5068b
+@repo/theme:test: 
+@repo/web:test: 
+@repo/theme:test: > @repo/theme@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-68/packages/theme
+@repo/web:test: > @repo/web@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-69/apps/web
+@repo/web:test: > vitest run
+@repo/config:test: 
+@repo/theme:test: > echo no tests
+@repo/theme:test: 
+@repo/theme:test: no tests
+@repo/db:test: 
+@repo/test-utils:test: 
+@repo/db:test: > @repo/db@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-6/packages/db
+@repo/db:test: > vitest run
+@repo/web:test: 
+@repo/db:test: 
+@repo/web:test: 
+@repo/db:test: 
+@repo/web:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-69/apps/web
+@repo/web:test: 
+@repo/web:test:  ✓ lib/__tests__/require-app-layout-access.test.ts (6 tests) 3ms
+@repo/billing:test: 
+@repo/billing:test: > @repo/billing@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-6/packages/billing
+@repo/billing:test: > vitest run
+@repo/config:test: > @repo/config@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/packages/config
+@repo/config:test: > echo no tests
+@repo/config:test: 
+@repo/config:test: no tests
+@repo/test-utils:test: > @repo/test-utils@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-6/packages/test-utils
+@repo/test-utils:test: > vitest run
+@repo/test-utils:test: 
+@repo/auth:test: 
+@repo/db:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-6/packages/db
+@repo/db:test: 
+@repo/db:test:  ✓ src/__tests__/queries.test.ts (11 tests) 7ms
+@repo/db:test: 
+@repo/test-utils:test: 
+@repo/db:test:  Test Files  1 passed (1)
+@repo/auth:test: > @repo/auth@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-6/packages/auth
+@repo/ui:test: > vitest run --passWithNoTests
+@repo/ui:test: 
+@repo/ui:test: 
+@repo/web:test:  ✓ lib/__tests__/app-registry.test.ts (15 tests) 5ms
+@repo/web:test:  ✓ lib/__tests__/platform-urls.test.ts (16 tests) 3ms
+@repo/web:test:  ✓ lib/__tests__/proxy-utils.test.ts (17 tests) 6ms
+@repo/web:test: 
+@repo/web:test:  Test Files  4 passed (4)
+@repo/ui:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-69/packages/ui
+@repo/web:test:       Tests  54 passed (54)
+@repo/web:test:    Start at  20:56:09
+@repo/web:test:    Duration  800ms (transform 136ms, setup 0ms, collect 219ms, tests 17ms, environment 0ms, prepare 295ms)
+@repo/web:test: 
+@repo/ui:test: 
+@repo/ui:test: No test files found, exiting with code 0
+@repo/billing:test: 
+@repo/db:test:       Tests  11 passed (11)
+@repo/billing:test: 
+@repo/test-utils:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-6/packages/test-utils
+@repo/test-utils:test: 
+@repo/test-utils:test:  ✓ src/__tests__/mock-auth0.test.ts (7 tests) 3ms
+@repo/test-utils:test:  ✓ src/__tests__/mock-supabase.test.ts (8 tests) 4ms
+@repo/test-utils:test: 
+@repo/test-utils:test:  Test Files  2 passed (2)
+@repo/db:test:    Start at  08:47:44
+@repo/billing:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-6/packages/billing
+@repo/billing:test: 
+@repo/billing:test:  ✓ src/has-feature-access.test.ts (6 tests) 3ms
+@repo/test-utils:test:       Tests  15 passed (15)
+@repo/billing:test:  ✓ src/customers.test.ts (2 tests) 4ms
+@repo/test-utils:test:    Start at  08:47:45
+@repo/billing:test:  ✓ src/subscriptions.test.ts (5 tests) 6ms
+@repo/db:test:    Duration  907ms (transform 51ms, setup 0ms, collect 92ms, tests 7ms, environment 0ms, prepare 106ms)
+@repo/ui:test: 
+@repo/billing:test:  ✓ src/webhook-handler.test.ts (5 tests) 5ms
+@repo/billing:test: 
+@repo/billing:test:  Test Files  4 passed (4)
+@repo/test-utils:test:    Duration  1.18s (transform 79ms, setup 0ms, collect 53ms, tests 8ms, environment 1.23s, prepare 282ms)
+@repo/auth:test: > vitest run
+@repo/auth:test: 
+@repo/db:test: 
+@repo/billing:test:       Tests  18 passed (18)
+@repo/billing:test:    Start at  08:47:45
+@repo/billing:test:    Duration  425ms (transform 151ms, setup 0ms, collect 202ms, tests 17ms, environment 0ms, prepare 316ms)
+@repo/billing:test: 
+@repo/ui:test: include: **/*.{test,spec}.?(c|m)[jt]s?(x)
+@repo/ui:test: exclude:  **/node_modules/**, **/dist/**, **/cypress/**, **/.{idea,git,cache,output,temp}/**, **/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*
+@repo/ui:test: 
+@repo/test-utils:test: 
+@repo/auth:test: 
+@repo/auth:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-6/packages/auth
+@repo/auth:test: 
+@repo/auth:test:  ✓ src/__tests__/permissions.test.ts (8 tests) 3ms
+@repo/auth:test: 
+@repo/auth:test:  Test Files  1 passed (1)
+@repo/auth:test:       Tests  8 passed (8)
+@repo/auth:test:    Start at  08:47:44
+@repo/auth:test:    Duration  909ms (transform 264ms, setup 0ms, collect 323ms, tests 3ms, environment 0ms, prepare 94ms)
+@repo/auth:test: 
+
+ Tasks:    8 successful, 8 total
+Cached:    8 cached, 8 total
+  Time:    114ms >>> FULL TURBO

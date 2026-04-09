@@ -1,0 +1,1 @@
+Review: Auth gate for Proper Wine Pour correctly implemented — layout calls requireAppLayoutAccess, registry has auth: true, smoke tests cover all redirect scenarios, all tests pass.

@@ -1,0 +1,19 @@
+## Assumptions
+- **Auth0 session shape**: Assumed a session structure with `user`, `accessToken`, `accessTokenExpiresAt`, and `idToken` fields. The issue didn't specify which Auth0 SDK (`@auth0/nextjs-auth0` v4 vs v3) or its exact session type — the mock is a loose approximation rather than typed against a specific SDK version.
+- **Supabase mock depth**: The issue said "chainable mock Supabase client" but didn't specify which query methods to support. Included the common ones (`select`, `insert`, `update`, `delete`, `upsert`, `eq`, `neq`, `in`, `order`, `limit`, `single`, `maybeSingle`) but omitted less common filters (`gt`, `lt`, `like`, `ilike`, `contains`, etc.).
+- **`renderWithProviders` is a stub**: The issue listed it as a requirement but didn't specify which providers to wrap. Implemented as a passthrough (`<>{children}</>`) since no shared providers exist yet in the monorepo.
+- **`@repo/config` doesn't need test-utils**: Added `@repo/test-utils` as a devDependency only to packages that have real test infrastructure (`apps/web`, `packages/auth`, `packages/db`), not to `@repo/config` which just echoes "no tests".
+
+## Decisions
+- **Glob-based workspace discovery** (`["apps/*", "packages/*"]`) instead of listing each package explicitly — automatically picks up new packages but could match packages without test configs.
+- **Exposed `_builder` on mock Supabase client** for test-level customization of return values, rather than requiring callers to configure responses upfront via constructor options.
+- **Made the query builder thenable** (implements `.then()`) so tests can `await supabase.from('table').select('*')` directly, matching real Supabase SDK behavior.
+- **`vitest run` (single-run)** as the default test script rather than watch mode, since Turbo orchestrates test runs.
+- **`test` depends on `^build`** in turbo.json — ensures packages are compiled before tests, but adds overhead if tests only use source TypeScript via Vitest's native TS support.
+- **jsdom environment** set in `packages/test-utils/vitest.config.ts` — only applies to that package's own tests. Other packages (e.g., `packages/db`) get Vitest's default Node environment unless they add their own config.
+
+## Items to Validate
+- **Auth0 mock fidelity**: Compare `MockAuth0Session` shape against whichever Auth0 SDK you plan to use (`@auth0/nextjs-auth0` v4's `SessionData` type). The mock may need fields added/removed.
+- **`^build` dependency for tests**: If packages consume each other via TypeScript source paths (not compiled output), the build dependency in turbo.json adds unnecessary work. Consider whether `"dependsOn": []` would suffice.
+- **No `renderWithProviders` test**: There's no test file for the render wrapper since it's currently a passthrough. Worth adding once real providers are wired in.
+- **`pnpm install` needed**: The diff adds new dependencies (`vitest`, `jsdom`, `@testing-library/*`) but the lockfile state on this branch should be verified — run `pnpm install` if not already done.

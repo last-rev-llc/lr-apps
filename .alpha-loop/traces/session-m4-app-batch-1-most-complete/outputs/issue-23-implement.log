@@ -1,0 +1,17 @@
+All done. Here's what was implemented:
+
+**New components in `@repo/ui`:**
+
+1. **Table** (`table.tsx`) — 8 sub-components (`Table`, `TableHeader`, `TableBody`, `TableFooter`, `TableRow`, `TableHead`, `TableCell`, `TableCaption`). All use forwardRef + cn(). `TableHead` supports `sorted` (asc/desc) and `onSort` callback for sortable columns.
+
+2. **DataGrid** (`data-grid.tsx`) — Higher-level wrapper around Table. Props: `columns`, `data`, `sortable`, `selectable`, `onSelectRows`. Built-in sorting (click-to-sort with asc/desc/clear cycle), row selection with select-all checkbox, and empty state integration via `EmptyState`. Uses `"use client"` for interactive state.
+
+3. **StatusBadge** (`status-badge.tsx`) — CVA-based semantic status variants: `success`, `warning`, `error`, `info`, `neutral`, `pending` (with pulse animation). Optional `dot` indicator. Full dark mode support. Uses forwardRef + CVA + cn().
+
+4. **LoadingSkeleton** (`loading-skeleton.tsx`) — CVA variants for `shape` (line/circle/rect/card) and `size` (sm/md/lg/full) with compound variants. Card shape renders a composite skeleton with header + body lines. Supports custom `width`/`height`. Uses forwardRef + CVA + cn().
+
+5. **ErrorBoundary** (`error-boundary.tsx`) — React class component with `fallback` (ReactNode or render function with `{error, reset}`), `onError` callback. Default fallback shows error message + retry button using existing `Button`. Uses `"use client"`.
+
+**Tests:** 31 tests across 5 test files — all passing. `pnpm build` and `pnpm test` both pass (85 total tests across 8 packages).
+
+Ready for you to review. Want me to commit?

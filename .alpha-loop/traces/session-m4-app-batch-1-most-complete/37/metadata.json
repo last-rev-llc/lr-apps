@@ -1,0 +1,15 @@
+{
+  "issueNum": 37,
+  "title": "Sentiment: app-specific tests",
+  "status": "success",
+  "duration": 560,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/138",
+  "timestamp": "2026-04-09T07:21:08.370Z",
+  "agent": "claude",
+  "model": ""
+}

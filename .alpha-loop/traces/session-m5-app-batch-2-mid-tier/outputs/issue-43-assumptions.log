@@ -1,0 +1,19 @@
+I now have a complete picture of the changes.
+
+## Assumptions
+- **Test-only scope expanded to include component refactors**: The issue asked only for tests, but several production components were refactored to use `@repo/ui` primitives (`Card`, `Badge`, `Button`, `Topbar`, `AppNav`, `PillList`, `Textarea`) instead of raw HTML elements. This was presumably done to make the components testable against consistent mock contracts, but it changes production rendering behavior.
+- **Quiz always has 10 questions**: Tests hardcode `Question X of 10` and the `See Results` flow at question 10. If the quiz length is ever configurable, these tests will break.
+- **`escapeHtml` in slang-translator is sufficient XSS protection**: The translator now escapes `&`, `<`, `>`, `"` before replacement. This assumes output is rendered via `dangerouslySetInnerHTML` with only those 4 chars needing escaping (no single-quote / backtick concerns).
+
+## Decisions
+- **Refactored production components alongside tests**: `generation-card.tsx`, `slang-dictionary.tsx`, `slang-quiz.tsx`, `slang-translator.tsx`, `layout.tsx`, and `joke-viewer.tsx` were all modified to swap raw HTML for `@repo/ui` components. This is a design improvement but goes beyond the "add tests" scope.
+- **Heavy manual mocking of `@repo/ui`**: Every test file re-declares its own inline mock for `@repo/ui` components (Button, Card, Badge, etc.). An alternative would have been a shared mock in `@repo/test-utils` or a `__mocks__` directory.
+- **Mocked `Math.random` for quiz determinism**: Quiz tests use a sequential `Math.random` mock. This couples tests to the shuffle implementation — if the shuffle algorithm changes, tests may break even if behavior is correct.
+- **Added `fireEvent` export to `@repo/test-utils`**: This is a shared package change that affects all consumers.
+- **Added `esbuild.jsx: "automatic"` to vitest config**: Global config change affecting all tests in the web app, not just generations.
+
+## Items to Validate
+- **Visual regression on refactored components**: The `generation-card`, `slang-quiz`, `slang-translator`, `slang-dictionary`, `layout`, and `joke-viewer` components all changed production markup. Verify they still render correctly in the browser — especially the quiz answer buttons, translator direction toggle, and category filters.
+- **`PillList` component exists in `@repo/ui`**: The `slang-dictionary` refactor now imports `PillList` from `@repo/ui`. Confirm this component exists and accepts the `items`/`selected`/`onSelect`/`size` props used.
+- **Dad Joke of the Day tests were added but not in scope**: The issue is "Generations: app-specific tests" but `joke-viewer.test.tsx` and `queries.test.ts` for the Dad Joke app were also added. Confirm this was intentional (possibly from a prior issue like #41).
+- **6 generations is correct**: `layout.test.tsx` asserts exactly 6 navigation links. If a generation is added/removed, this test breaks.

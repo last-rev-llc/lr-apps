@@ -1,0 +1,14 @@
+Migration complete. Here's what changed across 2 files:
+
+**page.tsx:**
+- Removed inline `StatusBadge` function (27 lines) → shared `StatusBadge` with `variant`/`dot` props
+- Replaced inline page header → `PageHeader` component
+- Replaced empty-state `Card` block → `EmptyState` component with action link
+- Replaced hardcoded banner divs → `StatusBadge` with `success`/`error` variants
+- Updated `UptimeBars` color from `bg-yellow-500` → `bg-amber-500` for theme consistency
+- Consolidated imports into a single `@repo/ui` import
+
+**layout.tsx:**
+- Replaced inline `<header>` markup → shared `Topbar` component
+
+`pnpm build` passes cleanly with 0 errors.

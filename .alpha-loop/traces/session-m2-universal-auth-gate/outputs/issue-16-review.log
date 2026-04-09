@@ -1,0 +1,9 @@
+**Review complete — PASSED**
+
+All 5 acceptance criteria are satisfied:
+- `layout.tsx` gates with `requireAppLayoutAccess("dad-joke-of-the-day")`
+- Registry entry has `auth: true`
+- Tests cover unauthenticated → `/login`, unauthorized → `/unauthorized`, and happy path
+- `pnpm test` passes clean
+
+The implementation also includes nice supporting changes: login redirect slug forwarding to the signup link, session_expired error messaging, and consistent auth tests for other recently gated apps.

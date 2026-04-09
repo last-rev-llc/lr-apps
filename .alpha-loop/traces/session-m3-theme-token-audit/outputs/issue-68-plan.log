@@ -1,0 +1,6 @@
+Plan written to `plan-issue-68.json`. Key findings:
+
+- **22 files** need changes across 4 apps (command-center has 19 files alone)
+- **6 apps are clean** — accounts, standup, summaries, meeting-summaries, uptime, sales have no hardcoded colors
+- **~327 hardcoded color instances** to replace, mapped to existing theme tokens in `packages/theme/src/theme.css`
+- Heaviest files: `contact-detail.tsx` (42), `health-app.tsx` (31), `ideas-app.tsx` (24), `pr-app.tsx` (24)

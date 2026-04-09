@@ -1,0 +1,15 @@
+{
+  "issueNum": 22,
+  "title": "Auth gate: Superstars",
+  "status": "success",
+  "duration": 257,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 8,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/106",
+  "timestamp": "2026-04-08T17:07:30.499Z",
+  "agent": "claude",
+  "model": ""
+}

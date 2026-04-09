@@ -1,0 +1,12 @@
+Done. Here's what was created:
+
+**4 test files, 26 tests — all passing:**
+
+| File | Tests | Coverage |
+|---|---|---|
+| `__tests__/standup-app.test.tsx` | 14 | Heading, subtitle, filter buttons, day cards, source badges, activity counts, source groups (Slack/GitHub/Workspace/Jira), time sorting, filtering by source, empty state, lastUpdated |
+| `__tests__/page.test.tsx` | 2 | Server component passes days + computed lastUpdated to StandupApp |
+| `__tests__/layout.test.tsx` | 5 | Auth gate with `requireAppLayoutAccess('standup')`, children render, header title, Dashboard link, error propagation |
+| `lib/__tests__/queries.test.ts` | 5 | Supabase query shape, parsed activities, JSON string parsing, error → empty array, empty data |
+
+Full suite: **121 tests across 14 files, 8 packages all green.**

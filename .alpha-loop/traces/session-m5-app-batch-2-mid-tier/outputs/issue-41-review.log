@@ -1,0 +1,17 @@
+## Review Result: PASSED
+
+**19 new tests** across 2 test files, all passing:
+
+| File | Tests | Coverage |
+|------|-------|----------|
+| `queries.test.ts` | 9 | JOTD determinism, same/different date, categories extraction, `getAllJokes` success/error |
+| `joke-viewer.test.tsx` | 10 | Setup rendering, punchline hide/reveal, rating buttons, category filters, pool count, mode switching |
+
+**Acceptance criteria:**
+- JOTD selection: covered by 4 tests in `queries.test.ts`
+- Category filtering: covered by 2 tests in `joke-viewer.test.tsx`
+- Joke card rendering: covered by 4 tests in `joke-viewer.test.tsx`
+- Auth gate redirects: covered by existing shared test in `require-app-layout-access.test.ts` (line 53)
+- `pnpm test`: all 73 tests pass
+
+**Component changes** (Badge wrapping for filters, Button for rating icons, `type="button"` additions) are minor improvements that align the component with its UI library and improve testability. No issues found.

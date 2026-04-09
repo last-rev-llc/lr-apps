@@ -1,0 +1,12 @@
+All done. Here's what was migrated:
+
+| File | Changes |
+|------|---------|
+| `generation-card.tsx` | Inline card → `Card`/`CardHeader`/`CardContent`, inline era pill → `Badge` |
+| `slang-dictionary.tsx` | Inline category filter buttons → `PillList` |
+| `slang-translator.tsx` | Inline direction toggle `<button>` → `Button`, raw `<textarea>` → `Textarea` |
+| `slang-quiz.tsx` | Inline option `<button>` → `Button`, inline question card `<div>` → `Card`/`CardContent`, progress dots → `Badge` |
+| `layout.tsx` | Inline header/nav → `Topbar` + `AppNav` |
+| `page.tsx` | Inline feature cards → `Card`/`CardContent`, inline timeline → `Timeline` |
+
+`pnpm build` passes cleanly. 6 files changed, 168 insertions, 176 deletions — net reduction in code.

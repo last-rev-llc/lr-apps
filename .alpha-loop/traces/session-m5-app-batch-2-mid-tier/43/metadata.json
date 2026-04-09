@@ -1,0 +1,15 @@
+{
+  "issueNum": 43,
+  "title": "Generations: app-specific tests",
+  "status": "success",
+  "duration": 597,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/129",
+  "timestamp": "2026-04-09T06:34:00.855Z",
+  "agent": "claude",
+  "model": ""
+}

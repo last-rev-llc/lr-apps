@@ -1,0 +1,22 @@
+## Review Summary
+
+**PASSED** — one critical fix applied, rule is now functional end-to-end.
+
+### Acceptance Criteria Check
+
+| Criterion | Status |
+|-----------|--------|
+| ESLint rule detects hardcoded hex colors in className strings | Done — handles literals, template literals, expression containers, and style objects |
+| Rule integrated into @repo/config shared config | Done — registered as `@repo/no-hardcoded-colors` with `warn` severity on `**/*.tsx` |
+| All existing violations documented or auto-fixable | Done — `docs/token-violations-report.md` documents 943 violations; previous batches cleaned JSX attributes |
+| Prevents regression after token migration | **Fixed** — was broken because no app imported the config |
+
+### Critical Fix Applied
+
+**`apps/web/eslint.config.mjs` (new file)** — The shared ESLint config was defined but never consumed. Without this file, `next lint` had no way to discover the `@repo/no-hardcoded-colors` rule. Verified the rule now fires correctly on TSX files with hardcoded hex colors in className/style attributes.
+
+### Code Quality Notes
+
+- Rule implementation is clean with proper AST visitor pattern
+- Tests cover all major cases (literals, templates, expressions, style objects, valid non-matches)
+- Regex correctly avoids false positives on non-color hex strings like `#top`

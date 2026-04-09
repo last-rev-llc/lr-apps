@@ -1,0 +1,15 @@
+{
+  "issueNum": 12,
+  "title": "Auth gate: Age of Apes",
+  "status": "success",
+  "duration": 355,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 8,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/96",
+  "timestamp": "2026-04-08T16:20:42.128Z",
+  "agent": "claude",
+  "model": ""
+}

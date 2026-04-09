@@ -1,0 +1,8 @@
+Done. PR created: https://github.com/last-rev-llc/lr-apps/pull/130
+
+**Changes across 2 files:**
+
+- **`slang-app.tsx`**: Migrated `GenBadge` and `CategoryBadge` from raw `<span>` to `<Badge>`, replaced the custom modal with `<Dialog>`/`<DialogContent>`, converted all filter buttons and quiz answer buttons to `<Button>`, swapped raw `<textarea>` for `<Textarea>`, and replaced alias `<span>` tags with `<Badge>`
+- **`about/page.tsx`**: Feature cards and how-it-works items now use `<Card>`/`<CardContent>`, CTA link uses `<Button asChild>`
+
+Build passes, all 116 tests pass, zero raw `<button>` or `<textarea>` elements remain.

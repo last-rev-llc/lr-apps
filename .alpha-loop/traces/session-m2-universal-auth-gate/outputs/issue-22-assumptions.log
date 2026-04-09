@@ -1,0 +1,13 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- **Login form preserves redirect slug through signup link** — when a user lands on `/login` after an auth redirect, the "Create an account" link now carries the `redirect` query param to `/signup` so they return to the app after signup. This wasn't in the requirements but was a UX gap noticed during implementation.
+- **"session_expired" error message added to login form** — added a human-friendly message for the `session_expired` error code alongside the existing `forbidden` handler. This was a gap in the existing code, not part of the issue spec.
+- **Unauthorized page copy changes** — changed "Get access" to "Request access" and rewrote the no-self-service message to be less technical (removed reference to `app_permissions` table). These were polish decisions made alongside the auth gate work.
+- **Unauthorized page heading shows app name** — when the app is known, the heading now reads "Access required — Superstars" instead of generic "Access required". Improves clarity but wasn't specified.
+- **Added smoke tests for age-of-apes alongside superstars** — the diff shows tests were added for age-of-apes as well, likely to backfill coverage for a previously ungated app that followed the same pattern.
+
+## Items to Validate
+- **Verify the copy changes are acceptable** — "Request access" (was "Get access") and the reworded no-self-service message removing the `app_permissions` code reference. These affect all auth-gated apps, not just Superstars.
+- **Confirm the age-of-apes test addition was intentional** — if that app wasn't part of issue #22, it may belong in a separate commit/PR.

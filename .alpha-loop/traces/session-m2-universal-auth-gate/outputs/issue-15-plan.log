@@ -1,0 +1,5 @@
+Plan written to `plan-issue-15.json`. Three files to touch:
+
+1. **layout.tsx** — add `requireAppLayoutAccess("cringe-rizzler")` call (follows lighthouse/brommie-quake pattern exactly)
+2. **app-registry.ts** — flip `auth: false` → `auth: true` on the cringe-rizzler entry
+3. **`__tests__/layout.test.tsx`** — 4 smoke tests: auth call verification, `/login` redirect, `/unauthorized` redirect, and children rendering for valid users

@@ -1,0 +1,13 @@
+All **8 packages pass, 0 failures**. Here's what was created:
+
+**New test files (26 tests):**
+- `apps/web/app/apps/command-center/__tests__/page.test.tsx` (7 tests) — hub page renders all 21 module cards with labels, descriptions, category badges, correct links, stat cards, and page header
+- `apps/web/app/apps/command-center/__tests__/layout.test.tsx` (8 tests) — auth gate calls `requireAppLayoutAccess("command-center")`, renders children/topbar/sidebar with 22 items (Hub + 21 modules), correct hrefs, and propagates auth errors
+- `packages/ui/src/__tests__/sidebar.test.tsx` (11 tests) — items render as links, icons display, active styling applied, collapsed mode hides labels/uses narrow width, toggle button fires callback, custom className forwarded
+
+**Supporting changes:**
+- `apps/web/vitest.config.ts` — added `esbuild.jsx: "automatic"` (for JSX transform in server component tests) and `setupFiles` pointing to new setup file
+- `apps/web/vitest.setup.ts` — imports `@testing-library/jest-dom/vitest` for DOM matchers
+- Added `@testing-library/jest-dom` as devDependency to apps/web
+
+Ready to commit when you want.

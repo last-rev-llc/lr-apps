@@ -1,0 +1,1 @@
+**Review complete — passed.** All acceptance criteria are met, all 15 tests pass, and the implementation is clean. The only note is an unrelated `.env.compose` file that was included in the commits. The review gate JSON has been written to `review-issue-3.json`.

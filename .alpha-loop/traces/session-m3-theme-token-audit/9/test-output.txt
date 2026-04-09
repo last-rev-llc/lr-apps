@@ -1,0 +1,1 @@
+Tests skipped by plan: This is a read-only audit/reporting script — it scans files and produces a report. No application behavior is changed. The script's correctness is verified by running it and reviewing the output.

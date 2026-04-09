@@ -1,0 +1,21 @@
+## Assumptions
+
+- **`amber-500` → `accent` mapping**: The issue said "all colors reference theme tokens" but didn't specify which token `amber-500` should map to. Assumed `accent` (which is amber/gold in the current theme) since amber was used as the primary interactive/highlight color across sprint-planning, daily-updates, and command-center apps.
+- **`emerald-500` → `green`, `red-500` → `red`**: Mapped Tailwind default scale colors to the theme's semantic tokens (e.g. `bg-emerald-500/15` → `bg-green/15`). The theme defines `--color-green`, `--color-red`, etc. but the exact shade differs slightly from Tailwind's `500` weight — assumed the theme token is the intended canonical color.
+- **`purple-500` → `pill-0`**: No semantic `purple` token exists in the theme. Used the `pill-0` palette token (#8b5cf6, which is purple) since these were used for categorical badges (source labels, mood badges), which is exactly what the pill palette is designed for.
+- **`slate-500`/`gray-400` → `slate` token**: Mapped neutral grays to the new `--color-slate` token. The original shades were slightly different values but served the same "muted neutral" purpose.
+- **Brand colors as theme tokens**: Added `--color-brand-linkedin`, `--color-brand-slack`, etc. to the theme rather than leaving them inline, assuming third-party brand colors should still go through the token layer for consistency.
+
+## Decisions
+
+- **Created new utility classes** (`glass-header`, `glass-input`, `glass-overlay`) rather than just swapping color values — these patterns were repeated across 5+ apps with identical backdrop-blur/border combos, so a shared utility was more maintainable than repeated token references.
+- **Extracted inline keyframes** (`cc-es-pop`, `tw-blink`, `marquee-scroll`) into `globals.css` — these were defined as inline `style` tags in React components. Moved them to CSS utilities to eliminate the inline definitions, even though the issue focused on colors specifically.
+- **Left context-specific one-offs alone**: Glow effects on the wine-pour-meter and quiz accent shadows were not tokenized because they're unique to a single component and would create overly specific shared tokens.
+- **Used `oklch(from var(...))` for derived shadows**: Shadow tokens like `--shadow-glow-accent` use `oklch(from var(--color-accent) l c h / 0.3)` so they automatically adapt if the accent color changes, rather than hardcoding a specific amber rgba value.
+
+## Items to Validate
+
+- **Color fidelity on sentiment mood badges**: `excited` changed from `purple-500` (#a855f7) to `pill-0` (#8b5cf6) — similar purple but slightly different. Confirm the badge still reads clearly against the dark background.
+- **Sprint-planning "in-progress" dots**: Changed from `amber-500` to `accent`. If your theme's accent ever changes from amber, all "in-progress" indicators will change color too. Verify this coupling is intentional.
+- **Standup Jira source badge**: Mapped `sky-500` → `pill-7` (a lighter blue). Confirm this still visually distinguishes Jira from GitHub and Workspace sources.
+- **New brand color tokens**: Added LinkedIn, Slack, Jira, Zoom, GitHub, Google brand tokens — verify these hex values match your current brand guidelines (e.g. LinkedIn's `#0a66c2` is their 2024 blue).

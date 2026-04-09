@@ -1,0 +1,5 @@
+Plan written to `plan-issue-31.json`. It covers three test files mirroring the standup/accounts pattern:
+
+- **layout.test.tsx** — auth gate with `requireAppLayoutAccess("summaries")`, header rendering, error propagation
+- **page.test.tsx** — mocked queries, verifies data flows to `SummariesApp` and stat cards render
+- **summaries-app.test.tsx** — the bulk of coverage: tab rendering with counts, source-specific badges (Zoom/Slack/Jira), expanding cards to verify action items/key decisions/participants, filter dropdowns, and empty states

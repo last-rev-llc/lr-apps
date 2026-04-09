@@ -1,0 +1,3 @@
+**Review: PASSED**
+
+All acceptance criteria met. The implementation is straightforward and consistent with the pattern used across 10+ other auth-gated apps in this repo. The shared login/unauthorized page improvements (redirect slug passthrough, session expired messaging) are clean additions that don't introduce risk.

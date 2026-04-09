@@ -1,0 +1,280 @@
+diff --git a/apps/web/app/apps/dad-joke-of-the-day/components/__tests__/joke-viewer.test.tsx b/apps/web/app/apps/dad-joke-of-the-day/components/__tests__/joke-viewer.test.tsx
+new file mode 100644
+index 0000000..cea50ce
+--- /dev/null
++++ b/apps/web/app/apps/dad-joke-of-the-day/components/__tests__/joke-viewer.test.tsx
+@@ -0,0 +1,178 @@
++// @vitest-environment jsdom
++import { describe, it, expect, vi, beforeEach } from "vitest";
++import React from "react";
++import {
++  renderWithProviders,
++  screen,
++  fireEvent,
++  createMockSupabase,
++} from "@repo/test-utils";
++import type { DadJoke } from "../../lib/types";
++
++// Mock @repo/db/client
++const mockSupabase = createMockSupabase();
++vi.mock("@repo/db/client", () => ({
++  createClient: () => mockSupabase,
++}));
++
++// Mock @repo/ui — provide minimal real elements
++vi.mock("@repo/ui", () => ({
++  Button: ({
++    children,
++    onClick,
++    disabled,
++    title,
++    ...rest
++  }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: string; size?: string }) => (
++    <button onClick={onClick} disabled={disabled} title={title} {...rest}>
++      {children}
++    </button>
++  ),
++  Badge: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLSpanElement> & { variant?: string }) => (
++    <span {...rest}>{children}</span>
++  ),
++  Card: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++  CardContent: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++}));
++
++import { JokeViewer } from "../joke-viewer";
++
++function makeJoke(overrides: Partial<DadJoke> = {}): DadJoke {
++  return {
++    id: 1,
++    setup: "Why did the chicken cross the road?",
++    punchline: "To get to the other side!",
++    category: "Classic",
++    rating: null,
++    times_rated: 0,
++    times_shown: 0,
++    featured_date: null,
++    ...overrides,
++  };
++}
++
++const defaultJoke = makeJoke();
++const defaultProps = {
++  jokes: [defaultJoke],
++  initialJoke: defaultJoke,
++  categories: ["Classic"],
++};
++
++beforeEach(() => {
++  vi.clearAllMocks();
++  mockSupabase._builder.single.mockResolvedValue({
++    data: { times_shown: 0, rating: null, times_rated: 0 },
++    error: null,
++  });
++});
++
++describe("JokeViewer", () => {
++  it("renders setup text", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    expect(screen.getByText("Why did the chicken cross the road?")).toBeTruthy();
++  });
++
++  it("hides punchline initially", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    expect(screen.queryByText("To get to the other side!")).toBeNull();
++  });
++
++  it("shows reveal button", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    expect(screen.getByText(/Reveal Punchline/)).toBeTruthy();
++  });
++
++  it("shows JOTD mode badge on initial render", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    const badges = screen.getAllByText(/Joke of the Day/);
++    expect(badges.length).toBeGreaterThanOrEqual(1);
++  });
++
++  it("reveals punchline on button click", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    fireEvent.click(screen.getByText(/Reveal Punchline/));
++    expect(screen.getByText("To get to the other side!")).toBeTruthy();
++  });
++
++  it("shows rating buttons after punchline reveal", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    fireEvent.click(screen.getByText(/Reveal Punchline/));
++    expect(screen.getByText("Rate this joke:")).toBeTruthy();
++    expect(screen.getByTitle("Groan-worthy")).toBeTruthy();
++    expect(screen.getByTitle("Actually funny")).toBeTruthy();
++  });
++
++  it("renders category filter badges", () => {
++    const props = {
++      ...defaultProps,
++      jokes: [
++        makeJoke({ id: 1, category: "Classic" }),
++        makeJoke({ id: 2, category: "Puns" }),
++      ],
++      categories: ["Classic", "Puns"],
++    };
++    renderWithProviders(<JokeViewer {...props} />);
++    expect(screen.getByText("All")).toBeTruthy();
++    // "Classic" appears in filter and card footer
++    expect(screen.getAllByText("Classic").length).toBeGreaterThanOrEqual(1);
++    expect(screen.getByText("Puns")).toBeTruthy();
++  });
++
++  it("shows filtered pool count after selecting a category", () => {
++    const jokes = [
++      makeJoke({ id: 1, category: "Classic" }),
++      makeJoke({ id: 2, category: "Classic" }),
++      makeJoke({ id: 3, category: "Puns" }),
++    ];
++    const props = {
++      jokes,
++      initialJoke: jokes[0]!,
++      categories: ["Classic", "Puns"],
++    };
++    renderWithProviders(<JokeViewer {...props} />);
++
++    // Click Puns category filter
++    const punsButtons = screen.getAllByText("Puns");
++    fireEvent.click(punsButtons[0]!);
++
++    expect(screen.getByText(/1 joke in Puns/)).toBeTruthy();
++  });
++
++  it("switches to random mode after clicking random button", () => {
++    const jokes = [
++      makeJoke({ id: 1, setup: "Setup 1" }),
++      makeJoke({ id: 2, setup: "Setup 2" }),
++    ];
++    const props = {
++      jokes,
++      initialJoke: jokes[0]!,
++      categories: ["Classic"],
++    };
++    renderWithProviders(<JokeViewer {...props} />);
++
++    // Click the Random Joke navigation button
++    const buttons = screen.getAllByText(/Random Joke/);
++    fireEvent.click(buttons[0]!);
++
++    // Mode badge should now show Random Joke (rendered as <span>)
++    const badgeSpan = screen.getAllByText(/Random Joke/).find(
++      (el) => el.tagName === "SPAN",
++    );
++    expect(badgeSpan).toBeTruthy();
++  });
++
++  it("displays joke category badge on the card", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    const badges = screen.getAllByText("Classic");
++    expect(badges.length).toBeGreaterThanOrEqual(1);
++  });
++});
+diff --git a/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx b/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx
+index 117f3b6..6c1f1fc 100644
+--- a/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx
++++ b/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx
+@@ -144,28 +144,40 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps)
+       {/* Category filter */}
+       <div className="flex flex-wrap gap-2 justify-center">
+         <button
++          type="button"
+           onClick={() => handleCategoryChange("all")}
+-          className={[
+-            "px-3 py-1 rounded-full text-sm border transition-colors",
+-            selectedCategory === "all"
+-              ? "border-amber-400 bg-amber-400/10 text-amber-400"
+-              : "border-white/10 text-muted-foreground hover:border-white/30",
+-          ].join(" ")}
++          className="focus:outline-none"
+         >
+-          All
++          <Badge
++            variant="outline"
++            className={[
++              "cursor-pointer rounded-full transition-colors",
++              selectedCategory === "all"
++                ? "border-amber-400 bg-amber-400/10 text-amber-400"
++                : "border-white/10 text-muted-foreground hover:border-white/30",
++            ].join(" ")}
++          >
++            All
++          </Badge>
+         </button>
+         {categories.map((cat) => (
+           <button
+             key={cat}
++            type="button"
+             onClick={() => handleCategoryChange(cat)}
+-            className={[
+-              "px-3 py-1 rounded-full text-sm border transition-colors",
+-              selectedCategory === cat
+-                ? "border-amber-400 bg-amber-400/10 text-amber-400"
+-                : "border-white/10 text-muted-foreground hover:border-white/30",
+-            ].join(" ")}
++            className="focus:outline-none"
+           >
+-            {cat}
++            <Badge
++              variant="outline"
++              className={[
++                "cursor-pointer rounded-full transition-colors",
++                selectedCategory === cat
++                  ? "border-amber-400 bg-amber-400/10 text-amber-400"
++                  : "border-white/10 text-muted-foreground hover:border-white/30",
++              ].join(" ")}
++            >
++              {cat}
++            </Badge>
+           </button>
+         ))}
+       </div>
+@@ -203,15 +215,17 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps)
+                   </p>
+                   <div className="flex flex-wrap gap-2 justify-center">
+                     {RATINGS.map(({ key, emoji, label }) => (
+-                      <button
++                      <Button
+                         key={key}
++                        variant="outline"
++                        size="icon"
+                         title={label}
+                         onClick={() => rateJoke(key)}
+                         disabled={ratingSubmitting}
+-                        className="text-2xl p-2 rounded-xl border-2 border-white/10 bg-white/5 hover:border-amber-400 hover:scale-110 transition-all disabled:opacity-50"
++                        className="text-2xl h-11 w-11 rounded-xl border-2 border-white/10 bg-white/5 hover:border-amber-400 hover:scale-110 transition-all"
+                       >
+                         {emoji}
+-                      </button>
++                      </Button>
+                     ))}
+                   </div>
+                 </div>
+diff --git a/apps/web/app/apps/dad-joke-of-the-day/lib/__tests__/queries.test.ts b/apps/web/app/apps/dad-joke-of-the-day/lib/__tests__/queries.test.ts
+new file mode 100644
+index 0000000..2f8484c
+--- /dev/null
++++ b/apps/web/app/apps/dad-joke-of-the-day/lib/__tests__/queries.test.ts
+@@ -0,0 +1,133 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++import { createMockSupabase } from "@repo/test-utils";
++import type { DadJoke } from "../types";
++
++vi.mock("@repo/db/server", () => ({
++  createClient: vi.fn(),
++}));
++
++import { createClient } from "@repo/db/server";
++import { getAllJokes

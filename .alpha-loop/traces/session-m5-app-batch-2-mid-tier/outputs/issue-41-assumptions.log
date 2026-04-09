@@ -1,0 +1,15 @@
+## Assumptions
+- **Assumed `getJokeOfTheDay` uses a date-based seed formula of `year*10000 + month*100 + day`** — the test verifies determinism by replicating this formula rather than treating it as a black box, coupling the test to the implementation. If the algorithm changes, the test must update.
+- **Assumed `@repo/ui` components can be shallow-mocked as plain HTML elements** — the tests mock `Button`, `Badge`, `Card`, and `CardContent` as simple `<button>`, `<span>`, and `<div>` wrappers. This means tests don't exercise any `@repo/ui`-specific behavior (animations, accessibility attributes, compound component state).
+- **Assumed auth gate redirect testing is covered by the shared test infrastructure** — the issue's acceptance criterion for "auth gate redirects work" was not tested in a new JOTD-specific test. The review summary confirms shared tests cover this, but there's no new test file dedicated to it.
+
+## Decisions
+- **Mocked `@repo/db/client` and `@repo/db/server` separately** — the component tests mock the client-side Supabase (`@repo/db/client`) while the query tests mock the server-side Supabase (`@repo/db/server`), matching the actual module boundaries rather than using a single shared mock.
+- **Added `fireEvent` re-export to `@repo/test-utils`** — this was missing and needed for click interactions. It's a small shared-package change that affects all consumers, chosen over importing directly from `@testing-library/react` in the test file for consistency with the existing pattern.
+- **Added `esbuild.jsx: "automatic"` to `apps/web/vitest.config.ts`** — needed for JSX transform in component tests. This is a global vitest config change for the web app, not scoped to JOTD tests only. Alternative was per-file React import, but automatic transform is the modern standard.
+- **Used `getAllByText` with index selection for ambiguous text matches** (e.g., "Puns" appearing in both filter and card) — pragmatic but brittle if the UI structure changes.
+
+## Items to Validate
+- **Verify the `getJokeOfTheDay` seed formula in the test matches the actual implementation** — the test hardcodes `year*10000 + month*100 + day` which would break silently if the real function uses a different algorithm.
+- **Confirm the `esbuild.jsx: "automatic"` addition to `vitest.config.ts` doesn't affect existing tests** — this changes JSX handling for all web app tests, not just JOTD.
+- **Check if the "different joke for different date" test is reliable** — with only 10 jokes and adjacent dates, there's a small chance the modulo could produce the same index, making the test flaky (though unlikely with the specific dates chosen).

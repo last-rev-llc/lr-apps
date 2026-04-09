@@ -1,0 +1,1 @@
+Verification skipped by plan: This is a pure component migration with no new features or changed behavior. Build verification (pnpm build) and existing tests cover correctness. Visual regression is out of scope for this issue.

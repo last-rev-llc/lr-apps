@@ -1,0 +1,21 @@
+
+
+## Assumptions
+
+- **Only hex colors are violations.** The requirements said "hardcoded hex colors" — the rule detects `#rgb`, `#rrggbb`, `#rrggbbaa` but does **not** flag `rgb()`, `rgba()`, `hsl()`, or named CSS colors (e.g. `red`, `white`). If those should also be caught, the rule needs expansion.
+- **`className` and `style` are the only relevant attributes.** Other JSX props that might accept color strings (e.g. `fill`, `stroke`, `color` on SVG elements, or custom component props like `bgColor`) are not checked.
+- **Severity is `"warn"`, not `"error"`.** The issue said "warns on hardcoded color values" — so violations won't break CI unless the team later escalates to `"error"`.
+- **Only `.tsx` files are scoped.** The rule targets `**/*.tsx` — `.jsx` files (if any exist) and inline styles in `.ts` files are excluded.
+- **No auto-fix is provided.** The acceptance criterion mentioned "auto-fixable" as an option, but the rule reports only — it doesn't offer `--fix` replacements since the correct token replacement is context-dependent.
+
+## Decisions
+
+- **Custom ESLint rule (local plugin) rather than an existing third-party plugin.** No off-the-shelf ESLint plugin matched the exact Tailwind arbitrary-value + `style` object detection needed, so a purpose-built rule in `@repo/config` was the simplest approach.
+- **Rule applies to the entire `apps/web` app via flat config spread.** Rather than per-directory overrides, the shared `@repo/config/eslint` config is consumed wholesale in `apps/web/eslint.config.mjs`.
+- **Template literal quasis are checked but expressions are not recursively walked.** The rule checks static parts of template literals and direct string expressions, but does not deeply traverse conditional expressions or function calls (e.g. `clsx(...)`) — this keeps the rule simple and avoids false positives from dynamic logic.
+
+## Items to Validate
+
+- **Existing violations are warn-only and won't block CI.** Confirm your CI pipeline does not treat warnings as errors (`--max-warnings 0`), or ensure the violation count is acceptable.
+- **The `docs/token-violations-report.md` (1225 lines) is committed.** A prior learning note flagged this should be gitignored and generated on-demand — verify you want it tracked in the repo.
+- **Review files like `review-issue-68.json` and `review-issue-69.json` are committed.** These appear to be transient review artifacts — confirm they should be in the repo.

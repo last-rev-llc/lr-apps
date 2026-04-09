@@ -1,0 +1,2 @@
+Review: All acceptance criteria met: 17 uptime tests cover status badges, history charts, site list, auth gate, empty/error states. Full suite (181 tests) passes.
+- [info] Unused import: createMockSupabase is imported from @repo/test-utils in page.test.tsx but never used (test builds its own inline mock instead) (unfixed)

@@ -1,0 +1,10 @@
+**Review: PASSED**
+
+All 6 acceptance criteria are met:
+- **19 tests, 3 test files, all passing** across layout, page, and component tests
+- Summary list renders with mock data (tab counts, card titles)
+- Zoom/Slack/Jira each have source-specific rendering tests (badges, expand details, action items, participants, priority/status)
+- Auth gate test confirms `requireAppLayoutAccess("summaries")` is called and errors propagate
+- Types, queries, and component are well-structured with proper discriminated union types
+
+No critical, warning, or info-level issues found.

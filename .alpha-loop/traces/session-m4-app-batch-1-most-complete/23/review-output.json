@@ -1,0 +1,8 @@
+Review: All acceptance criteria met. Fixed broken ErrorBoundary reset test, added missing 'use client' directive to table.tsx, and added aria-sort for accessibility. Build and all 31 tests pass.
+- [critical] ErrorBoundary reset test had no assertion after rerender and wrong click/rerender sequencing. Restructured test to rerender with non-throwing child first, then click reset. (fixed)
+- [warning] Table component was missing 'use client' directive despite accepting onSort event handler prop. Added directive. (fixed)
+- [warning] Sortable table headers lacked aria-sort attribute for screen reader accessibility. Added aria-sort='ascending'/'descending' to th elements. (fixed)
+- [info] ErrorBoundary is a class component and cannot use forwardRef (React requirement for error boundaries). Acceptable deviation. (fixed)
+- [info] Row selection is implemented on DataGrid (not bare Table). Correct design — Table is a primitive, DataGrid composes it with interactive features. (fixed)
+- [info] DataGrid uses native <input type='checkbox'> since no design system Checkbox component exists yet. Acceptable for now. (fixed)
+- [info] DataGrid sorting uses string comparison with numeric locale for all types. Custom sort comparators could be a future enhancement. (unfixed)

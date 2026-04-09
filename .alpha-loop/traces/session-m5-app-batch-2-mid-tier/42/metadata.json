@@ -1,0 +1,15 @@
+{
+  "issueNum": 42,
+  "title": "Generations: component migration",
+  "status": "success",
+  "duration": 661,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/127",
+  "timestamp": "2026-04-09T06:23:30.565Z",
+  "agent": "claude",
+  "model": ""
+}

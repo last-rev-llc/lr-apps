@@ -1,0 +1,5 @@
+Review: Glass/shadow/animation standardization well-executed; shared utilities created and adopted across apps, build and typecheck pass. Some inline shadows remain in untouched files but are context-specific edge cases.
+- [info] 4 remaining inline shadow-[] usages in untouched files (wine-app.tsx pour-meter glow, slang-quiz/slang-app accent glow, wins-gallery hover shadow) — these are context-specific one-offs that don't map cleanly to shared tokens (unfixed)
+- [info] Several backdrop-blur instances remain in command-center, soccer-training, travel-collection, superstars/person-profile — these are in untouched files and use varying blur intensities appropriate to their contexts (unfixed)
+- [info] glass-header utility normalizes slightly different header styles (e.g. bg-black/30, bg-background/80, bg-[rgba(10,14,26,0.85)]) into one consistent look — intentional standardization but may cause subtle visual differences in some apps (unfixed)
+- [info] token-violations-report.md (1871 lines) and audit-tokens.ts (475 lines) are useful tooling additions but are large — consider if the report should be gitignored and generated on-demand (unfixed)

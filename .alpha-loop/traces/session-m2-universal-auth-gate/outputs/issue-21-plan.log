@@ -1,0 +1,5 @@
+Plan written to `plan-issue-21.json`. Three files to touch:
+
+1. **app-registry.ts** — flip `auth: false` → `auth: true` on line 77
+2. **layout.tsx** — import `requireAppLayoutAccess`, make the component `async`, call `await requireAppLayoutAccess("soccer-training")` before the return
+3. **`__tests__/layout.test.tsx`** — new test file (4 tests) matching the established roblox-dances pattern

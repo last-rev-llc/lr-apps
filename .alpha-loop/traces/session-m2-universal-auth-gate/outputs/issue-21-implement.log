@@ -1,0 +1,6 @@
+Done. All acceptance criteria met:
+
+- **`layout.tsx`** — now async, imports and calls `await requireAppLayoutAccess("soccer-training")`
+- **`app-registry.ts`** — `auth: false` → `auth: true` for soccer-training
+- **Tests** — 4 tests covering: auth call, unauthenticated → `/login`, unauthorized → `/unauthorized`, authenticated renders children
+- **`pnpm test`** — 109/109 passing across 17 test files

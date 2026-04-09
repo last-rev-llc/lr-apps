@@ -1,0 +1,22 @@
+
+
+## Assumptions
+
+- **Superstars app-scoped CSS vars instead of global theme tokens**: The Superstars app uses unique brand colors (`#00543C`, `#FDBB30`) that are per-person themeable via `person.theme?.primary/accent`. Rather than adding these to the global theme, I created app-scoped CSS custom properties (`--ss-primary`, `--ss-accent`) in a local `superstars.css` — assumed these don't belong in the shared design system since they're specific to this app's data model.
+- **Brommie Quake colors are app-specific, not theme tokens**: The Brommie Quake app has a bespoke color palette (quake blue, quake red, quake gold) that represents a specific sports brand. I kept these as CSS custom properties scoped to the app's own CSS file rather than mapping them to global theme tokens, since they're brand-specific rather than semantic UI colors.
+- **`color-mix(in srgb, ...)` is acceptable**: Used `color-mix()` to replace hardcoded `rgba()` values in Brommie Quake CSS so the colors reference variables while preserving opacity. Assumed modern browser support is acceptable (CSS Color Level 5).
+- **"Showcase apps" scope**: The issue listed Alpha Wins, Brommie Quake, Superstars, Travel Collection, AI Calculator, Area 52, and Lighthouse — but only Alpha Wins, Brommie Quake, Superstars, and Travel Collection had remaining hardcoded tokens. Assumed the others were already clean from batch 1/2 work.
+
+## Decisions
+
+- **`var(--ss-accent)` inside Tailwind arbitrary values** (`text-[var(--ss-accent)]`): For Superstars, the accent/primary colors are used in Tailwind arbitrary value syntax because they need to remain overridable per-person via inline styles. This is intentional — a Tailwind `text-accent` class would conflict with the global theme's accent color.
+- **Mapped `amber-500/amber-400` → `accent` and `blue-500/blue-400` → `blue`** in Alpha Wins: These Tailwind palette colors were used for semantic purposes (integrations vs. skills badges), so I mapped them to the closest theme tokens rather than creating app-specific tokens.
+- **Mapped `green-500/green-400` → `green`** in Travel Collection for the "Researched" badge, using the theme's semantic green token.
+- **Extracted inline Brommie Quake styles to CSS file**: The original had 590 lines of CSS-in-JSX. Moved it to a dedicated `.css` file in the same commit — this was necessary to properly tokenize the CSS custom properties.
+
+## Items to Validate
+
+- **`color-mix()` rendering in Brommie Quake**: Verify the glow/shadow effects look identical to the original `rgba()` versions — `color-mix(in srgb, var(--quake-blue) 30%, transparent)` should produce the same result as `rgba(0, 103, 177, 0.3)` but minor rendering differences are possible.
+- **Superstars per-person theme overrides still work**: The fallback changed from `"#00543C"` to `"var(--ss-primary)"` — confirm that people with custom `theme.primary` values in the JSON data still render their unique colors correctly via inline styles.
+- **Visual regression baselines**: The acceptance criteria call for "visual regression baseline snapshot per app" — these were not created because the project doesn't have Playwright visual comparison infrastructure set up yet. This is a known gap from batch 1.
+- **AI Calculator, Area 52, and Lighthouse**: Confirm these apps were already clean and didn't need changes — I found no hardcoded color tokens in them, but worth a spot check.

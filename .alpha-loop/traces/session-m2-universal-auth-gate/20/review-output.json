@@ -1,0 +1,1 @@
+Review: Auth gate for Roblox Dances correctly implemented — layout calls requireAppLayoutAccess, registry has auth: true, all 4 smoke tests pass, pnpm test green.

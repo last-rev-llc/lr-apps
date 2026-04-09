@@ -1,0 +1,15 @@
+{
+  "issueNum": 9,
+  "title": "Audit and document token usage violations",
+  "status": "success",
+  "duration": 516,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 1,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/107",
+  "timestamp": "2026-04-08T17:35:58.745Z",
+  "agent": "claude",
+  "model": ""
+}

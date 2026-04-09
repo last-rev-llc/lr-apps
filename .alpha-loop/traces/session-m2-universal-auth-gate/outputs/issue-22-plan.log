@@ -1,0 +1,5 @@
+Plan written to `plan-issue-22.json`. Three files to touch:
+
+1. **app-registry.ts** — flip `auth: false` to `auth: true` for superstars
+2. **layout.tsx** — make async, add `await requireAppLayoutAccess("superstars")`
+3. **layout.test.tsx** — new test file with 4 cases (auth call, login redirect, unauthorized redirect, renders on success), following the soccer-training test pattern exactly

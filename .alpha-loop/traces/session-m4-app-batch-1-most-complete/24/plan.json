@@ -1,0 +1,39 @@
+{
+  "summary": "Migrate Command Center hub page layout, sidebar, and module chrome to @repo/ui components, replacing all inline button/card/badge/navigation patterns.",
+  "files": [
+    "apps/web/app/apps/command-center/layout.tsx",
+    "apps/web/app/apps/command-center/page.tsx",
+    "apps/web/app/apps/command-center/leads/components/leads-app.tsx",
+    "apps/web/app/apps/command-center/agents/components/agents-app.tsx",
+    "apps/web/app/apps/command-center/ideas/components/ideas-app.tsx",
+    "apps/web/app/apps/command-center/recipes/components/recipes-app.tsx",
+    "apps/web/app/apps/command-center/users/components/users-app.tsx",
+    "apps/web/app/apps/command-center/users/components/contact-detail.tsx",
+    "apps/web/app/apps/command-center/contentful/components/contentful-app.tsx",
+    "apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx",
+    "apps/web/app/apps/command-center/crons/components/crons-app.tsx",
+    "apps/web/app/apps/command-center/gallery/components/gallery-app.tsx",
+    "apps/web/app/apps/command-center/client-health/components/health-app.tsx",
+    "apps/web/app/apps/command-center/pr-review/components/pr-app.tsx",
+    "apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx",
+    "apps/web/app/apps/command-center/concerts/components/concerts-app.tsx",
+    "apps/web/app/apps/command-center/meeting-summaries/components/meetings-app.tsx",
+    "apps/web/app/apps/command-center/meme-generator/components/meme-generator-app.tsx",
+    "apps/web/app/apps/command-center/architecture/components/architecture-app.tsx",
+    "apps/web/app/apps/command-center/rizz-guide/components/rizz-guide-app.tsx",
+    "apps/web/app/apps/command-center/iron/components/iron-app.tsx",
+    "apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx",
+    "apps/web/app/apps/command-center/app-access/components/app-access-app.tsx",
+    "apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx"
+  ],
+  "implementation": "Phase 1 — Layout chrome (layout.tsx): Replace custom <header> with Topbar component from @repo/ui. Replace custom <aside> sidebar with Sidebar + SidebarItem components. Extract module list array to a shared constant. Wire active-state detection to SidebarItem props.\n\nPhase 2 — Hub page (page.tsx): Replace inline h1/subtitle with PageHeader. Replace inline stats cards (glass div pattern) with StatCard from @repo/ui. Replace inline category badge spans (style={{background, borderColor}}) with Badge component. Keep module grid Links but ensure Card usage is consistent.\n\nPhase 3 — Module chrome standardization (all 21 module *-app.tsx files): Replace inline filter buttons (px-3 py-1.5 rounded-lg border conditional className pattern) with Button component using variant='ghost' or variant='outline' plus data-active styling. Replace inline status/category badges (span with style={{bg, text, border}}) with Badge or StatusBadge from @repo/ui, passing color via className or style prop. Replace native <select> elements (in contentful, users modules) with consistent styling using @repo/ui patterns. Ensure all modules use PageHeader consistently (most already do). Ensure all stats displays use StatCard where applicable.\n\nPhase 4 — Cleanup: Remove any remaining raw Tailwind button/card/badge class patterns in hub and chrome code. Verify no inline Tailwind button/card/badge patterns remain via grep. Run pnpm build to confirm no regressions.\n\nKey constraint: Sub-module internals (unique domain-specific components like star ratings, mermaid diagrams, media previews) are deferred to M6. Only migrate the shared chrome patterns: buttons, cards, badges, inputs, navigation, headers, breadcrumbs, and layout.",
+  "testing": {
+    "needed": true,
+    "reason": "Component migration touches 24 files across the entire Command Center surface. While functionality should be preserved, swapping components could introduce regressions in layout, interactivity, or styling. Build verification (pnpm build) is the minimum gate."
+  },
+  "verification": {
+    "needed": true,
+    "instructions": "1. Start dev server: pnpm dev --filter web\n2. Navigate to http://localhost:3001/apps/command-center — verify hub page renders with grid of module cards, stats row, and PageHeader\n3. Verify sidebar navigation renders all modules and highlights active item\n4. Click into 3-4 modules (leads, ideas, users, crons) — verify PageHeader, filter buttons, badges, and cards render correctly\n5. Test filter buttons toggle active state and filter content\n6. Test sidebar navigation links work and highlight correctly\n7. Verify responsive layout: resize to mobile width, confirm sidebar collapses and hub grid stacks\n8. Run pnpm build to confirm no type or build errors",
+    "reason": "This is a large-scale UI migration affecting the primary dashboard and all module chrome. Visual and interactive verification is essential to confirm no regressions."
+  }
+}

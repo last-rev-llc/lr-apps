@@ -1,0 +1,20 @@
+{
+  "summary": "Add Vitest test coverage for Cringe Rizzler: phrase generation API, about page, main page with animations, and auth gate redirects.",
+  "files": [
+    "apps/web/app/apps/cringe-rizzler/lib/__tests__/actions.test.ts",
+    "apps/web/app/apps/cringe-rizzler/lib/__tests__/utils.test.ts",
+    "apps/web/app/apps/cringe-rizzler/data/__tests__/slang.test.ts",
+    "apps/web/app/apps/cringe-rizzler/components/__tests__/cringe-app.test.tsx",
+    "apps/web/app/apps/cringe-rizzler/__tests__/layout.test.tsx",
+    "apps/web/app/apps/cringe-rizzler/about/__tests__/page.test.tsx"
+  ],
+  "implementation": "Follow the established Slang Translator test pattern using Vitest + @repo/test-utils.\n\n1. lib/__tests__/actions.test.ts — Test generatePhrase() and generateMemeCaption() server actions. Mock OpenAI SDK. Verify: returns GeneratedPhrase shape with text + slang_terms array, handles missing API key with fallback text, handles API errors gracefully. Use vi.mock() for the OpenAI client.\n\n2. lib/__tests__/utils.test.ts — Test getRandomTerms(count): returns correct count, returns unique terms, terms exist in SLANG_MAP, handles edge cases (0, exceeding total).\n\n3. data/__tests__/slang.test.ts — Validate SLANG_GLOSSARY entries: all 42 terms have required fields (term, definition, category, vibeScore), SLANG_MAP keys match glossary terms, SCENARIOS array is non-empty, CATEGORIES derived correctly.\n\n4. components/__tests__/cringe-app.test.tsx — Use jsdom environment. Mock @repo/ui components (Tabs, TabsList, TabsTrigger, TabsContent, Button, Badge, Input, etc.) with lightweight React elements. Mock lib/actions (generatePhrase, generateMemeCaption). Test: initial render shows Phrases tab, tab switching between Phrases/Memes/Glossary works, generate button triggers action, saved items appear, glossary search filters terms, category filter works.\n\n5. __tests__/layout.test.tsx — Test layout renders header with 'Cringe Rizzler' title, navigation links (Home, About) render, children slot renders content.\n\n6. about/__tests__/page.test.tsx — Test about page renders heading, features section, use cases, and CTA button.\n\nAll component tests use renderWithProviders from @repo/test-utils and follow the existing beforeEach(() => vi.clearAllMocks()) pattern.",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for the Cringe Rizzler app. All deliverables are test files."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "No UI changes — this issue only adds test files. Verification is running pnpm test to confirm all tests pass."
+  }
+}

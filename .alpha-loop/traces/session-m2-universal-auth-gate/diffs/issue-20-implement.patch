@@ -1,0 +1,1476 @@
+diff --git a/apps/web/app/(auth)/(forms)/login/login-form.tsx b/apps/web/app/(auth)/(forms)/login/login-form.tsx
+index 396d48c..42df8ec 100644
+--- a/apps/web/app/(auth)/(forms)/login/login-form.tsx
++++ b/apps/web/app/(auth)/(forms)/login/login-form.tsx
+@@ -5,9 +5,11 @@ import { Button } from "@repo/ui";
+ export function LoginForm({
+   loginHref,
+   error,
++  redirectSlug,
+ }: {
+   loginHref: string;
+   error?: string;
++  redirectSlug?: string;
+ }) {
+   return (
+     <div>
+@@ -22,7 +24,9 @@ export function LoginForm({
+         <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md mb-4">
+           {error === "forbidden"
+             ? "You do not have access to that app."
+-            : error}
++            : error === "session_expired"
++              ? "Your session expired — please sign in again."
++              : error}
+         </div>
+       )}
+ 
+@@ -32,7 +36,10 @@ export function LoginForm({
+ 
+       <p className="text-sm text-muted-foreground text-center mt-6">
+         New here?{" "}
+-        <a href="/signup" className="text-accent hover:underline">
++        <a
++          href={redirectSlug ? `/signup?redirect=${encodeURIComponent(redirectSlug)}` : "/signup"}
++          className="text-accent hover:underline"
++        >
+           Create an account
+         </a>
+       </p>
+diff --git a/apps/web/app/(auth)/(forms)/login/page.tsx b/apps/web/app/(auth)/(forms)/login/page.tsx
+index 49f8a1d..e250978 100644
+--- a/apps/web/app/(auth)/(forms)/login/page.tsx
++++ b/apps/web/app/(auth)/(forms)/login/page.tsx
+@@ -16,5 +16,11 @@ export default async function LoginPage({
+     redirectSlug: params.redirect,
+   });
+ 
+-  return <LoginForm loginHref={loginHref} error={params.error} />;
++  return (
++    <LoginForm
++      loginHref={loginHref}
++      error={params.error}
++      redirectSlug={params.redirect}
++    />
++  );
+ }
+diff --git a/apps/web/app/(auth)/(forms)/unauthorized/page.tsx b/apps/web/app/(auth)/(forms)/unauthorized/page.tsx
+index e3cea29..b432412 100644
+--- a/apps/web/app/(auth)/(forms)/unauthorized/page.tsx
++++ b/apps/web/app/(auth)/(forms)/unauthorized/page.tsx
+@@ -49,7 +49,11 @@ export default async function UnauthorizedPage({
+   return (
+     <div className="text-center max-w-md mx-auto">
+       <h1 className="font-heading text-2xl text-accent mb-2">
+-        {signedIn ? "Access required" : "Sign in or sign up"}
++        {signedIn
++          ? app
++            ? `Access required — ${app.name}`
++            : "Access required"
++          : "Sign in or sign up"}
+       </h1>
+ 
+       {error === "closed" && (
+@@ -97,7 +101,7 @@ export default async function UnauthorizedPage({
+           <form action={requestAppAccess}>
+             <input type="hidden" name="app" value={appSlug} />
+             <Button type="submit" className="w-full">
+-              Get access
++              Request access
+             </Button>
+           </form>
+         )}
+@@ -135,9 +139,9 @@ export default async function UnauthorizedPage({
+ 
+       {signedIn && appSlug && !canRequestAccess && !gate && error !== "closed" ? (
+         <p className="text-xs text-muted-foreground mt-6">
+-          Self-service access is off for this app in this environment. Ask an
+-          admin to add your account in{" "}
+-          <code className="bg-muted px-1 rounded">app_permissions</code>.
++          Self-service access is not available for{" "}
++          {app ? app.name : "this app"}. Please contact a Last Rev admin to
++          request access.
+         </p>
+       ) : null}
+     </div>
+diff --git a/apps/web/app/apps/age-of-apes/__tests__/layout.test.tsx b/apps/web/app/apps/age-of-apes/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..ffe0575
+--- /dev/null
++++ b/apps/web/app/apps/age-of-apes/__tests__/layout.test.tsx
+@@ -0,0 +1,64 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++// Provide React globally for JSX in the layout under test
++import React from "react";
++globalThis.React = React;
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++vi.mock("next/link", () => ({
++  default: ({ children }: { children: React.ReactNode }) =>
++    React.createElement("a", null, children),
++}));
++
++vi.mock("../lib/calculators", () => ({
++  CALCULATORS: [],
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("AgeOfApesLayout", () => {
++  it("calls requireAppLayoutAccess with 'age-of-apes'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("age-of-apes");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("age-of-apes");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("age-of-apes");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("age-of-apes");
++  });
++});
+diff --git a/apps/web/app/apps/age-of-apes/layout.tsx b/apps/web/app/apps/age-of-apes/layout.tsx
+index c9f392e..df9079e 100644
+--- a/apps/web/app/apps/age-of-apes/layout.tsx
++++ b/apps/web/app/apps/age-of-apes/layout.tsx
+@@ -1,5 +1,6 @@
+ import Link from "next/link";
+ import type { ReactNode } from "react";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ import { CALCULATORS } from "./lib/calculators";
+ 
+ export const metadata = {
+@@ -12,7 +13,8 @@ export const viewport = {
+   themeColor: "#F59E0B",
+ };
+ 
+-export default function AgeOfApesLayout({ children }: { children: ReactNode }) {
++export default async function AgeOfApesLayout({ children }: { children: ReactNode }) {
++  await requireAppLayoutAccess("age-of-apes");
+   return (
+     <div className="min-h-screen">
+       {/* Sticky header */}
+diff --git a/apps/web/app/apps/alpha-wins/__tests__/layout.test.tsx b/apps/web/app/apps/alpha-wins/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..d0b8132
+--- /dev/null
++++ b/apps/web/app/apps/alpha-wins/__tests__/layout.test.tsx
+@@ -0,0 +1,54 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++import React from "react";
++globalThis.React = React;
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("AlphaWinsLayout", () => {
++  it("calls requireAppLayoutAccess with 'alpha-wins'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("alpha-wins");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("alpha-wins");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("alpha-wins");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("alpha-wins");
++  });
++});
+diff --git a/apps/web/app/apps/alpha-wins/layout.tsx b/apps/web/app/apps/alpha-wins/layout.tsx
+index 6042d72..bd62ff2 100644
+--- a/apps/web/app/apps/alpha-wins/layout.tsx
++++ b/apps/web/app/apps/alpha-wins/layout.tsx
+@@ -1,4 +1,5 @@
+ import type { ReactNode } from "react";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ 
+ export const metadata = {
+   title: "Alpha Wins",
+@@ -9,6 +10,7 @@ export const viewport = {
+   themeColor: "#f59e0b",
+ };
+ 
+-export default function AlphaWinsLayout({ children }: { children: ReactNode }) {
++export default async function AlphaWinsLayout({ children }: { children: ReactNode }) {
++  await requireAppLayoutAccess("alpha-wins");
+   return <>{children}</>;
+ }
+diff --git a/apps/web/app/apps/area-52/__tests__/layout.test.tsx b/apps/web/app/apps/area-52/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..ca8b00f
+--- /dev/null
++++ b/apps/web/app/apps/area-52/__tests__/layout.test.tsx
+@@ -0,0 +1,52 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++// Import the raw module to call the default export without JSX evaluation
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("Area52Layout", () => {
++  it("calls requireAppLayoutAccess with 'area-52'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("area-52");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("area-52");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("area-52");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("area-52");
++  });
++});
+diff --git a/apps/web/app/apps/area-52/layout.tsx b/apps/web/app/apps/area-52/layout.tsx
+index d3d3442..608983a 100644
+--- a/apps/web/app/apps/area-52/layout.tsx
++++ b/apps/web/app/apps/area-52/layout.tsx
+@@ -1,3 +1,4 @@
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ import type { ReactNode } from "react";
+ 
+ export const metadata = {
+@@ -9,6 +10,12 @@ export const viewport = {
+   themeColor: "#22c55e",
+ };
+ 
+-export default function Area52Layout({ children }: { children: ReactNode }) {
+-  return <>{children}</>;
++export default async function Area52Layout({
++  children,
++}: {
++  children: ReactNode;
++}) {
++  await requireAppLayoutAccess("area-52");
++
++  return children;
+ }
+diff --git a/apps/web/app/apps/brommie-quake/__tests__/layout.test.tsx b/apps/web/app/apps/brommie-quake/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..b04306c
+--- /dev/null
++++ b/apps/web/app/apps/brommie-quake/__tests__/layout.test.tsx
+@@ -0,0 +1,51 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("BrommieQuakeLayout", () => {
++  it("calls requireAppLayoutAccess with 'brommie-quake'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("brommie-quake");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("brommie-quake");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("brommie-quake");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("brommie-quake");
++  });
++});
+diff --git a/apps/web/app/apps/brommie-quake/layout.tsx b/apps/web/app/apps/brommie-quake/layout.tsx
+index 30c1157..1a1cbd1 100644
+--- a/apps/web/app/apps/brommie-quake/layout.tsx
++++ b/apps/web/app/apps/brommie-quake/layout.tsx
+@@ -1,4 +1,5 @@
+ import type { ReactNode } from "react";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ 
+ export const metadata = {
+   title: "Brommie Starts the Quake!!",
+@@ -9,10 +10,11 @@ export const viewport = {
+   themeColor: "#0067B1",
+ };
+ 
+-export default function BrommieQuakeLayout({
++export default async function BrommieQuakeLayout({
+   children,
+ }: {
+   children: ReactNode;
+ }) {
+-  return <>{children}</>;
++  await requireAppLayoutAccess("brommie-quake");
++  return children;
+ }
+diff --git a/apps/web/app/apps/cringe-rizzler/__tests__/layout.test.tsx b/apps/web/app/apps/cringe-rizzler/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..1908b36
+--- /dev/null
++++ b/apps/web/app/apps/cringe-rizzler/__tests__/layout.test.tsx
+@@ -0,0 +1,52 @@
++import React from "react";
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("CringeRizzlerLayout", () => {
++  it("calls requireAppLayoutAccess with 'cringe-rizzler'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("cringe-rizzler");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("cringe-rizzler");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("cringe-rizzler");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("cringe-rizzler");
++  });
++});
+diff --git a/apps/web/app/apps/cringe-rizzler/layout.tsx b/apps/web/app/apps/cringe-rizzler/layout.tsx
+index 37734c6..d4fb178 100644
+--- a/apps/web/app/apps/cringe-rizzler/layout.tsx
++++ b/apps/web/app/apps/cringe-rizzler/layout.tsx
+@@ -1,6 +1,9 @@
++import React from "react";
+ import Link from "next/link";
+ import type { ReactNode } from "react";
+ 
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
+ export const metadata = {
+   title: "Cringe Rizzler — Embarrass Gen Alpha",
+   description:
+@@ -11,7 +14,8 @@ export const viewport = {
+   themeColor: "#ec4899",
+ };
+ 
+-export default function CringeRizzlerLayout({ children }: { children: ReactNode }) {
++export default async function CringeRizzlerLayout({ children }: { children: ReactNode }) {
++  await requireAppLayoutAccess("cringe-rizzler");
+   return (
+     <div
+       className="min-h-screen relative"
+diff --git a/apps/web/app/apps/dad-joke-of-the-day/__tests__/layout.test.tsx b/apps/web/app/apps/dad-joke-of-the-day/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..c158ab5
+--- /dev/null
++++ b/apps/web/app/apps/dad-joke-of-the-day/__tests__/layout.test.tsx
+@@ -0,0 +1,52 @@
++import React from "react";
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("DadJokeLayout", () => {
++  it("calls requireAppLayoutAccess with 'dad-joke-of-the-day'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("dad-joke-of-the-day");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("dad-joke-of-the-day");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("dad-joke-of-the-day");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("dad-joke-of-the-day");
++  });
++});
+diff --git a/apps/web/app/apps/dad-joke-of-the-day/layout.tsx b/apps/web/app/apps/dad-joke-of-the-day/layout.tsx
+index 78b4989..da47882 100644
+--- a/apps/web/app/apps/dad-joke-of-the-day/layout.tsx
++++ b/apps/web/app/apps/dad-joke-of-the-day/layout.tsx
+@@ -1,4 +1,6 @@
++import React from "react";
+ import type { ReactNode } from "react";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ 
+ export const metadata = {
+   title: "Dad Joke of the Day",
+@@ -10,7 +12,8 @@ export const viewport = {
+   themeColor: "#f59e0b",
+ };
+ 
+-export default function DadJokeLayout({ children }: { children: ReactNode }) {
++export default async function DadJokeLayout({ children }: { children: ReactNode }) {
++  await requireAppLayoutAccess("dad-joke-of-the-day");
+   return (
+     <div className="min-h-screen bg-background">
+       <header className="border-b border-white/10 backdrop-blur-sm sticky top-0 z-10 bg-background/80">
+diff --git a/apps/web/app/apps/hspt-practice/__tests__/layout.test.tsx b/apps/web/app/apps/hspt-practice/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..0a46243
+--- /dev/null
++++ b/apps/web/app/apps/hspt-practice/__tests__/layout.test.tsx
+@@ -0,0 +1,52 @@
++import React from "react";
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("HsptPracticeLayout", () => {
++  it("calls requireAppLayoutAccess with 'hspt-practice'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("hspt-practice");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("hspt-practice");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("hspt-practice");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("hspt-practice");
++  });
++});
+diff --git a/apps/web/app/apps/hspt-practice/layout.tsx b/apps/web/app/apps/hspt-practice/layout.tsx
+index 50d0a54..017df08 100644
+--- a/apps/web/app/apps/hspt-practice/layout.tsx
++++ b/apps/web/app/apps/hspt-practice/layout.tsx
+@@ -1,4 +1,6 @@
++import React from "react";
+ import type { ReactNode } from "react";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ 
+ export const metadata = {
+   title: "HSPT Practice",
+@@ -10,11 +12,13 @@ export const viewport = {
+   themeColor: "#4F46E5",
+ };
+ 
+-export default function HsptPracticeLayout({
++export default async function HsptPracticeLayout({
+   children,
+ }: {
+   children: ReactNode;
+ }) {
++  await requireAppLayoutAccess("hspt-practice");
++
+   return (
+     <div className="min-h-screen bg-background">
+       <header className="border-b border-white/10 backdrop-blur-sm sticky top-0 z-10 bg-background/80">
+diff --git a/apps/web/app/apps/hspt-tutor/__tests__/layout.test.tsx b/apps/web/app/apps/hspt-tutor/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..7f9c050
+--- /dev/null
++++ b/apps/web/app/apps/hspt-tutor/__tests__/layout.test.tsx
+@@ -0,0 +1,51 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("HsptTutorLayout", () => {
++  it("calls requireAppLayoutAccess with 'hspt-tutor'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("hspt-tutor");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("hspt-tutor");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("hspt-tutor");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("hspt-tutor");
++  });
++});
+diff --git a/apps/web/app/apps/hspt-tutor/layout.tsx b/apps/web/app/apps/hspt-tutor/layout.tsx
+index 7501309..35c7dd6 100644
+--- a/apps/web/app/apps/hspt-tutor/layout.tsx
++++ b/apps/web/app/apps/hspt-tutor/layout.tsx
+@@ -1,4 +1,6 @@
++import React from "react";
+ import type { ReactNode } from "react";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ 
+ export const metadata = {
+   title: "HSPT Tutor",
+@@ -10,11 +12,12 @@ export const viewport = {
+   themeColor: "#10B981",
+ };
+ 
+-export default function HsptTutorLayout({
++export default async function HsptTutorLayout({
+   children,
+ }: {
+   children: ReactNode;
+ }) {
++  await requireAppLayoutAccess("hspt-tutor");
+   return (
+     <div className="min-h-screen bg-background">
+       <header className="border-b border-white/10 backdrop-blur-sm sticky top-0 z-10 bg-background/80">
+diff --git a/apps/web/app/apps/lighthouse/__tests__/layout.test.tsx b/apps/web/app/apps/lighthouse/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..d6ef368
+--- /dev/null
++++ b/apps/web/app/apps/lighthouse/__tests__/layout.test.tsx
+@@ -0,0 +1,52 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++// Import the raw module to call the default export without JSX evaluation
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("LighthouseLayout", () => {
++  it("calls requireAppLayoutAccess with 'lighthouse'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("lighthouse");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("lighthouse");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("lighthouse");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("lighthouse");
++  });
++});
+diff --git a/apps/web/app/apps/lighthouse/layout.tsx b/apps/web/app/apps/lighthouse/layout.tsx
+index 8e48979..150b733 100644
+--- a/apps/web/app/apps/lighthouse/layout.tsx
++++ b/apps/web/app/apps/lighthouse/layout.tsx
+@@ -17,5 +17,5 @@ export default async function LighthouseLayout({
+ }) {
+   await requireAppLayoutAccess("lighthouse");
+ 
+-  return <>{children}</>;
++  return children;
+ }
+diff --git a/apps/web/app/apps/proper-wine-pour/__tests__/layout.test.tsx b/apps/web/app/apps/proper-wine-pour/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..ec69b62
+--- /dev/null
++++ b/apps/web/app/apps/proper-wine-pour/__tests__/layout.test.tsx
+@@ -0,0 +1,52 @@
++import React from "react";
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("ProperWinePourLayout", () => {
++  it("calls requireAppLayoutAccess with 'proper-wine-pour'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("proper-wine-pour");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("proper-wine-pour");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("proper-wine-pour");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("proper-wine-pour");
++  });
++});
+diff --git a/apps/web/app/apps/proper-wine-pour/layout.tsx b/apps/web/app/apps/proper-wine-pour/layout.tsx
+index 9ad7e01..a9cef15 100644
+--- a/apps/web/app/apps/proper-wine-pour/layout.tsx
++++ b/apps/web/app/apps/proper-wine-pour/layout.tsx
+@@ -1,4 +1,6 @@
++import React from "react";
+ import type { ReactNode } from "react";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ 
+ export const metadata = {
+   title: "Proper Wine Pour",
+@@ -9,7 +11,8 @@ export const viewport = {
+   themeColor: "#722F37",
+ };
+ 
+-export default function ProperWinePourLayout({ children }: { children: ReactNode }) {
++export default async function ProperWinePourLayout({ children }: { children: ReactNode }) {
++  await requireAppLayoutAccess("proper-wine-pour");
+   return (
+     <div className="min-h-screen">
+       <header className="border-b border-surface-border">
+diff --git a/apps/web/app/apps/roblox-dances/__tests__/layout.test.tsx b/apps/web/app/apps/roblox-dances/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..a541da8
+--- /dev/null
++++ b/apps/web/app/apps/roblox-dances/__tests__/layout.test.tsx
+@@ -0,0 +1,52 @@
++import React from "react";
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("RobloxDancesLayout", () => {
++  it("calls requireAppLayoutAccess with 'roblox-dances'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("roblox-dances");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("roblox-dances");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("roblox-dances");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("roblox-dances");
++  });
++});
+diff --git a/apps/web/app/apps/roblox-dances/layout.tsx b/apps/web/app/apps/roblox-dances/layout.tsx
+index 0e61a65..ba1e3f7 100644
+--- a/apps/web/app/apps/roblox-dances/layout.tsx
++++ b/apps/web/app/apps/roblox-dances/layout.tsx
+@@ -1,4 +1,6 @@
++import React from "react";
+ import type { ReactNode } from "react";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ 
+ export const metadata = {
+   title: "Roblox Dance Marketplace",
+@@ -9,7 +11,8 @@ export const viewport = {
+   themeColor: "#EC4899",
+ };
+ 
+-export default function RobloxDancesLayout({ children }: { children: ReactNode }) {
++export default async function RobloxDancesLayout({ children }: { children: ReactNode }) {
++  await requireAppLayoutAccess("roblox-dances");
+   return (
+     <div className="min-h-screen">
+       <header className="border-b border-white/10 backdrop-blur-sm sticky top-0 z-10 bg-background/80">
+diff --git a/apps/web/lib/__tests__/auth-login-redirect.test.ts b/apps/web/lib/__tests__/auth-login-redirect.test.ts
+new file mode 100644
+index 0000000..7ab4354
+--- /dev/null
++++ b/apps/web/lib/__tests__/auth-login-redirect.test.ts
+@@ -0,0 +1,64 @@
++import { describe, it, expect, vi } from "vitest";
++import { buildAuthLoginHref } from "../auth-login-redirect";
++
++describe("buildAuthLoginHref", () => {
++  it("returns /my-apps returnTo when no redirectSlug", () => {
++    const href = buildAuthLoginHref({ host: "localhost:3000" });
++    expect(href).toContain("returnTo=%2Fmy-apps");
++  });
++
++  it("uses path-based returnTo on localhost", () => {
++    const href = buildAuthLoginHref({
++      host: "localhost:3000",
++      redirectSlug: "sentiment",
++    });
++    expect(href).toContain("returnTo=%2Fapps%2Fsentiment");
++  });
++
++  it("uses subdomain returnTo in production", () => {
++    const href = buildAuthLoginHref({
++      host: "auth.apps.lastrev.com",
++      redirectSlug: "sentiment",
++    });
++    expect(href).toContain(
++      "returnTo=https%3A%2F%2Fsentiment.apps.lastrev.com%2F",
++    );
++  });
++
++  it("falls back to /my-apps for unknown slug", () => {
++    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
++    const href = buildAuthLoginHref({
++      host: "localhost:3000",
++      redirectSlug: "nonexistent-app",
++    });
++    expect(href).toContain("returnTo=%2Fmy-apps");
++    expect(warnSpy).toHaveBeenCalledWith(
++      expect.stringContaining("unknown app slug"),
++    );
++    warnSpy.mockRestore();
++  });
++
++  it("adds screen_hint=signup when specified", () => {
++    const href = buildAuthLoginHref({
++      host: "localhost:3000",
++      screenHint: "signup",
++    });
++    expect(href).toContain("screen_hint=signup");
++  });
++
++  it("uses custom defaultReturnTo when specified", () => {
++    const href = buildAuthLoginHref({
++      host: "localhost:3000",
++      defaultReturnTo: "/dashboard",
++    });
++    expect(href).toContain("returnTo=%2Fdashboard");
++  });
++
++  it("uses path-based returnTo on vercel.app previews", () => {
++    const href = buildAuthLoginHref({
++      host: "lr-apps-abc123.vercel.app",
++      redirectSlug: "command-center",
++    });
++    expect(href).toContain("returnTo=%2Fapps%2Fcommand-center");
++  });
++});
+diff --git a/apps/web/lib/app-registry.ts b/apps/web/lib/app-registry.ts
+index 7462fb1..db9e5a3 100644
+--- a/apps/web/lib/app-registry.ts
++++ b/apps/web/lib/app-registry.ts
+@@ -67,19 +67,19 @@ const apps: AppConfig[] = [
+   },
+ 
+   // Standalone — minimal (public, no auth)
+-  { slug: "dad-joke-of-the-day", name: "Dad Joke of the Day", subdomain: "dad-jokes", routeGroup: "apps/dad-joke-of-the-day", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "dad-joke-of-the-day", name: "Dad Joke of the Day", subdomain: "dad-jokes", routeGroup: "apps/dad-joke-of-the-day", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+   { slug: "superstars", name: "Superstars", subdomain: "superstars", routeGroup: "apps/superstars", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+   { slug: "travel-collection", name: "Travel Collection", subdomain: "travel", routeGroup: "apps/travel-collection", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+-  { slug: "cringe-rizzler", name: "Cringe Rizzler", subdomain: "cringe", routeGroup: "apps/cringe-rizzler", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+-  { slug: "proper-wine-pour", name: "Proper Wine Pour", subdomain: "wine", routeGroup: "apps/proper-wine-pour", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+-  { slug: "roblox-dances", name: "Roblox Dances", subdomain: "roblox", routeGroup: "apps/roblox-dances", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+-  { slug: "alpha-wins", name: "Alpha Wins", subdomain: "alpha-wins", routeGroup: "apps/alpha-wins", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "cringe-rizzler", name: "Cringe Rizzler", subdomain: "cringe", routeGroup: "apps/cringe-rizzler", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "proper-wine-pour", name: "Proper Wine Pour", subdomain: "wine", routeGroup: "apps/proper-wine-pour", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "roblox-dances", name: "Roblox Dances", subdomain: "roblox", routeGroup: "apps/roblox-dances", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "alpha-wins", name: "Alpha Wins", subdomain: "alpha-wins", routeGroup: "apps/alpha-wins", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+   { slug: "soccer-training", name: "Soccer Training", subdomain: "soccer", routeGroup: "apps/soccer-training", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+-  { slug: "hspt-practice", name: "HSPT Practice", subdomain: "hspt-practice", routeGroup: "apps/hspt-practice", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+-  { slug: "hspt-tutor", name: "HSPT Tutor", subdomain: "hspt-tutor", routeGroup: "apps/hspt-tutor", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+-  { slug: "area-52", name: "Area 52", subdomain: "area-52", routeGroup: "apps/area-52", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+-  { slug: "brommie-quake", name: "Brommie Quake", subdomain: "brommie", routeGroup: "apps/brommie-quake", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+-  { slug: "age-of-apes", name: "Age of Apes", subdomain: "apes", routeGroup: "apps/age-of-apes", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "hspt-practice", name: "HSPT Practice", subdomain: "hspt-practice", routeGroup: "apps/hspt-practice", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "hspt-tutor", name: "HSPT Tutor", subdomain: "hspt-tutor", routeGroup: "apps/hspt-tutor", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "area-52", name: "Area 52", subdomain: "area-52", routeGroup: "apps/area-52", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "brommie-quake", name: "Brommie Quake", subdomain: "brommie", routeGroup: "apps/brommie-quake", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "age-of-apes", name: "Age of Apes", subdomain: "apes", routeGroup: "apps/age-of-apes", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+ ];
+ 
+ const subdomainIndex = new Map(apps.map((app) => [app.subdomain, app]));
+diff --git a/apps/web/lib/auth-login-redirect.ts b/apps/web/lib/auth-login-redirect.ts
+index 2854687..41064d4 100644
+--- a/apps/web/lib/auth-login-redirect.ts
++++ b/apps/web/lib/auth-login-redirect.ts
+@@ -39,6 +39,10 @@ export function buildAuthLoginHref(opts: {
+       returnTo = usePathBasedReturn(host)
+         ? `/${app.routeGroup}`
+         : `${productionAppOrigin(app.subdomain)}/`;
++    } else {
++      console.warn(
++        `[auth] buildAuthLoginHref: unknown app slug "${redirectSlug}", falling back to ${defaultReturnTo}`,
++      );
+     }
+   }
+   qs.set("returnTo", returnTo);
+diff --git a/packages/auth/src/__tests__/auth0-factory.test.ts b/packages/auth/src/__tests__/auth0-factory.test.ts
+new file mode 100644
+index 0000000..5821d0e
+--- /dev/null
++++ b/packages/auth/src/__tests__/auth0-factory.test.ts
+@@ -0,0 +1,53 @@
++import { describe, it, expect } from "vitest";
++import { isSafeReturnTo } from "../auth0-factory";
++
++describe("isSafeReturnTo", () => {
++  it("allows relative paths", () => {
++    expect(isSafeReturnTo("/my-apps")).toBe(true);
++    expect(isSafeReturnTo("/apps/sentiment")).toBe(true);
++    expect(isSafeReturnTo("/")).toBe(true);
++  });
++
++  it("allows known app subdomain URLs", () => {
++    expect(
++      isSafeReturnTo("https://sentiment.apps.lastrev.com/"),
++    ).toBe(true);
++    expect(
++      isSafeReturnTo("https://command-center.apps.lastrev.com/dashboard"),
++    ).toBe(true);
++  });
++
++  it("allows local app subdomain URLs", () => {
++    expect(
++      isSafeReturnTo("http://sentiment.apps.lastrev.localhost:3000/"),
++    ).toBe(true);
++  });
++
++  it("allows the bare domain itself", () => {
++    expect(isSafeReturnTo("https://apps.lastrev.com/")).toBe(true);
++  });
++
++  it("rejects external URLs", () => {
++    expect(isSafeReturnTo("https://evil.com/apps/sentiment")).toBe(false);
++    expect(isSafeReturnTo("https://evil.apps.lastrev.com.attacker.com/")).toBe(
++      false,
++    );
++  });
++
++  it("rejects javascript: protocol", () => {
++    expect(isSafeReturnTo("javascript:alert(1)")).toBe(false);
++  });
++
++  it("rejects data: protocol", () => {
++    expect(isSafeReturnTo("data:text/html,<h1>hi</h1>")).toBe(false);
++  });
++
++  it("rejects empty string", () => {
++    expect(isSafeReturnTo("")).toBe(false);
++  });
++
++  it("rejects protocol-relative URLs (open redirect vector)", () => {
++    expect(isSafeReturnTo("//evil.com")).toBe(false);
++    expect(isSafeReturnTo("//evil.com/apps/sentiment")).toBe(false);
++  });
++});
+diff --git a/packages/auth/src/__tests__/self-enroll.test.ts b/packages/auth/src/__tests__/self-enroll.test.ts
+new file mode 100644
+index 0000000..e2a70d0
+--- /dev/null
++++ b/packages/auth/src/__tests__/self-enroll.test.ts
+@@ -0,0 +1,129 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++import { appSlugFromReturnTo, isSelfEnrollAllowedForSlug } from "../self-enroll";
++
++describe("appSlugFromReturnTo", () => {
++  it("extracts slug from /apps/foo", () => {
++    expect(appSlugFromReturnTo("/apps/foo")).toBe("foo");
++  });
++
++  it("extracts slug from /apps/foo/", () => {
++    expect(appSlugFromReturnTo("/apps/foo/")).toBe("foo");
++  });
++
++  it("extracts slug from /apps/foo/bar subpath", () => {
++    expect(appSlugFromReturnTo("/apps/foo/bar")).toBe("foo");
++  });
++
++  it("extracts slug from full URL with /apps/ path", () => {
++    expect(appSlugFromReturnTo("http://localhost:3000/apps/sentiment")).toBe(
++      "sentiment",
++    );
++  });
++
++  it("extracts slug from production subdomain URL", () => {
++    expect(
++      appSlugFromReturnTo("https://command-center.apps.lastrev.com/"),
++    ).toBe("command-center");
++  });
++
++  it("extracts slug from subdomain URL with path", () => {
++    expect(
++      appSlugFromReturnTo("https://sentiment.apps.lastrev.com/dashboard"),
++    ).toBe("sentiment");
++  });
++
++  it("extracts slug from local subdomain URL", () => {
++    expect(
++      appSlugFromReturnTo("http://sentiment.apps.lastrev.localhost:3000/"),
++    ).toBe("sentiment");
++  });
++
++  it("returns null for undefined", () => {
++    expect(appSlugFromReturnTo(undefined)).toBeNull();
++  });
++
++  it("returns null for /my-apps", () => {
++    expect(appSlugFromReturnTo("/my-apps")).toBeNull();
++  });
++
++  it("returns null for root path", () => {
++    expect(appSlugFromReturnTo("/")).toBeNull();
++  });
++
++  it("extracts slug from external URL path (validation is separate)", () => {
++    // appSlugFromReturnTo only extracts — isSafeReturnTo validates the domain
++    expect(appSlugFromReturnTo("https://evil.com/apps/foo")).toBe("foo");
++  });
++
++  it("returns null for external URL without /apps/ path", () => {
++    expect(appSlugFromReturnTo("https://evil.com/other")).toBeNull();
++  });
++
++  it("returns null for invalid URL", () => {
++    expect(appSlugFromReturnTo("not-a-url")).toBeNull();
++  });
++
++  it("strips query params from path-based returnTo", () => {
++    expect(appSlugFromReturnTo("/apps/foo?bar=1")).toBe("foo");
++  });
++
++  it("resolves subdomain to canonical slug when they differ", () => {
++    expect(
++      appSlugFromReturnTo("https://meetings.apps.lastrev.com/"),
++    ).toBe("meeting-summaries");
++    expect(
++      appSlugFromReturnTo("https://sprint.apps.lastrev.com/dashboard"),
++    ).toBe("sprint-planning");
++    expect(
++      appSlugFromReturnTo("https://updates.apps.lastrev.com/"),
++    ).toBe("daily-updates");
++    expect(
++      appSlugFromReturnTo("https://slang.apps.lastrev.com/"),
++    ).toBe("slang-translator");
++    expect(
++      appSlugFromReturnTo("https://calculator.apps.lastrev.com/"),
++    ).toBe("ai-calculator");
++  });
++
++  it("passes through subdomain unchanged when it matches its slug", () => {
++    expect(
++      appSlugFromReturnTo("https://sentiment.apps.lastrev.com/"),
++    ).toBe("sentiment");
++    expect(
++      appSlugFromReturnTo("https://lighthouse.apps.lastrev.com/"),
++    ).toBe("lighthouse");
++  });
++});
++
++describe("isSelfEnrollAllowedForSlug", () => {
++  beforeEach(() => {
++    vi.unstubAllEnvs();
++  });
++
++  it("returns false for invalid slug format", () => {
++    expect(isSelfEnrollAllowedForSlug("../etc")).toBe(false);
++    expect(isSelfEnrollAllowedForSlug("")).toBe(false);
++  });
++
++  it("returns true when slug is in APP_SELF_ENROLL_SLUGS", () => {
++    vi.stubEnv("APP_SELF_ENROLL_SLUGS", "foo,bar,baz");
++    expect(isSelfEnrollAllowedForSlug("bar")).toBe(true);
++  });
++
++  it("returns false when slug is NOT in APP_SELF_ENROLL_SLUGS", () => {
++    vi.stubEnv("APP_SELF_ENROLL_SLUGS", "foo,bar");
++    expect(isSelfEnrollAllowedForSlug("baz")).toBe(false);
++  });
++
++  it("allows any slug in development when env var is unset", () => {
++    vi.stubEnv("APP_SELF_ENROLL_SLUGS", "");
++    vi.stubEnv("NODE_ENV", "development");
++    expect(isSelfEnrollAllowedForSlug("anything")).toBe(true);
++  });
++
++  it("denies in production when env var is unset", () => {
++    vi.stubEnv("APP_SELF_ENROLL_SLUGS", "");
++    vi.stubEnv("NODE_ENV", "production");
++    expect(isSelfEnrollAllowedForSlug("anything")).toBe(false);
++  });
++});
+diff --git a/packages/auth/src/auth0-factory.ts b/packages/auth/src/auth0-factory.ts
+index e23e593..d53c86a 100644
+--- a/packages/auth/src/auth0-factory.ts
++++ b/packages/auth/src/auth0-factory.ts
+@@ -1,6 +1,32 @@
+ import { Auth0Client } from "@auth0/nextjs-auth0/server";
+ import { NextResponse } from "next/server";
+-import { maybeSelfEnrollAfterLogin } from "./self-enroll";
++import { maybeSelfEnrollAfterLogin, appSlugFromReturnTo } from "./self-enroll";
++
++const ALLOWED_RETURN_HOSTS = [
++  "apps.lastrev.com",
++  "apps.lastrev.localhost",
++];
++
++/**
++ * Validates that returnTo is a safe redirect target:
++ * - Relative paths (starting with `/`) are always allowed
++ * - Absolute URLs must be under a known app domain
++ * - Everything else is rejected (returns false)
++ */
++export function isSafeReturnTo(returnTo: string): boolean {
++  if (!returnTo) return false;
++  // Reject protocol-relative URLs like "//evil.com" which resolve to external domains
++  if (returnTo.startsWith("//")) return false;
++  if (returnTo.startsWith("/")) return true;
++  try {
++    const url = new URL(returnTo);
++    return ALLOWED_RETURN_HOSTS.some(
++      (d) => url.hostname === d || url.hostname.endsWith(`.${d}`),
++    );
++  } catch {
++    return false;
++  }
++}
+ 
+ export type ProductAuth0Config = {
+   clientId: string;
+@@ -79,18 +105,39 @@ export function getAuth0ClientForHost(host: string): Auth0Client {
+       if (error) {
+         const u = new URL("/login", appBaseUrl);
+         u.searchParams.set("error", error.message);
++        // Preserve the redirect param so the user can retry without losing their destination
++        const slug = appSlugFromReturnTo(ctx.returnTo);
++        if (slug) {
++          u.searchParams.set("redirect", slug);
++        }
+         return NextResponse.redirect(u);
+       }
+ 
+-      if (session?.user?.sub) {
+-        try {
+-          await maybeSelfEnrollAfterLogin(session.user.sub, ctx.returnTo);
+-        } catch (e) {
+-          console.error("[auth] self-enroll skipped:", e);
++      // Handle expired/invalid session: redirect to login with session_expired error
++      if (!session?.user?.sub) {
++        const u = new URL("/login", appBaseUrl);
++        u.searchParams.set("error", "session_expired");
++        const slug = appSlugFromReturnTo(ctx.returnTo);
++        if (slug) {
++          u.searchParams.set("redirect", slug);
+         }
++        return NextResponse.redirect(u);
+       }
+ 
+-      const target = ctx.returnTo || "/my-apps";
++      try {
++        await maybeSelfEnrollAfterLogin(session.user.sub, ctx.returnTo);
++      } catch (e) {
++        console.error("[auth] self-enroll skipped:", e);
++      }
++
++      // Validate returnTo to prevent open-redirect
++      const rawTarget = ctx.returnTo || "/my-apps";
++      const target = isSafeReturnTo(rawTarget) ? rawTarget : "/my-apps";
++      if (target !== rawTarget) {
++        console.warn(
++          `[auth] rejected unsafe returnTo "${rawTarget}", redirecting to /my-apps`,
++        );
++      }
+       return NextResponse.redirect(new URL(target, appBaseUrl));
+     },
+   });
+diff --git a/packages/auth/src/require-access.ts b/packages/auth/src/require-access.ts
+index 0ff2e88..c68eb2c 100644
+--- a/packages/auth/src/require-access.ts
++++ b/packages/auth/src/require-access.ts
+@@ -26,7 +26,11 @@ export async function requireAccess(
+   const session = await auth0.getSession();
+ 
+   if (!session?.user) {
+-    redirect(`/login?redirect=${encodeURIComponent(appSlug)}`);
++    // Distinguish between no session and expired/invalid session
++    const errorParam = session ? "&error=session_expired" : "";
++    redirect(
++      `/login?redirect=${encodeURIComponent(appSlug)}${errorParam}`,
++    );
+   }
+ 
+   const userId = session.user.sub;
+diff --git a/packages/auth/src/self-enroll.ts b/packages/auth/src/self-enroll.ts
+index f76cead..6d71cd6 100644
+--- a/packages/auth/src/self-enroll.ts
++++ b/packages/auth/src/self-enroll.ts
+@@ -1,21 +1,71 @@
+ import { createServiceRoleClient } from "@repo/db/service-role";
+ import type { Permission } from "@repo/db/types";
+ 
+-/** `/apps/foo` or full URL whose path is `/apps/foo` → `foo` */
++const APP_DOMAINS = ["apps.lastrev.com", "apps.lastrev.localhost"];
++
++/**
++ * Maps subdomains that differ from their slug back to the canonical slug.
++ * Only entries where subdomain !== slug need to be listed.
++ */
++const SUBDOMAIN_TO_SLUG: Record<string, string> = {
++  meetings: "meeting-summaries",
++  sprint: "sprint-planning",
++  updates: "daily-updates",
++  slang: "slang-translator",
++  calculator: "ai-calculator",
++  "dad-jokes": "dad-joke-of-the-day",
++  travel: "travel-collection",
++  cringe: "cringe-rizzler",
++  wine: "proper-wine-pour",
++  roblox: "roblox-dances",
++  soccer: "soccer-training",
++  brommie: "brommie-quake",
++  apes: "age-of-apes",
++};
++
++/**
++ * Extract app slug from a returnTo value. Handles:
++ * - Path-based: `/apps/foo` or `/apps/foo/bar`
++ * - Full URL with path: `http://localhost:3000/apps/foo`
++ * - Subdomain URL: `https://command-center.apps.lastrev.com/`
++ *
++ * For subdomain URLs, the subdomain is resolved to the canonical slug
++ * (e.g. `meetings` → `meeting-summaries`).
++ */
+ export function appSlugFromReturnTo(returnTo: string | undefined): string | null {
+   if (!returnTo) return null;
++
+   let path: string;
++  let hostname: string | null = null;
+   try {
+     if (returnTo.startsWith("/")) {
+       path = returnTo.split("?")[0] ?? returnTo;
+     } else {
+-      path = new URL(returnTo).pathname;
++      const url = new URL(returnTo);
++      path = url.pathname;
++      hostname = url.hostname;
+     }
+   } catch {
+     return null;
+   }
+-  const m = path.match(/^\/apps\/([\w-]+)\/?$/);
+-  return m?.[1] ?? null;
++
++  // Try path-based match first: /apps/{slug} or /apps/{slug}/...
++  const m = path.match(/^\/apps\/([\w-]+)/);
++  if (m?.[1]) return m[1];
++
++  // Try subdomain-based match: {slug}.apps.lastrev.com
++  if (hostname) {
++    for (const domain of APP_DOMAINS) {
++      if (hostname.endsWith(`.${domain}`)) {
++        const subdomain = hostname.slice(0, -(domain.length + 1));
++        if (subdomain && /^[\w-]+$/.test(subdomain)) {
++          return SUBDOMAIN_TO_SLUG[subdomain] ?? subdomain;
++        }
++      }
++    }
++  }
++
++  return null;
+ }
+ 
+ function parseSelfEnrollSlugs(): Set<string> {

@@ -1,0 +1,17 @@
+{
+  "summary": "Replace inline UI patterns in Summaries app (pills, stats, empty state, inputs) with @repo/ui shared components (Badge, StatCard, EmptyState, Search, Input, PageHeader).",
+  "files": [
+    "apps/web/app/apps/summaries/page.tsx",
+    "apps/web/app/apps/summaries/components/summaries-app.tsx"
+  ],
+  "implementation": "1. page.tsx: Replace inline page header (h2 + p) with PageHeader component (title='Summaries', subtitle=description). 2. page.tsx: Replace inline stats grid (lines 21-38) with StatCard components (value, label, size='sm'). 3. summaries-app.tsx: Add imports for Badge, EmptyState, Search, Input from @repo/ui. 4. summaries-app.tsx: Remove the custom Pill component (lines 108-122) and color maps (SOURCE_PILL, TONE_PILL, PRIORITY_PILL, STATUS_PILL at lines 81-106). Replace all Pill usages in SummaryCard with Badge variant='secondary' plus custom className for color overrides (e.g. className='text-[11px] bg-blue-500/15 text-blue-400 border-0' for Zoom source badge). 5. summaries-app.tsx: Replace participant inline spans (lines 267-270) with Badge variant='secondary'. 6. summaries-app.tsx: Replace inline empty state in GroupedList (lines 286-294) with EmptyState component (icon='📋', title='No summaries found', description='Try adjusting your filters'). 7. summaries-app.tsx: Replace all raw <input type='text'> search fields (lines 449, 469, 489, 525) with Search component from @repo/ui (value, onChange, placeholder, debounce=0). 8. summaries-app.tsx: Replace raw <input type='date'> in DateRange (lines 337-349) and raw <select> elements (lines 496-550) with Input component from @repo/ui for date inputs. Keep select elements as-is since @repo/ui does not export a Select component. 9. summaries-app.tsx: Remove the inputCls constant (line 321-322) after replacing all usages. 10. Verify pnpm build passes.",
+  "testing": {
+    "needed": true,
+    "reason": "Component migration changes rendering output. Tests should verify summary cards render with correct Badge components, empty state displays properly, and search/filter inputs remain functional."
+  },
+  "verification": {
+    "needed": true,
+    "instructions": "1. Start dev server: pnpm dev. 2. Navigate to /apps/summaries. 3. Verify stat cards render with animated count-up values. 4. Verify source badges (Zoom/Slack/Jira) render as Badge components with correct colors. 5. Expand a summary card and verify tone/priority/status badges render correctly. 6. Test search input filters results across all tabs. 7. Test date range filters. 8. Clear all results to verify EmptyState component renders. 9. On Slack tab verify channel select filter works. 10. On Jira tab verify priority/status select filters work.",
+    "reason": "This migration changes user-visible UI components across the entire Summaries page - visual and functional verification needed."
+  }
+}

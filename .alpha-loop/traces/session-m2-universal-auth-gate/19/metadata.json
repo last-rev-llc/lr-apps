@@ -1,0 +1,15 @@
+{
+  "issueNum": 19,
+  "title": "Auth gate: Proper Wine Pour",
+  "status": "success",
+  "duration": 229,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 8,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/103",
+  "timestamp": "2026-04-08T16:53:28.259Z",
+  "agent": "claude",
+  "model": ""
+}

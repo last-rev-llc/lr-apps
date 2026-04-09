@@ -1,0 +1,1 @@
+Review: All acceptance criteria met: layout calls requireAppLayoutAccess, registry has auth:true, smoke tests cover login/unauthorized redirects, all tests pass.

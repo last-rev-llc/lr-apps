@@ -1,0 +1,10 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- **Layout returns `children` directly instead of `<>{children}</>`** — the Fragment wrapper was unnecessary since there's a single child expression. Both are valid; chose the simpler form matching other auth-gated layouts in the codebase.
+- **Tests mock `requireAppLayoutAccess` rather than testing real auth flow** — unit tests verify the layout wiring (correct slug passed, redirect errors propagated, children rendered on success). Integration/E2E tests for the actual auth redirects are left to a broader test suite.
+
+## Items to Validate
+- **Permission value `"view"` was unchanged** — the registry entry kept `permission: "view"` from the original. If Area 52 should require a more specific permission (e.g., `"access"` or a custom one), update the registry entry.
+- **No `requireAppLayoutAccess` integration tests were added** — the acceptance criteria mention testing that unauthenticated requests redirect to `/login` and unauthorized to `/unauthorized`, but the tests only verify the mock contract. If you need E2E coverage for these redirects, that's a separate task.

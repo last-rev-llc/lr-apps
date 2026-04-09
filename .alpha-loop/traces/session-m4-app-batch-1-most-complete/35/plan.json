@@ -1,0 +1,16 @@
+{
+  "summary": "Add Vitest test coverage for the Uptime app: layout auth gate, page status badge/site grid, and UptimeBars history chart.",
+  "files": [
+    "apps/web/app/apps/uptime/__tests__/layout.test.tsx",
+    "apps/web/app/apps/uptime/__tests__/page.test.tsx"
+  ],
+  "implementation": "1. Create `apps/web/app/apps/uptime/__tests__/layout.test.tsx`: Mock `requireAppLayoutAccess`, test it's called with 'uptime', test children render when authed, test Topbar renders with title, test auth error propagates. Follow meeting-summaries layout test pattern exactly.\n2. Create `apps/web/app/apps/uptime/__tests__/page.test.tsx`: Mock `@repo/db/server` createClient to return mock supabase with `from().select().order()` chain returning mock Site[] data. Test cases:\n   a. Status badge: all-up sites show 'All Systems Operational' with success variant; mix of statuses shows '⚠️ N Systems Experiencing Issues'.\n   b. Site list: renders site names, URLs, status labels ('Operational', 'Down', 'Degraded'), response times, uptime percentages in cards.\n   c. History chart: renders bars (check DOM elements with appropriate bg-color classes for up/down/degraded), verify title attributes contain date and status.\n   d. Empty state: when no sites returned, renders 'No sites are being monitored yet.' EmptyState.\n   e. Edge cases: site with no history shows no bars, site with unknown status shows 'Unknown' label.\n3. Use `renderWithProviders` and `screen` from `@repo/test-utils`. Use `// @vitest-environment jsdom` directive. Mock supabase at module level with `vi.mock('@repo/db/server')`. Create helper `makeSite()` factory for test data.\n4. Run `pnpm test` from apps/web to verify all tests pass.",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for the Uptime app's status badge logic, history chart rendering, site list, and auth gate."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "No UI changes — this issue only adds test files. Verification is done by running `pnpm test`."
+  }
+}

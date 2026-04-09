@@ -1,0 +1,22 @@
+## Review findings addressed - `passed: true`
+
+### What was fixed
+
+**5 CRITICAL findings (all fixed):**
+- **5 untouched apps** (accounts, standup, summaries, meeting-summaries, uptime) — all Tailwind palette classes replaced with theme tokens
+- **sprint-planning** — STATUS_DOT_COLORS, PRIORITY_COLORS, DueDateBadge, archive type colors, all filter/active-state buttons
+- **sentiment** — mood-badge.tsx and timeline.tsx fully converted
+- **daily-updates** — reaction buttons, time range tabs, search inputs, about page
+
+**6 WARNING findings (all fixed):**
+- Color collisions in feed-app (3→1) and ideas-app (2→1) — reassigned to distinct pill tokens
+- Confetti keyframe visual regression — restored original 3-stop animation
+- Hardcoded `bg-[#0a0e1a]` in filter-drawer — replaced with `bg-navy-950`
+- Shadow tokens — updated from hardcoded `rgba()` to `oklch(from var(--color-accent) ...)`
+- Brand token hex casing — normalized to lowercase
+
+**Verification:** `audit:tokens` report regenerated — **8 apps at zero violations**: accounts, daily-updates, meeting-summaries, sales, sprint-planning, standup, summaries, uptime.
+
+### Remaining INFO items (non-blocking)
+- Original commit has `closes #68` but this is batch 1 — should be removed before merge
+- Visual regression snapshots not created (requires Playwright infrastructure)

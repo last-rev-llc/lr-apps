@@ -1,0 +1,6 @@
+Review: Meeting Summaries primary app fully migrated to @repo/ui shared components; build passes; all acceptance criteria met
+- [info] Command-center meeting-summaries SentimentBadge still uses inline <span> instead of <Badge> from @repo/ui (line 49-53) (unfixed)
+- [info] Command-center 'Mark Done' button is inline <button> instead of <Button> from @repo/ui (line 239-245) (unfixed)
+- [info] Command-center search inputs are inline <input> instead of <Search> from @repo/ui (lines 350, 395) (unfixed)
+- [info] Command-center filter pills use inline loops instead of <PillList> component (unfixed)
+- [info] No app-specific tests under apps/web/app/apps/meeting-summaries/__tests__/ (likely planned for separate issue) (unfixed)

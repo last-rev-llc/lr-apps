@@ -1,0 +1,17 @@
+## Assumptions
+- None — requirements were fully specified for the core task (layout gate + registry + tests)
+
+## Decisions
+- **Batched auth gate changes for prior issues into this branch**: The diff includes registry + layout changes for 7 other apps (age-of-apes, alpha-wins, area-52, brommie-quake, cringe-rizzler, dad-joke-of-the-day, lighthouse) that correspond to issues #13–#16. These were accumulated across the series of auth-gate issues rather than being squashed per-issue.
+- **Added open-redirect protection** in `auth0-factory.ts` (`isSafeReturnTo`) — not requested but proactively hardens the post-login redirect flow.
+- **Added `session_expired` error handling** in `require-access.ts` and `login-form.tsx` — distinguishes expired sessions from missing sessions, which wasn't in the spec.
+- **Expanded `appSlugFromReturnTo`** to resolve subdomain-based URLs (e.g. `apes.apps.lastrev.com` → `age-of-apes`) with a manual `SUBDOMAIN_TO_SLUG` mapping — driven by the redirect-preservation feature, not the original requirement.
+- **Changed UX copy** on the unauthorized page: "Get access" → "Request access", removed `app_permissions` code reference in favor of "contact a Last Rev admin" — cosmetic improvements not in spec.
+- **Preserved redirect slug through signup link** on login form so users who click "Create an account" don't lose their destination.
+- **Test pattern**: smoke tests mock `requireAppLayoutAccess` and assert it's called with the correct slug, then simulate redirect errors — consistent with existing app tests.
+
+## Items to Validate
+- **`SUBDOMAIN_TO_SLUG` map completeness** (`self-enroll.ts:14–28`): verify all subdomain↔slug mismatches are covered; if new apps are added this map needs manual updates.
+- **The multi-app registry changes** in `app-registry.ts` (7 other apps set to `auth: true`): confirm these were intentionally committed here vs. in their own issue branches — the diff modifies more apps than just `hspt-practice`.
+- **"Request access" vs "Get access" wording** and the removal of the `app_permissions` code reference on the unauthorized page — ensure this matches the team's preferred copy.
+- **`session_expired` error path**: the condition `session ? "&error=session_expired" : ""` in `require-access.ts:31` — when `session` exists but `session.user` is falsy is an unusual state; verify this is a real scenario worth handling.

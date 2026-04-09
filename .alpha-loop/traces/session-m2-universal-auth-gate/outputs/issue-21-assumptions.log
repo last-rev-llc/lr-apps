@@ -1,0 +1,12 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- **Login form preserves redirect slug through signup link** — when a user lands on `/login` via an auth gate redirect, the "Create an account" link now carries the `?redirect=` param to `/signup` so the flow returns them to the app after signup. This wasn't in the requirements but was needed for a good UX and matched the pattern other auth-gated apps already use.
+- **Added `session_expired` error handling in login form** — added a friendly message for this error case alongside the existing `forbidden` handler. This was opportunistic cleanup while touching the file.
+- **Changed "Get access" button to "Request access"** and updated the no-self-service copy on the unauthorized page — these wording changes weren't in the requirements but were made while touching the file to improve clarity.
+- **Unauthorized page heading now shows app name** (`Access required — Soccer Training`) when available, rather than the generic "Access required".
+
+## Items to Validate
+- **Wording changes on the unauthorized page** — "Request access" (was "Get access") and the updated no-self-service message ("Self-service access is not available for {app name}. Please contact a Last Rev admin to request access.") — confirm these match your team's preferred copy.
+- **Scope of changes beyond soccer-training** — the diff touches shared auth UI components (`login-form.tsx`, `unauthorized/page.tsx`) and adds tests for `age-of-apes` as well. Verify the broader changes are welcome or if you'd prefer them in a separate PR.

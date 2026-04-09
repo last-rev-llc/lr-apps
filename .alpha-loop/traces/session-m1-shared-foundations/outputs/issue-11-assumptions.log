@@ -1,0 +1,14 @@
+## Assumptions
+
+- **Default tier is "free" for all apps** — The issue said "default `tier: "free"`" but didn't clarify whether any existing apps should have a different tier. Applied "free" uniformly to all 29 entries.
+- **`features` is an empty object for all apps** — No guidance on which features to pre-populate, so all entries got `features: {}` as specified.
+
+## Decisions
+
+- **Fields are required, not optional** — Made `tier` and `features` required on `AppConfig` rather than optional (`tier?`/`features?`). This ensures every new app entry must include them, which is stricter but prevents forgetting to set billing metadata on future apps.
+- **Added `.env.compose` file** — A `COMPOSE_PROJECT_NAME=lr-apps` file appeared in the diff that's unrelated to the billing metadata change. This may have been an incidental addition during development.
+
+## Items to Validate
+
+- **Verify `.env.compose` is intentional** — This file isn't related to billing metadata and may have been accidentally staged. Consider whether it belongs in this PR or a separate one.
+- **Required vs optional fields** — Confirm that `tier` and `features` should be required. If you want to allow apps to omit them (defaulting to "free"/`{}`), they should be made optional with defaults applied at read time instead.

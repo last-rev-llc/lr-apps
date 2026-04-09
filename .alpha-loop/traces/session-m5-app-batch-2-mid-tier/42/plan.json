@@ -1,0 +1,21 @@
+{
+  "summary": "Replace inline UI in Generations app with @repo/ui shared components (Card, Button, Input, Textarea, Timeline, Hero, PillList, AppNav).",
+  "files": [
+    "apps/web/app/apps/generations/page.tsx",
+    "apps/web/app/apps/generations/layout.tsx",
+    "apps/web/app/apps/generations/components/generation-card.tsx",
+    "apps/web/app/apps/generations/components/slang-dictionary.tsx",
+    "apps/web/app/apps/generations/components/slang-translator.tsx",
+    "apps/web/app/apps/generations/components/slang-quiz.tsx"
+  ],
+  "implementation": "1. generation-card.tsx: Wrap content in shared Card/CardHeader/CardContent. Keep Link wrapper. Move emoji+name into CardHeader, era Badge and term count into CardContent.\n2. slang-dictionary.tsx: Replace category filter pills with PillList component. Search Input and Card are already shared — no changes needed there.\n3. slang-translator.tsx: Replace inline direction toggle buttons with shared Button (outline variant). Replace raw <textarea> with shared Textarea component.\n4. slang-quiz.tsx: Replace inline option buttons with shared Button (outline/secondary variant, dynamic border/bg via className). Replace inline question card wrapper with shared Card/CardContent. Replace progress dots with a small shared component or Badge row.\n5. layout.tsx: Replace inline header navigation (emoji generation buttons + dashboard link) with shared AppNav or Topbar component.\n6. page.tsx (hub): Replace inline feature overview cards with shared Card components. Replace inline timeline teaser with shared Timeline component. Optionally wrap hero section with shared Hero component.\n7. Run `pnpm build` to verify no type or build errors across the monorepo.",
+  "testing": {
+    "needed": true,
+    "reason": "Component migration changes rendering output. Existing app-specific tests in __tests__/generations/ must still pass, and any snapshot tests may need updating to reflect new component markup."
+  },
+  "verification": {
+    "needed": true,
+    "instructions": "1. Navigate to /apps/generations and verify generation cards render with proper styling and links work.\n2. Click a generation (e.g. gen-z) to open /apps/generations/gen-z.\n3. On the Dictionary tab: verify search input works, category pills filter correctly, slang cards display with Badge and VibeBar.\n4. Switch to Translator tab: verify direction toggle buttons work, textarea accepts input, translate button produces output.\n5. Switch to Quiz tab: start a quiz, verify option buttons are clickable, progress dots update, results screen shows score with Try Again button.\n6. Verify header navigation: click generation emoji buttons to switch between generations, click Dashboard link to return.",
+    "reason": "This is a UI component migration — visual rendering and interactive behavior must be verified in the browser to catch styling regressions and broken event handlers."
+  }
+}

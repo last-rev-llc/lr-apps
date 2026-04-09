@@ -1,0 +1,15 @@
+{
+  "issueNum": 21,
+  "title": "Auth gate: Soccer Training",
+  "status": "success",
+  "duration": 245,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 8,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/105",
+  "timestamp": "2026-04-08T17:02:38.529Z",
+  "agent": "claude",
+  "model": ""
+}

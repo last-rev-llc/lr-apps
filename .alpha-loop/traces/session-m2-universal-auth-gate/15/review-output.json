@@ -1,0 +1,2 @@
+Review: Auth gate for cringe-rizzler correctly implemented: layout calls requireAppLayoutAccess, registry has auth: true, all smoke tests pass.
+- [info] Unused `import React from 'react'` in cringe-rizzler/layout.tsx (JSX transform handles this automatically). Harmless but unnecessary. (unfixed)

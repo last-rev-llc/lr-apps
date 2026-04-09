@@ -1,0 +1,12 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- **Wrapped Badge in `<button>` for a11y**: Badge renders a `<div>`, but category pills were originally `<button>` elements. Wrapped Badge inside a `<button>` to preserve keyboard accessibility and semantic correctness, rather than adding `role="button"` or `tabIndex` to the Badge itself.
+- **Used `Button` with `variant="outline"` and `size="icon"` for rating buttons**: The original rating buttons were plain `<button>` elements with custom styles. Chose `outline` variant + `icon` size as the closest match, then applied custom classes for the amber hover/border treatment to preserve the existing visual design.
+- **Preserved all custom styling via className overrides**: Rather than adopting the default `@repo/ui` visual styles wholesale, kept the existing amber-400 color scheme and dark-theme styling through className overrides on the shared components. This maintains visual consistency but means the components aren't using pure default theming.
+
+## Items to Validate
+- **Visual regression on category pills**: The Badge component adds its own default padding/font-size. Confirm the category filter pills still look correct (size, spacing) compared to the original inline styling (`px-3 py-1 text-sm`).
+- **Focus ring on category buttons**: The wrapper `<button>` has `className="focus:outline-none"`, which suppresses the default focus indicator. Verify this is acceptable for your a11y requirements, or if a custom focus ring should be added.
+- **Rating button sizing**: Changed from `p-2` to `h-11 w-11` to work with the `size="icon"` variant. Confirm the emoji rating buttons are still the right size on mobile and desktop.

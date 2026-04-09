@@ -1,0 +1,17 @@
+{
+  "summary": "Add authentication gate to the Superstars app requiring login and permission checks.",
+  "files": [
+    "apps/web/app/apps/superstars/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/superstars/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/lib/app-registry.ts: Change superstars entry from `auth: false` to `auth: true` (line 71).\n2. apps/web/app/apps/superstars/layout.tsx: Make the default export async. Add `import { requireAppLayoutAccess } from \"@/lib/require-app-layout-access\";` and call `await requireAppLayoutAccess(\"superstars\");` as the first line of the function body.\n3. apps/web/app/apps/superstars/__tests__/layout.test.tsx: Create test file following the soccer-training pattern — mock `@/lib/require-app-layout-access`, then test four cases: (a) calls requireAppLayoutAccess with \"superstars\", (b) unauthenticated redirects to /login, (c) unauthorized redirects to /unauthorized, (d) renders children for authenticated user with permission.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gating changes runtime behavior — unauthenticated/unauthorized users are now redirected. Smoke tests confirm the layout calls requireAppLayoutAccess correctly and propagates redirect errors."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate is server-side redirect logic tested via unit tests. No UI changes to verify in a browser — the layout markup is unchanged, only the access check is added."
+  }
+}

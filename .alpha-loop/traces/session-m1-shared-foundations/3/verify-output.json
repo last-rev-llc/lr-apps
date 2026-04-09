@@ -1,0 +1,1 @@
+Verification skipped by plan: This is a developer tooling / test infrastructure change with no user-visible UI. Verification is done by running 'pnpm test' from the monorepo root.

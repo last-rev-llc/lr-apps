@@ -1,0 +1,5 @@
+Plan written to `plan-issue-35.json`. It covers:
+
+- **layout.test.tsx** — auth gate with `requireAppLayoutAccess("uptime")`, children rendering, Topbar title, error propagation
+- **page.test.tsx** — status badge (all-up vs issues), site list rendering (names, URLs, status labels, response times, uptime %), UptimeBars history chart (bar colors, tooltips), empty state, edge cases
+- Both files follow the established sibling app test patterns (meeting-summaries, accounts) using `@repo/test-utils`, vitest jsdom environment, and module-level mocks

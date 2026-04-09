@@ -1,0 +1,19 @@
+Done. Here's a summary of the changes across 3 files:
+
+**cringe-app.tsx** — Replaced 3 raw `<button>` elements with `@repo/ui` Button:
+- Scenario selection buttons → `Button variant="outline" size="sm"`
+- Template cycler prev/next → `Button variant="outline" size="icon"`
+- Saved item copy button → `Button variant="ghost" size="sm"`
+- Replaced 13 hardcoded color classes with theme tokens (`text-muted-foreground`, `bg-surface`, `border-surface-border`)
+
+**about/page.tsx** — Full migration to `@repo/ui`:
+- 6 feature cards, 3 step cards, 3 use-case cards → `Card` + `CardContent` with `glass-sm`
+- 2 CTA links → `Button asChild` wrapping `Link`
+- All section headings/descriptions → `text-foreground` / `text-muted-foreground`
+
+**layout.tsx** — Theme token consistency:
+- Header → `border-surface-border bg-surface`
+- Nav links → `text-muted-foreground`
+- Blob animations preserved untouched
+
+Build passes, all 153 tests pass.

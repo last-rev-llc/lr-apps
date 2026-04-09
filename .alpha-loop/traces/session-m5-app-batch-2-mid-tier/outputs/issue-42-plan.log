@@ -1,0 +1,6 @@
+Plan written to `plan-issue-42.json`. Key decisions:
+
+- **6 files** to modify — the hub page, layout, generation card, and all 3 tab components (dictionary, translator, quiz)
+- Some components (Search Input, Card in dictionary, Button in translator/quiz) already use `@repo/ui` — the plan focuses on the remaining inline UI
+- Biggest wins: `generation-card.tsx` → shared Card, quiz option buttons → shared Button, translator textarea → shared Textarea, hub timeline → shared Timeline, navigation → shared AppNav/Topbar
+- Verification needed since this is a visual migration that could break styling or interactivity

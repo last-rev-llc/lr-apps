@@ -1,0 +1,21 @@
+## Review Summary
+
+**Result: PASSED** (after fix)
+
+### Acceptance Criteria Check
+| Criteria | Status |
+|----------|--------|
+| Joke cards use `@repo/ui` Card | Done — `Card` + `CardContent` wraps the joke display |
+| Category pills use `@repo/ui` Badge | Done — all category filters use `Badge variant="outline"` |
+| Joke viewer uses shared components | Done — `Button`, `Badge`, `Card`, `CardContent` all from `@repo/ui` |
+| `pnpm build` passes | Verified |
+
+### Finding Fixed
+**Warning — A11y regression on category filters**: The original code used `<button>` elements for category pills. The migration replaced them with `<Badge>` which renders a `<div>` — losing keyboard focus, tab order, and screen reader semantics. Fixed by wrapping each interactive Badge in a `<button>` element.
+
+### No Issues With
+- Imports are clean (Button, Badge, Card, CardContent all from `@repo/ui`)
+- No dead code or unused imports
+- Rating buttons correctly use `Button` (a real `<button>` element) — no a11y issue there
+- Styling overrides via className are appropriate and don't conflict with component variants
+- Build passes cleanly

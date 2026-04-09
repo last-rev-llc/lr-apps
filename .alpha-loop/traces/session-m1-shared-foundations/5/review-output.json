@@ -1,0 +1,5 @@
+Review: All critical and warning issues fixed: stale publicEntry references in my-apps page and architecture display, missing x-app-pathname header in dev proxy path
+- [critical] my-apps/page.tsx still referenced removed publicEntry property (lines 54, 58, 142, 144), causing TypeScript errors and broken app categorization for ai-calculator (fixed)
+- [warning] Dev mode proxy path (?app= param) did not set x-app-pathname header, so publicRoutes would not work during local development (fixed)
+- [warning] Architecture viewer display strings still referenced publicEntry instead of publicRoutes (fixed)
+- [info] isPublicRoute glob test (app-registry.test.ts:79-83) re-tests exact match '/' instead of actually exercising the '/**' glob branch — no current app uses globs so low risk (unfixed)

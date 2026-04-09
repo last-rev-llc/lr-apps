@@ -1,0 +1,672 @@
+diff --git a/.env.compose b/.env.compose
+index d61b898..3d9b0bb 100644
+--- a/.env.compose
++++ b/.env.compose
+@@ -1 +1,6 @@
+ COMPOSE_PROJECT_NAME=lr-apps
++
++# Self-enroll: comma-separated app slugs that auto-grant "view" permission on
++# first login. Example: command-center,generations,sentiment
++# When unset in NODE_ENV=development, ALL slugs are allowed (local dev fallback).
++# APP_SELF_ENROLL_SLUGS=
+diff --git a/apps/web/app/(auth)/(forms)/login/login-form.tsx b/apps/web/app/(auth)/(forms)/login/login-form.tsx
+index 396d48c..42df8ec 100644
+--- a/apps/web/app/(auth)/(forms)/login/login-form.tsx
++++ b/apps/web/app/(auth)/(forms)/login/login-form.tsx
+@@ -5,9 +5,11 @@ import { Button } from "@repo/ui";
+ export function LoginForm({
+   loginHref,
+   error,
++  redirectSlug,
+ }: {
+   loginHref: string;
+   error?: string;
++  redirectSlug?: string;
+ }) {
+   return (
+     <div>
+@@ -22,7 +24,9 @@ export function LoginForm({
+         <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md mb-4">
+           {error === "forbidden"
+             ? "You do not have access to that app."
+-            : error}
++            : error === "session_expired"
++              ? "Your session expired — please sign in again."
++              : error}
+         </div>
+       )}
+ 
+@@ -32,7 +36,10 @@ export function LoginForm({
+ 
+       <p className="text-sm text-muted-foreground text-center mt-6">
+         New here?{" "}
+-        <a href="/signup" className="text-accent hover:underline">
++        <a
++          href={redirectSlug ? `/signup?redirect=${encodeURIComponent(redirectSlug)}` : "/signup"}
++          className="text-accent hover:underline"
++        >
+           Create an account
+         </a>
+       </p>
+diff --git a/apps/web/app/(auth)/(forms)/login/page.tsx b/apps/web/app/(auth)/(forms)/login/page.tsx
+index 49f8a1d..e250978 100644
+--- a/apps/web/app/(auth)/(forms)/login/page.tsx
++++ b/apps/web/app/(auth)/(forms)/login/page.tsx
+@@ -16,5 +16,11 @@ export default async function LoginPage({
+     redirectSlug: params.redirect,
+   });
+ 
+-  return <LoginForm loginHref={loginHref} error={params.error} />;
++  return (
++    <LoginForm
++      loginHref={loginHref}
++      error={params.error}
++      redirectSlug={params.redirect}
++    />
++  );
+ }
+diff --git a/apps/web/app/(auth)/(forms)/unauthorized/page.tsx b/apps/web/app/(auth)/(forms)/unauthorized/page.tsx
+index e3cea29..b432412 100644
+--- a/apps/web/app/(auth)/(forms)/unauthorized/page.tsx
++++ b/apps/web/app/(auth)/(forms)/unauthorized/page.tsx
+@@ -49,7 +49,11 @@ export default async function UnauthorizedPage({
+   return (
+     <div className="text-center max-w-md mx-auto">
+       <h1 className="font-heading text-2xl text-accent mb-2">
+-        {signedIn ? "Access required" : "Sign in or sign up"}
++        {signedIn
++          ? app
++            ? `Access required — ${app.name}`
++            : "Access required"
++          : "Sign in or sign up"}
+       </h1>
+ 
+       {error === "closed" && (
+@@ -97,7 +101,7 @@ export default async function UnauthorizedPage({
+           <form action={requestAppAccess}>
+             <input type="hidden" name="app" value={appSlug} />
+             <Button type="submit" className="w-full">
+-              Get access
++              Request access
+             </Button>
+           </form>
+         )}
+@@ -135,9 +139,9 @@ export default async function UnauthorizedPage({
+ 
+       {signedIn && appSlug && !canRequestAccess && !gate && error !== "closed" ? (
+         <p className="text-xs text-muted-foreground mt-6">
+-          Self-service access is off for this app in this environment. Ask an
+-          admin to add your account in{" "}
+-          <code className="bg-muted px-1 rounded">app_permissions</code>.
++          Self-service access is not available for{" "}
++          {app ? app.name : "this app"}. Please contact a Last Rev admin to
++          request access.
+         </p>
+       ) : null}
+     </div>
+diff --git a/apps/web/app/apps/area-52/__tests__/layout.test.tsx b/apps/web/app/apps/area-52/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..ca8b00f
+--- /dev/null
++++ b/apps/web/app/apps/area-52/__tests__/layout.test.tsx
+@@ -0,0 +1,52 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++// Import the raw module to call the default export without JSX evaluation
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("Area52Layout", () => {
++  it("calls requireAppLayoutAccess with 'area-52'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("area-52");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("area-52");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("area-52");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("area-52");
++  });
++});
+diff --git a/apps/web/app/apps/area-52/layout.tsx b/apps/web/app/apps/area-52/layout.tsx
+index d3d3442..608983a 100644
+--- a/apps/web/app/apps/area-52/layout.tsx
++++ b/apps/web/app/apps/area-52/layout.tsx
+@@ -1,3 +1,4 @@
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ import type { ReactNode } from "react";
+ 
+ export const metadata = {
+@@ -9,6 +10,12 @@ export const viewport = {
+   themeColor: "#22c55e",
+ };
+ 
+-export default function Area52Layout({ children }: { children: ReactNode }) {
+-  return <>{children}</>;
++export default async function Area52Layout({
++  children,
++}: {
++  children: ReactNode;
++}) {
++  await requireAppLayoutAccess("area-52");
++
++  return children;
+ }
+diff --git a/apps/web/app/apps/lighthouse/__tests__/layout.test.tsx b/apps/web/app/apps/lighthouse/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..d6ef368
+--- /dev/null
++++ b/apps/web/app/apps/lighthouse/__tests__/layout.test.tsx
+@@ -0,0 +1,52 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++// Import the raw module to call the default export without JSX evaluation
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("LighthouseLayout", () => {
++  it("calls requireAppLayoutAccess with 'lighthouse'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("lighthouse");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("lighthouse");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("lighthouse");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("lighthouse");
++  });
++});
+diff --git a/apps/web/app/apps/lighthouse/layout.tsx b/apps/web/app/apps/lighthouse/layout.tsx
+index 8e48979..150b733 100644
+--- a/apps/web/app/apps/lighthouse/layout.tsx
++++ b/apps/web/app/apps/lighthouse/layout.tsx
+@@ -17,5 +17,5 @@ export default async function LighthouseLayout({
+ }) {
+   await requireAppLayoutAccess("lighthouse");
+ 
+-  return <>{children}</>;
++  return children;
+ }
+diff --git a/apps/web/lib/__tests__/auth-login-redirect.test.ts b/apps/web/lib/__tests__/auth-login-redirect.test.ts
+new file mode 100644
+index 0000000..7ab4354
+--- /dev/null
++++ b/apps/web/lib/__tests__/auth-login-redirect.test.ts
+@@ -0,0 +1,64 @@
++import { describe, it, expect, vi } from "vitest";
++import { buildAuthLoginHref } from "../auth-login-redirect";
++
++describe("buildAuthLoginHref", () => {
++  it("returns /my-apps returnTo when no redirectSlug", () => {
++    const href = buildAuthLoginHref({ host: "localhost:3000" });
++    expect(href).toContain("returnTo=%2Fmy-apps");
++  });
++
++  it("uses path-based returnTo on localhost", () => {
++    const href = buildAuthLoginHref({
++      host: "localhost:3000",
++      redirectSlug: "sentiment",
++    });
++    expect(href).toContain("returnTo=%2Fapps%2Fsentiment");
++  });
++
++  it("uses subdomain returnTo in production", () => {
++    const href = buildAuthLoginHref({
++      host: "auth.apps.lastrev.com",
++      redirectSlug: "sentiment",
++    });
++    expect(href).toContain(
++      "returnTo=https%3A%2F%2Fsentiment.apps.lastrev.com%2F",
++    );
++  });
++
++  it("falls back to /my-apps for unknown slug", () => {
++    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
++    const href = buildAuthLoginHref({
++      host: "localhost:3000",
++      redirectSlug: "nonexistent-app",
++    });
++    expect(href).toContain("returnTo=%2Fmy-apps");
++    expect(warnSpy).toHaveBeenCalledWith(
++      expect.stringContaining("unknown app slug"),
++    );
++    warnSpy.mockRestore();
++  });
++
++  it("adds screen_hint=signup when specified", () => {
++    const href = buildAuthLoginHref({
++      host: "localhost:3000",
++      screenHint: "signup",
++    });
++    expect(href).toContain("screen_hint=signup");
++  });
++
++  it("uses custom defaultReturnTo when specified", () => {
++    const href = buildAuthLoginHref({
++      host: "localhost:3000",
++      defaultReturnTo: "/dashboard",
++    });
++    expect(href).toContain("returnTo=%2Fdashboard");
++  });
++
++  it("uses path-based returnTo on vercel.app previews", () => {
++    const href = buildAuthLoginHref({
++      host: "lr-apps-abc123.vercel.app",
++      redirectSlug: "command-center",
++    });
++    expect(href).toContain("returnTo=%2Fapps%2Fcommand-center");
++  });
++});
+diff --git a/apps/web/lib/app-registry.ts b/apps/web/lib/app-registry.ts
+index 7462fb1..10d0e7d 100644
+--- a/apps/web/lib/app-registry.ts
++++ b/apps/web/lib/app-registry.ts
+@@ -77,7 +77,7 @@ const apps: AppConfig[] = [
+   { slug: "soccer-training", name: "Soccer Training", subdomain: "soccer", routeGroup: "apps/soccer-training", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+   { slug: "hspt-practice", name: "HSPT Practice", subdomain: "hspt-practice", routeGroup: "apps/hspt-practice", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+   { slug: "hspt-tutor", name: "HSPT Tutor", subdomain: "hspt-tutor", routeGroup: "apps/hspt-tutor", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+-  { slug: "area-52", name: "Area 52", subdomain: "area-52", routeGroup: "apps/area-52", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
++  { slug: "area-52", name: "Area 52", subdomain: "area-52", routeGroup: "apps/area-52", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+   { slug: "brommie-quake", name: "Brommie Quake", subdomain: "brommie", routeGroup: "apps/brommie-quake", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+   { slug: "age-of-apes", name: "Age of Apes", subdomain: "apes", routeGroup: "apps/age-of-apes", auth: false, permission: "view", template: "minimal", tier: "free", features: {} },
+ ];
+diff --git a/apps/web/lib/auth-login-redirect.ts b/apps/web/lib/auth-login-redirect.ts
+index 2854687..41064d4 100644
+--- a/apps/web/lib/auth-login-redirect.ts
++++ b/apps/web/lib/auth-login-redirect.ts
+@@ -39,6 +39,10 @@ export function buildAuthLoginHref(opts: {
+       returnTo = usePathBasedReturn(host)
+         ? `/${app.routeGroup}`
+         : `${productionAppOrigin(app.subdomain)}/`;
++    } else {
++      console.warn(
++        `[auth] buildAuthLoginHref: unknown app slug "${redirectSlug}", falling back to ${defaultReturnTo}`,
++      );
+     }
+   }
+   qs.set("returnTo", returnTo);
+diff --git a/packages/auth/src/__tests__/auth0-factory.test.ts b/packages/auth/src/__tests__/auth0-factory.test.ts
+new file mode 100644
+index 0000000..58043c1
+--- /dev/null
++++ b/packages/auth/src/__tests__/auth0-factory.test.ts
+@@ -0,0 +1,48 @@
++import { describe, it, expect } from "vitest";
++import { isSafeReturnTo } from "../auth0-factory";
++
++describe("isSafeReturnTo", () => {
++  it("allows relative paths", () => {
++    expect(isSafeReturnTo("/my-apps")).toBe(true);
++    expect(isSafeReturnTo("/apps/sentiment")).toBe(true);
++    expect(isSafeReturnTo("/")).toBe(true);
++  });
++
++  it("allows known app subdomain URLs", () => {
++    expect(
++      isSafeReturnTo("https://sentiment.apps.lastrev.com/"),
++    ).toBe(true);
++    expect(
++      isSafeReturnTo("https://command-center.apps.lastrev.com/dashboard"),
++    ).toBe(true);
++  });
++
++  it("allows local app subdomain URLs", () => {
++    expect(
++      isSafeReturnTo("http://sentiment.apps.lastrev.localhost:3000/"),
++    ).toBe(true);
++  });
++
++  it("allows the bare domain itself", () => {
++    expect(isSafeReturnTo("https://apps.lastrev.com/")).toBe(true);
++  });
++
++  it("rejects external URLs", () => {
++    expect(isSafeReturnTo("https://evil.com/apps/sentiment")).toBe(false);
++    expect(isSafeReturnTo("https://evil.apps.lastrev.com.attacker.com/")).toBe(
++      false,
++    );
++  });
++
++  it("rejects javascript: protocol", () => {
++    expect(isSafeReturnTo("javascript:alert(1)")).toBe(false);
++  });
++
++  it("rejects data: protocol", () => {
++    expect(isSafeReturnTo("data:text/html,<h1>hi</h1>")).toBe(false);
++  });
++
++  it("rejects empty string", () => {
++    expect(isSafeReturnTo("")).toBe(false);
++  });
++});
+diff --git a/packages/auth/src/__tests__/self-enroll.test.ts b/packages/auth/src/__tests__/self-enroll.test.ts
+new file mode 100644
+index 0000000..ec7ab96
+--- /dev/null
++++ b/packages/auth/src/__tests__/self-enroll.test.ts
+@@ -0,0 +1,102 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++import { appSlugFromReturnTo, isSelfEnrollAllowedForSlug } from "../self-enroll";
++
++describe("appSlugFromReturnTo", () => {
++  it("extracts slug from /apps/foo", () => {
++    expect(appSlugFromReturnTo("/apps/foo")).toBe("foo");
++  });
++
++  it("extracts slug from /apps/foo/", () => {
++    expect(appSlugFromReturnTo("/apps/foo/")).toBe("foo");
++  });
++
++  it("extracts slug from /apps/foo/bar subpath", () => {
++    expect(appSlugFromReturnTo("/apps/foo/bar")).toBe("foo");
++  });
++
++  it("extracts slug from full URL with /apps/ path", () => {
++    expect(appSlugFromReturnTo("http://localhost:3000/apps/sentiment")).toBe(
++      "sentiment",
++    );
++  });
++
++  it("extracts slug from production subdomain URL", () => {
++    expect(
++      appSlugFromReturnTo("https://command-center.apps.lastrev.com/"),
++    ).toBe("command-center");
++  });
++
++  it("extracts slug from subdomain URL with path", () => {
++    expect(
++      appSlugFromReturnTo("https://sentiment.apps.lastrev.com/dashboard"),
++    ).toBe("sentiment");
++  });
++
++  it("extracts slug from local subdomain URL", () => {
++    expect(
++      appSlugFromReturnTo("http://sentiment.apps.lastrev.localhost:3000/"),
++    ).toBe("sentiment");
++  });
++
++  it("returns null for undefined", () => {
++    expect(appSlugFromReturnTo(undefined)).toBeNull();
++  });
++
++  it("returns null for /my-apps", () => {
++    expect(appSlugFromReturnTo("/my-apps")).toBeNull();
++  });
++
++  it("returns null for root path", () => {
++    expect(appSlugFromReturnTo("/")).toBeNull();
++  });
++
++  it("extracts slug from external URL path (validation is separate)", () => {
++    // appSlugFromReturnTo only extracts — isSafeReturnTo validates the domain
++    expect(appSlugFromReturnTo("https://evil.com/apps/foo")).toBe("foo");
++  });
++
++  it("returns null for external URL without /apps/ path", () => {
++    expect(appSlugFromReturnTo("https://evil.com/other")).toBeNull();
++  });
++
++  it("returns null for invalid URL", () => {
++    expect(appSlugFromReturnTo("not-a-url")).toBeNull();
++  });
++
++  it("strips query params from path-based returnTo", () => {
++    expect(appSlugFromReturnTo("/apps/foo?bar=1")).toBe("foo");
++  });
++});
++
++describe("isSelfEnrollAllowedForSlug", () => {
++  beforeEach(() => {
++    vi.unstubAllEnvs();
++  });
++
++  it("returns false for invalid slug format", () => {
++    expect(isSelfEnrollAllowedForSlug("../etc")).toBe(false);
++    expect(isSelfEnrollAllowedForSlug("")).toBe(false);
++  });
++
++  it("returns true when slug is in APP_SELF_ENROLL_SLUGS", () => {
++    vi.stubEnv("APP_SELF_ENROLL_SLUGS", "foo,bar,baz");
++    expect(isSelfEnrollAllowedForSlug("bar")).toBe(true);
++  });
++
++  it("returns false when slug is NOT in APP_SELF_ENROLL_SLUGS", () => {
++    vi.stubEnv("APP_SELF_ENROLL_SLUGS", "foo,bar");
++    expect(isSelfEnrollAllowedForSlug("baz")).toBe(false);
++  });
++
++  it("allows any slug in development when env var is unset", () => {
++    vi.stubEnv("APP_SELF_ENROLL_SLUGS", "");
++    vi.stubEnv("NODE_ENV", "development");
++    expect(isSelfEnrollAllowedForSlug("anything")).toBe(true);
++  });
++
++  it("denies in production when env var is unset", () => {
++    vi.stubEnv("APP_SELF_ENROLL_SLUGS", "");
++    vi.stubEnv("NODE_ENV", "production");
++    expect(isSelfEnrollAllowedForSlug("anything")).toBe(false);
++  });
++});
+diff --git a/packages/auth/src/auth0-factory.ts b/packages/auth/src/auth0-factory.ts
+index e23e593..bb6ae0d 100644
+--- a/packages/auth/src/auth0-factory.ts
++++ b/packages/auth/src/auth0-factory.ts
+@@ -1,6 +1,29 @@
+ import { Auth0Client } from "@auth0/nextjs-auth0/server";
+ import { NextResponse } from "next/server";
+-import { maybeSelfEnrollAfterLogin } from "./self-enroll";
++import { maybeSelfEnrollAfterLogin, appSlugFromReturnTo } from "./self-enroll";
++
++const ALLOWED_RETURN_HOSTS = [
++  "apps.lastrev.com",
++  "apps.lastrev.localhost",
++];
++
++/**
++ * Validates that returnTo is a safe redirect target:
++ * - Relative paths (starting with `/`) are always allowed
++ * - Absolute URLs must be under a known app domain
++ * - Everything else is rejected (returns false)
++ */
++export function isSafeReturnTo(returnTo: string): boolean {
++  if (returnTo.startsWith("/")) return true;
++  try {
++    const url = new URL(returnTo);
++    return ALLOWED_RETURN_HOSTS.some(
++      (d) => url.hostname === d || url.hostname.endsWith(`.${d}`),
++    );
++  } catch {
++    return false;
++  }
++}
+ 
+ export type ProductAuth0Config = {
+   clientId: string;
+@@ -79,18 +102,39 @@ export function getAuth0ClientForHost(host: string): Auth0Client {
+       if (error) {
+         const u = new URL("/login", appBaseUrl);
+         u.searchParams.set("error", error.message);
++        // Preserve the redirect param so the user can retry without losing their destination
++        const slug = appSlugFromReturnTo(ctx.returnTo);
++        if (slug) {
++          u.searchParams.set("redirect", slug);
++        }
+         return NextResponse.redirect(u);
+       }
+ 
+-      if (session?.user?.sub) {
+-        try {
+-          await maybeSelfEnrollAfterLogin(session.user.sub, ctx.returnTo);
+-        } catch (e) {
+-          console.error("[auth] self-enroll skipped:", e);
++      // Handle expired/invalid session: redirect to login with session_expired error
++      if (!session?.user?.sub) {
++        const u = new URL("/login", appBaseUrl);
++        u.searchParams.set("error", "session_expired");
++        const slug = appSlugFromReturnTo(ctx.returnTo);
++        if (slug) {
++          u.searchParams.set("redirect", slug);
+         }
++        return NextResponse.redirect(u);
+       }
+ 
+-      const target = ctx.returnTo || "/my-apps";
++      try {
++        await maybeSelfEnrollAfterLogin(session.user.sub, ctx.returnTo);
++      } catch (e) {
++        console.error("[auth] self-enroll skipped:", e);
++      }
++
++      // Validate returnTo to prevent open-redirect
++      const rawTarget = ctx.returnTo || "/my-apps";
++      const target = isSafeReturnTo(rawTarget) ? rawTarget : "/my-apps";
++      if (target !== rawTarget) {
++        console.warn(
++          `[auth] rejected unsafe returnTo "${rawTarget}", redirecting to /my-apps`,
++        );
++      }
+       return NextResponse.redirect(new URL(target, appBaseUrl));
+     },
+   });
+diff --git a/packages/auth/src/require-access.ts b/packages/auth/src/require-access.ts
+index 0ff2e88..c68eb2c 100644
+--- a/packages/auth/src/require-access.ts
++++ b/packages/auth/src/require-access.ts
+@@ -26,7 +26,11 @@ export async function requireAccess(
+   const session = await auth0.getSession();
+ 
+   if (!session?.user) {
+-    redirect(`/login?redirect=${encodeURIComponent(appSlug)}`);
++    // Distinguish between no session and expired/invalid session
++    const errorParam = session ? "&error=session_expired" : "";
++    redirect(
++      `/login?redirect=${encodeURIComponent(appSlug)}${errorParam}`,
++    );
+   }
+ 
+   const userId = session.user.sub;
+diff --git a/packages/auth/src/self-enroll.ts b/packages/auth/src/self-enroll.ts
+index f76cead..34a03b8 100644
+--- a/packages/auth/src/self-enroll.ts
++++ b/packages/auth/src/self-enroll.ts
+@@ -1,21 +1,48 @@
+ import { createServiceRoleClient } from "@repo/db/service-role";
+ import type { Permission } from "@repo/db/types";
+ 
+-/** `/apps/foo` or full URL whose path is `/apps/foo` → `foo` */
++const APP_DOMAINS = ["apps.lastrev.com", "apps.lastrev.localhost"];
++
++/**
++ * Extract app slug from a returnTo value. Handles:
++ * - Path-based: `/apps/foo` or `/apps/foo/bar`
++ * - Full URL with path: `http://localhost:3000/apps/foo`
++ * - Subdomain URL: `https://command-center.apps.lastrev.com/`
++ */
+ export function appSlugFromReturnTo(returnTo: string | undefined): string | null {
+   if (!returnTo) return null;
++
+   let path: string;
++  let hostname: string | null = null;
+   try {
+     if (returnTo.startsWith("/")) {
+       path = returnTo.split("?")[0] ?? returnTo;
+     } else {
+-      path = new URL(returnTo).pathname;
++      const url = new URL(returnTo);
++      path = url.pathname;
++      hostname = url.hostname;
+     }
+   } catch {
+     return null;
+   }
+-  const m = path.match(/^\/apps\/([\w-]+)\/?$/);
+-  return m?.[1] ?? null;
++
++  // Try path-based match first: /apps/{slug} or /apps/{slug}/...
++  const m = path.match(/^\/apps\/([\w-]+)/);
++  if (m?.[1]) return m[1];
++
++  // Try subdomain-based match: {slug}.apps.lastrev.com
++  if (hostname) {
++    for (const domain of APP_DOMAINS) {
++      if (hostname.endsWith(`.${domain}`)) {
++        const subdomain = hostname.slice(0, -(domain.length + 1));
++        if (subdomain && /^[\w-]+$/.test(subdomain)) {
++          return subdomain;
++        }
++      }
++    }
++  }
++
++  return null;
+ }
+ 
+ function parseSelfEnrollSlugs(): Set<string> {

@@ -1,0 +1,21 @@
+{
+  "summary": "Replace hardcoded hex/rgb/rgba color values with theme tokens or app-level CSS custom properties across 7 showcase apps (Alpha Wins, Brommie Quake, Superstars; Travel Collection/AI Calculator/Area 52/Lighthouse are already clean or themeColor-only exceptions).",
+  "files": [
+    "apps/web/app/apps/alpha-wins/components/wins-gallery.tsx",
+    "apps/web/app/apps/brommie-quake/brommie-quake.css",
+    "apps/web/app/apps/superstars/superstars.css",
+    "apps/web/app/apps/superstars/layout.tsx",
+    "apps/web/app/apps/superstars/page.tsx",
+    "apps/web/app/apps/superstars/components/person-card.tsx",
+    "apps/web/app/apps/superstars/components/person-profile.tsx"
+  ],
+  "implementation": "Step 1 — Alpha Wins (wins-gallery.tsx): Replace Tailwind palette classes with theme tokens. bg-amber-500/15 → bg-accent/15, text-amber-400 → text-accent, border-amber-500/30 → border-accent/30, bg-blue-500/15 → bg-blue/15, text-blue-400 → text-blue, border-blue-500/30 → border-blue/30. Six occurrences across card tags and modal badges.\n\nStep 2 — Brommie Quake (brommie-quake.css): The :root block already defines app-level CSS vars (--quake-blue, --quake-red, etc.) — these are the app's brand token layer and the hex definitions stay. Replace ~30 inline rgba() values that duplicate var colors with color-mix() or oklch() referencing the vars: rgba(206,15,45,0.3) → color-mix(in srgb, var(--quake-red) 30%, transparent), rgba(212,168,67,*) → color-mix with --quake-gold, rgba(0,103,177,*) → color-mix with --quake-blue or var(--glow-blue), rgba(255,255,255,*) → oklch(100% 0 0 / <alpha>). Add new :root vars for derived dark colors: --quake-navy: #001428, --quake-navy-deep: #002952, --quake-near-black: #0a0a0a, --quake-dark-red: #8B0000. Replace all inline occurrences of those hex values with the new vars. CONFETTI_COLORS array in page.tsx stays as literal hex (DOM manipulation exception per batch 2 precedent). themeColor in layout.tsx stays as literal hex (Next.js framework constraint).\n\nStep 3 — Superstars: Create superstars.css with app-level CSS custom properties: --ss-primary: #00543C, --ss-accent: #FDBB30. Import it in layout.tsx. Then: (a) layout.tsx — bg-[#0a0e1a] → bg-navy, text-[#FDBB30] → text-[var(--ss-accent)], hover:bg-[#00543C] → hover:bg-[var(--ss-primary)], hover:border-[#FDBB30] → hover:border-[var(--ss-accent)], hover:text-[#FDBB30] → hover:text-[var(--ss-accent)]. (b) page.tsx — bg-[#00543C] → bg-[var(--ss-primary)], border-[#FDBB30] → border-[var(--ss-accent)], text-[#FDBB30] → text-[var(--ss-accent)]. (c) person-card.tsx — Change defaults from literal hex to getComputedStyle CSS var values is impractical; instead change defaults to use var() strings: primary default → 'var(--ss-primary)', accent default → 'var(--ss-accent)'. These are used in inline style={{ color: accent }} which accepts CSS var(). (d) person-profile.tsx — Same default pattern as person-card. Replace from-[#FDBB30] → from-[var(--ss-accent)], bg-[#0a0e1a] → bg-navy, group-hover:text-[#FDBB30] → group-hover:text-[var(--ss-accent)], hover:text-[#FDBB30] → hover:text-[var(--ss-accent)]. themeColor in layout.tsx stays as literal hex (framework constraint).\n\nStep 4 — Verify no regressions: Run grep for remaining hardcoded hex/rgb/rgba across all 7 app directories. The only allowed exceptions are themeColor in layout.tsx files and CONFETTI_COLORS in brommie-quake/page.tsx.\n\nExceptions documented (no changes needed): Travel Collection, AI Calculator, Area 52, Lighthouse — only violations are themeColor (framework constraint) or zero violations.",
+  "testing": {
+    "needed": true,
+    "reason": "Color token replacements change visual rendering. Need to verify no Tailwind class resolution errors and that color-mix()/oklch() values render correctly. Existing functionality (confetti, animations, hover states) must be preserved."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "These are cosmetic color token replacements that should produce visually identical output. Visual regression is best caught via code review (per batch 1/2 learnings) rather than automated browser verification. No functional behavior changes."
+  }
+}

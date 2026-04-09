@@ -1,0 +1,15 @@
+{
+  "issueNum": 32,
+  "title": "Meeting Summaries: component migration",
+  "status": "success",
+  "duration": 527,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/128",
+  "timestamp": "2026-04-09T06:25:24.248Z",
+  "agent": "claude",
+  "model": ""
+}

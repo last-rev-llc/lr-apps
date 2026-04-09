@@ -1,0 +1,25 @@
+Now I have the full picture. Here's the analysis:
+
+## Assumptions
+
+- **`session_expired` detection via `session` truthiness**: Assumed that a non-null `session` without `session.user` indicates an expired session vs. `null` meaning no session at all. The actual Auth0 SDK may always return `null` for both cases, making the `session_expired` error unreachable in practice.
+- **Subdomain-to-slug mapping is exhaustive**: Assumed `SUBDOMAIN_TO_SLUG` in `self-enroll.ts` covers all subdomains that differ from their slug. Any future apps with mismatched subdomain/slug will need a manual entry here.
+- **Only `apps.lastrev.com` and `apps.lastrev.localhost` are valid app domains**: Hardcoded in both `ALLOWED_RETURN_HOSTS` and `APP_DOMAINS`. Any staging/preview environments (e.g., `apps.staging.lastrev.com`) are not covered.
+- **Signup redirects to `/my-apps` after email confirmation**: The acceptance criteria says this, but no code changes for the signup callback are visible — assumed this was already the existing behavior.
+
+## Decisions
+
+- **Open-redirect protection via allowlist**: Chose a hostname allowlist (`ALLOWED_RETURN_HOSTS`) over a same-origin check. This is more secure but requires updating the list when new domains are added.
+- **Protocol-relative URL rejection**: Explicitly reject `//evil.com` style URLs in `isSafeReturnTo` as a defense-in-depth measure beyond the hostname check.
+- **Preserved redirect slug through error flows**: When Auth0 callback hits an error or expired session, the `redirect` param is extracted from `returnTo` and forwarded to `/login` so the user doesn't lose their destination. This adds complexity but improves UX.
+- **"Request access" wording over "Get access"**: Changed CTA text to "Request access" which is more accurate since it's not instant — an admin may still need to approve.
+- **Only `area-52` updated to `auth: true`**: The acceptance criteria says "all 14 already-gated apps" should have `auth: true`, but the diff only shows `area-52` changing. Lighthouse was updated in a prior commit. The other 12 may already have been `auth: true`.
+- **Dev-mode self-enroll fallback allows all slugs**: In `NODE_ENV=development` with no `APP_SELF_ENROLL_SLUGS` set, all apps auto-enroll. This is convenient for local dev but could mask permission issues.
+
+## Items to Validate
+
+- **Verify all 14 gated apps actually have `auth: true`** in `app-registry.ts` — the diff only shows `area-52` changing; confirm the other 13 were already set.
+- **Test the `session_expired` error path** — confirm Auth0 SDK actually returns a non-null `session` with no `user` in expired-session scenarios, otherwise this code path is dead.
+- **Check if staging/preview environments need entries** in `ALLOWED_RETURN_HOSTS` and `APP_DOMAINS` — currently only production and localhost are covered.
+- **Verify `SUBDOMAIN_TO_SLUG` completeness** — cross-check against the full app registry to ensure no subdomain mappings are missing.
+- **Confirm signup post-confirmation redirect** works end-to-end — the diff doesn't show changes to the signup callback, so this depends on existing behavior being correct.

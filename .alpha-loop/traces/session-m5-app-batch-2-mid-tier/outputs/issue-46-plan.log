@@ -1,0 +1,6 @@
+Plan written to `plan-issue-46.json`. Key findings:
+
+- **`cringe-app.tsx`** already imports `Button`/`Card`/`CardContent` from `@repo/ui`, but still has 3 raw `<button>` elements (scenario buttons, template cyclers, copy button) that need migration
+- **`about/page.tsx`** has zero `@repo/ui` imports — all cards are raw `<div>`s and CTAs are styled `<Link>`s
+- **`layout.tsx`** blob animations stay untouched; only hardcoded color tokens need updating
+- Theme tokens (`text-muted-foreground`, `bg-surface`, `glass-sm`, etc.) should replace hardcoded `text-white/50`, `bg-white/5` patterns, following the slang-translator migration pattern

@@ -1,0 +1,18 @@
+All done. Here's a summary of the changes:
+
+**Files modified (8):**
+- `apps/web/lib/auth-login-redirect.ts` — unknown app slug falls back to `/my-apps` with warning
+- `packages/auth/src/auth0-factory.ts` — `isSafeReturnTo` open-redirect guard, preserve redirect on error, handle null session after callback
+- `packages/auth/src/require-access.ts` — expired session sends `error=session_expired` param
+- `apps/web/app/(auth)/(forms)/login/login-form.tsx` — "session expired" message, signup link preserves redirect
+- `apps/web/app/(auth)/(forms)/login/page.tsx` — passes `redirectSlug` to form
+- `apps/web/app/(auth)/(forms)/unauthorized/page.tsx` — app name in heading, "Request access" CTA, admin contact message
+- `packages/auth/src/self-enroll.ts` — `appSlugFromReturnTo` handles subdomain URLs + subpaths
+- `.env.compose` — `APP_SELF_ENROLL_SLUGS` documented
+
+**Files created (3 test files):**
+- `apps/web/lib/__tests__/auth-login-redirect.test.ts` — 7 tests
+- `packages/auth/src/__tests__/auth0-factory.test.ts` — 8 tests (open-redirect validation)
+- `packages/auth/src/__tests__/self-enroll.test.ts` — 19 tests (slug extraction + enroll policy)
+
+**Test results:** 8/8 packages pass, 104+ tests green, zero retries.

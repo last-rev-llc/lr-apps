@@ -1,0 +1,17 @@
+{
+  "summary": "Add authentication gate to Age of Apes app by updating its layout and registry entry, with smoke tests.",
+  "files": [
+    "apps/web/app/apps/age-of-apes/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/age-of-apes/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/lib/app-registry.ts: Change `auth: false` to `auth: true` in the age-of-apes entry.\n2. apps/web/app/apps/age-of-apes/layout.tsx: Import `requireAppLayoutAccess` from `@/lib/require-app-layout-access`. Make the default export async. Add `await requireAppLayoutAccess(\"age-of-apes\")` as the first statement in the function body.\n3. apps/web/app/apps/age-of-apes/__tests__/layout.test.tsx: Create test file following the Area 52 pattern. Mock `@/lib/require-app-layout-access`. Test four cases: (a) calls requireAppLayoutAccess with 'age-of-apes', (b) unauthenticated user gets NEXT_REDIRECT to /login, (c) unauthorized user gets NEXT_REDIRECT to /unauthorized, (d) authenticated user with permission renders children.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gating changes runtime behavior—unauthenticated/unauthorized users must be redirected. Smoke tests verify the layout calls requireAppLayoutAccess correctly and propagates redirect errors."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gating is server-side redirect logic fully covered by unit tests. No new UI elements to visually verify."
+  }
+}

@@ -1,0 +1,6 @@
+Plan written to `plan-issue-41.json`. It covers:
+
+- **`queries.test.ts`** — unit tests for `getJokeOfTheDay` (deterministic seed logic), `getCategories` (unique/sorted extraction), and `getAllJokes` (Supabase mock, error path)
+- **`joke-viewer.test.tsx`** — component tests for joke card rendering, punchline reveal, category filtering, mode badges, and random joke navigation
+- **Auth gate** — already covered by existing `require-app-layout-access.test.ts:52-55`; no new file needed
+- Two new test files, no code changes to existing source files

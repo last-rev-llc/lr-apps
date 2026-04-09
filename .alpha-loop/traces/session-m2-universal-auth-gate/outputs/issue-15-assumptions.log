@@ -1,0 +1,12 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- Added `session_expired` error handling in the login form (beyond scope of #15, but consistent with patterns added in prior auth gate PRs)
+- Preserved the `redirectSlug` through the login-to-signup link so users don't lose their destination when switching to signup
+- Changed "Get access" button text to "Request access" and rewrote the no-self-service copy to be more user-friendly — these were opportunistic UX improvements touching files already modified
+- Added smoke tests for `age-of-apes` layout in addition to `cringe-rizzler` — backfilling a missing test from the prior PR (#96)
+
+## Items to Validate
+- Confirm the unauthorized page copy changes ("Request access" wording, "Please contact a Last Rev admin") match your team's preferred tone
+- The `age-of-apes` test backfill was not in the #15 requirements — verify you want it included in this branch or split to a separate commit

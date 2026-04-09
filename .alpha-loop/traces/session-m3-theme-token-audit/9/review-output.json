@@ -1,0 +1,4 @@
+Review: Token audit script fully meets all acceptance criteria; dead code removed during review
+- [warning] classifySeverity function and 10 module-level regex constants were defined but never called/used (dead code) (fixed)
+- [info] Next.js viewport metadata themeColor (e.g. area-52/layout.tsx:9) requires literal hex strings — CSS vars won't work there. These are correctly flagged but are false positives in practice. (unfixed)
+- [info] Skipping #fff and #000 may miss legitimate violations (e.g. hardcoded white/black backgrounds). Consider making this configurable. (unfixed)

@@ -1,0 +1,10 @@
+**Review: PASSED**
+
+All acceptance criteria verified:
+- `AppConfig` has `tier: "free" | "pro" | "enterprise"` and `features: Record<string, "free" | "pro" | "enterprise">`
+- All 29 registry entries have `tier: "free"` and `features: {}`
+- Two new tests validate tier values and features objects (10/10 passing)
+- `pnpm typecheck` passes
+- Clean schema-only change with no runtime side effects
+
+One info-level note: `.env.compose` was added but is unrelated to this issue — not blocking.

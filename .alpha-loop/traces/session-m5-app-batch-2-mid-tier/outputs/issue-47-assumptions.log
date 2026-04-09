@@ -1,0 +1,15 @@
+## Assumptions
+- **Assumed `@repo/ui` components could be shallow-mocked** since the issue asked for app-specific tests, not integration tests of the shared UI library. Tabs required a stateful mock with context to test tab-switching behavior; simpler components (Card, Button, Badge) were mocked as pass-through HTML elements.
+- **Assumed "phrase generation produces valid output" meant testing the action call and response handling**, not E2E testing of actual AI generation. `generatePhrase` is mocked to return a known response shape.
+- **Assumed "auth gate redirects work" was covered by existing shared auth middleware tests**, since the cringe-rizzler app uses the same `AppAuthGuard` pattern as other apps and no app-specific auth logic exists. No cringe-rizzler-specific auth test was added.
+- **Assumed "main page renders with animations" meant verifying the component structure renders** (tabs, content, interactive elements), not testing CSS animation keyframes, since jsdom doesn't support visual animation validation.
+
+## Decisions
+- **Migrated production components to use `@repo/ui` primitives** (Card, CardContent, Button) and design tokens (`text-muted-foreground`, `text-foreground`, `glass-sm`, `border-surface-border`) instead of raw `text-white/60` / `border-white/8` hardcoded styles. This was needed to make components testable with the shared mock pattern used across other app tests, and aligns with the style-kit baseline.
+- **Created 6 test files** covering layout, about page, main cringe-app (with tab switching, glossary filtering, meme scenarios), data layer (slang dictionary validation), server actions, and utils — rather than fewer, broader test files. This matches the pattern established by Slang Translator and Generations test PRs.
+- **Tested glossary filtering (search + category) and meme scenario selection interactively** via fireEvent rather than just snapshot-testing, to catch actual behavior regressions.
+
+## Items to Validate
+- **Visual regression on the about page and main app** — the `text-white/60` → `text-muted-foreground` and `border-white/8` → `border-surface-border` migrations change how colors resolve. Verify the dark theme still looks right in browser.
+- **Button behavior change in meme tab** — scenario buttons changed from raw `<button>` to `<Button variant="outline">`, and meme cycle buttons to `<Button variant="outline" size="icon">`. Verify click targets and spacing are unchanged.
+- **No dedicated auth gate test** — if you specifically wanted a cringe-rizzler auth redirect test (even though the auth logic is shared), that would need to be added separately.

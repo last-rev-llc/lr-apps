@@ -1,0 +1,22 @@
+## Review: Issue #35 — Uptime: app-specific tests
+
+**Result: PASSED**
+
+### Acceptance Criteria
+
+| Criteria | Status |
+|----------|--------|
+| Status badge renders correct color/label for each status | Covered (3 statuses + unknown fallback) |
+| History chart renders with mock data | Covered (bar titles, colors, empty history) |
+| Site list renders correctly | Covered (names, URLs, response time, uptime %) |
+| Auth gate redirects work | Covered (layout calls `requireAppLayoutAccess("uptime")`, error propagation) |
+| `pnpm test` passes | 181/181 tests pass |
+
+### Test Coverage Summary
+
+- **`layout.test.tsx`** — 4 tests: auth gate, children rendering, topbar title, error propagation
+- **`page.test.tsx`** — 13 tests: status banner (all-up, multi-issue, singular), site list (names/URLs, status labels, metrics, unknown status), history bars (titles, colors, empty), empty state, error handling
+
+### Findings
+
+- **INFO**: Unused `createMockSupabase` import in `page.test.tsx` line 4 — the test rolls its own mock via `vi.hoisted()` instead. Non-blocking, cosmetic only.

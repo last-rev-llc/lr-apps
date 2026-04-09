@@ -1,0 +1,1 @@
+Review: All acceptance criteria met: 19 new tests cover JOTD selection, category filtering, joke card rendering, and rating; auth gate covered by shared tests; pnpm test passes cleanly.

@@ -1,0 +1,15 @@
+{
+  "issueNum": 18,
+  "title": "Auth gate: HSPT Tutor",
+  "status": "success",
+  "duration": 248,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 8,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/102",
+  "timestamp": "2026-04-08T16:49:07.188Z",
+  "agent": "claude",
+  "model": ""
+}

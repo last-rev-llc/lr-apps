@@ -1,0 +1,12 @@
+Done. Here's what was added:
+
+**4 test files, 37 tests** covering all acceptance criteria:
+
+| File | Tests | Coverage |
+|------|-------|----------|
+| `lib/__tests__/queries.test.ts` | 3 | Supabase query chain, merge+sort of gen-alpha (DB) + gen-x (JSON), error handling |
+| `lib/__tests__/gen-x-map.test.ts` | 7 | Entry count (43), known mappings, all values non-empty |
+| `components/__tests__/slang-app.test.tsx` | 22 | Tab switching, Dictionary search/filter/modal, bi-directional display (GEN_X_MAP + equivalents.genAlpha), Translator direction swap + translation + unknown text, Compare side-by-side pairs |
+| `__tests__/layout.test.tsx` | 5 | Auth gate (`requireAppLayoutAccess('slang-translator')`), unauthorized redirect, nav links, header title |
+
+All 153 tests pass across 16 test files.

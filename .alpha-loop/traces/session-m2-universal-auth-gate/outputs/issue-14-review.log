@@ -1,0 +1,8 @@
+**Review: PASSED**
+
+All 5 acceptance criteria verified:
+1. `layout.tsx` calls `requireAppLayoutAccess("brommie-quake")` at line 18
+2. App registry entry has `auth: true` at `app-registry.ts:81`
+3. Test: unauthenticated request redirects to `/login` — passing
+4. Test: authenticated user without permission redirects to `/unauthorized` — passing
+5. `pnpm test` — all 137 tests pass across 8 packages

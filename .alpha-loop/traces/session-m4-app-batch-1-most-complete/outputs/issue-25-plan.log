@@ -1,0 +1,7 @@
+Plan written to `plan-issue-25.json`. Three test files covering:
+
+1. **Hub page tests** (`page.test.tsx`) - All 21 module cards render with correct data, links point to right routes, stat cards show correct values
+2. **Layout/auth tests** (`layout.test.tsx`) - Auth gate redirects unauthenticated users to `/login`, unauthorized users to `/unauthorized`, and renders sidebar + topbar for authenticated users
+3. **Sidebar component tests** (`sidebar.test.tsx`) - Items render with correct links/labels, collapsed mode hides labels, active styling, toggle callback
+
+All tests use `@repo/test-utils` helpers (`renderWithProviders`, `screen`, `createMockAuth0`, etc.) and follow the existing Vitest patterns in the repo.

@@ -1,0 +1,18 @@
+Now I have a clear picture of the changes. Here's the analysis:
+
+## Assumptions
+- **`text-muted-foreground` as the universal replacement for `text-white/XX` opacity variants** — The issue said "dark theme tokens used consistently" but didn't specify which tokens map to which opacity levels. Assumed `text-muted-foreground` covers all secondary/tertiary text (`text-white/30`, `text-white/40`, `text-white/50`, `text-white/60`) without distinguishing between them. The original had subtle hierarchy via different opacity levels (30 vs 60) that is now flattened.
+- **`glass-sm` utility class exists and matches the original card aesthetic** — Replaced inline `border-white/8 bg-white/5 backdrop-blur-sm` with the `glass-sm` utility, assuming it produces a visually equivalent result on the dark background.
+- **`bg-surface` and `border-surface-border` are the correct token names** — Used these for the header and tab list backgrounds; the issue didn't specify exact token names.
+
+## Decisions
+- **Used `Button asChild` pattern for CTA links** — The original was a plain `<Link>` styled as a button. Wrapped with `<Button asChild>` to get the `@repo/ui` component while preserving client-side navigation. Could have used `Button` with `onClick` + `router.push` instead, but `asChild` is idiomatic for shadcn/radix.
+- **Kept inline gradient styles rather than converting to theme tokens** — The pink/purple/violet gradients (`linear-gradient(135deg, #ec4899, #a855f7)`) are brand-specific to Cringe Rizzler. Converting these to CSS variables would have been more "token-consistent" but would over-abstract app-specific design.
+- **Preserved `hover:bg-white/8` on cards** — Some hover states still use raw `white/8` rather than a theme token. Chose to keep these because the theme doesn't define a hover-specific glass token, and changing them could break the dark-theme visual effect.
+- **Converted `<button>` to `<Button variant="ghost">` and `<Button variant="outline">` for interactive elements** — Chose `ghost` for the copy button (minimal chrome) and `outline` for scenario pills and meme navigation arrows based on their visual weight.
+
+## Items to Validate
+- **Visual hierarchy of secondary text** — The original distinguished `text-white/30` (very faint) from `text-white/60` (clearly readable). All are now `text-muted-foreground`. Check that the glossary count text, "Vibe" label, and section headers still feel appropriately weighted.
+- **`glass-sm` rendering on Cringe Rizzler's dark background** — The app uses a near-black background with animated blobs. Verify that `glass-sm` cards look correct against this specific backdrop (border visibility, blur amount, background opacity).
+- **Scenario buttons (`variant="outline"`)** — These had custom violet tinting. The `Button` component's outline variant styles may conflict with the custom violet classes. Worth a visual check that the purple pill aesthetic is preserved.
+- **Tab list appearance** — Changed from `bg-white/5 border-white/10` to `bg-surface border-surface-border`. Verify this still looks integrated with the dark animated background rather than appearing as a disconnected light-theme element.

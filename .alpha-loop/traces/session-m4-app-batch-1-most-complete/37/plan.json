@@ -1,0 +1,19 @@
+{
+  "summary": "Add Vitest test coverage for the Sentiment app: dashboard rendering, mood badge colors, member filter, stats row computation, changelog/docs pages, and auth gate.",
+  "files": [
+    "apps/web/app/apps/sentiment/__tests__/page.test.tsx",
+    "apps/web/app/apps/sentiment/__tests__/layout.test.tsx",
+    "apps/web/app/apps/sentiment/__tests__/sentiment-dashboard.test.tsx",
+    "apps/web/app/apps/sentiment/__tests__/changelog.test.tsx",
+    "apps/web/app/apps/sentiment/__tests__/docs.test.tsx"
+  ],
+  "implementation": "Create 5 test files in apps/web/app/apps/sentiment/__tests__/ following the exact patterns from uptime and standup tests.\n\n1. sentiment-dashboard.test.tsx — Client component tests using renderWithProviders:\n   - Build mock SentimentEntry[] with 3+ entries across 2 members, covering all 5 moods (positive, excited, neutral, frustrated, blocked).\n   - Test: dashboard renders heading 'Dashboard' and all child sections.\n   - Test: MoodBadge displays correct text for each mood; verify color classes (bg-green-500/20 for positive, bg-purple-500/20 for excited, bg-muted for neutral, bg-orange-500/20 for frustrated, bg-red-500/20 for blocked).\n   - Test: MemberFilter renders 'All Members' option plus one option per unique member; use fireEvent.change to select a specific member and verify only that member's entries appear.\n   - Test: StatsRow shows correct computed values — avgSentiment (sum/count toFixed(1)), total entries count, unique member count, blocked days count, total highlights count.\n   - Test: empty entries array shows dash '—' for avg sentiment and zeros elsewhere.\n\n2. page.test.tsx — Server component test with Supabase mock (follow uptime/page.test.tsx pattern):\n   - Use vi.hoisted() to create mockBuilder and mockSupabase with chainable methods.\n   - Mock @repo/db/server createClient.\n   - Test: page renders 'Team Sentiment' heading and subtitle text.\n   - Test: page passes fetched entries to SentimentDashboard (verify dashboard content renders).\n   - Test: empty data returns empty dashboard state.\n\n3. layout.test.tsx — Auth gate test (follow uptime/layout.test.tsx pattern):\n   - Mock @/lib/require-app-layout-access.\n   - Test: calls requireAppLayoutAccess with 'sentiment'.\n   - Test: renders children when authenticated.\n   - Test: renders 'Sentiment' title in header.\n   - Test: propagates auth error when requireAppLayoutAccess rejects.\n\n4. changelog.test.tsx — Static page rendering:\n   - Test: renders 'Changelog' heading.\n   - Test: renders all 3 version entries (v3.0.0, v2.0.0, v1.0.0).\n\n5. docs.test.tsx — Static page rendering:\n   - Test: renders 'Documentation' heading.\n   - Test: renders all 3 section headings (Overview, Data Schema, Scoring Guide).\n   - Test: renders scoring range entries (9-10, 7-8, 5-6, 3-4, 1-2).",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for the Sentiment app. All deliverables are test files."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "No UI changes — this issue only adds test files. Verification is running pnpm test."
+  }
+}

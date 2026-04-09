@@ -1,0 +1,8 @@
+Done. All acceptance criteria met:
+
+- **`layout.tsx`** calls `await requireAppLayoutAccess("superstars")` (async layout)
+- **`app-registry.ts`** has `auth: true` for superstars
+- **4 smoke tests** pass: auth call verification, unauthenticated → `/login`, unauthorized → `/unauthorized`, authenticated renders children
+- **All 113 tests pass** across 18 test files (8 packages)
+
+3 files changed: `layout.tsx`, `app-registry.ts`, and new `__tests__/layout.test.tsx`.

@@ -1,0 +1,15 @@
+{
+  "issueNum": 69,
+  "title": "Replace hardcoded tokens — batch 2 (consumer apps)",
+  "status": "success",
+  "duration": 2194,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 6,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/112",
+  "timestamp": "2026-04-09T04:23:43.443Z",
+  "agent": "claude",
+  "model": ""
+}

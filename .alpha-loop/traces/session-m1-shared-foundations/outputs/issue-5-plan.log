@@ -1,0 +1,8 @@
+Plan written to `plan-issue-5.json`. Key decisions:
+
+- **Universal gate**: Remove `publicEntry` bypass so `requireAppLayoutAccess()` always calls `requireAccess()` by default
+- **`publicRoutes` escape hatch**: New `string[]` field on `AppConfig` with path patterns (e.g. `["/"]` for ai-calculator's landing page, `["/api/webhooks/**"]` for webhooks)
+- **`isPublicRoute()` helper**: Exported from app-registry, checks pathname against an app's publicRoutes globs
+- **Redirect-after-login**: Already works — `requireAccess` redirects to `/login?redirect=<slug>`, Auth0 callback reads `returnTo` and redirects back, proxy.ts preserves subdomain via rewrite
+- **No proxy.ts changes needed**: Routing is unaffected; gating happens at layout level
+- **5 files total**: 2 modified, 1 new test file, 1 updated test file, 1 verified-no-change

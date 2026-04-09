@@ -1,0 +1,5 @@
+Plan written to `plan-issue-44.json`. Key points:
+
+- **2 files** to modify: `slang-app.tsx` (main target) and `about/page.tsx`
+- **12 steps** covering: Badge migration for gen/category helpers, Button migration for filters/quiz/modal-close, Textarea for translator input, Card for about page sections, Dialog for modal, and build verification
+- The app already imports several `@repo/ui` components — this plan covers the remaining inline elements (raw `<span>`, `<button>`, `<textarea>`, and `<div>` with manual styling)

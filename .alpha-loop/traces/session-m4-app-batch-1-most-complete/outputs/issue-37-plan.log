@@ -1,0 +1,9 @@
+Plan written to `plan-issue-37.json`. It covers 5 test files:
+
+1. **sentiment-dashboard.test.tsx** — Dashboard rendering, mood badge colors, member filter interaction, stats row computations, empty state
+2. **page.test.tsx** — Server component with Supabase mock, heading/subtitle, data passthrough
+3. **layout.test.tsx** — Auth gate with `requireAppLayoutAccess("sentiment")`, children rendering, error propagation
+4. **changelog.test.tsx** — Static page renders all 3 version entries
+5. **docs.test.tsx** — Static page renders all 3 sections and scoring guide
+
+All patterns follow the established conventions from uptime and standup tests (`vi.hoisted()`, `renderWithProviders`, `createMockSupabase`, factory functions for mock data).

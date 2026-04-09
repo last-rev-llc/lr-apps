@@ -1,0 +1,15 @@
+Done. Here's what was migrated:
+
+**page.tsx:**
+- Inline `<h2>` + `<p>` header → `PageHeader` component
+- Inline stats grid divs → `StatCard` components with `size="sm"`
+
+**summaries-app.tsx:**
+- Custom `Pill` component + 4 color maps → `Badge variant="secondary"` with className overrides
+- Participant inline `<span>` elements → `Badge`
+- Inline empty state → `EmptyState` component
+- 4 raw `<input type="text">` search fields → `Search` component with `debounce={0}`
+- 2 raw `<input type="date">` fields → `Input` component
+- `inputCls` constant removed (replaced with `selectCls` for the remaining `<select>` elements)
+
+Build passes. 2 files changed, -19 lines net.

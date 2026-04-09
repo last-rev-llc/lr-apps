@@ -1,0 +1,12 @@
+**Review: PASSED**
+
+The standup component migration is clean and complete:
+
+- **Cards**: Already using `@repo/ui` Card/CardContent/CardHeader — no changes needed, correctly retained
+- **Buttons**: Inline `<button>` filter pills → `<Button>` with variant/size props; layout back-link → `<Button asChild>` wrapping `<Link>`
+- **Badges**: Inline `<span>` with badge styling → `<Badge variant="outline">` for source badges
+- **Empty state**: Inline Card-based empty state → `<EmptyState>` shared component
+- **Build**: `pnpm build` passes
+- **No remaining inline patterns**: Grep confirms no raw `<button>` or badge-like `<span>` elements left in the standup app
+
+The diff is focused and minimal — only touches what needed migration without unnecessary refactoring.

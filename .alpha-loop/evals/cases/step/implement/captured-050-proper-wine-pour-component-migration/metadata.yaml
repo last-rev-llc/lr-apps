@@ -1,0 +1,8 @@
+id: captured-050-proper-wine-pour-component-migration
+description: "Proper Wine Pour: component migration"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 50
+  session: session/m5-app-batch-2-mid-tier
+  date: 2026-04-09

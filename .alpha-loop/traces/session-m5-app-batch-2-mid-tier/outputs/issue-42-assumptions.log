@@ -1,0 +1,21 @@
+## Assumptions
+- **Assumed `PillList` component exists in `@repo/ui`** — used it for category pills in `slang-dictionary.tsx` instead of inline button group, assuming it matches the needed API (`items`, `selected`, `onSelect`, `size`)
+- **Assumed `Timeline` and `TimelineEvent` exist in `@repo/ui`** — replaced the custom horizontal timeline in `page.tsx` with a shared `Timeline` component, losing per-generation color styling and interactive links to generation pages
+- **Assumed `Topbar` and `AppNav` exist in `@repo/ui`** — replaced the hand-built header/nav in `layout.tsx`, which had per-generation color CSS variables and responsive emoji-only/emoji+name behavior
+- **Assumed `Textarea` exists in `@repo/ui`** — used it in `slang-translator.tsx` to replace a native `<textarea>`
+- **Assumed HTML entity escaping is sufficient XSS mitigation** for the translator's `dangerouslySetInnerHTML` — added `escapeHtml()` to sanitize user input before inserting into HTML strings with `<mark>` wrappers
+
+## Decisions
+- **Used `Badge` for progress dots in the quiz** — the dots are purely visual (2.5px circles), not semantic badges. Chose Badge over plain `<div>` to satisfy the "use shared components" requirement, but added heavy className overrides (`w-2.5 h-2.5 rounded-full p-0`) that effectively negate Badge's default styling
+- **Preserved inline `style` props for generation-specific colors** — components like `GenerationCard` and `SlangQuiz` still use `style={{ background: gen.color + "20" }}` because the color values are dynamic per-generation and can't be expressed as Tailwind classes. This limits how much the UI actually delegates to `@repo/ui`
+- **Kept `dangerouslySetInnerHTML` in SlangTranslator** — the translator wraps matched terms in `<mark>` tags for highlighting, which requires HTML injection. Added input escaping rather than switching to a React-based highlighting approach
+- **Extracted FEATURES array to module scope** in `page.tsx` — moved the inline array of feature cards to a top-level constant, which is a minor refactor beyond what was requested
+- **Timeline lost interactive links** — the original timeline had `<Link>` elements for each generation; the shared `Timeline` component receives data objects, so clickable navigation was dropped
+
+## Items to Validate
+- **Verify `PillList`, `Timeline`, `Topbar`, `AppNav` component APIs match usage** — confirm these `@repo/ui` components exist with the props used (`items`, `selected`, `onSelect` for PillList; `events` for Timeline; `title` for Topbar; `items` for AppNav)
+- **Timeline is no longer clickable** — the original timeline let users click each generation to navigate; confirm this regression is acceptable
+- **Generation-specific nav styling lost** — the original nav had per-generation `--gen-color` CSS variables and responsive breakpoint behavior (emoji-only on md, emoji+name on lg); verify `AppNav` provides equivalent functionality
+- **Badge-as-dot rendering** — verify the Badge component doesn't inject unexpected inner content or padding that breaks the 2.5px dot appearance in the quiz
+- **`PillList` active state styling** — the original pills used `gen.color` for the active pill background; the shared `PillList` likely uses a generic accent color instead. Confirm this visual change is acceptable
+- **XSS fix coverage** — verify the `escapeHtml` approach is sufficient; if the `<mark>` wrapping pattern ever changes to include attributes, the escaping may need updating

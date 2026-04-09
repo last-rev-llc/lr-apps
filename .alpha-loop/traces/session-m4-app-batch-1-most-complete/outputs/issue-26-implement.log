@@ -1,0 +1,21 @@
+All done. Here's a summary of the migration:
+
+**page.tsx:**
+- Replaced inline `h2`/`p` header with `PageHeader` component
+- Replaced inline stat grid divs with `StatCard size="sm"` components
+
+**accounts-app.tsx:**
+- **Removed 4 local components**: `Badge`, `SectionCard`, `Empty`, `Row`
+- **`Badge` → `StatusBadge`/`Badge`**: Created a thin `ColorBadge` wrapper that maps the old color semantics (green→success, amber→warning, red→error, blue→info) to `StatusBadge` variants, with className overrides for purple/cyan
+- **`SectionCard` → `Card` + `CardHeader` + `CardTitle` + `CardContent`**: ~15 usages migrated to proper composition
+- **`Empty` → `EmptyState`**: All inline empty messages now use the shared component with `className="py-2"` to keep compact
+- **`Row` → inline flex div**: Row contents inlined directly since they're non-tabular
+- **Button-like links → `Button variant="outline" size="sm" asChild`**: Website, Production, Staging, GitHub repo links all use the shared Button
+- **Health badge → `StatusBadge` with `dot` prop**
+- **Industry badge → `StatusBadge` with teal className override**
+- **Jira alert → `StatusBadge variant="warning" dot`**
+- **Contentful environments → `Badge variant="outline"`**
+
+`pnpm build` passes cleanly.
+
+Shall I commit this?

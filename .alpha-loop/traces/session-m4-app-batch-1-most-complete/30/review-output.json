@@ -1,0 +1,3 @@
+Review: Summaries component migration complete — inline Pill, cards, badges, inputs, empty states, and page header all replaced with @repo/ui shared components. Build passes.
+- [info] Three native <select> elements still use inline selectCls styling, but @repo/ui has no Select component — no migration target available. (unfixed)
+- [info] No app-specific tests exist for the summaries app (other migrated apps like standup and accounts have test suites). (unfixed)

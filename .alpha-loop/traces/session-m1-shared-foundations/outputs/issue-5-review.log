@@ -1,0 +1,25 @@
+## Review Summary
+
+**Result: PASSED** (after fixes)
+
+### Fixed Issues
+
+1. **CRITICAL** — `my-apps/page.tsx` still referenced the removed `publicEntry` property on 4 lines. This would cause TypeScript compilation errors and break app categorization (ai-calculator would show as locked). Updated to use `publicRoutes?.length`.
+
+2. **WARNING** — Dev mode proxy path (`?app=` query param) in `proxy.ts` didn't set the `x-app-pathname` header, meaning `publicRoutes` wouldn't work during local development. Added header propagation to match the production path.
+
+3. **WARNING** — Architecture viewer strings in `architecture-app.tsx` still mentioned `publicEntry`. Updated to `publicRoutes`.
+
+### Noted (not blocking)
+
+4. **INFO** — The `isPublicRoute` glob test doesn't actually exercise the `/**` glob branch — it re-tests `/` which is an exact match. Low risk since no app currently uses glob patterns.
+
+### Acceptance Criteria Verification
+
+- `requireAppLayoutAccess()` gates all apps by default
+- `publicEntry` bypass removed and replaced with `publicRoutes`
+- `publicRoutes` escape hatch works for specific paths
+- `x-app-pathname` header propagated for redirect-after-login support
+- Tests cover: standard apps, formerly-public apps, unknown slugs
+- All 52 tests pass
+- No regressions in proxy.ts routing

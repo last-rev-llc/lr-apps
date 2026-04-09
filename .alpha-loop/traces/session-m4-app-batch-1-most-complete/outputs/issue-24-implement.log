@@ -1,0 +1,26 @@
+Migration complete. Here's a summary:
+
+## What was done
+
+**Phase 1 — Layout chrome** (`layout.tsx`):
+- Replaced custom `<header>` with `Topbar` component
+- Replaced custom `<aside>` sidebar with `Sidebar` component using `SidebarItem[]` array
+- Extracted module list to shared `SIDEBAR_ITEMS` constant
+
+**Phase 2 — Hub page** (`page.tsx`):
+- Replaced inline `<h1>`/subtitle with `PageHeader`
+- Replaced 4 inline glass stat cards with `StatCard` components
+- Replaced inline category badge `<span>` with `Badge`
+
+**Phase 3 — All 21 module files**:
+- Replaced ~80+ inline filter `<button>` elements with `Button` (variant/size props)
+- Replaced ~25+ inline badge `<span>` elements with `Badge`
+- Replaced 7 inline stat card patterns with `StatCard`
+- Added proper imports across all files
+
+**Phase 4 — Verification**:
+- No inline `px-3 py-1.5 rounded-lg border` button patterns remain (except 1 native `<select>` in contentful)
+- No inline `px-2 py-0.5 rounded` badge spans remain
+- `pnpm build` passes (all 47 pages generated)
+- `pnpm test` passes (128 tests across 8 packages)
+- Net reduction: **-104 lines** across 20 files

@@ -1,0 +1,13 @@
+## Review Complete — **PASSED**
+
+### Fixed
+- **travel-collection**: 2 remaining `green-500`/`green-400` Tailwind classes → `green` theme tokens (committed as `d108b55`)
+
+### Info (no action needed)
+- **alpha-wins**: inline `rgba` in a shadow hover — shadows aren't color tokens
+- **superstars**: uses `text-white`/`bg-white` — intentional for its custom dark branded theme with `--ss-*` vars
+- **brommie-quake**: CSS extraction to `.css` file with `--quake-*` custom properties — correct approach for branded page
+- **metadata themeColor**: hex values in `layout.tsx` metadata must be literal strings for `<meta>` tags
+- **people.json**: per-person brand colors are data-driven, can't use theme tokens
+
+All showcase apps (Alpha Wins, Brommie Quake, Superstars, Travel Collection, Age of Apes, Uptime) now use theme tokens consistently. Review gate file written to `review-issue-70.json`.

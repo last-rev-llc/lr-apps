@@ -1,0 +1,1225 @@
+{
+  "vision": null,
+  "milestones": [
+    {
+      "title": "M1: Shared Foundations",
+      "description": "Establish billing infrastructure, test tooling, typed DB helpers, universal auth gate mechanics, and billing-ready app registry schema — everything M2–M7 depends on.",
+      "dueOn": "2026-04-21",
+      "order": 1
+    },
+    {
+      "title": "M2: Universal Auth Gate",
+      "description": "Every app requires login. Mechanical rollout leveraging M1's middleware changes to gate all 13 currently-public apps.",
+      "dueOn": "2026-05-05",
+      "order": 2
+    },
+    {
+      "title": "M3: Theme Token Audit",
+      "description": "Every app uses shared design tokens consistently. No hardcoded hex, shadows, font stacks. Prerequisite for component migration in M4–M6.",
+      "dueOn": "2026-05-05",
+      "order": 3
+    },
+    {
+      "title": "M4: App Batch 1 — Most Complete",
+      "description": "Migrate 8 mature, actively-used apps to @repo/ui components and add app-specific test coverage.",
+      "dueOn": "2026-05-26",
+      "order": 4
+    },
+    {
+      "title": "M5: App Batch 2 — Mid-Tier",
+      "description": "Migrate 10 feature-complete, simpler apps to @repo/ui. Mostly single-page with static or lightly dynamic data.",
+      "dueOn": "2026-06-16",
+      "order": 5
+    },
+    {
+      "title": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "description": "Build out stub apps, migrate showcase apps with lighter touch to preserve personality, and cover Command Center's 21 sub-modules.",
+      "dueOn": "2026-07-07",
+      "order": 6
+    },
+    {
+      "title": "M7: Deep Test Coverage",
+      "description": "Harden the test suite with integration tests, edge cases, and E2E for critical flows. Capstone milestone depending on M1–M6.",
+      "dueOn": "2026-07-28",
+      "order": 7
+    }
+  ],
+  "issues": [
+    {
+      "id": 1,
+      "title": "Extend app registry with billing metadata",
+      "body": "## Summary\nAdd `tier` and `features` fields to `AppConfig` in `apps/web/lib/app-registry.ts` to support future billing integration. Schema-only change — no runtime enforcement.\n\n## Details\n- Add `tier: \"free\" | \"pro\" | \"enterprise\"` to `AppConfig` interface\n- Add `features: Record<string, \"free\" | \"pro\" | \"enterprise\">` field\n- Update all 27+ registry entries with default `tier: \"free\"` and `features: {}`\n- Update existing registry tests to validate new fields\n\n## Acceptance Criteria\n- [ ] `AppConfig` interface includes `tier` and `features` fields\n- [ ] Every app entry in the registry has `tier: \"free\"` and `features: {}`\n- [ ] Tests verify every app has a valid tier value\n- [ ] Tests verify every app has a features object\n- [ ] `pnpm typecheck` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "billing",
+        "registry"
+      ],
+      "milestone": "M1: Shared Foundations",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 2,
+      "title": "Auth gate: Age of Apes",
+      "body": "## Summary\nAdd authentication gate to the Age of Apes app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/age-of-apes/layout.tsx` to call `requireAppLayoutAccess(\"age-of-apes\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"age-of-apes\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 3,
+      "title": "Auth gate: Alpha Wins",
+      "body": "## Summary\nAdd authentication gate to the Alpha Wins app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/alpha-wins/layout.tsx` to call `requireAppLayoutAccess(\"alpha-wins\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"alpha-wins\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 4,
+      "title": "Auth gate: Brommie Quake",
+      "body": "## Summary\nAdd authentication gate to the Brommie Quake app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/brommie-quake/layout.tsx` to call `requireAppLayoutAccess(\"brommie-quake\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"brommie-quake\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 5,
+      "title": "Auth gate: Cringe Rizzler",
+      "body": "## Summary\nAdd authentication gate to the Cringe Rizzler app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/cringe-rizzler/layout.tsx` to call `requireAppLayoutAccess(\"cringe-rizzler\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"cringe-rizzler\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 6,
+      "title": "Auth gate: Dad Joke of the Day",
+      "body": "## Summary\nAdd authentication gate to the Dad Joke of the Day app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/dad-joke-of-the-day/layout.tsx` to call `requireAppLayoutAccess(\"dad-joke-of-the-day\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"dad-joke-of-the-day\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 7,
+      "title": "Auth gate: HSPT Practice",
+      "body": "## Summary\nAdd authentication gate to the HSPT Practice app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/hspt-practice/layout.tsx` to call `requireAppLayoutAccess(\"hspt-practice\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"hspt-practice\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 8,
+      "title": "Auth gate: HSPT Tutor",
+      "body": "## Summary\nAdd authentication gate to the HSPT Tutor app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/hspt-tutor/layout.tsx` to call `requireAppLayoutAccess(\"hspt-tutor\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"hspt-tutor\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 9,
+      "title": "Auth gate: Proper Wine Pour",
+      "body": "## Summary\nAdd authentication gate to the Proper Wine Pour app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/proper-wine-pour/layout.tsx` to call `requireAppLayoutAccess(\"proper-wine-pour\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"proper-wine-pour\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 10,
+      "title": "Auth gate: Roblox Dances",
+      "body": "## Summary\nAdd authentication gate to the Roblox Dances app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/roblox-dances/layout.tsx` to call `requireAppLayoutAccess(\"roblox-dances\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"roblox-dances\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 11,
+      "title": "Auth gate: Soccer Training",
+      "body": "## Summary\nAdd authentication gate to the Soccer Training app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/soccer-training/layout.tsx` to call `requireAppLayoutAccess(\"soccer-training\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"soccer-training\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 12,
+      "title": "Auth gate: Superstars",
+      "body": "## Summary\nAdd authentication gate to the Superstars app so it requires login.\n\n## Details\n- Update `apps/web/app/apps/superstars/layout.tsx` to call `requireAppLayoutAccess(\"superstars\")`\n- Update app registry entry: set `auth: true`\n- Add smoke tests for auth behavior\n\n## Acceptance Criteria\n- [ ] `layout.tsx` calls `requireAppLayoutAccess(\"superstars\")`\n- [ ] App registry entry has `auth: true`\n- [ ] Test: unauthenticated request redirects to `/login`\n- [ ] Test: authenticated user without permission redirects to `/unauthorized`\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "auth"
+      ],
+      "milestone": "M2: Universal Auth Gate",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 13,
+      "title": "Replace hardcoded tokens — batch 1 (internal apps)",
+      "body": "## Summary\nReplace all hardcoded color values, shadows, and font stacks with Tailwind theme token classes in internal apps.\n\n## Apps\nCommand Center, Accounts, Standup, Sprint Planning, Summaries, Daily Updates, Sentiment, Meeting Summaries, Uptime, Sales\n\n## Details\n- Replace inline hex/rgb/oklch color values with theme token classes (e.g., `text-accent`, `bg-navy-950`, `text-muted-foreground`)\n- Replace hardcoded shadows with `shadow-glass`, `shadow-glass-sm`, `shadow-glow` tokens\n- Replace hardcoded border-radius with `rounded-glass` or theme radius values\n- Replace hardcoded font-family with `font-sans`, `font-mono`, `font-heading`\n- Add snapshot/visual regression baseline per app\n\n## Acceptance Criteria\n- [ ] No hardcoded hex/rgb/oklch color values remain in any of the 10 apps\n- [ ] No hardcoded shadow values remain\n- [ ] No hardcoded font-family declarations remain\n- [ ] All apps render correctly with theme tokens\n- [ ] Visual regression baselines captured for each app\n- [ ] `pnpm build` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "design",
+        "theme"
+      ],
+      "milestone": "M3: Theme Token Audit",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 14,
+      "title": "Replace hardcoded tokens — batch 2 (consumer apps)",
+      "body": "## Summary\nReplace all hardcoded color values, shadows, and font stacks with Tailwind theme token classes in consumer-facing apps.\n\n## Apps\nDad Joke of the Day, Cringe Rizzler, Generations, Slang Translator, HSPT Practice, HSPT Tutor, Proper Wine Pour, Roblox Dances, Soccer Training, Age of Apes\n\n## Details\n- Same pattern as batch 1: replace inline color/shadow/font values with theme tokens\n- Add snapshot/visual regression baseline per app\n\n## Acceptance Criteria\n- [ ] No hardcoded hex/rgb/oklch color values remain in any of the 10 apps\n- [ ] No hardcoded shadow values remain\n- [ ] No hardcoded font-family declarations remain\n- [ ] All apps render correctly with theme tokens\n- [ ] Visual regression baselines captured for each app\n- [ ] `pnpm build` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "design",
+        "theme"
+      ],
+      "milestone": "M3: Theme Token Audit",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        13
+      ],
+      "selected": true
+    },
+    {
+      "id": 15,
+      "title": "Replace hardcoded tokens — batch 3 (showcase apps)",
+      "body": "## Summary\nReplace all hardcoded color values, shadows, and font stacks with Tailwind theme token classes in showcase apps.\n\n## Apps\nAlpha Wins, Brommie Quake, Superstars, Travel Collection, AI Calculator, Area 52, Lighthouse\n\n## Details\n- Same pattern as batch 1: replace inline color/shadow/font values with theme tokens\n- Add snapshot/visual regression baseline per app\n\n## Acceptance Criteria\n- [ ] No hardcoded hex/rgb/oklch color values remain in any of the 7 apps\n- [ ] No hardcoded shadow values remain\n- [ ] No hardcoded font-family declarations remain\n- [ ] All apps render correctly with theme tokens\n- [ ] Visual regression baselines captured for each app\n- [ ] `pnpm build` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "design",
+        "theme"
+      ],
+      "milestone": "M3: Theme Token Audit",
+      "priority": "p2",
+      "complexity": "medium",
+      "dependsOn": [
+        14
+      ],
+      "selected": true
+    },
+    {
+      "id": 16,
+      "title": "Add theme token lint rule",
+      "body": "## Summary\nCreate an ESLint rule that warns on hardcoded color values in TSX files to prevent regression after token migration.\n\n## Details\n- ESLint rule warning on hardcoded hex (#xxx, #xxxxxx), rgb(), oklch() values in TSX files\n- Integrate rule into `@repo/config` shared ESLint config\n- Allow escape hatch via eslint-disable comment for intentional overrides\n- Rule should catch: inline style color values, className strings with hardcoded colors\n\n## Acceptance Criteria\n- [ ] ESLint rule created and integrated into `@repo/config`\n- [ ] Rule warns on hardcoded hex values in TSX files\n- [ ] Rule warns on hardcoded rgb()/oklch() values in TSX files\n- [ ] Rule does NOT warn on theme token classes\n- [ ] Rule can be disabled per-line with eslint-disable\n- [ ] `pnpm lint` runs cleanly across all apps (existing violations addressed or suppressed)\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "tooling",
+        "theme"
+      ],
+      "milestone": "M3: Theme Token Audit",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        13
+      ],
+      "selected": true
+    },
+    {
+      "id": 17,
+      "title": "Extend @repo/ui with missing common components",
+      "body": "## Summary\nAudit component gaps needed for M4–M6 app migrations and build missing shared components in `@repo/ui`.\n\n## Details\n- Audit all 27 apps for commonly-used UI patterns not yet in `@repo/ui`\n- Likely needed: `Table`, `DataGrid`, `StatusBadge`, `LoadingSkeleton`, `ErrorBoundary`, `EmptyState` variants\n- Follow existing patterns: forwardRef, CVA (class-variance-authority), cn() utility\n- Each component should support theme tokens and dark mode\n- Add Storybook-style examples or tests for variant coverage\n\n## Acceptance Criteria\n- [ ] Audit complete — documented list of needed components\n- [ ] `Table` component with sortable columns and row selection\n- [ ] `DataGrid` component for tabular data display\n- [ ] `StatusBadge` component with semantic color variants\n- [ ] `LoadingSkeleton` component with configurable shapes\n- [ ] `ErrorBoundary` wrapper component\n- [ ] `EmptyState` component with icon, title, description, action slots\n- [ ] All components use forwardRef, CVA, cn() patterns\n- [ ] All components render with theme tokens\n- [ ] `pnpm build` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 18,
+      "title": "Command Center: component migration",
+      "body": "## Summary\nMigrate Command Center hub page and shared module chrome to `@repo/ui` components. Sub-module internals are deferred to M6.\n\n## Details\n- Replace inline buttons, cards, badges, inputs, navigation with `@repo/ui` equivalents\n- Migrate dashboard grid layout and module navigation sidebar\n- Preserve all existing functionality\n- Leave unique components but ensure they use theme tokens\n- This is the largest migration surface in the codebase\n\n## Acceptance Criteria\n- [ ] Hub page uses `@repo/ui` Card, Button, Badge components\n- [ ] Sidebar navigation uses `@repo/ui` navigation components\n- [ ] Module chrome (headers, breadcrumbs, layout) uses shared components\n- [ ] No inline Tailwind button/card/badge patterns remain in hub/chrome code\n- [ ] All existing functionality preserved\n- [ ] `pnpm build` passes\n- [ ] Visual appearance matches or improves current design",
+      "labels": [
+        "enhancement",
+        "ui",
+        "command-center"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 19,
+      "title": "Command Center: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Command Center hub page and shared module chrome.\n\n## Details\n- Test hub page rendering with mock Supabase data\n- Test module navigation and routing\n- Test auth gate redirect behavior\n- Use `@repo/test-utils` for mock setup\n\n## Acceptance Criteria\n- [ ] Test: hub page renders module cards with correct data\n- [ ] Test: sidebar navigation renders all module links\n- [ ] Test: unauthenticated user redirects to login\n- [ ] Test: user without permission redirects to unauthorized\n- [ ] All tests use `@repo/test-utils` helpers\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "command-center"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        18
+      ],
+      "selected": true
+    },
+    {
+      "id": 20,
+      "title": "Accounts: component migration",
+      "body": "## Summary\nComplete `@repo/ui` migration for Accounts app. Already partially uses shared components.\n\n## Details\n- Audit remaining inline UI patterns\n- Replace any remaining inline buttons, cards, inputs with `@repo/ui`\n- Ensure client list, PR aggregation, contact display use shared components\n\n## Acceptance Criteria\n- [ ] All UI elements use `@repo/ui` components\n- [ ] Client list display uses shared Table/Card\n- [ ] Contact display uses shared components\n- [ ] No inline Tailwind button/card patterns remain\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 21,
+      "title": "Accounts: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Accounts app — client list, PR aggregation, contact display.\n\n## Details\n- Test client list rendering with mock data\n- Test PR aggregation display\n- Test contact display and filtering\n- Test auth gate behavior\n\n## Acceptance Criteria\n- [ ] Test: client list renders with mock Supabase data\n- [ ] Test: PR aggregation displays correctly\n- [ ] Test: contact display shows expected fields\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        20
+      ],
+      "selected": true
+    },
+    {
+      "id": 22,
+      "title": "Standup: component migration",
+      "body": "## Summary\nReplace inline cards and UI patterns in Standup app with `@repo/ui` shared components.\n\n## Details\n- Replace inline card patterns with `@repo/ui` Card\n- Replace inline buttons, badges, inputs\n- Ensure Slack/GitHub data aggregation UI uses shared components\n\n## Acceptance Criteria\n- [ ] All card patterns use `@repo/ui` Card component\n- [ ] All buttons use `@repo/ui` Button\n- [ ] Slack/GitHub data display uses shared components\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 23,
+      "title": "Standup: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Standup app — Slack/GitHub data aggregation and display.\n\n## Acceptance Criteria\n- [ ] Test: standup data renders with mock Supabase data\n- [ ] Test: Slack data aggregation displays correctly\n- [ ] Test: GitHub data aggregation displays correctly\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        22
+      ],
+      "selected": true
+    },
+    {
+      "id": 24,
+      "title": "Summaries: component migration",
+      "body": "## Summary\nReplace inline UI patterns in Summaries app with `@repo/ui` shared components.\n\n## Details\n- Replace inline cards, buttons, badges\n- Ensure Zoom/Slack/Jira summary rendering uses shared components\n\n## Acceptance Criteria\n- [ ] All UI elements use `@repo/ui` components\n- [ ] Summary cards use shared Card component\n- [ ] Source badges use shared Badge component\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 25,
+      "title": "Summaries: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Summaries app — Zoom/Slack/Jira summary rendering.\n\n## Acceptance Criteria\n- [ ] Test: summary list renders with mock data\n- [ ] Test: Zoom summary rendering\n- [ ] Test: Slack summary rendering\n- [ ] Test: Jira summary rendering\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        24
+      ],
+      "selected": true
+    },
+    {
+      "id": 26,
+      "title": "Meeting Summaries: component migration",
+      "body": "## Summary\nReplace inline UI patterns in Meeting Summaries app with `@repo/ui` shared components.\n\n## Acceptance Criteria\n- [ ] Meeting list uses shared Table/Card components\n- [ ] Meeting detail view uses shared components\n- [ ] All buttons, badges, inputs use `@repo/ui`\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 27,
+      "title": "Meeting Summaries: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Meeting Summaries app — meeting list and detail views.\n\n## Acceptance Criteria\n- [ ] Test: meeting list renders with mock data\n- [ ] Test: meeting detail view renders correctly\n- [ ] Test: navigation between list and detail works\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        26
+      ],
+      "selected": true
+    },
+    {
+      "id": 28,
+      "title": "Uptime: component migration",
+      "body": "## Summary\nComplete `@repo/ui` migration for Uptime app. Already partially uses shared components.\n\n## Details\n- Audit remaining inline UI patterns\n- Replace remaining inline components with `@repo/ui`\n- Ensure status badges and history charts use shared components\n\n## Acceptance Criteria\n- [ ] All status badges use shared StatusBadge component\n- [ ] History charts use consistent theme tokens\n- [ ] All remaining inline patterns replaced\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 29,
+      "title": "Uptime: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Uptime app — status badge logic and history charts.\n\n## Acceptance Criteria\n- [ ] Test: status badge renders correct color/label for each status\n- [ ] Test: history chart renders with mock data\n- [ ] Test: site list renders correctly\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        28
+      ],
+      "selected": true
+    },
+    {
+      "id": 30,
+      "title": "Sentiment: component migration",
+      "body": "## Summary\nReplace remaining inline UI patterns in Sentiment app with `@repo/ui` shared components.\n\n## Details\n- Replace inline cards, stat displays, mood badges with shared components\n- Ensure chart components use theme tokens\n- Migrate changelog and docs pages to shared patterns\n\n## Acceptance Criteria\n- [ ] Stat cards use `@repo/ui` Card component\n- [ ] Mood badges use shared Badge/StatusBadge\n- [ ] Member grid uses shared Card\n- [ ] Timeline uses shared components\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 31,
+      "title": "Sentiment: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Sentiment app — mood entry rendering, dashboard, changelog, docs.\n\n## Acceptance Criteria\n- [ ] Test: dashboard renders with mock sentiment entries\n- [ ] Test: mood badge displays correct color for each mood\n- [ ] Test: member filter works correctly\n- [ ] Test: stats row computes correct values\n- [ ] Test: changelog page renders\n- [ ] Test: docs page renders\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        30
+      ],
+      "selected": true
+    },
+    {
+      "id": 32,
+      "title": "Sprint Planning: component migration",
+      "body": "## Summary\nReplace inline UI patterns in Sprint Planning app with `@repo/ui` shared components.\n\n## Acceptance Criteria\n- [ ] Backlog cards use `@repo/ui` Card component\n- [ ] Client grouping headers use shared components\n- [ ] Archive display uses shared components\n- [ ] All buttons, badges, inputs use `@repo/ui`\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 33,
+      "title": "Sprint Planning: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Sprint Planning app — backlog grouping by client and archive display.\n\n## Acceptance Criteria\n- [ ] Test: backlog renders grouped by client with mock data\n- [ ] Test: archive display shows completed sprints\n- [ ] Test: ticket cards render with correct status\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M4: App Batch 1 — Most Complete",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        32
+      ],
+      "selected": true
+    },
+    {
+      "id": 34,
+      "title": "Dad Joke of the Day: component migration",
+      "body": "## Summary\nReplace inline UI in Dad Joke of the Day with `@repo/ui` shared components.\n\n## Details\n- Replace joke cards with shared Card component\n- Replace category pills with shared Badge\n- Replace joke viewer UI with shared components\n\n## Acceptance Criteria\n- [ ] Joke cards use `@repo/ui` Card\n- [ ] Category pills use `@repo/ui` Badge\n- [ ] Joke viewer uses shared components\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 35,
+      "title": "Dad Joke of the Day: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Dad Joke of the Day — JOTD selection and category filtering.\n\n## Acceptance Criteria\n- [ ] Test: joke of the day selection displays correctly\n- [ ] Test: category filtering works\n- [ ] Test: joke cards render with mock data\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        34
+      ],
+      "selected": true
+    },
+    {
+      "id": 36,
+      "title": "Generations: component migration",
+      "body": "## Summary\nReplace inline UI in Generations app with `@repo/ui` shared components.\n\n## Details\n- Dynamic `/[gen]` routes for each generation\n- Replace slang cards with shared Card\n- Replace quiz UI with shared components\n\n## Acceptance Criteria\n- [ ] Slang cards use `@repo/ui` Card\n- [ ] Quiz UI uses shared Button, Input components\n- [ ] Generation navigation uses shared components\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 37,
+      "title": "Generations: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Generations app — generation routing, term rendering, quiz flow.\n\n## Acceptance Criteria\n- [ ] Test: dynamic generation routes render correctly\n- [ ] Test: slang terms render for each generation\n- [ ] Test: quiz flow works (question → answer → score)\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        36
+      ],
+      "selected": true
+    },
+    {
+      "id": 38,
+      "title": "Slang Translator: component migration",
+      "body": "## Summary\nReplace inline UI in Slang Translator with `@repo/ui` shared components.\n\n## Acceptance Criteria\n- [ ] Translator input/output uses `@repo/ui` Input, Card\n- [ ] Bi-directional display uses shared components\n- [ ] All buttons use `@repo/ui` Button\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 39,
+      "title": "Slang Translator: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Slang Translator — lookup and bi-directional display.\n\n## Acceptance Criteria\n- [ ] Test: slang lookup returns expected results\n- [ ] Test: bi-directional display renders correctly\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        38
+      ],
+      "selected": true
+    },
+    {
+      "id": 40,
+      "title": "Cringe Rizzler: component migration",
+      "body": "## Summary\nReplace standard UI in Cringe Rizzler with `@repo/ui` shared components while preserving custom dark-themed animated blob aesthetic.\n\n## Details\n- Replace buttons, cards with `@repo/ui` equivalents\n- Keep custom animation code (animated blobs)\n- Ensure dark theme tokens are used consistently\n\n## Acceptance Criteria\n- [ ] Standard buttons use `@repo/ui` Button\n- [ ] Cards use `@repo/ui` Card\n- [ ] Custom blob animations preserved\n- [ ] Dark theme tokens used consistently\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 41,
+      "title": "Cringe Rizzler: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Cringe Rizzler — phrase generation API and about page.\n\n## Acceptance Criteria\n- [ ] Test: phrase generation produces valid output\n- [ ] Test: about page renders\n- [ ] Test: main page renders with animations\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        40
+      ],
+      "selected": true
+    },
+    {
+      "id": 42,
+      "title": "Daily Updates: component migration",
+      "body": "## Summary\nReplace inline UI in Daily Updates with `@repo/ui` shared components.\n\n## Acceptance Criteria\n- [ ] Feed cards use `@repo/ui` Card\n- [ ] Profile badges use `@repo/ui` Badge/Avatar\n- [ ] Category filters use shared components\n- [ ] All buttons use `@repo/ui` Button\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 43,
+      "title": "Daily Updates: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Daily Updates — update aggregation and category filtering.\n\n## Acceptance Criteria\n- [ ] Test: update feed renders with mock data\n- [ ] Test: category filtering works\n- [ ] Test: profile badges display correctly\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        42
+      ],
+      "selected": true
+    },
+    {
+      "id": 44,
+      "title": "Proper Wine Pour: component migration",
+      "body": "## Summary\nReplace inline UI in Proper Wine Pour with `@repo/ui` shared components.\n\n## Acceptance Criteria\n- [ ] Calculator UI uses `@repo/ui` Input, Card\n- [ ] Restaurant cards use `@repo/ui` Card\n- [ ] Community wall posts use shared components\n- [ ] All buttons use `@repo/ui` Button\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 45,
+      "title": "Proper Wine Pour: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Proper Wine Pour — pour calculation and community wall.\n\n## Acceptance Criteria\n- [ ] Test: pour calculation produces correct oz values\n- [ ] Test: restaurant cards render with mock data\n- [ ] Test: community wall posts display correctly\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        44
+      ],
+      "selected": true
+    },
+    {
+      "id": 46,
+      "title": "HSPT Practice: component migration",
+      "body": "## Summary\nReplace inline UI in HSPT Practice with `@repo/ui` shared components.\n\n## Acceptance Criteria\n- [ ] Question cards use `@repo/ui` Card\n- [ ] Timer display uses shared components\n- [ ] Score display uses shared components\n- [ ] Section selection uses `@repo/ui` Button/Tabs\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 47,
+      "title": "HSPT Practice: app-specific tests",
+      "body": "## Summary\nAdd test coverage for HSPT Practice — section selection, timed exam flow, scoring.\n\n## Acceptance Criteria\n- [ ] Test: section selection renders all sections\n- [ ] Test: timed exam flow starts and counts down\n- [ ] Test: scoring calculates correct results\n- [ ] Test: question cards render with answer choices\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        46
+      ],
+      "selected": true
+    },
+    {
+      "id": 48,
+      "title": "HSPT Tutor: component migration",
+      "body": "## Summary\nReplace inline UI in HSPT Tutor with `@repo/ui` shared components.\n\n## Acceptance Criteria\n- [ ] Question display uses `@repo/ui` Card\n- [ ] Answer selection uses shared components\n- [ ] Progress indicators use shared components\n- [ ] All buttons use `@repo/ui` Button\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 49,
+      "title": "HSPT Tutor: app-specific tests",
+      "body": "## Summary\nAdd test coverage for HSPT Tutor — adaptive question selection and weak-spot prioritization.\n\n## Acceptance Criteria\n- [ ] Test: adaptive question selection picks appropriate difficulty\n- [ ] Test: weak-spot prioritization identifies correct areas\n- [ ] Test: question display renders correctly\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        48
+      ],
+      "selected": true
+    },
+    {
+      "id": 50,
+      "title": "Roblox Dances: component migration",
+      "body": "## Summary\nReplace inline UI in Roblox Dances with `@repo/ui` shared components.\n\n## Acceptance Criteria\n- [ ] Dance cards use `@repo/ui` Card\n- [ ] Submission UI uses shared Input, Button components\n- [ ] All buttons use `@repo/ui` Button\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 51,
+      "title": "Roblox Dances: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Roblox Dances — dance listing and submission rendering.\n\n## Acceptance Criteria\n- [ ] Test: dance listing renders with mock data\n- [ ] Test: submission form renders correctly\n- [ ] Test: dance cards display video/image content\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        50
+      ],
+      "selected": true
+    },
+    {
+      "id": 52,
+      "title": "AI Calculator: component migration",
+      "body": "## Summary\nComplete `@repo/ui` migration for AI Calculator. Already partially migrated.\n\n## Details\n- Complete protected calculator page migration\n- Replace remaining inline patterns with shared components\n\n## Acceptance Criteria\n- [ ] Protected calculator page uses `@repo/ui` components\n- [ ] ROI calculation form uses shared Input, Button\n- [ ] Result display uses shared Card\n- [ ] Public-to-protected gate works correctly\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 53,
+      "title": "AI Calculator: app-specific tests",
+      "body": "## Summary\nAdd test coverage for AI Calculator — ROI calculation and public-to-protected gate.\n\n## Acceptance Criteria\n- [ ] Test: ROI calculation produces correct results with sample inputs\n- [ ] Test: public landing page renders\n- [ ] Test: protected calculator page requires auth\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M5: App Batch 2 — Mid-Tier",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        52
+      ],
+      "selected": true
+    },
+    {
+      "id": 54,
+      "title": "Area 52: build stub app",
+      "body": "## Summary\nDefine purpose for Area 52 and build skeleton with placeholder content, using `@repo/ui` from the start.\n\n## Details\n- Define the app's purpose and core functionality\n- Build skeleton with proper layout, auth gate, at least one functional page\n- Use `@repo/ui` components throughout\n- Add placeholder content that communicates the app's intent\n\n## Acceptance Criteria\n- [ ] App purpose documented\n- [ ] Layout with auth gate via `requireAppLayoutAccess(\"area-52\")`\n- [ ] At least one functional page with placeholder content\n- [ ] Uses `@repo/ui` Card, Button, and other relevant components\n- [ ] Uses theme tokens consistently\n- [ ] `pnpm build` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "new-app"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "large",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 55,
+      "title": "Lighthouse: build performance monitoring dashboard",
+      "body": "## Summary\nBuild Lighthouse as a performance monitoring dashboard pulling Lighthouse CI or CrUX API scores.\n\n## Details\n- Table of tracked sites with current scores\n- Score history chart per site\n- Detail view with individual metric breakdown\n- Uses `@repo/ui` throughout\n\n## Acceptance Criteria\n- [ ] Sites table displays with score columns (Performance, A11y, Best Practices, SEO)\n- [ ] Score history chart shows trends over time\n- [ ] Detail view shows individual metric breakdown\n- [ ] Auth gate via `requireAppLayoutAccess(\"lighthouse\")`\n- [ ] Uses `@repo/ui` Table, Card, Badge components\n- [ ] `pnpm build` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "new-app"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "large",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 56,
+      "title": "Sales: build leads pipeline dashboard",
+      "body": "## Summary\nBuild Sales app as a standalone leads pipeline dashboard, extracting and promoting data/UI from Command Center's cc-leads module.\n\n## Details\n- Extract leads data and UI from `cc-leads` module\n- Build standalone pipeline dashboard with kanban or table view\n- Uses `@repo/ui` throughout\n\n## Acceptance Criteria\n- [ ] Leads pipeline displays with status stages\n- [ ] Lead detail view shows contact info and activity\n- [ ] Data sourced from Supabase leads table\n- [ ] Auth gate via `requireAppLayoutAccess(\"sales\")`\n- [ ] Uses `@repo/ui` Table, Card, Badge, Button components\n- [ ] `pnpm build` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "new-app"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [
+        17,
+        18
+      ],
+      "selected": true
+    },
+    {
+      "id": 57,
+      "title": "Brommie Quake: component migration",
+      "body": "## Summary\nMigrate Brommie Quake to shared components while preserving unique animation personality.\n\n## Details\n- Extract 29KB animation logic into custom hook\n- Replace standard buttons/cards with `@repo/ui`\n- Keep all custom animations intact\n- Token enforcement for colors and shadows\n\n## Acceptance Criteria\n- [ ] Animation logic extracted into reusable hook\n- [ ] Standard buttons use `@repo/ui` Button\n- [ ] Cards use `@repo/ui` Card\n- [ ] Custom animations still work correctly\n- [ ] Theme tokens used for colors/shadows\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui",
+        "showcase"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 58,
+      "title": "Brommie Quake: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Brommie Quake — render and animation trigger.\n\n## Acceptance Criteria\n- [ ] Test: main page renders without errors\n- [ ] Test: animation hook initializes correctly\n- [ ] Test: animation triggers fire on expected events\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "showcase"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        57
+      ],
+      "selected": true
+    },
+    {
+      "id": 59,
+      "title": "Alpha Wins: component migration",
+      "body": "## Summary\nMigrate Alpha Wins to shared components while preserving gallery grid personality.\n\n## Details\n- Replace filter controls and modal with `@repo/ui` equivalents\n- Keep gallery grid layout\n- Token enforcement for colors and shadows\n\n## Acceptance Criteria\n- [ ] Filter controls use `@repo/ui` Select, Input\n- [ ] Modal uses `@repo/ui` Dialog\n- [ ] Gallery grid preserved with theme tokens\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui",
+        "showcase"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "medium",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 60,
+      "title": "Alpha Wins: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Alpha Wins — search, filtering, modal.\n\n## Acceptance Criteria\n- [ ] Test: search filters results correctly\n- [ ] Test: category filtering works\n- [ ] Test: modal opens and displays win details\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "showcase"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        59
+      ],
+      "selected": true
+    },
+    {
+      "id": 61,
+      "title": "Superstars: component migration",
+      "body": "## Summary\nMigrate Superstars to shared components while preserving personality.\n\n## Details\n- Replace cards and profile layout with `@repo/ui`\n- Token enforcement for colors and shadows\n\n## Acceptance Criteria\n- [ ] Profile cards use `@repo/ui` Card, Avatar\n- [ ] Profile layout uses shared components\n- [ ] Theme tokens used consistently\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui",
+        "showcase"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 62,
+      "title": "Superstars: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Superstars — routing and single-person redirect.\n\n## Acceptance Criteria\n- [ ] Test: superstar list renders with mock data\n- [ ] Test: single-person redirect works correctly\n- [ ] Test: profile detail page renders\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "showcase"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        61
+      ],
+      "selected": true
+    },
+    {
+      "id": 63,
+      "title": "Travel Collection: component migration",
+      "body": "## Summary\nMigrate Travel Collection to shared components.\n\n## Details\n- Replace property cards with `@repo/ui` Card / MediaCard\n- Token enforcement for colors and shadows\n\n## Acceptance Criteria\n- [ ] Property cards use `@repo/ui` Card\n- [ ] Image display uses consistent patterns\n- [ ] Theme tokens used consistently\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui",
+        "showcase"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 64,
+      "title": "Travel Collection: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Travel Collection — property listing.\n\n## Acceptance Criteria\n- [ ] Test: property list renders with mock data\n- [ ] Test: property cards display correct information\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "showcase"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        63
+      ],
+      "selected": true
+    },
+    {
+      "id": 65,
+      "title": "Soccer Training: component migration",
+      "body": "## Summary\nMigrate Soccer Training to shared components.\n\n## Details\n- Replace category/drill cards with `@repo/ui` Card\n- Token enforcement for colors and shadows\n\n## Acceptance Criteria\n- [ ] Category cards use `@repo/ui` Card\n- [ ] Drill cards use `@repo/ui` Card\n- [ ] Navigation uses shared components\n- [ ] `pnpm build` passes",
+      "labels": [
+        "enhancement",
+        "ui",
+        "showcase"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 66,
+      "title": "Soccer Training: app-specific tests",
+      "body": "## Summary\nAdd test coverage for Soccer Training — category rendering and drill display.\n\n## Acceptance Criteria\n- [ ] Test: category list renders with mock data\n- [ ] Test: drill cards display correctly within categories\n- [ ] Test: auth gate redirects work\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "showcase"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        65
+      ],
+      "selected": true
+    },
+    {
+      "id": 67,
+      "title": "CC sub-module batch 1: data-heavy operational modules",
+      "body": "## Summary\nMigrate 7 data-heavy Command Center sub-modules to `@repo/ui` and add tests.\n\n## Modules\nLeads, Agents, Users, Crons, PR Review, App Access, AlphaClaw\n\n## Details\n- Replace inline tables/cards with `@repo/ui` Table, Card, Badge\n- Preserve all data fetching and display logic\n- Add tests for data rendering per module\n\n## Acceptance Criteria\n- [ ] Leads module uses `@repo/ui` components\n- [ ] Agents module uses `@repo/ui` components\n- [ ] Users module uses `@repo/ui` components\n- [ ] Crons module uses `@repo/ui` components\n- [ ] PR Review module uses `@repo/ui` components\n- [ ] App Access module uses `@repo/ui` components\n- [ ] AlphaClaw module uses `@repo/ui` components\n- [ ] Tests for data rendering in each module\n- [ ] `pnpm build` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "ui",
+        "command-center"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [
+        18,
+        19
+      ],
+      "selected": true
+    },
+    {
+      "id": 68,
+      "title": "CC sub-module batch 2: content and config modules",
+      "body": "## Summary\nMigrate 7 content/config Command Center sub-modules to `@repo/ui` and add tests.\n\n## Modules\nIdeas, Recipes, Gallery, Architecture, Client Health, Meeting Summaries, AI Scripts\n\n## Details\n- Replace inline tables/cards with `@repo/ui` Table, Card, Badge\n- Preserve all data fetching and display logic\n- Add tests for data rendering per module\n\n## Acceptance Criteria\n- [ ] Ideas module uses `@repo/ui` components\n- [ ] Recipes module uses `@repo/ui` components\n- [ ] Gallery module uses `@repo/ui` components\n- [ ] Architecture module uses `@repo/ui` components\n- [ ] Client Health module uses `@repo/ui` components\n- [ ] Meeting Summaries module uses `@repo/ui` components\n- [ ] AI Scripts module uses `@repo/ui` components\n- [ ] Tests for data rendering in each module\n- [ ] `pnpm build` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "ui",
+        "command-center"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [
+        67
+      ],
+      "selected": true
+    },
+    {
+      "id": 69,
+      "title": "CC sub-module batch 3: lighter/fun modules",
+      "body": "## Summary\nMigrate 7 lighter Command Center sub-modules to `@repo/ui` and add tests.\n\n## Modules\nConcerts, Contentful, Iron, Meme Generator, Rizz Guide, Shopping List, Team USF\n\n## Details\n- Replace inline tables/cards with `@repo/ui` Table, Card, Badge\n- Same migration pattern as batch 1 and 2\n- Add tests for data rendering per module\n\n## Acceptance Criteria\n- [ ] Concerts module uses `@repo/ui` components\n- [ ] Contentful module uses `@repo/ui` components\n- [ ] Iron module uses `@repo/ui` components\n- [ ] Meme Generator module uses `@repo/ui` components\n- [ ] Rizz Guide module uses `@repo/ui` components\n- [ ] Shopping List module uses `@repo/ui` components\n- [ ] Team USF module uses `@repo/ui` components\n- [ ] Tests for data rendering in each module\n- [ ] `pnpm build` passes\n- [ ] `pnpm test` passes",
+      "labels": [
+        "enhancement",
+        "ui",
+        "command-center"
+      ],
+      "milestone": "M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules",
+      "priority": "p2",
+      "complexity": "medium",
+      "dependsOn": [
+        68
+      ],
+      "selected": true
+    },
+    {
+      "id": 70,
+      "title": "Auth flow E2E tests",
+      "body": "## Summary\nAdd Playwright E2E tests covering the complete authentication flow.\n\n## Details\n- Login → permission check → redirect → access grant\n- Cover: successful login, unauthorized redirect, self-enroll, permission hierarchy, cross-subdomain cookies\n\n## Acceptance Criteria\n- [ ] Test: successful login redirects to requested app\n- [ ] Test: unauthorized user redirects to /unauthorized\n- [ ] Test: self-enroll grants view permission on first login\n- [ ] Test: permission hierarchy (admin can access edit-required pages)\n- [ ] Test: cross-subdomain cookies persist session\n- [ ] Test: expired session redirects to login\n- [ ] All tests pass in CI\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "auth",
+        "e2e"
+      ],
+      "milestone": "M7: Deep Test Coverage",
+      "priority": "p0",
+      "complexity": "large",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 71,
+      "title": "Billing flow integration tests",
+      "body": "## Summary\nAdd integration tests for Stripe billing flows.\n\n## Details\n- Stripe webhook handling for all relevant event types\n- Subscription lifecycle: create, update, cancel, trial\n- `hasFeatureAccess()` with various subscription states\n- Mock Stripe API responses\n\n## Acceptance Criteria\n- [ ] Test: webhook handles customer.subscription.created\n- [ ] Test: webhook handles customer.subscription.updated\n- [ ] Test: webhook handles customer.subscription.deleted\n- [ ] Test: subscription create → active → cancel lifecycle\n- [ ] Test: hasFeatureAccess returns true for active pro user accessing pro feature\n- [ ] Test: hasFeatureAccess returns false for free user accessing pro feature\n- [ ] Test: hasFeatureAccess returns true for trialing subscription\n- [ ] Test: hasFeatureAccess returns false for past_due subscription\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "billing"
+      ],
+      "milestone": "M7: Deep Test Coverage",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 72,
+      "title": "Proxy/routing integration tests",
+      "body": "## Summary\nAdd integration tests for subdomain routing and proxy behavior.\n\n## Details\n- Subdomain resolution for all 27 apps\n- Unknown subdomain → 404\n- Localhost dev routing with `?app=` param\n- `hrefWithinDeployedApp()` across environments\n- Middleware chain: host → auth → rewrite\n\n## Acceptance Criteria\n- [ ] Test: every registered subdomain resolves to correct route group\n- [ ] Test: unknown subdomain returns 404 or redirect\n- [ ] Test: localhost `?app=slug` override works in dev mode\n- [ ] Test: `hrefWithinDeployedApp()` generates correct URLs for production\n- [ ] Test: `hrefWithinDeployedApp()` generates correct URLs for localhost\n- [ ] Test: middleware chain processes requests in correct order\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "routing"
+      ],
+      "milestone": "M7: Deep Test Coverage",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 73,
+      "title": "Shared package unit tests",
+      "body": "## Summary\nAdd comprehensive unit tests for all shared packages.\n\n## Details\n- `@repo/auth`: permission hierarchy, session handling, multi-tenant client factory\n- `@repo/db`: query helpers, typed responses\n- `@repo/ui`: render every component with all variant combinations\n- `@repo/billing`: customer/subscription helpers (beyond existing tests)\n\n## Acceptance Criteria\n- [ ] `@repo/auth`: test permission hierarchy for all level combinations\n- [ ] `@repo/auth`: test session handling edge cases\n- [ ] `@repo/db`: test all query helpers with mock responses\n- [ ] `@repo/db`: test error handling for failed queries\n- [ ] `@repo/ui`: render test for every exported component\n- [ ] `@repo/ui`: variant coverage for components with CVA variants\n- [ ] `@repo/billing`: test edge cases not covered by M1 tests\n- [ ] `pnpm test` passes across all packages",
+      "labels": [
+        "testing"
+      ],
+      "milestone": "M7: Deep Test Coverage",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 74,
+      "title": "App registry integrity tests",
+      "body": "## Summary\nAdd tests ensuring the app registry is consistent with the actual codebase.\n\n## Details\n- No duplicate slugs or subdomains in registry\n- Every `routeGroup` maps to an existing directory\n- Every auth-gated app has a layout calling `requireAppLayoutAccess()`\n- Every app has a valid `tier` field\n\n## Acceptance Criteria\n- [ ] Test: no duplicate slugs in registry\n- [ ] Test: no duplicate subdomains in registry\n- [ ] Test: every routeGroup corresponds to an existing directory under `apps/web/app/`\n- [ ] Test: every app with `auth: true` has `requireAppLayoutAccess()` in its layout\n- [ ] Test: every app has a valid tier value (free, pro, or enterprise)\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "registry"
+      ],
+      "milestone": "M7: Deep Test Coverage",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        1
+      ],
+      "selected": true
+    },
+    {
+      "id": 75,
+      "title": "Error boundary and edge case tests",
+      "body": "## Summary\nAdd tests for error boundaries, edge cases, and graceful degradation.\n\n## Details\n- Unauthenticated API calls\n- Expired sessions mid-navigation\n- Supabase query failures\n- Malformed webhook payloads\n- Missing env vars at startup\n- Verify graceful degradation and user-facing error messages\n\n## Acceptance Criteria\n- [ ] Test: unauthenticated API call returns 401\n- [ ] Test: expired session redirects to login\n- [ ] Test: Supabase query failure triggers error boundary\n- [ ] Test: malformed webhook payload returns 400, not 500\n- [ ] Test: missing SUPABASE_URL throws descriptive error\n- [ ] Test: error boundary renders user-friendly message\n- [ ] `pnpm test` passes",
+      "labels": [
+        "testing",
+        "resilience"
+      ],
+      "milestone": "M7: Deep Test Coverage",
+      "priority": "p2",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 76,
+      "title": "CI pipeline setup",
+      "body": "## Summary\nSet up GitHub Actions CI pipeline for automated testing on PRs and merges.\n\n## Details\n- GitHub Actions workflow running `pnpm test` on every PR\n- Playwright E2E tests on merge to main\n- Coverage reports with threshold enforcement\n- Integrates with Alpha Loop's `test_command`\n\n## Acceptance Criteria\n- [ ] GitHub Actions workflow file created at `.github/workflows/ci.yml`\n- [ ] `pnpm test` runs on every PR and blocks merge on failure\n- [ ] `pnpm typecheck` runs on every PR\n- [ ] `pnpm lint` runs on every PR\n- [ ] Playwright E2E tests run on merge to main\n- [ ] Coverage reports generated and posted to PR\n- [ ] Coverage threshold set (e.g., 70% for new code)\n- [ ] Pipeline compatible with Alpha Loop's `test_command: pnpm test`\n- [ ] All checks pass on current main branch",
+      "labels": [
+        "infrastructure",
+        "ci"
+      ],
+      "milestone": "M7: Deep Test Coverage",
+      "priority": "p0",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    }
+  ],
+  "projectBoard": null
+}

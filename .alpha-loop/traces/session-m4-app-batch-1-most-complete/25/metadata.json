@@ -1,0 +1,15 @@
+{
+  "issueNum": 25,
+  "title": "Command Center: app-specific tests",
+  "status": "success",
+  "duration": 766,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/117",
+  "timestamp": "2026-04-09T05:14:28.629Z",
+  "agent": "claude",
+  "model": ""
+}

@@ -1,0 +1,98 @@
+> lr-apps@ test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3
+> turbo run test
+
+
+   • Packages in scope: @repo/auth, @repo/config, @repo/db, @repo/test-utils, @repo/theme, @repo/ui, @repo/web
+   • Running test in 7 packages
+   • Remote caching disabled, using shared worktree cache
+
+@repo/theme:test: cache hit, replaying logs 820177fa3cafd6f0
+@repo/theme:test: 
+@repo/theme:test: > @repo/theme@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/packages/theme
+@repo/theme:test: > echo no tests
+@repo/theme:test: 
+@repo/theme:test: no tests
+@repo/config:test: cache hit, replaying logs 44a529c0ea198535
+@repo/config:test: 
+@repo/config:test: > @repo/config@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/packages/config
+@repo/config:test: > echo no tests
+@repo/config:test: 
+@repo/config:test: no tests
+@repo/test-utils:test: cache hit, replaying logs ee702dbb7569a202
+@repo/test-utils:test: 
+@repo/test-utils:test: > @repo/test-utils@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/packages/test-utils
+@repo/test-utils:test: > vitest run
+@repo/test-utils:test: 
+@repo/test-utils:test: 
+@repo/test-utils:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/packages/test-utils
+@repo/test-utils:test: 
+@repo/test-utils:test:  ✓ src/__tests__/mock-supabase.test.ts (8 tests) 4ms
+@repo/test-utils:test:  ✓ src/__tests__/mock-auth0.test.ts (7 tests) 4ms
+@repo/test-utils:test: 
+@repo/test-utils:test:  Test Files  2 passed (2)
+@repo/test-utils:test:       Tests  15 passed (15)
+@repo/test-utils:test:    Start at  15:58:12
+@repo/test-utils:test:    Duration  992ms (transform 44ms, setup 0ms, collect 38ms, tests 8ms, environment 1.14s, prepare 160ms)
+@repo/test-utils:test: 
+@repo/ui:test: cache hit, replaying logs f4dc122f25c5ee4a
+@repo/ui:test: 
+@repo/ui:test: > @repo/ui@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/packages/ui
+@repo/ui:test: > vitest run --passWithNoTests
+@repo/ui:test: 
+@repo/ui:test: 
+@repo/ui:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/packages/ui
+@repo/ui:test: 
+@repo/ui:test: No test files found, exiting with code 0
+@repo/ui:test: 
+@repo/ui:test: include: **/*.{test,spec}.?(c|m)[jt]s?(x)
+@repo/ui:test: exclude:  **/node_modules/**, **/dist/**, **/cypress/**, **/.{idea,git,cache,output,temp}/**, **/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*
+@repo/ui:test: 
+@repo/db:test: cache hit, replaying logs 4bcc4eee9b5c441d
+@repo/db:test: 
+@repo/db:test: > @repo/db@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/packages/db
+@repo/db:test: > vitest run --passWithNoTests
+@repo/db:test: 
+@repo/db:test: 
+@repo/db:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/packages/db
+@repo/db:test: 
+@repo/db:test: No test files found, exiting with code 0
+@repo/db:test: 
+@repo/db:test: include: **/*.{test,spec}.?(c|m)[jt]s?(x)
+@repo/db:test: exclude:  **/node_modules/**, **/dist/**, **/cypress/**, **/.{idea,git,cache,output,temp}/**, **/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*
+@repo/db:test: 
+@repo/auth:test: cache hit, replaying logs e57795e44c335c57
+@repo/auth:test: 
+@repo/auth:test: > @repo/auth@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/packages/auth
+@repo/auth:test: > vitest run
+@repo/auth:test: 
+@repo/auth:test: 
+@repo/auth:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/packages/auth
+@repo/auth:test: 
+@repo/auth:test:  ✓ src/__tests__/permissions.test.ts (8 tests) 3ms
+@repo/auth:test: 
+@repo/auth:test:  Test Files  1 passed (1)
+@repo/auth:test:       Tests  8 passed (8)
+@repo/auth:test:    Start at  15:58:12
+@repo/auth:test:    Duration  424ms (transform 42ms, setup 0ms, collect 33ms, tests 3ms, environment 0ms, prepare 75ms)
+@repo/auth:test: 
+@repo/web:test: cache hit, replaying logs fe438f6522ef2c77
+@repo/web:test: 
+@repo/web:test: > @repo/web@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/apps/web
+@repo/web:test: > vitest run
+@repo/web:test: 
+@repo/web:test: 
+@repo/web:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-3/apps/web
+@repo/web:test: 
+@repo/web:test:  ✓ lib/__tests__/app-registry.test.ts (8 tests) 2ms
+@repo/web:test:  ✓ lib/__tests__/proxy-utils.test.ts (17 tests) 4ms
+@repo/web:test:  ✓ lib/__tests__/platform-urls.test.ts (16 tests) 4ms
+@repo/web:test: 
+@repo/web:test:  Test Files  3 passed (3)
+@repo/web:test:       Tests  41 passed (41)
+@repo/web:test:    Start at  15:58:12
+@repo/web:test:    Duration  742ms (transform 84ms, setup 0ms, collect 117ms, tests 10ms, environment 0ms, prepare 166ms)
+@repo/web:test: 
+
+ Tasks:    7 successful, 7 total
+Cached:    7 cached, 7 total
+  Time:    83ms >>> FULL TURBO

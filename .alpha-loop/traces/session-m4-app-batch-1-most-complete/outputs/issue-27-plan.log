@@ -1,0 +1,6 @@
+Written `plan-issue-27.json` with 4 test files:
+
+1. **layout.test.tsx** — auth gate with `requireAppLayoutAccess("accounts")`, header rendering, error propagation
+2. **page.test.tsx** — mock `getClients`/`computeOverviewStats`, verify StatCards and PageHeader
+3. **accounts-app.test.tsx** — client selector dropdown, health badge, contacts tab (names/roles/emails/primary badge), PR aggregation tab (count, PR list, repo links, "Needs attention" warning), empty states, tab interactions via `userEvent`
+4. **queries.test.ts** — unit tests for `computeOverviewStats` with edge cases

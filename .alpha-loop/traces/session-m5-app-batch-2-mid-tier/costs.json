@@ -1,0 +1,34 @@
+{
+  "total_cost_usd": 1.9237,
+  "by_step": {
+    "plan": {
+      "model": "",
+      "input_tokens": 10,
+      "output_tokens": 2262,
+      "cost_usd": 0.3952
+    },
+    "implement": {
+      "model": "",
+      "input_tokens": 22,
+      "output_tokens": 6896,
+      "cost_usd": 0.725
+    },
+    "review": {
+      "model": "",
+      "input_tokens": 820,
+      "output_tokens": 3014,
+      "cost_usd": 0.526
+    },
+    "assumptions": {
+      "model": "",
+      "input_tokens": 3603,
+      "output_tokens": 1110,
+      "cost_usd": 0.2775
+    }
+  },
+  "by_issue": {
+    "48": {
+      "cost_usd": 1.9237
+    }
+  }
+}

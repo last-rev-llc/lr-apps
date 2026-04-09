@@ -1,0 +1,16 @@
+{
+  "summary": "Add Vitest test coverage for Dad Joke of the Day: JOTD selection, category filtering, joke card rendering, and auth gate redirects.",
+  "files": [
+    "apps/web/app/apps/dad-joke-of-the-day/lib/__tests__/queries.test.ts",
+    "apps/web/app/apps/dad-joke-of-the-day/components/__tests__/joke-viewer.test.tsx"
+  ],
+  "implementation": "1. Create apps/web/app/apps/dad-joke-of-the-day/lib/__tests__/queries.test.ts:\n   - Test getJokeOfTheDay: returns null for empty array, returns deterministic joke based on date seed, returns same joke for same date (mock Date), returns different joke for different date.\n   - Test getCategories: returns empty array for no jokes, extracts unique sorted categories, filters out falsy categories.\n   - Test getAllJokes: mock @repo/db/server createClient, verify it queries dad_jokes table, test error path returns empty array.\n\n2. Create apps/web/app/apps/dad-joke-of-the-day/components/__tests__/joke-viewer.test.tsx:\n   - Mock @repo/db/client createClient (for trackShown/rateJoke calls).\n   - Mock @repo/ui to provide minimal Button/Badge/Card/CardContent stubs.\n   - Test joke card renders: setup text displayed, punchline hidden initially, reveal button present.\n   - Test punchline reveal: click reveal button, punchline text appears, rating buttons appear.\n   - Test category filtering: render with multiple categories, click a category badge, verify filtered pool count text appears.\n   - Test JOTD mode badge shows correctly on initial render.\n   - Test random joke button changes displayed joke.\n\n3. Auth gate test already exists in apps/web/lib/__tests__/require-app-layout-access.test.ts (line 52-55 tests dad-joke-of-the-day slug). Add one supplemental test there verifying that auth:false apps with no publicRoutes still call requireAccess (already covered — no changes needed, just verify it passes).\n\n4. Run pnpm test to verify all tests pass.",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for existing app behavior — JOTD selection logic, category filtering, component rendering, and auth gate redirects."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "No UI changes — this issue only adds test files. Verification is done by running pnpm test."
+  }
+}

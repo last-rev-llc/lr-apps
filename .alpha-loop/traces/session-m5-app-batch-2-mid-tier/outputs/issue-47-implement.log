@@ -1,0 +1,14 @@
+Done. Here's a summary:
+
+**6 test files, 53 tests, all passing:**
+
+| File | Tests | Coverage |
+|------|-------|----------|
+| `lib/__tests__/actions.test.ts` | 9 | `generatePhrase` + `generateMemeCaption`: fallbacks, API calls, error handling |
+| `lib/__tests__/utils.test.ts` | 6 | `getRandomTerms`: count, uniqueness, edge cases |
+| `data/__tests__/slang.test.ts` | 11 | SLANG_GLOSSARY fields, SLANG_MAP keys, SCENARIOS, CATEGORIES |
+| `components/__tests__/cringe-app.test.tsx` | 17 | Header, tabs, glossary search/filter/category, meme scenarios |
+| `__tests__/layout.test.tsx` | 4 | Children, header title, nav links, emoji |
+| `about/__tests__/page.test.tsx` | 6 | Hero, features, steps, use cases, CTAs |
+
+Full suite: **206 tests across 22 files, all green.**

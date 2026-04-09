@@ -1,0 +1,6 @@
+Plan written to `plan-issue-2.json`. Key decisions based on codebase analysis:
+
+- **Package structure** mirrors `@repo/auth` conventions (exports map, tsconfig extends, vitest)
+- **Database** uses raw Supabase JS client via `@repo/db/service-role` (no ORM) — matches existing patterns
+- **Migration** follows `001_app_permissions.sql` style with RLS policies and indexes
+- **14 files** total: 10 new in `packages/billing/`, 1 migration, 1 DB types update, 1 turbo.json update, plus 4 test files

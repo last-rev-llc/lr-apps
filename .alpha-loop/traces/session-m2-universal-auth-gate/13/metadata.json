@@ -1,0 +1,15 @@
+{
+  "issueNum": 13,
+  "title": "Auth gate: Alpha Wins",
+  "status": "success",
+  "duration": 217,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 8,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/97",
+  "timestamp": "2026-04-08T16:24:48.171Z",
+  "agent": "claude",
+  "model": ""
+}

@@ -1,0 +1,22 @@
+## Review: Issue #26 — Accounts Component Migration
+
+**Result: PASSED**
+
+### What was done
+- All inline UI patterns in `accounts-app.tsx` replaced with `@repo/ui` imports: `Card`/`CardHeader`/`CardTitle`/`CardContent`, `Button`, `Badge`, `StatusBadge`, `EmptyState`, `cn`
+- `page.tsx` migrated to use `PageHeader` and `StatCard` from `@repo/ui`
+- Inline badge component replaced with `ColorBadge` wrapper around `StatusBadge` (maps legacy color names to semantic variants)
+- 5 new shared components added to `@repo/ui`: Table, StatusBadge, DataGrid, LoadingSkeleton, ErrorBoundary — all with tests (42 passing)
+
+### Acceptance criteria
+| Criteria | Status |
+|----------|--------|
+| All UI elements use `@repo/ui` | ✅ |
+| Client list uses shared Card | ✅ |
+| Contact display uses shared components | ✅ |
+| No inline Tailwind button/card patterns | ✅ |
+| `pnpm build` passes | ✅ |
+
+### Notes
+- Raw `<select>` for client picker is fine — no Select component exists in `@repo/ui`
+- DataGrid/ErrorBoundary/LoadingSkeleton added to shared lib but not used in accounts app specifically — they're general-purpose additions for the broader migration effort

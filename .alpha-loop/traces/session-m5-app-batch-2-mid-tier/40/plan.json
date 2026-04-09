@@ -1,0 +1,16 @@
+{
+  "summary": "Replace remaining inline buttons in Dad Joke of the Day with @repo/ui Badge and Button components",
+  "files": [
+    "apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx"
+  ],
+  "implementation": "1. In joke-viewer.tsx, replace the category filter pills (lines 146-171) — currently raw <button> elements with manual className arrays — with @repo/ui Badge components using variant='outline' and conditional active styling (amber border/bg when selected, white/10 border when not). 2. In joke-viewer.tsx, replace the rating buttons (lines 206-214) — currently raw <button> elements — with @repo/ui Button components using variant='outline' and size='icon', preserving the emoji content, title, disabled state, and hover/scale styling. 3. Verify pnpm build passes. Note: the about/page.tsx and the joke card/mode badge already use @repo/ui Card, CardContent, Badge, and Button — no changes needed there.",
+  "testing": {
+    "needed": true,
+    "reason": "Component swap changes rendered markup and class names, which could affect interactivity or styling regressions"
+  },
+  "verification": {
+    "needed": true,
+    "instructions": "1. Navigate to /apps/dad-joke-of-the-day. 2. Confirm category filter pills render and switching categories updates the displayed joke. 3. Click 'Reveal Punchline' and confirm rating emoji buttons appear and are clickable. 4. Rate a joke and confirm the 'thanks' confirmation appears. 5. Verify visual styling matches the amber/dark theme.",
+    "reason": "UI components are being swapped which could affect visual appearance and click handlers"
+  }
+}

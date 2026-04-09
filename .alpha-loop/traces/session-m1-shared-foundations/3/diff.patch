@@ -1,0 +1,334 @@
+diff --git a/.env.compose b/.env.compose
+new file mode 100644
+index 0000000..d61b898
+--- /dev/null
++++ b/.env.compose
+@@ -0,0 +1 @@
++COMPOSE_PROJECT_NAME=lr-apps
+diff --git a/apps/web/package.json b/apps/web/package.json
+index 0d7dd2a..bca1a32 100644
+--- a/apps/web/package.json
++++ b/apps/web/package.json
+@@ -25,6 +25,7 @@
+   },
+   "devDependencies": {
+     "@repo/config": "workspace:*",
++    "@repo/test-utils": "workspace:*",
+     "@tailwindcss/postcss": "^4",
+     "@types/node": "^22",
+     "@types/react": "^19",
+diff --git a/packages/auth/package.json b/packages/auth/package.json
+index 1a5aad2..fa79ccf 100644
+--- a/packages/auth/package.json
++++ b/packages/auth/package.json
+@@ -24,6 +24,7 @@
+   },
+   "devDependencies": {
+     "@repo/config": "workspace:*",
++    "@repo/test-utils": "workspace:*",
+     "@types/react": "^19",
+     "next": "^16",
+     "typescript": "^5",
+diff --git a/packages/config/package.json b/packages/config/package.json
+index 35e7b68..153af1c 100644
+--- a/packages/config/package.json
++++ b/packages/config/package.json
+@@ -2,6 +2,9 @@
+   "name": "@repo/config",
+   "version": "0.0.0",
+   "private": true,
++  "scripts": {
++    "test": "echo no tests"
++  },
+   "exports": {
+     "./tsconfig/base": "./tsconfig/base.json",
+     "./tsconfig/nextjs": "./tsconfig/nextjs.json",
+diff --git a/packages/db/package.json b/packages/db/package.json
+index 1070a33..6b043fb 100644
+--- a/packages/db/package.json
++++ b/packages/db/package.json
+@@ -3,6 +3,9 @@
+   "version": "0.0.0",
+   "private": true,
+   "type": "module",
++  "scripts": {
++    "test": "vitest run --passWithNoTests"
++  },
+   "exports": {
+     ".": "./src/index.ts",
+     "./server": "./src/server.ts",
+@@ -20,7 +23,9 @@
+   },
+   "devDependencies": {
+     "@repo/config": "workspace:*",
++    "@repo/test-utils": "workspace:*",
+     "next": "^16",
+-    "typescript": "^5"
++    "typescript": "^5",
++    "vitest": "^3"
+   }
+ }
+diff --git a/packages/test-utils/package.json b/packages/test-utils/package.json
+new file mode 100644
+index 0000000..30c8759
+--- /dev/null
++++ b/packages/test-utils/package.json
+@@ -0,0 +1,27 @@
++{
++  "name": "@repo/test-utils",
++  "version": "0.0.0",
++  "private": true,
++  "type": "module",
++  "exports": {
++    ".": "./src/index.ts"
++  },
++  "scripts": {
++    "test": "vitest run"
++  },
++  "dependencies": {
++    "@supabase/supabase-js": "^2",
++    "@testing-library/react": "^16",
++    "@testing-library/jest-dom": "^6",
++    "react": "^19",
++    "react-dom": "^19"
++  },
++  "devDependencies": {
++    "@repo/config": "workspace:*",
++    "@types/react": "^19",
++    "@types/react-dom": "^19",
++    "jsdom": "^26",
++    "typescript": "^5",
++    "vitest": "^3"
++  }
++}
+diff --git a/packages/test-utils/src/__tests__/mock-auth0.test.ts b/packages/test-utils/src/__tests__/mock-auth0.test.ts
+new file mode 100644
+index 0000000..53a71ab
+--- /dev/null
++++ b/packages/test-utils/src/__tests__/mock-auth0.test.ts
+@@ -0,0 +1,73 @@
++import { describe, it, expect } from "vitest";
++import { createMockAuth0, createMockAuth0Client } from "../mock-auth0";
++
++describe("createMockAuth0", () => {
++  it("returns a valid session with defaults", () => {
++    const session = createMockAuth0();
++
++    expect(session.user.sub).toBe("auth0|test-user-id");
++    expect(session.user.email).toBe("test@example.com");
++    expect(session.user.name).toBe("Test User");
++    expect(session.user.email_verified).toBe(true);
++    expect(session.accessToken).toBe("mock-access-token");
++    expect(session.idToken).toBe("mock-id-token");
++  });
++
++  it("accepts top-level overrides", () => {
++    const session = createMockAuth0({
++      accessToken: "custom-token",
++    });
++
++    expect(session.accessToken).toBe("custom-token");
++    // Other fields remain defaults
++    expect(session.user.email).toBe("test@example.com");
++  });
++
++  it("deep-merges user overrides", () => {
++    const session = createMockAuth0({
++      user: { email: "custom@example.com", org_id: "org_123" },
++    });
++
++    expect(session.user.email).toBe("custom@example.com");
++    expect(session.user.org_id).toBe("org_123");
++    // Other user fields remain defaults
++    expect(session.user.sub).toBe("auth0|test-user-id");
++    expect(session.user.name).toBe("Test User");
++  });
++});
++
++describe("createMockAuth0Client", () => {
++  it("returns a client with vi.fn() stubs", () => {
++    const client = createMockAuth0Client();
++
++    expect(client.getSession).toBeDefined();
++    expect(client.getAccessToken).toBeDefined();
++    expect(client.handleAuth).toBeDefined();
++  });
++
++  it("getSession resolves to a valid session", async () => {
++    const client = createMockAuth0Client();
++    const session = await client.getSession();
++
++    expect(session.user.sub).toBe("auth0|test-user-id");
++    expect(session.accessToken).toBe("mock-access-token");
++  });
++
++  it("applies session overrides to the client", async () => {
++    const client = createMockAuth0Client({
++      user: { email: "admin@example.com" },
++    });
++
++    const session = await client.getSession();
++    expect(session.user.email).toBe("admin@example.com");
++  });
++
++  it("getAccessToken resolves to the access token", async () => {
++    const client = createMockAuth0Client({
++      accessToken: "my-token",
++    });
++
++    const result = await client.getAccessToken();
++    expect(result.accessToken).toBe("my-token");
++  });
++});
+diff --git a/packages/test-utils/src/__tests__/mock-supabase.test.ts b/packages/test-utils/src/__tests__/mock-supabase.test.ts
+new file mode 100644
+index 0000000..caed0e0
+--- /dev/null
++++ b/packages/test-utils/src/__tests__/mock-supabase.test.ts
+@@ -0,0 +1,71 @@
++import { describe, it, expect } from "vitest";
++import { createMockSupabase } from "../mock-supabase";
++
++describe("createMockSupabase", () => {
++  it("returns a mock client with from()", () => {
++    const client = createMockSupabase();
++    expect(client.from).toBeDefined();
++    expect(client.from("app_permissions")).toBeDefined();
++  });
++
++  it("supports chainable query methods", () => {
++    const client = createMockSupabase();
++    const query = client.from("app_permissions");
++
++    // All chain methods should return the builder
++    const chained = query.select("*").eq("user_id", "123").order("created_at");
++    expect(chained).toBe(query);
++  });
++
++  it("resolves default data from terminal methods", async () => {
++    const client = createMockSupabase();
++    const result = await client
++      .from("app_permissions")
++      .select("*")
++      .eq("id", "1")
++      .single();
++
++    expect(result).toEqual({ data: [], error: null });
++  });
++
++  it("accepts custom default data", async () => {
++    const mockData = { data: { id: "1", name: "test" }, error: null as null };
++    const client = createMockSupabase(mockData);
++
++    const result = await client.from("test").select().single();
++    expect(result).toEqual(mockData);
++  });
++
++  it("allows overriding builder return values", async () => {
++    const client = createMockSupabase();
++    const customResult = { data: { id: "custom" }, error: null };
++    client._builder.single.mockResolvedValue(customResult);
++
++    const result = await client.from("test").select().single();
++    expect(result).toEqual(customResult);
++  });
++
++  it("supports awaiting the builder directly", async () => {
++    const defaultData = { data: [{ id: "1" }], error: null as null };
++    const client = createMockSupabase(defaultData);
++
++    const result = await client.from("test").select("*");
++    expect(result).toEqual(defaultData);
++  });
++
++  it("provides auth helpers", async () => {
++    const client = createMockSupabase();
++
++    const userResult = await client.auth.getUser();
++    expect(userResult).toEqual({ data: { user: null }, error: null });
++
++    const sessionResult = await client.auth.getSession();
++    expect(sessionResult).toEqual({ data: { session: null }, error: null });
++  });
++
++  it("provides rpc mock", async () => {
++    const client = createMockSupabase();
++    const result = await client.rpc("my_function", { arg: "value" });
++    expect(result).toEqual({ data: null, error: null });
++  });
++});
+diff --git a/packages/test-utils/src/index.ts b/packages/test-utils/src/index.ts
+new file mode 100644
+index 0000000..5ef8992
+--- /dev/null
++++ b/packages/test-utils/src/index.ts
+@@ -0,0 +1,14 @@
++export { createMockSupabase, type MockSupabaseClient } from "./mock-supabase";
++export {
++  createMockAuth0,
++  createMockAuth0Client,
++  type MockAuth0Session,
++  type MockAuth0Client,
++} from "./mock-auth0";
++export {
++  renderWithProviders,
++  screen,
++  waitFor,
++  within,
++  act,
++} from "./render-with-providers";
+diff --git a/packages/test-utils/src/mock-auth0.ts b/packages/test-utils/src/mock-auth0.ts
+new file mode 100644
+index 0000000..d54b6c7
+--- /dev/null
++++ b/packages/test-utils/src/mock-auth0.ts
+@@ -0,0 +1,73 @@
++import { vi } from "vitest";
++
++export interface MockAuth0Session {
++  user: {
++    sub: string;
++    email: string;
++    name: string;
++    picture: string;
++    email_verified: boolean;
++    org_id?: string;
++  };
++  accessToken: string;
++  accessTokenExpiresAt: number;
++  idToken: string;
++}
++
++const DEFAULT_SESSION: MockAuth0Session = {
++  user: {
++    sub: "auth0|test-user-id",
++    email: "test@example.com",
++    name: "Test User",
++    picture: "https://example.com/avatar.png",
++    email_verified: true,
++  },
++  accessToken: "mock-access-token",
++  accessTokenExpiresAt: Math.floor(Date.now() / 1000) + 3600,
++  idToken: "mock-id-token",
++};
++
++/**
++ * Creates a mock Auth0 session object matching the shape from `auth0.getSession()`.
++ * Accepts partial overrides that are deep-merged with defaults.
++ */
++export function createMockAuth0(
++  overrides?: Partial<MockAuth0Session> & {
++    user?: Partial<MockAuth0Session["user"]>;
++  },
++): MockAuth0Session {
++  return {
++    ...DEFAULT_SESSION,
++    ...overrides,
++    user: {
++      ...DEFAULT_SESSION.user,
++      ...overrides?.user,
++    },
++  };
++}
++
++ex

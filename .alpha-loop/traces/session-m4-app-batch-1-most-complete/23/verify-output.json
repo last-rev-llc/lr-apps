@@ -1,0 +1,1 @@
+Verification skipped by plan: These are shared library components in @repo/ui, not wired into any specific app page yet. No user-visible UI to verify in a browser. Correctness is validated via unit tests and pnpm build/test.

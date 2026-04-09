@@ -1,0 +1,6 @@
+Done. All acceptance criteria met:
+
+- **`layout.tsx`** calls `requireAppLayoutAccess("hspt-practice")` (async)
+- **`app-registry.ts`** has `auth: true` for hspt-practice
+- **4 smoke tests** pass: auth call verification, unauthenticated → `/login`, unauthorized → `/unauthorized`, authenticated renders children
+- **93/93 tests pass** across all packages

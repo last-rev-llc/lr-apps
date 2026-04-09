@@ -1,0 +1,6 @@
+Plan written to `plan-issue-48.json`. Key points:
+
+- **2 files** to modify: `feed-app.tsx` (bulk of the work) and `about/page.tsx`
+- **feed-app.tsx**: Wrap UpdateCard sections in CardHeader/CardContent/CardFooter, swap profile icon to Avatar+AvatarFallback, category spans to Badge, all buttons to Button, search to Input, time range buttons to Tabs, empty state to EmptyState
+- **about/page.tsx**: Feature/character divs to Card, CTA anchor to Button with asChild
+- Verification needed since all changes are user-visible UI

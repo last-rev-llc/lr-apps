@@ -1,0 +1,24 @@
+## Review Summary
+
+**Result: PASSED**
+
+### Acceptance Criteria Check
+
+| Criteria | Status |
+|----------|--------|
+| Standard buttons use `@repo/ui` Button | Done — `<Link>` styled as buttons → `<Button asChild>`, raw `<button>` → `<Button>` |
+| Cards use `@repo/ui` Card | Done — `<div>` cards → `<Card>` + `<CardContent>` |
+| Custom blob animations preserved | Done — 3 ambient glow blobs intact in `layout.tsx` |
+| Dark theme tokens used consistently | Done after fixes |
+| `pnpm build` passes | Done |
+
+### Fixes Applied (committed as `38e1ce9`)
+
+3 remaining hardcoded `white/opacity` classes in `cringe-app.tsx` that were missed:
+- `text-white/40` on VibeBar label → `text-muted-foreground`
+- `border-white/10 bg-white/5` on saved items card → `glass-sm`
+- `border-white/8 bg-white/5` on glossary cards → `glass-sm`
+
+### Info Notes (non-blocking)
+- A few `text-white/80` and `text-white/90` remain on primary content text — intentional near-white emphasis, not muted text
+- Search input/select use inline glass styles since no `@repo/ui` Input was in scope for this migration

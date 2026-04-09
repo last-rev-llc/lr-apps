@@ -1,0 +1,7 @@
+Plan written to `plan-issue-16.json`. It covers three files:
+
+1. **Registry** (`app-registry.ts`): flip `auth: false` → `auth: true`
+2. **Layout** (`layout.tsx`): make async, add `await requireAppLayoutAccess("dad-joke-of-the-day")`
+3. **Tests** (`__tests__/layout.test.tsx`): 4 smoke tests following the cringe-rizzler pattern — correct slug, login redirect, unauthorized redirect, and successful render
+
+No browser verification needed since the auth gate is a server-side redirect fully testable via unit tests.

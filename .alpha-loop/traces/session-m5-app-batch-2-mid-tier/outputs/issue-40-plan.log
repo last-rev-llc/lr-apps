@@ -1,0 +1,8 @@
+Plan written to `plan-issue-40.json`. 
+
+Key finding: the app already uses `@repo/ui` Card, CardContent, Badge, and Button for most of its UI. The only remaining inline elements are:
+
+- **Category filter pills** (line 146-171) — raw `<button>` → `Badge`
+- **Rating buttons** (line 206-214) — raw `<button>` → `Button`
+
+The about page and joke card/mode badge need no changes — they already use shared components.

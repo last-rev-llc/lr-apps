@@ -1,0 +1,1 @@
+Verification skipped by plan: Auth gate is tested via unit/smoke tests. No new UI elements to verify in a browser — the change affects server-side redirect behavior which is fully covered by the mock-based layout tests.

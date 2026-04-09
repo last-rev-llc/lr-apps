@@ -1,0 +1,1 @@
+Review: All acceptance criteria met: layout.tsx calls requireAppLayoutAccess, registry has auth:true, smoke tests pass for all auth scenarios, pnpm test green.

@@ -1,0 +1,1 @@
+Verification skipped by plan: Auth gate is server-side redirect logic tested via unit tests. No new UI components or user-visible changes to verify in browser.

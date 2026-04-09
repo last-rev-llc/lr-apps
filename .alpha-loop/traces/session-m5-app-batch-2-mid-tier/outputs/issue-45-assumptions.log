@@ -1,0 +1,15 @@
+## Assumptions
+- **Assumed `GEN_X_MAP` entry count (43) is stable** — the test asserts an exact count of 43 entries, which will break if entries are added/removed from the map
+- **Assumed `SlangEntry` type supports both `vibe_score` and `vibeScore` field names** — tests use both, assuming the component handles the snake_case (DB) and camelCase (JSON) variants interchangeably
+- **Assumed auth gate behavior matches the shared `requireAppLayoutAccess` pattern** — the layout test mocks this utility and asserts it's called with `"slang-translator"`, assuming the same auth pattern used by other apps
+
+## Decisions
+- **Migrated raw HTML elements to `@repo/ui` primitives** during testing (e.g., `<span>` → `<Badge>`, `<button>` → `<Button>`, `<textarea>` → `<Textarea>`, custom modal div → `<Dialog>`). This was done to make the component testable with consistent mocks but also changes the rendered output
+- **Created a full Tabs context mock** in the test file rather than using a shared mock, because the Tabs component requires internal React context for tab switching — this is the most complex mock in the test suite
+- **Tested bi-directional display via `GEN_X_MAP` lookup** (gen-alpha → gen-x) and `equivalents.genAlpha` field (gen-x → gen-alpha), treating these as the two directions rather than a single translation mechanism
+- **Tested translator tab input/output inline** rather than isolating the translation logic into a separate unit test — the translation logic lives inside the component state
+
+## Items to Validate
+- **Verify the `@repo/ui` migration didn't change visual appearance** — the component refactor replaced raw `<span>`, `<button>`, and `<textarea>` elements with `Badge`, `Button`, `Textarea`, and `Dialog` components. Spot-check the Slang Translator app UI in the browser
+- **Confirm the hardcoded `GEN_X_MAP` count of 43 is intentional** — if the map is expected to grow, the exact-count assertion should be removed or updated
+- **Check that the `Dialog` migration preserved close-on-backdrop-click behavior** — the old modal used `onClick` on a backdrop div; the new one uses `Dialog`'s `onOpenChange`

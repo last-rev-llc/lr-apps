@@ -1,0 +1,9 @@
+Review: Review found 5 issues across token migration, all fixed: missed bg-amber-400 in pricing.tsx, glass-input rgba→oklch, vibeColor semantic mismatch (pill-6→red), gradient collapse in cringe-rizzler layout, and missing light-theme shadow overrides.
+- [warning] pricing.tsx line 41: bg-amber-400 not migrated to bg-accent-400 despite rest of file being migrated (fixed)
+- [warning] glass-input utility used rgba(0,0,0,0.2) while glass-header and glass-overlay use oklch() — inconsistent with PR's own conventions (fixed)
+- [warning] vibeColor function mapped low scores to var(--color-pill-6) (pink #ec4899) instead of var(--color-red) — semantic color meaning changed from red=bad to pink=bad (fixed)
+- [warning] Cringe rizzler layout gradient collapsed 3 distinct hex stops into same var(--color-navy-950) token — replaced with var(--gradient-navy-3) which preserves the 3-stop gradient (fixed)
+- [warning] Shadow tokens (glow-accent-sm, glow-accent-md, lightbox, glass-hover-strong) had no light-theme overrides — dark-mode values would look too heavy on light backgrounds (fixed)
+- [info] accent-accent class name in age-of-apes calculator-app.tsx is syntactically valid (accent-color: var(--color-accent)) but visually odd — could confuse future readers (unfixed)
+- [info] themeColor metadata values in layout.tsx files use hex — acceptable since browser meta theme-color API requires literal color values (unfixed)
+- [info] confetti.tsx DEFAULT_COLORS array has hardcoded hex values (#FDBB30, #00543C, etc.) — pre-existing, likely brand-specific colors with no theme token equivalent (unfixed)

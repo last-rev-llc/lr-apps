@@ -94,7 +94,22 @@
       "Bash(yes \"\")",
       "Bash(lsof -ti:4747)",
       "Bash(gh api:*)",
-      "Bash(xargs -I {} basename {})"
+      "Bash(xargs -I {} basename {})",
+      "Bash(npx --yes @bradtaylorsf/alpha-loop --version)",
+      "Bash(gh project:*)",
+      "Bash(npx:*)",
+      "Bash(gh issue create --repo last-rev-llc/lr-apps -t 'Replace hardcoded tokens — batch 1 \\(internal apps\\)' -l design,refactor -m 'M3: Theme Token Audit' -b ':*)",
+      "Bash(gh issue create --repo last-rev-llc/lr-apps -t 'Replace hardcoded tokens — batch 2 \\(consumer apps\\)' -l design,refactor -m 'M3: Theme Token Audit' -b ':*)",
+      "Bash(gh issue create --repo last-rev-llc/lr-apps -t 'Replace hardcoded tokens — batch 3 \\(showcase apps\\)' -l design,refactor -m 'M3: Theme Token Audit' -b ':*)",
+      "Bash(gh issue create --repo last-rev-llc/lr-apps -t 'Add theme token lint rule' -l dx,design -m 'M3: Theme Token Audit' -b ':*)",
+      "Bash(gh issue create --repo last-rev-llc/lr-apps -t 'Area 52: build out stub app' -l new-app,area-52 -m 'M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules' -b ':*)",
+      "Bash(gh issue create --repo last-rev-llc/lr-apps -t 'Lighthouse: build performance monitoring dashboard' -l new-app,lighthouse -m 'M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules' -b ':*)",
+      "Bash(gh issue create --repo last-rev-llc/lr-apps -t 'Sales: build leads pipeline dashboard' -l new-app,sales -m 'M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules' -b ':*)",
+      "Bash(gh issue create --repo last-rev-llc/lr-apps -t 'Proxy/routing integration tests' -l integration,testing -m 'M7: Deep Test Coverage' -b ':*)",
+      "Bash(gh issue create --repo last-rev-llc/lr-apps -t 'Error boundary and edge case tests' -l testing,edge-cases -m 'M7: Deep Test Coverage' -b ':*)",
+      "Bash(gh pr:*)",
+      "Bash(gh issue:*)",
+      "Bash(gh label:*)"
     ]
   }
 }

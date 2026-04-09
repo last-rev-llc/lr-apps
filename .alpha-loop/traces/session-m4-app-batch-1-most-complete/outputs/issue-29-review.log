@@ -1,0 +1,7 @@
+**Review: PASSED**
+
+All 5 acceptance criteria are satisfied. The implementation includes:
+
+- **4 test files** for standup: `layout.test.tsx` (5 tests), `page.test.tsx` (2 tests), `standup-app.test.tsx` (14 tests), `queries.test.ts` (5 tests)
+- **Component migration** from raw HTML to `@repo/ui` (`Badge`, `Button`, `EmptyState`)
+- **163 total tests** pass across web and UI packages with no failures

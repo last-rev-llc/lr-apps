@@ -1,0 +1,9 @@
+Plan written to `plan-issue-70.json`.
+
+**Key decisions in the plan:**
+
+- **3 apps need changes**: Alpha Wins (6 Tailwind palette swaps), Brommie Quake (~30 inline rgba → color-mix/oklch), Superstars (new app-level CSS vars + ~15 class replacements)
+- **4 apps are clean**: Travel Collection, AI Calculator, Area 52, Lighthouse have only `themeColor` (framework constraint) or zero violations
+- **Exceptions preserved** (per batch 2 precedent): `CONFETTI_COLORS` in brommie-quake (DOM manipulation requires literal hex), all `themeColor` in layout.tsx (Next.js viewport metadata requires literal hex)
+- **Brommie Quake approach**: Keep existing `:root` CSS vars as the app's brand token layer; replace inline `rgba()` with `color-mix()` referencing those vars; add new vars for derived dark colors
+- **Superstars approach**: Create `superstars.css` with `--ss-primary`/`--ss-accent` vars; replace all hardcoded hex Tailwind classes and inline style defaults with var() references; map `#0a0e1a` to existing `bg-navy` token

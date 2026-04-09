@@ -1,0 +1,1 @@
+Verification skipped by plan: These are cosmetic color token replacements that should produce visually identical output. Visual regression is best caught via code review (per batch 1/2 learnings) rather than automated browser verification. No functional behavior changes.

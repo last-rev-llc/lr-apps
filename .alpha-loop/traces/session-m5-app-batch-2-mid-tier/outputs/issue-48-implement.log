@@ -1,0 +1,9 @@
+Done. Component migration complete for Daily Updates:
+
+**Files changed (2):**
+- `apps/web/app/apps/daily-updates/components/feed-app.tsx` — Migrated UpdateCard (Avatar, Badge, CardHeader/Content/Footer, Button for links/reactions), filters (Input, Tabs), empty state (EmptyState), and load-more (Button)
+- `apps/web/app/apps/daily-updates/about/page.tsx` — Migrated feature cards and character cards to Card components, CTA to Button asChild
+
+**Verification:**
+- `pnpm build` — passes
+- All 206 tests pass (22 files, 8 packages)

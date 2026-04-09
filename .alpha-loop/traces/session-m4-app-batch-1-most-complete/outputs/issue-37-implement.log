@@ -1,0 +1,11 @@
+Done. Created 5 test files with 20 tests covering all acceptance criteria:
+
+| File | Tests | Coverage |
+|------|-------|----------|
+| `sentiment-dashboard.test.tsx` | 7 | Dashboard heading, mood badge text & colors, member filter options & filtering, stats row computation, empty state |
+| `page.test.tsx` | 3 | Page heading/subtitle, entries passed to dashboard, empty data state |
+| `layout.test.tsx` | 4 | Auth gate call, children rendering, header title, auth error propagation |
+| `changelog.test.tsx` | 2 | Heading, all 3 version entries |
+| `docs.test.tsx` | 3 | Heading, section headings, scoring ranges |
+
+All 200 tests pass across the full suite.

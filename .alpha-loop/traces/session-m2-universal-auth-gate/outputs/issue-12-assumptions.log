@@ -1,0 +1,13 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- **Enhanced login form to preserve redirect context**: The signup link on the login page now forwards the `redirect` query param so users who click "Create an account" return to the app after signup. This wasn't in the requirements but was a gap in the existing flow.
+- **Added `session_expired` error message**: Added a user-friendly message for session expiry alongside the existing `forbidden` error. This was an incremental improvement spotted during implementation.
+- **Changed "Get access" to "Request access"**: Updated button copy on the unauthorized page for clarity — "Request" better communicates that access isn't instant.
+- **Improved unauthorized page copy**: Made the no-self-service message reference the app name and "Last Rev admin" instead of a raw database table name (`app_permissions`), which was user-facing and leaking internals.
+
+## Items to Validate
+- **Button copy change "Get access" → "Request access"**: Verify this matches the intended UX language across other auth-gated apps (Lighthouse, Area 52). If those still say "Get access", you may want consistency.
+- **"Last Rev admin" wording on unauthorized page**: Confirm this is the right term for your audience — if end users aren't familiar with "Last Rev", a different label may be better.
+- **`session_expired` error handling**: This error string needs to actually be passed as a query param somewhere for the message to surface. Verify that a session expiry flow sets `?error=session_expired` on redirect to `/login`.

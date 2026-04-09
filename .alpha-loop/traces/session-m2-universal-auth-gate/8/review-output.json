@@ -1,0 +1,5 @@
+Review: Two critical security/correctness issues found and fixed; implementation now covers all acceptance criteria
+- [critical] Open redirect via protocol-relative URLs: isSafeReturnTo('//evil.com') returned true because it starts with '/'. new URL('//evil.com', appBaseUrl) resolves to the evil domain, enabling open redirect attacks. (fixed)
+- [critical] appSlugFromReturnTo returned subdomain instead of slug for production subdomain URLs (e.g. 'meetings' instead of 'meeting-summaries'). This broke self-enroll and error redirect preservation for 5 auth-gated apps: meeting-summaries, sprint-planning, daily-updates, slang-translator, ai-calculator. (fixed)
+- [info] SUBDOMAIN_TO_SLUG map in self-enroll.ts duplicates data from app-registry.ts. Consider extracting subdomain→slug mapping to a shared package to keep them in sync. (unfixed)
+- [info] require-access.ts line 30: 'session ? "&error=session_expired" : ""' — when !session?.user is true and session is null, session is falsy so this works correctly. However, when session exists but session.user is undefined (rare edge case), it sends session_expired which is accurate. (unfixed)

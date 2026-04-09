@@ -1,0 +1,1 @@
+Verification skipped by plan: This issue adds tests only — no UI changes. All verification is via `pnpm test` passing.

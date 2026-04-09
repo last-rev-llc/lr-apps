@@ -1,0 +1,6 @@
+Plan written to `plan-issue-29.json`. It covers four test files mirroring the Accounts app test patterns:
+
+1. **standup-app.test.tsx** — Component rendering, Slack/GitHub/Workspace/Jira data display, source filtering, empty state, lastUpdated
+2. **page.test.tsx** — Server component with mocked queries and StandupApp
+3. **layout.test.tsx** — Auth gate calls `requireAppLayoutAccess("standup")`, renders children and header
+4. **queries.test.ts** — Supabase query logic, JSON parsing, error handling

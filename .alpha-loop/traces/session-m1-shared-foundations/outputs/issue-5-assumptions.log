@@ -1,0 +1,20 @@
+## Assumptions
+
+- **`publicRoutes` replaces `publicEntry` as an array, not a boolean** — The spec said "remove `publicEntry` bypass" and "add `publicRoutes` escape hatch" but didn't specify the type. Chose `publicRoutes?: string[]` to support multiple paths and glob patterns per app.
+- **Only ai-calculator needed `publicRoutes`** — It was the only app with `publicEntry: true`, so it's the only one that got `publicRoutes: ["/"]`. Other apps that had `auth: false` were left unchanged.
+- **Glob pattern support limited to `/**` suffix** — The spec mentioned "webhook endpoints and marketing pages" as examples, so implemented `/**` glob matching (e.g., `/api/webhooks/**`) rather than full regex or minimatch. No apps currently use this pattern, but it's ready for future webhook routes.
+- **`x-app-pathname` defaults to `"/"` when missing** — If the header isn't set (e.g., direct access without proxy), the layout falls back to `"/"` rather than treating it as an error.
+
+## Decisions
+
+- **Pathname passed via `x-app-pathname` header rather than route params** — Chose to set the header in `proxy.ts` at rewrite time, since the original pathname is lost after the URL rewrite. Alternative was parsing from the URL, but headers are cleaner and available in server components via `next/headers`.
+- **Only ai-calculator's layout reads `x-app-pathname`** — Apps without `publicRoutes` don't need the pathname, so their layouts still call `requireAppLayoutAccess(slug)` without it. This avoids unnecessary changes to 26 other layout files.
+- **Login redirect uses `appSlug` not full URL** — `redirect=/login?redirect={appSlug}` preserves which app the user wanted, but doesn't preserve the exact subpath. This matches the existing pattern in the codebase.
+- **`isPublicRoute` exported as a standalone utility** — Separated from `requireAppLayoutAccess` so it can be tested independently and reused (e.g., in the my-apps page filtering logic).
+
+## Items to Validate
+
+- **Redirect-after-login for all 27 apps** — The redirect flow passes `appSlug` to `/login?redirect=`, but I didn't verify the login page actually resolves all 27 slugs back to their correct subdomains. Worth confirming the login callback handles this correctly.
+- **`auth: false` apps behavior** — Apps like `dad-joke-of-the-day` have `auth: false` and no `publicRoutes`. Their layouts still call `requireAppLayoutAccess()`, which calls `requireAccess()`. Verify that `requireAccess` handles `auth: false` apps gracefully (returns early or skips permission checks).
+- **My-apps page filtering** — Apps with `publicRoutes` now appear in "My Apps" for all users (similar to old `publicEntry` behavior). Confirm this UX is intentional — users see ai-calculator even without explicit permission.
+- **Dev mode testing** — The `?app=` query param dev flow now sets `x-app-pathname`. Verify this works correctly when developing locally against ai-calculator's public landing page.

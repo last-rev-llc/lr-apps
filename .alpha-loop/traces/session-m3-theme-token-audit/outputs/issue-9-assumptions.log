@@ -1,0 +1,20 @@
+## Assumptions
+
+- **`#fff` and `#000` excluded as non-violations** — The script skips these two values, assuming they're too generic/ubiquitous to flag. Other common values like `#333`, `#ccc`, or `transparent` are still flagged.
+- **Comment detection is line-based only** — Lines starting with `//`, `*`, or `/*` are skipped, but inline comments (e.g., `const x = foo; // #abc123`) and multi-line block comment bodies not starting with `*` will still produce false positives.
+- **Severity classification: inline = high, Tailwind = medium** — The issue didn't define severity levels, so inline hardcoded values (hex/rgb in style objects) were classified as "high" and Tailwind utility classes with hardcoded color scales (e.g., `bg-slate-500`) as "medium". No "low" category is currently used.
+- **command-center sub-apps rolled up** — The `command-center` app has sub-directories that look like sub-apps. Violations are aggregated under the parent `command-center` entry in the summary table.
+- **File extensions scanned: `.tsx`, `.ts`, `.css`, `.jsx`** — The issue mentioned "TSX/CSS files" but `.ts` and `.jsx` were included too since they can contain style definitions. Plain `.js` files were not scanned.
+
+## Decisions
+
+- **Built a standalone TypeScript script (`scripts/audit-tokens.ts`) rather than a shell/grep pipeline** — Allows structured output, per-app grouping, severity classification, and both `--json` and markdown output modes. A grep-based approach would be simpler but couldn't produce the structured per-app report.
+- **Available theme tokens listed manually in the report** — The token reference section was hand-curated from `packages/theme/src/theme.css` rather than auto-extracted, so it reads clearly but won't auto-update if the theme file changes.
+- **Report output as markdown in `docs/`** — The issue said "markdown or JSON"; chose markdown as the default with `--json` as an opt-in flag, since the report is meant for human consumption and driving subsequent M3 work.
+- **Tailwind hardcoded color classes flagged as violations** — Classes like `bg-red-500` are flagged because they bypass the theme token system, even though they're valid Tailwind. This is a design-system enforcement choice, not a code correctness one.
+
+## Items to Validate
+
+- **Check a few flagged violations for false positives** — Hex patterns in non-color contexts (e.g., hash IDs, SVG path data, or test fixtures) may produce noise. Spot-check a couple of entries in high-violation apps like `command-center`.
+- **Confirm severity definitions match your team's expectations** — "High" = inline style values, "Medium" = Tailwind utility classes. If you want different thresholds or an additional severity tier, the script's classification logic needs adjusting.
+- **Verify the token reference section is complete** — The "Available Theme Tokens" section was written by reading `theme.css` at audit time. Confirm it covers all tokens your team considers canonical.

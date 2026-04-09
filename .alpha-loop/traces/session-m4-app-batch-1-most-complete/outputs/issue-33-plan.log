@@ -1,0 +1,6 @@
+Plan written to `plan-issue-33.json`. It covers four test files mirroring the established patterns from the summaries/standup apps:
+
+1. **meetings-app.test.tsx** — 12 tests for the client component (rendering, expand/collapse, tabs, filters, mark-done)
+2. **page.test.tsx** — 2 tests for server component data flow and stat cards
+3. **layout.test.tsx** — 4 tests for auth gate and layout rendering
+4. **queries.test.ts** — 5 tests for Supabase queries and `computeStats` logic

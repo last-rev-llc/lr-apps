@@ -1,0 +1,1825 @@
+diff --git a/apps/web/app/apps/dad-joke-of-the-day/components/__tests__/joke-viewer.test.tsx b/apps/web/app/apps/dad-joke-of-the-day/components/__tests__/joke-viewer.test.tsx
+new file mode 100644
+index 0000000..cea50ce
+--- /dev/null
++++ b/apps/web/app/apps/dad-joke-of-the-day/components/__tests__/joke-viewer.test.tsx
+@@ -0,0 +1,178 @@
++// @vitest-environment jsdom
++import { describe, it, expect, vi, beforeEach } from "vitest";
++import React from "react";
++import {
++  renderWithProviders,
++  screen,
++  fireEvent,
++  createMockSupabase,
++} from "@repo/test-utils";
++import type { DadJoke } from "../../lib/types";
++
++// Mock @repo/db/client
++const mockSupabase = createMockSupabase();
++vi.mock("@repo/db/client", () => ({
++  createClient: () => mockSupabase,
++}));
++
++// Mock @repo/ui — provide minimal real elements
++vi.mock("@repo/ui", () => ({
++  Button: ({
++    children,
++    onClick,
++    disabled,
++    title,
++    ...rest
++  }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: string; size?: string }) => (
++    <button onClick={onClick} disabled={disabled} title={title} {...rest}>
++      {children}
++    </button>
++  ),
++  Badge: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLSpanElement> & { variant?: string }) => (
++    <span {...rest}>{children}</span>
++  ),
++  Card: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++  CardContent: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++}));
++
++import { JokeViewer } from "../joke-viewer";
++
++function makeJoke(overrides: Partial<DadJoke> = {}): DadJoke {
++  return {
++    id: 1,
++    setup: "Why did the chicken cross the road?",
++    punchline: "To get to the other side!",
++    category: "Classic",
++    rating: null,
++    times_rated: 0,
++    times_shown: 0,
++    featured_date: null,
++    ...overrides,
++  };
++}
++
++const defaultJoke = makeJoke();
++const defaultProps = {
++  jokes: [defaultJoke],
++  initialJoke: defaultJoke,
++  categories: ["Classic"],
++};
++
++beforeEach(() => {
++  vi.clearAllMocks();
++  mockSupabase._builder.single.mockResolvedValue({
++    data: { times_shown: 0, rating: null, times_rated: 0 },
++    error: null,
++  });
++});
++
++describe("JokeViewer", () => {
++  it("renders setup text", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    expect(screen.getByText("Why did the chicken cross the road?")).toBeTruthy();
++  });
++
++  it("hides punchline initially", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    expect(screen.queryByText("To get to the other side!")).toBeNull();
++  });
++
++  it("shows reveal button", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    expect(screen.getByText(/Reveal Punchline/)).toBeTruthy();
++  });
++
++  it("shows JOTD mode badge on initial render", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    const badges = screen.getAllByText(/Joke of the Day/);
++    expect(badges.length).toBeGreaterThanOrEqual(1);
++  });
++
++  it("reveals punchline on button click", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    fireEvent.click(screen.getByText(/Reveal Punchline/));
++    expect(screen.getByText("To get to the other side!")).toBeTruthy();
++  });
++
++  it("shows rating buttons after punchline reveal", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    fireEvent.click(screen.getByText(/Reveal Punchline/));
++    expect(screen.getByText("Rate this joke:")).toBeTruthy();
++    expect(screen.getByTitle("Groan-worthy")).toBeTruthy();
++    expect(screen.getByTitle("Actually funny")).toBeTruthy();
++  });
++
++  it("renders category filter badges", () => {
++    const props = {
++      ...defaultProps,
++      jokes: [
++        makeJoke({ id: 1, category: "Classic" }),
++        makeJoke({ id: 2, category: "Puns" }),
++      ],
++      categories: ["Classic", "Puns"],
++    };
++    renderWithProviders(<JokeViewer {...props} />);
++    expect(screen.getByText("All")).toBeTruthy();
++    // "Classic" appears in filter and card footer
++    expect(screen.getAllByText("Classic").length).toBeGreaterThanOrEqual(1);
++    expect(screen.getByText("Puns")).toBeTruthy();
++  });
++
++  it("shows filtered pool count after selecting a category", () => {
++    const jokes = [
++      makeJoke({ id: 1, category: "Classic" }),
++      makeJoke({ id: 2, category: "Classic" }),
++      makeJoke({ id: 3, category: "Puns" }),
++    ];
++    const props = {
++      jokes,
++      initialJoke: jokes[0]!,
++      categories: ["Classic", "Puns"],
++    };
++    renderWithProviders(<JokeViewer {...props} />);
++
++    // Click Puns category filter
++    const punsButtons = screen.getAllByText("Puns");
++    fireEvent.click(punsButtons[0]!);
++
++    expect(screen.getByText(/1 joke in Puns/)).toBeTruthy();
++  });
++
++  it("switches to random mode after clicking random button", () => {
++    const jokes = [
++      makeJoke({ id: 1, setup: "Setup 1" }),
++      makeJoke({ id: 2, setup: "Setup 2" }),
++    ];
++    const props = {
++      jokes,
++      initialJoke: jokes[0]!,
++      categories: ["Classic"],
++    };
++    renderWithProviders(<JokeViewer {...props} />);
++
++    // Click the Random Joke navigation button
++    const buttons = screen.getAllByText(/Random Joke/);
++    fireEvent.click(buttons[0]!);
++
++    // Mode badge should now show Random Joke (rendered as <span>)
++    const badgeSpan = screen.getAllByText(/Random Joke/).find(
++      (el) => el.tagName === "SPAN",
++    );
++    expect(badgeSpan).toBeTruthy();
++  });
++
++  it("displays joke category badge on the card", () => {
++    renderWithProviders(<JokeViewer {...defaultProps} />);
++    const badges = screen.getAllByText("Classic");
++    expect(badges.length).toBeGreaterThanOrEqual(1);
++  });
++});
+diff --git a/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx b/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx
+index 117f3b6..6c1f1fc 100644
+--- a/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx
++++ b/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx
+@@ -144,28 +144,40 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps)
+       {/* Category filter */}
+       <div className="flex flex-wrap gap-2 justify-center">
+         <button
++          type="button"
+           onClick={() => handleCategoryChange("all")}
+-          className={[
+-            "px-3 py-1 rounded-full text-sm border transition-colors",
+-            selectedCategory === "all"
+-              ? "border-amber-400 bg-amber-400/10 text-amber-400"
+-              : "border-white/10 text-muted-foreground hover:border-white/30",
+-          ].join(" ")}
++          className="focus:outline-none"
+         >
+-          All
++          <Badge
++            variant="outline"
++            className={[
++              "cursor-pointer rounded-full transition-colors",
++              selectedCategory === "all"
++                ? "border-amber-400 bg-amber-400/10 text-amber-400"
++                : "border-white/10 text-muted-foreground hover:border-white/30",
++            ].join(" ")}
++          >
++            All
++          </Badge>
+         </button>
+         {categories.map((cat) => (
+           <button
+             key={cat}
++            type="button"
+             onClick={() => handleCategoryChange(cat)}
+-            className={[
+-              "px-3 py-1 rounded-full text-sm border transition-colors",
+-              selectedCategory === cat
+-                ? "border-amber-400 bg-amber-400/10 text-amber-400"
+-                : "border-white/10 text-muted-foreground hover:border-white/30",
+-            ].join(" ")}
++            className="focus:outline-none"
+           >
+-            {cat}
++            <Badge
++              variant="outline"
++              className={[
++                "cursor-pointer rounded-full transition-colors",
++                selectedCategory === cat
++                  ? "border-amber-400 bg-amber-400/10 text-amber-400"
++                  : "border-white/10 text-muted-foreground hover:border-white/30",
++              ].join(" ")}
++            >
++              {cat}
++            </Badge>
+           </button>
+         ))}
+       </div>
+@@ -203,15 +215,17 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps)
+                   </p>
+                   <div className="flex flex-wrap gap-2 justify-center">
+                     {RATINGS.map(({ key, emoji, label }) => (
+-                      <button
++                      <Button
+                         key={key}
++                        variant="outline"
++                        size="icon"
+                         title={label}
+                         onClick={() => rateJoke(key)}
+                         disabled={ratingSubmitting}
+-                        className="text-2xl p-2 rounded-xl border-2 border-white/10 bg-white/5 hover:border-amber-400 hover:scale-110 transition-all disabled:opacity-50"
++                        className="text-2xl h-11 w-11 rounded-xl border-2 border-white/10 bg-white/5 hover:border-amber-400 hover:scale-110 transition-all"
+                       >
+                         {emoji}
+-                      </button>
++                      </Button>
+                     ))}
+                   </div>
+                 </div>
+diff --git a/apps/web/app/apps/dad-joke-of-the-day/lib/__tests__/queries.test.ts b/apps/web/app/apps/dad-joke-of-the-day/lib/__tests__/queries.test.ts
+new file mode 100644
+index 0000000..2f8484c
+--- /dev/null
++++ b/apps/web/app/apps/dad-joke-of-the-day/lib/__tests__/queries.test.ts
+@@ -0,0 +1,133 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++import { createMockSupabase } from "@repo/test-utils";
++import type { DadJoke } from "../types";
++
++vi.mock("@repo/db/server", () => ({
++  createClient: vi.fn(),
++}));
++
++import { createClient } from "@repo/db/server";
++import { getAllJokes, getJokeOfTheDay, getCategories } from "../queries";
++
++const mockCreateClient = vi.mocked(createClient);
++
++function makeJoke(overrides: Partial<DadJoke> = {}): DadJoke {
++  return {
++    id: 1,
++    setup: "Why did the chicken cross the road?",
++    punchline: "To get to the other side!",
++    category: "Classic",
++    rating: null,
++    times_rated: 0,
++    times_shown: 0,
++    featured_date: null,
++    ...overrides,
++  };
++}
++
++describe("getJokeOfTheDay", () => {
++  it("returns null for empty array", () => {
++    expect(getJokeOfTheDay([])).toBeNull();
++  });
++
++  it("returns a deterministic joke based on date seed", () => {
++    const jokes = [makeJoke({ id: 1 }), makeJoke({ id: 2 }), makeJoke({ id: 3 })];
++    vi.useFakeTimers();
++    vi.setSystemTime(new Date(2026, 3, 8)); // April 8, 2026
++
++    const seed = 2026 * 10000 + 4 * 100 + 8; // 20260408
++    const expectedIndex = seed % jokes.length;
++    expect(getJokeOfTheDay(jokes)).toBe(jokes[expectedIndex]);
++
++    vi.useRealTimers();
++  });
++
++  it("returns same joke for same date", () => {
++    const jokes = [makeJoke({ id: 1 }), makeJoke({ id: 2 }), makeJoke({ id: 3 })];
++    vi.useFakeTimers();
++    vi.setSystemTime(new Date(2026, 3, 8));
++
++    const first = getJokeOfTheDay(jokes);
++    const second = getJokeOfTheDay(jokes);
++    expect(first).toBe(second);
++
++    vi.useRealTimers();
++  });
++
++  it("returns different joke for different date", () => {
++    const jokes = Array.from({ length: 10 }, (_, i) =>
++      makeJoke({ id: i + 1, setup: `Setup ${i}` }),
++    );
++    vi.useFakeTimers();
++
++    vi.setSystemTime(new Date(2026, 0, 1));
++    const jan1 = getJokeOfTheDay(jokes);
++
++    vi.setSystemTime(new Date(2026, 0, 2));
++    const jan2 = getJokeOfTheDay(jokes);
++
++    expect(jan1).not.toBe(jan2);
++    vi.useRealTimers();
++  });
++});
++
++describe("getCategories", () => {
++  it("returns empty array for no jokes", () => {
++    expect(getCategories([])).toEqual([]);
++  });
++
++  it("extracts unique sorted categories", () => {
++    const jokes = [
++      makeJoke({ category: "Puns" }),
++      makeJoke({ category: "Animals" }),
++      makeJoke({ category: "Puns" }),
++      makeJoke({ category: "Classic" }),
++    ];
++    expect(getCategories(jokes)).toEqual(["Animals", "Classic", "Puns"]);
++  });
++
++  it("filters out falsy categories", () => {
++    const jokes = [
++      makeJoke({ category: "Puns" }),
++      makeJoke({ category: "" }),
++      makeJoke({ category: undefined as unknown as string }),
++    ];
++    expect(getCategories(jokes)).toEqual(["Puns"]);
++  });
++});
++
++describe("getAllJokes", () => {
++  beforeEach(() => {
++    vi.clearAllMocks();
++  });
++
++  it("queries dad_jokes table and returns data", async () => {
++    const mockJokes = [makeJoke({ id: 1 }), makeJoke({ id: 2 })];
++    const mock = createMockSupabase({ data: mockJokes, error: null });
++    mockCreateClient.mockResolvedValue(mock as never);
++
++    const result = await getAllJokes();
++
++    expect(mock.from).toHaveBeenCalledWith("dad_jokes");
++    expect(mock._builder.select).toHaveBeenCalledWith("*");
++    expect(mock._builder.order).toHaveBeenCalledWith("featured_date", {
++      ascending: false,
++    });
++    expect(result).toEqual(mockJokes);
++  });
++
++  it("returns empty array on error", async () => {
++    const mock = createMockSupabase();
++    // Override the thenable to return an error
++    mock._builder.then.mockImplementation((resolve: (v: unknown) => unknown) =>
++      Promise.resolve({ data: null, error: { message: "db down" } }).then(resolve),
++    );
++    mockCreateClient.mockResolvedValue(mock as never);
++
++    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
++    const result = await getAllJokes();
++
++    expect(result).toEqual([]);
++    spy.mockRestore();
++  });
++});
+diff --git a/apps/web/app/apps/generations/__tests__/layout.test.tsx b/apps/web/app/apps/generations/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..c17dc40
+--- /dev/null
++++ b/apps/web/app/apps/generations/__tests__/layout.test.tsx
+@@ -0,0 +1,99 @@
++// @vitest-environment jsdom
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++vi.mock("next/link", () => ({
++  default: ({
++    children,
++    href,
++  }: {
++    children: React.ReactNode;
++    href: string;
++  }) => <a href={href}>{children}</a>,
++}));
++
++vi.mock("@repo/ui", () => ({
++  Topbar: ({
++    children,
++    title,
++  }: {
++    children: React.ReactNode;
++    title: string;
++    className?: string;
++  }) => (
++    <div data-testid="topbar">
++      <span>{title}</span>
++      {children}
++    </div>
++  ),
++  AppNav: ({
++    items,
++  }: {
++    items: { label: string; href: string }[];
++    className?: string;
++  }) => (
++    <nav data-testid="app-nav">
++      {items.map((item) => (
++        <a key={item.href} href={item.href}>
++          {item.label}
++        </a>
++      ))}
++    </nav>
++  ),
++}));
++
++import React from "react";
++import { renderWithProviders, screen } from "@repo/test-utils";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++import GenerationsLayout from "../layout";
++
++const mockRequireAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++  mockRequireAccess.mockResolvedValue(undefined);
++});
++
++describe("GenerationsLayout", () => {
++  it("calls requireAppLayoutAccess with 'generations'", async () => {
++    const ui = await GenerationsLayout({ children: <div>child</div> });
++    renderWithProviders(ui);
++    expect(mockRequireAccess).toHaveBeenCalledWith("generations");
++  });
++
++  it("renders children when authorized", async () => {
++    const ui = await GenerationsLayout({ children: <div>App Content</div> });
++    renderWithProviders(ui);
++    expect(screen.getByText("App Content")).toBeTruthy();
++  });
++
++  it("throws when requireAppLayoutAccess rejects (unauthorized)", async () => {
++    mockRequireAccess.mockRejectedValue(new Error("Unauthorized"));
++    await expect(
++      GenerationsLayout({ children: <div>child</div> })
++    ).rejects.toThrow("Unauthorized");
++  });
++
++  it("renders navigation with all 6 generation links", async () => {
++    const ui = await GenerationsLayout({ children: <div>child</div> });
++    renderWithProviders(ui);
++    const nav = screen.getByTestId("app-nav");
++    const links = nav.querySelectorAll("a");
++    expect(links.length).toBe(6);
++  });
++
++  it("renders topbar with title", async () => {
++    const ui = await GenerationsLayout({ children: <div>child</div> });
++    renderWithProviders(ui);
++    expect(screen.getByText("🕰️ Generations")).toBeTruthy();
++  });
++
++  it("renders Dashboard link", async () => {
++    const ui = await GenerationsLayout({ children: <div>child</div> });
++    renderWithProviders(ui);
++    expect(screen.getByText("← Dashboard")).toBeTruthy();
++  });
++});
+diff --git a/apps/web/app/apps/generations/components/__tests__/generation-card.test.tsx b/apps/web/app/apps/generations/components/__tests__/generation-card.test.tsx
+new file mode 100644
+index 0000000..984c4a1
+--- /dev/null
++++ b/apps/web/app/apps/generations/components/__tests__/generation-card.test.tsx
+@@ -0,0 +1,85 @@
++// @vitest-environment jsdom
++import { describe, it, expect, vi } from "vitest";
++import React from "react";
++import { renderWithProviders, screen } from "@repo/test-utils";
++import type { GenerationConfig } from "../../lib/types";
++
++vi.mock("next/link", () => ({
++  default: ({
++    children,
++    href,
++    ...rest
++  }: {
++    children: React.ReactNode;
++    href: string;
++  } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
++    <a href={href} {...rest}>
++      {children}
++    </a>
++  ),
++}));
++
++vi.mock("@repo/ui", () => ({
++  Card: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++  CardHeader: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++  CardContent: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++  Badge: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLSpanElement> & { variant?: string }) => (
++    <span {...rest}>{children}</span>
++  ),
++}));
++
++import { GenerationCard } from "../generation-card";
++
++const genZ: GenerationConfig = {
++  slug: "gen-z",
++  name: "Gen Z",
++  era: "1997–2012",
++  color: "#06b6d4",
++  emoji: "💅",
++  tagline: "No cap, it's giving main character energy",
++};
++
++describe("GenerationCard", () => {
++  it("renders gen name", () => {
++    renderWithProviders(<GenerationCard gen={genZ} termCount={42} />);
++    expect(screen.getByText("Gen Z")).toBeTruthy();
++  });
++
++  it("renders emoji", () => {
++    renderWithProviders(<GenerationCard gen={genZ} termCount={42} />);
++    expect(screen.getByText("💅")).toBeTruthy();
++  });
++
++  it("renders era badge", () => {
++    renderWithProviders(<GenerationCard gen={genZ} termCount={42} />);
++    expect(screen.getByText("1997–2012")).toBeTruthy();
++  });
++
++  it("renders tagline", () => {
++    renderWithProviders(<GenerationCard gen={genZ} termCount={42} />);
++    expect(screen.getByText("No cap, it's giving main character energy")).toBeTruthy();
++  });
++
++  it("renders term count", () => {
++    renderWithProviders(<GenerationCard gen={genZ} termCount={42} />);
++    expect(screen.getByText("42 terms")).toBeTruthy();
++  });
++
++  it("links to correct generation page", () => {
++    renderWithProviders(<GenerationCard gen={genZ} termCount={42} />);
++    const link = screen.getByRole("link");
++    expect(link.getAttribute("href")).toBe("/apps/generations/gen-z");
++  });
++});
+diff --git a/apps/web/app/apps/generations/components/__tests__/slang-app.test.tsx b/apps/web/app/apps/generations/components/__tests__/slang-app.test.tsx
+new file mode 100644
+index 0000000..d5c8f35
+--- /dev/null
++++ b/apps/web/app/apps/generations/components/__tests__/slang-app.test.tsx
+@@ -0,0 +1,145 @@
++// @vitest-environment jsdom
++import { describe, it, expect, vi, beforeEach } from "vitest";
++import React from "react";
++import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
++import type { SlangTerm, GenerationConfig } from "../../lib/types";
++
++// Mock child components
++vi.mock("../slang-dictionary", () => ({
++  SlangDictionary: ({ terms, gen }: { terms: SlangTerm[]; gen: GenerationConfig }) => (
++    <div data-testid="slang-dictionary">Dictionary: {terms.length} terms for {gen.name}</div>
++  ),
++}));
++
++vi.mock("../slang-translator", () => ({
++  SlangTranslator: ({ gen }: { gen: GenerationConfig }) => (
++    <div data-testid="slang-translator">Translator for {gen.name}</div>
++  ),
++}));
++
++vi.mock("../slang-quiz", () => ({
++  SlangQuiz: ({ gen }: { gen: GenerationConfig }) => (
++    <div data-testid="slang-quiz">Quiz for {gen.name}</div>
++  ),
++}));
++
++// Mock @repo/ui with working tabs
++vi.mock("@repo/ui", () => {
++  const TabsContext = React.createContext({ value: "", onChange: (_v: string) => {} });
++
++  return {
++    Tabs: ({
++      children,
++      defaultValue,
++    }: {
++      children: React.ReactNode;
++      defaultValue: string;
++    }) => {
++      const [value, setValue] = React.useState(defaultValue);
++      return (
++        <TabsContext.Provider value={{ value, onChange: setValue }}>
++          <div data-testid="tabs">{children}</div>
++        </TabsContext.Provider>
++      );
++    },
++    TabsList: ({ children, ...rest }: React.HTMLAttributes<HTMLDivElement>) => (
++      <div role="tablist" {...rest}>{children}</div>
++    ),
++    TabsTrigger: ({
++      children,
++      value,
++    }: {
++      children: React.ReactNode;
++      value: string;
++    }) => {
++      const ctx = React.useContext(TabsContext);
++      return (
++        <button role="tab" onClick={() => ctx.onChange(value)} data-state={ctx.value === value ? "active" : "inactive"}>
++          {children}
++        </button>
++      );
++    },
++    TabsContent: ({
++      children,
++      value,
++    }: {
++      children: React.ReactNode;
++      value: string;
++    }) => {
++      const ctx = React.useContext(TabsContext);
++      return ctx.value === value ? <div role="tabpanel">{children}</div> : null;
++    },
++  };
++});
++
++import { SlangApp } from "../slang-app";
++
++function makeTerm(overrides: Partial<SlangTerm> = {}): SlangTerm {
++  return {
++    id: "test",
++    term: "Test",
++    definition: "A test term",
++    example: "Test example",
++    category: "test",
++    vibeScore: 5,
++    origin: "test",
++    era: "2020",
++    aliases: [],
++    ...overrides,
++  };
++}
++
++const genZ: GenerationConfig = {
++  slug: "gen-z",
++  name: "Gen Z",
++  era: "1997–2012",
++  color: "#06b6d4",
++  emoji: "💅",
++  tagline: "No cap, it's giving main character energy",
++};
++
++const fixtureTerms: SlangTerm[] = Array.from({ length: 25 }, (_, i) =>
++  makeTerm({ id: `t-${i}`, term: `Term ${i}`, vibeScore: i + 1 })
++);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++describe("SlangApp", () => {
++  it("renders header with gen name, emoji, era, and term count", () => {
++    renderWithProviders(<SlangApp terms={fixtureTerms} gen={genZ} />);
++    expect(screen.getByText("Gen Z Slang")).toBeTruthy();
++    expect(screen.getByText("💅")).toBeTruthy();
++    expect(screen.getByText(/1997–2012/)).toBeTruthy();
++    expect(screen.getAllByText(/25 terms/).length).toBeGreaterThanOrEqual(1);
++  });
++
++  it("shows dictionary tab by default", () => {
++    renderWithProviders(<SlangApp terms={fixtureTerms} gen={genZ} />);
++    expect(screen.getByTestId("slang-dictionary")).toBeTruthy();
++  });
++
++  it("switches to translator tab", () => {
++    renderWithProviders(<SlangApp terms={fixtureTerms} gen={genZ} />);
++    fireEvent.click(screen.getByText(/Translator/));
++    expect(screen.getByTestId("slang-translator")).toBeTruthy();
++    expect(screen.queryByTestId("slang-dictionary")).toBeNull();
++  });
++
++  it("switches to quiz tab", () => {
++    renderWithProviders(<SlangApp terms={fixtureTerms} gen={genZ} />);
++    fireEvent.click(screen.getByText(/Quiz/));
++    expect(screen.getByTestId("slang-quiz")).toBeTruthy();
++  });
++
++  it("switches to trending tab and shows top 20 terms by vibe score", () => {
++    renderWithProviders(<SlangApp terms={fixtureTerms} gen={genZ} />);
++    fireEvent.click(screen.getByText(/Trending/));
++    expect(screen.getByText(/Trending Wall/)).toBeTruthy();
++    // Top term by vibeScore is Term 24 (score 25)
++    expect(screen.getByText("Term 24")).toBeTruthy();
++    // Term 0 (score 1) should not be in top 20 since we have 25 terms
++    expect(screen.queryByText("Term 0")).toBeNull();
++  });
++});
+diff --git a/apps/web/app/apps/generations/components/__tests__/slang-dictionary.test.tsx b/apps/web/app/apps/generations/components/__tests__/slang-dictionary.test.tsx
+new file mode 100644
+index 0000000..f910c57
+--- /dev/null
++++ b/apps/web/app/apps/generations/components/__tests__/slang-dictionary.test.tsx
+@@ -0,0 +1,174 @@
++// @vitest-environment jsdom
++import { describe, it, expect, vi, beforeEach } from "vitest";
++import React from "react";
++import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
++import type { SlangTerm, GenerationConfig } from "../../lib/types";
++
++vi.mock("@repo/ui", () => ({
++  Input: ({
++    placeholder,
++    value,
++    onChange,
++    ...rest
++  }: React.InputHTMLAttributes<HTMLInputElement>) => (
++    <input placeholder={placeholder} value={value} onChange={onChange} {...rest} />
++  ),
++  Badge: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLSpanElement> & { variant?: string }) => (
++    <span {...rest}>{children}</span>
++  ),
++  Card: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++  CardContent: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++  PillList: ({
++    items,
++    selected,
++    onSelect,
++  }: {
++    items: { label: string }[];
++    selected: string;
++    onSelect: (label: string) => void;
++    size?: string;
++    className?: string;
++  }) => (
++    <div data-testid="pill-list">
++      {items.map((item) => (
++        <button
++          key={item.label}
++          onClick={() => onSelect(item.label)}
++          data-selected={item.label === selected}
++        >
++          {item.label}
++        </button>
++      ))}
++    </div>
++  ),
++}));
++
++import { SlangDictionary } from "../slang-dictionary";
++
++function makeTerm(overrides: Partial<SlangTerm> = {}): SlangTerm {
++  return {
++    id: "test-term",
++    term: "Slay",
++    definition: "To do something exceptionally well",
++    example: "She slayed that presentation",
++    category: "compliment",
++    vibeScore: 8,
++    origin: "Drag culture",
++    era: "2020-present",
++    aliases: ["slaying"],
++    generation: "genz",
++    equivalents: { millennial: "Killing it" },
++    ...overrides,
++  };
++}
++
++const genZ: GenerationConfig = {
++  slug: "gen-z",
++  name: "Gen Z",
++  era: "1997–2012",
++  color: "#06b6d4",
++  emoji: "💅",
++  tagline: "No cap, it's giving main character energy",
++};
++
++const fixtureTerms: SlangTerm[] = [
++  makeTerm({ id: "slay", term: "Slay", category: "compliment", vibeScore: 8 }),
++  makeTerm({ id: "mid", term: "Mid", definition: "Average, mediocre", category: "insult", vibeScore: 5, aliases: ["midcore"] }),
++  makeTerm({ id: "rizz", term: "Rizz", definition: "Charisma or charm", category: "dating", vibeScore: 9, aliases: ["unspoken rizz"] }),
++];
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++describe("SlangDictionary", () => {
++  it("renders all terms", () => {
++    renderWithProviders(<SlangDictionary terms={fixtureTerms} gen={genZ} />);
++    expect(screen.getByText("Slay")).toBeTruthy();
++    expect(screen.getByText("Mid")).toBeTruthy();
++    expect(screen.getByText("Rizz")).toBeTruthy();
++  });
++
++  it("shows term count", () => {
++    renderWithProviders(<SlangDictionary terms={fixtureTerms} gen={genZ} />);
++    expect(screen.getByText("3 terms found")).toBeTruthy();
++  });
++
++  it("sorts terms by vibeScore descending", () => {
++    renderWithProviders(<SlangDictionary terms={fixtureTerms} gen={genZ} />);
++    const termNames = screen.getAllByText(/^(Slay|Mid|Rizz)$/).map((el) => el.textContent);
++    // Rizz (9), Slay (8), Mid (5)
++    expect(termNames).toEqual(["Rizz", "Slay", "Mid"]);
++  });
++
++  it("filters by search on term name", () => {
++    renderWithProviders(<SlangDictionary terms={fixtureTerms} gen={genZ} />);
++    fireEvent.change(screen.getByPlaceholderText("Search slang terms..."), {
++      target: { value: "rizz" },
++    });
++    expect(screen.getByText("Rizz")).toBeTruthy();
++    expect(screen.queryByText("Slay")).toBeNull();
++    expect(screen.getByText("1 term found")).toBeTruthy();
++  });
++
++  it("filters by search on definition", () => {
++    renderWithProviders(<SlangDictionary terms={fixtureTerms} gen={genZ} />);
++    fireEvent.change(screen.getByPlaceholderText("Search slang terms..."), {
++      target: { value: "mediocre" },
++    });
++    expect(screen.getByText("Mid")).toBeTruthy();
++    expect(screen.queryByText("Slay")).toBeNull();
++  });
++
++  it("filters by search on alias", () => {
++    renderWithProviders(<SlangDictionary terms={fixtureTerms} gen={genZ} />);
++    fireEvent.change(screen.getByPlaceholderText("Search slang terms..."), {
++      target: { value: "midcore" },
++    });
++    expect(screen.getByText("Mid")).toBeTruthy();
++    expect(screen.queryByText("Rizz")).toBeNull();
++  });
++
++  it("category pill filters work", () => {
++    renderWithProviders(<SlangDictionary terms={fixtureTerms} gen={genZ} />);
++    // Click the dating pill in the pill list
++    const pillList = screen.getByTestId("pill-list");
++    const datingPill = Array.from(pillList.querySelectorAll("button")).find(
++      (b) => b.textContent === "dating"
++    )!;
++    fireEvent.click(datingPill);
++    expect(screen.getByText("Rizz")).toBeTruthy();
++    expect(screen.queryByText("Slay")).toBeNull();
++    expect(screen.getByText("1 term found")).toBeTruthy();
++  });
++
++  it("shows empty state when no matches", () => {
++    renderWithProviders(<SlangDictionary terms={fixtureTerms} gen={genZ} />);
++    fireEvent.change(screen.getByPlaceholderText("Search slang terms..."), {
++      target: { value: "xyznonexistent" },
++    });
++    expect(screen.getByText("No slang found for that search.")).toBeTruthy();
++    expect(screen.getByText("0 terms found")).toBeTruthy();
++  });
++
++  it("renders category pills including 'all'", () => {
++    renderWithProviders(<SlangDictionary terms={fixtureTerms} gen={genZ} />);
++    const pillList = screen.getByTestId("pill-list");
++    const pillLabels = Array.from(pillList.querySelectorAll("button")).map(
++      (b) => b.textContent
++    );
++    expect(pillLabels).toContain("all");
++    expect(pillLabels).toContain("compliment");
++    expect(pillLabels).toContain("dating");
++    expect(pillLabels).toContain("insult");
++  });
++});
+diff --git a/apps/web/app/apps/generations/components/__tests__/slang-quiz.test.tsx b/apps/web/app/apps/generations/components/__tests__/slang-quiz.test.tsx
+new file mode 100644
+index 0000000..b69d845
+--- /dev/null
++++ b/apps/web/app/apps/generations/components/__tests__/slang-quiz.test.tsx
+@@ -0,0 +1,207 @@
++// @vitest-environment jsdom
++import { describe, it, expect, vi, beforeEach } from "vitest";
++import React from "react";
++import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
++import type { SlangTerm, GenerationConfig } from "../../lib/types";
++
++vi.mock("@repo/ui", () => ({
++  Button: ({
++    children,
++    onClick,
++    disabled,
++    ...rest
++  }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
++    variant?: string;
++    size?: string;
++  }) => (
++    <button onClick={onClick} disabled={disabled} {...rest}>
++      {children}
++    </button>
++  ),
++  Card: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++  CardContent: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLDivElement>) => <div {...rest}>{children}</div>,
++  Badge: ({
++    children,
++    ...rest
++  }: React.HTMLAttributes<HTMLSpanElement> & { variant?: string }) => (
++    <span {...rest}>{children}</span>
++  ),
++}));
++
++import { SlangQuiz } from "../slang-quiz";
++
++const genZ: GenerationConfig = {
++  slug: "gen-z",
++  name: "Gen Z",
++  era: "1997–2012",
++  color: "#06b6d4",
++  emoji: "💅",
++  tagline: "No cap, it's giving main character energy",
++};
++
++// Create 12 terms so quiz can pick 10 + 3 wrong options
++function makeTerms(count: number): SlangTerm[] {
++  return Array.from({ length: count }, (_, i) => ({
++    id: `term-${i}`,
++    term: `Term ${i}`,
++    definition: `Definition for term ${i}`,
++    example: `Example ${i}`,
++    category: "test",
++    vibeScore: 5 + (i % 5),
++    origin: "test",
++    era: "2020",
++    aliases: [],
++  }));
++}
++
++const fixtureTerms = makeTerms(12);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++  // Deterministic shuffle: Math.random returns ascending values
++  let callCount = 0;
++  vi.spyOn(Math, "random").mockImplementation(() => {
++    callCount++;
++    return (callCount % 100) / 100;
++  });
++});
++
++describe("SlangQuiz", () => {
++  it("renders question 1 of 10", () => {
++    renderWithProviders(<SlangQuiz terms={fixtureTerms} gen={genZ} />);
++    expect(screen.getByText("Question 1 of 10")).toBeTruthy();
++  });
++
++  it("shows a term in quotes and 4 answer options", () => {
++    renderWithProviders(<SlangQuiz terms={fixtureTerms} gen={genZ} />);
++    // Term displayed in quotes
++    const heading = screen.getByRole("heading", { level: 3 });
++    expect(heading.textContent).toContain("Term");
++    // 4 answer buttons (options) + no Next button yet
++    const buttons = screen.getAllByRole("button");
++    expect(buttons.length).toBe(4);
++  });
++
++  it("clicking correct answer increments score and shows Next", () => {
++    renderWithProviders(<SlangQuiz terms={fixtureTerms} gen={genZ} />);
++    // Find the correct answer — it matches the term's definition
++    const heading = screen.getByRole("heading", { level: 3 });
++    const termText = heading.textContent!.replace(/[""]/g, "").trim();
++    const termIndex = fixtureTerms.findIndex((t) => t.term === termText);
++    const correctDef = fixtureTerms[termIndex]!.definition;
++
++    fireEvent.click(screen.getByText(correctDef));
++
++    // Next button appears
++    expect(
++      screen.getByText("Next →") || screen.getByText("See Results 🏆")
++    ).toBeTruthy();
++  });
++
++  it("clicking wrong answer disables buttons and shows Next", () => {
++    renderWithProviders(<SlangQuiz terms={fixtureTerms} gen={genZ} />);
++    const heading = screen.getByRole("heading", { level: 3 });
++    const termText = heading.textContent!.replace(/[""]/g, "").trim();
++    const termIndex = fixtureTerms.findIndex((t) => t.term === termText);
++    const correctDef = fixtureTerms[termIndex]!.definition;
++
++    // Click a wrong answer
++    const buttons = screen.getAllByRole("button");
++    const wrongButton = buttons.find((b) => b.textContent !== correctDef)!;
++    fireEvent.click(wrongButton);
++
++    // All option buttons become disabled
++    const optionButtons = screen.getAllByRole("button").filter((b) =>
++      b.textContent !== "Next →" && b.textContent !== "See Results 🏆"
++    );
++    for (const btn of optionButtons) {
++      expect(btn).toHaveProperty("disabled", true);
++    }
++  });
++
++  it("Next advances to question 2", () => {
++    renderWithProviders(<SlangQuiz terms={fixtureTerms} gen={genZ} />);
++    // Answer first question
++    const buttons = screen.getAllByRole("button");
++    fireEvent.click(buttons[0]!);
++    // Click Next
++    fireEvent.click(screen.getByText("Next →"));
++    expect(screen.getByText("Question 2 of 10")).toBeTruthy();
++  });
++
++  it("after 10 questions shows results screen with score", () => {
++    renderWithProviders(<SlangQuiz terms={fixtureTerms} gen={genZ} />);
++
++    // Answer all 10 questions
++    for (let i = 0; i < 10; i++) {
++      const buttons = screen.getAllByRole("button");
++      fireEvent.click(buttons[0]!);
++      const nextLabel = i < 9 ? "Next →" : "See Results 🏆";
++      fireEvent.click(screen.getByText(nextLabel));
++    }
++
++    // Results screen should show score as X/10
++    expect(screen.getByText(/\/10/)).toBeTruthy();
++  });
++
++  it("results screen shows 90%+ message for perfect score", () => {
++    renderWithProviders(<SlangQuiz terms={fixtureTerms} gen={genZ} />);
++
++    // Answer all questions correctly
++    for (let i = 0; i < 10; i++) {
++      const heading = screen.getByRole("heading", { level: 3 });
++      const termText = heading.textContent!.replace(/[""]/g, "").trim();
++      const termIndex = fixtureTerms.findIndex((t) => t.term === termText);
++      const correctDef = fixtureTerms[termIndex]!.definition;
++      fireEvent.click(screen.getByText(correctDef));
++      const nextLabel = i < 9 ? "Next →" : "See Results 🏆";
++      fireEvent.click(screen.getByText(nextLabel));
++    }
++
++    expect(screen.getByText(/Certified Gen Z/)).toBeTruthy();
++    expect(screen.getByText("10/10")).toBeTruthy();
++  });
++
++  it("results screen shows <30% message for low score", () => {
++    renderWithProviders(<SlangQuiz terms={fixtureTerms} gen={genZ} />);
++
++    // Answer all questions wrong (pick an option that isn't the correct one)
++    for (let i = 0; i < 10; i++) {
++      const heading = screen.getByRole("heading", { level: 3 });
++      const termText = heading.textContent!.replace(/[""]/g, "").trim();
++      const termIndex = fixtureTerms.findIndex((t) => t.term === termText);
++      const correctDef = fixtureTerms[termIndex]!.definition;
++
++      const buttons = screen.getAllByRole("button");
++      const wrongButton = buttons.find((b) => b.textContent !== correctDef)!;
++      fireEvent.click(wrongButton);
++      const nextLabel = i < 9 ? "Next →" : "See Results 🏆";
++      fireEvent.click(screen.getByText(nextLabel));
++    }
++
++    expect(screen.getByText(/Total Outsider/)).toBeTruthy();
++    expect(screen.getByText("0/10")).toBeTruthy();
++  });
++
++  it("Try Again restarts the quiz", () => {
++    renderWithProviders(<SlangQuiz terms={fixtureTerms} gen={genZ} />);
++
++    // Speed through all questions
++    for (let i = 0; i < 10; i++) {
++      const buttons = screen.getAllByRole("button");
++      fireEvent.click(buttons[0]!);
++      const nextLabel = i < 9 ? "Next →" : "See Results 🏆";
++      fireEvent.click(screen.getByText(nextLabel));
++    }
++
++    // Click Try Again
++    fireEvent.click(screen.getByText(/Try Again/));
++    expect(screen.getByText("Question 1 of 10")).toBeTruthy();
++  });
++});
+diff --git a/apps/web/app/apps/generations/components/generation-card.tsx b/apps/web/app/apps/generations/components/generation-card.tsx
+index 3084f59..deae741 100644
+--- a/apps/web/app/apps/generations/components/generation-card.tsx
++++ b/apps/web/app/apps/generations/components/generation-card.tsx
+@@ -1,4 +1,5 @@
+ import Link from "next/link";
++import { Card, CardHeader, CardContent, Badge } from "@repo/ui";
+ import type { GenerationConfig } from "../lib/types";
+ 
+ interface Props {
+@@ -10,38 +11,47 @@ export function GenerationCard({ gen, termCount }: Props) {
+   return (
+     <Link
+       href={`/apps/generations/${gen.slug}`}
+-      className="group block rounded-2xl border border-surface-border bg-surface-card p-5 hover:scale-[1.02] transition-all duration-200"
+-      style={{
+-        background: `linear-gradient(135deg, ${gen.color}15 0%, ${gen.color}06 100%)`,
+-        borderColor: `${gen.color}30`,
+-      }}
++      className="group block"
+     >
+-      <div className="flex items-start justify-between mb-3">
+-        <span className="text-3xl">{gen.emoji}</span>
+-        <span
+-          className="text-xs font-semibold px-2.5 py-1 rounded-full"
+-          style={{ background: gen.color + "20", color: gen.color }}
+-        >
+-          {gen.era}
+-        </span>
+-      </div>
+-      <h3 className="font-bold text-lg mb-1 group-hover:text-accent transition-colors">
+-        {gen.name}
+-      </h3>
+-      <p className="text-muted-foreground text-xs mb-3 leading-relaxed">
+-        {gen.tagline}
+-      </p>
+-      <div className="flex items-center justify-between">
+-        <span className="text-xs text-muted-foreground">
+-          {termCount} terms
+-        </span>
+-        <span
+-          className="text-xs font-semibold"
+-          style={{ color: gen.color }}
+-        >
+-          Explore →
+-        </span>
+-      </div>
++      <Card
++        className="hover:scale-[1.02] transition-all duration-200 border-surface-border bg-surface-card"
++        style={{
++          background: `linear-gradient(135deg, ${gen.color}15 0%, ${gen.color}06 100%)`,
++          borderColor: `${gen.color}30`,
++        }}
++      >
++        <CardHeader className="p-5 pb-0">
++          <div className="flex items-start justify-between mb-3">
++            <span className="text-3xl">{gen.emoji}</span>
++            <Badge
++              variant="secondary"
++              className="text-xs font-semibold rounded-full"
++              style={{ background: gen.color + "20", color: gen.color }}
++            >
++              {gen.era}
++            </Badge>
++          </div>
++          <h3 className="font-bold text-lg mb-1 group-hover:text-accent transition-colors">
++            {gen.name}
++          </h3>
++        </CardHeader>
++        <CardContent className="p-5 pt-0">
++          <p className="text-muted-foreground text-xs mb-3 leading-relaxed">
++            {gen.tagline}
++          </p>
++          <div className="flex items-center justify-between">
++            <span className="text-xs text-muted-foreground">
++              {termCount} terms
++            </span>
++            <span
++              className="text-xs font-semibold"
++              style={{ color: gen.color }}
++            >
++              Explore →
++            </span>
++          </div>
++        </CardContent>
++      </Card>
+     </Link>
+   );
+ }
+diff --git a/apps/web/app/apps/generations/components/slang-dictionary.tsx b/apps/web/app/apps/generations/components/slang-dictionary.tsx
+index 973749c..9186461 100644
+--- a/apps/web/app/apps/generations/components/slang-dictionary.tsx
++++ b/apps/web/app/apps/generations/components/slang-dictionary.tsx
+@@ -1,7 +1,7 @@
+ "use client";
+ 
+ import { useState, useMemo } from "react";
+-import { Input, Badge, Card, CardContent } from "@repo/ui";
++import { Input, Badge, Card, CardContent, PillList } from "@repo/ui";
+ import type { SlangTerm, GenerationConfig } from "../lib/types";
+ 
+ function vibeColor(score: number): string {
+@@ -74,24 +74,13 @@ export function SlangDictionary({ terms, gen }: Props) {
+       />
+ 
+       {/* Category pills */}
+-      <div className="flex flex-wrap gap-1.5">
+-        {categories.map((cat) => (
+-          <button
+-            key={cat}
+-            onClick={() => setActiveCategory(cat)}
+-            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all capitalize ${
+-              activeCategory === cat
+-                ? "text-black"
+-                : "bg-surface-raised text-muted-foreground hover:text-foreground"
+-            }`}
+-            style={
+-              activeCategory === cat ? { background: gen.color } : undefined
+-            }
+-          >
+-            {cat}
+-          </button>
+-        ))}
+-      </div>
++      <PillList
++        items={categories.map((cat) => ({ label: cat }))}
++        selected={activeCategory}
++        onSelect={(label) => setActiveCategory(label)}
++        size="sm"
++        className="capitalize"
++      />
+ 
+       {/* Count */}
+       <p className="text-sm text-muted-foreground">
+diff --git a/apps/web/app/apps/generations/components/slang-quiz.tsx b/apps/web/app/apps/generations/components/slang-quiz.tsx
+index c503ee6..dd44cdc 100644
+--- a/apps/web/app/apps/generations/components/slang-quiz.tsx
++++ b/apps/web/app/apps/generations/components/slang-quiz.tsx
+@@ -1,7 +1,7 @@
+ "use client";
+ 
+ import { useState, useCallback } from "react";
+-import { Button } from "@repo/ui";
++import { Button, Card, CardContent, Badge } from "@repo/ui";
+ import type { SlangTerm, GenerationConfig, QuizQuestion, QuizState } from "../lib/types";
+ 
+ function buildQuiz(terms: SlangTerm[]): QuizQuestion[] {
+@@ -106,9 +106,10 @@ export function SlangQuiz({ terms, gen }: Props) {
+         {/* Progress dots */}
+         <div className="flex gap-1.5 justify-center">
+           {answered.map((correct, i) => (
+-            <div
++            <Badge
+               key={i}
+-              className={`w-2.5 h-2.5 rounded-full ${correct ? "bg-green-500" : "bg-red-500"}`}
++              variant={correct ? "default" : "destructive"}
++              className="w-2.5 h-2.5 rounded-full p-0"
+             />
+           ))}
+         </div>
+@@ -154,15 +155,27 @@ export function SlangQuiz({ terms, gen }: Props) {
+       {/* Progress dots */}
+       <div className="flex gap-1.5 justify-center">
+         {questions.map((_, i) => {
+-          let cls = "w-2.5 h-2.5 rounded-full ";
+-          if (i < answered.length) {
+-            cls += answered[i] ? "bg-green-500" : "bg-red-500";
+-          } else if (i === current) {
+-            cls += "bg-accent shadow-[0_0_8px_var(--accent)]";
+-          } else {
+-            cls += "bg-surface-raised";
+-          }
+-          return <div key={i} className={cls} />;
++          const variant =
++            i < answered.length
++              ? answered[i]
++                ? "default"
++                : "destructive"
++              : "outline";
++          const extra =
++            i < answered.length
++              ? answered[i]
++                ? "bg-green-500 border-green-500"
++                : "bg-red-500 border-red-500"
++              : i === current
++                ? "bg-accent shadow-[0_0_8px_var(--accent)] border-accent"
++                : "bg-surface-raised border-surface-raised";
++          return (
++            <Badge
++              key={i}
++              variant={variant}
++              className={`w-2.5 h-2.5 rounded-full p-0 ${extra}`}
++            />
++          );
+         })}
+       </div>
+ 
+@@ -170,41 +183,44 @@ export function SlangQuiz({ terms, gen }: Props) {
+         Question {current + 1} of {questions.length}
+       </p>
+ 
+-      <div
+-        className="text-center p-6 rounded-2xl border"
++      <Card
++        className="text-center border"
+         style={{ borderColor: gen.color + "40" }}
+       >
+-        <p className="text-xs text-muted-foreground mb-2">What does this mean?</p>
+-        <h3 className="text-2xl font-bold" style={{ color: gen.color }}>
+-          &quot;{q.term}&quot;
+-        </h3>
+-      </div>
++        <CardContent className="p-6">
++          <p className="text-xs text-muted-foreground mb-2">What does this mean?</p>
++          <h3 className="text-2xl font-bold" style={{ color: gen.color }}>
++            &quot;{q.term}&quot;
++          </h3>
++        </CardContent>
++      </Card>
+ 
+       <div className="space-y-2.5">
+         {q.options.map((opt) => {
+-          let cls =
+-            "w-full text-left px-4 py-3 rounded-xl border text-sm transition-all ";
++          let variant: "outline" | "secondary" | "ghost" = "outline";
++          let extra = "w-full justify-start text-left h-auto px-4 py-3 rounded-xl text-sm ";
+           if (isAnswered) {
+             if (opt === q.correctDef) {
+-              cls += "border-green-500 bg-green-500/10 text-green-400 font-semibold";
++              extra += "border-green-500 bg-green-500/10 text-green-400 font-semibold";
+             } else if (opt === lastPick && opt !== q.correctDef) {
+-              cls += "border-red-500 bg-red-500/10 text-red-400";
++              extra += "border-red-500 bg-red-500/10 text-red-400";
+             } else {
+-              cls += "border-surface-border bg-surface-card text-muted-foreground opacity-50";
++              extra += "border-surface-border bg-surface-card text-muted-foreground opacity-50";
+             }
+           } else {
+-            cls +=
++            extra +=
+               "border-surface-border bg-surface-card hover:border-accent hover:bg-accent/5 cursor-pointer";
+           }
+           return (
+-            <button
++            <Button
+               key={opt}
+-              className={cls}
++              variant={variant}
++              className={extra}
+               disabled={isAnswered}
+               onClick={() => handleAnswer(opt)}
+             >
+               {opt}
+-            </button>
++            </Button>
+           );
+         })}
+       </div>
+diff --git a/apps/web/app/apps/generations/components/slang-translator.tsx b/apps/web/app/apps/generations/components/slang-translator.tsx
+index d39a8c8..05b1069 100644
+--- a/apps/web/app/apps/generations/components/slang-translator.tsx
++++ b/apps/web/app/apps/generations/components/slang-translator.tsx
+@@ -1,10 +1,18 @@
+ "use client";
+ 
+ import { useState } from "react";
+-import { Button } from "@repo/ui";
++import { Button, Textarea } from "@repo/ui";
+ import type { SlangTerm, GenerationConfig } from "../lib/types";
+ import { TRANSLATOR_MAPS } from "../lib/generations";
+ 
++function escapeHtml(str: string): string {
++  return str
++    .replace(/&/g, "&amp;")
++    .replace(/</g, "&lt;")
++    .replace(/>/g, "&gt;")
++    .replace(/"/g, "&quot;");
++}
++
+ interface Props {
+   terms: SlangTerm[];
+   gen: GenerationConfig;
+@@ -16,7 +24,7 @@ function translateToGen(
+   terms: SlangTerm[]
+ ): string {
+   const map = TRANSLATOR_MAPS[slug] ?? {};
+-  let result = text;
++  let result = escapeHtml(text);
+   let anyReplaced = false;
+ 
+   // Sort by key length descending to replace longer phrases first
+@@ -56,7 +64,7 @@ function translateFromGen(text: string, terms: SlangTerm[]): string {
+   const sorted = Object.entries(slangMap).sort(
+     (a, b) => b[0].length - a[0].length
+   );
+-  let result = text;
++  let result = escapeHtml(text);
+   let found = false;
+ 
+   for (const [slang, def] of sorted) {
+@@ -106,12 +114,13 @@ export function SlangTranslator({ terms, gen }: Props) {
+     <div className="max-w-2xl mx-auto space-y-4">
+       {/* Direction toggle */}
+       <div className="flex rounded-xl overflow-hidden border border-surface-border">
+-        <button
++        <Button
++          variant={direction === "to-gen" ? "default" : "outline"}
+           onClick={() => {
+             setDirection("to-gen");
+             setResult(null);
+           }}
+-          className={`flex-1 px-4 py-2.5 text-sm font-semibold transition-all ${
++          className={`flex-1 rounded-none border-0 text-sm font-semibold ${
+             direction === "to-gen"
+               ? "text-black"
+               : "bg-surface-card text-muted-foreground hover:text-foreground"
+@@ -119,13 +128,14 @@ export function SlangTranslator({ terms, gen }: Props) {
+           style={direction === "to-gen" ? { background: gen.color } : undefined}
+         >
+           English → {gen.name} {gen.emoji}
+-        </button>
+-        <button
++        </Button>
++        <Button
++          variant={direction === "from-gen" ? "default" : "outline"}
+           onClick={() => {
+             setDirection("from-gen");
+             setResult(null);
+           }}
+-          className={`flex-1 px-4 py-2.5 text-sm font-semibold transition-all ${
++          className={`flex-1 rounded-none border-0 text-sm font-semibold ${
+             direction === "from-gen"
+               ? "text-black"
+               : "bg-surface-card text-muted-foreground hover:text-foreground"
+@@ -135,11 +145,11 @@ export function SlangTranslator({ terms, gen }: Props) {
+           }
+         >
+           {gen.name} → English 📚
+-        </button>
++        </Button>
+       </div>
+ 
+       {/* Input */}
+-      <textarea
++      <Textarea
+         value={input}
+         onChange={(e) => setInput(e.target.value)}
+         placeholder={
+@@ -147,7 +157,7 @@ export function SlangTranslator({ terms, gen }: Props) {
+             ? "Type normal English here..."
+             : `Type ${gen.name} slang here...`
+         }
+-        className="w-full min-h-[120px] px-4 py-3 rounded-xl border border-surface-border bg-surface-card text-foreground text-sm resize-vertical outline-none focus:border-accent transition-colors placeholder:text-muted-foreground"
++        className="min-h-[120px] rounded-xl border-surface-border bg-surface-card text-foreground text-sm resize-vertical focus:border-accent transition-colors"
+         onKeyDown={(e) => {
+           if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleTranslate();
+         }}
+diff --git a/apps/web/app/apps/generations/layout.tsx b/apps/web/app/apps/generations/layout.tsx
+index f1b48a0..489ed5b 100644
+--- a/apps/web/app/apps/generations/layout.tsx
++++ b/apps/web/app/apps/generations/layout.tsx
+@@ -1,6 +1,7 @@
+ import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ import Link from "next/link";
+ import type { ReactNode } from "react";
++import { Topbar, AppNav } from "@repo/ui";
+ import { GENERATIONS } from "./lib/generations";
+ 
+ export default async function GenerationsLayout({
+@@ -10,39 +11,25 @@ export default async function GenerationsLayout({
+ }) {
+   await requireAppLayoutAccess("generations");
+ 
++  const navItems = GENERATIONS.map((gen) => ({
++    label: `${gen.emoji} ${gen.name}`,
++    href: `/apps/generations/${gen.slug}`,
++  }));
++
+   return (
+     <div className="min-h-screen">
+-      <header className="border-b border-surface-border">
+-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+-          <div className="flex items-center gap-6">
+-            <Link
+-              href="/apps/generations"
+-              className="font-heading text-xl text-accent hover:opacity-80 transition-opacity"
+-            >
+-              🕰️ Generations
+-            </Link>
+-            <nav className="hidden md:flex gap-1 text-sm flex-wrap">
+-              {GENERATIONS.map((gen) => (
+-                <Link
+-                  key={gen.slug}
+-                  href={`/apps/generations/${gen.slug}`}
+-                  className="px-2.5 py-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-surface-raised transition-all"
+-                  style={{ ["--gen-color" as string]: gen.color }}
+-                >
+-                  <span>{gen.emoji}</span>{" "}
+-                  <span className="hidden lg:inline">{gen.name}</span>
+-                </Link>
+-              ))}
+-            </nav>
+-          </div>
+-          <Link
+-            href="/"
+-            className="text-xs text-muted-foreground hover:text-accent transition-colors"
+-          >
+-            ← Dashboard
+-          </Link>
+-        </div>
+-      </header>
++      <Topbar title="🕰️ Generations" className="border-surface-border">
++        <Link
++          href="/"
++          className="text-xs text-muted-foreground hover:text-accent transition-colors"
++        >
++          ← Dashboard
++        </Link>
++      </Topbar>
++      <AppNav
++        items={navItems}
++        className="hidden md:flex border-surface-border"
++      />
+       <main className="max-w-6xl mx-auto px-4 py-6">{children}</main>
+     </div>
+   );
+diff --git a/apps/web/app/apps/generations/lib/__tests__/generations.test.ts b/apps/web/app/apps/generations/lib/__tests__/generations.test.ts
+new file mode 100644
+index 0000000..e1006f6
+--- /dev/null
++++ b/apps/web/app/apps/generations/lib/__tests__/generations.test.ts
+@@ -0,0 +1,63 @@
++import { describe, it, expect } from "vitest";
++import { GENERATIONS, getGeneration, TRANSLATOR_MAPS } from "../generations";
++
++describe("GENERATIONS", () => {
++  it("has all 6 generation entries", () => {
++    expect(GENERATIONS).toHaveLength(6);
++  });
++
++  it("each entry has all required fields", () => {
++    for (const gen of GENERATIONS) {
++      expect(gen.slug).toBeTruthy();
++      expect(gen.name).toBeTruthy();
++      expect(gen.era).toBeTruthy();
++      expect(gen.color).toMatch(/^#/);
++      expect(gen.emoji).toBeTruthy();
++      expect(gen.tagline).toBeTruthy();
++    }
++  });
++
++  it("slugs are unique", () => {
++    const slugs = GENERATIONS.map((g) => g.slug);
++    expect(new Set(slugs).size).toBe(slugs.length);
++  });
++});
++
++describe("getGeneration", () => {
++  it("returns config for valid slug", () => {
++    const gen = getGeneration("gen-z");
++    expect(gen).toBeDefined();
++    expect(gen!.name).toBe("Gen Z");
++    expect(gen!.era).toBe("1997–2012");
++  });
++
++  it("returns config for each generation slug", () => {
++    for (const expected of GENERATIONS) {
++      const result = getGeneration(expected.slug);
++      expect(result).toEqual(expected);
++    }
++  });
++
++  it("returns undefined for invalid slug", () => {
++    expect(getGeneration("gen-omega")).toBeUndefined();
++    expect(getGeneration("")).toBeUndefined();
++  });
++});
++
++describe("TRANSLATOR_MAPS", () => {
++  it("has an entry for each generation slug", () => {
++    for (const gen of GENERATIONS) {
++      expect(TRANSLATOR_MAPS[gen.slug]).toBeDefined();
++      expect(Object.keys(TRANSLATOR_MAPS[gen.slug]!).length).toBeGreaterThan(0);
++    }
++  });
++
++  it("maps contain string-to-string translations", () => {
++    for (const [slug, map] of Object.entries(TRANSLATOR_MAPS)) {
++      for (const [key, val] of Object.entries(map)) {
++        expect(typeof key).toBe("string");
++        expect(typeof val).toBe("string");
++      }
++    }
++  });
++});
+diff --git a/apps/web/app/apps/generations/page.tsx b/apps/web/app/apps/generations/page.tsx
+index e357425..1d1c34a 100644
+--- a/apps/web/app/apps/generations/page.tsx
++++ b/apps/web/app/apps/generations/page.tsx
+@@ -1,4 +1,6 @@
+ import Link from "next/link";
++import { Card, CardContent, Timeline } from "@repo/ui";
++import type { TimelineEvent } from "@repo/ui";
+ import { GENERATIONS } from "./lib/generations";
+ import { GenerationCard } from "./components/generation-card";
+ import type { SlangTerm } from "./lib/types";
+@@ -23,10 +25,41 @@ export const metadata = {
+     "Explore slang dictionaries, translators, and quizzes for every generation — from Silent Gen to Gen Alpha.",
+ };
+ 
++const FEATURES = [
++  {
++    icon: "📖",
++    title: "Dictionary",
++    desc: "Browse and search every slang term with definitions, examples, and vibe scores.",
++  },
++  {
++    icon: "🔄",
++    title: "Translator",
++    desc: "Translate plain English into generational slang, or decode slang back to English.",
++  },
++  {
++    icon: "🎯",
++    title: "Quiz",
++    desc: "Test your knowledge with a 10-question multiple-choice quiz on each generation.",
++  },
++  {
++    icon: "🔥",
++    title: "Trending Wall",
++    desc: "See the top-rated slang terms by vibe score for each generation.",
++  },
++];
++
+ export default async function GenerationsHubPage() {
+   const termCounts = await getTermCounts();
+   const totalTerms = Object.values(termCounts).reduce((a, b) => a + b, 0);
+ 
++  const timelineEvents: TimelineEvent[] = GENERATIONS.slice()
++    .reverse()
++    .map((gen) => ({
++      date: gen.era,
++      title: gen.name,
++      icon: <span>{gen.emoji}</span>,
++    }));
++
+   return (
+     <div className="space-y-10">
+       {/* Hero */}
+@@ -76,74 +109,29 @@ export default async function GenerationsHubPage() {
+           What&apos;s Inside Each Generation
+         </h2>
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+-          {[
+-            {
+-              icon: "📖",
+-              title: "Dictionary",
+-              desc: "Browse and search every slang term with definitions, examples, and vibe scores.",
+-            },
+-            {
+-              icon: "🔄",
+-              title: "Translator",
+-              desc: "Translate plain English into generational slang, or decode slang back to English.",
+-            },
+-            {
+-              icon: "🎯",
+-              title: "Quiz",
+-              desc: "Test your knowledge with a 10-question multiple-choice quiz on each generation.",
+-            },
+-            {
+-              icon: "🔥",
+-              title: "Trending Wall",
+-              desc: "See the top-rated slang terms by vibe score for each generation.",
+-            },
+-          ].map((f) => (
+-            <div
++          {FEATURES.map((f) => (
++            <Card
+               key={f.title}
+-              className="p-4 rounded-xl border border-surface-border bg-surface-card text-center"
++              className="border-surface-border bg-surface-card text-center"
+             >
+-              <div className="text-2xl mb-2">{f.icon}</div>
+-              <h3 className="font-semibold mb-1">{f.title}</h3>
+-              <p className="text-xs text-muted-foreground leading-relaxed">
+-                {f.desc}
+-              </p>
+-            </div>
++              <CardContent className="p-4">
++                <div className="text-2xl mb-2">{f.icon}</div>
++                <h3 className="font-semibold mb-1">{f.title}</h3>
++                <p className="text-xs text-muted-foreground leading-relaxed">
++                  {f.desc}
++                </p>
++              </CardContent>
++            </Card>
+           ))}
+         </div>
+       </section>
+ 
+-      {/* Timeline teaser */}
++      {/* Timeline */}
+       <section className="border-t border-surface-border pt-8">
+         <h2 className="font-heading text-xl font-bold mb-4 text-center">
+           The Language Timeline
+         </h2>
+-        <div className="relative">
+-          {/* Horizontal line */}
+-          <div className="absolute top-5 left-0 right-0 h-px bg-surface-border" />
+-          <div className="relative flex justify-between gap-2 overflow-x-auto pb-4">
+-            {GENERATIONS.slice().reverse().map((gen) => (
+-              <Link
+-                key={gen.slug}
+-                href={`/apps/generations/${gen.slug}`}
+-                className="flex flex-col items-center gap-2 min-w-[80px] group"
+-              >
+-                <div
+-                  className="w-10 h-10 rounded-full flex items-center justify-center text-xl border-2 border-surface-bg relative z-10 group-hover:scale-110 transition-transform"
+-                  style={{
+-                    background: gen.color + "20",
+-                    borderColor: gen.color,
+-                  }}
+-                >
+-                  {gen.emoji}
+-                </div>
+-                <div className="text-center">
+-                  <p className="text-xs font-semibold">{gen.name}</p>
+-                  <p className="text-[10px] text-muted-foreground">{gen.era}</p>
+-                </div>
+-              </Link>
+-            ))}
+-          </div>
+-        </div>
++        <Timeline events={timelineEvents} />
+       </section>
+     </div>
+   );
+diff --git a/apps/web/next-env.d.ts b/apps/web/next-env.d.ts
+index c4b7818..9edff1c 100644
+--- a/apps/web/next-env.d.ts
++++ b/apps/web/next-env.d.ts
+@@ -1,6 +1,6 @@
+ /// <reference types="next" />
+ /// <reference types="next/image-types/global" />
+-import "./.next/dev/types/routes.d.ts";
++import "./.next/types/routes.d.ts";
+ 
+ // NOTE: This file should not be edited
+ // see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+diff --git a/apps/web/vitest.config.ts b/apps/web/vitest.config.ts
+index 3b723f4..8817d85 100644
+--- a/apps/web/vitest.config.ts
++++ b/apps/web/vitest.config.ts
+@@ -5,6 +5,9 @@ export default defineConfig({
+   test: {
+     globals: true,
+   },
++  esbuild: {
++    jsx: "automatic",
++  },
+   resolve: {
+     alias: {
+       "@": path.resolve(__dirname, "."),
+diff --git a/packages/test-utils/src/index.ts b/packages/test-utils/src/index.ts
+index 5ef8992..301bd5b 100644
+--- a/packages/test-utils/src/index.ts
++++ b/packages/test-utils/src/index.ts
+@@ -11,4 +11,5 @@ export {
+   waitFor,
+   within,
+   act,
++  fireEvent,
+ } from "./render-with-providers";
+diff --git a/packages/test-utils/src/render-with-providers.tsx b/packages/test-utils/src/render-with-providers.tsx
+index e8824b6..3c5558e 100644
+--- a/packages/test-utils/src/render-with-providers.tsx
++++ b/packages/test-utils/src/render-with-providers.tsx
+@@ -21,4 +21,4 @@ export function renderWithProviders(
+ }
+ 
+ // Re-export everything from testing-library for convenience
+-export { screen, waitFor, within, act } from "@testing-library/react";
++export { screen, waitFor, within, act, fireEvent } from "@testing-library/react";

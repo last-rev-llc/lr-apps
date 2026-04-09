@@ -1,0 +1,17 @@
+{
+  "summary": "Add authentication gate to the Soccer Training app requiring login and permission checks.",
+  "files": [
+    "apps/web/app/apps/soccer-training/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/soccer-training/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/lib/app-registry.ts line 77: Change `auth: false` to `auth: true` for the soccer-training entry.\n2. apps/web/app/apps/soccer-training/layout.tsx: Import `requireAppLayoutAccess` from `@/lib/require-app-layout-access`. Make `SoccerTrainingLayout` async. Add `await requireAppLayoutAccess(\"soccer-training\")` as the first line of the function body before the return.\n3. apps/web/app/apps/soccer-training/__tests__/layout.test.tsx: Create test file following the roblox-dances pattern with 4 tests: (a) calls requireAppLayoutAccess with \"soccer-training\", (b) redirects unauthenticated user to /login, (c) redirects unauthorized user to /unauthorized, (d) renders children for authenticated user with permission.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gating changes runtime behavior — unauthenticated/unauthorized users are now redirected. Smoke tests verify the guard is called with the correct slug and that redirect errors propagate."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate is server-side redirect logic fully covered by unit tests. No new UI elements to verify in a browser — the layout markup is unchanged."
+  }
+}

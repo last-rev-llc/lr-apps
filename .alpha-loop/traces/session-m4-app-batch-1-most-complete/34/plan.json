@@ -1,0 +1,17 @@
+{
+  "summary": "Migrate Uptime app to use @repo/ui shared components: StatusBadge, PageHeader, EmptyState, and theme tokens for history chart bars.",
+  "files": [
+    "apps/web/app/apps/uptime/page.tsx",
+    "apps/web/app/apps/uptime/layout.tsx"
+  ],
+  "implementation": "1. page.tsx: Remove inline StatusBadge function (lines 27-50). Import StatusBadge from @repo/ui. Map status values: up→variant='success' children='Operational', down→variant='error' children='Down', degraded→variant='warning' children='Degraded'. Use dot prop for visual indicator instead of emoji prefixes.\n2. page.tsx: Replace inline page header (lines 91-98) with shared PageHeader component. Import PageHeader from @repo/ui. Use title='📡 Uptime Status' subtitle='Know when your stuff goes down before your users do.'\n3. page.tsx: Replace the empty-state Card block (lines 112-130) with EmptyState component from @repo/ui. Use icon='📡' title='No sites are being monitored yet.' description with the status-pulse link as action.\n4. page.tsx: Replace hardcoded color classes in status banner (lines 101-109) with StatusBadge variant classes or extract a consistent pattern using theme tokens from @repo/ui cn utility. Use the same emerald/red token pattern as StatusBadge variants.\n5. page.tsx: Update UptimeBars (lines 52-82) to use theme-consistent color tokens. Replace hardcoded bg-emerald-500/bg-red-500/bg-yellow-500 with classes matching StatusBadge variant colors (emerald-500, red-500, amber-500) for consistency.\n6. layout.tsx: Replace inline header markup (lines 19-28) with Topbar or keep minimal but ensure consistent use of shared primitives.\n7. Consolidate @repo/ui imports into a single import statement.\n8. Run pnpm build to verify everything compiles.",
+  "testing": {
+    "needed": true,
+    "reason": "Component replacements change rendered markup and class names which could affect visual appearance and behavior. App-specific tests should verify the page renders correctly with the new shared components."
+  },
+  "verification": {
+    "needed": true,
+    "instructions": "1. Start dev server: pnpm dev --filter web\n2. Navigate to the uptime app page\n3. Verify status badges render with correct colors (green for up, red for down, amber for degraded)\n4. Verify the page header displays correctly with title and subtitle\n5. Verify empty state renders when no sites exist\n6. Verify uptime history bars use consistent theme colors\n7. Verify the all-systems-operational banner displays correctly",
+    "reason": "This changes user-visible UI components on the uptime dashboard page. Visual verification ensures shared components render correctly in this context."
+  }
+}

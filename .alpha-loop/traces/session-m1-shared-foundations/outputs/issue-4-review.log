@@ -1,0 +1,3 @@
+**Review gate: PASSED**
+
+The implementation is solid — three typed query helpers (`getAppPermission`, `getUserSubscription`, `upsertPermission`) with correct Supabase patterns, proper types, 11 passing tests, and clean re-exports. No critical, warning, or info findings.

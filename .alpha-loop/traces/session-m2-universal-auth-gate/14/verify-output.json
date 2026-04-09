@@ -1,0 +1,1 @@
+Verification skipped by plan: Auth gate is server-side redirect logic with no visible UI changes. Behavior is fully covered by unit tests mocking requireAppLayoutAccess. Browser verification would require authenticated session state which is better validated by the test suite.

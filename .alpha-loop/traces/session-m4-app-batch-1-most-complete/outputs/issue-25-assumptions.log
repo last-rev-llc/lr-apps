@@ -1,0 +1,16 @@
+Now I have the full picture.
+
+## Assumptions
+- **Auth testing via error propagation, not redirect assertion**: The issue asked to test "unauthenticated user redirects to login" and "user without permission redirects to unauthorized," but `requireAppLayoutAccess` is a server-side guard that throws/rejects rather than returning redirect info to the component. The tests verify the layout propagates the rejection (`rejects.toThrow("Unauthorized")`) rather than asserting a specific redirect URL, since redirect behavior lives in `requireAppLayoutAccess` itself, not the layout.
+- **No mock Supabase data needed**: The issue mentioned "mock Supabase data," but the hub page renders a static module registry (not fetched from Supabase). Tests render the page directly without Supabase mocks, since there's no data-fetching to mock.
+- **Hardcoded 21-module list is the source of truth**: Tests assert exactly 21 modules with specific slugs, labels, icons, and categories. This assumes the current module registry is stable and correct.
+
+## Decisions
+- **`@repo/test-utils` for app tests, `@testing-library/react` for UI package tests**: The app-level tests (`layout.test.tsx`, `page.test.tsx`) use `@repo/test-utils` as required. The `packages/ui` component tests use `@testing-library/react` directly — a reasonable choice since UI components are framework-agnostic and shouldn't depend on app-level providers, but it diverges from the acceptance criterion "All tests use `@repo/test-utils` helpers."
+- **Scope extended beyond issue requirements**: The issue asked for hub page + auth + navigation tests, but the implementation also added 6 new UI component tests (`data-grid`, `error-boundary`, `loading-skeleton`, `sidebar`, `status-badge`, `table`) and refactored all 21 module app components. This is substantially more than what was specified.
+- **IntersectionObserver polyfill approach**: Mocked `IntersectionObserver` globally with immediate `isIntersecting: true` callback to handle the `StatCard` count-up animation, rather than testing with the animation disabled or using a test-specific prop.
+
+## Items to Validate
+- **UI tests not using `@repo/test-utils`**: Acceptance criterion says "All tests use `@repo/test-utils` helpers" — the 6 `packages/ui` tests import from `@testing-library/react` directly. Decide if this is acceptable or if they should be migrated.
+- **Module list correctness**: Tests hardcode all 21 modules with specific metadata (slugs, categories, icons, descriptions). Verify this matches your intended module registry — any future module additions will require test updates.
+- **Scope of module component refactors**: All 21 module `*-app.tsx` files were refactored as part of this PR. Verify those changes are intentional and don't introduce regressions beyond what the tests cover.

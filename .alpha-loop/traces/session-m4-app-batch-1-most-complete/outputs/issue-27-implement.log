@@ -1,0 +1,14 @@
+Done. Here's what was implemented:
+
+**4 new test files, 26 tests total:**
+
+| File | Tests | Coverage |
+|---|---|---|
+| `layout.test.tsx` | 5 | Auth gate (`requireAppLayoutAccess`), children rendering, header title/subtitle, error propagation |
+| `page.test.tsx` | 3 | PageHeader, all 4 StatCard labels (Clients/Open PRs/Contacts/Jira Tickets), clients passed to AccountsApp |
+| `accounts-app.test.tsx` | 13 | Client selector dropdown, health/industry badges, client switching, empty state, Contacts tab (names/roles/emails/Primary badge/LinkedIn links), GitHub tab (PR count, "Needs attention" badge, PR list, repo buttons) |
+| `queries.test.ts` | 5 | `computeOverviewStats` — multiple clients, empty array, missing optional fields, null fields, large numbers |
+
+**Minor change:** Added `fireEvent` export to `@repo/test-utils` (needed for Radix component testing in jsdom).
+
+All **189 tests pass** across 8 packages.

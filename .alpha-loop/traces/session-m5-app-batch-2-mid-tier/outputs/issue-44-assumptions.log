@@ -1,0 +1,14 @@
+## Assumptions
+- **Badge hover styles preserved**: Added `hover:bg-*` classes to `GenBadge` since `Badge variant="secondary"` introduces its own hover state — assumed the original non-interactive spans shouldn't look clickable but kept hover for consistency with Badge defaults.
+- **Dialog close behavior matches original**: The original modal used a backdrop `onClick` to close; `Dialog` from `@repo/ui` (Radix-based) closes on overlay click and Escape key. Assumed the enhanced close behavior (Escape key, focus trap) is acceptable.
+- **Textarea inherits border/focus styles from `@repo/ui`**: Stripped explicit `border`, `focus:border-accent`, and `outline-none` classes from the translator textarea, assuming the shared `Textarea` component provides equivalent focus/border styling.
+
+## Decisions
+- **Used `Dialog`/`DialogContent`/`DialogTitle` for the slang detail modal** instead of keeping the custom overlay `<div>`. This replaces a hand-rolled modal with proper accessibility (focus trap, Escape to close, aria labeling) but changes the DOM structure.
+- **Filter buttons use `Button variant="outline"` / `variant="default"`** for active/inactive states rather than preserving the original custom border/bg class toggling. This standardizes the look but shifts exact colors to the theme's accent rather than the original inline `border-accent bg-accent/15`.
+- **Quiz answer buttons use `Button variant="outline"`** with conditional color classes appended for correct/incorrect states, rather than computing the entire className from scratch. The `variant` doesn't change on answer — only supplemental green/red classes are added.
+
+## Items to Validate
+- **Textarea visual parity**: Verify the translator input textarea still matches the intended design — the `@repo/ui` Textarea's default padding, border radius, and focus ring may differ from the original inline styles.
+- **Dialog/modal appearance**: The `glass` class on `DialogContent` may interact differently with the Radix Dialog's built-in overlay styling. Confirm the backdrop blur and glass effect still look correct.
+- **Filter button active state colors**: The original used `border-accent bg-accent/15 text-accent` for active filters; the `Button variant="default"` may render a solid accent background instead. Check that the dictionary tab filter buttons look appropriate.

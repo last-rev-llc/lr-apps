@@ -1,0 +1,14 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- **Login form preserves redirect slug through signup link** — when a user lands on `/login` with a `?redirect=` param, the "Create an account" link now carries that slug to `/signup` so the redirect survives the signup flow. This wasn't in the requirements but was needed for a coherent auth gate UX (established in prior auth gate PRs).
+- **"Get access" button text changed to "Request access"** — on the unauthorized page, wording was updated to be more accurate since the action submits a request rather than granting immediate access.
+- **Unauthorized page shows app name in heading** — added `Access required — HSPT Tutor` instead of generic "Access required" when the app is known, matching the pattern from prior auth gate work.
+- **Self-service access denial message updated** — replaced the developer-facing message referencing `app_permissions` table with a user-friendly "contact a Last Rev admin" message.
+- **Added smoke tests for `age-of-apes` alongside `hspt-tutor`** — backfilled missing tests for a previously auth-gated app to maintain consistent coverage.
+- **Session expired error variant added to login form** — added handling for `error=session_expired` query param to show a friendlier message, since the auth gate redirect flow can surface this state.
+
+## Items to Validate
+- **UX copy changes** — verify "Request access" (was "Get access") and the updated admin contact message match your team's preferred tone.
+- **Session expired message** — confirm "Your session expired — please sign in again." is the desired wording.

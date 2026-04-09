@@ -1,0 +1,10 @@
+## Assumptions
+- None — requirements were fully specified
+
+## Decisions
+- None — implementation was straightforward (followed the same pattern established by Area 52, Lighthouse, and Age of Apes auth gates)
+
+## Items to Validate
+- The login form now passes `redirectSlug` to the signup link and shows a "session_expired" error message — these were shared changes across all auth-gated apps, not Alpha Wins-specific. Verify the wording suits your team.
+- The unauthorized page changed "Get access" to "Request access" and updated the no-self-service copy to say "Please contact a Last Rev admin" — confirm this matches your preferred tone.
+- Age of Apes layout tests were added in this branch (likely carried over from the #12 work). Verify that's intentional and not a duplicate of what merged in PR #96.

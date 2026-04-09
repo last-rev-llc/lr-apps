@@ -1,0 +1,10 @@
+Plan written to `plan-issue-30.json`. Key changes:
+
+- **page.tsx**: Replace inline header with `PageHeader`, inline stats grid with `StatCard`
+- **summaries-app.tsx**: 
+  - Remove custom `Pill` component + 4 color maps → use `Badge` with custom classNames
+  - Inline empty state → `EmptyState` component
+  - Raw `<input type="text">` search fields → `Search` component
+  - Raw `<input type="date">` → `Input` component
+  - Remove `inputCls` constant
+  - Keep `<select>` elements as-is (no shared Select in `@repo/ui`)

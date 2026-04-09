@@ -1,0 +1,5 @@
+Plan written to `plan-issue-14.json`. It covers three files:
+
+1. **Registry** (`app-registry.ts`): flip `auth: false` → `auth: true`
+2. **Layout** (`brommie-quake/layout.tsx`): import + call `requireAppLayoutAccess("brommie-quake")`, make async
+3. **Tests** (`brommie-quake/__tests__/layout.test.tsx`): create smoke tests for login redirect, unauthorized redirect, and successful render — following the Area-52 pattern

@@ -1,0 +1,28 @@
+{
+  "composite_score": 95.76,
+  "issues": {
+    "48": {
+      "status": "success",
+      "tests_passed": true,
+      "verify_passed": true,
+      "retries": 0,
+      "duration_seconds": 424,
+      "files_changed": 3,
+      "steps_completed": [
+        "plan",
+        "implement",
+        "test",
+        "review",
+        "pr",
+        "learn"
+      ]
+    }
+  },
+  "aggregate": {
+    "pass_rate": 1,
+    "avg_retries": 0,
+    "avg_duration": 424,
+    "total_issues": 1,
+    "issues_passed": 1
+  }
+}

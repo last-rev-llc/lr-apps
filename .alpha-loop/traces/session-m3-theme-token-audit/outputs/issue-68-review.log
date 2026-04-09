@@ -1,0 +1,24 @@
+## Review Complete — `passed: false`
+
+### What was fixed (4 issues)
+
+| Fix | File |
+|-----|------|
+| Color collision: 3 apps → same pill-8 | `feed-app.tsx` — reassigned media-gallery→pill-0, accounts→pill-1 |
+| Color collision: generated = community | `ideas-app.tsx` — reassigned generated→pill-1 |
+| Confetti keyframe regression | `globals.css` — restored 80% opacity hold + scale(0.5) |
+| Hardcoded `bg-[#0a0e1a]` | `filter-drawer.tsx` → `bg-navy-950` |
+
+### Why it failed (5 critical gaps)
+
+1. **5 of 10 listed apps untouched** — accounts, standup, summaries, meeting-summaries, uptime have zero changes despite being in-scope
+2. **No visual regression snapshots** — acceptance criterion requires baseline snapshots per app; none exist
+3. **sprint-planning partially fixed** — SERVICE_COLORS done but STATUS_DOT_COLORS and PRIORITY_COLORS still use Tailwind palette classes
+4. **sentiment partially fixed** — chart done but mood-badge.tsx and timeline.tsx untouched
+5. **daily-updates partially fixed** — neon colors done but hardcoded amber classes remain on lines ~169 and ~341
+
+### Additional notes
+
+- Commit says "closes #68" but title says "batch 1" — these contradict. If batch 1, don't auto-close the issue.
+- The token-violations-report.md is stale (generated before the fixes in this branch).
+- Shadow tokens in theme.css hardcode `rgba(245, 158, 11, ...)` instead of referencing `var(--color-accent)`.

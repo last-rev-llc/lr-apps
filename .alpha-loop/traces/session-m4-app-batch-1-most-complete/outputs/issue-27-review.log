@@ -1,0 +1,22 @@
+## Review Summary: Issue #27 — Accounts: app-specific tests
+
+**Result: PASSED**
+
+All 4 acceptance criteria are met and `pnpm test` passes (179 tests, 0 failures).
+
+### Strengths
+- Comprehensive mock data covering healthy, at-risk, and critical client states
+- Good test structure: layout auth gating, page rendering, component interaction, pure logic
+- `computeOverviewStats` tested with real edge cases (empty arrays, missing fields, large numbers)
+- Proper `within()` scoping to avoid false positives
+
+### Warnings (non-blocking)
+1. **`act()` warnings** in accounts-app tests — `fireEvent.keyDown` triggers unhandled state updates. Recommend switching to `userEvent.setup()`.
+2. **`getClients()` silently swallows errors** — returns `[]` on DB failure, making errors indistinguishable from empty state. Worth a follow-up.
+
+### Info
+- Scope includes command-center tests and 5 new `@repo/ui` components beyond the issue title — all well-tested
+- Array index keys in several `.map()` calls (low risk for read-only display)
+- Unsafe `as unknown as Client` cast without runtime validation
+
+Gate result written to `review-issue-27.json`.

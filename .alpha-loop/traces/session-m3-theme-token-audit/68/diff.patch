@@ -1,0 +1,187 @@
+diff --git a/.alpha-loop/learnings/issue-10-20260408-105247.md b/.alpha-loop/learnings/issue-10-20260408-105247.md
+new file mode 100644
+index 0000000..b46df57
+--- /dev/null
++++ b/.alpha-loop/learnings/issue-10-20260408-105247.md
+@@ -0,0 +1,26 @@
++---
++issue: 10
++status: success
++test_fix_retries: 0
++duration: 991
++date: 2026-04-08
++---
++## What Worked
++- Shared utility approach (glass, glass-sm, glass-strong, glass-header, shadow tokens, animation utilities) cleanly replaced scattered inline definitions across apps
++- All 8 packages passed tests (106 total) with zero retries needed
++- Tooling additions (token-violations-report.md, audit-tokens.ts) provided systematic discovery of violations rather than manual grep
++
++## What Failed
++- Nothing — build, typecheck, and all tests passed first try
++
++## Patterns
++- **Audit-then-fix workflow**: generating a violations report first (audit-tokens.ts) before making changes ensures comprehensive coverage and documents what was intentionally left alone
++- **Semantic utility naming**: using purpose-based names (glass-header) rather than implementation-based names (backdrop-blur-md bg-surface-bg/85) makes the intent clear and allows the implementation to vary per-theme
++- **Tolerating context-specific one-offs**: not every inline style is a violation — glow effects on a pour-meter or accent shadows are legitimately unique and don't need shared tokens
++
++## Anti-Patterns
++- **Over-normalizing unique styles**: forcing context-specific effects (wine pour glow, quiz accent shadow) into shared tokens would create overly specific utilities that only one app uses
++- **Leaving large generated reports tracked in git**: the 1871-line token-violations-report.md should be gitignored and generated on-demand to avoid repo bloat
++
++## Suggested Skill Updates
++- None
+diff --git a/.alpha-loop/learnings/issue-9-20260408-103544.md b/.alpha-loop/learnings/issue-9-20260408-103544.md
+new file mode 100644
+index 0000000..1f0ffef
+--- /dev/null
++++ b/.alpha-loop/learnings/issue-9-20260408-103544.md
+@@ -0,0 +1,26 @@
++---
++issue: 9
++status: success
++test_fix_retries: 0
++duration: 516
++date: 2026-04-08
++---
++## What Worked
++- Clean first-pass execution with zero test retries — the audit script worked correctly on initial run
++- Code review caught dead code (unused `classifySeverity` function and 10 regex constants) and it was fixed before completion
++- Comprehensive report covering all 27 apps with per-file, per-line violation detail and a reference section for available theme tokens
++
++## What Failed
++- Nothing — all acceptance criteria met, no retries needed
++
++## Patterns
++- Read-only audit/reporting tasks can skip test suites and browser verification safely, reducing cycle time
++- Code review remains valuable even for scripts — caught dead code that static analysis might miss
++- Generating violation reports with severity tiers (high/medium/low) and type categories gives actionable prioritization for follow-up work
++
++## Anti-Patterns
++- Hardcoded skip-lists (e.g. excluding `#fff`/`#000`) can mask real violations — make filtering configurable rather than baked in
++- Framework-required literal values (Next.js `themeColor` in viewport metadata) will always be false positives in token audits — document known exceptions upfront to avoid noise in reports
++
++## Suggested Skill Updates
++- None
+diff --git a/.alpha-loop/learnings/session-session-m3-theme-token-audit.json b/.alpha-loop/learnings/session-session-m3-theme-token-audit.json
+new file mode 100644
+index 0000000..33dcab8
+--- /dev/null
++++ b/.alpha-loop/learnings/session-session-m3-theme-token-audit.json
+@@ -0,0 +1,27 @@
++{
++  "name": "session/m3-theme-token-audit",
++  "branch": "session/m3-theme-token-audit",
++  "completed": "2026-04-08T17:55:47.344Z",
++  "results": [
++    {
++      "issueNum": 9,
++      "title": "Audit and document token usage violations",
++      "status": "success",
++      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/107",
++      "testsPassing": true,
++      "verifyPassing": true,
++      "duration": 516,
++      "filesChanged": 1
++    },
++    {
++      "issueNum": 10,
++      "title": "Standardize glass/shadow/animation usage",
++      "status": "success",
++      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/108",
++      "testsPassing": true,
++      "verifyPassing": true,
++      "duration": 991,
++      "filesChanged": 2
++    }
++  ]
++}
+diff --git a/.alpha-loop/learnings/session-summary-session-m3-theme-token-audit.md b/.alpha-loop/learnings/session-summary-session-m3-theme-token-audit.md
+new file mode 100644
+index 0000000..34c8592
+--- /dev/null
++++ b/.alpha-loop/learnings/session-summary-session-m3-theme-token-audit.md
+@@ -0,0 +1,27 @@
++# Session Summary: session/m3-theme-token-audit
++
++## Overview
++Two theme-token audit and standardization issues were completed in 25 minutes with a 100% success rate and zero test retries. The workflow followed an audit-then-fix pattern — first generating a comprehensive violations report across all 27 apps, then extracting shared utilities (glass, shadow, animation tokens) to replace scattered inline definitions. Code review caught dead code in the audit script before completion.
++
++## Recurring Patterns
++- **Audit-then-fix workflow**: generating a violations report before making changes ensures comprehensive coverage and documents what was intentionally left alone — appeared in both issues
++- **Zero-retry execution**: clean first-pass results across both issues suggest the task scope (read-only audit + targeted refactor) was well-matched to the agent's capabilities
++- **Code review adding value**: even on scripts and utilities, review caught issues (dead code) that the test suite alone wouldn't flag
++
++## Recurring Anti-Patterns
++- **Generated reports tracked in git**: large generated artifacts (token-violations-report.md at 1871 lines) should be gitignored and produced on-demand to avoid repo bloat
++- **Hardcoded exception lists**: both issues touched on the problem of baked-in skip-lists or over-normalized tokens — filtering and exceptions should be configurable or documented upfront rather than hidden in code
++
++## Recommendations
++- **Add `token-violations-report.md` to `.gitignore`** and treat audit reports as ephemeral build artifacts generated on-demand
++- **Document known false-positive exceptions** (e.g., Next.js `themeColor` in viewport metadata) in the audit script config or a companion file, so future runs don't re-flag them
++- **Make audit skip-lists configurable** via a config object or CLI flags rather than hardcoded arrays, so teams can tune sensitivity without editing the script
++- **Tag context-specific one-offs explicitly**: when an inline style is intentionally not tokenized (e.g., wine pour glow), add a brief comment (`/* app-specific, not a token violation */`) so future audits can distinguish intent from oversight
++
++## Metrics
++| Metric | Value |
++|--------|-------|
++| Issues processed | 2 |
++| Success rate | 100% |
++| Avg duration | 754s |
++| Total duration | 25 min |
+diff --git a/apps/web/app/apps/accounts/components/accounts-app.tsx b/apps/web/app/apps/accounts/components/accounts-app.tsx
+index 24d539c..3b13fd8 100644
+--- a/apps/web/app/apps/accounts/components/accounts-app.tsx
++++ b/apps/web/app/apps/accounts/components/accounts-app.tsx
+@@ -39,7 +39,7 @@ function extLink(url?: string | null, label?: string) {
+       href={url}
+       target="_blank"
+       rel="noopener noreferrer"
+-      className="text-[11px] text-sky-400 hover:text-sky-300 underline-offset-2 hover:underline"
++      className="text-[11px] text-blue hover:text-blue/80 underline-offset-2 hover:underline"
+       title={label ?? url}
+     >
+       ↗
+@@ -59,13 +59,13 @@ type BadgeColor =
+   | "cyan";
+ 
+ const BADGE_STYLES: Record<BadgeColor, string> = {
+-  green: "bg-green-500/12 text-green-400 border-green-500/20",
+-  amber: "bg-amber-500/12 text-amber-400 border-amber-500/20",
+-  red: "bg-red-500/12 text-red-400 border-red-500/20",
+-  purple: "bg-purple-500/12 text-purple-400 border-purple-500/20",
+-  blue: "bg-blue-500/12 text-blue-400 border-blue-500/20",
+-  gray: "bg-gray-500/12 text-muted-foreground border-gray-500/20",
+-  cyan: "bg-cyan-500/12 text-cyan-400 border-cyan-500/20",
++  green: "bg-green/12 text-green border-green/20",
++  amber: "bg-accent/12 text-accent border-accent/20",
++  red: "bg-red/12 text-red border-red/20",
++  purple: "bg-pill-0/12 text-pill-0 border-pill-0/20",
++  blue: "bg-blue/12 text-blue border-blue/20",
++  gray: "bg-slate/12 text-muted-foreground border-slate/20",
++  cyan: "bg-pill-7/12 text-pill-7 border-pill-7/20",
+ };
+ 
+ function Badge({
+@@ -140,7 +140,7 @@ function OverviewTab({ client }: { client: Client }) {
+                 href={urls.website}
+                 target="_blank"
+                 rel="noopener noreferrer"
+-                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
++                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-pill-9/40 transition-colors"
+               >
+                 🌐 Website
+               </a>
+@@ -150,7 +150,7 @@ function OverviewTab({ client }: { client: Client }) {
+                 href={urls.production}
+                 target="_blank"
+                 rel="noopener noreferrer"
+-                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-teal-500/40 transition-colors"
++                className="text-[12px] font-medium px-3 py-1.5 rounded-lg border border-surface-border bg-surface hover:border-pill-9/40 transition-colors"
+               >
+                 🚀 Production
+               </a>
+@@ -160,7 +160,7 @@ function OverviewTab({ client }: { client: Client }) {
+                 href={urls.staging}
+                 target="_blank"
+                 rel="noopener noreferrer"
+-           

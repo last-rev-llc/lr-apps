@@ -1,0 +1,17 @@
+Migration complete. Here's what was done across 3 files:
+
+**page.tsx** — Replaced inline `<h2>/<p>` header with `<PageHeader>` and inline stats grid `<div>`s with `<StatCard size="sm">`.
+
+**layout.tsx** — Replaced inline `<header>` with `<PageHeader>` component.
+
+**meetings-app.tsx** — The bulk of the migration:
+- **SentimentBadge**: inline `<span>` → `<Badge variant="outline">`
+- **SummaryCard badges** (client_id, duration, pending): inline `<span>`s → `<Badge variant="outline">`
+- **Topic tags**: inline `<span>`s → `<Badge variant="outline">`
+- **ActionItemCard badges** (owner, priority, client_id): inline `<span>`s → `<Badge variant="outline">`
+- **ActionItemCard buttons**: raw `<button>`s → `<Button variant="outline" size="sm">`
+- **Search inputs** (x2): inline `<input>`s → `<Search debounce={0}>`
+- **Filter pill groups** (x3): inline button groups → `<PillList size="sm">` with label↔value mapping
+- **Empty states** (x2): inline divs → `<EmptyState>`
+
+`pnpm build` passes. 3 files changed, 117 insertions, 114 deletions.

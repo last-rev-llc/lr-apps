@@ -1,0 +1,19 @@
+{
+  "summary": "Add Vitest + jsdom tests for Generations app: generation routing, slang term rendering, quiz flow, and auth gate redirects.",
+  "files": [
+    "apps/web/app/apps/generations/components/__tests__/slang-quiz.test.tsx",
+    "apps/web/app/apps/generations/components/__tests__/slang-dictionary.test.tsx",
+    "apps/web/app/apps/generations/components/__tests__/slang-app.test.tsx",
+    "apps/web/app/apps/generations/components/__tests__/generation-card.test.tsx",
+    "apps/web/app/apps/generations/lib/__tests__/generations.test.ts"
+  ],
+  "implementation": "Follow Dad Joke of the Day test patterns (Vitest + jsdom, @repo/test-utils, mock @repo/ui).\n\n1. `lib/__tests__/generations.test.ts` — Test getGeneration() returns correct config for valid slugs, undefined for invalid slugs. Test GENERATIONS array has all 6 entries with required fields. Test TRANSLATOR_MAPS has entries for each generation slug.\n\n2. `components/__tests__/slang-dictionary.test.tsx` — Mock @repo/ui (Input, Badge, Card, CardContent, PillList). Render SlangDictionary with fixture terms and gen config. Test: all terms render, search filters by term/definition/alias, category pill filters work, empty state shows when no matches, terms sorted by vibeScore descending.\n\n3. `components/__tests__/slang-quiz.test.tsx` — Mock @repo/ui (Button, Card, CardContent, Badge). Mock Math.random for deterministic quiz building. Test: renders question 1 of 10 with term and 4 options. Click correct answer → score increments, green highlight. Click wrong answer → red highlight, correct shown green. Click Next → advances to next question. After 10 questions → shows results screen with score, percentage, result message (test each tier: 90+, 70-89, 50-69, 30-49, <30). Try Again button restarts quiz.\n\n4. `components/__tests__/slang-app.test.tsx` — Mock child components (SlangDictionary, SlangTranslator, SlangQuiz). Render SlangApp with fixture data. Test: header shows gen name, emoji, era, term count. Tab switching renders correct child component (dictionary default, translator, quiz, trending). Trending tab shows top 20 terms sorted by vibe score.\n\n5. `components/__tests__/generation-card.test.tsx` — Mock next/link. Render GenerationCard with gen config and termCount. Test: renders gen name, emoji, era badge, tagline, term count, link points to /apps/generations/{slug}.\n\n6. Auth gate test: In slang-app or a dedicated layout test, mock requireAppLayoutAccess from @/lib/require-app-layout-access. Verify it's called with 'generations' slug. Test that when requireAccess throws (unauthorized), the layout does not render children.",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for the Generations app components, routing logic, quiz flow, and auth gating."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "This issue adds tests only — no UI changes. All verification is via `pnpm test` passing."
+  }
+}

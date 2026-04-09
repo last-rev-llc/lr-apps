@@ -1,0 +1,15 @@
+{
+  "issueNum": 71,
+  "title": "Add theme token lint rule",
+  "status": "success",
+  "duration": 695,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 6,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/115",
+  "timestamp": "2026-04-09T04:53:17.634Z",
+  "agent": "claude",
+  "model": ""
+}

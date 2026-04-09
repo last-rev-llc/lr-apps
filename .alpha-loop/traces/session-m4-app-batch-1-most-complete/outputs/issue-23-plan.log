@@ -1,0 +1,8 @@
+Plan written to `plan-issue-23.json`. Key decisions:
+
+- **EmptyState already exists** in `@repo/ui` — skipped from implementation, but DataGrid will use it internally for empty data states
+- **5 new components**: Table (multi-sub-component), DataGrid (higher-level wrapper), StatusBadge, LoadingSkeleton, ErrorBoundary
+- **Zero new deps** — all built on native HTML + existing Radix/CVA/cn patterns, matching button.tsx and card.tsx conventions
+- **StatusBadge** addresses the audit finding that 5+ apps use inline styles for status colors (published/draft/upcoming/past)
+- **Table + DataGrid** addresses the highest-priority gap — 15+ apps rebuild custom grid/card tables with sort/filter logic
+- **Tests via vitest** (already configured in package.json but no tests exist yet)

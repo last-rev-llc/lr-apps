@@ -1,0 +1,15 @@
+{
+  "issueNum": 5,
+  "title": "Update auth middleware for universal gate",
+  "status": "success",
+  "duration": 697,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 8,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/90",
+  "timestamp": "2026-04-07T23:20:08.897Z",
+  "agent": "claude",
+  "model": ""
+}

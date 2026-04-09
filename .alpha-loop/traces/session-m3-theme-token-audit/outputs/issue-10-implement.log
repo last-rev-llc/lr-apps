@@ -1,0 +1,26 @@
+All done. Here's a summary of what was implemented:
+
+**Theme extensions** (`packages/theme/`):
+- **globals.css**: Added `glass-header`, `glass-input`, `glass-overlay` utilities; `animate-cc-pop` utility; shared `cc-es-pop`, `tw-blink`, `marquee-scroll` keyframes
+- **theme.css**: Added `--shadow-glow-accent-sm`, `--shadow-glass-hover-strong`, `--shadow-lightbox`, `--shadow-glow-accent-md` tokens
+
+**Shadow replacements** (5 files in `packages/ui/`):
+- `media-card.tsx`: `hover:shadow-glow-accent-sm`
+- `lightbox.tsx`: `shadow-lightbox`
+- `filter-drawer.tsx`: `shadow-glass`
+- `pricing.tsx`: `shadow-glow-accent-md`
+- `travel-app.tsx`: `hover:shadow-glass-hover-strong`
+
+**Glass header replacements** (11 layout files): All replaced with `glass-header` utility
+
+**Glass card/overlay replacements**: dad-joke, cringe-rizzler, slang-translator, roblox-dances, superstars, wine-app inputs
+
+**Animation replacements**:
+- `confetti.tsx`: Removed inline keyframes injection (uses shared `confetti-fall`)
+- `typewriter.tsx`: Removed inline `<style>` (uses shared `tw-blink`)
+- `empty-state.tsx`: Replaced inline animation with `animate-cc-pop`
+- `marquee.tsx`: Removed duplicate `marquee-scroll` keyframes
+- `person-profile.tsx`: Reused shared `marquee-scroll`, kept dynamic `hero-glow` inline
+- `brommie-quake/page.tsx`: Extracted 590 lines of inline CSS to `brommie-quake.css`
+
+**32 files changed**, build passes cleanly.

@@ -1,0 +1,37 @@
+{
+  "summary": "Replace all hardcoded hex/rgb/rgba color values with Tailwind theme token classes across 22 files in command-center, sprint-planning, daily-updates, and sentiment apps.",
+  "files": [
+    "apps/web/app/apps/command-center/contentful/components/contentful-app.tsx",
+    "apps/web/app/apps/command-center/concerts/components/concerts-app.tsx",
+    "apps/web/app/apps/command-center/leads/components/leads-app.tsx",
+    "apps/web/app/apps/command-center/gallery/components/gallery-app.tsx",
+    "apps/web/app/apps/command-center/ai-scripts/components/ai-scripts-app.tsx",
+    "apps/web/app/apps/command-center/agents/components/agents-app.tsx",
+    "apps/web/app/apps/command-center/client-health/components/health-app.tsx",
+    "apps/web/app/apps/command-center/team-usf/components/team-usf-app.tsx",
+    "apps/web/app/apps/command-center/shopping-list/components/shopping-list-app.tsx",
+    "apps/web/app/apps/command-center/recipes/components/recipes-app.tsx",
+    "apps/web/app/apps/command-center/users/components/users-app.tsx",
+    "apps/web/app/apps/command-center/users/components/contact-detail.tsx",
+    "apps/web/app/apps/command-center/iron/components/iron-app.tsx",
+    "apps/web/app/apps/command-center/alphaclaw/components/alphaclaw-app.tsx",
+    "apps/web/app/apps/command-center/meme-generator/components/meme-generator-app.tsx",
+    "apps/web/app/apps/command-center/crons/components/crons-app.tsx",
+    "apps/web/app/apps/command-center/ideas/components/ideas-app.tsx",
+    "apps/web/app/apps/command-center/app-access/components/app-access-app.tsx",
+    "apps/web/app/apps/command-center/pr-review/components/pr-app.tsx",
+    "apps/web/app/apps/sprint-planning/components/sprint-app.tsx",
+    "apps/web/app/apps/daily-updates/components/feed-app.tsx",
+    "apps/web/app/apps/sentiment/components/sentiment-chart.tsx"
+  ],
+  "implementation": "Token mapping (packages/theme/src/theme.css defines all tokens):\n- #0f1629 / #0a0e1a → bg-navy / bg-navy-950\n- #1a1b3a / #171b4e → bg-navy-900\n- rgba(255,255,255,0.05-0.12) → bg-surface / bg-surface-hover / bg-surface-active\n- rgba(255,255,255,0.1) borders → border-surface-border\n- #f59e0b / amber → text-accent / bg-accent\n- #10b981 → text-green, #f87171/#ef4444 → text-red, #f97316 → text-orange, #38bdf8/#3b82f6 → text-blue\n- #a78bfa → text-neon-violet, #60a5fa → text-neon-blue, #4ade80 → text-neon-green, #f472b6 → text-neon-pink\n- #7c3aed → text-pill-0, #2563eb → text-pill-1, #22c55e → text-pill-2, etc. (pill-0 through pill-9)\n- rgba(0,0,0,0.3) shadows → shadow-glass / shadow-glass-sm\n- Inline style backgrounds using gradients → className with gradient-navy / gradient-accent\n\nSteps:\n1. Process each file: read it, map every hardcoded color to its theme token equivalent using the mapping above.\n2. For Tailwind arbitrary classes like bg-[#0f1629], replace with bg-navy. For text-[#f59e0b], replace with text-accent.\n3. For inline style colors (style={{ color: '#f59e0b' }}), convert to className-based approach using theme tokens.\n4. For rgba() values in inline styles (e.g. chart configs in sentiment-chart.tsx), use CSS custom properties: var(--color-green), var(--color-red), etc.\n5. For colors used in JS objects (chart datasets, color arrays in daily-updates), reference CSS variables via var(--color-pill-N) or var(--color-green) etc.\n6. Start with the highest-impact file (contact-detail.tsx, 42 instances) and work through command-center files, then sprint-planning, daily-updates, sentiment.\n7. Run `pnpm lint` and `pnpm build` after each batch to catch regressions.\n8. Six apps (accounts, standup, summaries, meeting-summaries, uptime, sales) have no hardcoded colors — no changes needed.",
+  "testing": {
+    "needed": true,
+    "reason": "Color token replacements affect rendering. Build verification needed to ensure no broken class references. Lint check ensures no remaining hardcoded values."
+  },
+  "verification": {
+    "needed": true,
+    "instructions": "For each modified app, navigate to its page and visually confirm colors match the original. Key checks: 1) Open command-center and verify navy backgrounds, accent highlights, and status colors render correctly. 2) Open sprint-planning and verify board colors. 3) Open daily-updates feed and verify pill/tag colors. 4) Open sentiment chart and verify chart line/area colors.",
+    "reason": "All changes affect user-visible UI colors across 10+ app views. Visual regression must be confirmed."
+  }
+}

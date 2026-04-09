@@ -1,0 +1,8 @@
+Plan written to `plan-issue-34.json`. Key migration points:
+
+1. **StatusBadge** - Remove the inline implementation (lines 27-50), use `@repo/ui` StatusBadge with `variant="success"|"error"|"warning"` and `dot` prop
+2. **PageHeader** - Replace raw h1/p markup (lines 91-98) with shared component
+3. **EmptyState** - Replace custom empty card (lines 112-130) with shared component
+4. **Status banner** - Align hardcoded colors with StatusBadge variant tokens
+5. **UptimeBars** - Update color classes to match theme (amber instead of yellow for consistency)
+6. **Build verification** - `pnpm build` must pass

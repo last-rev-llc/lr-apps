@@ -1,0 +1,1 @@
+Verification skipped by plan: Area 52 is an 'under construction' page with no meaningful UI beyond the auth gate. The auth redirect logic is already tested at the unit level in require-app-layout-access.test.ts and the new layout tests. No browser-level verification adds value here.

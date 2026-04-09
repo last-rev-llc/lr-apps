@@ -1,0 +1,19 @@
+{
+  "summary": "Remove publicEntry bypass from requireAppLayoutAccess, gate all apps universally, add publicRoutes escape hatch for webhooks/marketing pages",
+  "files": [
+    "apps/web/lib/app-registry.ts",
+    "apps/web/lib/require-app-layout-access.ts",
+    "apps/web/lib/__tests__/require-app-layout-access.test.ts",
+    "apps/web/lib/__tests__/app-registry.test.ts",
+    "packages/auth/src/require-access.ts"
+  ],
+  "implementation": "1. app-registry.ts: (a) Remove `publicEntry` field from AppConfig interface and from ai-calculator config. (b) Add optional `publicRoutes?: string[]` field to AppConfig — array of path patterns relative to the app routeGroup (e.g. [\"/\", \"/pricing\", \"/api/webhooks/**\"]). (c) Add `publicRoutes` to ai-calculator config with [\"/\"] so its landing page stays public. (d) Export a helper `isPublicRoute(appSlug: string, pathname: string): boolean` that checks the incoming pathname against the app's publicRoutes globs.\n\n2. require-app-layout-access.ts: (a) Remove the `if (cfg?.publicEntry) return;` bypass entirely. (b) Accept an optional second arg `pathname?: string`. (c) If pathname is provided and `isPublicRoute(appSlug, pathname)` returns true, return early (public escape hatch). (d) Otherwise always call `await requireAccess(appSlug)` — this is the universal gate.\n\n3. Layout files (13 auth apps + ai-calculator): Each layout already calls `requireAppLayoutAccess('slug')`. No changes needed — they now all gate by default since publicEntry bypass is removed. The ai-calculator layout can optionally pass pathname if its root should remain public.\n\n4. require-access.ts: Verify redirect uses `appSlug` in the redirect param (`/login?redirect=appSlug`). This already works — the Auth0 callback in auth0-factory.ts reads `ctx.returnTo` and redirects back, preserving the original app path. The subdomain is preserved because the rewrite in proxy.ts maps subdomain→routeGroup, so the browser stays on the original subdomain throughout the redirect flow. No changes needed here.\n\n5. app-registry.test.ts: (a) Remove test for `publicEntry` on ai-calculator. (b) Add test that ai-calculator has `publicRoutes` containing '/'. (c) Add test for `isPublicRoute` helper — matching and non-matching paths.\n\n6. require-app-layout-access.test.ts (NEW): (a) Mock `@repo/auth/server` requireAccess and `./app-registry` getAppBySlug/isPublicRoute. (b) Test: standard auth app (e.g. sentiment) always calls requireAccess. (c) Test: formerly-public-entry app (ai-calculator) with no pathname calls requireAccess. (d) Test: ai-calculator with pathname '/' skips requireAccess (public route). (e) Test: ai-calculator with pathname '/calculator' calls requireAccess. (f) Test: unknown slug still calls requireAccess. (g) Test: app with auth:false and no publicRoutes still calls requireAccess at layout level.",
+  "testing": {
+    "needed": true,
+    "reason": "Core auth gating logic is changing — removing a bypass that affected all apps. Must verify that formerly-public apps are now gated, publicRoutes escape hatch works correctly, and no regressions in existing auth flow."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "This is server-side middleware/auth logic with no UI changes. The gate either redirects to /login or allows through — testable entirely via unit tests mocking the auth and registry modules. No browser-visible UI to verify."
+  }
+}

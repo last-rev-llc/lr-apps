@@ -1,0 +1,1 @@
+Verification skipped by plan: This is a component library migration that swaps inline patterns for shared components with equivalent visual output. Build verification (pnpm build) is sufficient. The app requires authentication and Supabase data, making browser verification impractical without full environment setup.

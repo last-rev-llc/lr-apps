@@ -1,0 +1,9 @@
+**Review: PASSED**
+
+All acceptance criteria met:
+- `layout.tsx` calls `requireAppLayoutAccess("superstars")` 
+- Registry entry has `auth: true`
+- Tests cover unauthenticated → `/login`, unauthorized → `/unauthorized`, and happy path
+- `pnpm test` passes (all 166 tests across 23 test files)
+
+No issues found. The implementation follows the same pattern as the other auth-gated apps in this branch.

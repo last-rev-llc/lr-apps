@@ -1,0 +1,8 @@
+Done. All acceptance criteria met:
+
+- **layout.tsx** calls `requireAppLayoutAccess("roblox-dances")` 
+- **app-registry.ts** updated to `auth: true`
+- **4 smoke tests** pass: auth call verification, `/login` redirect, `/unauthorized` redirect, authenticated render
+- **All 105 tests pass** across 16 test files (8 packages)
+
+3 files changed: `layout.tsx`, `app-registry.ts`, and new `__tests__/layout.test.tsx`.

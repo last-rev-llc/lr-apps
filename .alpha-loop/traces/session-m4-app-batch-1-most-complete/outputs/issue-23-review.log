@@ -1,0 +1,17 @@
+## Review Complete — PASSED
+
+### Fixes applied (2 commits)
+
+1. **`a42ddab`** — Fixed broken ErrorBoundary reset test (critical: test had no assertion, wrong sequencing)
+2. **`9aa61c3`** — Added `"use client"` directive and `aria-sort` attribute to Table component (warning: missing client directive for interactive props, missing a11y attribute)
+
+### Verification
+- `pnpm build` passes
+- `pnpm test` — 31/31 tests pass
+- Gate result written to `review-issue-23.json` with `passed: true`
+
+### Info-level notes (not blocking)
+- ErrorBoundary can't use forwardRef (React class component requirement) — acceptable
+- Row selection lives on DataGrid, not bare Table — correct design
+- Native checkbox used in DataGrid (no Checkbox component exists yet)
+- String-based sorting could be enhanced with custom comparators in the future

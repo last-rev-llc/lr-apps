@@ -1,0 +1,21 @@
+Done. Here's a summary of what was changed across 7 files:
+
+**Alpha Wins** (`wins-gallery.tsx`):
+- `bg-amber-500/15 text-amber-400` → `bg-accent/15 text-accent` (4 occurrences)
+- `bg-blue-500/15 text-blue-400` → `bg-blue/15 text-blue` (4 occurrences)
+- `border-amber-500/30 text-amber-400` → `border-accent/30 text-accent` (1 Badge)
+- `border-blue-500/30 text-blue-400` → `border-blue/30 text-blue` (1 Badge)
+
+**Brommie Quake** (`brommie-quake.css`):
+- Added 4 new `:root` vars: `--quake-navy`, `--quake-navy-deep`, `--quake-near-black`, `--quake-dark-red`
+- ~25 inline `rgba()` values → `color-mix(in srgb, var(--quake-*) NN%, transparent)`
+- Inline `#001428`, `#002952`, `#0a0a0a`, `#8B0000` → new CSS vars
+- Exceptions preserved: CONFETTI_COLORS (DOM manipulation), themeColor (framework), `:root` var definitions, crack flash rgba
+
+**Superstars** (4 files):
+- Created `superstars.css` with `--ss-primary` and `--ss-accent` vars
+- `layout.tsx`: imported CSS, replaced `bg-[#0a0e1a]` → `bg-navy`, `#FDBB30`/`#00543C` → `var(--ss-*)` 
+- `page.tsx`: replaced hex values → `var(--ss-*)` 
+- `person-card.tsx` + `person-profile.tsx`: defaults changed from literal hex to `var(--ss-*)`, `#0a0e1a` → `bg-navy`
+
+All 54 tests pass, typecheck clean.

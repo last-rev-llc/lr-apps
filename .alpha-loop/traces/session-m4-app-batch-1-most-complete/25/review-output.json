@@ -1,0 +1,5 @@
+Review: All acceptance criteria met; hub page, sidebar, and auth tests are thorough and use @repo/test-utils; UI component tests are solid but use @testing-library/react directly
+- [warning] 6 UI package tests import from @testing-library/react directly instead of @repo/test-utils. Acceptable for low-level components that don't need app providers. (unfixed)
+- [info] PR scope includes 5 new UI components and 18 module refactors beyond the test-only scope of issue #25 (unfixed)
+- [info] console.error spy in error-boundary test lacks afterEach restore (low risk due to per-file isolation) (unfixed)
+- [info] Sidebar test asserts specific Tailwind classes (bg-white/15, w-14, w-56) making it brittle to styling changes (unfixed)

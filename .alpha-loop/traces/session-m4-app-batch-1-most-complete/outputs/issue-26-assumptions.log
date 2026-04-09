@@ -1,0 +1,20 @@
+I have enough context now. Here's the analysis:
+
+## Assumptions
+- **Assumed `purple` and `cyan` badge colors map to `neutral` variant** — The `StatusBadge` component only has 5 semantic variants (success, warning, error, info, neutral), but the original code had 7 color options. Purple and cyan were mapped to `neutral` with CSS class overrides to preserve their original appearance.
+- **Assumed `SectionCard` should be replaced with inline `Card`/`CardHeader`/`CardContent` composition** rather than creating a shared `SectionCard` wrapper in `@repo/ui`, since the issue asked for migration to `@repo/ui` components.
+- **Assumed `Row` component should be inlined** rather than promoted to `@repo/ui` — the `Row` was a simple flex container with border styling, used only in this file. It was replaced with inline div styling rather than creating a shared component.
+- **Assumed `Empty` → `EmptyState` mapping uses `title` prop** — the original `Empty` took a `message` string prop; the new `EmptyState` component uses `title`. The `className="py-2"` was added to approximate the original compact sizing since `EmptyState` likely has more padding by default.
+
+## Decisions
+- **Created 5 new shared components in `@repo/ui`** (Table, DataGrid, StatusBadge, LoadingSkeleton, ErrorBoundary) — these were needed to satisfy the migration requirement but didn't exist yet. This was a broader scope decision since the issue only mentioned Accounts, but the components are reusable.
+- **Kept `ColorBadge` as a local wrapper** — rather than making `StatusBadge` support arbitrary color names directly, a thin `ColorBadge` wrapper maps the app-specific color vocabulary (green/amber/red/purple/blue/gray/cyan) to `StatusBadge` variants with CSS overrides. This keeps the shared component semantically clean.
+- **Used `Button` with `asChild` for external links** — the original inline `<a>` tags with Tailwind button-like styling were replaced with `<Button variant="outline" size="sm" asChild>` wrapping the anchor, which is the idiomatic Radix/shadcn pattern.
+- **Jira pending-reauth banner changed from custom div to `StatusBadge`** — the original was a styled div with icon + text. The migration simplified this to a `StatusBadge variant="warning" dot` which is more compact but semantically equivalent.
+- **`StatusBadge` uses `emerald` instead of `green`** for the success variant — a subtle color shift from the original `green-500` tokens to `emerald-500`, which is a common design system convention.
+
+## Items to Validate
+- **Visual parity of badge colors** — the `purple` and `cyan` badge overrides use class-based styling on top of `StatusBadge`'s neutral base. Verify these look correct in dark mode especially, since the override pattern (`dark:text-purple-400`) may interact differently with the base `neutral` variant styles.
+- **`EmptyState` sizing in compact contexts** — the `className="py-2"` override was used throughout to keep empty states compact. Verify these don't look too cramped or inconsistent vs. the original italic muted text.
+- **New shared components scope** — 5 new components were added to `@repo/ui` as part of this migration. Verify these (Table, DataGrid, StatusBadge, LoadingSkeleton, ErrorBoundary) align with the design system direction and aren't duplicating anything planned separately.
+- **`CardHeader` border behavior** — the original `SectionCard` had an explicit `border-b border-surface-border` between title and content. Verify the `CardHeader` component renders a similar divider, or if one is needed.

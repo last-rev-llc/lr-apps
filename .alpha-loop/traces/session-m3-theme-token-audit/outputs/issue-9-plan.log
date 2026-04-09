@@ -1,0 +1,7 @@
+Plan written to `plan-issue-9.json`. Key decisions:
+
+- **Single script** (`scripts/audit-tokens.ts`) using tsx — scans all 146+ TSX files across 27 apps + command-center sub-apps
+- **6 violation types**: hex colors, rgb/rgba/oklch, Tailwind hardcoded color classes, shadows, border-radius, font-family
+- **3 severity levels**: high (inline hex/rgb), medium (Tailwind hardcoded colors), low (potentially intentional)
+- **Output**: per-app markdown report in `docs/token-violations-report.md` with summary table and detailed violation listings
+- **No tests needed** — read-only audit tool; no UI verification needed

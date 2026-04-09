@@ -1,0 +1,2 @@
+Review: All acceptance criteria met — test-utils package complete with mock helpers, barrel exports, tests passing, and test scripts wired across all packages.
+- [info] .env.compose file added but unrelated to issue #3 scope (sets COMPOSE_PROJECT_NAME=lr-apps) (unfixed)

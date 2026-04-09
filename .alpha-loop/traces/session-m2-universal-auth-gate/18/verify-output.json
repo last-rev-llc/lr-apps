@@ -1,0 +1,1 @@
+Verification skipped by plan: Auth gate logic is tested via unit tests mocking requireAppLayoutAccess. Browser verification would require auth credentials and session setup not suitable for automated playwright checks.

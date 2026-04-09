@@ -1,0 +1,9 @@
+**Review: PASSED**
+
+All acceptance criteria met:
+- `layout.tsx` calls `requireAppLayoutAccess("proper-wine-pour")` 
+- Registry has `auth: true`
+- Tests cover unauthenticated → `/login`, unauthorized → `/unauthorized`, and happy path
+- All 172 tests pass across 8 suites
+
+No issues found. The implementation is clean, follows the same pattern as the other auth gate commits on this branch, and is correctly wired end-to-end.

@@ -1,0 +1,18 @@
+Now I have the full picture. Here's the analysis:
+
+## Assumptions
+- Assumed the `PageHeader` component combining emoji + title as a single string (`"📝 Meeting Summaries"`) in the layout was acceptable, rather than keeping the emoji as a separate icon element — the original had them as distinct `<span>` and `<h1>` elements
+- Assumed `debounce={0}` on `Search` was the right default to preserve the original instant-filter behavior (the `Search` component likely defaults to some debounce)
+- Assumed inline `className` overrides on `Badge` (e.g., `bg-amber-500/15 text-amber-400`) are acceptable to preserve the existing color scheme rather than creating named Badge variants
+
+## Decisions
+- **PillList label/value mapping**: The original filters used raw values (`"7"`, `"all"`, `"open"`) directly. The migration introduced `labelForValue`/`valueForLabel` helpers to bridge PillList's label-based API with the existing value-based state — an alternative would have been to refactor state to use labels directly
+- **Kept custom `SentimentBadge` and `SummaryCard` as local components** rather than promoting them to `@repo/ui`, since they're domain-specific to meeting summaries
+- **Preserved all custom color classes via className overrides** on `Badge` rather than defining new variant props — prioritized minimal API surface over full design-token adoption
+- **Replaced inline empty states with `EmptyState` component** using icon+title only (no description), matching the original's minimal style
+
+## Items to Validate
+- **PillList visual parity**: The original filter pills had explicit active (`bg-amber-500 text-black`) and inactive (`border-surface-border text-muted-foreground`) styles — verify PillList's default styling matches or is close enough
+- **Button styling on action items**: Original buttons had hover effects (`hover:border-amber-500/40 hover:bg-amber-500/8`) specific to the amber theme — `Button variant="outline"` may look different
+- **Layout header border removal**: The original layout had `border-b border-surface-border` on the header wrapper which was removed during migration — verify this was intentional and doesn't break visual separation
+- **StatCard rendering**: Original stats used custom `glass` class and specific sizing — verify `StatCard size="sm"` produces equivalent output

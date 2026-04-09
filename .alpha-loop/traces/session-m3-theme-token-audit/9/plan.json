@@ -1,0 +1,16 @@
+{
+  "summary": "Create a scanning script that audits all 27+ apps for hardcoded design token violations and generates a per-app markdown report in docs/",
+  "files": [
+    "scripts/audit-tokens.ts",
+    "docs/token-violations-report.md"
+  ],
+  "implementation": "1. Create `scripts/audit-tokens.ts` — a Node/ts-node script that:\n   a. Glob-scans all TSX files under `apps/web/app/apps/` (146+ files across 27 apps including command-center sub-apps)\n   b. Detects violations via regex patterns:\n      - Hex colors: `#[0-9a-fA-F]{3,8}` in className strings and style objects (exclude CSS var definitions in theme files)\n      - RGB/RGBA/OKLCH: `rgba?\\(`, `oklch\\(` in inline styles and template literals\n      - Tailwind hardcoded colors: classes like `text-red-500`, `bg-blue-400/20`, `border-amber-500`, `from-cyan-500`, `to-purple-600` etc. (any Tailwind color-number pattern not using semantic tokens like `primary`, `accent`, `destructive`, `muted`)\n      - Hardcoded shadows: `boxShadow:` or `shadow-[` with raw values instead of `var(--shadow-*)`\n      - Hardcoded border-radius: `borderRadius:` or `rounded-[` with raw pixel/rem values instead of `var(--radius-*)`\n      - Hardcoded font-family: `fontFamily:` or `font-[` with raw font names instead of `var(--font-*)`\n   c. Categorize each violation with: file path, line number, violation type (color|shadow|radius|font), raw value, severity (high=inline hex/rgb, medium=Tailwind hardcoded color class, low=potentially intentional)\n   d. Group results by app name (derive from path: `apps/web/app/apps/{appName}/`)\n   e. Output structured JSON to stdout and generate markdown report\n\n2. Generate `docs/token-violations-report.md`:\n   - Summary table: app name | total violations | by type breakdown\n   - Per-app section with violation details sorted by severity\n   - Include the existing token alternatives from `packages/theme/src/theme.css` (e.g., `--color-accent`, `--color-surface`, `--shadow-glass`, `--radius-glass`, `--font-heading`)\n\n3. Add a package.json script entry: `\"audit:tokens\": \"npx tsx scripts/audit-tokens.ts\"`\n\n4. Run the script, review output, commit report to `docs/`",
+  "testing": {
+    "needed": false,
+    "reason": "This is a read-only audit/reporting script — it scans files and produces a report. No application behavior is changed. The script's correctness is verified by running it and reviewing the output."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "No UI changes — this creates a CLI scanning tool and a markdown report document. There is nothing to verify in a browser."
+  }
+}

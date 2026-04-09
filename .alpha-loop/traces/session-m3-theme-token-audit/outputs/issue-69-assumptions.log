@@ -1,0 +1,23 @@
+## Assumptions
+
+- **Assumed pill token colors are acceptable replacements for bespoke palette colors.** E.g., `#ec4899` (pink-500) → `pill-6`, `#a855f7` (purple-500) → `pill-0`, `#ef4444` (red-500) → `pill-4`. These are semantically close but not identical hex values — the pill tokens may differ slightly in hue/saturation.
+- **Assumed `--color-red` is an appropriate stand-in for wine-specific colors** (`#722F37` dark wine red, `#8B0000` dark red). These had distinct visual meanings (wine hue) that `--color-red` may not precisely match.
+- **Assumed `--color-accent` (amber/gold) is appropriate for champagne and white wine fill colors** (`#e8d44d`, `#f0e68c`). The originals were specifically yellow/gold; `accent` may shift if the theme changes.
+- **Assumed `color-mix(in srgb, ...)` has sufficient browser support.** Used as a replacement for hardcoded `rgba()` gradients in the wine pour app's "Golden Rule" card. This requires modern browsers.
+- **Assumed `oklch(0% 0 0 / 0.2)` is equivalent to `rgba(0,0,0,0.2)` for `glass-input`.** Review caught this was initially using `rgba` and it was changed to `oklch` for consistency — functionally equivalent but a deliberate consistency choice.
+
+## Decisions
+
+- **Created new shared tokens rather than only using existing ones.** Added `glass-header`, `glass-input`, `glass-overlay` utilities, `--color-slate*` tokens, `--color-brand-*` tokens, and several `--shadow-glow-*` variants. This avoided forcing unrelated semantics onto existing tokens.
+- **Used `hover:bg-green/80` pattern instead of creating separate hover tokens.** For buttons like "Start First Practice," used Tailwind opacity modifier on the theme color rather than defining `--color-green-hover`. Trades a slight opacity shift for fewer tokens.
+- **Preserved context-specific inline styles for one-off effects.** Glow effects on the wine pour meter, ambient blob gradients in cringe-rizzler, and quiz accent shadows were kept as inline styles using CSS custom properties rather than being extracted to shared utilities — they're unique to one app.
+- **Mapped Tailwind default palette classes to nearest semantic token** (e.g., `text-emerald-400` → `text-green`, `text-amber-400` → `text-accent`, `bg-emerald-600` → `bg-green`). Chose the closest semantic match over creating app-specific aliases.
+- **Added light-theme overrides for all new shadow tokens** (with reduced opacity) after review flagged the omission.
+
+## Items to Validate
+
+- **Wine app visual colors.** The wine-specific reds (`#722F37`, `#8B0000`) were mapped to the generic `--color-red` token. Verify the wine glass SVGs and pour ratings still look contextually appropriate (wine-colored, not fire-engine red).
+- **Champagne/white wine fill colors.** These were yellow/gold (`#e8d44d`, `#f0e68c`) and now use `--color-accent`. If accent is amber-toned this works; confirm it doesn't look wrong for champagne.
+- **Cringe Rizzler gradient background.** The three-stop navy gradient was replaced with `var(--gradient-navy-3)`. Verify this variable exists and produces a similar atmospheric effect.
+- **Visual regression baselines were NOT created** — this was an acceptance criterion that remains unmet due to missing Playwright visual comparison infrastructure.
+- **`color-mix()` rendering in target browsers.** Used in the wine app's Golden Rule card background. If you need to support older browsers, this may need a fallback.

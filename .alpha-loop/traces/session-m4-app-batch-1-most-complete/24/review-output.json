@@ -1,0 +1,7 @@
+Review: Migration is functionally complete for hub page and sidebar layout; 5 new @repo/ui components are well-tested but unused in app code; several inline patterns remain in sub-module files
+- [warning] New @repo/ui components (DataGrid, Table, StatusBadge, LoadingSkeleton, ErrorBoundary) are exported and tested but never imported or used in any command-center app files. They are dead code from the perspective of this migration. DataGrid/Table could replace card-based lists, StatusBadge could replace local StatusBadge in pr-app.tsx, ErrorBoundary could replace the inline error.tsx pattern. (unfixed)
+- [info] meetings-app.tsx uses raw <input> elements (lines 350, 395) with inline Tailwind styling instead of @repo/ui Search or Input components, unlike other migrated files (agents-app, pr-app) which use <Search>. (unfixed)
+- [info] shopping-list-app.tsx uses raw <input> elements (lines 133, 142) and raw <button> elements (lines 248, 270) with inline Tailwind styling for the checkbox toggle and remove button, instead of @repo/ui Input/Button. (unfixed)
+- [info] error.tsx uses a raw <button> with inline Tailwind instead of @repo/ui Button. Could also use the new ErrorBoundary component pattern. (unfixed)
+- [info] pr-app.tsx defines a local StatusBadge function (line 60) that duplicates the purpose of @repo/ui StatusBadge, which was created as part of this migration but is not used here. (unfixed)
+- [info] agents-app.tsx uses a raw <button> (line 154) for the config toggle instead of @repo/ui Button. (unfixed)

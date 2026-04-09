@@ -1,0 +1,15 @@
+{
+  "issueNum": 33,
+  "title": "Meeting Summaries: app-specific tests",
+  "status": "success",
+  "duration": 976,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/131",
+  "timestamp": "2026-04-09T06:42:11.425Z",
+  "agent": "claude",
+  "model": ""
+}

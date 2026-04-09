@@ -1,0 +1,13 @@
+Done. Here's a summary:
+
+**22 files changed, 262 insertions, 248 deletions**
+
+### What was done
+- **theme.css**: Added 10 new tokens — neutral/slate colors (`--color-slate`, `--color-slate-dim`, `--color-slate-light`) and brand colors (`--color-brand-linkedin`, `--color-brand-slack`, `--color-brand-slack-accent`, `--color-brand-jira`, `--color-brand-zoom`, `--color-brand-github`, `--color-brand-google`)
+- **21 app files**: Replaced all hardcoded hex values with `var(--color-*)`, all `rgba()` values with `color-mix(in srgb, var(--color-*) N%, transparent)`, and all arbitrary Tailwind classes (`bg-[#hex]`) with theme token classes
+
+### Verification
+- Zero hardcoded hex/rgb/rgba values remain in any target app
+- `pnpm build` passes cleanly
+- Meme generator template colors left as-is (content output, not UI theming)
+- 6 apps confirmed clean with no changes needed: accounts, standup, summaries, meeting-summaries, uptime, sales

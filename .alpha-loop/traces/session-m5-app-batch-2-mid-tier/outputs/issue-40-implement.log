@@ -1,0 +1,6 @@
+Done. Here's what changed in `joke-viewer.tsx`:
+
+1. **Category filter pills** (lines 146-171): Raw `<button>` elements replaced with `Badge variant="outline"` — preserves the amber active/white inactive styling via className
+2. **Rating buttons** (lines 206-214): Raw `<button>` elements replaced with `Button variant="outline" size="icon"` — preserves emoji content, disabled state, and hover/scale animation
+
+No changes needed in `about/page.tsx` since it already uses `@repo/ui` components. Build passes cleanly.

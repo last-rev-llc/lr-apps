@@ -1,0 +1,15 @@
+{
+  "issueNum": 31,
+  "title": "Summaries: app-specific tests",
+  "status": "success",
+  "duration": 704,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/126",
+  "timestamp": "2026-04-09T06:16:08.453Z",
+  "agent": "claude",
+  "model": ""
+}

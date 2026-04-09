@@ -1,0 +1,22 @@
+## Assumptions
+- **Sorting is client-side only** — requirements said "sortable columns" but didn't specify server-side sorting. Implemented local state sorting with asc/desc/none cycling. If apps need server-driven sort (e.g., paginated APIs), the DataGrid will need an `onSort` callback mode.
+- **Row selection uses string IDs** — assumed `keyField` defaults to `"id"` and selection callbacks return `string[]`. If any app uses numeric or composite keys, this may need adjustment.
+- **StatusBadge variant names (`success`, `warning`, `error`, `info`, `neutral`, `pending`)** — inferred from common semantic patterns since the issue only said "semantic color variants" without specifying which ones.
+- **LoadingSkeleton shapes (`line`, `circle`, `rect`, `card`)** — "configurable shapes" wasn't enumerated; chose these four as the most common skeleton patterns across dashboards.
+- **ErrorBoundary is a class component** — React requires this for error boundaries. The `"use client"` directive is implicit since class components can't be server components.
+- **No external dependencies added for DataGrid** — requirements didn't mention a library like TanStack Table. Built a lightweight implementation composing the Table primitives. This trades off advanced features (virtualization, pagination, column resizing) for simplicity.
+
+## Decisions
+- **DataGrid composes Table primitives** rather than being standalone — keeps a single styling source and allows apps to use either the low-level `Table` or the higher-level `DataGrid`.
+- **Card skeleton renders a composite layout** (multiple nested lines) rather than a plain rectangle — more useful as a realistic content placeholder out of the box.
+- **StatusBadge `pending` variant uses `animate-pulse`** to visually distinguish in-progress states from static ones.
+- **Table wraps `<table>` in an overflow div** for mobile responsiveness — standard pattern but adds a wrapper element to the DOM.
+- **ErrorBoundary default fallback uses `border-destructive` tokens** from the theme rather than hardcoded red — ties into the existing design system but assumes that token exists.
+- **Added `@testing-library/react`, `@testing-library/jest-dom`, `@testing-library/user-event`, and `jsdom` as devDependencies** — these weren't in `@repo/ui` before; chose them as the standard React testing stack.
+
+## Items to Validate
+- **Verify the 6 StatusBadge variant names** match what your apps actually use — if any app uses terms like `active`, `inactive`, `draft`, you may want additional variants.
+- **DataGrid doesn't support pagination, column resizing, or virtualization** — confirm this lightweight scope is sufficient for M4–M6 migrations, or flag if any app needs those features.
+- **The `pending` pulse animation** — check that this UX pattern aligns with your design system's motion guidelines.
+- **Dark mode color tokens** (e.g., `dark:bg-emerald-400/20`) — verify these render correctly against your actual dark theme palette, since the issue only said "support theme tokens and dark mode" without specifying exact values.
+- **The `apps/web/next-env.d.ts` change** (`.next/dev/types/routes.d.ts` → `.next/types/routes.d.ts`) was included in this branch — appears to be an unrelated auto-generated file change that may have been picked up during build.

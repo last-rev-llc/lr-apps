@@ -1,0 +1,64 @@
+diff --git a/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx b/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx
+index 117f3b6..51c19b9 100644
+--- a/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx
++++ b/apps/web/app/apps/dad-joke-of-the-day/components/joke-viewer.tsx
+@@ -143,30 +143,32 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps)
+     <div className="space-y-6">
+       {/* Category filter */}
+       <div className="flex flex-wrap gap-2 justify-center">
+-        <button
++        <Badge
++          variant="outline"
+           onClick={() => handleCategoryChange("all")}
+           className={[
+-            "px-3 py-1 rounded-full text-sm border transition-colors",
++            "cursor-pointer rounded-full transition-colors",
+             selectedCategory === "all"
+               ? "border-amber-400 bg-amber-400/10 text-amber-400"
+               : "border-white/10 text-muted-foreground hover:border-white/30",
+           ].join(" ")}
+         >
+           All
+-        </button>
++        </Badge>
+         {categories.map((cat) => (
+-          <button
++          <Badge
+             key={cat}
++            variant="outline"
+             onClick={() => handleCategoryChange(cat)}
+             className={[
+-              "px-3 py-1 rounded-full text-sm border transition-colors",
++              "cursor-pointer rounded-full transition-colors",
+               selectedCategory === cat
+                 ? "border-amber-400 bg-amber-400/10 text-amber-400"
+                 : "border-white/10 text-muted-foreground hover:border-white/30",
+             ].join(" ")}
+           >
+             {cat}
+-          </button>
++          </Badge>
+         ))}
+       </div>
+ 
+@@ -203,15 +205,17 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps)
+                   </p>
+                   <div className="flex flex-wrap gap-2 justify-center">
+                     {RATINGS.map(({ key, emoji, label }) => (
+-                      <button
++                      <Button
+                         key={key}
++                        variant="outline"
++                        size="icon"
+                         title={label}
+                         onClick={() => rateJoke(key)}
+                         disabled={ratingSubmitting}
+-                        className="text-2xl p-2 rounded-xl border-2 border-white/10 bg-white/5 hover:border-amber-400 hover:scale-110 transition-all disabled:opacity-50"
++                        className="text-2xl h-11 w-11 rounded-xl border-2 border-white/10 bg-white/5 hover:border-amber-400 hover:scale-110 transition-all"
+                       >
+                         {emoji}
+-                      </button>
++                      </Button>
+                     ))}
+                   </div>
+                 </div>

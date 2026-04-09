@@ -1,0 +1,10 @@
+Review: All critical and warning findings fixed. Hover state regressions repaired, null-state color opacity restored, remaining amber scale classes migrated to accent tokens.
+- [critical] hover:text-blue identical to text-blue in accounts-app.tsx — no visual hover feedback on 3 link elements. Fixed by using hover:text-blue/80 for opacity-based hover differentiation. (fixed)
+- [critical] uptimeColor/responseTimeColor null-state replaced rgba(255,255,255,0.3) (30% transparent white) with opaque var(--color-slate-light) (#e2e8f0) — far too bright for 'no data' indicator. Fixed by using color-mix(in srgb, white 30%, transparent) to preserve original translucent intent. (fixed)
+- [warning] media-card.tsx hover:border-amber-500/50 not migrated despite shadow being migrated in same line. Fixed to hover:border-accent/50. (fixed)
+- [warning] pricing.tsx border-amber-400/60 not migrated despite shadow being migrated in same line. Fixed to border-accent/60. (fixed)
+- [info] confetti.tsx, marquee.tsx, typewriter.tsx keyframes moved from inline <style> to global CSS — components are no longer self-contained. Works in current monorepo setup but would break if UI package used standalone without global CSS. (unfixed)
+- [info] glass-input utility uses rgba(0,0,0,0.2) instead of oklch format used by sibling utilities glass-header and glass-overlay — minor format inconsistency. (unfixed)
+- [info] New shadow tokens (shadow-glow-accent-sm, shadow-glow-accent-md, shadow-lightbox, shadow-glass-hover-strong) have no light theme overrides in [data-theme='light'] block. May be too heavy in light mode. (unfixed)
+- [info] Commit 659fb66 says 'closes #68' but this is batch 1 — auto-close keyword may prematurely close the issue. (unfixed)
+- [info] Visual regression baseline snapshots per app were not created (acceptance criterion). Requires Playwright visual comparison infrastructure outside scope of token replacement. (unfixed)

@@ -1,0 +1,7 @@
+Review: All showcase apps successfully migrated to theme tokens. Fixed 2 remaining green-500/green-400 hardcoded classes in travel-collection.
+- [warning] Two instances of bg-green-500/20 text-green-400 border-green-500/30 remained in travel-collection property cards (lines 204, 271). Replaced with bg-green/20 text-green border-green/30. (fixed)
+- [info] hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] in alpha-wins wins-gallery.tsx uses inline rgba for a shadow. Could use shadow-glass-hover from theme, but shadows are not color tokens per se. (unfixed)
+- [info] Superstars uses text-white/bg-white extensively rather than text-foreground — pre-existing and intentional for its dark branded theme with custom --ss-* CSS variables. (unfixed)
+- [info] Brommie Quake CSS extraction to brommie-quake.css with local --quake-* custom properties is appropriate for this heavily branded page. All class names bq-prefixed to avoid collisions. (unfixed)
+- [info] themeColor hex values in metadata exports (layout.tsx files) must be literal strings for HTML meta tags — correctly left as hardcoded hex. (unfixed)
+- [info] Per-person hex colors in superstars/data/people.json are data-driven brand colors consumed via style props — cannot be replaced with theme tokens. (unfixed)

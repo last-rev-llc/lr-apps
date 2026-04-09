@@ -1,0 +1,15 @@
+{
+  "issueNum": 47,
+  "title": "Cringe Rizzler: app-specific tests",
+  "status": "success",
+  "duration": 424,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/136",
+  "timestamp": "2026-04-09T07:10:38.797Z",
+  "agent": "claude",
+  "model": ""
+}

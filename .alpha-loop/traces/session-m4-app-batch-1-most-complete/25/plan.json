@@ -1,0 +1,17 @@
+{
+  "summary": "Add Vitest test coverage for Command Center hub page rendering, sidebar navigation, and auth gate redirect behavior.",
+  "files": [
+    "apps/web/app/apps/command-center/__tests__/page.test.tsx",
+    "apps/web/app/apps/command-center/__tests__/layout.test.tsx",
+    "packages/ui/src/components/__tests__/sidebar.test.tsx"
+  ],
+  "implementation": "1. Create `apps/web/app/apps/command-center/__tests__/page.test.tsx`: Import CommandCenterPage and render with `renderWithProviders` from `@repo/test-utils`. Test that all 21 module cards render with correct label, icon, description, and category badge. Test that each card links to `/apps/command-center/{slug}`. Test that stat cards show correct values (21 Modules, 21 Routes, 7 Categories, Active). 2. Create `apps/web/app/apps/command-center/__tests__/layout.test.tsx`: Mock `@repo/auth/server` (requireAccess) and `../../../lib/require-app-layout-access` (requireAppLayoutAccess). For authenticated user: mock requireAppLayoutAccess to resolve, render layout, verify Sidebar receives all 22 items (Hub + 21 modules) with correct hrefs, verify Topbar renders with title. For unauthenticated user: mock requireAccess to call `redirect('/login?redirect=command-center')` via vi.mock of `next/navigation`, verify redirect is triggered. For user without permission: mock requireAccess to call `redirect('/unauthorized?app=command-center')`, verify redirect. Note: layout is an async server component so test the auth logic by testing requireAccess directly (already partially covered in require-app-layout-access.test.ts) and test the rendered output by mocking requireAppLayoutAccess to be a no-op. 3. Create `packages/ui/src/components/__tests__/sidebar.test.tsx`: Render Sidebar with sample SidebarItem array via `renderWithProviders`. Test all items render as links with correct href and label. Test collapsed mode hides labels. Test active item gets active styling class. Test toggle button calls onToggle callback.",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for existing components and auth behavior."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "No UI or behavior changes - this issue only adds tests for existing functionality. All verification is via `pnpm test`."
+  }
+}

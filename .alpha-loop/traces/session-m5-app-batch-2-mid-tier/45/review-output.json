@@ -1,0 +1,1 @@
+Review: All acceptance criteria met: slang lookup, bi-directional display, auth gate, and pnpm test all pass (153 tests). Component refactors to @repo/ui primitives are clean.

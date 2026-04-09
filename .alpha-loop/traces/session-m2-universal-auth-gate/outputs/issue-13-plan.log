@@ -1,0 +1,5 @@
+Plan written to `plan-issue-13.json`. Three files to touch:
+
+1. **app-registry.ts** — flip `auth: false` to `auth: true` for alpha-wins
+2. **alpha-wins/layout.tsx** — import and call `requireAppLayoutAccess("alpha-wins")`
+3. **alpha-wins/__tests__/layout.test.tsx** — create smoke tests (4 cases: gate called, /login redirect, /unauthorized redirect, children render)

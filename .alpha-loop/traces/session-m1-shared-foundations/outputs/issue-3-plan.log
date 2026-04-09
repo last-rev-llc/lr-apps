@@ -1,0 +1,7 @@
+Plan written to `plan-issue-3.json`. Key decisions in the plan:
+
+- **Vitest workspace file** at root (`vitest.workspace.ts`) pointing to `apps/*` and `packages/*` — each package keeps its own config
+- **@repo/test-utils** with three exports: `createMockSupabase()` (chainable, typed against the `Database` type from `@repo/db`), `createMockAuth0()` (session + client mocks matching `@auth0/nextjs-auth0` shapes), and `renderWithProviders()` (testing-library wrapper)
+- **Self-tests** for the mock helpers to confirm they work before other packages depend on them
+- **Test scripts** added to `db`, `ui` packages (with vitest); placeholder scripts for `theme` and `config` (no testable code)
+- **Skipped**: `@repo/theme` (CSS-only) and `@repo/config` (config-only) don't need vitest as a devDep, just a placeholder script

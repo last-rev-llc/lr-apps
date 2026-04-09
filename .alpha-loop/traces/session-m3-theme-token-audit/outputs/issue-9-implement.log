@@ -1,0 +1,18 @@
+Done. Here's what was implemented:
+
+**`scripts/audit-tokens.ts`** — scans all 217 TSX/TS/CSS files across 27 apps and detects:
+- Hardcoded hex colors (`#f59e0b`, `#4ade80`, etc.)
+- Hardcoded `rgb()`/`rgba()` values
+- Hardcoded `oklch()` values (outside CSS var definitions)
+- Tailwind hardcoded color classes (`text-red-500`, `bg-blue-400/20`, etc.)
+- Hardcoded `boxShadow` and `shadow-[...]` values
+- Hardcoded `borderRadius` and `rounded-[...]` values
+- Hardcoded `fontFamily` and `font-[...]` values
+
+**`docs/token-violations-report.md`** — 1,871-line report with:
+- Summary tables (by severity and type)
+- Per-app summary table (all 27 apps ranked by violation count)
+- Available theme token reference
+- Per-app detailed violation tables with file, line, type, and value
+
+**Results**: 1,525 violations found (593 high, 932 medium). Command-center has the most (560), and only `sales` has zero violations. Run with `pnpm audit:tokens` or `npx tsx scripts/audit-tokens.ts --json` for JSON output.

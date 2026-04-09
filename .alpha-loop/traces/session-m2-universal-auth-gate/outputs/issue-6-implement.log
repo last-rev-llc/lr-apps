@@ -1,0 +1,7 @@
+Done. Here's what was changed:
+
+1. **`apps/web/lib/app-registry.ts:80`** — `auth: false` → `auth: true` for area-52
+2. **`apps/web/app/apps/area-52/layout.tsx`** — made async, added `await requireAppLayoutAccess("area-52")` call
+3. **`apps/web/app/apps/area-52/__tests__/layout.test.tsx`** — 4 tests covering: auth gate called with correct slug, unauthenticated redirect, unauthorized redirect, and successful authenticated access
+
+All 58 web tests and 91 total workspace tests pass.

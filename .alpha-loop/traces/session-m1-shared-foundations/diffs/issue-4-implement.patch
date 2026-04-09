@@ -1,0 +1,286 @@
+diff --git a/.env.compose b/.env.compose
+new file mode 100644
+index 0000000..d61b898
+--- /dev/null
++++ b/.env.compose
+@@ -0,0 +1 @@
++COMPOSE_PROJECT_NAME=lr-apps
+diff --git a/packages/db/package.json b/packages/db/package.json
+index 1070a33..dfe267d 100644
+--- a/packages/db/package.json
++++ b/packages/db/package.json
+@@ -3,6 +3,9 @@
+   "version": "0.0.0",
+   "private": true,
+   "type": "module",
++  "scripts": {
++    "test": "vitest run"
++  },
+   "exports": {
+     ".": "./src/index.ts",
+     "./server": "./src/server.ts",
+@@ -21,6 +24,7 @@
+   "devDependencies": {
+     "@repo/config": "workspace:*",
+     "next": "^16",
+-    "typescript": "^5"
++    "typescript": "^5",
++    "vitest": "^3"
+   }
+ }
+diff --git a/packages/db/src/__tests__/queries.test.ts b/packages/db/src/__tests__/queries.test.ts
+new file mode 100644
+index 0000000..0cdb0ae
+--- /dev/null
++++ b/packages/db/src/__tests__/queries.test.ts
+@@ -0,0 +1,119 @@
++import { describe, it, expect, vi } from "vitest";
++import { getAppPermission, getUserSubscription, upsertPermission } from "../queries";
++import type { SupabaseClient } from "@supabase/supabase-js";
++import type { Database, AppPermission, SubscriptionRow } from "../types";
++
++function mockClient(result: { data: unknown; error: unknown }) {
++  const chain = {
++    from: vi.fn().mockReturnThis(),
++    select: vi.fn().mockReturnThis(),
++    eq: vi.fn().mockReturnThis(),
++    maybeSingle: vi.fn().mockResolvedValue(result),
++    upsert: vi.fn().mockReturnThis(),
++    single: vi.fn().mockResolvedValue(result),
++  };
++  return chain as unknown as SupabaseClient<Database>;
++}
++
++describe("getAppPermission", () => {
++  it("returns permission when found", async () => {
++    const client = mockClient({ data: { permission: "edit" }, error: null });
++    const result = await getAppPermission(client, "user-1", "command-center");
++    expect(result).toBe("edit");
++  });
++
++  it("returns null when no row found", async () => {
++    const client = mockClient({ data: null, error: null });
++    const result = await getAppPermission(client, "user-1", "unknown-app");
++    expect(result).toBeNull();
++  });
++
++  it("throws on error", async () => {
++    const client = mockClient({ data: null, error: new Error("db error") });
++    await expect(getAppPermission(client, "user-1", "app")).rejects.toThrow("db error");
++  });
++
++  it("calls correct table and filters", async () => {
++    const client = mockClient({ data: { permission: "view" }, error: null });
++    await getAppPermission(client, "user-1", "my-app");
++
++    expect(client.from).toHaveBeenCalledWith("app_permissions");
++    expect(client.select).toHaveBeenCalledWith("permission");
++    expect(client.eq).toHaveBeenCalledWith("user_id", "user-1");
++    expect(client.eq).toHaveBeenCalledWith("app_slug", "my-app");
++  });
++});
++
++describe("getUserSubscription", () => {
++  const mockSub: SubscriptionRow = {
++    id: "sub-1",
++    user_id: "user-1",
++    stripe_customer_id: "cus_123",
++    stripe_subscription_id: "sub_123",
++    status: "active",
++    plan: "pro",
++    current_period_start: "2026-01-01T00:00:00Z",
++    current_period_end: "2026-02-01T00:00:00Z",
++    created_at: "2026-01-01T00:00:00Z",
++    updated_at: "2026-01-01T00:00:00Z",
++  };
++
++  it("returns subscription when found", async () => {
++    const client = mockClient({ data: mockSub, error: null });
++    const result = await getUserSubscription(client, "user-1");
++    expect(result).toEqual(mockSub);
++  });
++
++  it("returns null when no subscription", async () => {
++    const client = mockClient({ data: null, error: null });
++    const result = await getUserSubscription(client, "user-1");
++    expect(result).toBeNull();
++  });
++
++  it("throws on error", async () => {
++    const client = mockClient({ data: null, error: new Error("timeout") });
++    await expect(getUserSubscription(client, "user-1")).rejects.toThrow("timeout");
++  });
++
++  it("calls correct table and filter", async () => {
++    const client = mockClient({ data: mockSub, error: null });
++    await getUserSubscription(client, "user-1");
++
++    expect(client.from).toHaveBeenCalledWith("subscriptions");
++    expect(client.select).toHaveBeenCalledWith("*");
++    expect(client.eq).toHaveBeenCalledWith("user_id", "user-1");
++  });
++});
++
++describe("upsertPermission", () => {
++  const mockRow: AppPermission = {
++    id: "perm-1",
++    user_id: "user-1",
++    app_slug: "my-app",
++    permission: "admin",
++    created_at: "2026-01-01T00:00:00Z",
++  };
++
++  it("returns upserted permission", async () => {
++    const client = mockClient({ data: mockRow, error: null });
++    const result = await upsertPermission(client, "user-1", "my-app", "admin");
++    expect(result).toEqual(mockRow);
++  });
++
++  it("throws on error", async () => {
++    const client = mockClient({ data: null, error: new Error("conflict") });
++    await expect(upsertPermission(client, "user-1", "app", "view")).rejects.toThrow("conflict");
++  });
++
++  it("calls upsert with correct payload and conflict key", async () => {
++    const client = mockClient({ data: mockRow, error: null });
++    await upsertPermission(client, "user-1", "my-app", "admin");
++
++    expect(client.from).toHaveBeenCalledWith("app_permissions");
++    expect(client.upsert).toHaveBeenCalledWith(
++      { user_id: "user-1", app_slug: "my-app", permission: "admin" },
++      { onConflict: "user_id,app_slug" },
++    );
++    expect(client.select).toHaveBeenCalled();
++  });
++});
+diff --git a/packages/db/src/index.ts b/packages/db/src/index.ts
+index 1343c65..b4a4c06 100644
+--- a/packages/db/src/index.ts
++++ b/packages/db/src/index.ts
+@@ -1,3 +1,4 @@
+ export { createClient as createServerClient } from "./server";
+ export { createMiddlewareClient } from "./middleware";
+-export type { Database, AppPermission, Permission } from "./types";
++export { getAppPermission, getUserSubscription, upsertPermission } from "./queries";
++export type { Database, AppPermission, Permission, SubscriptionRow } from "./types";
+diff --git a/packages/db/src/queries.ts b/packages/db/src/queries.ts
+new file mode 100644
+index 0000000..a90fa9d
+--- /dev/null
++++ b/packages/db/src/queries.ts
+@@ -0,0 +1,51 @@
++import type { SupabaseClient } from "@supabase/supabase-js";
++import type { Database, Permission, AppPermission, SubscriptionRow } from "./types";
++
++export async function getAppPermission(
++  client: SupabaseClient<Database>,
++  userId: string,
++  slug: string,
++): Promise<Permission | null> {
++  const { data, error } = await client
++    .from("app_permissions")
++    .select("permission")
++    .eq("user_id", userId)
++    .eq("app_slug", slug)
++    .maybeSingle();
++
++  if (error) throw error;
++  return data?.permission ?? null;
++}
++
++export async function getUserSubscription(
++  client: SupabaseClient<Database>,
++  userId: string,
++): Promise<SubscriptionRow | null> {
++  const { data, error } = await client
++    .from("subscriptions")
++    .select("*")
++    .eq("user_id", userId)
++    .maybeSingle();
++
++  if (error) throw error;
++  return data;
++}
++
++export async function upsertPermission(
++  client: SupabaseClient<Database>,
++  userId: string,
++  appSlug: string,
++  permission: Permission,
++): Promise<AppPermission> {
++  const { data, error } = await client
++    .from("app_permissions")
++    .upsert(
++      { user_id: userId, app_slug: appSlug, permission },
++      { onConflict: "user_id,app_slug" },
++    )
++    .select()
++    .single();
++
++  if (error) throw error;
++  return data;
++}
+diff --git a/packages/db/src/types.ts b/packages/db/src/types.ts
+index 1156de1..501f6e3 100644
+--- a/packages/db/src/types.ts
++++ b/packages/db/src/types.ts
+@@ -8,6 +8,19 @@ export interface AppPermission {
+   created_at: string;
+ }
+ 
++export interface SubscriptionRow {
++  id: string;
++  user_id: string;
++  stripe_customer_id: string;
++  stripe_subscription_id: string;
++  status: string;
++  plan: string;
++  current_period_start: string;
++  current_period_end: string;
++  created_at: string;
++  updated_at: string;
++}
++
+ export interface Database {
+   public: {
+     Tables: {
+@@ -16,6 +29,11 @@ export interface Database {
+         Insert: Omit<AppPermission, "id" | "created_at">;
+         Update: Partial<Omit<AppPermission, "id">>;
+       };
++      subscriptions: {
++        Row: SubscriptionRow;
++        Insert: Omit<SubscriptionRow, "id" | "created_at" | "updated_at">;
++        Update: Partial<Omit<SubscriptionRow, "id">>;
++      };
+     };
+   };
+ }
+diff --git a/packages/db/vitest.config.ts b/packages/db/vitest.config.ts
+new file mode 100644
+index 0000000..4ed8031
+--- /dev/null
++++ b/packages/db/vitest.config.ts
+@@ -0,0 +1,8 @@
++import { defineConfig } from "vitest/config";
++
++export default defineConfig({
++  test: {
++    globals: false,
++    environment: "node",
++  },
++});
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 4e8af33..4b6595d 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -131,6 +131,9 @@ importers:
+       typescript:
+         specifier: ^5
+         version: 5.9.3
++      vitest:
++        specifier: ^3
++        version: 3.2.4(@types/node@22.19.15)(jiti@2.6.1)(lightningcss@1.32.0)
+ 
+   packages/theme:
+     dependencies:

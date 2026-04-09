@@ -1,0 +1,6 @@
+Plan written to `plan-issue-24.json`. Key highlights:
+
+- **24 files** across the Command Center hub, layout, and all 21 module components
+- **4 phases**: layout chrome → hub page → module chrome standardization → cleanup
+- Many modules already partially use `@repo/ui` (Card, Badge, PageHeader, Search, Dialog) — the main work is replacing **inline filter buttons**, **status badges with inline styles**, **custom topbar/sidebar**, and **native select elements**
+- Sub-module internals (domain-specific components) are explicitly deferred to M6 per the issue scope

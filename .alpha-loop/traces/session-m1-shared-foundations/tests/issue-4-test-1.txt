@@ -1,0 +1,59 @@
+> lr-apps@ test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-4
+> turbo run test
+
+
+   • Packages in scope: @repo/auth, @repo/config, @repo/db, @repo/theme, @repo/ui, @repo/web
+   • Running test in 6 packages
+   • Remote caching disabled, using shared worktree cache
+
+@repo/db:test: cache miss, executing 31255409fe1e6105
+@repo/auth:test: cache miss, executing 7000b1c2c52783ec
+@repo/web:test: cache miss, executing 4b18d2a5a76c94bc
+@repo/db:test: 
+@repo/db:test: > @repo/db@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-4/packages/db
+@repo/db:test: > vitest run
+@repo/db:test: 
+@repo/auth:test: 
+@repo/auth:test: > @repo/auth@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-4/packages/auth
+@repo/auth:test: > vitest run
+@repo/auth:test: 
+@repo/web:test: 
+@repo/web:test: > @repo/web@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-4/apps/web
+@repo/web:test: > vitest run
+@repo/web:test: 
+@repo/db:test: 
+@repo/db:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-4/packages/db
+@repo/db:test: 
+@repo/db:test:  ✓ src/__tests__/queries.test.ts (11 tests) 7ms
+@repo/db:test: 
+@repo/db:test:  Test Files  1 passed (1)
+@repo/db:test:       Tests  11 passed (11)
+@repo/db:test:    Start at  16:06:51
+@repo/db:test:    Duration  263ms (transform 26ms, setup 0ms, collect 26ms, tests 7ms, environment 0ms, prepare 59ms)
+@repo/db:test: 
+@repo/auth:test: 
+@repo/auth:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-4/packages/auth
+@repo/auth:test: 
+@repo/auth:test:  ✓ src/__tests__/permissions.test.ts (8 tests) 3ms
+@repo/auth:test: 
+@repo/auth:test:  Test Files  1 passed (1)
+@repo/auth:test:       Tests  8 passed (8)
+@repo/auth:test:    Start at  16:06:51
+@repo/auth:test:    Duration  295ms (transform 54ms, setup 0ms, collect 42ms, tests 3ms, environment 0ms, prepare 69ms)
+@repo/auth:test: 
+@repo/web:test: 
+@repo/web:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-4/apps/web
+@repo/web:test: 
+@repo/web:test:  ✓ lib/__tests__/app-registry.test.ts (8 tests) 3ms
+@repo/web:test:  ✓ lib/__tests__/proxy-utils.test.ts (17 tests) 3ms
+@repo/web:test:  ✓ lib/__tests__/platform-urls.test.ts (16 tests) 3ms
+@repo/web:test: 
+@repo/web:test:  Test Files  3 passed (3)
+@repo/web:test:       Tests  41 passed (41)
+@repo/web:test:    Start at  16:06:51
+@repo/web:test:    Duration  274ms (transform 61ms, setup 0ms, collect 99ms, tests 9ms, environment 0ms, prepare 184ms)
+@repo/web:test: 
+
+ Tasks:    3 successful, 3 total
+Cached:    0 cached, 3 total
+  Time:    2.086s

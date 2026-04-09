@@ -1,0 +1,8 @@
+Plan written to `plan-issue-28.json`. Key migration points:
+
+- **SourceBadge** → `@repo/ui Badge` with `outline` variant + custom color classes
+- **Filter pill buttons** → `@repo/ui Button` with `ghost`/`outline` variant, `size="sm"`, rounded-full override
+- **Empty state** → `@repo/ui EmptyState` component (icon + title props)
+- **Layout back link** → `@repo/ui Button` with `asChild` wrapping `<Link>`
+- Only 2 files need changes: `standup-app.tsx` and `layout.tsx`
+- Verification via `pnpm build`; no browser testing needed (auth-gated app)

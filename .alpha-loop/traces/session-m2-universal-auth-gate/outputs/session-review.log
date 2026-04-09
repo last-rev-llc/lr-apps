@@ -1,0 +1,23 @@
+## Session Review Complete
+
+**Result: PASSED**
+
+### Summary
+
+All 14 issues in this session were implemented consistently. 151 tests pass across the web app and auth package (113 + 38).
+
+### Cross-Issue Integration
+- All 13 app layouts follow the same pattern: `async function` + `await requireAppLayoutAccess("slug")`
+- App registry entries are all consistently updated from `auth: false` → `auth: true`
+- `SUBDOMAIN_TO_SLUG` map in `self-enroll.ts` is complete and matches all registry entries where subdomain !== slug
+- Login/signup flows correctly preserve `redirect` param across all paths (error, session_expired, signup link)
+- `isSafeReturnTo` open-redirect protection is properly wired in the callback
+
+### Findings
+
+| Severity | Issue | Fixed |
+|----------|-------|-------|
+| INFO | Stale comment "public, no auth" in app-registry.ts for section that is now `auth: true` | Yes |
+| INFO | Minor test inconsistency: 3 tests use `globalThis.React` while 10 don't (valid — different JSX deps) | No (cosmetic) |
+
+No critical or warning issues found. The `travel-collection` app remains `auth: false`, which is intentional (not in scope for this session).

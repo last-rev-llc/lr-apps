@@ -1,0 +1,15 @@
+{
+  "issueNum": 3,
+  "title": "Add Vitest workspace config + shared test utilities",
+  "status": "success",
+  "duration": 647,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 10,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/88",
+  "timestamp": "2026-04-07T23:02:32.896Z",
+  "agent": "claude",
+  "model": ""
+}

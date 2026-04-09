@@ -1,0 +1,18 @@
+{
+  "summary": "Add app-specific tests for Slang Translator covering queries, component rendering, bi-directional display, and auth gate.",
+  "files": [
+    "apps/web/app/apps/slang-translator/lib/__tests__/queries.test.ts",
+    "apps/web/app/apps/slang-translator/lib/__tests__/gen-x-map.test.ts",
+    "apps/web/app/apps/slang-translator/components/__tests__/slang-app.test.tsx",
+    "apps/web/app/apps/slang-translator/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. Create lib/__tests__/queries.test.ts: Mock @repo/db/server with createMockSupabase. Test getAllSlang() returns merged gen-alpha (from DB) + gen-x (from local JSON) sorted by vibe_score desc. Test error case throws. Verify supabase.from('slang').select('*').order('vibe_score') is called.\n2. Create lib/__tests__/gen-x-map.test.ts: Test GEN_X_MAP has expected entry count (46). Verify known mappings (e.g. skibidi → 'Gnarly / Radical', rizz → 'Game / Mack Daddy'). Verify all values are non-empty strings.\n3. Create components/__tests__/slang-app.test.tsx: Mock @repo/ui with working Tabs context (same pattern as generations/slang-app.test.tsx). Create makeEntry() fixture helper for SlangEntry type. Test SlangApp renders Dictionary tab by default. Test tab switching to Translator, Compare, Quiz tabs. Test DictionaryTab: search filters terms by term/definition/alias, generation filter buttons work, category filter works, shows 'X terms found' count, clicking card opens SlangDetailModal. Test bi-directional display: SlangCard shows Gen X equivalent for gen-alpha entries (via GEN_X_MAP), shows Gen Alpha equivalent for gen-x entries (via equivalents.genAlpha). Test TranslatorTab: direction swap button toggles between alpha-to-x and x-to-alpha, typing known slang produces translated output, unknown text shows 'No recognized slang terms found'. Test CompareTab renders side-by-side pairs with both generation badges.\n4. Create __tests__/layout.test.tsx: Mock @/lib/require-app-layout-access. Test it calls requireAppLayoutAccess('slang-translator'). Test renders children when authorized. Test throws when access is rejected. Test renders nav links (App, About, Dashboard). Test renders header title '🗣️ Slang Translator'.",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for the Slang Translator app's query layer, component rendering, bi-directional translation display, and auth gate."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "This issue adds tests only — no UI changes. Verification is done by running pnpm test."
+  }
+}

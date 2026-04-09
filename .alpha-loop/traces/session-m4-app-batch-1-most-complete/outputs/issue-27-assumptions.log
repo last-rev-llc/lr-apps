@@ -1,0 +1,16 @@
+
+
+## Assumptions
+- **"Auth gate" testing scope**: The issue requested testing "auth gate redirects work," but the `AccountsApp` component receives `clients` as props and has no auth logic itself. Assumed auth gating is handled at a higher level (page/layout) and is not the responsibility of this component's test file. No auth gate test was added here.
+- **"Contact filtering" scope**: The issue mentioned "contact display and filtering," but the `AccountsApp` component displays contacts without any filtering UI. Assumed "filtering" referred to the tab-switching behavior (showing contacts for the selected client only), not a search/filter input.
+- **"Mock Supabase data" means mock props**: The issue said "client list renders with mock Supabase data." Since the component takes a `clients: Client[]` prop and doesn't call Supabase directly, assumed the intent was to pass realistic mock data as props rather than mock the Supabase client.
+
+## Decisions
+- **Tab activation via `keyDown` Enter instead of `click`**: The `clickTab` helper uses `focus()` + `fireEvent.keyDown(Enter)` rather than `fireEvent.click()`. This was likely chosen to work with the Radix-based `Tabs` component's activation model in the test environment.
+- **"Needs attention" threshold of >10 PRs**: The test asserts the "Needs attention" badge appears when `openPRs > 10`. This threshold is hardcoded in the component — there was no spec for what count triggers it.
+- **No separate test file for sub-components**: All tests live in a single file testing `AccountsApp` as a whole rather than unit-testing `ContactsTab`, `ReposTab`, etc. individually. This keeps tests closer to user behavior.
+
+## Items to Validate
+- **Auth gate test is missing**: Confirm whether auth gate testing should be added at the page/layout level (e.g., `apps/web/app/apps/accounts/page.tsx`) or if this acceptance criterion is covered elsewhere.
+- **No "PR aggregation" test beyond count + list**: The tests check that the PR count and individual PR rows render. Verify this meets your definition of "PR aggregation display" — if you expected cross-client aggregation or summary stats, that's not covered.
+- **The >10 PR threshold for "Needs attention"**: This is a product decision baked into the component. Confirm this is the right cutoff.

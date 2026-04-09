@@ -1,0 +1,6 @@
+Plan written to `plan-issue-26.json`. Key findings:
+
+- **2 files** to modify: `page.tsx` and `accounts-app.tsx`
+- **5 inline components to remove**: custom `Badge`, `SectionCard`, `Empty`, `Row`, and button-like `<a>` tags
+- **7 @repo/ui components to adopt**: `StatCard`, `PageHeader`, `StatusBadge`, `CardHeader`/`CardTitle`/`CardContent`, `Button`, `EmptyState`, and `Table` components
+- **12 implementation steps** covering every inline pattern identified in the audit

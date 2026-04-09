@@ -1,0 +1,15 @@
+{
+  "issueNum": 29,
+  "title": "Standup: app-specific tests",
+  "status": "success",
+  "duration": 535,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/122",
+  "timestamp": "2026-04-09T05:55:49.498Z",
+  "agent": "claude",
+  "model": ""
+}

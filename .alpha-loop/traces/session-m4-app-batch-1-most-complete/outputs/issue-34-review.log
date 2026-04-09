@@ -1,0 +1,9 @@
+**GATE: PASSED**
+
+The Uptime component migration is clean and complete. All four acceptance criteria are met:
+- Inline `StatusBadge` → shared `StatusBadge` from `@repo/ui`
+- Inline header → `Topbar`
+- Inline page header → `PageHeader`
+- Inline empty state → `EmptyState`
+- History chart bars use consistent color tokens matching the StatusBadge palette
+- Build passes cleanly

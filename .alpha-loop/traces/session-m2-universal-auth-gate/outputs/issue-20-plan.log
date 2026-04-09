@@ -1,0 +1,5 @@
+Plan written to `plan-issue-20.json`. Three files to touch:
+
+1. **layout.tsx** — make async, add `await requireAppLayoutAccess("roblox-dances")`
+2. **app-registry.ts** — flip `auth: false` → `auth: true`
+3. **`__tests__/layout.test.tsx`** — new test file with 4 smoke tests (same pattern as cringe-rizzler)

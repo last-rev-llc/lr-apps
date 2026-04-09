@@ -1,0 +1,11 @@
+All done. Here's a summary:
+
+**Files created (2):**
+- `apps/web/app/apps/dad-joke-of-the-day/lib/__tests__/queries.test.ts` — 9 tests covering `getJokeOfTheDay` (empty array, deterministic seed, same date idempotency, different date variation), `getCategories` (empty, unique sorted, falsy filtering), and `getAllJokes` (Supabase query verification, error path)
+- `apps/web/app/apps/dad-joke-of-the-day/components/__tests__/joke-viewer.test.tsx` — 10 tests covering setup rendering, punchline hidden/reveal, rating buttons, JOTD badge, category filter badges, filtered pool count, random mode switching, category badge display
+
+**Files modified (3):**
+- `apps/web/vitest.config.ts` — added `esbuild.jsx: "automatic"` for JSX transform in jsdom tests
+- `packages/test-utils/src/index.ts` + `render-with-providers.tsx` — added `fireEvent` re-export
+
+**Test results:** 73 tests passing across 6 test files (19 new tests added). Auth gate test already existed at line 52-55 of `require-app-layout-access.test.ts`.

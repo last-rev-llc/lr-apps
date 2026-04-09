@@ -1,0 +1,14 @@
+Done. Here's a summary of the changes:
+
+**6 files changed** across 5 modified + 1 new:
+
+| File | Change |
+|------|--------|
+| `app-registry.ts` | Replaced `publicEntry?: boolean` with `publicRoutes?: string[]`, added `isPublicRoute()` helper with exact + `/**` glob matching |
+| `require-app-layout-access.ts` | Removed `publicEntry` bypass; now accepts optional `pathname` and checks `isPublicRoute()` — otherwise always calls `requireAccess()` |
+| `ai-calculator/layout.tsx` | Reads `x-app-pathname` header and passes it to `requireAppLayoutAccess()` so root `/` stays public |
+| `proxy.ts` | Forwards original pathname as `x-app-pathname` header before URL rewrite |
+| `app-registry.test.ts` | Updated `publicEntry` test → `publicRoutes` test, added 5 `isPublicRoute` tests |
+| `require-app-layout-access.test.ts` | **New** — 6 tests covering: standard apps gated, formerly-public apps gated, public route skip, non-public path gated, unknown slugs gated, auth:false apps gated |
+
+**All 60 tests pass** (52 web + 8 auth).

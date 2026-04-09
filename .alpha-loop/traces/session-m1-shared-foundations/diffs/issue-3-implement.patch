@@ -1,0 +1,1612 @@
+diff --git a/.env.compose b/.env.compose
+new file mode 100644
+index 0000000..d61b898
+--- /dev/null
++++ b/.env.compose
+@@ -0,0 +1 @@
++COMPOSE_PROJECT_NAME=lr-apps
+diff --git a/apps/web/package.json b/apps/web/package.json
+index 0d7dd2a..bca1a32 100644
+--- a/apps/web/package.json
++++ b/apps/web/package.json
+@@ -25,6 +25,7 @@
+   },
+   "devDependencies": {
+     "@repo/config": "workspace:*",
++    "@repo/test-utils": "workspace:*",
+     "@tailwindcss/postcss": "^4",
+     "@types/node": "^22",
+     "@types/react": "^19",
+diff --git a/packages/auth/package.json b/packages/auth/package.json
+index 1a5aad2..fa79ccf 100644
+--- a/packages/auth/package.json
++++ b/packages/auth/package.json
+@@ -24,6 +24,7 @@
+   },
+   "devDependencies": {
+     "@repo/config": "workspace:*",
++    "@repo/test-utils": "workspace:*",
+     "@types/react": "^19",
+     "next": "^16",
+     "typescript": "^5",
+diff --git a/packages/config/package.json b/packages/config/package.json
+index 35e7b68..153af1c 100644
+--- a/packages/config/package.json
++++ b/packages/config/package.json
+@@ -2,6 +2,9 @@
+   "name": "@repo/config",
+   "version": "0.0.0",
+   "private": true,
++  "scripts": {
++    "test": "echo no tests"
++  },
+   "exports": {
+     "./tsconfig/base": "./tsconfig/base.json",
+     "./tsconfig/nextjs": "./tsconfig/nextjs.json",
+diff --git a/packages/db/package.json b/packages/db/package.json
+index 1070a33..6b043fb 100644
+--- a/packages/db/package.json
++++ b/packages/db/package.json
+@@ -3,6 +3,9 @@
+   "version": "0.0.0",
+   "private": true,
+   "type": "module",
++  "scripts": {
++    "test": "vitest run --passWithNoTests"
++  },
+   "exports": {
+     ".": "./src/index.ts",
+     "./server": "./src/server.ts",
+@@ -20,7 +23,9 @@
+   },
+   "devDependencies": {
+     "@repo/config": "workspace:*",
++    "@repo/test-utils": "workspace:*",
+     "next": "^16",
+-    "typescript": "^5"
++    "typescript": "^5",
++    "vitest": "^3"
+   }
+ }
+diff --git a/packages/test-utils/package.json b/packages/test-utils/package.json
+new file mode 100644
+index 0000000..30c8759
+--- /dev/null
++++ b/packages/test-utils/package.json
+@@ -0,0 +1,27 @@
++{
++  "name": "@repo/test-utils",
++  "version": "0.0.0",
++  "private": true,
++  "type": "module",
++  "exports": {
++    ".": "./src/index.ts"
++  },
++  "scripts": {
++    "test": "vitest run"
++  },
++  "dependencies": {
++    "@supabase/supabase-js": "^2",
++    "@testing-library/react": "^16",
++    "@testing-library/jest-dom": "^6",
++    "react": "^19",
++    "react-dom": "^19"
++  },
++  "devDependencies": {
++    "@repo/config": "workspace:*",
++    "@types/react": "^19",
++    "@types/react-dom": "^19",
++    "jsdom": "^26",
++    "typescript": "^5",
++    "vitest": "^3"
++  }
++}
+diff --git a/packages/test-utils/src/__tests__/mock-auth0.test.ts b/packages/test-utils/src/__tests__/mock-auth0.test.ts
+new file mode 100644
+index 0000000..53a71ab
+--- /dev/null
++++ b/packages/test-utils/src/__tests__/mock-auth0.test.ts
+@@ -0,0 +1,73 @@
++import { describe, it, expect } from "vitest";
++import { createMockAuth0, createMockAuth0Client } from "../mock-auth0";
++
++describe("createMockAuth0", () => {
++  it("returns a valid session with defaults", () => {
++    const session = createMockAuth0();
++
++    expect(session.user.sub).toBe("auth0|test-user-id");
++    expect(session.user.email).toBe("test@example.com");
++    expect(session.user.name).toBe("Test User");
++    expect(session.user.email_verified).toBe(true);
++    expect(session.accessToken).toBe("mock-access-token");
++    expect(session.idToken).toBe("mock-id-token");
++  });
++
++  it("accepts top-level overrides", () => {
++    const session = createMockAuth0({
++      accessToken: "custom-token",
++    });
++
++    expect(session.accessToken).toBe("custom-token");
++    // Other fields remain defaults
++    expect(session.user.email).toBe("test@example.com");
++  });
++
++  it("deep-merges user overrides", () => {
++    const session = createMockAuth0({
++      user: { email: "custom@example.com", org_id: "org_123" },
++    });
++
++    expect(session.user.email).toBe("custom@example.com");
++    expect(session.user.org_id).toBe("org_123");
++    // Other user fields remain defaults
++    expect(session.user.sub).toBe("auth0|test-user-id");
++    expect(session.user.name).toBe("Test User");
++  });
++});
++
++describe("createMockAuth0Client", () => {
++  it("returns a client with vi.fn() stubs", () => {
++    const client = createMockAuth0Client();
++
++    expect(client.getSession).toBeDefined();
++    expect(client.getAccessToken).toBeDefined();
++    expect(client.handleAuth).toBeDefined();
++  });
++
++  it("getSession resolves to a valid session", async () => {
++    const client = createMockAuth0Client();
++    const session = await client.getSession();
++
++    expect(session.user.sub).toBe("auth0|test-user-id");
++    expect(session.accessToken).toBe("mock-access-token");
++  });
++
++  it("applies session overrides to the client", async () => {
++    const client = createMockAuth0Client({
++      user: { email: "admin@example.com" },
++    });
++
++    const session = await client.getSession();
++    expect(session.user.email).toBe("admin@example.com");
++  });
++
++  it("getAccessToken resolves to the access token", async () => {
++    const client = createMockAuth0Client({
++      accessToken: "my-token",
++    });
++
++    const result = await client.getAccessToken();
++    expect(result.accessToken).toBe("my-token");
++  });
++});
+diff --git a/packages/test-utils/src/__tests__/mock-supabase.test.ts b/packages/test-utils/src/__tests__/mock-supabase.test.ts
+new file mode 100644
+index 0000000..caed0e0
+--- /dev/null
++++ b/packages/test-utils/src/__tests__/mock-supabase.test.ts
+@@ -0,0 +1,71 @@
++import { describe, it, expect } from "vitest";
++import { createMockSupabase } from "../mock-supabase";
++
++describe("createMockSupabase", () => {
++  it("returns a mock client with from()", () => {
++    const client = createMockSupabase();
++    expect(client.from).toBeDefined();
++    expect(client.from("app_permissions")).toBeDefined();
++  });
++
++  it("supports chainable query methods", () => {
++    const client = createMockSupabase();
++    const query = client.from("app_permissions");
++
++    // All chain methods should return the builder
++    const chained = query.select("*").eq("user_id", "123").order("created_at");
++    expect(chained).toBe(query);
++  });
++
++  it("resolves default data from terminal methods", async () => {
++    const client = createMockSupabase();
++    const result = await client
++      .from("app_permissions")
++      .select("*")
++      .eq("id", "1")
++      .single();
++
++    expect(result).toEqual({ data: [], error: null });
++  });
++
++  it("accepts custom default data", async () => {
++    const mockData = { data: { id: "1", name: "test" }, error: null as null };
++    const client = createMockSupabase(mockData);
++
++    const result = await client.from("test").select().single();
++    expect(result).toEqual(mockData);
++  });
++
++  it("allows overriding builder return values", async () => {
++    const client = createMockSupabase();
++    const customResult = { data: { id: "custom" }, error: null };
++    client._builder.single.mockResolvedValue(customResult);
++
++    const result = await client.from("test").select().single();
++    expect(result).toEqual(customResult);
++  });
++
++  it("supports awaiting the builder directly", async () => {
++    const defaultData = { data: [{ id: "1" }], error: null as null };
++    const client = createMockSupabase(defaultData);
++
++    const result = await client.from("test").select("*");
++    expect(result).toEqual(defaultData);
++  });
++
++  it("provides auth helpers", async () => {
++    const client = createMockSupabase();
++
++    const userResult = await client.auth.getUser();
++    expect(userResult).toEqual({ data: { user: null }, error: null });
++
++    const sessionResult = await client.auth.getSession();
++    expect(sessionResult).toEqual({ data: { session: null }, error: null });
++  });
++
++  it("provides rpc mock", async () => {
++    const client = createMockSupabase();
++    const result = await client.rpc("my_function", { arg: "value" });
++    expect(result).toEqual({ data: null, error: null });
++  });
++});
+diff --git a/packages/test-utils/src/index.ts b/packages/test-utils/src/index.ts
+new file mode 100644
+index 0000000..5ef8992
+--- /dev/null
++++ b/packages/test-utils/src/index.ts
+@@ -0,0 +1,14 @@
++export { createMockSupabase, type MockSupabaseClient } from "./mock-supabase";
++export {
++  createMockAuth0,
++  createMockAuth0Client,
++  type MockAuth0Session,
++  type MockAuth0Client,
++} from "./mock-auth0";
++export {
++  renderWithProviders,
++  screen,
++  waitFor,
++  within,
++  act,
++} from "./render-with-providers";
+diff --git a/packages/test-utils/src/mock-auth0.ts b/packages/test-utils/src/mock-auth0.ts
+new file mode 100644
+index 0000000..d54b6c7
+--- /dev/null
++++ b/packages/test-utils/src/mock-auth0.ts
+@@ -0,0 +1,73 @@
++import { vi } from "vitest";
++
++export interface MockAuth0Session {
++  user: {
++    sub: string;
++    email: string;
++    name: string;
++    picture: string;
++    email_verified: boolean;
++    org_id?: string;
++  };
++  accessToken: string;
++  accessTokenExpiresAt: number;
++  idToken: string;
++}
++
++const DEFAULT_SESSION: MockAuth0Session = {
++  user: {
++    sub: "auth0|test-user-id",
++    email: "test@example.com",
++    name: "Test User",
++    picture: "https://example.com/avatar.png",
++    email_verified: true,
++  },
++  accessToken: "mock-access-token",
++  accessTokenExpiresAt: Math.floor(Date.now() / 1000) + 3600,
++  idToken: "mock-id-token",
++};
++
++/**
++ * Creates a mock Auth0 session object matching the shape from `auth0.getSession()`.
++ * Accepts partial overrides that are deep-merged with defaults.
++ */
++export function createMockAuth0(
++  overrides?: Partial<MockAuth0Session> & {
++    user?: Partial<MockAuth0Session["user"]>;
++  },
++): MockAuth0Session {
++  return {
++    ...DEFAULT_SESSION,
++    ...overrides,
++    user: {
++      ...DEFAULT_SESSION.user,
++      ...overrides?.user,
++    },
++  };
++}
++
++export interface MockAuth0Client {
++  getSession: ReturnType<typeof vi.fn>;
++  getAccessToken: ReturnType<typeof vi.fn>;
++  handleAuth: ReturnType<typeof vi.fn>;
++}
++
++/**
++ * Creates a mock Auth0 client with vi.fn() stubs for getSession, getAccessToken, handleAuth.
++ * By default, getSession resolves to a valid session.
++ */
++export function createMockAuth0Client(
++  sessionOverrides?: Partial<MockAuth0Session> & {
++    user?: Partial<MockAuth0Session["user"]>;
++  },
++): MockAuth0Client {
++  const session = createMockAuth0(sessionOverrides);
++
++  return {
++    getSession: vi.fn().mockResolvedValue(session),
++    getAccessToken: vi.fn().mockResolvedValue({
++      accessToken: session.accessToken,
++    }),
++    handleAuth: vi.fn().mockReturnValue(new Response(null, { status: 200 })),
++  };
++}
+diff --git a/packages/test-utils/src/mock-supabase.ts b/packages/test-utils/src/mock-supabase.ts
+new file mode 100644
+index 0000000..d8abe1d
+--- /dev/null
++++ b/packages/test-utils/src/mock-supabase.ts
+@@ -0,0 +1,93 @@
++import { vi } from "vitest";
++
++type MockQueryBuilder = {
++  select: ReturnType<typeof vi.fn>;
++  insert: ReturnType<typeof vi.fn>;
++  update: ReturnType<typeof vi.fn>;
++  delete: ReturnType<typeof vi.fn>;
++  upsert: ReturnType<typeof vi.fn>;
++  eq: ReturnType<typeof vi.fn>;
++  neq: ReturnType<typeof vi.fn>;
++  in: ReturnType<typeof vi.fn>;
++  single: ReturnType<typeof vi.fn>;
++  maybeSingle: ReturnType<typeof vi.fn>;
++  order: ReturnType<typeof vi.fn>;
++  limit: ReturnType<typeof vi.fn>;
++  then: ReturnType<typeof vi.fn>;
++};
++
++function createChainableBuilder(
++  resolvedValue: { data: unknown; error: null } = { data: [], error: null },
++): MockQueryBuilder {
++  const builder: MockQueryBuilder = {} as MockQueryBuilder;
++
++  const chainMethods = [
++    "select",
++    "insert",
++    "update",
++    "delete",
++    "upsert",
++    "eq",
++    "neq",
++    "in",
++    "order",
++    "limit",
++  ] as const;
++
++  for (const method of chainMethods) {
++    builder[method] = vi.fn().mockReturnValue(builder);
++  }
++
++  // Terminal methods that resolve to data
++  builder.single = vi.fn().mockResolvedValue(resolvedValue);
++  builder.maybeSingle = vi.fn().mockResolvedValue(resolvedValue);
++
++  // Make the builder itself thenable so `await supabase.from(...).select()` works
++  builder.then = vi.fn().mockImplementation((resolve) => {
++    return Promise.resolve(resolvedValue).then(resolve);
++  });
++
++  return builder;
++}
++
++export type MockSupabaseClient = {
++  from: ReturnType<typeof vi.fn>;
++  auth: {
++    getUser: ReturnType<typeof vi.fn>;
++    getSession: ReturnType<typeof vi.fn>;
++  };
++  rpc: ReturnType<typeof vi.fn>;
++  /** Access the underlying query builder to customize return values */
++  _builder: MockQueryBuilder;
++};
++
++/**
++ * Creates a chainable mock Supabase client for testing.
++ *
++ * @example
++ * ```ts
++ * const { client, builder } = createMockSupabase();
++ * builder.single.mockResolvedValue({ data: { id: '1' }, error: null });
++ * ```
++ */
++export function createMockSupabase(
++  defaultData: { data: unknown; error: null } = { data: [], error: null },
++): MockSupabaseClient {
++  const builder = createChainableBuilder(defaultData);
++
++  return {
++    from: vi.fn().mockReturnValue(builder),
++    auth: {
++      getUser: vi.fn().mockResolvedValue({
++        data: { user: null },
++        error: null,
++      }),
++      getSession: vi.fn().mockResolvedValue({
++        data: { session: null },
++        error: null,
++      }),
++    },
++    rpc: vi.fn().mockResolvedValue({ data: null, error: null }),
++    _builder: builder,
++  };
++}
+diff --git a/packages/test-utils/src/render-with-providers.tsx b/packages/test-utils/src/render-with-providers.tsx
+new file mode 100644
+index 0000000..e8824b6
+--- /dev/null
++++ b/packages/test-utils/src/render-with-providers.tsx
+@@ -0,0 +1,24 @@
++import React, { type ReactElement } from "react";
++import { render, type RenderOptions } from "@testing-library/react";
++
++/**
++ * Wraps components in shared providers for testing.
++ * Currently a passthrough — add providers here as the app grows.
++ */
++function AllProviders({ children }: { children: React.ReactNode }) {
++  return <>{children}</>;
++}
++
++/**
++ * Renders a component wrapped in all shared providers.
++ * Drop-in replacement for `@testing-library/react` render().
++ */
++export function renderWithProviders(
++  ui: ReactElement,
++  options?: Omit<RenderOptions, "wrapper">,
++) {
++  return render(ui, { wrapper: AllProviders, ...options });
++}
++
++// Re-export everything from testing-library for convenience
++export { screen, waitFor, within, act } from "@testing-library/react";
+diff --git a/packages/test-utils/tsconfig.json b/packages/test-utils/tsconfig.json
+new file mode 100644
+index 0000000..7e4c260
+--- /dev/null
++++ b/packages/test-utils/tsconfig.json
+@@ -0,0 +1,10 @@
++{
++  "extends": "@repo/config/tsconfig/base",
++  "compilerOptions": {
++    "jsx": "react-jsx",
++    "lib": ["dom", "dom.iterable", "es2022"],
++    "outDir": "dist",
++    "rootDir": "src"
++  },
++  "include": ["src"]
++}
+diff --git a/packages/test-utils/vitest.config.ts b/packages/test-utils/vitest.config.ts
+new file mode 100644
+index 0000000..8b31256
+--- /dev/null
++++ b/packages/test-utils/vitest.config.ts
+@@ -0,0 +1,8 @@
++import { defineConfig } from "vitest/config";
++
++export default defineConfig({
++  test: {
++    globals: true,
++    environment: "jsdom",
++  },
++});
+diff --git a/packages/theme/package.json b/packages/theme/package.json
+index 4872cc4..49be4f4 100644
+--- a/packages/theme/package.json
++++ b/packages/theme/package.json
+@@ -2,6 +2,9 @@
+   "name": "@repo/theme",
+   "version": "0.0.0",
+   "private": true,
++  "scripts": {
++    "test": "echo no tests"
++  },
+   "exports": {
+     "./theme.css": "./src/theme.css",
+     "./globals.css": "./src/globals.css",
+diff --git a/packages/ui/package.json b/packages/ui/package.json
+index bd53e65..91217a3 100644
+--- a/packages/ui/package.json
++++ b/packages/ui/package.json
+@@ -3,6 +3,9 @@
+   "version": "0.0.0",
+   "private": true,
+   "type": "module",
++  "scripts": {
++    "test": "vitest run --passWithNoTests"
++  },
+   "exports": {
+     ".": "./src/index.ts",
+     "./lib/utils": "./src/lib/utils.ts",
+@@ -24,8 +27,10 @@
+   },
+   "devDependencies": {
+     "@repo/config": "workspace:*",
++    "@repo/test-utils": "workspace:*",
+     "@types/react": "^19",
+     "mermaid": "^11.13.0",
+-    "typescript": "^5"
++    "typescript": "^5",
++    "vitest": "^3"
+   }
+ }
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 4e8af33..97290b5 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -51,6 +51,9 @@ importers:
+       '@repo/config':
+         specifier: workspace:*
+         version: link:../../packages/config
++      '@repo/test-utils':
++        specifier: workspace:*
++        version: link:../../packages/test-utils
+       '@tailwindcss/postcss':
+         specifier: ^4
+         version: 4.2.2
+@@ -71,7 +74,7 @@ importers:
+         version: 5.9.3
+       vitest:
+         specifier: ^3
+-        version: 3.2.4(@types/node@22.19.15)(jiti@2.6.1)(lightningcss@1.32.0)
++        version: 3.2.4(@types/node@22.19.15)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)
+ 
+   packages/auth:
+     dependencies:
+@@ -88,6 +91,9 @@ importers:
+       '@repo/config':
+         specifier: workspace:*
+         version: link:../config
++      '@repo/test-utils':
++        specifier: workspace:*
++        version: link:../test-utils
+       '@types/react':
+         specifier: ^19
+         version: 19.2.14
+@@ -99,7 +105,7 @@ importers:
+         version: 5.9.3
+       vitest:
+         specifier: ^3
+-        version: 3.2.4(@types/node@22.19.15)(jiti@2.6.1)(lightningcss@1.32.0)
++        version: 3.2.4(@types/node@22.19.15)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)
+ 
+   packages/config:
+     devDependencies:
+@@ -125,12 +131,55 @@ importers:
+       '@repo/config':
+         specifier: workspace:*
+         version: link:../config
++      '@repo/test-utils':
++        specifier: workspace:*
++        version: link:../test-utils
+       next:
+         specifier: ^16
+         version: 16.2.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+       typescript:
+         specifier: ^5
+         version: 5.9.3
++      vitest:
++        specifier: ^3
++        version: 3.2.4(@types/node@22.19.15)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)
++
++  packages/test-utils:
++    dependencies:
++      '@supabase/supabase-js':
++        specifier: ^2
++        version: 2.100.0
++      '@testing-library/jest-dom':
++        specifier: ^6
++        version: 6.9.1
++      '@testing-library/react':
++        specifier: ^16
++        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
++      react:
++        specifier: ^19
++        version: 19.2.4
++      react-dom:
++        specifier: ^19
++        version: 19.2.4(react@19.2.4)
++    devDependencies:
++      '@repo/config':
++        specifier: workspace:*
++        version: link:../config
++      '@types/react':
++        specifier: ^19
++        version: 19.2.14
++      '@types/react-dom':
++        specifier: ^19
++        version: 19.2.3(@types/react@19.2.14)
++      jsdom:
++        specifier: ^26
++        version: 26.1.0
++      typescript:
++        specifier: ^5
++        version: 5.9.3
++      vitest:
++        specifier: ^3
++        version: 3.2.4(@types/node@22.19.15)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)
+ 
+   packages/theme:
+     dependencies:
+@@ -180,6 +229,9 @@ importers:
+       '@repo/config':
+         specifier: workspace:*
+         version: link:../config
++      '@repo/test-utils':
++        specifier: workspace:*
++        version: link:../test-utils
+       '@types/react':
+         specifier: ^19
+         version: 19.2.14
+@@ -189,9 +241,15 @@ importers:
+       typescript:
+         specifier: ^5
+         version: 5.9.3
++      vitest:
++        specifier: ^3
++        version: 3.2.4(@types/node@22.19.15)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)
+ 
+ packages:
+ 
++  '@adobe/css-tools@4.4.4':
++    resolution: {integrity: sha512-Elp+iwUx5rN5+Y8xLt5/GRoG20WGoDCQ/1Fb+1LiGtvwbDavuSk0jhD/eZdckHAuzcDzccnkv+rEjyWfRx18gg==}
++
+   '@alloc/quick-lru@5.2.0':
+     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
+     engines: {node: '>=10'}
+@@ -199,6 +257,9 @@ packages:
+   '@antfu/install-pkg@1.1.0':
+     resolution: {integrity: sha512-MGQsmw10ZyI+EJo45CdSER4zEb+p31LpDAFp2Z3gkSd1yqVZGi0Ebx++YTEMonJy4oChEMLsxZ64j8FH6sSqtQ==}
+ 
++  '@asamuzakjp/css-color@3.2.0':
++    resolution: {integrity: sha512-K1A6z8tS3XsmCMM86xoWdn7Fkdn9m6RSVtocUrJYIwZnFVkng/PvkEoWtOWmP+Scc6saYWHWZYbndEEXxl24jw==}
++
+   '@auth0/nextjs-auth0@4.16.1':
+     resolution: {integrity: sha512-HWUxjqjzVjn2TtXN64bduXK7ydReqMYHReQ+CLWQzOcLtQA/wxwbtfpFYqBn9Pkz1e/YJOhu28l+OwWjfTtWxQ==}
+     peerDependencies:
+@@ -206,6 +267,14 @@ packages:
+       react: ^18.0.0 || ~19.0.1 ||  ~19.1.2 || ^19.2.1
+       react-dom: ^18.0.0 || ~19.0.1 || ~19.1.2 || ^19.2.1
+ 
++  '@babel/code-frame@7.29.0':
++    resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
++    engines: {node: '>=6.9.0'}
++
++  '@babel/helper-validator-identifier@7.28.5':
++    resolution: {integrity: sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==}
++    engines: {node: '>=6.9.0'}
++
+   '@babel/runtime@7.29.2':
+     resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
+     engines: {node: '>=6.9.0'}
+@@ -228,6 +297,34 @@ packages:
+   '@chevrotain/utils@11.1.2':
+     resolution: {integrity: sha512-4mudFAQ6H+MqBTfqLmU7G1ZwRzCLfJEooL/fsF6rCX5eePMbGhoy5n4g+G4vlh2muDcsCTJtL+uKbOzWxs5LHA==}
+ 
++  '@csstools/color-helpers@5.1.0':
++    resolution: {integrity: sha512-S11EXWJyy0Mz5SYvRmY8nJYTFFd1LCNV+7cXyAgQtOOuzb4EsgfqDufL+9esx72/eLhsRdGZwaldu/h+E4t4BA==}
++    engines: {node: '>=18'}
++
++  '@csstools/css-calc@2.1.4':
++    resolution: {integrity: sha512-3N8oaj+0juUw/1H3YwmDDJXCgTB1gKU6Hc/bB502u9zR0q2vd786XJH9QfrKIEgFlZmhZiq6epXl4rHqhzsIgQ==}
++    engines: {node: '>=18'}
++    peerDependencies:
++      '@csstools/css-parser-algorithms': ^3.0.5
++      '@csstools/css-tokenizer': ^3.0.4
++
++  '@csstools/css-color-parser@3.1.0':
++    resolution: {integrity: sha512-nbtKwh3a6xNVIp/VRuXV64yTKnb1IjTAEEh3irzS+HkKjAOYLTGNb9pmVNntZ8iVBHcWDA2Dof0QtPgFI1BaTA==}
++    engines: {node: '>=18'}
++    peerDependencies:
++      '@csstools/css-parser-algorithms': ^3.0.5
++      '@csstools/css-tokenizer': ^3.0.4
++
++  '@csstools/css-parser-algorithms@3.0.5':
++    resolution: {integrity: sha512-DaDeUkXZKjdGhgYaHNJTV9pV7Y9B3b644jCLs9Upc3VeNGg6LWARAT6O+Q+/COo+2gg/bM5rhpMAtf70WqfBdQ==}
++    engines: {node: '>=18'}
++    peerDependencies:
++      '@csstools/css-tokenizer': ^3.0.4
++
++  '@csstools/css-tokenizer@3.0.4':
++    resolution: {integrity: sha512-Vd/9EVDiu6PPJt9yAh6roZP6El1xHrdvIVGjyBsHR0RYwNHgL7FJPyIIW4fANJNG6FtyZfvlRPpFI4ZM/lubvw==}
++    engines: {node: '>=18'}
++
+   '@edge-runtime/cookies@5.0.2':
+     resolution: {integrity: sha512-Sd8LcWpZk/SWEeKGE8LT6gMm5MGfX/wm+GPnh1eBEtCpya3vYqn37wYknwAHw92ONoyyREl1hJwxV/Qx2DWNOg==}
+     engines: {node: '>=16'}
+@@ -1291,6 +1388,29 @@ packages:
+   '@tailwindcss/postcss@4.2.2':
+     resolution: {integrity: sha512-n4goKQbW8RVXIbNKRB/45LzyUqN451deQK0nzIeauVEqjlI49slUlgKYJM2QyUzap/PcpnS7kzSUmPb1sCRvYQ==}
+ 
++  '@testing-library/dom@10.4.1':
++    resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
++    engines: {node: '>=18'}
++
++  '@testing-library/jest-dom@6.9.1':
++    resolution: {integrity: sha512-zIcONa+hVtVSSep9UT3jZ5rizo2BsxgyDYU7WFD5eICBE7no3881HGeb/QkGfsJs6JTkY1aQhT7rIPC7e+0nnA==}
++    engines: {node: '>=14', npm: '>=6', yarn: '>=1'}
++
++  '@testing-library/react@16.3.2':
++    resolution: {integrity: sha512-XU5/SytQM+ykqMnAnvB2umaJNIOsLF3PVv//1Ew4CTcpz0/BRyy/af40qqrt7SjKpDdT1saBMc42CUok5gaw+g==}
++    engines: {node: '>=18'}
++    peerDependencies:
++      '@testing-library/dom': ^10.0.0
++      '@types/react': ^18.0.0 || ^19.0.0
++      '@types/react-dom': ^18.0.0 || ^19.0.0
++      react: ^18.0.0 || ^19.0.0
++      react-dom: ^18.0.0 || ^19.0.0
++    peerDependenciesMeta:
++      '@types/react':
++        optional: true
++      '@types/react-dom':
++        optional: true
++
+   '@turbo/darwin-64@2.8.20':
+     resolution: {integrity: sha512-FQ9EX1xMU5nbwjxXxM3yU88AQQ6Sqc6S44exPRroMcx9XZHqqppl5ymJF0Ig/z3nvQNwDmz1Gsnvxubo+nXWjQ==}
+     cpu: [x64]
+@@ -1321,6 +1441,9 @@ packages:
+     cpu: [arm64]
+     os: [win32]
+ 
++  '@types/aria-query@5.0.4':
++    resolution: {integrity: sha512-rfT93uj5s0PRL7EzccGMs3brplhcrghnDoV26NqKhCAS1hVo+WdNsPvE/yb6ilfr5hi2MEk6d5EWJTKdxg8jVw==}
++
+   '@types/chai@5.2.3':
+     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
+ 
+@@ -1554,13 +1677,32 @@ packages:
+     engines: {node: '>=0.4.0'}
+     hasBin: true
+ 
++  agent-base@7.1.4:
++    resolution: {integrity: sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==}
++    engines: {node: '>= 14'}
++
+   ajv@6.14.0:
+     resolution: {integrity: sha512-IWrosm/yrn43eiKqkfkHis7QioDleaXQHdDVPKg0FSwwd/DuvyX79TZnFOnYpB7dcsFAMmtFztZuXPDvSePkFw==}
+ 
++  ansi-regex@5.0.1:
++    resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
++    engines: {node: '>=8'}
++
++  ansi-styles@5.2.0:
++    resolution: {integrity: sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==}
++    engines: {node: '>=10'}
++
+   aria-hidden@1.2.6:
+     resolution: {integrity: sha512-ik3ZgC9dY/lYVVM++OISsaYDeg1tb0VtP5uL3ouh1koGOaUMDPpbFIei4JkFimWUFPn90sbMNMXQAIVOlnYKJA==}
+     engines: {node: '>=10'}
+ 
++  aria-query@5.3.0:
++    resolution: {integrity: sha512-b0P0sZPKtyu8HkeRAfCq0IfURZK+SuwMjY1UXGBU27wpAiTwQAIlq56IbIO+ytk/JjS1fMR14ee5WBBfKi5J6A==}
++
++  aria-query@5.3.2:
++    resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
++    engines: {node: '>= 0.4'}
++
+   assertion-error@2.0.1:
+     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
+     engines: {node: '>=12'}
+@@ -1698,6 +1840,13 @@ packages:
+     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
+     engines: {node: '>= 8'}
+ 
++  css.escape@1.5.1:
++    resolution: {integrity: sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg==}
++
++  cssstyle@4.6.0:
++    resolution: {integrity: sha512-2z+rWdzbbSZv6/rhtvzvqeZQHrBaqgogqt85sqFNbabZOuFbCVFb8kPeEtZjiKkbrm395irpNKiYeFeLiQnFPg==}
++    engines: {node: '>=18'}
++
+   csstype@3.2.3:
+     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
+ 
+@@ -1857,6 +2006,10 @@ packages:
+   dagre-d3-es@7.0.14:
+     resolution: {integrity: sha512-P4rFMVq9ESWqmOgK+dlXvOtLwYg0i7u0HBGJER0LZDJT2VHIPAMZ/riPxqJceWMStH5+E61QxFra9kIS3AqdMg==}
+ 
++  data-urls@5.0.0:
++    resolution: {integrity: sha512-ZYP5VBHshaDAiVZxjbRVcFJpc+4xGgT0bK3vzy1HLN8jTO975HEbuYzZJcHoQEY5K1a0z8YayJkyVETa08eNTg==}
++    engines: {node: '>=18'}
++
+   dayjs@1.11.20:
+     resolution: {integrity: sha512-YbwwqR/uYpeoP4pu043q+LTDLFBLApUP6VxRihdfNTqu4ubqMlGDLd6ErXhEgsyvY0K6nCs7nggYumAN+9uEuQ==}
+ 
+@@ -1880,6 +2033,9 @@ packages:
+   decimal.js-light@2.5.1:
+     resolution: {integrity: sha512-qIMFpTMZmny+MMIitAB6D7iVPEorVw6YQRWkvarTkT4tBeSLLiHzcwj6q0MmYSFCiVpiqPJTJEYIrpcPzVEIvg==}
+ 
++  decimal.js@10.6.0:
++    resolution: {integrity: sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==}
++
+   decompress-response@6.0.0:
+     resolution: {integrity: sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==}
+     engines: {node: '>=10'}
+@@ -1913,6 +2069,12 @@ packages:
+   detect-node-es@1.1.0:
+     resolution: {integrity: sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==}
+ 
++  dom-accessibility-api@0.5.16:
++    resolution: {integrity: sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg==}
++
++  dom-accessibility-api@0.6.3:
++    resolution: {integrity: sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==}
++
+   dom-helpers@5.2.1:
+     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
+ 
+@@ -1937,6 +2099,10 @@ packages:
+     resolution: {integrity: sha512-Qohcme7V1inbAfvjItgw0EaxVX5q2rdVEZHRBrEQdRZTssLDGsL8Lwrznl8oQ/6kuTJONLaDcGjkNP247XEhcA==}
+     engines: {node: '>=10.13.0'}
+ 
++  entities@6.0.1:
++    resolution: {integrity: sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==}
++    engines: {node: '>=0.12'}
++
+   es-define-property@1.0.1:
+     resolution: {integrity: sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==}
+     engines: {node: '>= 0.4'}
+@@ -2137,10 +2303,22 @@ packages:
+     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
+     engines: {node: '>= 0.4'}
+ 
++  html-encoding-sniffer@4.0.0:
++    resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
++    engines: {node: '>=18'}
++
+   http-errors@2.0.1:
+     resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
+     engines: {node: '>= 0.8'}
+ 
++  http-proxy-agent@7.0.2:
++    resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
++    engines: {node: '>= 14'}
++
++  https-proxy-agent@7.0.6:
++    resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
++    engines: {node: '>= 14'}
++
+   iceberg-js@0.8.1:
+     resolution: {integrity: sha512-1dhVQZXhcHje7798IVM+xoo/1ZdVfzOMIc8/rgVSijRK38EDqOJoGula9N/8ZI5RD8QTxNQtK/Gozpr+qUqRRA==}
+     engines: {node: '>=20.0.0'}
+@@ -2168,6 +2346,10 @@ packages:
+     resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
+     engines: {node: '>=0.8.19'}
+ 
++  indent-string@4.0.0:
++    resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
++    engines: {node: '>=8'}
++
+   inherits@2.0.4:
+     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
+ 
+@@ -2193,6 +2375,9 @@ packages:
+     resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==}
+     engines: {node: '>=0.10.0'}
+ 
++  is-potential-custom-element-name@1.0.1:
++    resolution: {integrity: sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==}
++
+   is-promise@4.0.0:
+     resolution: {integrity: sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==}
+ 
+@@ -2212,6 +2397,15 @@ packages:
+   js-tokens@9.0.1:
+     resolution: {integrity: sha512-mxa9E9ITFOt0ban3j6L5MpjwegGz6lBQmM1IJkWeBZGcMxto50+eWdjC/52xDbS2vy0k7vIMK0Fe2wfL9OQSpQ==}
+ 
++  jsdom@26.1.0:
++    resolution: {integrity: sha512-Cvc9WUhxSMEo4McES3P7oK3QaXldCfNWp7pl2NNeiIFlCoLr3kfq9kb1fxftiwk1FLV7CvpvDfonxtzUDeSOPg==}
++    engines: {node: '>=18'}
++    peerDependencies:
++      canvas: ^3.0.0
++    peerDependenciesMeta:
++      canvas:
++        optional: true
++
+   json-buffer@3.0.1:
+     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
+ 
+@@ -2332,6 +2526,9 @@ packages:
+   loupe@3.2.1:
+     resolution: {integrity: sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ==}
+ 
++  lru-cache@10.4.3:
++    resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
++
+   lru-cache@4.1.5:
+     resolution: {integrity: sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==}
+ 
+@@ -2340,6 +2537,10 @@ packages:
+     peerDependencies:
+       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+ 
++  lz-string@1.5.0:
++    resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
++    hasBin: true
++
+   magic-string@0.30.21:
+     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
+ 
+@@ -2379,6 +2580,10 @@ packages:
+     resolution: {integrity: sha512-z0yWI+4FDrrweS8Zmt4Ej5HdJmky15+L2e6Wgn3+iK5fWzb6T3fhNFq2+MeTRb064c6Wr4N/wv0DzQTjNzHNGQ==}
+     engines: {node: '>=10'}
+ 
++  min-indent@1.0.1:
++    resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
++    engines: {node: '>=4'}
++
+   minimatch@10.2.4:
+     resolution: {integrity: sha512-oRjTw/97aTBN0RHbYCdtF1MQfvusSIBQM0IZEgzl6426+8jSC0nF1a/GmnVLpfB9yyr6g6FTqWqiZVbxrtaCIg==}
+     engines: {node: 18 || 20 || >=22}
+@@ -2438,6 +2643,9 @@ packages:
+     resolution: {integrity: sha512-6u9UwL0HlAl21+agMN3YAMXcKByMqwGx+pq+P76vii5f7hTPtKDp08/H9py6DY+cfDw7kQNTGEj/rly3IgbNQA==}
+     engines: {node: '>=10'}
+ 
++  nwsapi@2.2.23:
++    resolution: {integrity: sha512-7wfH4sLbt4M0gCDzGE6vzQBo0bfTKjU7Sfpqy/7gs1qBfYz2vEJH6vXcBKpO3+6Yu1telwd0t9HpyOoLEQQbIQ==}
++
+   oauth4webapi@3.8.5:
+     resolution: {integrity: sha512-A8jmyUckVhRJj5lspguklcl90Ydqk61H3dcU0oLhH3Yv13KpAliKTt5hknpGGPZSSfOwGyraNEFmofDYH+1kSg==}
+ 
+@@ -2478,6 +2686,9 @@ packages:
+   package-manager-detector@1.6.0:
+     resolution: {integrity: sha512-61A5ThoTiDG/C8s8UMZwSorAGwMJ0ERVGj2OjoW5pAalsNOg15+iQiPzrLJ4jhZ1HJzmC2PIHT2oEiH3R5fzNA==}
+ 
++  parse5@7.3.0:
++    resolution: {integrity: sha512-IInvU7fabl34qmi9gY8XOVxhYyMyuH2xUNpb2q8/Y+7552KlejkRvqvD19nMoUW/uQGGbqNpA6Tufu5FL5BZgw==}
++
+   parseurl@1.3.3:
+     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
+     engines: {node: '>= 0.8'}
+@@ -2607,6 +2818,10 @@ packages:
+     engines: {node: '>=14'}
+     hasBin: true
+ 
++  pretty-format@27.5.1:
++    resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
++    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
++
+   prop-types@15.8.1:
+     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
+ 
+@@ -2657,6 +2872,9 @@ packages:
+   react-is@16.13.1:
+     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
+ 
++  react-is@17.0.2:
++    resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
++
+   react-is@18.3.1:
+     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
+ 
+@@ -2737,6 +2955,10 @@ packages:
+       react: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+       react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+ 
++  redent@3.0.0:
++    resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
++    engines: {node: '>=8'}
++
+   robust-predicates@3.0.3:
+     resolution: {integrity: sha512-NS3levdsRIUOmiJ8FZWCP7LG3QpJyrs/TE0Zpf1yvZu8cAJJ6QMW92H1c7kWpdIHo8RvmLxN/o2JXTKHp74lUA==}
+ 
+@@ -2752,6 +2974,9 @@ packages:
+     resolution: {integrity: sha512-nLTrUKm2UyiL7rlhapu/Zl45FwNgkZGaCpZbIHajDYgwlJCOzLSk+cIPAnsEqV955GjILJnKbdQC1nVPz+gAYQ==}
+     engines: {node: '>= 18'}
+ 
++  rrweb-cssom@0.8.0:
++    resolution: {integrity: sha512-guoltQEx+9aMf2gDZ0s62EcV8lsXR+0w8915TC3ITdn2YueuNjdAYh/levpU9nFaoChh9RUS5ZdQMrKfVEN9tw==}
++
+   rw@1.3.3:
+     resolution: {integrity: sha512-PdhdWy89SiZogBLaw42zdeqtRJ//zFd2PgQavcICDUgJT5oW10QCRKbJ6bg4r0/UY2M6BWd5tkxuGFRvCkgfHQ==}
+ 
+@@ -2761,6 +2986,10 @@ packages:
+   safer-buffer@2.1.2:
+     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
+ 
++  saxes@6.0.0:
++    resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
++    engines: {node: '>=v12.22.7'}
++
+   scheduler@0.27.0:
+     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
+ 
+@@ -2841,6 +3070,10 @@ packages:
+   string_decoder@1.3.0:
+     resolution: {integrity: sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==}
+ 
++  strip-indent@3.0.0:
++    resolution: {integrity: sha512-laJTa3Jb+VQpaC6DseHhF7dXVqHTfJPCRDaEbid/drOhgitgYku/letMUqOXFoWV0zIIUbjpdH2t+tYj4bQMRQ==}
++    engines: {node: '>=8'}
++
+   strip-json-comments@2.0.1:
+     resolution: {integrity: sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==}
+     engines: {node: '>=0.10.0'}
+@@ -2869,6 +3102,9 @@ packages:
+     peerDependencies:
+       react: ^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+ 
++  symbol-tree@3.2.4:
++    resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
++
+   tailwind-merge@3.5.0:
+     resolution: {integrity: sha512-I8K9wewnVDkL1NTGoqWmVEIlUcB9gFriAEkXkfCjX5ib8ezGxtR3xD7iZIxrfArjEsH7F1CHD4RFUtxefdqV/A==}
+ 
+@@ -2915,10 +3151,25 @@ packages:
+     resolution: {integrity: sha512-azl+t0z7pw/z958Gy9svOTuzqIk6xq+NSheJzn5MMWtWTFywIacg2wUlzKFGtt3cthx0r2SxMK0yzJOR0IES7Q==}
+     engines: {node: '>=14.0.0'}
+ 
++  tldts-core@6.1.86:
++    resolution: {integrity: sha512-Je6p7pkk+KMzMv2XXKmAE3McmolOQFdxkKw0R8EYNr7sELW46JqnNeTX8ybPiQgvg1ymCoF8LXs5fzFaZvJPTA==}
++
++  tldts@6.1.86:
++    resolution: {integrity: sha512-WMi/OQ2axVTf/ykqCQgXiIct+mSQDFdH2fkwhPwgEwvJ1kSzZRiinb0zF2Xb8u4+OqPChmyI6MEu4EezNJz+FQ==}
++    hasBin: true
++
+   toidentifier@1.0.1:
+     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
+     engines: {node: '>=0.6'}
+ 
++  tough-cookie@5.1.2:
++    resolution: {integrity: sha512-FVDYdxtnj0G6Qm/DhNPSb8Ju59ULcup3tuJxkFb5K8Bv2pUXILbf0xZWU8PX8Ov19OXljbUyveOFwRMwkXzO+A==}
++    engines: {node: '>=16'}
++
++  tr46@5.1.1:
++    resolution: {integrity: sha512-hdF5ZgjTqgAntKkklYw0R03MG2x/bSzTtkxmIRw/sTNV8YXsCJ1tfLAX23lhxhHJlEf3CRCOCGGWw3vI3GaSPw==}
++    engines: {node: '>=18'}
++
+   ts-api-utils@2.5.0:
+     resolution: {integrity: sha512-OJ/ibxhPlqrMM0UiNHJ/0CKQkoKF243/AEmplt3qpRgkW8VG7IfOS41h7V8TjITqdByHzrjcS/2si+y4lIh8NA==}
+     engines: {node: '>=18.12'}
+@@ -3112,6 +3363,27 @@ packages:
+   vscode-uri@3.1.0:
+     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
+ 
++  w3c-xmlserializer@5.0.0:
++    resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
++    engines: {node: '>=18'}
++
++  webidl-conversions@7.0.0:
++    resolution: {integrity: sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==}
++    engines: {node: '>=12'}
++
++  whatwg-encoding@3.1.1:
++    resolution: {integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==}
++    engines: {node: '>=18'}
++    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
++
++  whatwg-mimetype@4.0.0:
++    resolution: {integrity: sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg==}
++    engines: {node: '>=18'}
++
++  whatwg-url@14.2.0:
++    resolution: {integrity: sha512-De72GdQZzNTUBBChsXueQUnPKDkg/5A5zp7pFDuQAj5UFoENpiACU0wlCvzpAGnTkj++ihpKwKyYewn/XNUbKw==}
++    engines: {node: '>=18'}
++
+   which@2.0.2:
+     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
+     engines: {node: '>= 8'}
+@@ -3141,6 +3413,13 @@ packages:
+       utf-8-validate:
+         optional: true
+ 
++  xml-name-validator@5.0.0:
++    resolution: {integrity: sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==}
++    engines: {node: '>=18'}
++
++  xmlchars@2.2.0:
++    resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
++
+   xtend@4.0.2:
+     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
+     engines: {node: '>=0.4'}
+@@ -3157,6 +3436,8 @@ packages:
+ 
+ snapshots:
+ 
++  '@adobe/css-tools@4.4.4': {}
++
+   '@alloc/quick-lru@5.2.0': {}
+ 
+   '@antfu/install-pkg@1.1.0':
+@@ -3164,6 +3445,14 @@ snapshots:
+       package-manager-detector: 1.6.0
+       tinyexec: 1.0.4
+ 
++  '@asamuzakjp/css-color@3.2.0':
++    dependencies:
++      '@csstools/css-calc': 2.1.4(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)
++      '@csstools/css-color-parser': 3.1.0(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)
++      '@csstools/css-parser-algorithms': 3.0.5(@csstools/css-tokenizer@3.0.4)
++      '@csstools/css-tokenizer': 3.0.4
++      lru-cache: 10.4.3
++
+   '@auth0/nextjs-auth0@4.16.1(next@16.2.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+     dependencies:
+       '@edge-runtime/cookies': 5.0.2
+@@ -3176,6 +3465,14 @@ snapshots:
+       react-dom: 19.2.4(react@19.2.4)
+       swr: 2.4.1(react@19.2.4)
+ 
++  '@babel/code-frame@7.29.0':
++    dependencies:
++      '@babel/helper-validator-identifier': 7.28.5
++      js-tokens: 4.0.0
++      picocolors: 1.1.1
++
++  '@babel/helper-validator-identifier@7.28.5': {}
++
+   '@babel/runtime@7.29.2': {}
+ 
+   '@braintree/sanitize-url@7.1.2': {}
+@@ -3197,6 +3494,26 @@ snapshots:
+ 
+   '@chevrotain/utils@11.1.2': {}
+ 
++  '@csstools/color-helpers@5.1.0': {}
++
++  '@csstools/css-calc@2.1.4(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)':
++    dependencies:
++      '@csstools/css-parser-algorithms': 3.0.5(@csstools/css-tokenizer@3.0.4)
++      '@csstools/css-tokenizer': 3.0.4
++
++  '@csstools/css-color-parser@3.1.0(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)':
++    dependencies:
++      '@csstools/color-helpers': 5.1.0
++      '@csstools/css-calc': 2.1.4(@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4))(@csstools/css-tokenizer@3.0.4)
++      '@csstools/css-parser-algorithms': 3.0.5(@csstools/css-tokenizer@3.0.4)
++      '@csstools/css-tokenizer': 3.0.4
++
++  '@csstools/css-parser-algorithms@3.0.5(@csstools/css-tokenizer@3.0.4)':
++    dependencies:
++      '@csstools/css-tokenizer': 3.0.4
++
++  '@csstools/css-tokenizer@3.0.4': {}
++
+   '@edge-runtime/cookies@5.0.2': {}
+ 
+   '@emnapi/runtime@1.9.1':
+@@ -4029,6 +4346,36 @@ snapshots:
+       postcss: 8.5.8
+       tailwindcss: 4.2.2
+ 
++  '@testing-library/dom@10.4.1':
++    dependencies:
++      '@babel/code-frame': 7.29.0
++      '@babel/runtime': 7.29.2
++      '@types/aria-query': 5.0.4
++      aria-query: 5.3.0
++      dom-accessibility-api: 0.5.16
++      lz-string: 1.5.0
++      picocolors: 1.1.1
++      pretty-format: 27.5.1
++
++  '@testing-library/jest-dom@6.9.1':
++    dependencies:
++      '@adobe/css-tools': 4.4.4
++      aria-query: 5.3.2
++      css.escape: 1.5.1
++      dom-accessibility-api: 0.6.3
++      picocolors: 1.1.1
++      redent: 3.0.0
++
++  '@testing-library/react@16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
++    dependencies:
++      '@babel/runtime': 7.29.2
++      '@testing-library/dom': 10.4.1
++      react: 19.2.4
++      react-dom: 19.2.4(react@19.2.4)
++    optionalDependencies:
++      '@types/react': 19.2.14
++      '@types/react-dom': 19.2.3(@types/react@19.2.14)
++
+   '@turbo/darwin-64@2.8.20':
+     optional: true
+ 
+@@ -4047,6 +4394,8 @@ snapshots:
+   '@turbo/windows-arm64@2.8.20':
+     optional: true
+ 
++  '@types/aria-query@5.0.4': {}
++
+   '@types/chai@5.2.3':
+     dependencies:
+       '@types/deep-eql': 4.0.2
+@@ -4347,6 +4696,8 @@ snapshots:
+ 
+   acorn@8.16.0: {}
+ 
++  agent-base@7.1.4: {}
++
+   ajv@6.14.0:
+     dependencies:
+       fast-deep-equal: 3.1.3
+@@ -4354,10 +4705,20 @@ snapshots:
+       json-schema-traverse: 0.4.1
+       uri-js: 4.4.1
+ 
++  ansi-regex@5.0.1: {}
++
++  ansi-styles@5.2.0: {}
++
+   aria-hidden@1.2.6:
+     dependencies:
+       tslib: 2.8.1
+ 
++  aria-query@5.3.0:
++    dependencies:
++      dequal: 2.0.3
++
++  aria-query@5.3.2: {}
++
+   assertion-error@2.0.1: {}
+ 
+   balanced-match@4.0.4: {}
+@@ -4494,6 +4855,13 @@ snapshots:
+       shebang-command: 2.0.0
+       which: 2.0.2
+ 
++  css.escape@1.5.1: {}
++
++  cssstyle@4.6.0:
++    dependencies:
++      '@asamuzakjp/css-color': 3.2.0
++      rrweb-cssom: 0.8.0
++
+   csstype@3.2.3: {}
+ 
+   cytoscape-cose-bilkent@4.1.0(cytoscape@3.33.1):
+@@ -4680,6 +5048,11 @@ snapshots:
+       d3: 7.9.0
+       lodash-es: 4.17.23
+ 
++  data-urls@5.0.0:
++    dependencies:
++      whatwg-mimetype: 4.0.0
++      whatwg-url: 14.2.0
++
+   dayjs@1.11.20: {}
+ 
+   debug@2.6.9:
+@@ -4692,6 +5065,8 @@ snapshots:
+ 
+   decimal.js-light@2.5.1: {}
+ 
++  decimal.js@10.6.0: {}
++
+   decompress-response@6.0.0:
+     dependencies:
+       mimic-response: 3.1.0
+@@ -4714,6 +5089,10 @@ snapshots:
+ 
+   detect-node-es@1.1.0: {}
+ 
++  dom-accessibility-api@0.5.16: {}
++
++  dom-accessibility-api@0.6.3: {}
++
+   dom-helpers@5.2.1:
+     dependencies:
+       '@babel/runtime': 7.29.2
+@@ -4742,6 +5121,8 @@ snapshots:
+       graceful-fs: 4.2.11
+       tapable: 2.3.2
+ 
++  entities@6.0.1: {}
++
+   es-define-property@1.0.1: {}
+ 
+   es-errors@1.3.0: {}
+@@ -5003,6 +5384,10 @@ snapshots:
+     dependencies:
+       function-bind: 1.1.2
+ 
++  html-encoding-sniffer@4.0.0:
++    dependencies:
++      whatwg-encoding: 3.1.1
++
+   http-errors@2.0.1:
+     dependencies:
+       depd: 2.0.0
+@@ -5011,6 +5396,20 @@ snapshots:
+       statuses: 2.0.2
+       toidentifier: 1.0.1
+ 
++  http-proxy-agent@7.0.2:
++    dependencies:
++      agent-base: 7.1.4
++      debug: 4.4.3
++    transitivePeerDependencies:
++      - supports-color
++
++  https-proxy-agent@7.0.6:
++    dependencies:
++      agent-base: 7.1.4
++      debug: 4.4.3
++    transitivePeerDependencies:
++      - supports-color
++
+   iceberg-js@0.8.1: {}
+ 
+   iconv-lite@0.6.3:
+@@ -5029,6 +5428,8 @@ snapshots:
+ 
+   imurmurhash@0.1.4: {}
+ 
++  indent-string@4.0.0: {}
++
+   inherits@2.0.4: {}
+ 
+   ini@1.3.8: {}
+@@ -5045,6 +5446,8 @@ snapshots:
+     dependencies:
+       is-extglob: 2.1.1
+ 
++  is-potential-custom-element-name@1.0.1: {}
++
+   is-promise@4.0.0: {}
+ 
+   isexe@2.0.0: {}
+@@ -5057,6 +5460,33 @@ snapshots:
+ 
+   js-tokens@9.0.1: {}
+ 
++  jsdom@26.1.0:
++    dependencies:
++      cssstyle: 4.6.0
++      data-urls: 5.0.0
++      decimal.js: 10.6.0
++      html-encoding-sniffer: 4.0.0
++      http-proxy-agent: 7.0.2
++      https-proxy-agent: 7.0.6
++      is-potential-custom-element-name: 1.0.1
++      nwsapi: 2.2.23
++      parse5: 7.3.0
++      rrweb-cssom: 0.8.0
++      saxes: 6.0.0
++      symbol-tree: 3.2.4
++      tough-cookie: 5.1.2
++      w3c-xmlserializer: 5.0.0
++      webidl-conversions: 7.0.0
++      whatwg-encoding: 3.1.1
++      whatwg-mimetype: 4.0.0
++      whatwg-url: 14.2.0
++      ws: 8.20.0
++      xml-name-validator: 5.0.0
++    transitivePeerDependencies:
++      - bufferutil
++      - supports-color
++      - utf-8-validate
++
+   json-buffer@3.0.1: {}
+ 
+   json-schema-traverse@0.4.1: {}
+@@ -5153,6 +5583,8 @@ snapshots:
+ 
+   loupe@3.2.1: {}
+ 
++  lru-cache@10.4.3: {}
++
+   lru-cache@4.1.5:
+     dependencies:
+       pseudomap: 1.0.2
+@@ -5162,6 +5594,8 @@ snapshots:
+     dependencies:
+       react: 19.2.4
+ 
++  lz-string@1.5.0: {}
++
+   magic-string@0.30.21:
+     dependencies:
+       '@jridgewell/sourcemap-codec': 1.5.5
+@@ -5213,6 +5647,8 @@ snapshots:
+ 
+   mimic-response@3.1.0: {}
+ 
++  min-indent@1.0.1: {}
++
+   minimatch@10.2.4:
+     dependencies:
+       brace-expansion: 5.0.5
+@@ -5268,6 +5704,8 @@ snapshots:
+     dependencies:
+       semver: 7.7.4
+ 
++  nwsapi@2.2.23: {}
++
+   oauth4webapi@3.8.5: {}
+ 
+   object-assign@4.1.1: {}
+@@ -5308,6 +5746,10 @@ snapshots:
+ 
+   package-manager-detector@1.6.0: {}
+ 
++  parse5@7.3.0:
++    dependencies:
++      entities: 6.0.1
++
+   parseurl@1.3.3: {}
+ 
+   passport-local@1.0.0:
+@@ -5429,6 +5871,12 @@ snapshots:
+ 
+   prettier@3.8.1: {}
+ 
++  pretty-format@27.5.1:
++    dependencies:
++      ansi-regex: 5.0.1
++      ansi-styles: 5.2.0
++      react-is: 17.0.2
++
+   prop-types@15.8.1:
+     dependencies:
+       loose-envify: 1.4.0
+@@ -5497,6 +5945,8 @@ snapshots:
+ 
+   react-is@16.13.1: {}
+ 
++  react-is@17.0.2: {}
++
+   react-is@18.3.1: {}
+ 
+   react-remove-scroll-bar@2.3.8(@types/react@19.2.14)(react@19.2.4):
+@@ -5582,6 +6032,11 @@ snapshots:
+       tiny-invariant: 1.3.3
+       victory-vendor: 36.9.2
+ 
++  redent@3.0.0:
++    dependencies:
++      indent-string: 4.0.0
++      strip-indent: 3.0.0
++
+   robust-predicates@3.0.3: {}
+ 
+   rollup@4.60.0:
+@@ -5632,12 +6087,18 @@ snapshots:
+     transitivePeerDependencies:
+       - supports-color
+ 
++  rrweb-cssom@0.8.0: {}
++
+   rw@1.3.3: {}
+ 
+   safe-buffer@5.2.1: {}
+ 
+   safer-buffer@2.1.2: {}
+ 
++  saxes@6.0.0:
++    dependencies:
++      xmlchars: 2.2.0
++
+   scheduler@0.27.0: {}
+ 
+   semver@7.7.4: {}
+@@ -5761,6 +6222,10 @@ snapshots:
+     dependencies:
+       safe-buffer: 5.2.1
+ 
++  strip-indent@3.0.0:
++    dependencies:
++      min-indent: 1.0.1
++
+   strip-json-comments@2.0.1: {}
+ 
+   strip-literal@3.1.0:
+@@ -5780,6 +6245,8 @@ snapshots:
+       react: 19.2.4
+       use-sync-external-store: 1.6.0(react@19.2.4)
+ 
++  symbol-tree@3.2.4: {}
++
+   tailwind-merge@3.5.0: {}
+ 
+   tailwindcss@4.2.2: {}
+@@ -5820,8 +6287,22 @@ snapshots:
+ 
+   tinyspy@4.0.4: {}
+ 
++  tldts-core@6.1.86: {}
++
++  tldts@6.1.86:
++    dependencies:
++      tldts-core: 6.1.86
++
+   toidentifier@1.0.1: {}
+ 
++  tough-cookie@5.1.2:
++    dependencies:
++      tldts: 6.1.86
++
++  tr46@5.1.1:
++    dependencies:
++      punycode: 2.3.1
++
+   ts-api-utils@2.5.0(typescript@5.9.3):
+     dependencies:
+       typescript: 5.9.3
+@@ -5959,7 +6440,7 @@ snapshots:
+       jiti: 2.6.1
+       lightningcss: 1.32.0
+ 
+-  vitest@3.2.4(@types/node@22.19.15)(jiti@2.6.1)(lightningcss@1.32.0):
++  vitest@3.2.4(@types/node@22.19.15)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0):
+     dependencies:
+       '@types/chai': 5.2.3
+       '@vitest/expect': 3.2.4
+@@ -5986,6 +6467,7 @@ snapshots:
+       why-is-node-running: 2.3.0
+     optionalDependencies:
+       '@types/node': 22.19.15
++      jsdom: 26.1.0
+     transitivePeerDependencies:
+       - jiti
+       - less
+@@ -6017,6 +6499,23 @@ snapshots:
+ 
+   vscode-uri@3.1.0: {}
+ 
++  w3c-xmlserializer@5.0.0:
++    dependencies:
++      xml-name-validator: 5.0.0
++
++  webidl-conversions@7.0.0: {}
++
++  whatwg-encoding@3.1.1:
++    dependencies:
++      iconv-lite: 0.6.3
++
++  whatwg-mimetype@4.0.0: {}
++
++  whatwg-url@14.2.0:
++    dependencies:
++      tr46: 5.1.1
++      webidl-conversions: 7.0.0
++
+   which@2.0.2:
+     dependencies:
+       isexe: 2.0.0
+@@ -6032,6 +6531,10 @@ snapshots:
+ 
+   ws@8.20.0: {}
+ 
++  xml-name-validator@5.0.0: {}
++
++  xmlchars@2.2.0: {}
++
+   xtend@4.0.2: {}
+ 
+   yallist@2.1.2: {}
+diff --git a/vitest.workspace.ts b/vitest.workspace.ts
+new file mode 100644
+index 0000000..e0e766e
+--- /dev/null
++++ b/vitest.workspace.ts
+@@ -0,0 +1,3 @@
++import { defineWorkspace } from "vitest/config";
++
++export default defineWorkspace(["apps/*", "packages/*"]);

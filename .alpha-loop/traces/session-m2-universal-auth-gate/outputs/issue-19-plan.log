@@ -1,0 +1,5 @@
+Plan written to `plan-issue-19.json`. It covers the three changes needed:
+
+1. **layout.tsx** — add `requireAppLayoutAccess` import, make function async, call the guard
+2. **app-registry.ts** — flip `auth: false` to `auth: true` on line 74
+3. **New test file** — 4 smoke tests matching the established pattern (dad-joke-of-the-day)

@@ -1,0 +1,15 @@
+Plan written to `plan-issue-8.json`. Key findings from the analysis:
+
+**Already working** (no changes needed):
+- All 15 auth-gated apps already have `auth: true` in the registry
+- Self-enroll mechanism via `APP_SELF_ENROLL_SLUGS` is functional
+- Signup defaults to `/my-apps` returnTo
+
+**Needs implementation** (9 steps):
+1. **Redirect validation** — unknown slugs in `buildAuthLoginHref` should fall back to `/my-apps`
+2. **Open-redirect prevention** — validate `returnTo` in Auth0 callback rejects external URLs
+3. **Expired session handling** — `requireAccess` should pass `session_expired` error to login
+4. **Login form** — map `session_expired` error, preserve redirect on signup link
+5. **Unauthorized page** — show app name in heading, clearer "request access" CTA
+6. **Self-enroll returnTo parsing** — handle production subdomain URLs, not just `/apps/{slug}` paths
+7. **ENV documentation** — add `APP_SELF_ENROLL_SLUGS` to `.env.compose`

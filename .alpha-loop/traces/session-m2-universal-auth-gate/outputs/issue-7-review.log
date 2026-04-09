@@ -1,0 +1,5 @@
+**Review: PASSED**
+
+All 5 acceptance criteria are satisfied. The Lighthouse layout calls `requireAppLayoutAccess("lighthouse")`, the registry has `auth: true`, and all 4 tests (auth call, login redirect, unauthorized redirect, and authenticated access) pass.
+
+One minor note: the branch carries Area 52 changes from issue #6, but those are already merged and don't affect correctness.

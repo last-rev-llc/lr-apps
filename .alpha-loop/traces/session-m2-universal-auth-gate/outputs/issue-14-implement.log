@@ -1,0 +1,7 @@
+Done. Three files changed:
+
+1. **`apps/web/lib/app-registry.ts`** — `auth: false` → `auth: true` for brommie-quake
+2. **`apps/web/app/apps/brommie-quake/layout.tsx`** — added `requireAppLayoutAccess("brommie-quake")` call
+3. **`apps/web/app/apps/brommie-quake/__tests__/layout.test.tsx`** — 4 smoke tests covering auth call, unauthenticated redirect, unauthorized redirect, and authenticated access
+
+All 81 tests pass across 10 test files (8 packages, 0 failures).

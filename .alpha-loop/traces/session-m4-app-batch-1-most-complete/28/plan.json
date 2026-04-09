@@ -1,0 +1,16 @@
+{
+  "summary": "Replace inline UI patterns in Standup app with @repo/ui shared components (Badge, Button, EmptyState)",
+  "files": [
+    "apps/web/app/apps/standup/components/standup-app.tsx",
+    "apps/web/app/apps/standup/layout.tsx"
+  ],
+  "implementation": "1. standup-app.tsx — Replace inline SourceBadge with @repo/ui Badge: import Badge (already imported), apply 'outline' variant with custom className for source-specific colors via cn(). Remove the inline SourceBadge component.\n2. standup-app.tsx — Replace inline filter pill <button> elements (lines 171-181) with @repo/ui Button: use variant='ghost' or 'outline' with size='sm' and conditional className for active/inactive state styling. Add rounded-full override via className.\n3. standup-app.tsx — Replace inline empty state Card (lines 186-192) with @repo/ui EmptyState component: use icon='📋', title='No standup entries yet.' Props map directly.\n4. layout.tsx — Replace inline back link with @repo/ui Button: use variant='link' or 'ghost' with size='sm' and asChild wrapping the Next.js Link.\n5. Consolidate imports: ensure all @repo/ui imports use a single import statement. Remove unused Badge import if SourceBadge migration makes it used, or keep as-is.\n6. Run `pnpm build` from repo root to verify no type or build errors.",
+  "testing": {
+    "needed": true,
+    "reason": "Component migration changes rendered output and class names. Existing tests (if any) should be run, and new snapshot or render tests may be needed to ensure migrated components render correctly."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "This is a component library migration that swaps inline patterns for shared components with equivalent visual output. Build verification (pnpm build) is sufficient. The app requires authentication and Supabase data, making browser verification impractical without full environment setup."
+  }
+}

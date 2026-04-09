@@ -1,0 +1,26 @@
+{
+  "summary": "Add Table, DataGrid, StatusBadge, LoadingSkeleton, and ErrorBoundary components to @repo/ui following existing forwardRef/CVA/cn() patterns",
+  "files": [
+    "packages/ui/src/components/table.tsx",
+    "packages/ui/src/components/data-grid.tsx",
+    "packages/ui/src/components/status-badge.tsx",
+    "packages/ui/src/components/loading-skeleton.tsx",
+    "packages/ui/src/components/error-boundary.tsx",
+    "packages/ui/src/index.ts",
+    "packages/ui/package.json",
+    "packages/ui/src/components/__tests__/table.test.tsx",
+    "packages/ui/src/components/__tests__/data-grid.test.tsx",
+    "packages/ui/src/components/__tests__/status-badge.test.tsx",
+    "packages/ui/src/components/__tests__/loading-skeleton.test.tsx",
+    "packages/ui/src/components/__tests__/error-boundary.test.tsx"
+  ],
+  "implementation": "Step 1 — Table component (table.tsx): Create Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption sub-components. All use forwardRef wrapping native HTML table elements with cn() className merging. No external deps needed. Follow the Card multi-sub-component pattern exactly. Add sortable column support via an optional onSort callback prop on TableHead and a 'sorted' variant via CVA (asc/desc/none). Add row selection via optional checkbox column with onSelectRow/onSelectAll callbacks on Table.\n\nStep 2 — DataGrid component (data-grid.tsx): Higher-level wrapper around Table for tabular data display. Props: columns (array of {key, header, render?, sortable?}), data (array of row objects), sortable, selectable, emptyState. Renders Table internally. Uses 'use client' directive for interactive state (sort state, selection state). Includes built-in empty state via existing EmptyState component when data is empty.\n\nStep 3 — StatusBadge component (status-badge.tsx): Extend beyond existing Badge with semantic status variants via CVA. Variants: success (green), warning (amber), error (red), info (blue), neutral (gray), pending (yellow pulse animation). Each variant sets bg, text, and optional border colors using theme tokens (Tailwind classes). Support dark mode via dark: prefixed classes. Include optional dot indicator. Use forwardRef + CVA + cn() pattern matching button.tsx.\n\nStep 4 — LoadingSkeleton component (loading-skeleton.tsx): CVA variants for shape (line, circle, rect, card) and size (sm, md, lg, full). Renders a div with animate-pulse and rounded corners based on shape. Support configurable width/height props. Add compound variants: 'card' shape renders a Card-like skeleton with header + body lines. Use forwardRef + CVA + cn(). No 'use client' needed.\n\nStep 5 — ErrorBoundary component (error-boundary.tsx): Class component (required for React error boundaries) wrapping children. Props: fallback (ReactNode or render function receiving {error, reset}), onError callback. Default fallback shows error message with retry button using existing Button component. Export ErrorBoundary class and a useErrorBoundary hook (optional). Must use 'use client' directive.\n\nStep 6 — Update barrel export (index.ts): Add new exports to appropriate category sections. Table sub-components under 'Base UI', DataGrid under 'Interactive', StatusBadge under 'Base UI', LoadingSkeleton under 'Animation/Utility', ErrorBoundary under 'Utility'.\n\nStep 7 — Update package.json: Add @tanstack/react-table as optional peer dep only if DataGrid needs it; otherwise keep zero new deps by implementing sort/select logic inline.\n\nStep 8 — Write tests: Create __tests__/ directory. For each component, test: renders without crashing, forwards refs, applies variant classes correctly, handles interactive callbacks (sort, select). Use vitest + @testing-library/react (already configured).",
+  "testing": {
+    "needed": true,
+    "reason": "New UI components with interactive behavior (sorting, selection, error catching) need unit tests to verify variant rendering, ref forwarding, callback handling, and error boundary recovery."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "These are shared library components in @repo/ui, not wired into any specific app page yet. No user-visible UI to verify in a browser. Correctness is validated via unit tests and pnpm build/test."
+  }
+}

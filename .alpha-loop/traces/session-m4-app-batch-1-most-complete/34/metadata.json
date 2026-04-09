@@ -1,0 +1,15 @@
+{
+  "issueNum": 34,
+  "title": "Uptime: component migration",
+  "status": "success",
+  "duration": 443,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/132",
+  "timestamp": "2026-04-09T06:50:04.608Z",
+  "agent": "claude",
+  "model": ""
+}

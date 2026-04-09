@@ -1,0 +1,270 @@
+diff --git a/apps/web/app/(auth)/(forms)/login/login-form.tsx b/apps/web/app/(auth)/(forms)/login/login-form.tsx
+index 396d48c..42df8ec 100644
+--- a/apps/web/app/(auth)/(forms)/login/login-form.tsx
++++ b/apps/web/app/(auth)/(forms)/login/login-form.tsx
+@@ -5,9 +5,11 @@ import { Button } from "@repo/ui";
+ export function LoginForm({
+   loginHref,
+   error,
++  redirectSlug,
+ }: {
+   loginHref: string;
+   error?: string;
++  redirectSlug?: string;
+ }) {
+   return (
+     <div>
+@@ -22,7 +24,9 @@ export function LoginForm({
+         <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md mb-4">
+           {error === "forbidden"
+             ? "You do not have access to that app."
+-            : error}
++            : error === "session_expired"
++              ? "Your session expired — please sign in again."
++              : error}
+         </div>
+       )}
+ 
+@@ -32,7 +36,10 @@ export function LoginForm({
+ 
+       <p className="text-sm text-muted-foreground text-center mt-6">
+         New here?{" "}
+-        <a href="/signup" className="text-accent hover:underline">
++        <a
++          href={redirectSlug ? `/signup?redirect=${encodeURIComponent(redirectSlug)}` : "/signup"}
++          className="text-accent hover:underline"
++        >
+           Create an account
+         </a>
+       </p>
+diff --git a/apps/web/app/(auth)/(forms)/login/page.tsx b/apps/web/app/(auth)/(forms)/login/page.tsx
+index 49f8a1d..e250978 100644
+--- a/apps/web/app/(auth)/(forms)/login/page.tsx
++++ b/apps/web/app/(auth)/(forms)/login/page.tsx
+@@ -16,5 +16,11 @@ export default async function LoginPage({
+     redirectSlug: params.redirect,
+   });
+ 
+-  return <LoginForm loginHref={loginHref} error={params.error} />;
++  return (
++    <LoginForm
++      loginHref={loginHref}
++      error={params.error}
++      redirectSlug={params.redirect}
++    />
++  );
+ }
+diff --git a/apps/web/app/(auth)/(forms)/unauthorized/page.tsx b/apps/web/app/(auth)/(forms)/unauthorized/page.tsx
+index e3cea29..b432412 100644
+--- a/apps/web/app/(auth)/(forms)/unauthorized/page.tsx
++++ b/apps/web/app/(auth)/(forms)/unauthorized/page.tsx
+@@ -49,7 +49,11 @@ export default async function UnauthorizedPage({
+   return (
+     <div className="text-center max-w-md mx-auto">
+       <h1 className="font-heading text-2xl text-accent mb-2">
+-        {signedIn ? "Access required" : "Sign in or sign up"}
++        {signedIn
++          ? app
++            ? `Access required — ${app.name}`
++            : "Access required"
++          : "Sign in or sign up"}
+       </h1>
+ 
+       {error === "closed" && (
+@@ -97,7 +101,7 @@ export default async function UnauthorizedPage({
+           <form action={requestAppAccess}>
+             <input type="hidden" name="app" value={appSlug} />
+             <Button type="submit" className="w-full">
+-              Get access
++              Request access
+             </Button>
+           </form>
+         )}
+@@ -135,9 +139,9 @@ export default async function UnauthorizedPage({
+ 
+       {signedIn && appSlug && !canRequestAccess && !gate && error !== "closed" ? (
+         <p className="text-xs text-muted-foreground mt-6">
+-          Self-service access is off for this app in this environment. Ask an
+-          admin to add your account in{" "}
+-          <code className="bg-muted px-1 rounded">app_permissions</code>.
++          Self-service access is not available for{" "}
++          {app ? app.name : "this app"}. Please contact a Last Rev admin to
++          request access.
+         </p>
+       ) : null}
+     </div>
+diff --git a/apps/web/app/apps/age-of-apes/__tests__/layout.test.tsx b/apps/web/app/apps/age-of-apes/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..ffe0575
+--- /dev/null
++++ b/apps/web/app/apps/age-of-apes/__tests__/layout.test.tsx
+@@ -0,0 +1,64 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++// Provide React globally for JSX in the layout under test
++import React from "react";
++globalThis.React = React;
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++vi.mock("next/link", () => ({
++  default: ({ children }: { children: React.ReactNode }) =>
++    React.createElement("a", null, children),
++}));
++
++vi.mock("../lib/calculators", () => ({
++  CALCULATORS: [],
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("AgeOfApesLayout", () => {
++  it("calls requireAppLayoutAccess with 'age-of-apes'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("age-of-apes");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("age-of-apes");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("age-of-apes");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("age-of-apes");
++  });
++});
+diff --git a/apps/web/app/apps/age-of-apes/layout.tsx b/apps/web/app/apps/age-of-apes/layout.tsx
+index c9f392e..df9079e 100644
+--- a/apps/web/app/apps/age-of-apes/layout.tsx
++++ b/apps/web/app/apps/age-of-apes/layout.tsx
+@@ -1,5 +1,6 @@
+ import Link from "next/link";
+ import type { ReactNode } from "react";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ import { CALCULATORS } from "./lib/calculators";
+ 
+ export const metadata = {
+@@ -12,7 +13,8 @@ export const viewport = {
+   themeColor: "#F59E0B",
+ };
+ 
+-export default function AgeOfApesLayout({ children }: { children: ReactNode }) {
++export default async function AgeOfApesLayout({ children }: { children: ReactNode }) {
++  await requireAppLayoutAccess("age-of-apes");
+   return (
+     <div className="min-h-screen">
+       {/* Sticky header */}
+diff --git a/apps/web/app/apps/alpha-wins/__tests__/layout.test.tsx b/apps/web/app/apps/alpha-wins/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..d0b8132
+--- /dev/null
++++ b/apps/web/app/apps/alpha-wins/__tests__/layout.test.tsx
+@@ -0,0 +1,54 @@
++import { describe, it, expect, vi, beforeEach } from "vitest";
++
++import React from "react";
++globalThis.React = React;
++
++vi.mock("@/lib/require-app-layout-access", () => ({
++  requireAppLayoutAccess: vi.fn(),
++}));
++
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
++
++const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
++
++beforeEach(() => {
++  vi.clearAllMocks();
++});
++
++async function callLayout() {
++  const mod = await import("../layout");
++  return mod.default({ children: "test" as any });
++}
++
++describe("AlphaWinsLayout", () => {
++  it("calls requireAppLayoutAccess with 'alpha-wins'", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    await callLayout();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("alpha-wins");
++  });
++
++  it("redirects unauthenticated user to /login", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/login";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("alpha-wins");
++  });
++
++  it("redirects unauthorized user to /unauthorized", async () => {
++    const redirectError = new Error("NEXT_REDIRECT");
++    (redirectError as any).digest = "NEXT_REDIRECT;/unauthorized";
++    mockRequireAppLayoutAccess.mockRejectedValueOnce(redirectError);
++
++    await expect(callLayout()).rejects.toThrow("NEXT_REDIRECT");
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("alpha-wins");
++  });
++
++  it("renders children for authenticated user with permission", async () => {
++    mockRequireAppLayoutAccess.mockResolvedValueOnce(undefined);
++    const result = await callLayout();
++    expect(result).toBeTruthy();
++    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("alpha-wins");
++  });
++});
+diff --git a/apps/web/app/apps/alpha-wins/layout.tsx b/apps/web/app/apps/alpha-wins/layout.tsx
+index 6042d72..bd62ff2 100644
+--- a/apps/web/app/apps/alpha-wins/layout.tsx
++++ b/apps/web/app/apps/alpha-wins/layout.tsx
+@@ -1,4 +1,5 @@
+ import type { ReactNode } from "react";
++import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+ 
+ export const metadata = {
+   title: "Alpha Wins",
+@@ -9,6 +10,7 @@ export const viewport = {
+   themeColor: "#f59e0b",
+ };
+ 
+-export default function AlphaWinsLayout({ children }: { children: ReactNode }) {
++export default async function AlphaWinsLayout({ children }: { children: ReactNode }) {
++  await requireAppLayoutAccess("alpha-wins");
+   return <>{children}</>;
+ }
+diff --git a/apps/web/app/apps/area-52/__tests__/layout.test.tsx b/apps/web/app/apps/area-52/__tests__/layout.test.tsx
+new file mode 100644
+index 0000000..ca8b00f
+--- /dev/null
++++ b/apps

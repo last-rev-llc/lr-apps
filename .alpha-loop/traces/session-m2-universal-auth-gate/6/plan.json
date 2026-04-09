@@ -1,0 +1,17 @@
+{
+  "summary": "Add authentication gate to Area 52 app by updating layout.tsx with requireAppLayoutAccess and setting auth: true in the app registry.",
+  "files": [
+    "apps/web/app/apps/area-52/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/area-52/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/lib/app-registry.ts: Change area-52 entry from `auth: false` to `auth: true` (line 80).\n2. apps/web/app/apps/area-52/layout.tsx: Make the layout function async, import requireAppLayoutAccess from '@/lib/require-app-layout-access', and call `await requireAppLayoutAccess(\"area-52\")` before returning children. Follow the Sentiment app pattern exactly.\n3. apps/web/app/apps/area-52/__tests__/layout.test.tsx: Create tests that mock @repo/auth/server's requireAccess. Test cases: (a) layout calls requireAccess with 'area-52', (b) unauthenticated request triggers redirect to /login (mock requireAccess to throw redirect), (c) authenticated user without permission triggers redirect to /unauthorized (mock requireAccess to throw redirect), (d) authenticated user with permission renders children successfully.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gating changes request behavior — unauthenticated/unauthorized users must be redirected. Tests verify the layout calls requireAppLayoutAccess correctly and that redirect behavior works for all three user states (unauthenticated, unauthorized, authorized)."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Area 52 is an 'under construction' page with no meaningful UI beyond the auth gate. The auth redirect logic is already tested at the unit level in require-app-layout-access.test.ts and the new layout tests. No browser-level verification adds value here."
+  }
+}

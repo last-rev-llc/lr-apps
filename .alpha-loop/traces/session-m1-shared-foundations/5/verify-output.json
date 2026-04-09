@@ -1,0 +1,1 @@
+Verification skipped by plan: This is server-side middleware/auth logic with no UI changes. The gate either redirects to /login or allows through — testable entirely via unit tests mocking the auth and registry modules. No browser-visible UI to verify.

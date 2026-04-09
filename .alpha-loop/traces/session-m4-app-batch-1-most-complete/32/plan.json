@@ -1,0 +1,17 @@
+{
+  "summary": "Replace inline UI patterns in Meeting Summaries app with @repo/ui shared components (Badge, Button, StatCard, Search, PillList, EmptyState, PageHeader, Card*).",
+  "files": [
+    "apps/web/app/apps/meeting-summaries/page.tsx",
+    "apps/web/app/apps/meeting-summaries/layout.tsx",
+    "apps/web/app/apps/meeting-summaries/components/meetings-app.tsx"
+  ],
+  "implementation": "1. **page.tsx** — Replace inline stats grid with `StatCard` from @repo/ui (size='sm'). Replace inline `<h2>/<p>` header block with `PageHeader` component (title='Meeting Summaries', subtitle='Never lose track...').\n2. **layout.tsx** — Replace inline `<header>` with `PageHeader` component for consistency with other apps.\n3. **meetings-app.tsx — imports** — Add imports: `Badge, Button, EmptyState, Search, PillList` from @repo/ui. Remove `Card` from existing import (already imported, keep it).\n4. **meetings-app.tsx — SentimentBadge** — Replace inline `<span>` with `<Badge variant='outline' className={SENTIMENT_STYLES[sentiment]}>`. Keep SENTIMENT_STYLES map for color classes.\n5. **meetings-app.tsx — SummaryCard header badges** — Replace inline badge `<span>`s for client_id, duration, and 'pending' status with `<Badge variant='outline' className=...>` using appropriate color classes.\n6. **meetings-app.tsx — SummaryCard topics** — Replace inline topic `<span>`s with `<Badge variant='outline'>` with purple color classes.\n7. **meetings-app.tsx — ActionItemCard badges** — Replace inline owner, priority, and client_id `<span>`s with `<Badge variant='outline'>`. Keep PRIORITY_STYLES map for colors.\n8. **meetings-app.tsx — ActionItemCard buttons** — Replace inline `<button>` elements ('Generate Follow-up', 'Done') with `<Button variant='outline' size='sm'>` from @repo/ui.\n9. **meetings-app.tsx — Search inputs** — Replace both inline `<input>` elements (search meetings, search action items) with `<Search>` component (value, onChange, placeholder, debounce=0 for instant filtering).\n10. **meetings-app.tsx — Filter pill groups** — Replace all three inline filter button groups (date range, status, priority) with `<PillList>` component using items/selected/onSelect props and size='sm'.\n11. **meetings-app.tsx — Empty states** — Replace both inline empty-state divs (no meetings, no action items) with `<EmptyState icon='...' title='...'>`.\n12. **Verify** — Run `pnpm build` to confirm no type errors or broken imports.",
+  "testing": {
+    "needed": true,
+    "reason": "Component migration changes rendered output and event handling (filter buttons, search inputs, mark-done). Existing app-specific tests must still pass after swapping to shared components."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "This is a pure component migration with no new features or changed behavior. Build verification (pnpm build) and existing tests cover correctness. Visual regression is out of scope for this issue."
+  }
+}

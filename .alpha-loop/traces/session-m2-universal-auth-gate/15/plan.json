@@ -1,0 +1,17 @@
+{
+  "summary": "Add authentication gate to the Cringe Rizzler app by updating layout.tsx and app registry, with smoke tests.",
+  "files": [
+    "apps/web/app/apps/cringe-rizzler/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/cringe-rizzler/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/app/apps/cringe-rizzler/layout.tsx: Import requireAppLayoutAccess from @/lib/require-app-layout-access. Make the layout function async. Add `await requireAppLayoutAccess(\"cringe-rizzler\")` before returning children.\n2. apps/web/lib/app-registry.ts: Change cringe-rizzler entry from `auth: false` to `auth: true`.\n3. apps/web/app/apps/cringe-rizzler/__tests__/layout.test.tsx: Create smoke tests following the lighthouse/brommie-quake pattern — mock requireAppLayoutAccess, then test four cases: (a) calls requireAppLayoutAccess with 'cringe-rizzler', (b) unauthenticated request throws NEXT_REDIRECT to /login, (c) unauthorized user throws NEXT_REDIRECT to /unauthorized, (d) authenticated user with permission renders children.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gating changes app access behavior — tests verify redirect logic for unauthenticated/unauthorized users and passthrough for valid users."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate is tested via unit/smoke tests. No new UI elements to verify in a browser — the change affects server-side redirect behavior which is fully covered by the mock-based layout tests."
+  }
+}

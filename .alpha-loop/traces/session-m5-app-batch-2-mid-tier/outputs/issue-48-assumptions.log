@@ -1,0 +1,17 @@
+## Assumptions
+- **Assumed `glass` utility class remains valid on Card components** — the original inline elements used `glass border border-surface-border rounded-xl` styling; the migration kept `glass border-surface-border` on Card but dropped `rounded-xl` since Card provides its own border-radius.
+- **Assumed emoji-based avatars don't need image sources** — `Avatar` + `AvatarFallback` was used for source icons (emoji text) rather than `AvatarImage`, since the data uses emoji strings not image URLs.
+- **Assumed `CardHeader` padding adjustments are acceptable** — added `className` overrides (e.g., `pb-2`, `pt-0`) on Card sub-components to preserve the original compact spacing, since the default Card padding is more generous.
+
+## Decisions
+- **Left two `<select>` dropdowns as raw HTML** — `@repo/ui` does not export a `Select` component. Rather than building one or pulling in a dependency, the app/profile filter dropdowns remain native `<select>` elements. This was the pragmatic choice over blocking the PR on a new shared component.
+- **Used `Tabs`/`TabsList`/`TabsTrigger` for time-range filters** — the original used styled `<button>` elements in a row. `Tabs` was the closest semantic match in `@repo/ui`, though it changes the visual style from pill-shaped buttons to the shared tab style. An alternative was keeping raw buttons.
+- **Used `Badge variant="destructive"` for the high-priority 🔥 indicator** — chosen to convey urgency; `variant="secondary"` was used for category labels. The specific variant choice was a judgment call since the requirements didn't specify.
+- **Wrapped link buttons with `Button asChild` + `<a>`** — external links in feed cards now use `Button variant="outline" asChild` wrapping an `<a>` tag, preserving `target="_blank"` behavior while using the shared component.
+- **Used `EmptyState` for the empty feed message** — replaced the custom centered div+emoji pattern with the shared `EmptyState` component, which standardizes empty states across apps.
+
+## Items to Validate
+- **Time-range tab styling** — the `Tabs` component may look different from the original amber pill buttons. Verify the visual treatment matches your design intent, or if custom styling overrides are needed on `TabsTrigger`.
+- **Select dropdown styling** — the two raw `<select>` elements (app filter, priority filter) are unstyled relative to `@repo/ui`. Decide whether to create a shared `Select` component in a follow-up.
+- **Card spacing** — several `className` overrides adjust padding on `CardHeader`/`CardContent`/`CardFooter`. Verify the feed cards don't look too tight or too loose compared to the original.
+- **Reaction button sizing** — `Button variant="ghost" size="sm"` replaces the original custom-styled reaction buttons. Check that the emoji reactions still feel compact and interactive.

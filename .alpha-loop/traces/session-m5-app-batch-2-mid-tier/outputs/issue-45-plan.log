@@ -1,0 +1,6 @@
+Plan written to `plan-issue-45.json`. It covers 4 test files:
+
+1. **`lib/__tests__/queries.test.ts`** — Tests `getAllSlang()` merging DB gen-alpha + local gen-x JSON, sorting, and error handling
+2. **`lib/__tests__/gen-x-map.test.ts`** — Validates the GEN_X_MAP entries and known mappings
+3. **`components/__tests__/slang-app.test.tsx`** — Tests tab rendering, dictionary search/filters, bi-directional equivalent display on SlangCard, translator direction swap, and compare pairs
+4. **`__tests__/layout.test.tsx`** — Tests auth gate calls `requireAppLayoutAccess('slang-translator')`, renders children when authorized, throws on rejection, and renders nav/header

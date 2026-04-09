@@ -1,0 +1,17 @@
+Done. Here's a summary of what was added:
+
+**2 test files, 13 tests total:**
+
+**`layout.test.tsx`** (4 tests):
+- Auth gate calls `requireAppLayoutAccess('uptime')`
+- Children render when authenticated
+- Topbar renders with "Uptime Status" title
+- Auth error propagates correctly
+
+**`page.test.tsx`** (9 tests):
+- **Status banner**: "All Systems Operational" when all up, correct issue count with plural/singular
+- **Site list**: renders names/URLs, status labels (Operational/Down/Degraded/Unknown), response time and uptime %
+- **History chart**: bars have correct title attributes (date + status), correct color classes (emerald/red/amber), no bars for empty history
+- **Empty state**: shows "No sites are being monitored yet." when no sites, also handles supabase errors gracefully
+
+All 181 tests pass across 23 files. `pnpm test` fully green.

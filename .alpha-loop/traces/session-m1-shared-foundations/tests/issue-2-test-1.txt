@@ -1,0 +1,62 @@
+> lr-apps@ test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-2
+> turbo run test
+
+
+   • Packages in scope: @repo/auth, @repo/billing, @repo/config, @repo/db, @repo/theme, @repo/ui, @repo/web
+   • Running test in 7 packages
+   • Remote caching disabled, using shared worktree cache
+
+@repo/billing:test: cache miss, executing f9d971f76f645ade
+@repo/auth:test: cache miss, executing 2d8f0df9a01ad4f6
+@repo/web:test: cache miss, executing d3ddf83122df85aa
+@repo/billing:test: 
+@repo/billing:test: > @repo/billing@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-2/packages/billing
+@repo/billing:test: > vitest run
+@repo/billing:test: 
+@repo/auth:test: 
+@repo/auth:test: > @repo/auth@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-2/packages/auth
+@repo/auth:test: > vitest run
+@repo/auth:test: 
+@repo/web:test: 
+@repo/web:test: > @repo/web@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-2/apps/web
+@repo/web:test: > vitest run
+@repo/web:test: 
+@repo/auth:test: 
+@repo/auth:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-2/packages/auth
+@repo/auth:test: 
+@repo/billing:test: 
+@repo/billing:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-2/packages/billing
+@repo/billing:test: 
+@repo/web:test: 
+@repo/web:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-2/apps/web
+@repo/web:test: 
+@repo/auth:test:  ✓ src/__tests__/permissions.test.ts (8 tests) 2ms
+@repo/billing:test:  ✓ src/webhook-handler.test.ts (5 tests) 5ms
+@repo/auth:test: 
+@repo/auth:test:  Test Files  1 passed (1)
+@repo/auth:test:       Tests  8 passed (8)
+@repo/auth:test:    Start at  15:47:04
+@repo/auth:test:    Duration  523ms (transform 55ms, setup 0ms, collect 44ms, tests 2ms, environment 0ms, prepare 140ms)
+@repo/auth:test: 
+@repo/billing:test:  ✓ src/customers.test.ts (2 tests) 4ms
+@repo/billing:test:  ✓ src/has-feature-access.test.ts (6 tests) 3ms
+@repo/billing:test:  ✓ src/subscriptions.test.ts (4 tests) 6ms
+@repo/billing:test: 
+@repo/billing:test:  Test Files  4 passed (4)
+@repo/billing:test:       Tests  17 passed (17)
+@repo/billing:test:    Start at  15:47:04
+@repo/billing:test:    Duration  546ms (transform 97ms, setup 0ms, collect 169ms, tests 17ms, environment 0ms, prepare 336ms)
+@repo/billing:test: 
+@repo/web:test:  ✓ lib/__tests__/app-registry.test.ts (8 tests) 2ms
+@repo/web:test:  ✓ lib/__tests__/proxy-utils.test.ts (17 tests) 3ms
+@repo/web:test:  ✓ lib/__tests__/platform-urls.test.ts (16 tests) 3ms
+@repo/web:test: 
+@repo/web:test:  Test Files  3 passed (3)
+@repo/web:test:       Tests  41 passed (41)
+@repo/web:test:    Start at  15:47:04
+@repo/web:test:    Duration  870ms (transform 82ms, setup 0ms, collect 103ms, tests 8ms, environment 0ms, prepare 184ms)
+@repo/web:test: 
+
+ Tasks:    3 successful, 3 total
+Cached:    0 cached, 3 total
+  Time:    2.402s

@@ -1,0 +1,1 @@
+Verification skipped by plan: These are token-for-token color replacements with no behavioral changes. Visual regression is best caught by snapshot baselines (listed in acceptance criteria) rather than interactive browser testing. No user flows or interactions change.

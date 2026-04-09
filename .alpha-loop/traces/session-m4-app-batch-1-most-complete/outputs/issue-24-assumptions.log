@@ -1,0 +1,19 @@
+## Assumptions
+
+- **"Hub page" scope = `page.tsx` + `layout.tsx` only.** The issue says "sub-module internals are deferred to M6," but the boundary between "module chrome" and "module internals" isn't defined. I treated each sub-module's top-level app component (e.g., `agents-app.tsx`) as in-scope for button/badge/card migration, but left deeper internal patterns alone.
+- **`StatCard` is an acceptable replacement for stat grids.** The issue called for Card/Button/Badge but didn't mention stat displays. I used the existing `StatCard` from `@repo/ui` rather than keeping manual Card+CardContent stat blocks.
+- **Category color mapping via className on `Badge` is acceptable.** `page.tsx` still applies inline Tailwind color classes to `Badge` via a `CATEGORY_COLORS` map — I assumed dynamic color-per-category is a legitimate use case that doesn't violate "no inline badge patterns," since it still uses the `Badge` component.
+
+## Decisions
+
+- **Created 5 new `@repo/ui` components (`DataGrid`, `ErrorBoundary`, `LoadingSkeleton`, `StatusBadge`, `Table`) but did not adopt them in app code.** These were built and tested in `packages/ui` as reusable primitives, but the sub-module files that could use them (e.g., `StatusBadge` in `pr-app.tsx`, `Table` in data-heavy modules) were left as-is. This was a scope call — adopting them would touch sub-module internals deferred to M6.
+- **Replaced `<button>` elements with `@repo/ui Button` across all sub-modules**, not just the hub page. Since filter buttons are part of module chrome (not deep internals), I migrated them everywhere.
+- **Used `Topbar` + `Sidebar` + `SidebarItem` for navigation** rather than building a custom nav component. The issue said "uses `@repo/ui` navigation components" without specifying which ones.
+
+## Items to Validate
+
+- **5 new `@repo/ui` components are unused in app code.** `DataGrid`, `ErrorBoundary`, `LoadingSkeleton`, `StatusBadge`, and `Table` exist with tests but have zero imports in `apps/web`. Confirm whether adopting them (especially `StatusBadge` replacing the local one in `pr-app.tsx`) is expected now or deferred to M6.
+- **`pr-app.tsx` still has a local `StatusBadge` function** (line ~60) that wraps `@repo/ui Badge` with inline RGBA styles. This duplicates what `@repo/ui StatusBadge` provides. Should this be migrated now?
+- **`page.tsx` `CATEGORY_COLORS` map** applies raw Tailwind color strings to `Badge` className. Verify this is acceptable or if it should use `StatusBadge` variants instead.
+- **Visual appearance** — the migration changes button styling (from hand-crafted active states to `Button variant="outline"/"ghost"` with className overrides). Spot-check that filter buttons still look correct, especially the amber active state on status filters.
+- **`pnpm build` status** — confirm the build passes in CI (the acceptance criteria requires it).

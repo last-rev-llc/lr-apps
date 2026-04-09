@@ -1,0 +1,1 @@
+Plan written to `plan-issue-7.json`. Key finding: the layout (`requireAppLayoutAccess("lighthouse")`) and registry (`auth: true`) are already in place. The only work needed is creating the test file at `apps/web/app/apps/lighthouse/__tests__/layout.test.tsx`, mirroring the Area 52 test pattern.

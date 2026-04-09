@@ -1,0 +1,18 @@
+{
+  "summary": "Add Vitest test suite for Meeting Summaries app: component, page, layout, and query tests.",
+  "files": [
+    "apps/web/app/apps/meeting-summaries/__tests__/meetings-app.test.tsx",
+    "apps/web/app/apps/meeting-summaries/__tests__/page.test.tsx",
+    "apps/web/app/apps/meeting-summaries/__tests__/layout.test.tsx",
+    "apps/web/app/apps/meeting-summaries/lib/__tests__/queries.test.ts"
+  ],
+  "implementation": "Create four test files following existing patterns from summaries/standup apps:\n\n1. **meetings-app.test.tsx** — Client component tests for MeetingsApp:\n   - Factory: `makeMeeting(overrides)` returning ZoomTranscript with defaults (id, topic, start_time, duration, summary, sentiment, attendees, decisions, action_items, key_topics, client_id).\n   - Test: renders meeting list with topic names visible.\n   - Test: clicking a meeting card expands to show summary, decisions, action items, topics, attendees.\n   - Test: pending badge shown when summary is null.\n   - Test: SentimentBadge renders correct sentiment text.\n   - Test: search filters meetings by topic/summary/client_id.\n   - Test: date range pill filters meetings by start_time.\n   - Test: empty state shown when no meetings match.\n   - Test: switching to Action Items tab shows action items from all meetings.\n   - Test: action item status filter (open/done) works.\n   - Test: action item priority filter works.\n   - Test: marking action item done updates UI (opacity, line-through).\n   - Use `fireEvent.click` for tab switching, card expansion, and button clicks. Use `within(getActivePanel())` for tab content assertions.\n\n2. **page.test.tsx** — Server component data-flow tests:\n   - Mock `@/app/apps/meeting-summaries/lib/queries` (getMeetings returns mock array, computeStats returns mock stats).\n   - Mock `MeetingsApp` component as a stub rendering prop counts.\n   - Mock IntersectionObserver in beforeAll.\n   - Test: passes meetings array to MeetingsApp.\n   - Test: renders stat cards (Meetings, Summarized, Action Items, Hours).\n\n3. **layout.test.tsx** — Auth gate tests:\n   - Mock `@/lib/require-app-layout-access`.\n   - Test: calls requireAppLayoutAccess with 'meeting-summaries'.\n   - Test: renders children when authenticated.\n   - Test: renders header with Meeting Summaries title.\n   - Test: propagates auth error when requireAppLayoutAccess rejects.\n\n4. **queries.test.ts** — Query/business logic tests:\n   - Mock `@repo/db/server` createClient with createMockSupabase.\n   - Test: getMeetings queries zoom_transcripts table ordered by start_time desc.\n   - Test: getMeetings throws on supabase error.\n   - Test: computeStats returns correct total, summarized, actionItems, hoursTotal.\n   - Test: computeStats handles empty array.\n   - Test: computeStats handles string-encoded action_items JSON.",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for the Meeting Summaries app."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "This issue only adds test files — no UI changes. Verification is via `pnpm test`."
+  }
+}

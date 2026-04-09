@@ -1,0 +1,15 @@
+{
+  "issueNum": 8,
+  "title": "Update login/signup flows for universal auth",
+  "status": "success",
+  "duration": 1116,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 9,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/95",
+  "timestamp": "2026-04-08T16:14:17.291Z",
+  "agent": "claude",
+  "model": ""
+}

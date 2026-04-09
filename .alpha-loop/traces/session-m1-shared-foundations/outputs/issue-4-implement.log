@@ -1,0 +1,12 @@
+Done. Here's what was implemented:
+
+**Files changed (7):**
+- `packages/db/src/types.ts` — Added `SubscriptionRow` interface and `subscriptions` table to `Database`
+- `packages/db/src/queries.ts` — Three typed helpers: `getAppPermission`, `getUserSubscription`, `upsertPermission`
+- `packages/db/src/index.ts` — Re-exports all helpers and `SubscriptionRow` type
+- `packages/db/vitest.config.ts` — Vitest configuration
+- `packages/db/package.json` — Added `test` script and `vitest` devDependency
+- `packages/db/src/__tests__/queries.test.ts` — 11 tests covering all helpers (happy path, null, errors, correct arguments)
+- `pnpm-lock.yaml` — Updated lockfile
+
+**All 11 tests pass.** All acceptance criteria from issue #4 are met.

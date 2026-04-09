@@ -1,0 +1,9 @@
+**Review: PASSED**
+
+All 5 acceptance criteria are satisfied:
+- `layout.tsx:20` calls `requireAppLayoutAccess("soccer-training")`
+- `app-registry.ts:77` has `auth: true` for soccer-training
+- Tests cover unauthenticated → `/login` redirect, unauthorized → `/unauthorized` redirect, and happy path
+- `pnpm test` passes (109 web + 38 auth tests, 0 failures)
+
+No issues found.

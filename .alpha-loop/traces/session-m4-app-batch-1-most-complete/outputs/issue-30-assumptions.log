@@ -1,0 +1,17 @@
+Now I have a clear picture of the changes. Here's the analysis:
+
+## Assumptions
+- Assumed `debounce={0}` on `Search` components to preserve the existing synchronous filter behavior (the original `<input>` had no debounce)
+- Assumed `border-0` on Badge overrides are acceptable to match the original borderless pill aesthetic, since the shared Badge likely has a default border
+- Assumed opacity shift from `bg-*/12` to `bg-*/15` for badge color maps was an acceptable visual refinement (original Pill used `/12`, new Badge maps use `/15`)
+
+## Decisions
+- **Kept `<select>` elements as raw HTML** for Slack channel and Jira priority/status filters rather than replacing with a shared Select component — no shared Select existed in `@repo/ui` and the issue didn't call for creating one
+- **Used `variant="secondary"` for all Badge instances** with custom className overrides for color, rather than creating source/tone/priority-specific Badge variants — avoids bloating the shared component API with domain-specific concerns
+- **Replaced inline stat cards with `StatCard` and page header with `PageHeader`** in `page.tsx` (server component) even though these weren't explicitly listed in the acceptance criteria — they were clearly inline UI patterns that should use shared components
+- **Set `size="sm"` on StatCard** to approximate the compact stat layout from the original inline markup
+
+## Items to Validate
+- Verify the visual appearance of Badge with `border-0` override matches the original Pill styling (border removal + background opacity change from `/12` to `/15` could shift the look slightly)
+- Confirm `Search` component's `onChange` prop accepts a plain string (used `onChange={setAllSearch}`) vs the original `e.target.value` pattern — if the Search component passes the event object instead, this will break
+- The `<select>` dropdowns for channel/priority/status filters still use raw inline styles (`selectCls`) — decide if these should be migrated to a shared component in a follow-up

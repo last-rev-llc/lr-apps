@@ -1,0 +1,17 @@
+{
+  "summary": "Add Vitest test coverage for the Summaries app: layout auth gate, server page, and client component (Zoom/Slack/Jira rendering, tabs, filters, empty states).",
+  "files": [
+    "apps/web/app/apps/summaries/__tests__/layout.test.tsx",
+    "apps/web/app/apps/summaries/__tests__/page.test.tsx",
+    "apps/web/app/apps/summaries/__tests__/summaries-app.test.tsx"
+  ],
+  "implementation": "Create three test files following the standup/accounts test patterns:\n\n1. __tests__/layout.test.tsx:\n   - Mock `@/lib/require-app-layout-access` and `next/link`\n   - Test: calls requireAppLayoutAccess with \"summaries\"\n   - Test: renders children when authenticated\n   - Test: renders header with \"Summaries\" title and tagline\n   - Test: propagates auth error when requireAppLayoutAccess rejects\n\n2. __tests__/page.test.tsx:\n   - Mock `@/app/apps/summaries/lib/queries` (getAllSummaries, getSlackChannels)\n   - Mock `@/app/apps/summaries/components/summaries-app` to a simple stub that displays prop counts\n   - Test: passes zoom/slack/jira/all/slackChannels to SummariesApp\n   - Test: renders stat cards with correct counts\n\n3. __tests__/summaries-app.test.tsx:\n   - Create mock data factories: makeZoom(), makeSlack(), makeJira() returning typed objects with `source` field\n   - Build mock arrays with realistic data for each source type\n   - Tests for summary list rendering:\n     - Renders tab triggers with counts: All, Zoom, Slack, Jira\n     - Renders summary cards with titles (meeting_topic for Zoom, short_summary for Slack, ticket_key for Jira)\n   - Tests for Zoom summary rendering:\n     - Shows \"Zoom\" badge on zoom cards\n     - Expanding a zoom card shows action_items and key_decisions\n   - Tests for Slack summary rendering:\n     - Shows \"Slack\" badge and tone badge\n     - Shows channel_id\n     - Expanding shows participants\n   - Tests for Jira summary rendering:\n     - Shows \"Jira\" badge, priority badge, status badge\n     - Status badge formats underscores as spaces (e.g. \"in progress\")\n   - Tests for empty state:\n     - Shows \"No summaries found\" when all arrays are empty\n   - Tests for tab switching:\n     - Clicking Zoom tab shows only zoom items\n     - Clicking Slack tab shows only slack items\n     - Clicking Jira tab shows only jira items",
+  "testing": {
+    "needed": true,
+    "reason": "This issue is entirely about adding test coverage for the Summaries app components."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "No UI changes — this issue only adds test files. Verification is via `pnpm test`."
+  }
+}

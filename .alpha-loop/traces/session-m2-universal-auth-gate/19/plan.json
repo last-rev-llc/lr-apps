@@ -1,0 +1,17 @@
+{
+  "summary": "Add auth gate to Proper Wine Pour app: update layout.tsx, set auth: true in registry, add smoke tests",
+  "files": [
+    "apps/web/app/apps/proper-wine-pour/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/proper-wine-pour/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/app/apps/proper-wine-pour/layout.tsx: Add `import { requireAppLayoutAccess } from \"@/lib/require-app-layout-access\"`, make the default export function `async`, add `await requireAppLayoutAccess(\"proper-wine-pour\")` as the first line of the function body.\n2. apps/web/lib/app-registry.ts line 74: Change `auth: false` to `auth: true` for the proper-wine-pour entry.\n3. Create apps/web/app/apps/proper-wine-pour/__tests__/layout.test.tsx: Mock `@/lib/require-app-layout-access`, test four cases: (a) calls requireAppLayoutAccess with 'proper-wine-pour', (b) redirects unauthenticated to /login, (c) redirects unauthorized to /unauthorized, (d) renders children for authenticated user. Follow exact pattern from dad-joke-of-the-day tests.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gate changes app behavior — unauthenticated/unauthorized users are now redirected. Smoke tests verify the guard is wired correctly."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate is server-side redirect logic tested via unit tests. No UI changes to verify in a browser — the layout markup is unchanged."
+  }
+}

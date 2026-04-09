@@ -1,0 +1,12 @@
+Done. Here's a summary of what was added:
+
+**6 test files, 49 tests total — all passing:**
+
+| Test file | Tests | Coverage |
+|---|---|---|
+| `lib/__tests__/generations.test.ts` | 8 | `GENERATIONS` array, `getGeneration()`, `TRANSLATOR_MAPS` |
+| `components/__tests__/slang-dictionary.test.tsx` | 9 | Rendering, search (term/definition/alias), category pills, sort by vibeScore, empty state |
+| `components/__tests__/slang-quiz.test.tsx` | 9 | Question display, correct/wrong answers, navigation, results screen (90%+, <30%), Try Again restart |
+| `components/__tests__/slang-app.test.tsx` | 5 | Header rendering, tab switching (dictionary/translator/quiz/trending), trending shows top 20 |
+| `components/__tests__/generation-card.test.tsx` | 6 | Name, emoji, era, tagline, term count, link href |
+| `__tests__/layout.test.tsx` | 6 | Auth gate calls `requireAppLayoutAccess('generations')`, renders children when authorized, throws on unauthorized, nav links, topbar |

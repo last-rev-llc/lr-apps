@@ -1,0 +1,7 @@
+Written `plan-issue-4.json`. The plan covers:
+
+1. **Types** — Add `SubscriptionRow` and extend `Database` interface with `subscriptions` table
+2. **Queries** — Create `queries.ts` with `getAppPermission`, `getUserSubscription`, `upsertPermission` (all accept a Supabase client as first arg for flexibility)
+3. **Exports** — Re-export helpers and new type from `index.ts`
+4. **Test infra** — Add `vitest.config.ts` and test script to `packages/db`
+5. **Tests** — Mock Supabase client, cover all helpers including null/error cases

@@ -1,0 +1,6 @@
+Plan written to `plan-issue-49.json`. It covers two test files:
+
+- **`components/__tests__/feed-app.test.tsx`** — feed rendering with mock data, category/app/search filtering, profile badges (icon, name, priority, category), reactions, time range tabs, load more, and empty state
+- **`__tests__/layout.test.tsx`** — auth gate calls `requireAppLayoutAccess("daily-updates")`, renders children when authorized, throws on unauthorized, header/nav rendering
+
+Both follow the established patterns from sibling apps (cringe-rizzler, slang-translator).

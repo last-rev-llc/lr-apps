@@ -1,0 +1,6 @@
+Plan written to `plan-issue-11.json`. It covers:
+
+- **2 files** to modify: the registry (`app-registry.ts`) and its tests
+- **3 implementation steps**: extend the interface, update all 27 entries with defaults, add test coverage
+- **Testing needed**: yes — validate tier values and features objects across all apps
+- **Browser verification not needed**: this is a schema-only change with no UI impact

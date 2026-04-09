@@ -1,0 +1,45 @@
+> lr-apps@ test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-5
+> turbo run test
+
+
+   • Packages in scope: @repo/auth, @repo/config, @repo/db, @repo/theme, @repo/ui, @repo/web
+   • Running test in 6 packages
+   • Remote caching disabled, using shared worktree cache
+
+@repo/auth:test: cache hit, replaying logs b8914061142b7a52
+@repo/auth:test: 
+@repo/auth:test: > @repo/auth@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/packages/auth
+@repo/auth:test: > vitest run
+@repo/auth:test: 
+@repo/auth:test: 
+@repo/auth:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/packages/auth
+@repo/auth:test: 
+@repo/auth:test:  ✓ src/__tests__/permissions.test.ts (8 tests) 2ms
+@repo/auth:test: 
+@repo/auth:test:  Test Files  1 passed (1)
+@repo/auth:test:       Tests  8 passed (8)
+@repo/auth:test:    Start at  15:40:26
+@repo/auth:test:    Duration  389ms (transform 30ms, setup 0ms, collect 26ms, tests 2ms, environment 0ms, prepare 98ms)
+@repo/auth:test: 
+@repo/web:test: cache hit, replaying logs a46eebd7f6340f39
+@repo/web:test: 
+@repo/web:test: > @repo/web@0.0.0 test /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-5/apps/web
+@repo/web:test: > vitest run
+@repo/web:test: 
+@repo/web:test: 
+@repo/web:test:  RUN  v3.2.4 /Users/adamharris/Documents/repos/lr-apps/.worktrees/issue-5/apps/web
+@repo/web:test: 
+@repo/web:test:  ✓ lib/__tests__/app-registry.test.ts (13 tests) 3ms
+@repo/web:test:  ✓ lib/__tests__/require-app-layout-access.test.ts (6 tests) 3ms
+@repo/web:test:  ✓ lib/__tests__/proxy-utils.test.ts (17 tests) 3ms
+@repo/web:test:  ✓ lib/__tests__/platform-urls.test.ts (16 tests) 3ms
+@repo/web:test: 
+@repo/web:test:  Test Files  4 passed (4)
+@repo/web:test:       Tests  52 passed (52)
+@repo/web:test:    Start at  16:14:55
+@repo/web:test:    Duration  703ms (transform 129ms, setup 0ms, collect 188ms, tests 11ms, environment 0ms, prepare 259ms)
+@repo/web:test: 
+
+ Tasks:    2 successful, 2 total
+Cached:    2 cached, 2 total
+  Time:    81ms >>> FULL TURBO

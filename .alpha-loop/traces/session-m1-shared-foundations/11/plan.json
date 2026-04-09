@@ -1,0 +1,16 @@
+{
+  "summary": "Add tier and features billing metadata fields to AppConfig interface and all registry entries, with test coverage.",
+  "files": [
+    "apps/web/lib/app-registry.ts",
+    "apps/web/lib/__tests__/app-registry.test.ts"
+  ],
+  "implementation": "1. In apps/web/lib/app-registry.ts, add to AppConfig interface: `tier: \"free\" | \"pro\" | \"enterprise\"` and `features: Record<string, \"free\" | \"pro\" | \"enterprise\">`. 2. Add `tier: \"free\", features: {}` to all 27 app entries in the apps array. 3. In apps/web/lib/__tests__/app-registry.test.ts, add two tests: (a) every app has a valid tier value (one of free/pro/enterprise), (b) every app has a features object (typeof === 'object').",
+  "testing": {
+    "needed": true,
+    "reason": "The interface and all registry entries are changing. Tests must validate every app has valid tier and features values."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Schema-only change with no UI impact. No runtime enforcement or user-visible changes to verify in a browser."
+  }
+}

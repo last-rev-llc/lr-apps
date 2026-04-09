@@ -1,0 +1,55 @@
+<!-- managed by alpha-loop -->
+# LR Apps
+
+Internal app platform for Last Rev. A pnpm + Turborepo monorepo with a single Next.js 16 web host serving 27 micro-apps behind Auth0 + Stripe billing, backed by Supabase (Postgres).
+
+## Tech Stack
+
+| Layer | Version / Tool |
+|-------|---------------|
+| Runtime | Node.js, pnpm 9, Turborepo 2 |
+| Framework | Next.js ^16 (App Router, Turbopack dev) |
+| UI | React ^19, Tailwind CSS ^4, Geist font |
+| Auth | Auth0 (`@auth0/nextjs-auth0` ^4) |
+| Database | Supabase (Postgres, migrations in `supabase/migrations/`) |
+| Billing | Stripe (`@repo/billing`) |
+| Testing | Vitest ^3 (workspace: `apps/*`, `packages/*`) |
+| QA | punchlist-qa (widget overlay in dev) |
+| Charts | Recharts ^2 |
+
+## Directory Structure
+
+```
+apps/web/            — Next.js host app (single deployable)
+  app/(auth)/        — Auth0 auth routes
+  app/apps/          — 27 micro-app routes (one dir each)
+  proxy.ts           — request interception (replaces middleware.ts)
+packages/
+  auth/              — @repo/auth — shared Auth0 helpers
+  billing/           — @repo/billing — Stripe integration
+  config/            — @repo/config — ESLint, Prettier, tsconfig
+  db/                — @repo/db — Supabase client & queries
+  test-utils/        — @repo/test-utils — shared test helpers
+  theme/             — @repo/theme — theme.css, globals.css, tokens
+  ui/                — @repo/ui — shared components (~48 source files)
+scripts/             — tooling (e.g. generate-app-cards.py)
+supabase/migrations/ — SQL migration files
+```
+
+## Code Style
+
+- **Workspace imports**: always `@repo/<pkg>` — never relative across package boundaries.
+- **Components**: functional + arrow, `export function` for pages/layouts. Co-locate component tests next to source.
+- **Styling**: Tailwind utility classes; design tokens live in `@repo/theme`. The marketing site style-kit is the default design language for all apps.
+- **TypeScript**: strict mode, no `any`. Shared tsconfig in `@repo/config`.
+- **Linting**: ESLint config from `@repo/config`; Prettier for formatting.
+- **Proxy over middleware**: use `proxy.ts` (Next.js 16 pattern), not `middleware.ts`.
+
+## Non-Negotiables
+
+1. **Billing gate** — every new app must check entitlements via `@repo/billing` before rendering paid features.
+2. **Auth required** — all app routes sit under the `(auth)` layout group; never expose an unauthenticated app route.
+3. **No direct Supabase in components** — use `@repo/db` helpers; raw client stays in the package.
+4. **Env vars in turbo.json** — any new `NEXT_PUBLIC_*` or server env must be listed in `turbo.json` `globalEnv` so Turbo can invalidate caches.
+5. **Stripe secrets never client-side** — `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` are server-only; only `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` may reach the browser.
+6. **One deployable** — all apps ship inside `apps/web`; do not add new entries under `apps/`.

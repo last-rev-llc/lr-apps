@@ -1,0 +1,5 @@
+Done. Here's what was changed:
+
+**`apps/web/lib/app-registry.ts`** — Added `tier: "free" | "pro" | "enterprise"` and `features: Record<string, "free" | "pro" | "enterprise">` to `AppConfig` interface, and populated all 27 app entries with `tier: "free", features: {}`.
+
+**`apps/web/lib/__tests__/app-registry.test.ts`** — Added two tests: one validating every app has a valid tier value, one verifying every app has a features object. All 10 tests pass.

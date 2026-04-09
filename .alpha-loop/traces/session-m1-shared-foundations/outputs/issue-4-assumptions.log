@@ -1,0 +1,21 @@
+## Assumptions
+
+- **Permission values are `"view" | "edit" | "admin"`** — the issue said "typed" but didn't enumerate the permission levels. These three were inferred from typical RBAC patterns.
+- **`SubscriptionRow` fields** — the issue listed the type name but not its shape. Fields like `stripe_customer_id`, `stripe_subscription_id`, `status`, `plan`, `current_period_start/end` were assumed based on a typical Stripe-backed subscription table.
+- **`AppPermission` has an `id` and `created_at`** — the issue specified the query return type but not the full row shape. Assumed a standard primary key + timestamp pattern.
+- **`getUserSubscription` returns a single subscription** (`.maybeSingle()`) — assumed one active subscription per user rather than multiple concurrent subscriptions.
+- **Timestamps are `string` (ISO 8601)** — Supabase returns timestamps as strings by default; kept that rather than using `Date` objects.
+
+## Decisions
+
+- **Client injection over module-level singleton** — each helper takes a `SupabaseClient<Database>` parameter rather than importing a shared client. This keeps the functions pure and testable without module mocking.
+- **`upsertPermission` uses `onConflict: "user_id,app_slug"`** — assumes a unique constraint on that pair. This was the natural conflict target but could differ from actual schema.
+- **Throw-on-error pattern** — chose `if (error) throw error` over returning `{ data, error }` tuples. Simpler for callers but means consumers must use try/catch.
+- **`Database` interface is manually defined** — not generated from Supabase CLI (`supabase gen types`). This was the pragmatic choice since no Supabase project is linked yet, but it will drift from the real schema.
+
+## Items to Validate
+
+- **Verify the `subscriptions` table columns match `SubscriptionRow`** — these fields were invented. Compare against your actual (or planned) Supabase migration.
+- **Verify the `app_permissions` unique constraint** — `upsertPermission` assumes `UNIQUE(user_id, app_slug)` exists. If the constraint name differs or doesn't exist, the upsert will fail.
+- **Confirm `Permission` union covers all needed levels** — if you need values like `"owner"` or `"none"`, the type needs updating.
+- **Decide if `getUserSubscription` should handle multiple subscriptions** — if a user can have multiple plans (e.g., per-app), this needs to return an array instead.

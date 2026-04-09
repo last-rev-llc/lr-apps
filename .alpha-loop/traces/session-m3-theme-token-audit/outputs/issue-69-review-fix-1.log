@@ -1,0 +1,32 @@
+All review findings addressed. Here's what was done:
+
+**23 files changed, 211 insertions, 211 deletions** across all 10 consumer apps:
+
+| App | Violations Fixed |
+|-----|-----------------|
+| soccer-training | 39 (drill-library, layout, page) |
+| hspt-tutor | 35 (tutor-app, page) |
+| roblox-dances | 33 (dance-app, layout, page) |
+| hspt-practice | 25 (practice-app, sections.ts, page) |
+| cringe-rizzler | 24 (cringe-app, about/page, layout) |
+| dad-joke-of-the-day | 20 (about/page, joke-viewer) |
+| slang-translator | 17 (slang-app) |
+| proper-wine-pour | 15 + 2 hex/rgba (wine-app, about/page) |
+| age-of-apes | 7 (page, calculator-app, layout) |
+| generations | 4 (slang-quiz) |
+
+**Token mapping used:**
+- `amber-*` → `accent` / `accent-400`
+- `green-*` / `emerald-*` → `green`
+- `red-*` → `red`
+- `blue-*` → `blue` / `pill-1`
+- `pink-*` → `pill-6`
+- `violet-*` → `pill-8`
+- `purple-*` / `indigo-*` → `pill-0`
+- `cyan-*` → `pill-7`
+- `teal-*` → `pill-9`
+- `yellow-*` → `yellow`
+- `orange-*` → `orange`
+- `rose-*` → `pill-6`
+
+Build passes cleanly. Committed as `9dbaae7`.

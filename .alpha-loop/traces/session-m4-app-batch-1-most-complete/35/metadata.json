@@ -1,0 +1,15 @@
+{
+  "issueNum": 35,
+  "title": "Uptime: app-specific tests",
+  "status": "success",
+  "duration": 429,
+  "retries": 0,
+  "testsPassing": true,
+  "verifyPassing": true,
+  "verifySkipped": true,
+  "filesChanged": 3,
+  "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/134",
+  "timestamp": "2026-04-09T06:57:44.062Z",
+  "agent": "claude",
+  "model": ""
+}

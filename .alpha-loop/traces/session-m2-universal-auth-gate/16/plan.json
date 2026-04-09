@@ -1,0 +1,17 @@
+{
+  "summary": "Add auth gate to Dad Joke of the Day app via requireAppLayoutAccess and registry update",
+  "files": [
+    "apps/web/app/apps/dad-joke-of-the-day/layout.tsx",
+    "apps/web/lib/app-registry.ts",
+    "apps/web/app/apps/dad-joke-of-the-day/__tests__/layout.test.tsx"
+  ],
+  "implementation": "1. apps/web/lib/app-registry.ts: Change dad-joke-of-the-day entry from auth: false to auth: true.\n2. apps/web/app/apps/dad-joke-of-the-day/layout.tsx: Import requireAppLayoutAccess from @/lib/require-app-layout-access. Make DadJokeLayout async. Add await requireAppLayoutAccess(\"dad-joke-of-the-day\") as the first line of the function body.\n3. apps/web/app/apps/dad-joke-of-the-day/__tests__/layout.test.tsx: Create test file following cringe-rizzler pattern. Mock requireAppLayoutAccess. Test four cases: (a) calls requireAppLayoutAccess with correct slug, (b) unauthenticated redirects to /login, (c) unauthorized redirects to /unauthorized, (d) authenticated user with permission renders children.\n4. Run pnpm test to verify all tests pass.",
+  "testing": {
+    "needed": true,
+    "reason": "Auth gating changes app behavior — unauthenticated/unauthorized users get redirected. Smoke tests verify the layout calls requireAppLayoutAccess and handles redirect errors correctly."
+  },
+  "verification": {
+    "needed": false,
+    "reason": "Auth gate is a server-side redirect — no visible UI changes. Behavior is fully covered by unit tests mocking requireAppLayoutAccess. Browser verification would require real auth state setup with no additional confidence over the tests."
+  }
+}

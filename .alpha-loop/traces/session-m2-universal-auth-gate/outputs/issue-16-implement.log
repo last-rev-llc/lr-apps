@@ -1,0 +1,7 @@
+Done. Three files changed:
+
+1. **`apps/web/lib/app-registry.ts`** — `auth: false` → `auth: true` for dad-joke-of-the-day
+2. **`apps/web/app/apps/dad-joke-of-the-day/layout.tsx`** — made async, added `await requireAppLayoutAccess("dad-joke-of-the-day")`
+3. **`apps/web/app/apps/dad-joke-of-the-day/__tests__/layout.test.tsx`** — 4 tests covering auth call, unauthenticated redirect, unauthorized redirect, and authenticated access
+
+All 89 tests pass across 8 packages.

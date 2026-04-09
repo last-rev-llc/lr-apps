@@ -1,0 +1,45 @@
+## Review Result: FAILED
+
+### Summary
+
+The token migration for issue #69 is **incomplete**. While the implementation made good progress on replacing hex/rgb values in JS objects with `var(--color-*)` references and added solid theme infrastructure (glass utilities, shadow tokens, brand colors, keyframe consolidation), it left **~219 Tailwind default palette classes** unchanged across all 10 consumer apps.
+
+### Critical Gap
+
+Classes like `text-amber-400`, `bg-green-500/15`, `border-pink-400`, `text-emerald-400` etc. still use Tailwind's built-in palette instead of the project's custom theme tokens (`accent`, `green`, `red`, `pill-*`, etc.). This violates the acceptance criterion **"All colors reference theme tokens."**
+
+**Violations by app:**
+| App | Remaining |
+|-----|-----------|
+| soccer-training | 39 |
+| hspt-tutor | 35 |
+| roblox-dances | 33 |
+| hspt-practice | 25 |
+| cringe-rizzler | 24 |
+| dad-joke-of-the-day | 20 |
+| slang-translator | 17 |
+| proper-wine-pour | 15 |
+| age-of-apes | 7 |
+| generations | 4 |
+
+### What was done well
+- Theme token infrastructure in `theme.css` and `globals.css` is solid
+- Hex values in JS config objects replaced with `var()` references
+- Glass utility classes consolidated
+- Keyframe animations moved from inline `<style>` to globals
+- `color-mix()` usage correctly references CSS variables
+
+### What needs to happen next
+Each remaining Tailwind default palette class needs to be mapped to the project's theme tokens. For example:
+- `amber-400/500` -> `accent`
+- `green-400/500` -> `green`
+- `pink-400/500` -> `pill-6`
+- `emerald-400` -> `green`
+- `purple-400/500` -> `pill-0`
+- `blue-400` -> `blue`
+- `red-400/500` -> `red`
+
+### Additional notes
+- `themeColor` hex values in metadata are **acceptable** (browser API requirement)
+- Canvas colors in cringe-rizzler are **acceptable** (Canvas API requirement)
+- The branch also modifies ~30 internal/command-center apps which belong to issue #68, adding scope noise

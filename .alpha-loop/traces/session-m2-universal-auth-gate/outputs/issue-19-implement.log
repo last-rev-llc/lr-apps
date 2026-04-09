@@ -1,0 +1,7 @@
+Done. Three files changed:
+
+1. **`layout.tsx`** — Added `requireAppLayoutAccess("proper-wine-pour")` call, made function async, added React import
+2. **`app-registry.ts`** — Changed `auth: false` to `auth: true`
+3. **`__tests__/layout.test.tsx`** — 4 smoke tests covering auth call, unauthenticated redirect, unauthorized redirect, and authenticated access
+
+All 101 tests pass across 8 packages.

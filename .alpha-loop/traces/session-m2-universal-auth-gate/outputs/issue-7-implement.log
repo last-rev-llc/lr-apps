@@ -1,0 +1,14 @@
+Done. Here's what was done:
+
+**Files changed (2):**
+- `apps/web/app/apps/lighthouse/layout.tsx` — simplified `<>{children}</>` to `children` (matches Area 52 pattern, avoids needing React in scope for tests)
+- `apps/web/app/apps/lighthouse/__tests__/layout.test.tsx` — new test file with 4 tests
+
+**Acceptance criteria:**
+- `layout.tsx` calls `requireAppLayoutAccess("lighthouse")` — already present
+- App registry has `auth: true` — already present
+- Test: unauthenticated → `/login` redirect — passing
+- Test: unauthorized → `/unauthorized` redirect — passing
+- Test: authenticated with permission → renders children — passing
+
+All 62 web tests pass.

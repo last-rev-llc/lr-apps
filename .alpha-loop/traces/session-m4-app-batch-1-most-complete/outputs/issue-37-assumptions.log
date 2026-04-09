@@ -1,0 +1,17 @@
+## Assumptions
+- **Mood color mapping verification**: Tests assert specific Tailwind classes (e.g., `bg-green-500/20` for positive, `bg-red-500/20` for blocked) by checking `className` — assumed the component's internal class map is the spec, since no design spec was provided
+- **Sentiment score scale is 1–10 integers**: Mock data uses scores like 2, 3, 5, 7, 9 — the valid range wasn't specified in the issue
+- **"Blocked Days" counts entries, not unique dates**: The StatsRow label says "Blocked Days" but the implementation counts blocked *entries* — tests match the implementation as-is rather than asserting unique-date logic
+- **Date format is ISO 8601 (`YYYY-MM-DD`)**: Used this for all mock `date` fields since the component parses dates this way
+- **Recharts mocked to no-ops**: Chart components are stubbed out (return `null` or `<div>`) since the tests focus on data flow and DOM, not SVG rendering
+
+## Decisions
+- **Factory function (`makeEntry`) for mock data**: Chose a single factory with override pattern rather than inline object literals — keeps tests DRY and makes the `SentimentEntry` shape explicit in one place
+- **Supabase mocked via chainable builder**: Built a mock that returns `this` for every query method (`.select()`, `.eq()`, `.order()`, etc.) to match Supabase's fluent API, rather than mocking at a higher abstraction level
+- **Stat value assertions via sibling DOM traversal**: Stats are tested by finding the label text and reading `previousElementSibling` — this couples to the component's DOM structure but avoids needing test-ids
+- **Filter tests verify downstream stat recomputation**: Rather than just checking the dropdown value changed, tests assert that stats (avg, count) update correctly after filtering — validates the full data pipeline
+
+## Items to Validate
+- **"Blocked Days" metric**: Verify whether this should count blocked *entries* or blocked *unique dates* — current implementation and tests count entries
+- **Average precision**: Tests expect `.toFixed(1)` (e.g., "5.2") — confirm this matches your desired display format
+- **Empty state text**: Tests expect `"—"` (em dash) for empty average and `"0"` for counts — verify these match your UX intent
