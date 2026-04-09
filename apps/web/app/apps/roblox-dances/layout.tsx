@@ -15,19 +15,19 @@ export default function RobloxDancesLayout({ children }: { children: ReactNode }
       <header className="glass-header sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <h1 className="font-heading text-xl text-pink-400">
+            <h1 className="font-heading text-xl text-pill-6">
               🕺 Roblox Dance Marketplace
             </h1>
             <nav className="flex gap-4 text-sm">
               <a
                 href="/apps/roblox-dances"
-                className="text-foreground hover:text-pink-400 transition-colors"
+                className="text-foreground hover:text-pill-6 transition-colors"
               >
                 App
               </a>
               <a
                 href="/"
-                className="text-muted-foreground hover:text-pink-400 transition-colors"
+                className="text-muted-foreground hover:text-pill-6 transition-colors"
               >
                 Dashboard
               </a>

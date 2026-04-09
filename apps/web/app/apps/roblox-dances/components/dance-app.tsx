@@ -20,10 +20,10 @@ import type { Dance, DanceSubmission, Difficulty, SortKey } from "../lib/types";
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const DIFFICULTY_COLORS: Record<string, string> = {
-  beginner: "bg-green-500/15 text-green-400 border-green-500/30",
-  intermediate: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
-  advanced: "bg-red-500/15 text-red-400 border-red-500/30",
-  expert: "bg-purple-500/15 text-purple-400 border-purple-500/30",
+  beginner: "bg-green/15 text-green border-green/30",
+  intermediate: "bg-yellow/15 text-yellow border-yellow/30",
+  advanced: "bg-red/15 text-red border-red/30",
+  expert: "bg-pill-0/15 text-pill-0 border-pill-0/30",
 };
 
 const DIFFICULTY_ORDER: Record<string, number> = {
@@ -39,7 +39,7 @@ function StarDisplay({ rating, size = "sm" }: { rating: number; size?: "sm" | "m
   return (
     <span className={`inline-flex gap-px ${cls}`}>
       {[1, 2, 3, 4, 5].map((i) => (
-        <span key={i} className={i <= filled ? "text-yellow-400" : "text-white/20"}>
+        <span key={i} className={i <= filled ? "text-yellow" : "text-white/20"}>
           ★
         </span>
       ))}
@@ -60,7 +60,7 @@ function StarInput({
       {[1, 2, 3, 4, 5].map((i) => (
         <span
           key={i}
-          className={(hover || value) >= i ? "text-yellow-400" : "text-white/20"}
+          className={(hover || value) >= i ? "text-yellow" : "text-white/20"}
           onMouseEnter={() => setHover(i)}
           onMouseLeave={() => setHover(0)}
           onClick={() => onChange(i)}
@@ -80,7 +80,7 @@ function PreviewBars({ seed }: { seed: number }) {
         return (
           <div
             key={i}
-            className="w-1 rounded-sm bg-pink-400/50"
+            className="w-1 rounded-sm bg-pill-6/50"
             style={{ height: `${h}px` }}
           />
         );
@@ -130,16 +130,16 @@ function highlightLua(code: string): string {
             end++;
           }
           end = Math.min(end + 1, line.length);
-          r += `<span class="text-yellow-300">${esc(line.slice(i, end))}</span>`;
+          r += `<span class="text-yellow">${esc(line.slice(i, end))}</span>`;
           i = end;
         } else if (/[a-zA-Z_]/.test(line[i])) {
           let end = i + 1;
           while (end < line.length && /[a-zA-Z0-9_]/.test(line[end])) end++;
           const w = line.slice(i, end);
           if (LUA_KEYWORDS.has(w)) {
-            r += `<span class="text-pink-400 font-semibold">${esc(w)}</span>`;
+            r += `<span class="text-pill-6 font-semibold">${esc(w)}</span>`;
           } else if (LUA_BUILTINS.has(w)) {
-            r += `<span class="text-green-400">${esc(w)}</span>`;
+            r += `<span class="text-green">${esc(w)}</span>`;
           } else {
             r += esc(w);
           }
@@ -150,7 +150,7 @@ function highlightLua(code: string): string {
         ) {
           let end = i;
           while (end < line.length && /[0-9.xXa-fA-F]/.test(line[end])) end++;
-          r += `<span class="text-blue-300">${esc(line.slice(i, end))}</span>`;
+          r += `<span class="text-blue">${esc(line.slice(i, end))}</span>`;
           i = end;
         } else {
           r += esc(line[i]);
@@ -333,7 +333,7 @@ function CodeViewer({
               <button
                 type="button"
                 onClick={copyCode}
-                className="text-xs px-3 py-1 rounded-lg border border-white/10 bg-white/5 hover:border-pink-400/50 hover:text-pink-400 transition-colors"
+                className="text-xs px-3 py-1 rounded-lg border border-white/10 bg-white/5 hover:border-pill-6/50 hover:text-pill-6 transition-colors"
               >
                 📋 Copy Script
               </button>
@@ -409,7 +409,7 @@ function CatalogTab({ dances }: { dances: Dance[] }) {
         <select
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value as Difficulty)}
-          className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pink-400"
+          className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pill-6"
         >
           <option value="all">All Difficulties</option>
           <option value="beginner">Beginner</option>
@@ -420,7 +420,7 @@ function CatalogTab({ dances }: { dances: Dance[] }) {
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value as SortKey)}
-          className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pink-400"
+          className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pill-6"
         >
           <option value="rating">Top Rated</option>
           <option value="name">Name A→Z</option>
@@ -442,7 +442,7 @@ function CatalogTab({ dances }: { dances: Dance[] }) {
               key={dance.id}
               type="button"
               onClick={() => setSelectedDance(dance)}
-              className="text-left bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-pink-400/50 hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all cursor-pointer group"
+              className="text-left bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-pill-6/50 hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all cursor-pointer group"
             >
               <div className="flex items-start gap-3 mb-3">
                 <span className="text-4xl flex-shrink-0">{dance.emoji}</span>
@@ -459,7 +459,7 @@ function CatalogTab({ dances }: { dances: Dance[] }) {
                   {dance.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pink-500/10 text-pink-400"
+                      className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pill-6/10 text-pill-6"
                     >
                       {tag}
                     </span>
@@ -565,7 +565,7 @@ function SubmitTab({
   return (
     <div className="max-w-xl mx-auto space-y-6">
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-pink-500 text-white text-sm px-4 py-2 rounded-full shadow-lg">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-pill-6 text-white text-sm px-4 py-2 rounded-full shadow-lg">
           {toast}
         </div>
       )}
@@ -610,7 +610,7 @@ function SubmitTab({
               onChange={(e) => setDesc(e.target.value)}
               placeholder="Describe the dance moves, style, and feel…"
               rows={3}
-              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground resize-vertical focus:outline-none focus:ring-1 focus:ring-pink-400 placeholder:text-muted-foreground"
+              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground resize-vertical focus:outline-none focus:ring-1 focus:ring-pill-6 placeholder:text-muted-foreground"
             />
           </div>
 
@@ -623,7 +623,7 @@ function SubmitTab({
               onChange={(e) =>
                 setDifficulty(e.target.value as DanceSubmission["difficulty"])
               }
-              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pink-400"
+              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pill-6"
             >
               <option value="beginner">Beginner</option>
               <option value="intermediate">Intermediate</option>
@@ -647,7 +647,7 @@ function SubmitTab({
           <Button
             onClick={handleSubmit}
             disabled={submitting}
-            className="w-full bg-pink-500 hover:bg-pink-600 text-white"
+            className="w-full bg-pill-6 hover:bg-pill-6/80 text-white"
           >
             {submitting ? "Submitting…" : "Submit Dance Idea"}
           </Button>
@@ -677,8 +677,8 @@ function SubmitTab({
                   <span
                     className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${
                       s.status === "approved"
-                        ? "bg-green-500/15 text-green-400"
-                        : "bg-yellow-500/15 text-yellow-400"
+                        ? "bg-green/15 text-green"
+                        : "bg-yellow/15 text-yellow"
                     }`}
                   >
                     {s.status}
@@ -695,7 +695,7 @@ function SubmitTab({
                   {s.tags.map((t) => (
                     <span
                       key={t}
-                      className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pink-500/10 text-pink-400"
+                      className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pill-6/10 text-pill-6"
                     >
                       {t}
                     </span>
@@ -756,13 +756,13 @@ function GeneratorTab() {
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="A smooth salsa dance with hip sways, arm extensions, and spinning turns…"
               rows={4}
-              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground resize-vertical focus:outline-none focus:ring-1 focus:ring-pink-400 placeholder:text-muted-foreground"
+              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground resize-vertical focus:outline-none focus:ring-1 focus:ring-pill-6 placeholder:text-muted-foreground"
             />
           </div>
           <Button
             onClick={handleGenerate}
             disabled={generating || !prompt.trim()}
-            className="w-full bg-pink-500 hover:bg-pink-600 text-white"
+            className="w-full bg-pill-6 hover:bg-pill-6/80 text-white"
           >
             {generating ? (
               <span className="flex items-center gap-2">
@@ -783,7 +783,7 @@ function GeneratorTab() {
             <button
               type="button"
               onClick={copyCode}
-              className="text-xs px-3 py-1 rounded-lg border border-white/10 bg-white/5 hover:border-pink-400/50 hover:text-pink-400 transition-colors"
+              className="text-xs px-3 py-1 rounded-lg border border-white/10 bg-white/5 hover:border-pill-6/50 hover:text-pill-6 transition-colors"
             >
               📋 Copy
             </button>
@@ -822,13 +822,13 @@ export function DanceApp({ initialDances, initialSubmissions }: DanceAppProps) {
   return (
     <Tabs defaultValue="catalog">
       <TabsList className="mb-6 bg-white/5 border border-white/10">
-        <TabsTrigger value="catalog" className="data-[state=active]:bg-pink-500/20 data-[state=active]:text-pink-400">
+        <TabsTrigger value="catalog" className="data-[state=active]:bg-pill-6/20 data-[state=active]:text-pill-6">
           🎭 Catalog
         </TabsTrigger>
-        <TabsTrigger value="submit" className="data-[state=active]:bg-pink-500/20 data-[state=active]:text-pink-400">
+        <TabsTrigger value="submit" className="data-[state=active]:bg-pill-6/20 data-[state=active]:text-pill-6">
           📝 Submit
         </TabsTrigger>
-        <TabsTrigger value="generator" className="data-[state=active]:bg-pink-500/20 data-[state=active]:text-pink-400">
+        <TabsTrigger value="generator" className="data-[state=active]:bg-pill-6/20 data-[state=active]:text-pill-6">
           ⚡ Generator
         </TabsTrigger>
       </TabsList>

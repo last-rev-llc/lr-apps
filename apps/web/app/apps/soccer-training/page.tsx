@@ -22,19 +22,19 @@ export default function SoccerTrainingPage() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-            <div className="text-2xl font-bold text-green-400">
+            <div className="text-2xl font-bold text-green">
               {DRILLS.length}
             </div>
             <div className="text-xs text-muted-foreground mt-0.5">Drills</div>
           </div>
           <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-            <div className="text-2xl font-bold text-green-400">
+            <div className="text-2xl font-bold text-green">
               {Math.round(totalMinutes / 60)}h+
             </div>
             <div className="text-xs text-muted-foreground mt-0.5">Content</div>
           </div>
           <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-            <div className="text-2xl font-bold text-green-400">7</div>
+            <div className="text-2xl font-bold text-green">7</div>
             <div className="text-xs text-muted-foreground mt-0.5">
               Categories
             </div>

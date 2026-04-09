@@ -54,13 +54,13 @@ export default function CringeRizzlerLayout({ children }: { children: ReactNode 
           <nav className="flex gap-3 text-sm">
             <Link
               href="/apps/cringe-rizzler"
-              className="text-white/60 hover:text-pink-400 transition-colors"
+              className="text-white/60 hover:text-pill-6 transition-colors"
             >
               App
             </Link>
             <Link
               href="/apps/cringe-rizzler/about"
-              className="text-white/60 hover:text-pink-400 transition-colors"
+              className="text-white/60 hover:text-pill-6 transition-colors"
             >
               About
             </Link>

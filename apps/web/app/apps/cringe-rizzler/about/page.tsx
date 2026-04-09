@@ -89,7 +89,7 @@ export default function CringeRizzlerAboutPage() {
     <div className="max-w-3xl mx-auto space-y-16">
       {/* Hero */}
       <div className="text-center space-y-4 py-8">
-        <p className="text-xs font-bold uppercase tracking-widest text-pink-400">
+        <p className="text-xs font-bold uppercase tracking-widest text-pill-6">
           🔥 Maximum Cringe Unlocked 🔥
         </p>
         <h1

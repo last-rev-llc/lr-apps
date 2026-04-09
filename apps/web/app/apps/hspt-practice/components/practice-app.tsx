@@ -175,10 +175,10 @@ function SectionMenu({
             const cfg = SECTIONS[s.section];
             const pctColor =
               s.percentage >= 80
-                ? "text-green-400"
+                ? "text-green"
                 : s.percentage >= 60
-                  ? "text-amber-400"
-                  : "text-red-400";
+                  ? "text-accent"
+                  : "text-red";
             return (
               <Card
                 key={s.id}
@@ -243,7 +243,7 @@ function QuizView({
           {cfg.icon} {cfg.name}
         </h2>
         <span
-          className={`font-mono text-xl font-bold ${isWarning ? "text-red-400 animate-pulse" : "text-foreground"}`}
+          className={`font-mono text-xl font-bold ${isWarning ? "text-red animate-pulse" : "text-foreground"}`}
         >
           {formatTime(timeLeft)}
         </span>
@@ -252,7 +252,7 @@ function QuizView({
       {/* Progress bar */}
       <div className="h-1.5 bg-white/10 rounded-full overflow-hidden mb-1">
         <div
-          className="h-full bg-indigo-500 transition-all duration-300"
+          className="h-full bg-pill-0 transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -294,7 +294,7 @@ function QuizView({
                   className={`w-full text-left px-4 py-3 rounded-lg border text-sm transition-all
                     ${
                       isSelected
-                        ? "border-indigo-500 bg-indigo-500/15 text-foreground"
+                        ? "border-pill-0 bg-pill-0/15 text-foreground"
                         : "border-white/10 bg-white/5 text-muted-foreground hover:border-white/30 hover:bg-white/10 hover:text-foreground"
                     }
                   `}
@@ -316,7 +316,7 @@ function QuizView({
           <Button
             variant="outline"
             size="sm"
-            className="border-red-500/50 text-red-400 hover:bg-red-500/10"
+            className="border-red/50 text-red hover:bg-red/10"
             onClick={onFinish}
           >
             Finish
@@ -340,9 +340,9 @@ function QuizView({
               className={`w-9 h-9 rounded text-[11px] border transition-all
                 ${
                   i === currentQ
-                    ? "ring-2 ring-indigo-400 border-indigo-400 text-foreground"
+                    ? "ring-2 ring-pill-0 border-pill-0 text-foreground"
                     : answers[i] !== undefined
-                      ? "bg-indigo-500 border-indigo-500 text-white"
+                      ? "bg-pill-0 border-pill-0 text-white"
                       : "border-white/20 bg-white/5 text-muted-foreground hover:border-white/40"
                 }
               `}
@@ -396,10 +396,10 @@ function ResultsView({
 
   const pctColor =
     session.percentage >= 80
-      ? "text-green-400 border-green-400"
+      ? "text-green border-green"
       : session.percentage >= 60
-        ? "text-amber-400 border-amber-400"
-        : "text-red-400 border-red-400";
+        ? "text-accent border-accent"
+        : "text-red border-red";
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -542,10 +542,10 @@ function ReviewView({
                 "border-white/10 bg-white/5 text-muted-foreground cursor-default";
               if (letter === correct)
                 cls =
-                  "border-green-500 bg-green-500/15 text-foreground cursor-default";
+                  "border-green bg-green/15 text-foreground cursor-default";
               else if (letter === userAns && userAns !== correct)
                 cls =
-                  "border-red-500 bg-red-500/15 text-foreground cursor-default";
+                  "border-red bg-red/15 text-foreground cursor-default";
               return (
                 <div
                   key={letter}
@@ -727,10 +727,10 @@ function HistoryView({
                   const pct = s.percentage;
                   const pctCls =
                     pct >= 80
-                      ? "text-green-400"
+                      ? "text-green"
                       : pct >= 60
-                        ? "text-amber-400"
-                        : "text-red-400";
+                        ? "text-accent"
+                        : "text-red";
                   return (
                     <tr
                       key={s.id}

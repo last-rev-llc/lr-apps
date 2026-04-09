@@ -21,7 +21,7 @@ export default function AgeOfApesLayout({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-4 min-w-0">
             <Link
               href="/apps/age-of-apes"
-              className="font-heading text-xl font-bold text-amber-500 hover:opacity-80 transition-opacity shrink-0"
+              className="font-heading text-xl font-bold text-accent hover:opacity-80 transition-opacity shrink-0"
             >
               🦍 Age of Apes
             </Link>
@@ -42,7 +42,7 @@ export default function AgeOfApesLayout({ children }: { children: ReactNode }) {
 
           <Link
             href="/"
-            className="text-xs text-muted-foreground hover:text-amber-500 transition-colors shrink-0"
+            className="text-xs text-muted-foreground hover:text-accent transition-colors shrink-0"
           >
             ← Dashboard
           </Link>

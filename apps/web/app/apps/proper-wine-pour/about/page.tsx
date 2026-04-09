@@ -25,7 +25,7 @@ export default function ProperWinePourAboutPage() {
           </div>
           <div className="text-muted-foreground text-2xl">=</div>
           <div>
-            <div className="text-3xl font-bold text-green-400">5</div>
+            <div className="text-3xl font-bold text-green">5</div>
             <div className="text-xs text-muted-foreground">Proper Glasses (5oz)</div>
           </div>
         </div>

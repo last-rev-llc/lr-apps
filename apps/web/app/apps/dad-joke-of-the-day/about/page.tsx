@@ -8,42 +8,42 @@ const features = [
     title: "Joke of the Day",
     description:
       "Same joke for everyone, all day. Deterministic by date so you can share it.",
-    color: "text-amber-400",
+    color: "text-accent",
   },
   {
     icon: "🎲",
     title: "Random Mode",
     description:
       "Can't wait until tomorrow? Hit random for instant dad-joke gratification.",
-    color: "text-violet-400",
+    color: "text-pill-8",
   },
   {
     icon: "👁️",
     title: "Punchline Reveal",
     description:
       "The setup builds suspense. Click to reveal. Groan accordingly.",
-    color: "text-blue-400",
+    color: "text-blue",
   },
   {
     icon: "⭐",
     title: "Rate Jokes",
     description:
       "Was it groan-worthy, eye-roll material, or actually funny? You decide.",
-    color: "text-green-400",
+    color: "text-green",
   },
   {
     icon: "🗂️",
     title: "7 Categories",
     description:
       "Classic, Food, Animals, Tech, Holiday, Work, and Science jokes in the mix.",
-    color: "text-pink-400",
+    color: "text-pill-6",
   },
   {
     icon: "📊",
     title: "Community Ratings",
     description:
       "Ratings are aggregated across all users — see which jokes earn the most groans.",
-    color: "text-cyan-400",
+    color: "text-pill-7",
   },
 ];
 
@@ -71,7 +71,7 @@ export default function DadJokeAboutPage() {
       <div className="text-center space-y-4 py-8">
         <Badge
           variant="outline"
-          className="border-amber-400/40 text-amber-400 bg-amber-400/10"
+          className="border-accent/40 text-accent bg-accent/10"
         >
           👔 Daily Dad-Grade Humor 👔
         </Badge>
@@ -86,7 +86,7 @@ export default function DadJokeAboutPage() {
         </p>
         <Link
           href="/apps/dad-joke-of-the-day"
-          className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-black font-semibold px-6 py-2 rounded-lg transition-colors"
+          className="inline-flex items-center gap-2 bg-accent hover:bg-accent-400 text-black font-semibold px-6 py-2 rounded-lg transition-colors"
         >
           Get Today's Joke →
         </Link>
@@ -135,7 +135,7 @@ export default function DadJokeAboutPage() {
         <div className="space-y-4 max-w-lg mx-auto">
           {steps.map((step, i) => (
             <div key={step.title} className="flex gap-4 items-start">
-              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-400 flex items-center justify-center text-sm font-bold">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-accent/20 border border-accent/40 text-accent flex items-center justify-center text-sm font-bold">
                 {i + 1}
               </div>
               <div>
@@ -169,21 +169,21 @@ export default function DadJokeAboutPage() {
               title: "Actual Dads",
               description:
                 "Arm yourself with a fresh joke every morning. Your kids will pretend to hate it.",
-              color: "text-amber-400",
+              color: "text-accent",
             },
             {
               icon: "☕",
               title: "Office Ice-Breakers",
               description:
                 "Start every standup with a dad joke. Morale through mandatory cringing.",
-              color: "text-violet-400",
+              color: "text-pill-8",
             },
             {
               icon: "😊",
               title: "Anyone Who Needs a Laugh",
               description:
                 "Bad day? A terrible joke somehow makes everything a little better.",
-              color: "text-green-400",
+              color: "text-green",
             },
           ].map((uc) => (
             <Card
@@ -208,7 +208,7 @@ export default function DadJokeAboutPage() {
         </p>
         <Link
           href="/apps/dad-joke-of-the-day"
-          className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-black font-semibold px-6 py-2 rounded-lg transition-colors"
+          className="inline-flex items-center gap-2 bg-accent hover:bg-accent-400 text-black font-semibold px-6 py-2 rounded-lg transition-colors"
         >
           Get Today's Joke →
         </Link>

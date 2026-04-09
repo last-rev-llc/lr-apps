@@ -25,10 +25,10 @@ function formatDate(iso: string): string {
 }
 
 const POUR_RATING_COLORS: Record<PourRating, string> = {
-  generous: "bg-green-500/15 text-green-400",
-  standard: "bg-yellow-500/15 text-yellow-400",
-  stingy: "bg-orange-500/15 text-orange-400",
-  criminal: "bg-red-500/15 text-red-400",
+  generous: "bg-green/15 text-green",
+  standard: "bg-yellow/15 text-yellow",
+  stingy: "bg-orange/15 text-orange",
+  criminal: "bg-red/15 text-red",
 };
 
 // ─── Wine Glass SVG ───────────────────────────────────────────────────────────
@@ -85,10 +85,10 @@ function GuideTab() {
       {/* Pour size cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
-          { fill: 0.25, label: "Tasting Pour", size: "2 oz (60ml)", note: "Wine tastings only", color: "var(--color-red)", noteColor: "text-yellow-400" },
-          { fill: 0.5, label: "Standard Pour", size: "5 oz (150ml)", note: "What you SHOULD get", color: "var(--color-red)", noteColor: "text-green-400" },
-          { fill: 0.62, label: "Full Glass", size: "6 oz (175ml)", note: "Generous pour", color: "var(--color-red)", noteColor: "text-green-400" },
-          { fill: 0.15, label: "Criminal Pour", size: "< 3 oz", note: "Unacceptable", color: "var(--color-pill-4)", noteColor: "text-red-400" },
+          { fill: 0.25, label: "Tasting Pour", size: "2 oz (60ml)", note: "Wine tastings only", color: "var(--color-red)", noteColor: "text-yellow" },
+          { fill: 0.5, label: "Standard Pour", size: "5 oz (150ml)", note: "What you SHOULD get", color: "var(--color-red)", noteColor: "text-green" },
+          { fill: 0.62, label: "Full Glass", size: "6 oz (175ml)", note: "Generous pour", color: "var(--color-red)", noteColor: "text-green" },
+          { fill: 0.15, label: "Criminal Pour", size: "< 3 oz", note: "Unacceptable", color: "var(--color-pill-4)", noteColor: "text-red" },
         ].map((g) => (
           <div key={g.label} className="glass text-center p-4 rounded-xl">
             <div className="flex justify-center mb-3">
@@ -235,10 +235,10 @@ function CalculatorTab() {
         </h4>
         <div
           className="h-6 rounded-full relative overflow-hidden"
-          style={{ background: "linear-gradient(90deg, var(--color-green), var(--color-yellow), var(--color-orange), var(--color-red), #7f1d1d)" }}
+          style={{ background: "linear-gradient(90deg, var(--color-green), var(--color-yellow), var(--color-orange), var(--color-red), oklch(from var(--color-red) calc(l - 0.2) c h))" }}
         >
           <div
-            className="absolute top-[-4px] w-1 h-8 bg-white rounded-sm shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-500"
+            className="absolute top-[-4px] w-1 h-8 bg-white rounded-sm shadow-[0_0_8px_oklch(100%_0_0/0.8)] transition-all duration-500"
             style={{ left: `calc(${ripOff}% - 2px)` }}
           />
         </div>
@@ -315,7 +315,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3 text-center">
         <div className="glass rounded-xl p-3">
-          <div className="text-2xl font-bold text-green-400">{generous}</div>
+          <div className="text-2xl font-bold text-green">{generous}</div>
           <div className="text-xs text-muted-foreground">Generous Spots</div>
         </div>
         <div className="glass rounded-xl p-3">
@@ -719,7 +719,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
                 <span className="font-semibold text-sm">{post.user_name}</span>
                 <span
                   className={`text-xs font-semibold uppercase tracking-wide ${
-                    post.pour_type === "glory" ? "text-green-400" : "text-red-400"
+                    post.pour_type === "glory" ? "text-green" : "text-red"
                   }`}
                 >
                   {post.pour_type === "glory" ? "Pour of Glory" : "Pour of Shame"}
