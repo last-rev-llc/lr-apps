@@ -15,7 +15,7 @@ export default function CringeRizzlerLayout({ children }: { children: ReactNode 
   return (
     <div
       className="min-h-screen relative"
-      style={{ background: "linear-gradient(135deg, var(--color-navy-950) 0%, var(--color-navy-950) 50%, var(--color-navy-950) 100%)" }}
+      style={{ background: "var(--gradient-navy-3)" }}
     >
       {/* Ambient glow blobs */}
       <div

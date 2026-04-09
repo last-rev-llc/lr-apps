@@ -1,18 +1,42 @@
 {
   "passed": true,
-  "summary": "All ~219 Tailwind default palette violations replaced with theme tokens across all 10 consumer apps. Build passes.",
+  "summary": "Review found 5 issues across token migration, all fixed: missed bg-amber-400 in pricing.tsx, glass-input rgba→oklch, vibeColor semantic mismatch (pill-6→red), gradient collapse in cringe-rizzler layout, and missing light-theme shadow overrides.",
   "findings": [
     {
-      "severity": "critical",
-      "description": "~219 Tailwind default palette classes (amber-400, green-500, pink-400, etc.) across all 10 consumer apps replaced with project theme tokens (accent, green, pill-*, etc.)",
+      "severity": "warning",
+      "description": "pricing.tsx line 41: bg-amber-400 not migrated to bg-accent-400 despite rest of file being migrated",
       "fixed": true,
-      "file": "apps/web/app/apps/*/components/*.tsx"
+      "file": "packages/ui/src/components/pricing.tsx"
     },
     {
       "severity": "warning",
-      "description": "proper-wine-pour gradient had hardcoded #7f1d1d and rgba(255,255,255,0.8) — replaced with oklch-based expressions",
+      "description": "glass-input utility used rgba(0,0,0,0.2) while glass-header and glass-overlay use oklch() — inconsistent with PR's own conventions",
       "fixed": true,
-      "file": "apps/web/app/apps/proper-wine-pour/components/wine-app.tsx"
+      "file": "packages/theme/src/globals.css"
+    },
+    {
+      "severity": "warning",
+      "description": "vibeColor function mapped low scores to var(--color-pill-6) (pink #ec4899) instead of var(--color-red) — semantic color meaning changed from red=bad to pink=bad",
+      "fixed": true,
+      "file": "apps/web/app/apps/cringe-rizzler/components/cringe-app.tsx"
+    },
+    {
+      "severity": "warning",
+      "description": "Cringe rizzler layout gradient collapsed 3 distinct hex stops into same var(--color-navy-950) token — replaced with var(--gradient-navy-3) which preserves the 3-stop gradient",
+      "fixed": true,
+      "file": "apps/web/app/apps/cringe-rizzler/layout.tsx"
+    },
+    {
+      "severity": "warning",
+      "description": "Shadow tokens (glow-accent-sm, glow-accent-md, lightbox, glass-hover-strong) had no light-theme overrides — dark-mode values would look too heavy on light backgrounds",
+      "fixed": true,
+      "file": "packages/theme/src/theme.css"
+    },
+    {
+      "severity": "info",
+      "description": "accent-accent class name in age-of-apes calculator-app.tsx is syntactically valid (accent-color: var(--color-accent)) but visually odd — could confuse future readers",
+      "fixed": false,
+      "file": "apps/web/app/apps/age-of-apes/components/calculator-app.tsx"
     },
     {
       "severity": "info",
@@ -22,9 +46,9 @@
     },
     {
       "severity": "info",
-      "description": "Canvas API colors (#ffffff, #000000) in cringe-rizzler meme generator are acceptable — Canvas 2D context requires literal color strings",
+      "description": "confetti.tsx DEFAULT_COLORS array has hardcoded hex values (#FDBB30, #00543C, etc.) — pre-existing, likely brand-specific colors with no theme token equivalent",
       "fixed": false,
-      "file": "apps/web/app/apps/cringe-rizzler/components/cringe-app.tsx"
+      "file": "packages/ui/src/components/confetti.tsx"
     }
   ]
 }

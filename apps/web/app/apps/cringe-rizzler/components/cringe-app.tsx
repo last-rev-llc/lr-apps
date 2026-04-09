@@ -21,7 +21,7 @@ import type { GeneratedPhrase, SavedItem, FilterType } from "../lib/types";
 function vibeColor(score: number) {
   if (score >= 8) return "var(--color-green)";
   if (score >= 5) return "var(--color-accent)";
-  return "var(--color-pill-6)";
+  return "var(--color-red)";
 }
 
 function VibeBar({ score }: { score: number }) {
