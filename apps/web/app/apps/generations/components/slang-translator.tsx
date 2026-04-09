@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@repo/ui";
+import { Button, Textarea } from "@repo/ui";
 import type { SlangTerm, GenerationConfig } from "../lib/types";
 import { TRANSLATOR_MAPS } from "../lib/generations";
 
@@ -106,12 +106,13 @@ export function SlangTranslator({ terms, gen }: Props) {
     <div className="max-w-2xl mx-auto space-y-4">
       {/* Direction toggle */}
       <div className="flex rounded-xl overflow-hidden border border-surface-border">
-        <button
+        <Button
+          variant={direction === "to-gen" ? "default" : "outline"}
           onClick={() => {
             setDirection("to-gen");
             setResult(null);
           }}
-          className={`flex-1 px-4 py-2.5 text-sm font-semibold transition-all ${
+          className={`flex-1 rounded-none border-0 text-sm font-semibold ${
             direction === "to-gen"
               ? "text-black"
               : "bg-surface-card text-muted-foreground hover:text-foreground"
@@ -119,13 +120,14 @@ export function SlangTranslator({ terms, gen }: Props) {
           style={direction === "to-gen" ? { background: gen.color } : undefined}
         >
           English → {gen.name} {gen.emoji}
-        </button>
-        <button
+        </Button>
+        <Button
+          variant={direction === "from-gen" ? "default" : "outline"}
           onClick={() => {
             setDirection("from-gen");
             setResult(null);
           }}
-          className={`flex-1 px-4 py-2.5 text-sm font-semibold transition-all ${
+          className={`flex-1 rounded-none border-0 text-sm font-semibold ${
             direction === "from-gen"
               ? "text-black"
               : "bg-surface-card text-muted-foreground hover:text-foreground"
@@ -135,11 +137,11 @@ export function SlangTranslator({ terms, gen }: Props) {
           }
         >
           {gen.name} → English 📚
-        </button>
+        </Button>
       </div>
 
       {/* Input */}
-      <textarea
+      <Textarea
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder={
@@ -147,7 +149,7 @@ export function SlangTranslator({ terms, gen }: Props) {
             ? "Type normal English here..."
             : `Type ${gen.name} slang here...`
         }
-        className="w-full min-h-[120px] px-4 py-3 rounded-xl border border-surface-border bg-surface-card text-foreground text-sm resize-vertical outline-none focus:border-accent transition-colors placeholder:text-muted-foreground"
+        className="min-h-[120px] rounded-xl border-surface-border bg-surface-card text-foreground text-sm resize-vertical focus:border-accent transition-colors"
         onKeyDown={(e) => {
           if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleTranslate();
         }}
