@@ -144,28 +144,40 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
       {/* Category filter */}
       <div className="flex flex-wrap gap-2 justify-center">
         <button
+          type="button"
           onClick={() => handleCategoryChange("all")}
-          className={[
-            "px-3 py-1 rounded-full text-sm border transition-colors",
-            selectedCategory === "all"
-              ? "border-amber-400 bg-amber-400/10 text-amber-400"
-              : "border-white/10 text-muted-foreground hover:border-white/30",
-          ].join(" ")}
+          className="focus:outline-none"
         >
-          All
-        </button>
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => handleCategoryChange(cat)}
+          <Badge
+            variant="outline"
             className={[
-              "px-3 py-1 rounded-full text-sm border transition-colors",
-              selectedCategory === cat
+              "cursor-pointer rounded-full transition-colors",
+              selectedCategory === "all"
                 ? "border-amber-400 bg-amber-400/10 text-amber-400"
                 : "border-white/10 text-muted-foreground hover:border-white/30",
             ].join(" ")}
           >
-            {cat}
+            All
+          </Badge>
+        </button>
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            type="button"
+            onClick={() => handleCategoryChange(cat)}
+            className="focus:outline-none"
+          >
+            <Badge
+              variant="outline"
+              className={[
+                "cursor-pointer rounded-full transition-colors",
+                selectedCategory === cat
+                  ? "border-amber-400 bg-amber-400/10 text-amber-400"
+                  : "border-white/10 text-muted-foreground hover:border-white/30",
+              ].join(" ")}
+            >
+              {cat}
+            </Badge>
           </button>
         ))}
       </div>
@@ -203,15 +215,17 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
                   </p>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {RATINGS.map(({ key, emoji, label }) => (
-                      <button
+                      <Button
                         key={key}
+                        variant="outline"
+                        size="icon"
                         title={label}
                         onClick={() => rateJoke(key)}
                         disabled={ratingSubmitting}
-                        className="text-2xl p-2 rounded-xl border-2 border-white/10 bg-white/5 hover:border-amber-400 hover:scale-110 transition-all disabled:opacity-50"
+                        className="text-2xl h-11 w-11 rounded-xl border-2 border-white/10 bg-white/5 hover:border-amber-400 hover:scale-110 transition-all"
                       >
                         {emoji}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
