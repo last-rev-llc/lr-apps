@@ -1,27 +1,26 @@
 {
   "name": "session/m3-theme-token-audit",
   "branch": "session/m3-theme-token-audit",
-  "completed": "2026-04-08T17:55:47.344Z",
+  "completed": "2026-04-09T00:03:19.320Z",
   "results": [
     {
-      "issueNum": 9,
-      "title": "Audit and document token usage violations",
+      "issueNum": 68,
+      "title": "Replace hardcoded tokens — batch 1 (internal apps)",
       "status": "success",
-      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/107",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/110",
       "testsPassing": true,
       "verifyPassing": true,
-      "duration": 516,
-      "filesChanged": 1
+      "duration": 3057,
+      "filesChanged": 5
     },
     {
-      "issueNum": 10,
-      "title": "Standardize glass/shadow/animation usage",
-      "status": "success",
-      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/108",
-      "testsPassing": true,
-      "verifyPassing": true,
-      "duration": 991,
-      "filesChanged": 2
+      "issueNum": 69,
+      "title": "Replace hardcoded tokens — batch 2 (consumer apps)",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 18321,
+      "filesChanged": 0
     }
   ]
 }
