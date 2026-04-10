@@ -1,8 +1,8 @@
-import { createServerClient } from "@repo/db/server";
+import { createClient } from "@repo/db/server";
 import type { LighthouseSite, LighthouseRun } from "./types";
 
 export async function getSites(): Promise<LighthouseSite[]> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
   const { data: sites, error } = await (supabase as any)
     .from("lighthouse_sites")
     .select("*, lighthouse_runs(id, performance, accessibility, best_practices, seo, lcp, fid, cls, fcp, ttfb, run_at)")
@@ -47,7 +47,7 @@ export async function getSites(): Promise<LighthouseSite[]> {
 }
 
 export async function getSiteHistory(siteId: string): Promise<LighthouseRun[]> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
   const { data, error } = await (supabase as any)
     .from("lighthouse_runs")
     .select("*")

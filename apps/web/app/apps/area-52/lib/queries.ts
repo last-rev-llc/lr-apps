@@ -1,8 +1,8 @@
-import { createServerClient } from "@repo/db/server";
+import { createClient } from "@repo/db/server";
 import type { Experiment } from "./types";
 
 export async function getExperiments(): Promise<Experiment[]> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
   const { data, error } = await (supabase as any)
     .from("area_52_experiments")
     .select("*")
