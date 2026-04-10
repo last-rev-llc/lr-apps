@@ -37,12 +37,12 @@ const apps: AppConfig[] = [
   { slug: "auth", name: "Auth", subdomain: "auth", routeGroup: "(auth)", auth: false, permission: "view", template: "full", tier: "free", features: {} },
 
   // Consolidated
-  { slug: "command-center", name: "Command Center", subdomain: "command-center", routeGroup: "apps/command-center", auth: true, permission: "view", template: "full", tier: "free", features: {} },
-  { slug: "generations", name: "Generations", subdomain: "generations", routeGroup: "apps/generations", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
+  { slug: "command-center", name: "Command Center", subdomain: "command-center", routeGroup: "apps/command-center", auth: true, permission: "view", template: "full", tier: "enterprise", features: {} },
+  { slug: "generations", name: "Generations", subdomain: "generations", routeGroup: "apps/generations", auth: true, permission: "view", template: "minimal", tier: "pro", features: {} },
 
   // Standalone — full (auth required)
   { slug: "accounts", name: "Accounts", subdomain: "accounts", routeGroup: "apps/accounts", auth: true, permission: "view", template: "full", tier: "free", features: {} },
-  { slug: "sentiment", name: "Sentiment", subdomain: "sentiment", routeGroup: "apps/sentiment", auth: true, permission: "view", template: "full", tier: "free", features: {} },
+  { slug: "sentiment", name: "Sentiment", subdomain: "sentiment", routeGroup: "apps/sentiment", auth: true, permission: "view", template: "full", tier: "pro", features: {} },
   { slug: "meeting-summaries", name: "Meeting Summaries", subdomain: "meetings", routeGroup: "apps/meeting-summaries", auth: true, permission: "view", template: "full", tier: "free", features: {} },
   { slug: "uptime", name: "Uptime", subdomain: "uptime", routeGroup: "apps/uptime", auth: true, permission: "view", template: "full", tier: "free", features: {} },
   { slug: "standup", name: "Standup", subdomain: "standup", routeGroup: "apps/standup", auth: true, permission: "view", template: "full", tier: "free", features: {} },
