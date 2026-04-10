@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Button, Card, CardContent } from "@repo/ui";
+import { Badge, Button, Card, CardContent, Input } from "@repo/ui";
 import type { Drill, FilterTab } from "../data/drills";
 import { FILTER_TABS, CATEGORY_LABELS } from "../data/drills";
 
@@ -170,16 +170,17 @@ function DrillModal({
                 {drill.description}
               </p>
             </div>
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={onClose}
-              className="shrink-0 text-muted-foreground hover:text-foreground transition-colors mt-0.5"
+              className="shrink-0 text-muted-foreground hover:text-foreground mt-0.5"
               aria-label="Close"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </button>
+            </Button>
           </div>
 
           {/* Meta row */}
@@ -332,12 +333,12 @@ export function DrillLibrary({ drills }: DrillLibraryProps) {
       {/* Filters */}
       <div className="space-y-3 mb-6">
         {/* Search */}
-        <input
+        <Input
           type="text"
           placeholder="Search drills..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-green/50 transition-colors"
+          className="w-full bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-green/50"
         />
 
         {/* Category tabs */}
@@ -406,17 +407,18 @@ export function DrillLibrary({ drills }: DrillLibraryProps) {
         <div className="text-center py-20 text-muted-foreground">
           <div className="text-4xl mb-3">⚽</div>
           <p className="text-sm">No drills match your filters.</p>
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => {
               setSearchQuery("");
               setActiveFilter("all");
               setActiveDifficulty("All");
             }}
-            className="mt-3 text-sm text-green hover:text-green/80 transition-colors"
+            className="mt-3 text-sm text-green hover:text-green/80"
           >
             Clear filters
-          </button>
+          </Button>
         </div>
       )}
 

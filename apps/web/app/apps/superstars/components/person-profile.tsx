@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@repo/ui";
 
 interface TimelineEntry {
   year: string;
@@ -215,12 +216,15 @@ export function PersonProfile({ person }: PersonProfileProps) {
             className="max-w-full max-h-full rounded-xl object-contain"
             onClick={(e) => e.stopPropagation()}
           />
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             className="absolute top-4 right-4 text-white/70 hover:text-white text-2xl"
             onClick={() => setLightboxSrc(null)}
+            aria-label="Close lightbox"
           >
             ✕
-          </button>
+          </Button>
         </div>
       )}
 
