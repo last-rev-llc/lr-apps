@@ -100,7 +100,7 @@ describe("POST /api/checkout/session", () => {
         line_items: [{ price: "price_pro_monthly", quantity: 1 }],
         mode: "subscription",
         success_url: expect.stringContaining("/checkout/success"),
-        cancel_url: expect.stringContaining("/pricing"),
+        cancel_url: expect.stringContaining("/checkout/cancel"),
       }),
     );
   });

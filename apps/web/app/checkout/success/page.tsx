@@ -17,10 +17,10 @@ export default function CheckoutSuccessPage() {
           Your subscription has been activated. Enjoy your new plan.
         </p>
         <Link
-          href="/my-apps"
+          href="/apps"
           className="mt-8 inline-flex items-center justify-center rounded-lg bg-accent px-6 py-2.5 text-sm font-semibold text-black transition-opacity hover:opacity-90"
         >
-          Go to My Apps
+          Go to Apps
         </Link>
       </div>
     </div>

@@ -41,7 +41,7 @@ export async function POST(request: Request): Promise<Response> {
       line_items: [{ price: priceId, quantity: 1 }],
       mode: "subscription",
       success_url: `${appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${appUrl}/pricing`,
+      cancel_url: `${appUrl}/checkout/cancel`,
     });
 
     return Response.json({ checkoutUrl: checkoutSession.url });
