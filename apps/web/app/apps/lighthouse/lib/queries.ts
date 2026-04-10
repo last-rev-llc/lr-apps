@@ -15,29 +15,33 @@ export async function getSites(): Promise<LighthouseSite[]> {
 
   return (sites ?? []).map((row: any) => {
     const runs: any[] = row.lighthouse_runs ?? [];
-    const latest = runs.sort((a: any, b: any) =>
-      (b.run_at ?? "").localeCompare(a.run_at ?? "")
-    )[0] ?? null;
+    const sorted = runs.sort((a: any, b: any) =>
+      (a.run_at ?? "").localeCompare(b.run_at ?? "")
+    );
+    const latest = sorted.length > 0 ? sorted[sorted.length - 1] : null;
+
+    const mapRun = (r: any) => ({
+      id: r.id,
+      siteId: row.id,
+      performance: r.performance,
+      accessibility: r.accessibility,
+      bestPractices: r.best_practices,
+      seo: r.seo,
+      lcp: r.lcp,
+      fid: r.fid,
+      cls: r.cls,
+      fcp: r.fcp,
+      ttfb: r.ttfb,
+      runAt: r.run_at,
+    });
 
     return {
       id: row.id,
       name: row.name,
       url: row.url,
       createdAt: row.created_at,
-      latestRun: latest ? {
-        id: latest.id,
-        siteId: row.id,
-        performance: latest.performance,
-        accessibility: latest.accessibility,
-        bestPractices: latest.best_practices,
-        seo: latest.seo,
-        lcp: latest.lcp,
-        fid: latest.fid,
-        cls: latest.cls,
-        fcp: latest.fcp,
-        ttfb: latest.ttfb,
-        runAt: latest.run_at,
-      } : null,
+      latestRun: latest ? mapRun(latest) : null,
+      runs: sorted.map(mapRun),
     };
   });
 }

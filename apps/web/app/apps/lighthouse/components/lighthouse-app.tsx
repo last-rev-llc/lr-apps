@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, EmptyState, PageHeader } from "@repo/ui";
 import type { LighthouseSite } from "../lib/types";
 import { SitesTable } from "./sites-table";
+import { ScoreHistory } from "./score-history";
 import { VitalsDetail } from "./vitals-detail";
 
 interface LighthouseAppProps {
@@ -39,6 +40,10 @@ export function LighthouseApp({ initialSites }: LighthouseAppProps) {
           )}
         </CardContent>
       </Card>
+
+      {selectedSite && selectedSite.runs.length >= 2 && (
+        <ScoreHistory runs={selectedSite.runs} siteName={selectedSite.name} />
+      )}
 
       {selectedSite?.latestRun && (
         <VitalsDetail run={selectedSite.latestRun} siteName={selectedSite.name} />

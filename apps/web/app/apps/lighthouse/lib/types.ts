@@ -12,6 +12,7 @@ export interface LighthouseSite {
   url: string;
   createdAt?: string | null;
   latestRun?: LighthouseRun | null;
+  runs: LighthouseRun[];
 }
 
 export interface LighthouseRun {
