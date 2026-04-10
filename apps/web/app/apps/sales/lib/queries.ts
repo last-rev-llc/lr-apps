@@ -18,6 +18,7 @@ export async function getLeads(): Promise<Lead[]> {
   const { data, error } = await (supabase as any)
     .from("leads")
     .select("*")
+    .order("stage", { ascending: true, nullsFirst: false })
     .order("fitScore", { ascending: false });
 
   if (error) {

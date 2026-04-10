@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Button, Card, CardContent, EmptyState, PageHeader, Search, StatCard } from "@repo/ui";
+import { Avatar, AvatarFallback, Badge, Button, Card, CardContent, EmptyState, PageHeader, Search, StatCard } from "@repo/ui";
 import type { AppPermissionRow, Permission } from "../lib/types";
 
 const PERMISSION_STYLE: Record<Permission, { bg: string; text: string }> = {
@@ -101,7 +101,11 @@ export function AppAccessApp({ initialPermissions }: AppAccessAppProps) {
                   <div className="space-y-2">
                     {rows.map((row) => (
                       <div key={row.id} className="flex items-center gap-3 py-1.5 border-b border-white/5 last:border-0">
-                        <span className="text-xl">👤</span>
+                        <Avatar className="h-8 w-8 shrink-0">
+                          <AvatarFallback className="bg-white/10 text-white/60 text-xs font-semibold">
+                            {(row.user_name ?? row.user_email ?? row.user_id).slice(0, 2).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
                         <div className="flex-1 min-w-0">
                           {row.user_name && (
                             <div className="text-sm font-medium text-white">{row.user_name}</div>
