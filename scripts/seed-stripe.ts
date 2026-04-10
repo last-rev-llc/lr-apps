@@ -31,7 +31,7 @@ const stripe = new Stripe(key);
 
 const TIERS = [
   { name: "Free", amount: 0 },
-  { name: "Pro", amount: 1900 },
+  { name: "Pro", amount: 2900 },
   { name: "Enterprise", amount: 9900 },
 ] as const;
 

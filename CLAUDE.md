@@ -17,6 +17,6 @@ npx tsx scripts/seed-stripe.ts
 **Required env var:** `STRIPE_SECRET_KEY` must be a test key (starts with `sk_test_`). The script will refuse to run against live keys.
 
 **What it creates:**
-- Three products: Free ($0/mo), Pro ($19/mo), Enterprise ($99/mo)
+- Three products: Free ($0/mo), Pro ($29/mo), Enterprise ($99/mo)
 - One monthly recurring price per product
-- Logs the resulting `price_id` for each — copy these into `.env` as `STRIPE_PRICE_ID_FREE`, `STRIPE_PRICE_ID_PRO`, `STRIPE_PRICE_ID_ENTERPRISE`.
+- Logs the resulting `price_id` for each — copy these into `.env` as `STRIPE_PRICE_ID_PRO`, `STRIPE_PRICE_ID_ENTERPRISE`.
