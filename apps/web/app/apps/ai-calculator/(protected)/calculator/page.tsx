@@ -10,14 +10,14 @@ const MANUAL_REDUCTION = 0.4; // 40%
 const AI_COST_PER_USER_MONTH = 50; // $50/user/month
 const WORKING_WEEKS_PER_YEAR = 50;
 
-interface CalcInputs {
+export interface CalcInputs {
   teamSize: string;
   meetingHours: string;
   manualHours: string;
   hourlyCost: string;
 }
 
-interface CalcResults {
+export interface CalcResults {
   meetingHoursSavedWeek: number;
   manualHoursSavedWeek: number;
   totalHoursSavedYear: number;
@@ -35,7 +35,7 @@ function fmtMoney(n: number): string {
   return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 0 });
 }
 
-function calculate(inputs: CalcInputs): CalcResults {
+export function calculate(inputs: CalcInputs): CalcResults {
   const team = parseFloat(inputs.teamSize) || 0;
   const meetings = parseFloat(inputs.meetingHours) || 0;
   const manual = parseFloat(inputs.manualHours) || 0;
