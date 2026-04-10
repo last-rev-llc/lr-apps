@@ -29,12 +29,9 @@ describe("SuperstarsPage", () => {
     }
   });
 
-  it("renders page heading when there are multiple people", () => {
-    const people = peopleData as Array<{ id: string }>;
-    if (people.length > 1) {
-      renderWithProviders(<SuperstarsPage />);
-      expect(screen.getByText(/Superstars/i)).toBeInTheDocument();
-    }
+  it("renders page heading", () => {
+    renderWithProviders(<SuperstarsPage />);
+    expect(screen.getByText(/Superstars/i)).toBeInTheDocument();
   });
 
   it("renders 'View Profile' prompt on cards", () => {

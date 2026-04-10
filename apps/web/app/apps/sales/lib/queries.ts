@@ -15,7 +15,7 @@ function parseJsonField<T>(value: unknown, fallback: T): T {
 
 export async function getLeads(): Promise<Lead[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from("leads")
     .select("*")
     .order("stage", { ascending: true, nullsFirst: false })

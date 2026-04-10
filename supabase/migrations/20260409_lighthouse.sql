@@ -19,3 +19,16 @@ CREATE TABLE IF NOT EXISTS lighthouse_runs (
   ttfb numeric,
   run_at timestamptz DEFAULT now()
 );
+
+-- Enable RLS
+ALTER TABLE lighthouse_sites ENABLE ROW LEVEL SECURITY;
+ALTER TABLE lighthouse_runs ENABLE ROW LEVEL SECURITY;
+
+-- Authenticated users can read lighthouse data
+CREATE POLICY "Authenticated users can read lighthouse sites"
+  ON lighthouse_sites FOR SELECT
+  USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Authenticated users can read lighthouse runs"
+  ON lighthouse_runs FOR SELECT
+  USING (auth.role() = 'authenticated');

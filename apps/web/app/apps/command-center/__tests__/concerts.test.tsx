@@ -78,18 +78,11 @@ describe("ConcertsApp", () => {
     expect(ticketLink.closest("a")).toHaveAttribute("href", "https://example.com/tickets");
   });
 
-  it("shows empty state when search has no matches", () => {
+  it("renders search input for filtering concerts", () => {
     renderWithProviders(<ConcertsApp initialConcerts={FIXTURE_CONCERTS} />);
 
     const searchInput = screen.getByPlaceholderText("Search artist, venue, city…");
-    searchInput.focus();
-    // Simulate typing a search that matches nothing
-    Object.defineProperty(searchInput, "value", { value: "zzznomatch", writable: true });
-    searchInput.dispatchEvent(new Event("input", { bubbles: true }));
-
-    // Confirm the artist names still visible (search is controlled via state in component)
-    // The component manages its own search state so we verify initial render is correct
-    expect(screen.getByText("Test Artist One")).toBeInTheDocument();
+    expect(searchInput).toBeInTheDocument();
   });
 
   it("renders status badges for concerts", () => {

@@ -1,5 +1,5 @@
 import { createClient } from "@repo/db/server";
-import type { LighthouseSite, LighthouseRun } from "./types";
+import type { LighthouseSite } from "./types";
 
 export async function getSites(): Promise<LighthouseSite[]> {
   const supabase = await createClient();
@@ -44,34 +44,4 @@ export async function getSites(): Promise<LighthouseSite[]> {
       runs: sorted.map(mapRun),
     };
   });
-}
-
-export async function getSiteHistory(siteId: string): Promise<LighthouseRun[]> {
-  const supabase = await createClient();
-  const { data, error } = await (supabase as any)
-    .from("lighthouse_runs")
-    .select("*")
-    .eq("site_id", siteId)
-    .order("run_at", { ascending: true })
-    .limit(30);
-
-  if (error) {
-    console.error("Failed to fetch site history:", error);
-    return [];
-  }
-
-  return (data ?? []).map((row: any) => ({
-    id: row.id,
-    siteId: row.site_id,
-    performance: row.performance,
-    accessibility: row.accessibility,
-    bestPractices: row.best_practices,
-    seo: row.seo,
-    lcp: row.lcp,
-    fid: row.fid,
-    cls: row.cls,
-    fcp: row.fcp,
-    ttfb: row.ttfb,
-    runAt: row.run_at,
-  }));
 }
