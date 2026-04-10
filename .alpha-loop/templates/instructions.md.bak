@@ -1,58 +1,53 @@
 <!-- managed by alpha-loop -->
-Now I have enough context. Let me produce the updated CLAUDE.md:
+# lr-apps
 
-<!-- managed by alpha-loop -->
-# LR Apps
-
-Internal app platform for Last Rev. A pnpm + Turborepo monorepo with a single Next.js 16 web host serving ~27 micro-apps behind Auth0 + Stripe billing, backed by Supabase (Postgres).
+## Overview
+A Next.js 16 monorepo hosting 20+ internal SaaS tools and applications (Command Center, Generations, Sentiment, Accounts, etc.) for Last Rev / AlphaClaw. Each app is served at a unique subdomain (`<app>.adam-harris.alphaclaw.app`) via Vercel wildcard routing. Authentication is provided by Auth0 and billing/tier access by Stripe, with Supabase as the backend database.
 
 ## Tech Stack
-
-| Layer | Version / Tool |
-|-------|---------------|
-| Runtime | Node.js, pnpm 9, Turborepo 2 |
-| Framework | Next.js ^16 (App Router, Turbopack dev) |
-| UI | React ^19, Tailwind CSS ^4, Geist font |
-| Auth | Auth0 (`@auth0/nextjs-auth0` ^4) |
-| Database | Supabase (Postgres, migrations in `supabase/migrations/`) |
-| Billing | Stripe (`@repo/billing`) |
-| Testing | Vitest ^3 (workspace: `apps/*`, `packages/*`) |
-| QA | punchlist-qa (widget overlay in dev) |
-| Charts | Recharts ^2 |
+- **Language:** TypeScript 5.9 (strict mode, ES2022)
+- **Runtime:** Node.js 22
+- **Framework:** Next.js 16 (App Router, Turbopack in dev), React 19
+- **Package manager:** pnpm 9.15.4 with workspaces; Turbo 2 for task orchestration
+- **Key dependencies:** `@auth0/nextjs-auth0`, `@supabase/supabase-js`, Tailwind CSS 4, Radix UI, `@repo/ui` (internal component library), Stripe
 
 ## Directory Structure
-
 ```
-apps/web/            — Next.js host app (single deployable)
-  app/(auth)/        — Auth0 auth routes
-  app/apps/          — ~27 micro-app routes (one dir each)
-  proxy.ts           — request interception (replaces middleware.ts)
+apps/web/              # Main Next.js application
+  app/
+    (auth)/            # Auth layout group — authenticated pages
+      (dashboard)/     # Authenticated dashboard
+    apps/              # One folder per app (e.g., command-center/, generations/)
+    api/               # API route handlers (route.ts files)
+  components/          # App-level shared components
+  lib/                 # Utilities: app-registry.ts, platform-urls.ts, auth helpers
+
 packages/
-  auth/              — @repo/auth — shared Auth0 helpers
-  billing/           — @repo/billing — Stripe integration
-  config/            — @repo/config — ESLint, Prettier, tsconfig
-  db/                — @repo/db — Supabase client & queries
-  test-utils/        — @repo/test-utils — shared test helpers
-  theme/             — @repo/theme — theme.css, globals.css, tokens
-  ui/                — @repo/ui — ~47 shared components
-scripts/             — tooling (e.g. generate-app-cards.py)
-supabase/migrations/ — SQL migration files
+  ui/src/components/   # Shared Radix UI + Tailwind component library
+  auth/src/            # Auth0 factory, requireAccess(), middleware merging
+  db/src/              # Supabase clients: server.ts, client.ts, service-role.ts
+  billing/             # Stripe integration
+  theme/src/           # globals.css, theme.css, components.css
+  config/              # Shared tsconfig, ESLint, Prettier configs
+  test-utils/          # renderWithProviders() and test helpers
+
+supabase/              # Supabase migrations and config
 ```
 
 ## Code Style
-
-- **Workspace imports**: always `@repo/<pkg>` — never relative across package boundaries.
-- **Components**: functional + arrow, `export function` for pages/layouts. Co-locate component tests next to source.
-- **Styling**: Tailwind utility classes; design tokens live in `@repo/theme`. The marketing site style-kit is the default design language for all apps.
-- **TypeScript**: strict mode, no `any`. Shared tsconfig in `@repo/config`.
-- **Linting**: ESLint config from `@repo/config`; Prettier for formatting.
-- **Proxy over middleware**: use `proxy.ts` (Next.js 16 pattern), not `middleware.ts`.
+- **Files:** kebab-case (`app-registry.ts`, `auth-provider.tsx`)
+- **Functions/variables:** camelCase; **Types/interfaces:** PascalCase
+- **Exports:** Named exports everywhere except Next.js page/layout defaults
+- **Imports order:** React/Next → `@repo/*` workspace packages → local `@/` aliases → relative
+- **Components:** Functional components with explicit TypeScript `interface` for props; destructure in signature
+- **Classnames:** Always use `cn()` from `@repo/ui/lib/utils` for Tailwind class merging; no hardcoded hex/rgb color values (enforced by custom ESLint rule)
+- **Server vs Client:** Server Components by default; add `"use client"` only when interactivity requires it
+- **Formatting:** Prettier — 2-space indent, double quotes, semicolons, trailing commas
 
 ## Non-Negotiables
-
-1. **Billing gate** — every new app must check entitlements via `@repo/billing` before rendering paid features.
-2. **Auth required** — all app routes sit under the `(auth)` layout group; never expose an unauthenticated app route.
-3. **No direct Supabase in components** — use `@repo/db` helpers; raw client stays in the package.
-4. **Env vars in turbo.json** — any new `NEXT_PUBLIC_*` or server env must be listed in `turbo.json` `globalEnv` so Turbo can invalidate caches.
-5. **Stripe secrets never client-side** — `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` are server-only; only `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` may reach the browser.
-6. **One deployable** — all apps ship inside `apps/web`; do not add new entries under `apps/`.
+- **App registry is the single source of truth.** All apps must be registered in `lib/app-registry.ts` with `subdomain`, `tier`, `publicRoutes`, and `routeGroup`. Never hardcode app metadata in route handlers — use `getAppBySlug()` / `getAppBySubdomain()`.
+- **Never expose the Supabase service role key to the client.** Use `db/server.ts` in Server Components and API routes; `db/client.ts` in Client Components only.
+- **Auth guard with `requireAccess()`.** Protected server routes must call `requireAccess()` from `@repo/auth` — do not roll custom auth checks.
+- **All shared UI goes through `@repo/ui`.** Do not create app-local copies of components that belong in the shared library. Import from `@repo/ui`, not from `packages/ui/src` directly.
+- **Monorepo imports only.** Cross-package dependencies use `workspace:*` in `package.json`; never use relative paths (`../../packages/ui`) across package boundaries.
+- **TypeScript strict — no `any`.** ESLint is configured to warn on `any`; unused variables must be prefixed with `_` or removed.
