@@ -3,20 +3,33 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderWithProviders, screen } from "@repo/test-utils";
 
-vi.mock("@/lib/require-app-layout-access", () => ({
-  requireAppLayoutAccess: vi.fn(),
+vi.mock("@repo/auth/server", () => ({
+  requireAccess: vi.fn(),
+}));
+
+vi.mock("@repo/billing", () => ({
+  hasFeatureAccess: vi.fn(),
+}));
+
+vi.mock("@/components/UpgradePrompt", () => ({
+  default: ({ requiredTier }: { requiredTier: string }) => (
+    <div data-testid="upgrade-prompt">
+      <a href="/pricing">View Pricing</a>
+      <span>{requiredTier}</span>
+    </div>
+  ),
 }));
 
 vi.mock("@repo/ui", () => ({
-  Topbar: ({ title, children }: any) => (
+  Topbar: ({ title, children }: { title: string; children?: React.ReactNode }) => (
     <header>
       <span>{title}</span>
       {children}
     </header>
   ),
-  AppNav: ({ items }: any) => (
+  AppNav: ({ items }: { items: { href: string; label: string }[] }) => (
     <nav>
-      {items.map((item: any) => (
+      {items.map((item) => (
         <a key={item.href} href={item.href}>
           {item.label}
         </a>
@@ -25,25 +38,38 @@ vi.mock("@repo/ui", () => ({
   ),
 }));
 
-import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { requireAccess } from "@repo/auth/server";
+import { hasFeatureAccess } from "@repo/billing";
 import GenerationsLayout from "../layout";
 
-const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
+const mockRequireAccess = vi.mocked(requireAccess);
+const mockHasFeatureAccess = vi.mocked(hasFeatureAccess);
 
 beforeEach(() => {
   vi.clearAllMocks();
-  mockRequireAppLayoutAccess.mockResolvedValue(undefined);
+  mockRequireAccess.mockResolvedValue({
+    user: { id: "user-123", email: "test@example.com" },
+    permission: "view",
+  });
+  mockHasFeatureAccess.mockResolvedValue(true);
 });
 
 describe("GenerationsLayout", () => {
-  it("calls requireAppLayoutAccess with 'generations'", async () => {
+  it("calls requireAccess with 'generations'", async () => {
     const jsx = await GenerationsLayout({ children: <div>child</div> });
     renderWithProviders(jsx);
 
-    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("generations");
+    expect(mockRequireAccess).toHaveBeenCalledWith("generations");
   });
 
-  it("renders children when authenticated", async () => {
+  it("calls hasFeatureAccess with userId and 'generations'", async () => {
+    const jsx = await GenerationsLayout({ children: <div>child</div> });
+    renderWithProviders(jsx);
+
+    expect(mockHasFeatureAccess).toHaveBeenCalledWith("user-123", "generations");
+  });
+
+  it("renders children when user has pro access", async () => {
     const jsx = await GenerationsLayout({
       children: <div>child content</div>,
     });
@@ -52,7 +78,32 @@ describe("GenerationsLayout", () => {
     expect(screen.getByText("child content")).toBeInTheDocument();
   });
 
-  it("renders the app title", async () => {
+  it("renders UpgradePrompt with requiredTier='pro' when access denied", async () => {
+    mockHasFeatureAccess.mockResolvedValue(false);
+
+    const jsx = await GenerationsLayout({
+      children: <div>child content</div>,
+    });
+    renderWithProviders(jsx);
+
+    expect(screen.getByTestId("upgrade-prompt")).toBeInTheDocument();
+    expect(screen.queryByText("child content")).not.toBeInTheDocument();
+    expect(screen.getByText("pro")).toBeInTheDocument();
+  });
+
+  it("UpgradePrompt links to /pricing when access denied", async () => {
+    mockHasFeatureAccess.mockResolvedValue(false);
+
+    const jsx = await GenerationsLayout({
+      children: <div>child content</div>,
+    });
+    renderWithProviders(jsx);
+
+    const pricingLink = screen.getByRole("link", { name: /pricing/i });
+    expect(pricingLink).toHaveAttribute("href", "/pricing");
+  });
+
+  it("renders the app title when access granted", async () => {
     const jsx = await GenerationsLayout({ children: <div>test</div> });
     renderWithProviders(jsx);
 
@@ -78,8 +129,8 @@ describe("GenerationsLayout", () => {
     expect(dashLink).toHaveAttribute("href", "/");
   });
 
-  it("propagates auth error when requireAppLayoutAccess rejects", async () => {
-    mockRequireAppLayoutAccess.mockRejectedValue(new Error("Unauthorized"));
+  it("propagates auth error when requireAccess rejects", async () => {
+    mockRequireAccess.mockRejectedValue(new Error("Unauthorized"));
 
     await expect(
       GenerationsLayout({ children: <div>test</div> }),

@@ -3,44 +3,95 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderWithProviders, screen } from "@repo/test-utils";
 
-vi.mock("@/lib/require-app-layout-access", () => ({
-  requireAppLayoutAccess: vi.fn(),
+vi.mock("@repo/auth/server", () => ({
+  requireAccess: vi.fn(),
 }));
 
-import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+vi.mock("@repo/billing", () => ({
+  hasFeatureAccess: vi.fn(),
+}));
+
+vi.mock("@/components/UpgradePrompt", () => ({
+  default: ({ requiredTier }: { requiredTier: string }) => (
+    <div data-testid="upgrade-prompt">
+      <a href="/pricing">View Pricing</a>
+      <span>{requiredTier}</span>
+    </div>
+  ),
+}));
+
+import { requireAccess } from "@repo/auth/server";
+import { hasFeatureAccess } from "@repo/billing";
 import SentimentLayout from "../layout";
 
-const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
+const mockRequireAccess = vi.mocked(requireAccess);
+const mockHasFeatureAccess = vi.mocked(hasFeatureAccess);
 
 beforeEach(() => {
   vi.clearAllMocks();
-  mockRequireAppLayoutAccess.mockResolvedValue(undefined);
+  mockRequireAccess.mockResolvedValue({
+    user: { id: "user-123", email: "test@example.com" },
+    permission: "view",
+  });
+  mockHasFeatureAccess.mockResolvedValue(true);
 });
 
 describe("SentimentLayout", () => {
-  it("calls requireAppLayoutAccess with 'sentiment'", async () => {
+  it("calls requireAccess with 'sentiment'", async () => {
     const jsx = await SentimentLayout({ children: <div>child content</div> });
     renderWithProviders(jsx);
 
-    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("sentiment");
+    expect(mockRequireAccess).toHaveBeenCalledWith("sentiment");
   });
 
-  it("renders children when authenticated", async () => {
+  it("calls hasFeatureAccess with userId and 'sentiment'", async () => {
+    const jsx = await SentimentLayout({ children: <div>child content</div> });
+    renderWithProviders(jsx);
+
+    expect(mockHasFeatureAccess).toHaveBeenCalledWith("user-123", "sentiment");
+  });
+
+  it("renders children when user has pro access", async () => {
     const jsx = await SentimentLayout({ children: <div>child content</div> });
     renderWithProviders(jsx);
 
     expect(screen.getByText("child content")).toBeInTheDocument();
   });
 
-  it("renders 'Sentiment' title in header", async () => {
+  it("renders UpgradePrompt with requiredTier='pro' when access denied", async () => {
+    mockHasFeatureAccess.mockResolvedValue(false);
+
+    const jsx = await SentimentLayout({
+      children: <div>child content</div>,
+    });
+    renderWithProviders(jsx);
+
+    expect(screen.getByTestId("upgrade-prompt")).toBeInTheDocument();
+    expect(screen.queryByText("child content")).not.toBeInTheDocument();
+    expect(screen.getByText("pro")).toBeInTheDocument();
+  });
+
+  it("UpgradePrompt links to /pricing when access denied", async () => {
+    mockHasFeatureAccess.mockResolvedValue(false);
+
+    const jsx = await SentimentLayout({
+      children: <div>child content</div>,
+    });
+    renderWithProviders(jsx);
+
+    const pricingLink = screen.getByRole("link", { name: /pricing/i });
+    expect(pricingLink).toHaveAttribute("href", "/pricing");
+  });
+
+  it("renders 'Sentiment' title in header when access granted", async () => {
     const jsx = await SentimentLayout({ children: <div>test</div> });
     renderWithProviders(jsx);
 
     expect(screen.getByText("Sentiment")).toBeInTheDocument();
   });
 
-  it("propagates auth error when requireAppLayoutAccess rejects", async () => {
-    mockRequireAppLayoutAccess.mockRejectedValue(new Error("Unauthorized"));
+  it("propagates auth error when requireAccess rejects", async () => {
+    mockRequireAccess.mockRejectedValue(new Error("Unauthorized"));
 
     await expect(
       SentimentLayout({ children: <div>test</div> }),

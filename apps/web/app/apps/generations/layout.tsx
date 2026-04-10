@@ -1,4 +1,6 @@
-import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { requireAccess } from "@repo/auth/server";
+import { hasFeatureAccess } from "@repo/billing";
+import UpgradePrompt from "@/components/UpgradePrompt";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Topbar, AppNav } from "@repo/ui";
@@ -9,7 +11,9 @@ export default async function GenerationsLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAppLayoutAccess("generations");
+  const { user } = await requireAccess("generations");
+  const hasAccess = await hasFeatureAccess(user.id, "generations");
+  if (!hasAccess) return <UpgradePrompt requiredTier="pro" />;
 
   const navItems = GENERATIONS.map((gen) => ({
     label: `${gen.emoji} ${gen.name}`,
