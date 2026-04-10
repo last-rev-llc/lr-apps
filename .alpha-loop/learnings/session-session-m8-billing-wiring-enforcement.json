@@ -1,0 +1,47 @@
+{
+  "name": "session/m8-billing-wiring-enforcement",
+  "branch": "session/m8-billing-wiring-enforcement",
+  "completed": "2026-04-10T07:52:11.792Z",
+  "results": [
+    {
+      "issueNum": 143,
+      "title": "Add Stripe checkout/pricing page",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/194",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 1302,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 144,
+      "title": "Add subscription management UI",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/195",
+      "testsPassing": true,
+      "verifyPassing": false,
+      "duration": 4631,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 145,
+      "title": "Enforce tier gating in 3+ paid apps",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/196",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 938,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 146,
+      "title": "Add webhook idempotency and Stripe test seed",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/197",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 872,
+      "filesChanged": 5
+    }
+  ]
+}
