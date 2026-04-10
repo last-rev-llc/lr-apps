@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
+import { Button, Card, CardContent } from "@repo/ui";
 import "./brommie-quake.css";
 
 // --- Static data ---
@@ -81,8 +82,14 @@ const QUAKE_LETTERS = ["Q", "U", "A", "K", "E", "!", "!"];
 const FALL_ROTATIONS = [15, -20, 25, -12, 18, -30, 22];
 const FALL_X = [-30, 10, -15, 25, -20, 15, -10];
 
-// Confetti colors
-const CONFETTI_COLORS = ["#0067B1", "#CE0F2D", "#D4A843", "#003DA5", "#fff"];
+// Confetti colors — use CSS custom properties so tokens control brand colors
+const CONFETTI_COLORS = [
+  "var(--quake-blue)",
+  "var(--quake-red)",
+  "var(--quake-gold)",
+  "var(--quake-blue)",
+  "white",
+];
 
 export default function BrommieQuakePage() {
   const bodyShakeRef = useRef(false);
@@ -211,9 +218,9 @@ export default function BrommieQuakePage() {
             One kid. One wave. 18,000 fans losing their minds.
           </p>
 
-          <button className="bq-quake-btn" onClick={triggerQuake}>
+          <Button className="bq-quake-btn" onClick={triggerQuake}>
             🫨 Start the Quake
-          </button>
+          </Button>
         </section>
 
         {/* === WAVE SECTION === */}
@@ -253,11 +260,13 @@ export default function BrommieQuakePage() {
         {/* === STATS === */}
         <section className="bq-stats-section bq-reveal">
           {STATS.map((stat) => (
-            <div key={stat.label} className="bq-stat-card">
-              <div className="bq-stat-emoji">{stat.emoji}</div>
-              <div className="bq-stat-number">{stat.number}</div>
-              <div className="bq-stat-label">{stat.label}</div>
-            </div>
+            <Card key={stat.label} className="bq-stat-card">
+              <CardContent className="p-0">
+                <div className="bq-stat-emoji">{stat.emoji}</div>
+                <div className="bq-stat-number">{stat.number}</div>
+                <div className="bq-stat-label">{stat.label}</div>
+              </CardContent>
+            </Card>
           ))}
         </section>
 
@@ -266,10 +275,12 @@ export default function BrommieQuakePage() {
           <h2>🗣️ FROM THE STANDS</h2>
           <div className="bq-quotes-grid">
             {QUOTES.map((q, i) => (
-              <div key={i} className="bq-quote-card">
-                <p className="bq-quote-text">{q.text}</p>
-                <p className="bq-quote-author">{q.author}</p>
-              </div>
+              <Card key={i} className="bq-quote-card">
+                <CardContent className="p-0">
+                  <p className="bq-quote-text">{q.text}</p>
+                  <p className="bq-quote-author">{q.author}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </section>
