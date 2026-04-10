@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
+import { Badge, Button, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
 import type { Agent, AgentStatus } from "../lib/types";
 
 type StatusFilter = "all" | AgentStatus;
@@ -95,17 +95,15 @@ export function AgentsApp({ initialAgents }: AgentsAppProps) {
         <Search value={search} onChange={setSearch} placeholder="Search agents…" className="flex-1 min-w-[200px]" />
         <div className="flex gap-1 flex-wrap">
           {STATUS_FILTERS.map((f) => (
-            <button
+            <Button
               key={f.value}
+              variant={statusFilter === f.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setStatusFilter(f.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                statusFilter === f.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={statusFilter === f.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {f.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -158,13 +156,15 @@ export function AgentsApp({ initialAgents }: AgentsAppProps) {
                       </div>
                       {hasConfig && (
                         <div className="mt-2">
-                          <button
+                          <Button
+                            variant="ghost"
+                            size="sm"
                             onClick={() => toggleConfig(agent.id)}
-                            className="text-xs text-white/40 hover:text-white/70 transition-colors flex items-center gap-1"
+                            className="text-xs text-white/40 hover:text-white/70 h-auto p-0"
                           >
                             <span className="text-[10px]">{configExpanded ? "▼" : "▶"}</span>
                             Config
-                          </button>
+                          </Button>
                           {configExpanded && (
                             <pre className="mt-1 text-[11px] text-white/50 bg-white/5 rounded p-2 overflow-x-auto">
                               {JSON.stringify(agent.config, null, 2)}

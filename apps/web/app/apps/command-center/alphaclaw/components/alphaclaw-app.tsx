@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, PageHeader } from "@repo/ui";
+import { Badge, Card, CardContent, PageHeader } from "@repo/ui";
 
 interface QuickLink {
   label: string;
@@ -85,7 +85,9 @@ export function AlphaclawApp({}: AlphaclawAppProps) {
                   {svc.latency && svc.latency !== "—" && (
                     <span className="text-xs text-white/30 font-mono">{svc.latency}</span>
                   )}
-                  <span className="text-xs" style={{ color: s.color }}>{s.label}</span>
+                  <Badge className="text-[10px] px-1.5 py-0.5 border-0" style={{ background: s.dot + "22", color: s.color }}>
+                    {s.label}
+                  </Badge>
                 </div>
               );
             })}
