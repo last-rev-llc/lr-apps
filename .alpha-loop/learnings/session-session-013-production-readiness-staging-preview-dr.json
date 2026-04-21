@@ -1,0 +1,67 @@
+{
+  "name": "session/013-production-readiness-staging-preview-dr",
+  "branch": "session/013-production-readiness-staging-preview-dr",
+  "completed": "2026-04-21T22:01:16.563Z",
+  "results": [
+    {
+      "issueNum": 206,
+      "title": "Staging environment: second Supabase project, Auth0 tenant, and env var matrix",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/248",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 344,
+      "filesChanged": 7
+    },
+    {
+      "issueNum": 207,
+      "title": "Preview deployment workflow: subdomain routing and Auth0 callbacks for Vercel preview URLs",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/248",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 344,
+      "filesChanged": 7
+    },
+    {
+      "issueNum": 208,
+      "title": "Database migration rollback pattern: paired .down.sql files and db:rollback script",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/248",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 344,
+      "filesChanged": 7
+    },
+    {
+      "issueNum": 209,
+      "title": "Secrets rotation runbook: Stripe, Auth0, Supabase service role, and CRON_SECRET",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/248",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 344,
+      "filesChanged": 7
+    },
+    {
+      "issueNum": 210,
+      "title": "Disaster recovery documentation: RTO/RPO targets, Supabase PITR restore, and Stripe event replay",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/248",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 344,
+      "filesChanged": 7
+    },
+    {
+      "issueNum": 211,
+      "title": "Zero-downtime deploy checklist: webhook availability, expand-contract DB schema, canary rollout",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/249",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 338,
+      "filesChanged": 7
+    }
+  ]
+}

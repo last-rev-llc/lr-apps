@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   getRouteForSubdomain,
   hrefWithinDeployedApp,
+  isVercelPreviewHost,
   resolveSubdomain,
 } from "../proxy-utils";
 import { getAllApps } from "../app-registry";
@@ -52,6 +53,32 @@ describe("proxy-utils", () => {
 
     it("handles localhost without subdomain", () => {
       expect(resolveSubdomain("localhost:3000")).toBeNull();
+    });
+  });
+
+  describe("isVercelPreviewHost", () => {
+    it("returns true for *.vercel.app hosts", () => {
+      expect(
+        isVercelPreviewHost("lr-apps-git-feat-x.vercel.app"),
+      ).toBe(true);
+      expect(
+        isVercelPreviewHost("apps-abc123-last-rev.vercel.app"),
+      ).toBe(true);
+    });
+
+    it("returns true even when host carries a port", () => {
+      expect(
+        isVercelPreviewHost("lr-apps-git-feat-x.vercel.app:443"),
+      ).toBe(true);
+    });
+
+    it("returns false for production-style apps hosts", () => {
+      expect(isVercelPreviewHost("sentiment.apps.lastrev.com")).toBe(false);
+      expect(isVercelPreviewHost("apps.lastrev.com")).toBe(false);
+    });
+
+    it("returns false for localhost", () => {
+      expect(isVercelPreviewHost("localhost:3000")).toBe(false);
     });
   });
 

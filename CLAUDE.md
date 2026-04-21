@@ -7,3 +7,9 @@ Grounded in the current codebase:
 - **Directory Structure** — real tree for `apps/web` (including `(auth)/(dashboard)`, `(auth)/(forms)`, `api/`, every `lib/` file) and all seven packages (`auth`, `billing`, `config`, `db`, `test-utils`, `theme`, `ui`)
 - **Code Style** — kebab-case, `@repo/*` / `@/*` aliases, server-only service role, no hardcoded colors
 - **Non-Negotiables** — registry as source of truth, `requireAppLayoutAccess` gating, `mergeAuthMiddlewareResponse` in proxy, `getAuth0ClientForHost`, `turbo.json` `globalEnv`, append-only migrations, billing via `@repo/billing`
+
+## DB
+- Migrations live in `supabase/migrations/` and are append-only.
+- **Every `<name>.sql` MUST ship with a paired `<name>.down.sql` rollback file.**
+  Enforced by `scripts/check-migration-pairs.ts` (runs as the CI "Migration pair lint" step and inside `pnpm lint`).
+- Use `pnpm db:rollback` locally; for production reverts follow `docs/guides/migrations.md`.

@@ -18,3 +18,14 @@ harnesses:
 # Safety limits (0 = unlimited)
 max_issues: 20
 max_session_duration: 7200  # 2 hours in seconds
+
+# Pointers to operational runbooks. Used by skills/agents that need to
+# surface ops procedures (e.g. when a session involves a secret change).
+ops_documentation:
+  environments: docs/ops/environments.md
+  vercel_promotion: docs/ops/vercel-promotion.md
+  preview_deployments: docs/ops/preview-deployments.md
+  secrets_rotation: docs/ops/secrets-rotation.md
+  rotation_history: docs/ops/ROTATION_HISTORY.md
+  disaster_recovery: docs/ops/disaster-recovery.md
+  migrations: docs/guides/migrations.md
