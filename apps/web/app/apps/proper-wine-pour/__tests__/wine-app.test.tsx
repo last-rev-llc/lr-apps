@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
+import { renderWithProviders, screen, fireEvent, act, waitFor } from "@repo/test-utils";
 
 // ── Mock @repo/db/client ───────────────────────────────────────────────────
 
@@ -166,13 +166,25 @@ describe("WineApp — Guide tab (default)", () => {
     expect(screen.getByText("Know Your Pour")).toBeInTheDocument();
   });
 
-  it("renders WineGlass SVGs for pour size cards", () => {
+  it("renders pour size cards from data/pour-sizes.json", async () => {
+    const { default: pourSizes } = await import("../data/pour-sizes.json");
     renderWithProviders(
       <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
     );
-    expect(screen.getByText("Standard Pour")).toBeInTheDocument();
-    expect(screen.getByText("Criminal Pour")).toBeInTheDocument();
-    expect(screen.getByText("Tasting Pour")).toBeInTheDocument();
+    for (const ps of pourSizes.pourSizes) {
+      expect(screen.getByText(ps.label)).toBeInTheDocument();
+      expect(screen.getByText(ps.size)).toBeInTheDocument();
+    }
+  });
+
+  it("renders glass type cards from data/pour-sizes.json", async () => {
+    const { default: pourSizes } = await import("../data/pour-sizes.json");
+    renderWithProviders(
+      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
+    );
+    for (const gt of pourSizes.glassTypes) {
+      expect(screen.getByText(gt.label)).toBeInTheDocument();
+    }
   });
 
   it("renders 5 tab triggers", () => {
@@ -308,5 +320,34 @@ describe("WineApp — Community Wall tab", () => {
 
     // After click, upvote count increases by 1 (6)
     expect(await screen.findByText(/👍 6/i)).toBeInTheDocument();
+  });
+
+  it("submitting a new wall post inserts it into the list", async () => {
+    renderWithProviders(
+      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
+    );
+    await act(async () => {
+      fireEvent.click(screen.getByRole("tab", { name: /Community/i }));
+    });
+
+    // Open the form
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /\+ Share Story/i }));
+    });
+
+    // Find content textarea and fill
+    const textarea = screen.getByPlaceholderText(/Tell us about your pour experience/i);
+    await act(async () => {
+      fireEvent.change(textarea, { target: { value: "Best pour at Mary's tonight!" } });
+    });
+
+    // Submit
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /Post Story/i }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/Best pour at Mary's tonight!/i)).toBeInTheDocument();
+    });
   });
 });

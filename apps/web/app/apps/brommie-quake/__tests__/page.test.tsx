@@ -60,6 +60,23 @@ describe("BrommieQuakePage", () => {
     ).toBeInTheDocument();
   });
 
+  it("renders STATS sourced from data/content.json", async () => {
+    const { default: content } = await import("../data/content.json");
+    renderWithProviders(<BrommieQuakePage />);
+    for (const stat of content.stats) {
+      expect(screen.getByText(stat.label)).toBeInTheDocument();
+      expect(screen.getByText(stat.number)).toBeInTheDocument();
+    }
+  });
+
+  it("renders all QUOTES sourced from data/content.json", async () => {
+    const { default: content } = await import("../data/content.json");
+    renderWithProviders(<BrommieQuakePage />);
+    for (const quote of content.quotes) {
+      expect(screen.getByText(quote.author)).toBeInTheDocument();
+    }
+  });
+
   it("clicking Start the Quake button does not throw", () => {
     renderWithProviders(<BrommieQuakePage />);
     const btn = screen.getByRole("button", { name: /Start the Quake/i });

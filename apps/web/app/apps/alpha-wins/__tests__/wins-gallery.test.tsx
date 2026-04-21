@@ -88,6 +88,35 @@ describe("WinsGallery", () => {
     expect(screen.queryByText("Slack Automation")).not.toBeInTheDocument();
   });
 
+  it("renders category filter pills for distinct types", () => {
+    renderWithProviders(<WinsGallery wins={MOCK_WINS} />);
+    // MOCK_WINS has type values "Workflow" (x2) and "Integration" (x1)
+    expect(screen.getByRole("button", { name: "All Categories" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Workflow" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Integration" })).toBeInTheDocument();
+  });
+
+  it("filters wins by category pill", () => {
+    renderWithProviders(<WinsGallery wins={MOCK_WINS} />);
+    fireEvent.click(screen.getByRole("button", { name: "Integration" }));
+    expect(screen.getByText("GitHub PR Summary")).toBeInTheDocument();
+    expect(screen.queryByText("Slack Automation")).not.toBeInTheDocument();
+    expect(screen.queryByText("Daily Digest")).not.toBeInTheDocument();
+  });
+
+  it("category and integration filters compose", () => {
+    renderWithProviders(<WinsGallery wins={MOCK_WINS} />);
+    fireEvent.click(screen.getByRole("button", { name: "Workflow" }));
+    // Both Workflow wins still visible
+    expect(screen.getByText("Slack Automation")).toBeInTheDocument();
+    expect(screen.getByText("Daily Digest")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Email" }));
+    // Only Daily Digest matches Workflow + Email
+    expect(screen.getByText("Daily Digest")).toBeInTheDocument();
+    expect(screen.queryByText("Slack Automation")).not.toBeInTheDocument();
+  });
+
   it("opens modal when win card is clicked", () => {
     renderWithProviders(<WinsGallery wins={MOCK_WINS} />);
     fireEvent.click(

@@ -125,4 +125,26 @@ describe("TravelApp", () => {
     renderWithProviders(<TravelApp initialProperties={MOCK_PROPERTIES} />);
     expect(screen.getByText("🏨 Travel Collection")).toBeInTheDocument();
   });
+
+  it("filters properties by category select", () => {
+    renderWithProviders(<TravelApp initialProperties={MOCK_PROPERTIES} />);
+    const categorySelect = screen.getByLabelText("Category");
+    fireEvent.change(categorySelect, { target: { value: "Hotels & Resorts" } });
+
+    expect(screen.getByText("Aman Tokyo")).toBeInTheDocument();
+    expect(screen.getByText("Four Seasons Paris")).toBeInTheDocument();
+    expect(screen.getByText("Como Uma Ubud")).toBeInTheDocument();
+    expect(screen.queryByText("Soneva Fushi")).not.toBeInTheDocument();
+    expect(screen.queryByText("Amangiri")).not.toBeInTheDocument();
+  });
+
+  it("filters properties by region select", () => {
+    renderWithProviders(<TravelApp initialProperties={MOCK_PROPERTIES} />);
+    const regionSelect = screen.getByLabelText("Region");
+    fireEvent.change(regionSelect, { target: { value: "Europe" } });
+
+    expect(screen.getByText("Four Seasons Paris")).toBeInTheDocument();
+    expect(screen.queryByText("Aman Tokyo")).not.toBeInTheDocument();
+    expect(screen.queryByText("Soneva Fushi")).not.toBeInTheDocument();
+  });
 });
