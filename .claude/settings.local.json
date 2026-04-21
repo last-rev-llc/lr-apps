@@ -111,7 +111,8 @@
       "Bash(ls apps/web/tests/)",
       "Bash(ls apps/web/tests/e2e/)",
       "Bash(echo \"exit:$?\")",
-      "Bash(echo \"leftover-conflicts-exit:$?\")"
+      "Bash(echo \"leftover-conflicts-exit:$?\")",
+      "Bash(gh run *)"
     ]
   }
 }
