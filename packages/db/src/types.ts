@@ -35,6 +35,17 @@ export type ProcessedWebhookEvent = {
   processed_at: string;
 };
 
+export type AuditLogRow = {
+  id: string;
+  user_id: string | null;
+  action: string;
+  resource: string | null;
+  metadata: Record<string, unknown>;
+  ip_address: string | null;
+  user_agent: string | null;
+  created_at: string;
+};
+
 export interface Database {
   public: {
     Tables: {
@@ -56,6 +67,13 @@ export interface Database {
         Insert: Pick<ProcessedWebhookEvent, "event_id"> &
           Partial<Pick<ProcessedWebhookEvent, "processed_at">>;
         Update: Partial<ProcessedWebhookEvent>;
+        Relationships: [];
+      };
+      audit_log: {
+        Row: AuditLogRow;
+        Insert: Pick<AuditLogRow, "action"> &
+          Partial<Omit<AuditLogRow, "id" | "action" | "created_at">>;
+        Update: Partial<Omit<AuditLogRow, "id" | "created_at">>;
         Relationships: [];
       };
     };

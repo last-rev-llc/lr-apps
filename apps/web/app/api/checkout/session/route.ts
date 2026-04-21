@@ -4,6 +4,8 @@ import {
   getAuth0ClientForHost,
   getHostFromRequestHeaders,
 } from "@repo/auth/auth0-factory";
+import { logAuditEvent } from "@repo/db/audit";
+import { createServiceRoleClient } from "@repo/db/service-role";
 import { log, withRequestContext } from "@repo/logger";
 
 export async function POST(request: Request): Promise<Response> {
@@ -56,6 +58,12 @@ export async function POST(request: Request): Promise<Response> {
         });
 
         log.info("checkout session created", { userId, priceId });
+        await logAuditEvent(createServiceRoleClient(), {
+          userId,
+          action: "checkout.session.created",
+          resource: checkoutSession.id ?? null,
+          metadata: { priceId },
+        });
         return Response.json({ checkoutUrl: checkoutSession.url });
       } catch (err) {
         log.error("checkout session failed", { err, userId, priceId });

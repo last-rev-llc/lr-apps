@@ -28,6 +28,15 @@ vi.mock("@repo/billing", () => ({
   }),
 }));
 
+// ── Mock @repo/db for audit logging ───────────────────────────────────────────
+const mockLogAuditEvent = vi.fn().mockResolvedValue(undefined);
+vi.mock("@repo/db/audit", () => ({
+  logAuditEvent: (...args: unknown[]) => mockLogAuditEvent(...args),
+}));
+vi.mock("@repo/db/service-role", () => ({
+  createServiceRoleClient: vi.fn().mockReturnValue({}),
+}));
+
 function makeRequest(body: unknown): Request {
   return new Request("http://localhost/api/checkout/session", {
     method: "POST",
@@ -72,6 +81,7 @@ describe("POST /api/checkout/session", () => {
     });
     mockGetOrCreateCustomer.mockResolvedValue("cus_abc123");
     mockCheckoutSessionsCreate.mockResolvedValue({
+      id: "cs_test_abc",
       url: "https://checkout.stripe.com/pay/cs_test_abc",
     });
     const { POST } = await import("../route");
@@ -81,6 +91,15 @@ describe("POST /api/checkout/session", () => {
     expect(res.status).toBe(200);
     const data = await res.json() as { checkoutUrl: string };
     expect(data.checkoutUrl).toBe("https://checkout.stripe.com/pay/cs_test_abc");
+    expect(mockLogAuditEvent).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        userId: "user_1",
+        action: "checkout.session.created",
+        resource: "cs_test_abc",
+        metadata: { priceId: "price_pro_monthly" },
+      }),
+    );
   });
 
   it("passes correct customer ID and price to Stripe", async () => {

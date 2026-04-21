@@ -12,7 +12,8 @@
     "./client": "./src/client.ts",
     "./middleware": "./src/middleware.ts",
     "./types": "./src/types.ts",
-    "./service-role": "./src/service-role.ts"
+    "./service-role": "./src/service-role.ts",
+    "./audit": "./src/audit.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6",
