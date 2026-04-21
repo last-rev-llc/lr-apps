@@ -48,3 +48,5 @@ new Vercel staging environment.
   Supabase PITR, Stripe event replay.
 - [Migrations guide](docs/guides/migrations.md) — paired `.down.sql`
   rollback convention and the CI pair-check.
+- [Zero-downtime deploy](docs/ops/zero-downtime-deploy.md) — pre-deploy
+  checklist, expand-contract schema changes, canary rollout.
