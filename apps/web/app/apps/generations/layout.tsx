@@ -1,4 +1,4 @@
-import { requireAccess } from "@repo/auth/server";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import { hasFeatureAccess } from "@repo/billing";
 import UpgradePrompt from "@/components/UpgradePrompt";
 import Link from "next/link";
@@ -11,8 +11,8 @@ export default async function GenerationsLayout({
 }: {
   children: ReactNode;
 }) {
-  const { user } = await requireAccess("generations");
-  const hasAccess = await hasFeatureAccess(user.id, "generations");
+  const access = await requireAppLayoutAccess("generations");
+  const hasAccess = await hasFeatureAccess(access!.user.id, "generations");
   if (!hasAccess) return <UpgradePrompt requiredTier="pro" />;
 
   const navItems = GENERATIONS.map((gen) => ({

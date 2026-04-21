@@ -1,4 +1,4 @@
-import { requireAccess } from "@repo/auth/server";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 import { hasFeatureAccess } from "@repo/billing";
 import UpgradePrompt from "@/components/UpgradePrompt";
 import Link from "next/link";
@@ -38,8 +38,8 @@ export default async function CommandCenterLayout({
 }: {
   children: ReactNode;
 }) {
-  const { user } = await requireAccess("command-center");
-  const hasAccess = await hasFeatureAccess(user.id, "command-center");
+  const access = await requireAppLayoutAccess("command-center");
+  const hasAccess = await hasFeatureAccess(access!.user.id, "command-center");
   if (!hasAccess) return <UpgradePrompt requiredTier="enterprise" />;
 
   return (
