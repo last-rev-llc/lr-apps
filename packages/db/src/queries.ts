@@ -11,7 +11,7 @@ export async function getAppPermission(
     .select("permission")
     .eq("user_id", userId)
     .eq("app_slug", slug)
-    .maybeSingle();
+    .maybeSingle<Pick<AppPermission, "permission">>();
 
   if (error) throw error;
   return data?.permission ?? null;
@@ -25,7 +25,7 @@ export async function getUserSubscription(
     .from("subscriptions")
     .select("*")
     .eq("user_id", userId)
-    .maybeSingle();
+    .maybeSingle<SubscriptionRow>();
 
   if (error) throw error;
   return data;
@@ -37,14 +37,16 @@ export async function upsertPermission(
   appSlug: string,
   permission: Permission,
 ): Promise<AppPermission> {
+  const payload: Database["public"]["Tables"]["app_permissions"]["Insert"] = {
+    user_id: userId,
+    app_slug: appSlug,
+    permission,
+  };
   const { data, error } = await client
     .from("app_permissions")
-    .upsert(
-      { user_id: userId, app_slug: appSlug, permission },
-      { onConflict: "user_id,app_slug" },
-    )
+    .upsert(payload, { onConflict: "user_id,app_slug" })
     .select()
-    .single();
+    .single<AppPermission>();
 
   if (error) throw error;
   return data;

@@ -6,7 +6,7 @@ import {
 import { mergeAuthMiddlewareResponse } from "@repo/auth/merge-auth-middleware";
 import { resolveSubdomain, getRouteForSubdomain } from "./lib/proxy-utils";
 
-export async function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   const host = getHostFromRequestHeaders(request.headers);
   const auth0 = getAuth0ClientForHost(host);
   const authResponse = await auth0.middleware(request);

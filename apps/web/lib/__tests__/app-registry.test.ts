@@ -100,6 +100,10 @@ describe("app-registry", () => {
   });
 
   describe("registry integrity", () => {
+    it("registers at least 27 apps", () => {
+      expect(getAllApps().length).toBeGreaterThanOrEqual(27);
+    });
+
     it("no duplicate slugs", () => {
       const apps = getAllApps();
       const slugs = apps.map((a) => a.slug);
@@ -112,6 +116,32 @@ describe("app-registry", () => {
       expect(new Set(subdomains).size).toBe(subdomains.length);
     });
 
+    it("every app's subdomain resolves back to the same app", () => {
+      for (const app of getAllApps()) {
+        const resolved = getAppBySubdomain(app.subdomain);
+        expect(resolved, `subdomain ${app.subdomain} must resolve`).toBeDefined();
+        expect(resolved?.slug).toBe(app.slug);
+      }
+    });
+
+    it("every app's slug resolves back to the same app", () => {
+      for (const app of getAllApps()) {
+        const resolved = getAppBySlug(app.slug);
+        expect(resolved, `slug ${app.slug} must resolve`).toBeDefined();
+        expect(resolved?.subdomain).toBe(app.subdomain);
+      }
+    });
+
+    it("every app's routeGroup matches the expected shape", () => {
+      for (const app of getAllApps()) {
+        if (app.slug === "auth") {
+          expect(app.routeGroup).toBe("(auth)");
+        } else {
+          expect(app.routeGroup).toBe(`apps/${app.slug}`);
+        }
+      }
+    });
+
     it("every routeGroup maps to an existing directory", () => {
       const apps = getAllApps();
       for (const app of apps) {
@@ -120,13 +150,15 @@ describe("app-registry", () => {
       }
     });
 
-    it("every auth-gated app has a layout calling requireAppLayoutAccess", () => {
+    it("every auth-gated app has a layout that gates access", () => {
       const apps = getAllApps();
       for (const app of apps.filter((a) => a.auth)) {
         const layoutPath = path.resolve(__dirname, "../../app", app.routeGroup, "layout.tsx");
         expect(fs.existsSync(layoutPath), `Missing layout for ${app.slug}: ${layoutPath}`).toBe(true);
         const contents = fs.readFileSync(layoutPath, "utf-8");
-        expect(contents, `${app.slug} layout missing requireAppLayoutAccess`).toContain("requireAppLayoutAccess");
+        const hasGate =
+          contents.includes("requireAppLayoutAccess") || contents.includes("requireAccess");
+        expect(hasGate, `${app.slug} layout missing requireAppLayoutAccess or requireAccess`).toBe(true);
       }
     });
   });

@@ -2,6 +2,7 @@ import type Stripe from "stripe";
 import { getStripe } from "./stripe-client";
 import { upsertSubscription } from "./subscriptions";
 import { createServiceRoleClient } from "@repo/db/service-role";
+import type { Database } from "@repo/db/types";
 import type { WebhookEventType } from "./types";
 
 const HANDLED_EVENTS: Set<string> = new Set<WebhookEventType>([
@@ -33,7 +34,7 @@ export async function handleStripeWebhook(
     .from("processed_webhook_events")
     .select("event_id")
     .eq("event_id", event.id)
-    .maybeSingle();
+    .maybeSingle<{ event_id: string }>();
 
   if (existing) {
     return { received: true };
@@ -42,9 +43,13 @@ export async function handleStripeWebhook(
   const subscription = event.data.object as Stripe.Subscription;
 
   if (event.type === "customer.subscription.deleted") {
+    const update: Database["public"]["Tables"]["subscriptions"]["Update"] = {
+      status: "canceled",
+      updated_at: new Date().toISOString(),
+    };
     await db
       .from("subscriptions")
-      .update({ status: "canceled", updated_at: new Date().toISOString() })
+      .update(update)
       .eq("stripe_subscription_id", subscription.id);
   } else {
     await upsertSubscription(subscription);
@@ -52,9 +57,10 @@ export async function handleStripeWebhook(
 
   // Record the event ID to prevent duplicate processing
   try {
-    await db
-      .from("processed_webhook_events")
-      .insert({ event_id: event.id });
+    const eventRow: Database["public"]["Tables"]["processed_webhook_events"]["Insert"] = {
+      event_id: event.id,
+    };
+    await db.from("processed_webhook_events").insert(eventRow);
   } catch (err) {
     console.error("Failed to record processed webhook event:", err);
   }
