@@ -35,3 +35,6 @@ package.json.bak
 # Sentry
 .sentryclirc
 .env.sentry-build-plugin
+
+# Email template previews
+packages/email/.preview/

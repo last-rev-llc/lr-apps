@@ -4,11 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "preview": "npx tsx scripts/preview.ts"
   },
   "exports": {
     ".": "./src/index.ts",
     "./send-email": "./src/send-email.ts",
+    "./templates": "./src/templates/index.ts",
     "./types": "./src/types.ts"
   },
   "dependencies": {

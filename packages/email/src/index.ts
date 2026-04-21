@@ -4,3 +4,11 @@ export type {
   SendEmailParams,
   SendEmailResult,
 } from "./types";
+export {
+  welcomeEmail,
+  subscriptionConfirmationEmail,
+  subscriptionCancellationEmail,
+  type WelcomeEmailData,
+  type SubscriptionConfirmationData,
+  type SubscriptionCancellationData,
+} from "./templates";
