@@ -50,6 +50,9 @@ importers:
       recharts:
         specifier: ^2
         version: 2.15.4(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
       '@playwright/test':
         specifier: ^1
