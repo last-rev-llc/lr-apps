@@ -1,6 +1,13 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import {
+  Button,
+  Card,
+  CardContent,
+  Input as UIInput,
+  Label as UILabel,
+} from "@repo/ui";
 import type {
   CalculatorSlug,
   BuildingsData,
@@ -23,11 +30,14 @@ import {
 
 // ─── Shared UI primitives ─────────────────────────────────────────────────────
 
-function Label({ children }: { children: React.ReactNode }) {
+function Label({ htmlFor, children }: { htmlFor?: string; children: React.ReactNode }) {
   return (
-    <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+    <UILabel
+      htmlFor={htmlFor}
+      className="block text-xs text-muted-foreground mb-1.5"
+    >
       {children}
-    </label>
+    </UILabel>
   );
 }
 
@@ -49,7 +59,7 @@ function Input({
   placeholder?: string;
 }) {
   return (
-    <input
+    <UIInput
       id={id}
       type={type}
       value={value}
@@ -57,7 +67,7 @@ function Input({
       max={max}
       placeholder={placeholder}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full px-3 py-2 rounded-lg border border-surface-border bg-surface-card text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/40"
+      className="border-surface-border bg-surface-card"
     />
   );
 }
@@ -75,7 +85,7 @@ function Select({
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full px-3 py-2 rounded-lg border border-surface-border bg-surface-card text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/40"
+      className="flex h-9 w-full rounded-md border border-surface-border bg-surface-card px-3 py-1 text-sm text-foreground shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
     >
       {children}
     </select>
@@ -94,10 +104,7 @@ function CheckboxField({
   label: string;
 }) {
   return (
-    <label
-      htmlFor={id}
-      className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
-    >
+    <div className="flex items-center gap-2">
       <input
         id={id}
         type="checkbox"
@@ -105,20 +112,25 @@ function CheckboxField({
         onChange={(e) => onChange(e.target.checked)}
         className="rounded border-surface-border accent-accent"
       />
-      {label}
-    </label>
+      <UILabel
+        htmlFor={id}
+        className="cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        {label}
+      </UILabel>
+    </div>
   );
 }
 
 function CalcButton({ onClick, color }: { onClick: () => void; color: string }) {
   return (
-    <button
+    <Button
       onClick={onClick}
-      className="px-5 py-2.5 rounded-lg text-sm font-semibold text-black transition-all hover:opacity-90 active:scale-95"
+      className="text-black hover:opacity-90 active:scale-95"
       style={{ background: color }}
     >
       Calculate
-    </button>
+    </Button>
   );
 }
 
@@ -127,19 +139,21 @@ function ResultGrid({ items }: { items: ResultItem[] }) {
   return (
     <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
       {items.map((item) => (
-        <div
+        <Card
           key={item.label}
-          className={`rounded-xl p-3 border ${
+          className={
             item.highlight
-              ? "border-accent/40 bg-accent/10"
-              : "border-surface-border bg-surface-card"
-          }`}
+              ? "rounded-xl border-accent/40 bg-accent/10 shadow-none"
+              : "rounded-xl border-surface-border bg-surface-card shadow-none"
+          }
         >
-          <div className="text-base font-bold font-heading leading-tight">
-            {item.value}
-          </div>
-          <div className="text-xs text-muted-foreground mt-0.5">{item.label}</div>
-        </div>
+          <CardContent className="p-3 pt-3">
+            <div className="text-base font-bold font-heading leading-tight">
+              {item.value}
+            </div>
+            <div className="text-xs text-muted-foreground mt-0.5">{item.label}</div>
+          </CardContent>
+        </Card>
       ))}
     </div>
   );
@@ -636,20 +650,22 @@ export function CalculatorApp({
   };
 
   return (
-    <div
-      className="rounded-2xl border p-6"
+    <Card
+      className="rounded-2xl shadow-none"
       style={{
         borderColor: `${color}40`,
         background: `linear-gradient(135deg, ${color}10 0%, ${color}04 100%)`,
       }}
     >
-      <h2
-        className="font-heading text-xl font-bold mb-5"
-        style={{ color }}
-      >
-        {label} Calculator
-      </h2>
-      {renderCalc()}
-    </div>
+      <CardContent className="p-6 pt-6">
+        <h2
+          className="font-heading text-xl font-bold mb-5"
+          style={{ color }}
+        >
+          {label} Calculator
+        </h2>
+        {renderCalc()}
+      </CardContent>
+    </Card>
   );
 }
