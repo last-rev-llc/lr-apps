@@ -1,78 +1,103 @@
 <!-- managed by alpha-loop -->
 
-## Overview
+# Overview
 
-Monorepo for Last Rev / AlphaClaw apps. A single Next.js 16 host (`apps/web`) routes multiple tenant apps by subdomain via `proxy.ts`. Each app lives under `apps/web/app/apps/<slug>/` and is registered in `lib/app-registry.ts`. Auth0 handles authentication; Supabase backs data; Stripe handles billing tiers (`free` / `pro` / `enterprise`) enforced per-app and per-feature.
+Monorepo hosting a family of multi-tenant web apps behind a single Next.js 16
+host. Requests are routed to the correct app by subdomain in
+`apps/web/proxy.ts`, which resolves the subdomain, looks up the target route
+group in `apps/web/lib/app-registry.ts`, and rewrites the URL under
+`app/apps/<slug>/` or `app/(auth)/...`. Auth0 middleware runs on every request
+and its response is merged with the rewrite via
+`@repo/auth/merge-auth-middleware`. In development the same logic is triggered
+by an `?app=<slug>` query param. The auth hub lives on `auth.lastrev.com`
+(route group `(auth)`) and owns login, signup, account, and `/my-apps`.
 
-## Tech Stack
+# Tech Stack
 
-- **Runtime**: Node (pnpm@9.15.4 workspaces, Turborepo)
-- **Framework**: Next.js 16 (App Router, Turbopack dev), React 19
-- **Language**: TypeScript 5 (extends `@repo/config/tsconfig/*`)
-- **Auth**: `@auth0/nextjs-auth0` v4 via `@repo/auth`
-- **DB**: Supabase (`@supabase/supabase-js` v2) via `@repo/db`
-- **Billing**: Stripe via `@repo/billing`
-- **Styling**: Tailwind 4 + design tokens in `@repo/theme`
-- **Testing**: Vitest (unit) + Playwright (e2e)
-- **Lint**: ESLint 9 flat config + custom `no-hardcoded-colors` rule
-- **Dev QA**: `punchlist-qa` runs alongside `pnpm dev`
+- **Runtime/build**: pnpm 9 workspaces, Turbo 2, Node 22, TypeScript 5
+- **App**: Next.js 16 (App Router, Turbopack), React 19, Tailwind 4
+- **Auth**: `@auth0/nextjs-auth0` v4, per-host Auth0 client factory
+- **Data**: Supabase v2 (`@supabase/supabase-js`), append-only SQL migrations
+  under `supabase/migrations/`
+- **Billing**: Stripe (customers, subscriptions, portal, webhook handler in
+  `@repo/billing`)
+- **Testing**: Vitest 3 (unit), Playwright 1 (e2e), `@repo/test-utils`
+- **Lint/format**: ESLint 9 flat config, Prettier (configs in `@repo/config`)
+- **QA harness**: `punchlist-qa` runs alongside `dev` (see root
+  `package.json`)
 
-## Directory Structure
+# Directory Structure
 
 ```
-apps/web/                 Single Next.js host for all apps
+apps/web/
+  proxy.ts                      # subdomain → route-group rewrite + Auth0 merge
   app/
-    (auth)/
-      (dashboard)/        account, my-apps (authed shell)
-      (forms)/            login, signup, unauthorized
+    layout.tsx  page.tsx  not-found.tsx  globals.css
+    (auth)/                     # auth.lastrev.com
       layout.tsx
-    apps/<slug>/          Per-app route group (page.tsx, layout.tsx, components/, lib/, __tests__/)
-    api/                  checkout/, webhooks/
-    pricing/, checkout/
-  components/             Web-app-scoped shared components (mini-header, UpgradePrompt)
+      (dashboard)/              # authenticated shell: account/, my-apps/
+      (forms)/                  # login/, signup/, unauthorized/
+    api/                        # checkout/, webhooks/
+    apps/<slug>/                # one folder per app (accounts, sentiment,
+                                # uptime, command-center, generations, ...)
+    checkout/  pricing/
   lib/
-    app-registry.ts       Source of truth: slug → subdomain, permission, tier, features
-    app-host.ts           Host-aware helpers
-    proxy-utils.ts        Subdomain → route resolution used by proxy.ts
-    require-app-layout-access.ts   Gate layouts by permission + tier
-    auth-login-redirect.ts, platform-urls.ts, tier-config.ts
-  proxy.ts                Edge middleware: subdomain routing + Auth0 merge
+    app-registry.ts             # source of truth for apps, tiers, features
+    app-host.ts                 # host → app resolution
+    proxy-utils.ts              # resolveSubdomain, getRouteForSubdomain
+    require-app-layout-access.ts# layout-level access gate
+    platform-urls.ts  tier-config.ts  auth-login-redirect.ts
+  components/                   # host-only components (header, UpgradePrompt)
+  tests/                        # Playwright e2e
 
 packages/
-  auth/                   Auth0 factory, merge-middleware, permissions, self-enroll, require-access
-  billing/                Stripe customers, subscriptions, portal, webhook handler, has-feature-access
-  db/                     Supabase client/server/service-role, middleware, queries, types
-  theme/                  Global CSS + design tokens (theme.css, globals.css, components.css, landing.css)
-  ui/                     Shared React components (card, button, dialog, data-grid, pricing, etc.)
-  config/                 Shared eslint, prettier, tsconfig/base, tsconfig/nextjs, custom lint rules
-  test-utils/             Shared test helpers
+  auth/     # auth0-factory, merge-auth-middleware, permissions,
+            # require-access, self-enroll, AuthProvider
+  billing/  # stripe-client, customers, subscriptions, portal,
+            # webhook-handler, has-feature-access
+  db/       # client (browser), server (SSR), service-role (server-only),
+            # middleware, queries, types
+  ui/       # shared shadcn-style components + lib/
+  theme/    # theme.css, globals.css, components.css, landing.css
+  config/   # shared ESLint/Prettier/tsconfig/vitest presets
+  test-utils/
 
-supabase/migrations/      Numbered SQL migrations (app_permissions, subscriptions, webhook_events, ...)
-scripts/                  audit-tokens.ts, seed-stripe.ts, generate-app-cards.py
-docs/                     superpowers/, token-violations-report.md
+supabase/migrations/            # append-only, timestamp-prefixed SQL
+scripts/                        # e.g. audit-tokens.ts
 ```
 
-Workspace imports use `@repo/<pkg>`. Web app uses `@/*` alias for its own root.
+# Code Style
 
-## Code Style
+- File names are **kebab-case** (`require-app-layout-access.ts`,
+  `last-rev-mini-header.tsx`). React component exports stay PascalCase.
+- Cross-package imports use `@repo/*` (e.g. `@repo/auth`, `@repo/db/server`).
+  Within `apps/web`, use the `@/*` alias rather than deep relatives.
+- Server-only modules (e.g. `@repo/db/service-role`) must never be imported
+  from client components. Keep the service-role key off the browser.
+- Tailwind 4 only — no hardcoded hex or named colors in components. Pull from
+  `@repo/theme` tokens / CSS variables. `scripts/audit-tokens.ts` checks this.
+- One app per folder under `app/apps/<slug>`; host-level UI stays in
+  `apps/web/components`, reusable UI stays in `@repo/ui`.
+- Tests colocate next to source (`*.test.ts`) or live under `__tests__/`.
+  Playwright specs live in `apps/web/tests/`.
 
-- TypeScript strict; no implicit any; prefer explicit return types on exported APIs
-- ES modules (`"type": "module"`); use `.ts`/`.tsx` extensions, not `.js`
-- File/dir naming: **kebab-case** (`app-registry.ts`, `require-app-layout-access.ts`)
-- React components: PascalCase file names allowed for components (`UpgradePrompt.tsx`), but lib utilities stay kebab-case
-- Tests live under `__tests__/` next to the code they cover, or as `*.test.ts` siblings in packages
-- Styling: Tailwind classes + CSS custom properties from `@repo/theme` — **no hardcoded hex colors** (enforced by custom ESLint rule)
-- Prefer `@repo/ui` components over one-off implementations
-- Server-only DB access uses `@repo/db/server` or `service-role`; never import service-role keys from client code
+# Non-Negotiables
 
-## Non-Negotiables
-
-- **Do not bypass `app-registry.ts`**: adding or changing an app's slug, subdomain, permission, tier, or `features` must go through this file. `proxy.ts`, access gates, and billing all key off it.
-- **Gate routes with `requireAppLayoutAccess`** in each app's `layout.tsx` unless the path is listed in `publicRoutes` on its `AppConfig`.
-- **Billing tier enforcement**: feature access goes through `@repo/billing` `hasFeatureAccess`. Don't hand-roll tier checks.
-- **Auth middleware must stay merged**: `proxy.ts` uses `mergeAuthMiddlewareResponse` — any new proxy branch must preserve Auth0 cookies by merging through it.
-- **Supabase service-role** (`@repo/db/service-role`) is server-only. Never import it into a client component or edge-exposed path.
-- **Env vars**: add new vars to `turbo.json` `globalEnv` or they won't be available in built tasks.
-- **Migrations are append-only**: add a new numbered file under `supabase/migrations/`; never edit an existing migration.
-- **Design tokens over hex**: use `var(--color-*)` or Tailwind theme classes; the `no-hardcoded-colors` rule will flag violations.
-- **Don't edit `apps/web/next.config.ts`, `turbo.json`, or `pnpm-workspace.yaml`** without a clear reason — these affect every app.
+- **`app-registry.ts` is the single source of truth** for apps, subdomains,
+  route groups, tiers, features, public routes, and self-enroll behavior.
+  Adding or changing an app starts here.
+- **Gate every app layout** with `requireAppLayoutAccess(slug, pathname)`.
+  Public paths must be declared via `publicRoutes` on the `AppConfig`, not
+  hand-rolled in the layout.
+- **Proxy must always merge Auth0**: any new response path in `proxy.ts` must
+  go through `mergeAuthMiddlewareResponse(authResponse, ...)`. Never return a
+  bare `NextResponse` from the middleware.
+- **Multi-tenant Auth0**: resolve the client via
+  `getAuth0ClientForHost(host)` — do not instantiate Auth0 directly.
+- **Env vars**: any new runtime env var must be added to `turbo.json`
+  `globalEnv` so Turbo caches invalidate correctly across the workspace.
+- **Supabase migrations are append-only**. Never edit a committed migration;
+  add a new timestamp-prefixed file in `supabase/migrations/`.
+- **Billing checks** go through `@repo/billing/has-feature-access` +
+  `@repo/auth/permissions`; do not read Stripe or subscription rows directly
+  from app code.

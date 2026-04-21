@@ -1,10 +1,9 @@
 <!-- managed by alpha-loop -->
-Rewrote `CLAUDE.md`. The previous contents were a stale meta-commentary (just describing edits that had been applied) rather than instructions. I replaced it with the required 5-section structure grounded in the current codebase:
+Rewrote `CLAUDE.md` with actual instructions (the prior content was meta-commentary about a previous rewrite, not instructions). 103 lines, 5 required sections, marker preserved on line 1.
 
-- **Overview** — Next.js 16 host routing multi-tenant apps by subdomain via `proxy.ts` + `app-registry.ts`
-- **Tech Stack** — pnpm/Turbo, Next 16, React 19, TS 5, Auth0 v4, Supabase v2, Stripe, Tailwind 4, Vitest/Playwright, ESLint 9, punchlist-qa
-- **Directory Structure** — actual tree for `apps/web` (including `(auth)/(dashboard)` + `(forms)` groups, `api/`, `lib/` files `app-host.ts`, `proxy-utils.ts`, `require-app-layout-access.ts`, etc.) and each `packages/*`
-- **Code Style** — kebab-case files, `@repo/*` imports, `@/*` alias, no hardcoded hex, service-role is server-only
-- **Non-Negotiables** — app-registry is source of truth, gate with `requireAppLayoutAccess`, merge Auth0 middleware, add env vars to `turbo.json` `globalEnv`, migrations are append-only
-
-Kept the managed-by marker as line 1 and stayed well under 150 lines. Omitted testing/git/review/security per the instructions.
+Grounded in the current codebase:
+- **Overview** — `proxy.ts` subdomain routing + Auth0 middleware merge, auth hub on `auth.lastrev.com`
+- **Tech Stack** — pnpm 9, Turbo 2, Next 16, React 19, TS 5, Auth0 v4, Supabase v2, Stripe, Tailwind 4, Vitest 3, Playwright 1, ESLint 9, punchlist-qa
+- **Directory Structure** — real tree for `apps/web` (including `(auth)/(dashboard)`, `(auth)/(forms)`, `api/`, every `lib/` file) and all seven packages (`auth`, `billing`, `config`, `db`, `test-utils`, `theme`, `ui`)
+- **Code Style** — kebab-case, `@repo/*` / `@/*` aliases, server-only service role, no hardcoded colors
+- **Non-Negotiables** — registry as source of truth, `requireAppLayoutAccess` gating, `mergeAuthMiddlewareResponse` in proxy, `getAuth0ClientForHost`, `turbo.json` `globalEnv`, append-only migrations, billing via `@repo/billing`

@@ -1,0 +1,57 @@
+{
+  "name": "session/014-data-integrity-audit-schema",
+  "branch": "session/014-data-integrity-audit-schema",
+  "completed": "2026-04-21T19:37:01.089Z",
+  "results": [
+    {
+      "issueNum": 212,
+      "title": "Add audit_log table with insert-only RLS, service-role bypass, and query indexes",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/242",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 342,
+      "filesChanged": 9
+    },
+    {
+      "issueNum": 213,
+      "title": "Fix subscriptions table RLS: add service-role INSERT/UPDATE policies and stripe_subscription_id index",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/242",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 342,
+      "filesChanged": 9
+    },
+    {
+      "issueNum": 214,
+      "title": "Add missing hot-path indexes for app_permissions and top-5 @repo/db query patterns",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/242",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 342,
+      "filesChanged": 9
+    },
+    {
+      "issueNum": 215,
+      "title": "Add RLS test harness to @repo/test-utils with withAuthContext helper and cross-tenant denial tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/242",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 342,
+      "filesChanged": 9
+    },
+    {
+      "issueNum": 216,
+      "title": "Registry → DB consistency check: CI script verifying all app slugs have app_permissions seed data",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/242",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 342,
+      "filesChanged": 9
+    }
+  ]
+}
