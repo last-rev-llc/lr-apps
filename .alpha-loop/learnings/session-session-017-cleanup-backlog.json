@@ -1,0 +1,47 @@
+{
+  "name": "session/017-cleanup-backlog",
+  "branch": "session/017-cleanup-backlog",
+  "completed": "2026-04-21T20:38:40.361Z",
+  "results": [
+    {
+      "issueNum": 227,
+      "title": "Migrate Age of Apes to @repo/ui shared components",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/245",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 435,
+      "filesChanged": 5
+    },
+    {
+      "issueNum": 228,
+      "title": "Finish 4 skeleton apps: Alpha Wins, Brommie Quake, Proper Wine Pour, Travel Collection",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/245",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 435,
+      "filesChanged": 5
+    },
+    {
+      "issueNum": 229,
+      "title": "Resolve review-issue backlog: token regressions and hover-state mismatches from M4-M5",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/245",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 435,
+      "filesChanged": 5
+    },
+    {
+      "issueNum": 230,
+      "title": "Add CI check enforcing CLAUDE.md lib/ listing stays in sync with apps/web/lib/ filesystem",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/245",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 435,
+      "filesChanged": 5
+    }
+  ]
+}
