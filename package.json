@@ -4,11 +4,13 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev & punchlist-qa serve & wait",
-    "lint": "node --experimental-strip-types scripts/check-claude-md-lib-sync.ts && turbo run lint",
+    "lint": "node --experimental-strip-types scripts/check-claude-md-lib-sync.ts && node --experimental-strip-types scripts/check-migration-pairs.ts && turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "create-app": "echo 'CLI not yet implemented — see tools/create-app/'",
-    "audit:tokens": "npx tsx scripts/audit-tokens.ts"
+    "audit:tokens": "npx tsx scripts/audit-tokens.ts",
+    "db:check-migration-pairs": "node --experimental-strip-types scripts/check-migration-pairs.ts",
+    "db:rollback": "node --experimental-strip-types scripts/db-rollback.ts"
   },
   "devDependencies": {
     "punchlist-qa": "^0.2.1",
