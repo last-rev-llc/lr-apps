@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Badge, Card, CardContent } from "@repo/ui";
 import { CALCULATORS } from "./lib/calculators";
 import { CalculatorCard } from "./components/calculator-card";
 
@@ -19,13 +20,18 @@ export default function AgeOfApesHubPage() {
             <Link
               key={calc.slug}
               href={`/apps/age-of-apes/${calc.slug}`}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:scale-105"
-              style={{
-                background: calc.color + "20",
-                color: calc.color,
-              }}
+              className="transition-transform hover:scale-105"
             >
-              {calc.icon} {calc.label}
+              <Badge
+                variant="outline"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border-transparent"
+                style={{
+                  background: calc.color + "20",
+                  color: calc.color,
+                }}
+              >
+                {calc.icon} {calc.label}
+              </Badge>
             </Link>
           ))}
         </div>
@@ -40,13 +46,15 @@ export default function AgeOfApesHubPage() {
             { value: "4", label: "Research Trees" },
             { value: "50", label: "Fighter Max Level" },
           ].map((stat) => (
-            <div
+            <Card
               key={stat.label}
-              className="rounded-xl border border-surface-border bg-surface-card p-4 text-center"
+              className="rounded-xl border-surface-border bg-surface-card shadow-none"
             >
-              <div className="font-heading text-2xl font-bold text-accent">{stat.value}</div>
-              <div className="text-xs text-muted-foreground mt-1">{stat.label}</div>
-            </div>
+              <CardContent className="p-4 pt-4 text-center">
+                <div className="font-heading text-2xl font-bold text-accent">{stat.value}</div>
+                <div className="text-xs text-muted-foreground mt-1">{stat.label}</div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>
@@ -82,18 +90,20 @@ export default function AgeOfApesHubPage() {
               desc: "Know exactly what resources you need and how long it takes. No guessing.",
             },
           ].map((item) => (
-            <div
+            <Card
               key={item.step}
-              className="flex gap-4 p-4 rounded-xl border border-surface-border bg-surface-card"
+              className="rounded-xl border-surface-border bg-surface-card shadow-none"
             >
-              <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-bold text-sm shrink-0">
-                {item.step}
-              </div>
-              <div>
-                <h3 className="font-semibold mb-1">{item.title}</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-              </div>
-            </div>
+              <CardContent className="flex gap-4 p-4 pt-4">
+                <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-bold text-sm shrink-0">
+                  {item.step}
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">{item.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>

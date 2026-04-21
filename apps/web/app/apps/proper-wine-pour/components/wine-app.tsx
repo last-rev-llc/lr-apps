@@ -14,6 +14,27 @@ import {
   Badge,
 } from "@repo/ui";
 import type { Restaurant, WinePour, WallPost, PourRating, WallPostType } from "../lib/types";
+import pourSizesData from "../data/pour-sizes.json";
+
+interface PourSizeConfig {
+  fill: number;
+  label: string;
+  size: string;
+  note: string;
+  color: string;
+  noteColor: string;
+}
+
+interface GlassTypeConfig {
+  fill: number;
+  label: string;
+  sublabel: string;
+  note: string;
+  color: string;
+}
+
+const POUR_SIZES = pourSizesData.pourSizes as PourSizeConfig[];
+const GLASS_TYPES = pourSizesData.glassTypes as GlassTypeConfig[];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -95,12 +116,7 @@ function GuideTab() {
 
       {/* Pour size cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {[
-          { fill: 0.25, label: "Tasting Pour", size: "2 oz (60ml)", note: "Wine tastings only", color: "var(--color-red)", noteColor: "text-yellow" },
-          { fill: 0.5, label: "Standard Pour", size: "5 oz (150ml)", note: "What you SHOULD get", color: "var(--color-red)", noteColor: "text-green" },
-          { fill: 0.62, label: "Full Glass", size: "6 oz (175ml)", note: "Generous pour", color: "var(--color-red)", noteColor: "text-green" },
-          { fill: 0.15, label: "Criminal Pour", size: "< 3 oz", note: "Unacceptable", color: "var(--color-pill-4)", noteColor: "text-red" },
-        ].map((g) => (
+        {POUR_SIZES.map((g) => (
           <div key={g.label} className="glass text-center p-4 rounded-xl">
             <div className="flex justify-center mb-3">
               <WineGlass fillPct={g.fill} size={70} id={g.label.replace(/\s/g, "")} color={g.color} />
@@ -124,12 +140,7 @@ function GuideTab() {
       <div>
         <h3 className="font-heading text-lg mb-4">Glass Types &amp; Proper Fill Levels</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {[
-            { fill: 0.38, label: "Red Wine Glass", sublabel: "Fill to widest point", note: "~1/3 full", color: "var(--color-red)" },
-            { fill: 0.5, label: "White Wine Glass", sublabel: "Fill slightly higher", note: "~1/2 full", color: "var(--color-accent)" },
-            { fill: 0.65, label: "Champagne Flute", sublabel: "Fill to ~3/4", note: "Preserves bubbles", color: "var(--color-accent)" },
-            { fill: 0.45, label: "Rosé Glass", sublabel: "Similar to white wine", note: "Slightly tapered", color: "var(--color-pill-6)" },
-          ].map((g) => (
+          {GLASS_TYPES.map((g) => (
             <div key={g.label} className="glass text-center p-4 rounded-xl">
               <div className="flex justify-center mb-3">
                 <WineGlass fillPct={g.fill} size={60} id={`type-${g.label.replace(/\s/g, "")}`} color={g.color} />
