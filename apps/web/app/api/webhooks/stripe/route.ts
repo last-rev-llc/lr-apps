@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { handleStripeWebhook } from "@repo/billing/webhook-handler";
 import { log, withRequestContext } from "@repo/logger";
 import {
@@ -9,6 +10,13 @@ import {
 
 const WEBHOOK_RATE_LIMIT = 100;
 const WEBHOOK_RATE_WINDOW_MS = 60_000;
+
+// Stripe sends the event as a raw Buffer (required for signature verification),
+// so we validate the header envelope only. Any future JSON fields we add to
+// this route should use validateJson from @/lib/validate-request.
+const headerSchema = z.object({
+  "stripe-signature": z.string().min(1),
+});
 
 export async function POST(request: Request): Promise<Response> {
   const requestId = crypto.randomUUID();
@@ -26,9 +34,11 @@ export async function POST(request: Request): Promise<Response> {
         return rateLimitResponse(rateLimitResult);
       }
 
-      const signature = request.headers.get("stripe-signature");
+      const headerCheck = headerSchema.safeParse({
+        "stripe-signature": request.headers.get("stripe-signature"),
+      });
 
-      if (!signature) {
+      if (!headerCheck.success) {
         log.warn("stripe webhook missing signature header");
         return applyRateLimitHeaders(
           Response.json(
@@ -38,6 +48,8 @@ export async function POST(request: Request): Promise<Response> {
           rateLimitResult,
         );
       }
+
+      const signature = headerCheck.data["stripe-signature"];
 
       const arrayBuffer = await request.arrayBuffer();
       const body = Buffer.from(arrayBuffer);

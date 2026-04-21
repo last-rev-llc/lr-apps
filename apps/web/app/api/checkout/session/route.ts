@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { z } from "zod";
 import { getOrCreateCustomer, getStripe } from "@repo/billing";
 import {
   getAuth0ClientForHost,
@@ -7,6 +8,11 @@ import {
 import { logAuditEvent } from "@repo/db/audit";
 import { createServiceRoleClient } from "@repo/db/service-role";
 import { log, withRequestContext } from "@repo/logger";
+import { validateJson } from "@/lib/validate-request";
+
+const checkoutSchema = z.object({
+  priceId: z.string().min(1),
+});
 
 export async function POST(request: Request): Promise<Response> {
   const requestId = crypto.randomUUID();
@@ -27,22 +33,12 @@ export async function POST(request: Request): Promise<Response> {
       const email =
         typeof session.user.email === "string" ? session.user.email : "";
 
-      let body: { priceId: string };
-      try {
-        body = (await request.json()) as { priceId: string };
-      } catch {
-        log.warn("checkout session invalid body", { userId });
-        return Response.json(
-          { error: "Invalid request body" },
-          { status: 400 },
-        );
+      const validated = await validateJson(request, checkoutSchema);
+      if (!validated.ok) {
+        log.warn("checkout session invalid input", { userId });
+        return validated.response;
       }
-
-      const { priceId } = body;
-      if (!priceId) {
-        log.warn("checkout session missing priceId", { userId });
-        return Response.json({ error: "Missing priceId" }, { status: 400 });
-      }
+      const { priceId } = validated.data;
 
       const appUrl = process.env.APP_BASE_URL ?? "http://localhost:3000";
 

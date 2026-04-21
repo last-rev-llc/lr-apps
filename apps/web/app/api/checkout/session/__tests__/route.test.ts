@@ -62,7 +62,7 @@ describe("POST /api/checkout/session", () => {
     expect(data.error).toBe("Unauthorized");
   });
 
-  it("returns 400 when priceId is missing", async () => {
+  it("returns 400 with invalid_input issues when priceId is missing", async () => {
     mockGetSession.mockResolvedValue({
       user: { sub: "user_1", email: "user@example.com" },
     });
@@ -71,8 +71,27 @@ describe("POST /api/checkout/session", () => {
     const res = await POST(makeRequest({}));
 
     expect(res.status).toBe(400);
-    const data = await res.json() as { error: string };
-    expect(data.error).toBe("Missing priceId");
+    const data = (await res.json()) as {
+      error: string;
+      issues: Array<{ path: unknown; message: string }>;
+    };
+    expect(data.error).toBe("invalid_input");
+    expect(data.issues).toBeInstanceOf(Array);
+    expect(data.issues.length).toBeGreaterThan(0);
+    expect(data.issues[0]?.path).toContain("priceId");
+  });
+
+  it("returns 400 with invalid_input when priceId is empty string", async () => {
+    mockGetSession.mockResolvedValue({
+      user: { sub: "user_1", email: "user@example.com" },
+    });
+    const { POST } = await import("../route");
+
+    const res = await POST(makeRequest({ priceId: "" }));
+
+    expect(res.status).toBe(400);
+    const data = (await res.json()) as { error: string };
+    expect(data.error).toBe("invalid_input");
   });
 
   it("creates checkout session and returns checkoutUrl", async () => {
@@ -139,7 +158,7 @@ describe("POST /api/checkout/session", () => {
     expect(data.error).toBe("Stripe error");
   });
 
-  it("returns 400 when request body is not valid JSON", async () => {
+  it("returns 400 invalid_json when request body is not valid JSON", async () => {
     mockGetSession.mockResolvedValue({
       user: { sub: "user_1", email: "user@example.com" },
     });
@@ -153,7 +172,7 @@ describe("POST /api/checkout/session", () => {
     const res = await POST(req);
 
     expect(res.status).toBe(400);
-    const data = await res.json() as { error: string };
-    expect(data.error).toBe("Invalid request body");
+    const data = (await res.json()) as { error: string };
+    expect(data.error).toBe("invalid_json");
   });
 });
