@@ -98,7 +98,7 @@ export function CronsApp({ initialCrons }: CronsAppProps) {
   >({});
   const [togglingId, setTogglingId] = useState<string | null>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const db = createClient();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const cronsTable = () => (db as any).from("crons");
@@ -140,7 +140,7 @@ export function CronsApp({ initialCrons }: CronsAppProps) {
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
-    let list = crons.filter((c) => {
+    const list = crons.filter((c) => {
       if (statusFilter === "active" && !c.enabled) return false;
       if (statusFilter === "disabled" && c.enabled !== false) return false;
       if (statusFilter === "failed" && c.lastStatus !== "failed") return false;
