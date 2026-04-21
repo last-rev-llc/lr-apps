@@ -43,6 +43,7 @@ interface WinsGalleryProps {
 export function WinsGallery({ wins }: WinsGalleryProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeIntegration, setActiveIntegration] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("All");
   const [selectedWin, setSelectedWin] = useState<Win | null>(null);
   const [copyState, setCopyState] = useState<"idle" | "copied">("idle");
 
@@ -52,9 +53,20 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
     return Array.from(set).sort();
   }, [wins]);
 
+  const allCategories = useMemo(() => {
+    const set = new Set<string>();
+    wins.forEach((w) => {
+      if (w.type) set.add(w.type);
+    });
+    return Array.from(set).sort();
+  }, [wins]);
+
   const filtered = useMemo(() => {
     const q = searchQuery.toLowerCase();
     return wins.filter((w) => {
+      if (activeCategory !== "All" && w.type !== activeCategory) {
+        return false;
+      }
       if (activeIntegration !== "All" && !(w.integrations ?? []).includes(activeIntegration)) {
         return false;
       }
@@ -69,7 +81,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
       }
       return true;
     });
-  }, [wins, searchQuery, activeIntegration]);
+  }, [wins, searchQuery, activeIntegration, activeCategory]);
 
   function handleCopyPrompt(prompt: string | undefined) {
     if (!prompt) return;
@@ -100,9 +112,44 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
           </span>
         </div>
 
+        {/* Category filter pills */}
+        {allCategories.length > 0 && (
+          <div className="flex flex-wrap gap-2" aria-label="Filter by category">
+            <Button
+              variant={activeCategory === "All" ? "outline" : "ghost"}
+              size="sm"
+              onClick={() => setActiveCategory("All")}
+              className={cn(
+                "rounded-full text-xs font-semibold",
+                activeCategory === "All"
+                  ? "bg-accent/15 text-accent border-accent/30"
+                  : "",
+              )}
+            >
+              All Categories
+            </Button>
+            {allCategories.map((cat) => (
+              <Button
+                key={cat}
+                variant={activeCategory === cat ? "outline" : "ghost"}
+                size="sm"
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  "rounded-full text-xs font-semibold",
+                  activeCategory === cat
+                    ? "bg-accent/15 text-accent border-accent/30"
+                    : "",
+                )}
+              >
+                {cat}
+              </Button>
+            ))}
+          </div>
+        )}
+
         {/* Integration filter pills */}
         {allIntegrations.length > 0 && (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2" aria-label="Filter by integration">
             <Button
               variant={activeIntegration === "All" ? "outline" : "ghost"}
               size="sm"

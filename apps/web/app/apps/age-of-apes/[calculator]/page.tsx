@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Badge } from "@repo/ui";
 import { CALCULATORS, getCalculator, isValidCalculatorSlug } from "../lib/calculators";
 import { CalculatorApp } from "../components/calculator-app";
 
@@ -93,14 +94,19 @@ export default async function CalculatorPage({
             <Link
               key={c.slug}
               href={`/apps/age-of-apes/${c.slug}`}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all hover:scale-105"
-              style={{
-                background: c.color + "15",
-                borderColor: c.color + "40",
-                color: c.color,
-              }}
+              className="transition-transform hover:scale-105"
             >
-              {c.icon} {c.label}
+              <Badge
+                variant="outline"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
+                style={{
+                  background: c.color + "15",
+                  borderColor: c.color + "40",
+                  color: c.color,
+                }}
+              >
+                {c.icon} {c.label}
+              </Badge>
             </Link>
           ))}
         </div>

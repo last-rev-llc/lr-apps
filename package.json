@@ -4,7 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev & punchlist-qa serve & wait",
-    "lint": "turbo run lint",
+    "lint": "node --experimental-strip-types scripts/check-claude-md-lib-sync.ts && turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "create-app": "echo 'CLI not yet implemented — see tools/create-app/'",
