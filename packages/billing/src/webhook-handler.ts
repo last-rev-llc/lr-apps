@@ -3,6 +3,7 @@ import { getStripe } from "./stripe-client";
 import { upsertSubscription } from "./subscriptions";
 import { createServiceRoleClient } from "@repo/db/service-role";
 import type { Database } from "@repo/db/types";
+import { log } from "@repo/logger";
 import type { WebhookEventType } from "./types";
 
 const HANDLED_EVENTS: Set<string> = new Set<WebhookEventType>([
@@ -62,7 +63,11 @@ export async function handleStripeWebhook(
     };
     await db.from("processed_webhook_events").insert(eventRow);
   } catch (err) {
-    console.error("Failed to record processed webhook event:", err);
+    log.error("failed to record processed webhook event", {
+      err,
+      eventId: event.id,
+      eventType: event.type,
+    });
   }
 
   return { received: true };

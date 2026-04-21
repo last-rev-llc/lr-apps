@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@repo/db": "workspace:*",
+    "@repo/logger": "workspace:*",
     "stripe": "^17"
   },
   "devDependencies": {
