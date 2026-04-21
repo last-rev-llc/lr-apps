@@ -1,21 +1,21 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Badge, Card, CardContent, EmptyState, PageHeader } from "@repo/ui";
+import { Badge, Button, Card, CardContent, EmptyState, PageHeader } from "@repo/ui";
 import type { ShoppingItem, ItemCategory } from "../lib/types";
 
 const CATEGORIES: ItemCategory[] = ["produce", "dairy", "meat", "bakery", "frozen", "pantry", "beverages", "household", "other"];
 
 const CATEGORY_STYLE: Record<ItemCategory, { icon: string; color: string }> = {
-  produce:    { icon: "🥦", color: "#4ade80" },
-  dairy:      { icon: "🥛", color: "#60a5fa" },
-  meat:       { icon: "🥩", color: "#f87171" },
-  bakery:     { icon: "🍞", color: "#fb923c" },
-  frozen:     { icon: "🧊", color: "#7dd8ff" },
-  pantry:     { icon: "🫙", color: "#fbbf24" },
-  beverages:  { icon: "🧃", color: "#a78bfa" },
-  household:  { icon: "🧹", color: "#94a3b8" },
-  other:      { icon: "📦", color: "#e2e8f0" },
+  produce:    { icon: "🥦", color: "var(--color-neon-green)" },
+  dairy:      { icon: "🥛", color: "var(--color-neon-blue)" },
+  meat:       { icon: "🥩", color: "var(--color-red)" },
+  bakery:     { icon: "🍞", color: "var(--color-orange)" },
+  frozen:     { icon: "🧊", color: "var(--color-blue)" },
+  pantry:     { icon: "🫙", color: "var(--color-accent-400)" },
+  beverages:  { icon: "🧃", color: "var(--color-neon-violet)" },
+  household:  { icon: "🧹", color: "var(--color-slate)" },
+  other:      { icon: "📦", color: "var(--color-slate-light)" },
 };
 
 const STORAGE_KEY = "cc-shopping-list";
@@ -158,63 +158,61 @@ export function ShoppingListApp() {
                 </option>
               ))}
             </select>
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={addItem}
               disabled={!newName.trim()}
-              className="px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-400 text-sm font-semibold hover:bg-amber-500/30 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="bg-amber-500/20 border-amber-500/40 text-amber-400 hover:bg-amber-500/30"
             >
               + Add
-            </button>
+            </Button>
           </div>
         </CardContent>
       </Card>
 
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-2">
-        <button
+        <Button
+          variant={filterCategory === "all" ? "outline" : "ghost"}
+          size="sm"
           onClick={() => setFilterCategory("all")}
-          className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-            filterCategory === "all"
-              ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-              : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-          }`}
+          className={filterCategory === "all" ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
         >
           All
-        </button>
+        </Button>
         {categoriesInList.map((c) => {
           const cs = CATEGORY_STYLE[c];
           return (
-            <button
+            <Button
               key={c}
+              variant={filterCategory === c ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setFilterCategory(c)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                filterCategory === c
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={filterCategory === c ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {cs.icon} {c}
-            </button>
+            </Button>
           );
         })}
         <div className="ml-auto flex gap-2">
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setShowChecked((v) => !v)}
-            className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-              showChecked
-                ? "border-white/15 bg-white/5 text-white/50"
-                : "border-white/15 bg-white/5 text-white/30"
-            }`}
+            className={showChecked ? "text-white/50" : "text-white/30"}
           >
             {showChecked ? "Hide" : "Show"} checked
-          </button>
+          </Button>
           {checkedCount > 0 && (
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={clearChecked}
-              className="px-3 py-1.5 rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 text-xs font-semibold hover:bg-red-500/20 transition-colors"
+              className="border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20"
             >
               Clear checked ({checkedCount})
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -265,9 +263,9 @@ export function ShoppingListApp() {
                         {item.name}
                       </span>
                       {item.quantity && (
-                        <span className="text-xs text-white/30 bg-white/5 px-2 py-0.5 rounded">
+                        <Badge variant="secondary" className="text-xs text-white/30 bg-white/5 border-0">
                           {item.quantity}
-                        </span>
+                        </Badge>
                       )}
                       <button
                         onClick={() => removeItem(item.id)}

@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "summary": "HSPT Practice component migration is complete — all native elements replaced with @repo/ui, cn() used for classNames, tests pass (497/497)",
+  "findings": []
+}

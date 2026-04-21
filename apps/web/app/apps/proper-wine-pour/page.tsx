@@ -16,7 +16,7 @@ export default async function ProperWinePourPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="font-heading text-2xl" style={{ color: "#e74c6f" }}>
+        <h1 className="font-heading text-2xl" style={{ color: "var(--color-pill-6)" }}>
           Proper Wine Pour
         </h1>
         <p className="text-muted-foreground text-sm">

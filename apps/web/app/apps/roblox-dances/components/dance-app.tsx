@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { createClient } from "@repo/db/client";
 import {
+  cn,
   Tabs,
   TabsList,
   TabsTrigger,
@@ -14,16 +15,21 @@ import {
   Input,
   Button,
   Badge,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  StarRating,
 } from "@repo/ui";
 import type { Dance, DanceSubmission, Difficulty, SortKey } from "../lib/types";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const DIFFICULTY_COLORS: Record<string, string> = {
-  beginner: "bg-green-500/15 text-green-400 border-green-500/30",
-  intermediate: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",
-  advanced: "bg-red-500/15 text-red-400 border-red-500/30",
-  expert: "bg-purple-500/15 text-purple-400 border-purple-500/30",
+  beginner: "bg-green/15 text-green border-green/30",
+  intermediate: "bg-yellow/15 text-yellow border-yellow/30",
+  advanced: "bg-red/15 text-red border-red/30",
+  expert: "bg-pill-0/15 text-pill-0 border-pill-0/30",
 };
 
 const DIFFICULTY_ORDER: Record<string, number> = {
@@ -33,44 +39,6 @@ const DIFFICULTY_ORDER: Record<string, number> = {
   expert: 3,
 };
 
-function StarDisplay({ rating, size = "sm" }: { rating: number; size?: "sm" | "md" }) {
-  const filled = Math.round(rating);
-  const cls = size === "md" ? "text-base" : "text-sm";
-  return (
-    <span className={`inline-flex gap-px ${cls}`}>
-      {[1, 2, 3, 4, 5].map((i) => (
-        <span key={i} className={i <= filled ? "text-yellow-400" : "text-white/20"}>
-          ★
-        </span>
-      ))}
-    </span>
-  );
-}
-
-function StarInput({
-  value,
-  onChange,
-}: {
-  value: number;
-  onChange: (n: number) => void;
-}) {
-  const [hover, setHover] = useState(0);
-  return (
-    <span className="inline-flex gap-px text-lg cursor-pointer">
-      {[1, 2, 3, 4, 5].map((i) => (
-        <span
-          key={i}
-          className={(hover || value) >= i ? "text-yellow-400" : "text-white/20"}
-          onMouseEnter={() => setHover(i)}
-          onMouseLeave={() => setHover(0)}
-          onClick={() => onChange(i)}
-        >
-          ★
-        </span>
-      ))}
-    </span>
-  );
-}
 
 function PreviewBars({ seed }: { seed: number }) {
   return (
@@ -80,7 +48,7 @@ function PreviewBars({ seed }: { seed: number }) {
         return (
           <div
             key={i}
-            className="w-1 rounded-sm bg-pink-400/50"
+            className="w-1 rounded-sm bg-pill-6/50"
             style={{ height: `${h}px` }}
           />
         );
@@ -130,16 +98,16 @@ function highlightLua(code: string): string {
             end++;
           }
           end = Math.min(end + 1, line.length);
-          r += `<span class="text-yellow-300">${esc(line.slice(i, end))}</span>`;
+          r += `<span class="text-yellow">${esc(line.slice(i, end))}</span>`;
           i = end;
         } else if (/[a-zA-Z_]/.test(line[i])) {
           let end = i + 1;
           while (end < line.length && /[a-zA-Z0-9_]/.test(line[end])) end++;
           const w = line.slice(i, end);
           if (LUA_KEYWORDS.has(w)) {
-            r += `<span class="text-pink-400 font-semibold">${esc(w)}</span>`;
+            r += `<span class="text-pill-6 font-semibold">${esc(w)}</span>`;
           } else if (LUA_BUILTINS.has(w)) {
-            r += `<span class="text-green-400">${esc(w)}</span>`;
+            r += `<span class="text-green">${esc(w)}</span>`;
           } else {
             r += esc(w);
           }
@@ -150,7 +118,7 @@ function highlightLua(code: string): string {
         ) {
           let end = i;
           while (end < line.length && /[0-9.xXa-fA-F]/.test(line[end])) end++;
-          r += `<span class="text-blue-300">${esc(line.slice(i, end))}</span>`;
+          r += `<span class="text-blue">${esc(line.slice(i, end))}</span>`;
           i = end;
         } else {
           r += esc(line[i]);
@@ -271,72 +239,70 @@ end)`;
 
 function CodeViewer({
   dance,
+  open,
   localRating,
   onRate,
   onClose,
 }: {
-  dance: Dance;
+  dance: Dance | null;
+  open: boolean;
   localRating: number;
   onRate: (stars: number) => void;
   onClose: () => void;
 }) {
-  const lines = dance.code.split("\n");
+  if (!dance) return null;
+
+  const activeDance = dance;
+  const lines = activeDance.code.split("\n");
   const lineNums = lines.map((_, i) => i + 1).join("\n");
-  const highlighted = highlightLua(dance.code);
+  const highlighted = highlightLua(activeDance.code);
 
   function copyCode() {
-    navigator.clipboard.writeText(dance.code).catch(() => {});
+    navigator.clipboard.writeText(activeDance.code).catch(() => {});
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="bg-background border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl">
-        {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+    <Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col p-0 overflow-hidden">
+        <DialogHeader className="px-5 py-4 border-b border-white/10 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{dance.emoji}</span>
+            <span className="text-3xl">{activeDance.emoji}</span>
             <div>
-              <div className="font-semibold text-base">{dance.name}</div>
+              <DialogTitle className="font-semibold text-base">{activeDance.name}</DialogTitle>
               <Badge
                 variant="outline"
-                className={`text-[10px] mt-0.5 ${DIFFICULTY_COLORS[dance.difficulty]}`}
+                className={cn("text-[10px] mt-0.5", DIFFICULTY_COLORS[activeDance.difficulty])}
               >
-                {dance.difficulty}
+                {activeDance.difficulty}
               </Badge>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="text-muted-foreground hover:text-foreground text-xl leading-none transition-colors"
-          >
-            ×
-          </button>
-        </div>
+        </DialogHeader>
 
         {/* Body */}
         <div className="overflow-y-auto flex-1 px-5 py-4 space-y-4">
-          <p className="text-muted-foreground text-sm">{dance.description}</p>
+          <p className="text-muted-foreground text-sm">{activeDance.description}</p>
 
           {/* Rating row */}
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground">Your Rating:</span>
-            <StarInput value={localRating} onChange={onRate} />
+            <StarRating value={localRating} onChange={onRate} size="md" />
           </div>
 
           {/* Code block */}
           <div className="rounded-xl overflow-hidden border border-white/10 bg-black/40">
             <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-white/[0.03]">
               <span className="text-xs text-muted-foreground">
-                {dance.name}.lua &bull; {lines.length} lines
+                {activeDance.name}.lua &bull; {lines.length} lines
               </span>
-              <button
-                type="button"
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={copyCode}
-                className="text-xs px-3 py-1 rounded-lg border border-white/10 bg-white/5 hover:border-pink-400/50 hover:text-pink-400 transition-colors"
+                className="text-xs border-white/10 bg-white/5 hover:border-pill-6/50 hover:text-pill-6"
               >
                 📋 Copy Script
-              </button>
+              </Button>
             </div>
             <div className="flex overflow-auto max-h-[40vh]">
               <pre className="px-3 py-3 text-xs font-mono text-white/30 text-right select-none border-r border-white/10 flex-shrink-0 leading-relaxed">
@@ -350,8 +316,8 @@ function CodeViewer({
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -409,7 +375,7 @@ function CatalogTab({ dances }: { dances: Dance[] }) {
         <select
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value as Difficulty)}
-          className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pink-400"
+          className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pill-6"
         >
           <option value="all">All Difficulties</option>
           <option value="beginner">Beginner</option>
@@ -420,7 +386,7 @@ function CatalogTab({ dances }: { dances: Dance[] }) {
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value as SortKey)}
-          className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pink-400"
+          className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pill-6"
         >
           <option value="rating">Top Rated</option>
           <option value="name">Name A→Z</option>
@@ -438,62 +404,65 @@ function CatalogTab({ dances }: { dances: Dance[] }) {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((dance) => (
-            <button
+            <Card
               key={dance.id}
-              type="button"
               onClick={() => setSelectedDance(dance)}
-              className="text-left bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-pink-400/50 hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all cursor-pointer group"
+              className="bg-white/5 border-white/10 hover:border-pill-6/50 hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all cursor-pointer p-5"
             >
-              <div className="flex items-start gap-3 mb-3">
-                <span className="text-4xl flex-shrink-0">{dance.emoji}</span>
-                <div className="flex-1 min-w-0">
-                  <div className="font-bold text-sm mb-0.5 text-foreground">{dance.name}</div>
-                  <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                    {dance.description}
-                  </p>
+              <CardContent className="p-0">
+                <div className="flex items-start gap-3 mb-3">
+                  <span className="text-4xl flex-shrink-0">{dance.emoji}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-sm mb-0.5 text-foreground">{dance.name}</div>
+                    <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+                      {dance.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <PreviewBars seed={dance.code.length} />
-              {dance.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {dance.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pink-500/10 text-pink-400"
-                    >
-                      {tag}
+                <PreviewBars seed={dance.code.length} />
+                {dance.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {dance.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pill-6/10 text-pill-6"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <div className="flex items-center justify-between">
+                  <Badge
+                    variant="outline"
+                    className={cn("text-[11px]", DIFFICULTY_COLORS[dance.difficulty])}
+                  >
+                    {dance.difficulty}
+                  </Badge>
+                  <div className="flex items-center gap-1">
+                    <StarRating
+                      value={localRatings[dance.id] ?? dance.rating}
+                      size="sm"
+                    />
+                    <span className="text-[11px] text-muted-foreground">
+                      ({dance.ratingCount})
                     </span>
-                  ))}
+                  </div>
                 </div>
-              )}
-              <div className="flex items-center justify-between">
-                <Badge
-                  variant="outline"
-                  className={`text-[11px] ${DIFFICULTY_COLORS[dance.difficulty]}`}
-                >
-                  {dance.difficulty}
-                </Badge>
-                <div className="flex items-center gap-1">
-                  <StarDisplay rating={localRatings[dance.id] ?? dance.rating} />
-                  <span className="text-[11px] text-muted-foreground">
-                    ({dance.ratingCount})
-                  </span>
-                </div>
-              </div>
-            </button>
+              </CardContent>
+            </Card>
           ))}
         </div>
       )}
 
       {/* Code Viewer Modal */}
-      {selectedDance && (
-        <CodeViewer
-          dance={selectedDance}
-          localRating={localRatings[selectedDance.id] ?? 0}
-          onRate={(stars) => handleRate(selectedDance, stars)}
-          onClose={() => setSelectedDance(null)}
-        />
-      )}
+      <CodeViewer
+        dance={selectedDance}
+        open={!!selectedDance}
+        localRating={selectedDance ? (localRatings[selectedDance.id] ?? 0) : 0}
+        onRate={(stars) => selectedDance && handleRate(selectedDance, stars)}
+        onClose={() => setSelectedDance(null)}
+      />
     </div>
   );
 }
@@ -565,7 +534,7 @@ function SubmitTab({
   return (
     <div className="max-w-xl mx-auto space-y-6">
       {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-pink-500 text-white text-sm px-4 py-2 rounded-full shadow-lg">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-pill-6 text-white text-sm px-4 py-2 rounded-full shadow-lg">
           {toast}
         </div>
       )}
@@ -610,7 +579,7 @@ function SubmitTab({
               onChange={(e) => setDesc(e.target.value)}
               placeholder="Describe the dance moves, style, and feel…"
               rows={3}
-              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground resize-vertical focus:outline-none focus:ring-1 focus:ring-pink-400 placeholder:text-muted-foreground"
+              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground resize-vertical focus:outline-none focus:ring-1 focus:ring-pill-6 placeholder:text-muted-foreground"
             />
           </div>
 
@@ -623,7 +592,7 @@ function SubmitTab({
               onChange={(e) =>
                 setDifficulty(e.target.value as DanceSubmission["difficulty"])
               }
-              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pink-400"
+              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-pill-6"
             >
               <option value="beginner">Beginner</option>
               <option value="intermediate">Intermediate</option>
@@ -647,7 +616,7 @@ function SubmitTab({
           <Button
             onClick={handleSubmit}
             disabled={submitting}
-            className="w-full bg-pink-500 hover:bg-pink-600 text-white"
+            className="w-full bg-pill-6 hover:bg-pill-6/80 text-white"
           >
             {submitting ? "Submitting…" : "Submit Dance Idea"}
           </Button>
@@ -665,43 +634,46 @@ function SubmitTab({
         ) : (
           <div className="space-y-3">
             {submissions.map((s) => (
-              <div
+              <Card
                 key={s.id}
-                className="bg-white/5 border border-white/10 rounded-xl p-4"
+                className="bg-white/5 border-white/10"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">{s.emoji || "🎵"}</span>
-                    <span className="font-semibold text-sm">{s.name}</span>
-                  </div>
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${
-                      s.status === "approved"
-                        ? "bg-green-500/15 text-green-400"
-                        : "bg-yellow-500/15 text-yellow-400"
-                    }`}
-                  >
-                    {s.status}
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground mb-2">{s.description}</p>
-                <div className="flex flex-wrap gap-1">
-                  <Badge
-                    variant="outline"
-                    className={`text-[10px] ${DIFFICULTY_COLORS[s.difficulty]}`}
-                  >
-                    {s.difficulty}
-                  </Badge>
-                  {s.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pink-500/10 text-pink-400"
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">{s.emoji || "🎵"}</span>
+                      <span className="font-semibold text-sm">{s.name}</span>
+                    </div>
+                    <Badge
+                      className={cn(
+                        "text-[10px] font-semibold",
+                        s.status === "approved"
+                          ? "bg-green/15 text-green border-green/30"
+                          : "bg-yellow/15 text-yellow border-yellow/30"
+                      )}
                     >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
+                      {s.status}
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground mb-2">{s.description}</p>
+                  <div className="flex flex-wrap gap-1">
+                    <Badge
+                      variant="outline"
+                      className={cn("text-[10px]", DIFFICULTY_COLORS[s.difficulty])}
+                    >
+                      {s.difficulty}
+                    </Badge>
+                    {s.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-pill-6/10 text-pill-6"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         )}
@@ -756,13 +728,13 @@ function GeneratorTab() {
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="A smooth salsa dance with hip sways, arm extensions, and spinning turns…"
               rows={4}
-              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground resize-vertical focus:outline-none focus:ring-1 focus:ring-pink-400 placeholder:text-muted-foreground"
+              className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground resize-vertical focus:outline-none focus:ring-1 focus:ring-pill-6 placeholder:text-muted-foreground"
             />
           </div>
           <Button
             onClick={handleGenerate}
             disabled={generating || !prompt.trim()}
-            className="w-full bg-pink-500 hover:bg-pink-600 text-white"
+            className="w-full bg-pill-6 hover:bg-pill-6/80 text-white"
           >
             {generating ? (
               <span className="flex items-center gap-2">
@@ -780,13 +752,14 @@ function GeneratorTab() {
         <div>
           <div className="flex items-center justify-between mb-2">
             <h3 className="font-semibold">Generated Script</h3>
-            <button
-              type="button"
+            <Button
+              variant="outline"
+              size="sm"
               onClick={copyCode}
-              className="text-xs px-3 py-1 rounded-lg border border-white/10 bg-white/5 hover:border-pink-400/50 hover:text-pink-400 transition-colors"
+              className="text-xs border-white/10 bg-white/5 hover:border-pill-6/50 hover:text-pill-6"
             >
               📋 Copy
-            </button>
+            </Button>
           </div>
           <div className="rounded-xl overflow-hidden border border-white/10 bg-black/40">
             <div className="flex items-center justify-between px-4 py-2 border-b border-white/10 bg-white/[0.03]">
@@ -822,13 +795,13 @@ export function DanceApp({ initialDances, initialSubmissions }: DanceAppProps) {
   return (
     <Tabs defaultValue="catalog">
       <TabsList className="mb-6 bg-white/5 border border-white/10">
-        <TabsTrigger value="catalog" className="data-[state=active]:bg-pink-500/20 data-[state=active]:text-pink-400">
+        <TabsTrigger value="catalog" className="data-[state=active]:bg-pill-6/20 data-[state=active]:text-pill-6">
           🎭 Catalog
         </TabsTrigger>
-        <TabsTrigger value="submit" className="data-[state=active]:bg-pink-500/20 data-[state=active]:text-pink-400">
+        <TabsTrigger value="submit" className="data-[state=active]:bg-pill-6/20 data-[state=active]:text-pill-6">
           📝 Submit
         </TabsTrigger>
-        <TabsTrigger value="generator" className="data-[state=active]:bg-pink-500/20 data-[state=active]:text-pink-400">
+        <TabsTrigger value="generator" className="data-[state=active]:bg-pill-6/20 data-[state=active]:text-pill-6">
           ⚡ Generator
         </TabsTrigger>
       </TabsList>

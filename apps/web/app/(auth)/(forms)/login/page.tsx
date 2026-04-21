@@ -16,5 +16,11 @@ export default async function LoginPage({
     redirectSlug: params.redirect,
   });
 
-  return <LoginForm loginHref={loginHref} error={params.error} />;
+  return (
+    <LoginForm
+      loginHref={loginHref}
+      error={params.error}
+      redirectSlug={params.redirect}
+    />
+  );
 }

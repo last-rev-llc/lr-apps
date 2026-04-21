@@ -49,22 +49,6 @@ export function Confetti({
     }
   }, [particleCount, colors]);
 
-  // Inject keyframes once
-  useEffect(() => {
-    const id = "confetti-keyframes";
-    if (document.getElementById(id)) return;
-    const style = document.createElement("style");
-    style.id = id;
-    style.textContent = `
-      @keyframes confetti-fall {
-        0%   { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
-        80%  { opacity: 1; }
-        100% { opacity: 0; transform: translateY(100vh) rotate(720deg) scale(0.5); }
-      }
-    `;
-    document.head.appendChild(style);
-  }, []);
-
   // Auto-fire on mount
   useEffect(() => {
     if (!autoFire) return;

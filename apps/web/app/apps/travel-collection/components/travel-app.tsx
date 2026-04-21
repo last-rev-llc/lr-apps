@@ -168,7 +168,7 @@ function PropertyCard({
     <button
       type="button"
       onClick={onClick}
-      className="text-left w-full rounded-2xl overflow-hidden border border-surface-border bg-surface backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_32px_oklch(0%_0_0/0.4)] hover:border-accent cursor-pointer group"
+      className="text-left w-full rounded-2xl overflow-hidden border border-surface-border bg-surface backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-glass-hover-strong hover:border-accent cursor-pointer group"
     >
       {/* Photo */}
       <div className="w-full h-48 overflow-hidden bg-surface flex items-center justify-center text-5xl">
@@ -201,13 +201,13 @@ function PropertyCard({
             {property.region}
           </Badge>
           {property.researched ? (
-            <span className="text-[10px] px-2 py-0.5 rounded-md bg-green-500/20 text-green-400 font-semibold border border-green-500/30">
+            <Badge className="text-[10px] bg-green/20 text-green border-green/30 hover:bg-green/20">
               ✓ Researched
-            </span>
+            </Badge>
           ) : (
-            <span className="text-[10px] px-2 py-0.5 rounded-md bg-muted/40 text-muted-foreground font-semibold border border-surface-border">
+            <Badge variant="outline" className="text-[10px] text-muted-foreground">
               Pending
-            </span>
+            </Badge>
           )}
         </div>
         {property.pricing && (
@@ -268,13 +268,13 @@ function PropertyModal({
           <Badge variant="secondary">{property.category}</Badge>
           <Badge variant="outline">{property.type}</Badge>
           {property.researched ? (
-            <span className="text-[10px] px-2 py-0.5 rounded-md bg-green-500/20 text-green-400 font-semibold border border-green-500/30">
+            <Badge className="text-[10px] bg-green/20 text-green border-green/30 hover:bg-green/20">
               ✓ Researched
-            </span>
+            </Badge>
           ) : (
-            <span className="text-[10px] px-2 py-0.5 rounded-md bg-muted/40 text-muted-foreground font-semibold border border-surface-border">
+            <Badge variant="outline" className="text-[10px] text-muted-foreground">
               Pending Research
-            </span>
+            </Badge>
           )}
         </div>
 

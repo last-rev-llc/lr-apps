@@ -1,0 +1,4 @@
+:root {
+  --ss-primary: var(--color-primary);
+  --ss-accent: var(--color-accent);
+}

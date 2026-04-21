@@ -1,7 +1,20 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import { Card } from "@repo/ui";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+  Avatar,
+  AvatarFallback,
+  Badge,
+  Button,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  EmptyState,
+} from "@repo/ui";
 import type { DailyUpdate, AppProfile, FeedFilters, TimeRange, UpdateLink } from "../lib/types";
 
 // ── Constants ──────────────────────────────────────────────────────────────
@@ -9,21 +22,21 @@ import type { DailyUpdate, AppProfile, FeedFilters, TimeRange, UpdateLink } from
 const REACTIONS = ["🔥", "❤️", "👏", "💡", "😂"];
 
 const APP_NEON_COLORS: Record<string, string> = {
-  "command-center": "#f59e0b",
-  "media-gallery": "#a855f7",
-  crm: "#3b82f6",
-  travel: "#06b6d4",
-  "daily-updates": "#10b981",
-  kanban: "#ef4444",
-  accounts: "#6366f1",
-  recipes: "#ec4899",
-  crons: "#14b8a6",
-  prompts: "#8b5cf6",
-  ideas: "#f97316",
+  "command-center": "var(--color-accent)",
+  "media-gallery": "var(--color-pill-0)",
+  crm: "var(--color-blue)",
+  travel: "var(--color-pill-7)",
+  "daily-updates": "var(--color-green)",
+  kanban: "var(--color-pill-4)",
+  accounts: "var(--color-pill-1)",
+  recipes: "var(--color-pill-6)",
+  crons: "var(--color-pill-9)",
+  prompts: "var(--color-pill-8)",
+  ideas: "var(--color-orange)",
 };
 
 function neonColor(sourceApp: string): string {
-  return APP_NEON_COLORS[sourceApp] ?? "#f59e0b";
+  return APP_NEON_COLORS[sourceApp] ?? "var(--color-accent)";
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -94,14 +107,17 @@ function UpdateCard({
       className="mb-4 overflow-hidden glass border-surface-border"
       style={{ borderLeft: `3px solid ${neon}` }}
     >
-      {/* Header */}
-      <div className="flex items-center gap-3 px-4 pt-4 pb-2">
-        <div
-          className="w-10 h-10 rounded-full flex items-center justify-center text-xl flex-shrink-0"
+      <CardHeader className="flex-row items-center gap-3 pb-2 space-y-0">
+        <Avatar
+          className="flex-shrink-0"
           style={{ background: `${neon}18`, border: `1px solid ${neon}55` }}
         >
-          {update.source_icon}
-        </div>
+          <AvatarFallback
+            className="text-xl bg-transparent"
+          >
+            {update.source_icon}
+          </AvatarFallback>
+        </Avatar>
         <div className="flex-1 min-w-0">
           <div className="font-semibold text-sm" style={{ color: neon }}>
             {update.source_name}
@@ -111,19 +127,18 @@ function UpdateCard({
           </div>
         </div>
         {update.priority === "high" && (
-          <span className="text-sm" title="High priority">
-            🔥
-          </span>
+          <Badge variant="destructive" className="text-[10px]">
+            🔥 High
+          </Badge>
         )}
         {update.category && (
-          <span className="text-[11px] text-muted-foreground px-2 py-0.5 rounded bg-surface-hover">
+          <Badge variant="secondary" className="text-[10px]">
             {formatCategoryName(update.category)}
-          </span>
+          </Badge>
         )}
-      </div>
+      </CardHeader>
 
-      {/* Body */}
-      <div className="px-4 pb-3">
+      <CardContent className="px-4 pb-3 pt-0">
         <h3 className="font-semibold text-base text-foreground mb-1">
           {update.title}
         </h3>
@@ -137,44 +152,46 @@ function UpdateCard({
         {links.length > 0 && (
           <div className="flex flex-wrap gap-1.5 mt-3">
             {links.map((link, i) => (
-              <a
-                key={i}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[12px] px-2.5 py-1 rounded-full border transition-colors hover:opacity-80"
-                style={{
-                  color: neon,
-                  borderColor: `${neon}44`,
-                  background: `${neon}08`,
-                }}
-              >
-                {link.label}
-              </a>
+              <Button key={i} variant="outline" size="sm" asChild>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[12px]"
+                  style={{
+                    color: neon,
+                    borderColor: `${neon}44`,
+                    background: `${neon}08`,
+                  }}
+                >
+                  {link.label}
+                </a>
+              </Button>
             ))}
           </div>
         )}
-      </div>
+      </CardContent>
 
-      {/* Reactions */}
-      <div className="px-4 pb-4 flex items-center gap-2 flex-wrap border-t border-surface-border pt-3">
+      <CardFooter className="px-4 pb-4 pt-3 border-t border-surface-border flex-wrap gap-2">
         {REACTIONS.map((emoji) => {
           const count = reactions[emoji] ?? 0;
           return (
-            <button
+            <Button
               key={emoji}
+              variant="ghost"
+              size="sm"
               onClick={() => onReact(update.id, emoji)}
-              className={`text-sm px-2.5 py-1 rounded-full border transition-all hover:scale-110 ${
+              className={`text-sm px-2.5 py-1 rounded-full transition-all hover:scale-110 h-auto ${
                 count > 0
-                  ? "border-amber-500/40 bg-amber-500/10"
-                  : "border-surface-border bg-surface-hover hover:border-amber-500/30"
+                  ? "border border-accent/40 bg-accent/10"
+                  : "border border-surface-border bg-surface-hover hover:border-accent/30"
               }`}
             >
-              {emoji} {count > 0 && <span className="text-[11px]">{count}</span>}
-            </button>
+              {emoji} {count > 0 && <span className="text-[11px] ml-0.5">{count}</span>}
+            </Button>
           );
         })}
-      </div>
+      </CardFooter>
     </Card>
   );
 }
@@ -290,17 +307,17 @@ export function FeedApp({
           onChange={(e) =>
             setFilters((f) => ({ ...f, search: e.target.value }))
           }
-          className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-amber-500/60"
+          className="flex-1 min-w-[180px] bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent/60"
         />
 
-        {/* App filter */}
+        {/* App filter — kept as native <select>; @repo/ui has no Select component */}
         {sourceApps.length > 0 && (
           <select
             value={filters.source_app}
             onChange={(e) =>
               setFilters((f) => ({ ...f, source_app: e.target.value }))
             }
-            className="bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-amber-500/60"
+            className="bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-accent/60"
           >
             <option value="all">All Apps</option>
             {sourceApps.map((a) => (
@@ -311,14 +328,14 @@ export function FeedApp({
           </select>
         )}
 
-        {/* Category filter */}
+        {/* Category filter — kept as native <select> */}
         {categories.length > 0 && (
           <select
             value={filters.category}
             onChange={(e) =>
               setFilters((f) => ({ ...f, category: e.target.value }))
             }
-            className="bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-amber-500/60"
+            className="bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-accent/60"
           >
             <option value="all">All Categories</option>
             {categories.map((c) => (
@@ -331,34 +348,28 @@ export function FeedApp({
       </div>
 
       {/* Time range tabs */}
-      <div className="flex gap-1 mb-6 border-b border-surface-border pb-3">
-        {(["all", "day", "week", "month"] as const).map((range) => (
-          <button
-            key={range}
-            onClick={() => setFilters((f) => ({ ...f, time_range: range }))}
-            className={`text-sm px-4 py-1.5 rounded-full transition-colors ${
-              filters.time_range === range
-                ? "bg-amber-500 text-black font-semibold"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {range === "all"
-              ? "All Time"
-              : range === "day"
-                ? "Today"
-                : range === "week"
-                  ? "This Week"
-                  : "This Month"}
-          </button>
-        ))}
-      </div>
+      <Tabs
+        value={filters.time_range}
+        onValueChange={(v) =>
+          setFilters((f) => ({ ...f, time_range: v as TimeRange }))
+        }
+        className="mb-6"
+      >
+        <TabsList className="border-b border-surface-border rounded-none bg-transparent pb-3 h-auto gap-1">
+          <TabsTrigger value="all">All Time</TabsTrigger>
+          <TabsTrigger value="day">Today</TabsTrigger>
+          <TabsTrigger value="week">This Week</TabsTrigger>
+          <TabsTrigger value="month">This Month</TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* Feed */}
       {filtered.length === 0 ? (
-        <div className="text-center py-20 text-muted-foreground">
-          <div className="text-5xl mb-3">📭</div>
-          <p>No updates yet — the feed is waiting for its first post!</p>
-        </div>
+        <EmptyState
+          icon="📭"
+          title="No updates yet — the feed is waiting for its first post!"
+          className="py-20"
+        />
       ) : (
         <>
           {filtered.map((update) => (
@@ -367,13 +378,13 @@ export function FeedApp({
 
           {hasMore && (
             <div className="text-center pt-4 pb-8">
-              <button
+              <Button
+                variant="outline"
                 onClick={loadMore}
                 disabled={loadingMore}
-                className="px-6 py-2.5 bg-surface border border-surface-border rounded-xl text-sm text-muted-foreground hover:text-foreground hover:border-amber-500/40 transition-colors disabled:opacity-50"
               >
                 {loadingMore ? "Loading…" : "Load more"}
-              </button>
+              </Button>
             </div>
           )}
         </>

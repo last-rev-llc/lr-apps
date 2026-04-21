@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
+import { Badge, Button, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
 import type { AiScript, ScriptCategory } from "../lib/types";
 
 const CATEGORIES: Array<{ value: ScriptCategory; label: string }> = [
@@ -14,11 +14,11 @@ const CATEGORIES: Array<{ value: ScriptCategory; label: string }> = [
 ];
 
 const LANG_STYLE: Record<string, { bg: string; text: string }> = {
-  typescript: { bg: "rgba(59,130,246,0.15)", text: "#60a5fa" },
-  javascript: { bg: "rgba(234,179,8,0.15)",  text: "#facc15" },
-  python:     { bg: "rgba(34,197,94,0.15)",   text: "#4ade80" },
-  bash:       { bg: "rgba(168,85,247,0.15)",  text: "#c084fc" },
-  sql:        { bg: "rgba(249,115,22,0.15)",  text: "#fb923c" },
+  typescript: { bg: "color-mix(in srgb, var(--color-blue) 15%, transparent)", text: "var(--color-neon-blue)" },
+  javascript: { bg: "color-mix(in srgb, var(--color-accent) 15%, transparent)",  text: "var(--color-accent-300)" },
+  python:     { bg: "color-mix(in srgb, var(--color-neon-green) 15%, transparent)",   text: "var(--color-neon-green)" },
+  bash:       { bg: "color-mix(in srgb, var(--color-pill-8) 15%, transparent)",  text: "var(--color-neon-violet)" },
+  sql:        { bg: "color-mix(in srgb, var(--color-orange) 15%, transparent)",  text: "var(--color-orange)" },
 };
 
 function relDate(iso: string | null | undefined): string {
@@ -70,17 +70,15 @@ export function AiScriptsApp({ initialScripts }: AiScriptsAppProps) {
         <Search value={search} onChange={setSearch} placeholder="Search scripts…" className="flex-1 min-w-[200px]" />
         <div className="flex gap-1 flex-wrap">
           {CATEGORIES.map((c) => (
-            <button
+            <Button
               key={c.value}
+              variant={category === c.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setCategory(c.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                category === c.value
-                  ? "border-purple-500/60 bg-purple-500/15 text-purple-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={category === c.value ? "border-purple-500/60 bg-purple-500/15 text-purple-400" : ""}
             >
               {c.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -90,7 +88,7 @@ export function AiScriptsApp({ initialScripts }: AiScriptsAppProps) {
       ) : (
         <div className="space-y-3">
           {filtered.map((script) => {
-            const langStyle = LANG_STYLE[script.language?.toLowerCase() ?? ""] ?? { bg: "rgba(100,116,139,0.12)", text: "#94a3b8" };
+            const langStyle = LANG_STYLE[script.language?.toLowerCase() ?? ""] ?? { bg: "color-mix(in srgb, var(--color-slate) 12%, transparent)", text: "var(--color-slate)" };
             const isExpanded = expanded[script.id] ?? false;
             return (
               <Card key={script.id} className="p-4">
@@ -107,9 +105,9 @@ export function AiScriptsApp({ initialScripts }: AiScriptsAppProps) {
                             {script.language}
                           </Badge>
                         )}
-                        <span className="text-[10px] text-white/30 bg-white/5 px-2 py-0.5 rounded capitalize">
+                        <Badge variant="secondary" className="text-[10px] text-white/30 bg-white/5 border-0 capitalize">
                           {script.category}
-                        </span>
+                        </Badge>
                       </div>
                       {script.description && (
                         <p className="text-xs text-white/50 mt-1">{script.description}</p>

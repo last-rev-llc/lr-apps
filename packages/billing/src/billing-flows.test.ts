@@ -18,7 +18,16 @@ vi.mock("./subscriptions", () => ({
 
 const mockEq = vi.fn(() => Promise.resolve({ data: null }));
 const mockUpdate = vi.fn(() => ({ eq: mockEq }));
-const mockFrom = vi.fn(() => ({ update: mockUpdate }));
+const mockMaybeSingle = vi.fn();
+const mockInsert = vi.fn();
+const mockIdempotencyEq = vi.fn(() => ({ maybeSingle: mockMaybeSingle }));
+const mockSelect = vi.fn(() => ({ eq: mockIdempotencyEq }));
+const mockFrom = vi.fn((table: string) => {
+  if (table === "processed_webhook_events") {
+    return { select: mockSelect, insert: mockInsert };
+  }
+  return { update: mockUpdate };
+});
 vi.mock("@repo/db/service-role", () => ({
   createServiceRoleClient: () => ({ from: mockFrom }),
 }));
@@ -31,6 +40,8 @@ describe("Billing flow integration tests", () => {
     vi.clearAllMocks();
     vi.stubEnv("STRIPE_WEBHOOK_SECRET", "whsec_test");
     mockUpsertSubscription.mockResolvedValue(undefined);
+    mockMaybeSingle.mockResolvedValue({ data: null, error: null });
+    mockInsert.mockResolvedValue({ error: null });
   });
 
   describe("Webhook event handling", () => {
@@ -52,7 +63,6 @@ describe("Billing flow integration tests", () => {
 
       expect(result).toEqual({ received: true });
       expect(mockUpsertSubscription).toHaveBeenCalledWith(subscription);
-      expect(mockFrom).not.toHaveBeenCalled();
     });
 
     it("handles customer.subscription.updated", async () => {

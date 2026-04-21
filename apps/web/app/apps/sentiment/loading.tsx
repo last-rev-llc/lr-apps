@@ -17,7 +17,9 @@ export default function SentimentLoading() {
           </Card>
         ))}
       </div>
-      <div className="glass-sm p-4 h-64 animate-pulse" />
+      <Card className="glass-sm">
+        <CardContent className="p-4 h-64 animate-pulse" />
+      </Card>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
-import { Badge } from "@repo/ui";
-import { Card, CardContent, CardHeader } from "@repo/ui";
+import { Badge, Button, Card, CardContent, CardHeader, EmptyState } from "@repo/ui";
 import { useState } from "react";
 import type { Activity, Source, StandupDay } from "../lib/types";
 
@@ -9,22 +8,22 @@ const SOURCE_META: Record<Source, { icon: string; label: string; color: string }
   slack: {
     icon: "💬",
     label: "Slack",
-    color: "bg-purple-500/15 text-purple-400 border-purple-500/30",
+    color: "bg-pill-0/15 text-pill-0 border-pill-0/30",
   },
   github: {
     icon: "🔧",
     label: "GitHub",
-    color: "bg-slate-500/15 text-slate-300 border-slate-500/30",
+    color: "bg-slate/15 text-slate-light border-slate/30",
   },
   workspace: {
     icon: "📝",
     label: "Workspace",
-    color: "bg-blue-500/15 text-blue-400 border-blue-500/30",
+    color: "bg-blue/15 text-blue border-blue/30",
   },
   jira: {
     icon: "📋",
     label: "Jira",
-    color: "bg-sky-500/15 text-sky-400 border-sky-500/30",
+    color: "bg-pill-7/15 text-pill-7 border-pill-7/30",
   },
 };
 
@@ -47,11 +46,12 @@ function SourceBadge({ source }: { source: Source }) {
     color: "bg-surface-raised text-muted-foreground border-surface-border",
   };
   return (
-    <span
-      className={`inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full border ${meta.color}`}
+    <Badge
+      variant="outline"
+      className={`gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full ${meta.color}`}
     >
       {meta.icon} {meta.label}
-    </span>
+    </Badge>
   );
 }
 
@@ -168,28 +168,25 @@ export function StandupApp({ days, lastUpdated }: StandupAppProps) {
       {/* Source filter pills */}
       <div className="flex gap-2 flex-wrap">
         {FILTER_OPTIONS.map((opt) => (
-          <button
+          <Button
             key={opt.value}
+            variant={filter === opt.value ? "outline" : "ghost"}
+            size="sm"
             onClick={() => setFilter(opt.value)}
-            className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+            className={`rounded-full ${
               filter === opt.value
                 ? "bg-accent/20 text-accent border-accent/50"
-                : "bg-surface-card text-muted-foreground border-surface-border hover:border-accent/30 hover:text-foreground"
+                : "text-muted-foreground border-surface-border hover:border-accent/30 hover:text-foreground"
             }`}
           >
             {opt.label}
-          </button>
+          </Button>
         ))}
       </div>
 
       {/* Day cards */}
       {filteredDays.length === 0 ? (
-        <Card className="bg-surface-card border-surface-border">
-          <CardContent className="py-12 text-center text-muted-foreground">
-            <p className="text-3xl mb-3">📋</p>
-            <p>No standup entries yet.</p>
-          </CardContent>
-        </Card>
+        <EmptyState icon="📋" title="No standup entries yet." />
       ) : (
         <div className="space-y-4">
           {filteredDays.map((day) => (

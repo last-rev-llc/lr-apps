@@ -1,4 +1,5 @@
 import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { PageHeader } from "@repo/ui";
 import type { ReactNode } from "react";
 
 export default async function MeetingSummariesLayout({
@@ -10,11 +11,8 @@ export default async function MeetingSummariesLayout({
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-surface-border">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center gap-3">
-          <span className="text-xl">📝</span>
-          <h1 className="font-heading text-xl text-accent">Meeting Summaries</h1>
-        </div>
+      <header className="max-w-5xl mx-auto px-4 py-3">
+        <PageHeader title="📝 Meeting Summaries" />
       </header>
       <main className="max-w-5xl mx-auto px-4 py-6">{children}</main>
     </div>

@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import {
   getAppBySubdomain,
   getAppBySlug,
@@ -95,5 +97,37 @@ describe("app-registry", () => {
       expect(typeof app.features).toBe("object");
       expect(app.features).not.toBeNull();
     }
+  });
+
+  describe("registry integrity", () => {
+    it("no duplicate slugs", () => {
+      const apps = getAllApps();
+      const slugs = apps.map((a) => a.slug);
+      expect(new Set(slugs).size).toBe(slugs.length);
+    });
+
+    it("no duplicate subdomains", () => {
+      const apps = getAllApps();
+      const subdomains = apps.map((a) => a.subdomain);
+      expect(new Set(subdomains).size).toBe(subdomains.length);
+    });
+
+    it("every routeGroup maps to an existing directory", () => {
+      const apps = getAllApps();
+      for (const app of apps) {
+        const dir = path.resolve(__dirname, "../../app", app.routeGroup);
+        expect(fs.existsSync(dir), `Missing directory for ${app.slug}: ${dir}`).toBe(true);
+      }
+    });
+
+    it("every auth-gated app has a layout calling requireAppLayoutAccess", () => {
+      const apps = getAllApps();
+      for (const app of apps.filter((a) => a.auth)) {
+        const layoutPath = path.resolve(__dirname, "../../app", app.routeGroup, "layout.tsx");
+        expect(fs.existsSync(layoutPath), `Missing layout for ${app.slug}: ${layoutPath}`).toBe(true);
+        const contents = fs.readFileSync(layoutPath, "utf-8");
+        expect(contents, `${app.slug} layout missing requireAppLayoutAccess`).toContain("requireAppLayoutAccess");
+      }
+    });
   });
 });

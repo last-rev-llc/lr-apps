@@ -1,21 +1,71 @@
 import { createServiceRoleClient } from "@repo/db/service-role";
 import type { Permission } from "@repo/db/types";
 
-/** `/apps/foo` or full URL whose path is `/apps/foo` → `foo` */
+const APP_DOMAINS = ["apps.lastrev.com", "apps.lastrev.localhost"];
+
+/**
+ * Maps subdomains that differ from their slug back to the canonical slug.
+ * Only entries where subdomain !== slug need to be listed.
+ */
+const SUBDOMAIN_TO_SLUG: Record<string, string> = {
+  meetings: "meeting-summaries",
+  sprint: "sprint-planning",
+  updates: "daily-updates",
+  slang: "slang-translator",
+  calculator: "ai-calculator",
+  "dad-jokes": "dad-joke-of-the-day",
+  travel: "travel-collection",
+  cringe: "cringe-rizzler",
+  wine: "proper-wine-pour",
+  roblox: "roblox-dances",
+  soccer: "soccer-training",
+  brommie: "brommie-quake",
+  apes: "age-of-apes",
+};
+
+/**
+ * Extract app slug from a returnTo value. Handles:
+ * - Path-based: `/apps/foo` or `/apps/foo/bar`
+ * - Full URL with path: `http://localhost:3000/apps/foo`
+ * - Subdomain URL: `https://command-center.apps.lastrev.com/`
+ *
+ * For subdomain URLs, the subdomain is resolved to the canonical slug
+ * (e.g. `meetings` → `meeting-summaries`).
+ */
 export function appSlugFromReturnTo(returnTo: string | undefined): string | null {
   if (!returnTo) return null;
+
   let path: string;
+  let hostname: string | null = null;
   try {
     if (returnTo.startsWith("/")) {
       path = returnTo.split("?")[0] ?? returnTo;
     } else {
-      path = new URL(returnTo).pathname;
+      const url = new URL(returnTo);
+      path = url.pathname;
+      hostname = url.hostname;
     }
   } catch {
     return null;
   }
-  const m = path.match(/^\/apps\/([\w-]+)\/?$/);
-  return m?.[1] ?? null;
+
+  // Try path-based match first: /apps/{slug} or /apps/{slug}/...
+  const m = path.match(/^\/apps\/([\w-]+)/);
+  if (m?.[1]) return m[1];
+
+  // Try subdomain-based match: {slug}.apps.lastrev.com
+  if (hostname) {
+    for (const domain of APP_DOMAINS) {
+      if (hostname.endsWith(`.${domain}`)) {
+        const subdomain = hostname.slice(0, -(domain.length + 1));
+        if (subdomain && /^[\w-]+$/.test(subdomain)) {
+          return SUBDOMAIN_TO_SLUG[subdomain] ?? subdomain;
+        }
+      }
+    }
+  }
+
+  return null;
 }
 
 function parseSelfEnrollSlugs(): Set<string> {

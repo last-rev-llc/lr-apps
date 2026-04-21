@@ -1,0 +1,20 @@
+repo: last-rev-llc/lr-apps
+repo_owner: last-rev-llc
+project: 2
+agent: claude  # AI agent CLI: claude, codex, opencode
+# model:       # AI model (omit to use agent's default, e.g., opus, gpt-5.4)
+label: ready
+base_branch: main
+test_command: pnpm test
+dev_command: pnpm dev
+auto_merge: true
+batch: true
+batch_size: 5
+
+# Coding harnesses to sync skills/agents to (auto-derived from agent if empty)
+harnesses:
+  - claude
+
+# Safety limits (0 = unlimited)
+max_issues: 20
+max_session_duration: 7200  # 2 hours in seconds

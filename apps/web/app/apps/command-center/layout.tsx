@@ -1,4 +1,6 @@
-import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { requireAccess } from "@repo/auth/server";
+import { hasFeatureAccess } from "@repo/billing";
+import UpgradePrompt from "@/components/UpgradePrompt";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -36,12 +38,14 @@ export default async function CommandCenterLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAppLayoutAccess("command-center");
+  const { user } = await requireAccess("command-center");
+  const hasAccess = await hasFeatureAccess(user.id, "command-center");
+  if (!hasAccess) return <UpgradePrompt requiredTier="enterprise" />;
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Topbar */}
-      <header className="sticky top-0 z-50 border-b border-surface-border backdrop-blur-md bg-background/80">
+      <header className="glass-header sticky top-0 z-50">
         <div className="flex items-center gap-4 px-4 py-3">
           <Link
             href="/apps/command-center"
@@ -71,7 +75,7 @@ export default async function CommandCenterLayout({
               href="/apps/command-center"
               className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-accent hover:bg-surface-raised transition-all"
             >
-              ⚡ Hub
+              ⚡ <span>Hub</span>
             </Link>
             <div className="my-2 border-t border-surface-border" />
             {MODULES.map((mod) => (

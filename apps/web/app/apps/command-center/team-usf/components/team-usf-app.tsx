@@ -1,21 +1,21 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
+import { Badge, Button, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
 import type { TeamUsfMember, MemberRole, ActivityLevel } from "../lib/types";
 
 const ROLE_STYLE: Record<MemberRole, { bg: string; text: string; icon: string }> = {
-  coach:   { bg: "rgba(239,68,68,0.15)",  text: "#f87171", icon: "🏆" },
-  player:  { bg: "rgba(34,197,94,0.12)",  text: "#4ade80", icon: "⚽" },
-  manager: { bg: "rgba(234,179,8,0.12)",  text: "#facc15", icon: "📋" },
-  staff:   { bg: "rgba(100,116,139,0.12)", text: "#94a3b8", icon: "🔧" },
+  coach:   { bg: "color-mix(in srgb, var(--color-pill-4) 15%, transparent)",  text: "var(--color-red)", icon: "🏆" },
+  player:  { bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",  text: "var(--color-neon-green)", icon: "⚽" },
+  manager: { bg: "color-mix(in srgb, var(--color-accent) 12%, transparent)",  text: "var(--color-accent-300)", icon: "📋" },
+  staff:   { bg: "color-mix(in srgb, var(--color-slate) 12%, transparent)", text: "var(--color-slate)", icon: "🔧" },
 };
 
 const ACTIVITY_STYLE: Record<ActivityLevel, { color: string; dot: string }> = {
-  active:   { color: "#4ade80", dot: "#4ade80" },
-  bench:    { color: "#fbbf24", dot: "#f59e0b" },
-  alumni:   { color: "#94a3b8", dot: "#64748b" },
-  inactive: { color: "#f87171", dot: "#ef4444" },
+  active:   { color: "var(--color-neon-green)", dot: "var(--color-neon-green)" },
+  bench:    { color: "var(--color-accent-400)", dot: "var(--color-accent)" },
+  alumni:   { color: "var(--color-slate)", dot: "var(--color-slate-dim)" },
+  inactive: { color: "var(--color-red)", dot: "var(--color-pill-4)" },
 };
 
 // Fallback roster when no DB data
@@ -71,32 +71,28 @@ export function TeamUsfApp({ initialMembers }: TeamUsfAppProps) {
         <Search value={search} onChange={setSearch} placeholder="Search name, position, major…" className="flex-1 min-w-[200px]" />
         <div className="flex gap-1 flex-wrap">
           {(["all", "coach", "player", "manager", "staff"] as const).map((r) => (
-            <button
+            <Button
               key={r}
+              variant={roleFilter === r ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setRoleFilter(r)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold capitalize transition-colors ${
-                roleFilter === r
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={`capitalize ${roleFilter === r ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}`}
             >
               {r === "all" ? "All" : `${ROLE_STYLE[r]?.icon} ${r}`}
-            </button>
+            </Button>
           ))}
         </div>
         <div className="flex gap-1">
           {(["all", "active", "bench", "alumni"] as const).map((a) => (
-            <button
+            <Button
               key={a}
+              variant={activityFilter === a ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setActivityFilter(a)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold capitalize transition-colors ${
-                activityFilter === a
-                  ? "border-purple-500/60 bg-purple-500/15 text-purple-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={`capitalize ${activityFilter === a ? "border-purple-500/60 bg-purple-500/15 text-purple-400" : ""}`}
             >
               {a}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

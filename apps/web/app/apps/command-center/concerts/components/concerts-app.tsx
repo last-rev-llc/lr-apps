@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
+import { Badge, Button, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
 import type { Concert, ConcertStatus } from "../lib/types";
 
 type StatusFilter = "all" | ConcertStatus;
@@ -15,10 +15,10 @@ const STATUS_FILTERS: Array<{ value: StatusFilter; label: string }> = [
 ];
 
 const STATUS_STYLE: Record<string, { bg: string; text: string }> = {
-  upcoming:  { bg: "rgba(34,197,94,0.12)",  text: "#4ade80" },
-  past:      { bg: "rgba(100,116,139,0.12)", text: "#94a3b8" },
-  cancelled: { bg: "rgba(239,68,68,0.12)",  text: "#f87171" },
-  tbd:       { bg: "rgba(245,158,11,0.12)", text: "#fbbf24" },
+  upcoming:  { bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",  text: "var(--color-neon-green)" },
+  past:      { bg: "color-mix(in srgb, var(--color-slate) 12%, transparent)", text: "var(--color-slate)" },
+  cancelled: { bg: "color-mix(in srgb, var(--color-pill-4) 12%, transparent)",  text: "var(--color-red)" },
+  tbd:       { bg: "color-mix(in srgb, var(--color-accent) 12%, transparent)", text: "var(--color-accent-400)" },
 };
 
 function formatDate(iso: string | null | undefined): string {
@@ -73,17 +73,15 @@ export function ConcertsApp({ initialConcerts }: ConcertsAppProps) {
         <Search value={search} onChange={setSearch} placeholder="Search artist, venue, city…" className="flex-1 min-w-[200px]" />
         <div className="flex gap-1 flex-wrap">
           {STATUS_FILTERS.map((f) => (
-            <button
+            <Button
               key={f.value}
+              variant={statusFilter === f.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setStatusFilter(f.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                statusFilter === f.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={statusFilter === f.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {f.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

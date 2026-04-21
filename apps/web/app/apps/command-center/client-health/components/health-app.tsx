@@ -1,15 +1,15 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Card, CardContent, EmptyState, PageHeader } from "@repo/ui";
+import { Badge, Button, Card, CardContent, EmptyState, PageHeader } from "@repo/ui";
 import type { HealthSite, SiteStatus, SortKey } from "../lib/types";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const STATUS_STYLES: Record<SiteStatus, { dot: string; text: string; bg: string; border: string }> = {
-  up: { dot: "#4ade80", text: "#4ade80", bg: "rgba(34,197,94,0.12)", border: "rgba(34,197,94,0.35)" },
-  down: { dot: "#f87171", text: "#f87171", bg: "rgba(239,68,68,0.12)", border: "rgba(239,68,68,0.35)" },
-  degraded: { dot: "#fbbf24", text: "#fbbf24", bg: "rgba(245,158,11,0.12)", border: "rgba(245,158,11,0.35)" },
+  up: { dot: "var(--color-neon-green)", text: "var(--color-neon-green)", bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)", border: "color-mix(in srgb, var(--color-neon-green) 35%, transparent)" },
+  down: { dot: "var(--color-red)", text: "var(--color-red)", bg: "color-mix(in srgb, var(--color-pill-4) 12%, transparent)", border: "color-mix(in srgb, var(--color-pill-4) 35%, transparent)" },
+  degraded: { dot: "var(--color-accent-400)", text: "var(--color-accent-400)", bg: "color-mix(in srgb, var(--color-accent) 12%, transparent)", border: "color-mix(in srgb, var(--color-accent) 35%, transparent)" },
 };
 
 const STATUS_PRIORITY: Record<SiteStatus, number> = { down: 0, degraded: 1, up: 2 };
@@ -34,17 +34,17 @@ function sslDaysLeft(sslExpiry?: string | null): number | null {
 }
 
 function uptimeColor(uptime?: number | null): string {
-  if (uptime == null) return "rgba(255,255,255,0.3)";
-  if (uptime >= 99.5) return "#4ade80";
-  if (uptime >= 98) return "#fbbf24";
-  return "#f87171";
+  if (uptime == null) return "color-mix(in srgb, white 30%, transparent)";
+  if (uptime >= 99.5) return "var(--color-neon-green)";
+  if (uptime >= 98) return "var(--color-accent-400)";
+  return "var(--color-red)";
 }
 
 function responseTimeColor(ms?: number | null): string {
-  if (ms == null) return "rgba(255,255,255,0.3)";
-  if (ms < 300) return "#4ade80";
-  if (ms < 800) return "#fbbf24";
-  return "#f87171";
+  if (ms == null) return "color-mix(in srgb, white 30%, transparent)";
+  if (ms < 300) return "var(--color-neon-green)";
+  if (ms < 800) return "var(--color-accent-400)";
+  return "var(--color-red)";
 }
 
 // ── Status Dot ────────────────────────────────────────────────────────────────
@@ -71,16 +71,16 @@ function OverallBanner({ sites }: { sites: HealthSite[] }) {
 
   const allUp = down === 0 && degraded === 0;
   const bg = allUp
-    ? "rgba(34,197,94,0.1)"
+    ? "color-mix(in srgb, var(--color-neon-green) 10%, transparent)"
     : down > 0
-      ? "rgba(239,68,68,0.1)"
-      : "rgba(245,158,11,0.1)";
+      ? "color-mix(in srgb, var(--color-pill-4) 10%, transparent)"
+      : "color-mix(in srgb, var(--color-accent) 10%, transparent)";
   const border = allUp
-    ? "rgba(34,197,94,0.3)"
+    ? "color-mix(in srgb, var(--color-neon-green) 30%, transparent)"
     : down > 0
-      ? "rgba(239,68,68,0.3)"
-      : "rgba(245,158,11,0.3)";
-  const text = allUp ? "#4ade80" : down > 0 ? "#f87171" : "#fbbf24";
+      ? "color-mix(in srgb, var(--color-pill-4) 30%, transparent)"
+      : "color-mix(in srgb, var(--color-accent) 30%, transparent)";
+  const text = allUp ? "var(--color-neon-green)" : down > 0 ? "var(--color-red)" : "var(--color-accent-400)";
   const headline = allUp
     ? "All systems operational"
     : down > 0
@@ -129,12 +129,9 @@ function SiteCard({ site }: { site: HealthSite }) {
               {site.url}
             </a>
           </div>
-          <span
-            className="text-[11px] font-bold px-2 py-0.5 rounded border shrink-0"
-            style={{ background: s.bg, color: s.text, borderColor: s.border }}
-          >
+          <Badge variant="outline" className="text-[11px] uppercase tracking-wide shrink-0" style={{ background: s.bg, color: s.text, borderColor: s.border }}>
             {site.status.toUpperCase()}
-          </span>
+          </Badge>
         </div>
 
         {/* Metrics row */}
@@ -173,7 +170,7 @@ function SiteCard({ site }: { site: HealthSite }) {
           <div className={`rounded-lg p-2 text-center ${sslWarning ? "bg-amber-500/10" : "bg-white/3"}`}>
             <div
               className="text-sm font-bold"
-              style={{ color: sslWarning ? "#fbbf24" : "rgba(255,255,255,0.7)" }}
+              style={{ color: sslWarning ? "var(--color-accent-400)" : "var(--color-slate-light)" }}
             >
               {daysLeft != null ? (daysLeft < 0 ? "Expired" : `${daysLeft}d`) : "—"}
             </div>
@@ -268,17 +265,15 @@ export function HealthApp({ initialSites }: HealthAppProps) {
         {/* Status filter */}
         <div className="flex gap-1">
           {(["All", "up", "degraded", "down"] as const).map((f) => (
-            <button
+            <Button
               key={f}
+              variant={statusFilter === f ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setStatusFilter(f)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                statusFilter === f
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={statusFilter === f ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {f === "All" ? "All" : f.charAt(0).toUpperCase() + f.slice(1)}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -286,17 +281,15 @@ export function HealthApp({ initialSites }: HealthAppProps) {
         <div className="flex gap-1 ml-auto">
           <span className="text-xs text-white/30 self-center">Sort:</span>
           {SORT_OPTIONS.map((opt) => (
-            <button
+            <Button
               key={opt.value}
+              variant={sortKey === opt.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setSortKey(opt.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                sortKey === opt.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={sortKey === opt.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {opt.label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

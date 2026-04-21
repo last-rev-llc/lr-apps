@@ -1,5 +1,9 @@
+import React from "react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { Button } from "@repo/ui";
 
 export const metadata = {
   title: "Cringe Rizzler — Embarrass Gen Alpha",
@@ -11,11 +15,12 @@ export const viewport = {
   themeColor: "#ec4899",
 };
 
-export default function CringeRizzlerLayout({ children }: { children: ReactNode }) {
+export default async function CringeRizzlerLayout({ children }: { children: ReactNode }) {
+  await requireAppLayoutAccess("cringe-rizzler");
   return (
     <div
       className="min-h-screen relative"
-      style={{ background: "linear-gradient(135deg, #0d0d1a 0%, #12091e 50%, #0a0d1a 100%)" }}
+      style={{ background: "var(--gradient-navy-3)" }}
     >
       {/* Ambient glow blobs */}
       <div
@@ -24,26 +29,26 @@ export default function CringeRizzlerLayout({ children }: { children: ReactNode 
       >
         <div
           className="absolute -top-40 -left-40 w-96 h-96 rounded-full opacity-20 blur-3xl"
-          style={{ background: "radial-gradient(circle, #ec4899, transparent)" }}
+          style={{ background: "radial-gradient(circle, var(--color-pill-6), transparent)" }}
         />
         <div
           className="absolute top-1/3 -right-40 w-80 h-80 rounded-full opacity-15 blur-3xl"
-          style={{ background: "radial-gradient(circle, #a855f7, transparent)" }}
+          style={{ background: "radial-gradient(circle, var(--color-pill-0), transparent)" }}
         />
         <div
           className="absolute bottom-20 left-1/4 w-72 h-72 rounded-full opacity-10 blur-3xl"
-          style={{ background: "radial-gradient(circle, #f59e0b, transparent)" }}
+          style={{ background: "radial-gradient(circle, var(--color-accent), transparent)" }}
         />
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/8 backdrop-blur-md bg-black/30">
+      <header className="glass-header sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <Link
             href="/apps/cringe-rizzler"
             className="font-heading text-xl font-black hover:opacity-80 transition-opacity shrink-0"
             style={{
-              background: "linear-gradient(135deg, #ec4899, #a855f7)",
+              background: "linear-gradient(135deg, var(--color-pill-6), var(--color-pill-0))",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}
@@ -51,25 +56,16 @@ export default function CringeRizzlerLayout({ children }: { children: ReactNode 
             💀 Cringe Rizzler
           </Link>
 
-          <nav className="flex gap-3 text-sm">
-            <Link
-              href="/apps/cringe-rizzler"
-              className="text-white/60 hover:text-pink-400 transition-colors"
-            >
-              App
-            </Link>
-            <Link
-              href="/apps/cringe-rizzler/about"
-              className="text-white/60 hover:text-pink-400 transition-colors"
-            >
-              About
-            </Link>
-            <Link
-              href="/"
-              className="text-white/40 hover:text-white/70 transition-colors"
-            >
-              ← Dashboard
-            </Link>
+          <nav className="flex gap-1 text-sm">
+            <Button variant="ghost" size="sm" asChild className="text-white/60 hover:text-pill-6">
+              <Link href="/apps/cringe-rizzler">App</Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild className="text-white/60 hover:text-pill-6">
+              <Link href="/apps/cringe-rizzler/about">About</Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild className="text-white/40 hover:text-white/70">
+              <Link href="/">← Dashboard</Link>
+            </Button>
           </nav>
         </div>
       </header>

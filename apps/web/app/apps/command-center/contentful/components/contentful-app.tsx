@@ -10,10 +10,10 @@ function relDate(iso: string | null | undefined): string {
 }
 
 const STATUS_STYLE: Record<string, { bg: string; text: string }> = {
-  published: { bg: "rgba(34,197,94,0.12)",  text: "#4ade80" },
-  draft:     { bg: "rgba(59,130,246,0.12)", text: "#60a5fa" },
-  changed:   { bg: "rgba(234,179,8,0.12)",  text: "#facc15" },
-  archived:  { bg: "rgba(100,116,139,0.12)", text: "#94a3b8" },
+  published: { bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",  text: "var(--color-neon-green)" },
+  draft:     { bg: "color-mix(in srgb, var(--color-blue) 12%, transparent)", text: "var(--color-neon-blue)" },
+  changed:   { bg: "color-mix(in srgb, var(--color-accent) 12%, transparent)",  text: "var(--color-accent-300)" },
+  archived:  { bg: "color-mix(in srgb, var(--color-slate) 12%, transparent)", text: "var(--color-slate)" },
 };
 
 interface ContentfulAppProps {
@@ -62,10 +62,10 @@ export function ContentfulApp({ initialHealth }: ContentfulAppProps) {
       {/* Summary stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: "Spaces",    value: spaces.length, color: "#e2e8f0" },
-          { label: "Total",     value: totalEntries,  color: "#60a5fa" },
-          { label: "Drafts",    value: totalDraft,    color: "#fbbf24" },
-          { label: "Stale",     value: totalStale,    color: totalStale > 0 ? "#f87171" : "#4ade80" },
+          { label: "Spaces",    value: spaces.length, color: "var(--color-slate-light)" },
+          { label: "Total",     value: totalEntries,  color: "var(--color-neon-blue)" },
+          { label: "Drafts",    value: totalDraft,    color: "var(--color-accent-400)" },
+          { label: "Stale",     value: totalStale,    color: totalStale > 0 ? "var(--color-red)" : "var(--color-neon-green)" },
         ].map((s) => (
           <Card key={s.label} className="p-3">
             <CardContent className="p-0 text-center">

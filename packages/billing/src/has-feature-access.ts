@@ -11,6 +11,9 @@ const FEATURE_TIER: Record<string, Tier> = {
   basic: "free",
   advanced: "pro",
   custom: "enterprise",
+  "command-center": "enterprise",
+  generations: "pro",
+  sentiment: "pro",
 };
 
 const ALLOWED_STATUSES = new Set<SubscriptionStatus>(["active", "trialing"]);

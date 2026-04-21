@@ -34,19 +34,19 @@ function relDate(iso: string | null | undefined): string {
 
 const CONFIDENCE_COLORS: Record<string, { text: string; bg: string; border: string }> = {
   high: {
-    text: "#4ade80",
-    bg: "rgba(34,197,94,0.12)",
-    border: "rgba(34,197,94,0.4)",
+    text: "var(--color-neon-green)",
+    bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",
+    border: "color-mix(in srgb, var(--color-neon-green) 40%, transparent)",
   },
   medium: {
-    text: "#facc15",
-    bg: "rgba(234,179,8,0.12)",
-    border: "rgba(234,179,8,0.4)",
+    text: "var(--color-accent-300)",
+    bg: "color-mix(in srgb, var(--color-accent) 12%, transparent)",
+    border: "color-mix(in srgb, var(--color-accent) 40%, transparent)",
   },
   low: {
-    text: "#f87171",
-    bg: "rgba(239,68,68,0.12)",
-    border: "rgba(239,68,68,0.4)",
+    text: "var(--color-red)",
+    bg: "color-mix(in srgb, var(--color-pill-4) 12%, transparent)",
+    border: "color-mix(in srgb, var(--color-pill-4) 40%, transparent)",
   },
 };
 
@@ -72,9 +72,9 @@ function Pill({ children }: { children: React.ReactNode }) {
 function InsightsPanel({ insights }: { insights: ContactInsights }) {
   const conf = insights.confidence?.toLowerCase() ?? "";
   const confStyle = CONFIDENCE_COLORS[conf] ?? {
-    text: "rgba(255,255,255,0.4)",
-    bg: "rgba(255,255,255,0.05)",
-    border: "rgba(255,255,255,0.15)",
+    text: "color-mix(in srgb, white 40%, transparent)",
+    bg: "var(--color-surface)",
+    border: "var(--color-surface-border)",
   };
   const comm = insights.communicationStyle ?? {};
   const pers = insights.personality ?? {};
@@ -338,8 +338,8 @@ export function ContactDetail({ contact, onClose }: ContactDetailProps) {
                       <SocialLink
                         href={contact.linkedin_url}
                         label="LinkedIn"
-                        color="text-[#0a66c2]"
-                        bg="bg-[#0a66c2]/12 border-[#0a66c2]/30"
+                        color="text-brand-linkedin"
+                        bg="bg-brand-linkedin/12 border-brand-linkedin/30"
                       >
                         in
                       </SocialLink>
@@ -372,8 +372,8 @@ export function ContactDetail({ contact, onClose }: ContactDetailProps) {
                             : "#"
                         }
                         label={`@${contact.slack_handle}`}
-                        color="text-[#4a154b]"
-                        bg="bg-[#e01e5a]/10 border-[#e01e5a]/25"
+                        color="text-brand-slack"
+                        bg="bg-brand-slack-accent/10 border-brand-slack-accent/25"
                       >
                         <SlackIcon /> @{contact.slack_handle}
                       </SocialLink>
@@ -502,45 +502,45 @@ function SocialLink({
 export function ContactTypeBadge({ type }: { type: string }) {
   const styles: Record<string, { bg: string; text: string; border: string }> = {
     team: {
-      bg: "rgba(124,58,237,0.15)",
-      text: "#a78bfa",
-      border: "rgba(124,58,237,0.4)",
+      bg: "color-mix(in srgb, var(--color-pill-0) 15%, transparent)",
+      text: "var(--color-neon-violet)",
+      border: "color-mix(in srgb, var(--color-pill-0) 40%, transparent)",
     },
     client: {
-      bg: "rgba(34,197,94,0.12)",
-      text: "#4ade80",
-      border: "rgba(34,197,94,0.35)",
+      bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",
+      text: "var(--color-neon-green)",
+      border: "color-mix(in srgb, var(--color-neon-green) 35%, transparent)",
     },
     prospect: {
-      bg: "rgba(234,179,8,0.12)",
-      text: "#facc15",
-      border: "rgba(234,179,8,0.35)",
+      bg: "color-mix(in srgb, var(--color-accent) 12%, transparent)",
+      text: "var(--color-accent-300)",
+      border: "color-mix(in srgb, var(--color-accent) 35%, transparent)",
     },
     partner: {
-      bg: "rgba(14,165,233,0.12)",
-      text: "#38bdf8",
-      border: "rgba(14,165,233,0.35)",
+      bg: "color-mix(in srgb, var(--color-blue) 12%, transparent)",
+      text: "var(--color-blue)",
+      border: "color-mix(in srgb, var(--color-blue) 35%, transparent)",
     },
     vendor: {
-      bg: "rgba(249,115,22,0.12)",
-      text: "#fb923c",
-      border: "rgba(249,115,22,0.35)",
+      bg: "color-mix(in srgb, var(--color-orange) 12%, transparent)",
+      text: "var(--color-orange)",
+      border: "color-mix(in srgb, var(--color-orange) 35%, transparent)",
     },
     contractor: {
-      bg: "rgba(236,72,153,0.12)",
-      text: "#f472b6",
-      border: "rgba(236,72,153,0.35)",
+      bg: "color-mix(in srgb, var(--color-pill-6) 12%, transparent)",
+      text: "var(--color-neon-pink)",
+      border: "color-mix(in srgb, var(--color-pill-6) 35%, transparent)",
     },
     personal: {
-      bg: "rgba(20,184,166,0.12)",
-      text: "#2dd4bf",
-      border: "rgba(20,184,166,0.35)",
+      bg: "color-mix(in srgb, var(--color-pill-9) 12%, transparent)",
+      text: "var(--color-pill-9)",
+      border: "color-mix(in srgb, var(--color-pill-9) 35%, transparent)",
     },
   };
   const s = styles[type] ?? {
-    bg: "rgba(113,113,122,0.15)",
-    text: "rgba(255,255,255,0.5)",
-    border: "rgba(255,255,255,0.15)",
+    bg: "color-mix(in srgb, var(--color-slate) 15%, transparent)",
+    text: "color-mix(in srgb, white 50%, transparent)",
+    border: "var(--color-surface-border)",
   };
 
   const labels: Record<string, string> = {

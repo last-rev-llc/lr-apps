@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Card, CardContent, EmptyState, PageHeader, Search } from "@repo/ui";
+import { Avatar, AvatarFallback, Badge, Button, Card, CardContent, EmptyState, PageHeader, Search, StatCard } from "@repo/ui";
 import type { AppPermissionRow, Permission } from "../lib/types";
 
 const PERMISSION_STYLE: Record<Permission, { bg: string; text: string }> = {
-  admin: { bg: "rgba(239,68,68,0.15)",  text: "#f87171" },
-  edit:  { bg: "rgba(234,179,8,0.15)",  text: "#facc15" },
-  view:  { bg: "rgba(34,197,94,0.12)",  text: "#4ade80" },
+  admin: { bg: "color-mix(in srgb, var(--color-pill-4) 15%, transparent)",  text: "var(--color-red)" },
+  edit:  { bg: "color-mix(in srgb, var(--color-accent) 15%, transparent)",  text: "var(--color-accent-300)" },
+  view:  { bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",  text: "var(--color-neon-green)" },
 };
 
 function groupByApp(rows: AppPermissionRow[]): Record<string, AppPermissionRow[]> {
@@ -58,14 +58,8 @@ export function AppAccessApp({ initialPermissions }: AppAccessAppProps) {
       <div className="grid grid-cols-3 gap-3">
         {(["admin", "edit", "view"] as Permission[]).map((p) => {
           const count = permissions.filter((r) => r.permission === p).length;
-          const s = PERMISSION_STYLE[p];
           return (
-            <Card key={p} className="p-3">
-              <CardContent className="p-0 text-center">
-                <div className="text-xl font-bold" style={{ color: s.text }}>{count}</div>
-                <div className="text-xs text-white/40 mt-0.5 capitalize">{p}</div>
-              </CardContent>
-            </Card>
+            <StatCard key={p} value={count} label={p} size="sm" />
           );
         })}
       </div>
@@ -75,17 +69,15 @@ export function AppAccessApp({ initialPermissions }: AppAccessAppProps) {
         <Search value={search} onChange={setSearch} placeholder="Search app or user…" className="flex-1 min-w-[200px]" />
         <div className="flex gap-1">
           {(["all", "admin", "edit", "view"] as const).map((f) => (
-            <button
+            <Button
               key={f}
+              variant={permFilter === f ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setPermFilter(f)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold capitalize transition-colors ${
-                permFilter === f
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={`capitalize ${permFilter === f ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}`}
             >
               {f}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -102,14 +94,18 @@ export function AppAccessApp({ initialPermissions }: AppAccessAppProps) {
                 <CardContent className="p-0">
                   <div className="flex items-center gap-2 mb-3">
                     <span className="font-semibold text-white">{slug}</span>
-                    <span className="text-xs text-white/30 bg-white/5 px-2 py-0.5 rounded">
+                    <Badge variant="secondary" className="text-xs text-white/30 bg-white/5 border-0">
                       {rows.length} user{rows.length !== 1 ? "s" : ""}
-                    </span>
+                    </Badge>
                   </div>
                   <div className="space-y-2">
                     {rows.map((row) => (
                       <div key={row.id} className="flex items-center gap-3 py-1.5 border-b border-white/5 last:border-0">
-                        <span className="text-xl">👤</span>
+                        <Avatar className="h-8 w-8 shrink-0">
+                          <AvatarFallback className="bg-white/10 text-white/60 text-xs font-semibold">
+                            {(row.user_name ?? row.user_email ?? row.user_id).slice(0, 2).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
                         <div className="flex-1 min-w-0">
                           {row.user_name && (
                             <div className="text-sm font-medium text-white">{row.user_name}</div>

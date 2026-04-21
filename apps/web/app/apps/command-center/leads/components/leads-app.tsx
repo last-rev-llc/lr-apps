@@ -39,20 +39,20 @@ const ACCENT_TECH_RE = /contentful|next\.?js|react/i;
 function fitColor(score: number): { bg: string; text: string; border: string } {
   if (score >= 8)
     return {
-      bg: "rgba(34,197,94,0.12)",
-      text: "#4ade80",
-      border: "rgba(34,197,94,0.4)",
+      bg: "color-mix(in srgb, var(--color-neon-green) 12%, transparent)",
+      text: "var(--color-neon-green)",
+      border: "color-mix(in srgb, var(--color-neon-green) 40%, transparent)",
     };
   if (score >= 5)
     return {
-      bg: "rgba(234,179,8,0.12)",
-      text: "#facc15",
-      border: "rgba(234,179,8,0.4)",
+      bg: "color-mix(in srgb, var(--color-accent) 12%, transparent)",
+      text: "var(--color-accent-300)",
+      border: "color-mix(in srgb, var(--color-accent) 40%, transparent)",
     };
   return {
-    bg: "rgba(239,68,68,0.12)",
-    text: "#f87171",
-    border: "rgba(239,68,68,0.4)",
+    bg: "color-mix(in srgb, var(--color-pill-4) 12%, transparent)",
+    text: "var(--color-red)",
+    border: "color-mix(in srgb, var(--color-pill-4) 40%, transparent)",
   };
 }
 
@@ -150,36 +150,32 @@ export function LeadsApp({ initialLeads }: LeadsAppProps) {
         {/* Fit filter */}
         <div className="flex gap-1">
           {FIT_FILTERS.map((f) => (
-            <button
+            <Button
               key={f.value}
+              variant={fitFilter === f.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setFitFilter(f.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                fitFilter === f.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={fitFilter === f.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {f.label}
-            </button>
+            </Button>
           ))}
         </div>
         {/* Sort */}
         <div className="flex gap-1">
           {SORT_OPTIONS.map((opt) => (
-            <button
+            <Button
               key={opt.value}
+              variant={sortKey === opt.value ? "outline" : "ghost"}
+              size="sm"
               onClick={() => handleSort(opt.value)}
-              className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                sortKey === opt.value
-                  ? "border-amber-500/60 bg-amber-500/15 text-amber-400"
-                  : "border-white/15 bg-white/5 text-white/50 hover:text-white"
-              }`}
+              className={sortKey === opt.value ? "border-amber-500/60 bg-amber-500/15 text-amber-400" : ""}
             >
               {opt.label}
               {sortKey === opt.value && (
                 <span className="ml-0.5">{sortDir === "desc" ? " ↓" : " ↑"}</span>
               )}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -310,10 +306,10 @@ function LeadCard({ lead, expandedSections, onToggleSection }: LeadCardProps) {
                     className="text-[10px] px-1.5 py-0.5 border-0"
                     style={
                       isAccentTech(t)
-                        ? { background: "rgba(124,58,237,0.2)", color: "#a78bfa" }
+                        ? { background: "color-mix(in srgb, var(--color-pill-0) 20%, transparent)", color: "var(--color-neon-violet)" }
                         : {
-                            background: "rgba(113,113,122,0.2)",
-                            color: "rgba(255,255,255,0.5)",
+                            background: "color-mix(in srgb, var(--color-slate) 20%, transparent)",
+                            color: "color-mix(in srgb, white 50%, transparent)",
                           }
                     }
                   >
@@ -460,7 +456,7 @@ function PersonRow({ person }: { person: LeadPerson }) {
           {person.decisionMaker && (
             <Badge
               className="text-[10px] px-1.5 py-0.5 border-0"
-              style={{ background: "rgba(234,179,8,0.15)", color: "#facc15" }}
+              style={{ background: "color-mix(in srgb, var(--color-accent) 15%, transparent)", color: "var(--color-accent-300)" }}
             >
               Decision Maker
             </Badge>
@@ -484,7 +480,7 @@ function PersonRow({ person }: { person: LeadPerson }) {
           href={person.linkedinUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0 text-[#0a66c2] hover:opacity-80 text-xs"
+          className="shrink-0 text-brand-linkedin hover:opacity-80 text-xs"
           title="LinkedIn"
         >
           in

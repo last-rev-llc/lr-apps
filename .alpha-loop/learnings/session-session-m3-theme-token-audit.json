@@ -1,0 +1,37 @@
+{
+  "name": "session/m3-theme-token-audit",
+  "branch": "session/m3-theme-token-audit",
+  "completed": "2026-04-09T04:58:17.055Z",
+  "results": [
+    {
+      "issueNum": 69,
+      "title": "Replace hardcoded tokens — batch 2 (consumer apps)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/112",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 2194,
+      "filesChanged": 6
+    },
+    {
+      "issueNum": 70,
+      "title": "Replace hardcoded tokens — batch 3 (showcase apps)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/114",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 1013,
+      "filesChanged": 6
+    },
+    {
+      "issueNum": 71,
+      "title": "Add theme token lint rule",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/115",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 695,
+      "filesChanged": 6
+    }
+  ]
+}

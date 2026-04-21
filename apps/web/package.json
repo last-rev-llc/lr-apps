@@ -15,6 +15,7 @@
   "dependencies": {
     "@auth0/nextjs-auth0": "^4",
     "@repo/auth": "workspace:*",
+    "@repo/billing": "workspace:*",
     "@repo/db": "workspace:*",
     "@repo/theme": "workspace:*",
     "@repo/ui": "workspace:*",
@@ -30,6 +31,7 @@
     "@repo/test-utils": "workspace:*",
     "@supabase/supabase-js": "^2",
     "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^6",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",

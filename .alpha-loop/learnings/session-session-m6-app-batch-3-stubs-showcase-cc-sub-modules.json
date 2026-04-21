@@ -1,0 +1,167 @@
+{
+  "name": "session/m6-app-batch-3-stubs-showcase-cc-sub-modules",
+  "branch": "session/m6-app-batch-3-stubs-showcase-cc-sub-modules",
+  "completed": "2026-04-10T02:03:34.728Z",
+  "results": [
+    {
+      "issueNum": 60,
+      "title": "CC sub-module batch 1: data-heavy operational modules",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/187",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 355,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 61,
+      "title": "CC sub-module batch 2: content and config modules",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/187",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 355,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 62,
+      "title": "CC sub-module batch 3: lighter/fun modules",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/187",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 355,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 72,
+      "title": "Area 52: build out stub app",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/187",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 355,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 73,
+      "title": "Lighthouse: build performance monitoring dashboard",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/187",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 355,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 74,
+      "title": "Sales: build leads pipeline dashboard",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/188",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 213,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 75,
+      "title": "Brommie Quake: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/188",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 213,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 76,
+      "title": "Brommie Quake: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/188",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 213,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 77,
+      "title": "Alpha Wins: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/188",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 213,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 78,
+      "title": "Alpha Wins: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/188",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 213,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 79,
+      "title": "Superstars: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/189",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 245,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 80,
+      "title": "Superstars: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/189",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 245,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 81,
+      "title": "Travel Collection: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/189",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 245,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 82,
+      "title": "Travel Collection: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/189",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 245,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 83,
+      "title": "Soccer Training: component migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/189",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 245,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 84,
+      "title": "Soccer Training: app-specific tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/190",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 635,
+      "filesChanged": 3
+    }
+  ]
+}

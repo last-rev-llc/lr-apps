@@ -1,36 +1,36 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Button, Card, CardContent } from "@repo/ui";
+import { Badge, Button, Card, CardContent, Input } from "@repo/ui";
 import type { Drill, FilterTab } from "../data/drills";
 import { FILTER_TABS, CATEGORY_LABELS } from "../data/drills";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const DIFFICULTY_STYLES: Record<string, string> = {
-  Beginner: "bg-green-500/15 text-green-400 border border-green-500/30",
-  Intermediate: "bg-yellow-500/15 text-yellow-400 border border-yellow-500/30",
-  Advanced: "bg-red-500/15 text-red-400 border border-red-500/30",
+  Beginner: "bg-green/15 text-green border border-green/30",
+  Intermediate: "bg-yellow/15 text-yellow border border-yellow/30",
+  Advanced: "bg-red/15 text-red border border-red/30",
 };
 
 const CATEGORY_STYLES: Record<string, string> = {
-  warmup: "bg-orange-500/15 text-orange-400",
-  speed: "bg-blue-500/15 text-blue-400",
-  agility: "bg-blue-500/15 text-blue-400",
-  dribbling: "bg-purple-500/15 text-purple-400",
-  "ball-mastery": "bg-purple-500/15 text-purple-400",
-  "1v1": "bg-pink-500/15 text-pink-400",
-  finishing: "bg-red-500/15 text-red-400",
-  shooting: "bg-red-500/15 text-red-400",
-  winger: "bg-green-500/15 text-green-400",
-  striker: "bg-yellow-500/15 text-yellow-400",
-  movement: "bg-yellow-500/15 text-yellow-400",
-  juggling: "bg-cyan-500/15 text-cyan-400",
-  strength: "bg-rose-500/15 text-rose-400",
-  core: "bg-rose-500/15 text-rose-400",
-  plyometrics: "bg-rose-500/15 text-rose-400",
-  flexibility: "bg-teal-500/15 text-teal-400",
-  recovery: "bg-teal-500/15 text-teal-400",
+  warmup: "bg-orange/15 text-orange",
+  speed: "bg-blue/15 text-blue",
+  agility: "bg-blue/15 text-blue",
+  dribbling: "bg-pill-0/15 text-pill-0",
+  "ball-mastery": "bg-pill-0/15 text-pill-0",
+  "1v1": "bg-pill-6/15 text-pill-6",
+  finishing: "bg-red/15 text-red",
+  shooting: "bg-red/15 text-red",
+  winger: "bg-green/15 text-green",
+  striker: "bg-yellow/15 text-yellow",
+  movement: "bg-yellow/15 text-yellow",
+  juggling: "bg-pill-7/15 text-pill-7",
+  strength: "bg-pill-6/15 text-pill-6",
+  core: "bg-pill-6/15 text-pill-6",
+  plyometrics: "bg-pill-6/15 text-pill-6",
+  flexibility: "bg-pill-9/15 text-pill-9",
+  recovery: "bg-pill-9/15 text-pill-9",
 };
 
 function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
@@ -64,7 +64,7 @@ function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
       />
       {/* Play button overlay */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-14 h-14 rounded-full bg-green-500/90 flex items-center justify-center group-hover:bg-green-400 transition-colors shadow-lg">
+        <div className="w-14 h-14 rounded-full bg-green/90 flex items-center justify-center group-hover:bg-green/80 transition-colors shadow-lg">
           <svg
             className="w-6 h-6 text-black ml-1"
             fill="currentColor"
@@ -81,7 +81,7 @@ function VideoEmbed({ videoId, title }: { videoId: string; title: string }) {
 function DrillCard({ drill, onClick }: { drill: Drill; onClick: () => void }) {
   return (
     <Card
-      className="bg-white/5 border-white/10 hover:border-green-500/40 transition-all duration-200 cursor-pointer group"
+      className="bg-white/5 border-white/10 hover:border-green/40 transition-all duration-200 cursor-pointer group"
       onClick={onClick}
     >
       <CardContent className="p-0">
@@ -98,7 +98,7 @@ function DrillCard({ drill, onClick }: { drill: Drill; onClick: () => void }) {
           </div>
           {/* Play icon */}
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="w-12 h-12 rounded-full bg-green-500/90 flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 rounded-full bg-green/90 flex items-center justify-center shadow-lg">
               <svg
                 className="w-5 h-5 text-black ml-0.5"
                 fill="currentColor"
@@ -112,7 +112,7 @@ function DrillCard({ drill, onClick }: { drill: Drill; onClick: () => void }) {
 
         {/* Info */}
         <div className="p-3 space-y-2">
-          <h3 className="font-semibold text-sm text-foreground leading-snug line-clamp-2 group-hover:text-green-400 transition-colors">
+          <h3 className="font-semibold text-sm text-foreground leading-snug line-clamp-2 group-hover:text-green transition-colors">
             {drill.name}
           </h3>
           <p className="text-xs text-muted-foreground line-clamp-2">
@@ -170,16 +170,17 @@ function DrillModal({
                 {drill.description}
               </p>
             </div>
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={onClose}
-              className="shrink-0 text-muted-foreground hover:text-foreground transition-colors mt-0.5"
+              className="shrink-0 text-muted-foreground hover:text-foreground mt-0.5"
               aria-label="Close"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </button>
+            </Button>
           </div>
 
           {/* Meta row */}
@@ -204,7 +205,7 @@ function DrillModal({
 
           {/* Coaching Points */}
           <div>
-            <h3 className="text-sm font-semibold text-green-400 mb-2 flex items-center gap-1.5">
+            <h3 className="text-sm font-semibold text-green mb-2 flex items-center gap-1.5">
               <span>⚡</span> Coaching Points
             </h3>
             <ul className="space-y-1.5">
@@ -213,7 +214,7 @@ function DrillModal({
                   key={point}
                   className="flex items-start gap-2 text-sm text-muted-foreground"
                 >
-                  <span className="text-green-500 shrink-0 mt-0.5">•</span>
+                  <span className="text-green shrink-0 mt-0.5">•</span>
                   {point}
                 </li>
               ))}
@@ -243,7 +244,7 @@ function DrillModal({
               href={`https://www.youtube.com/watch?v=${drill.videoId}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm text-green-400 hover:text-green-300 transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-green hover:text-green/80 transition-colors"
             >
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z" />
@@ -332,12 +333,12 @@ export function DrillLibrary({ drills }: DrillLibraryProps) {
       {/* Filters */}
       <div className="space-y-3 mb-6">
         {/* Search */}
-        <input
+        <Input
           type="text"
           placeholder="Search drills..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-green-500/50 transition-colors"
+          className="w-full bg-white/5 border-white/10 text-foreground placeholder:text-muted-foreground focus:border-green/50"
         />
 
         {/* Category tabs */}
@@ -349,7 +350,7 @@ export function DrillLibrary({ drills }: DrillLibraryProps) {
               onClick={() => setActiveFilter(tab.key)}
               className={`shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 activeFilter === tab.key
-                  ? "bg-green-500 text-black"
+                  ? "bg-green text-black"
                   : "bg-white/5 text-muted-foreground hover:bg-white/10 hover:text-foreground"
               }`}
             >
@@ -368,11 +369,11 @@ export function DrillLibrary({ drills }: DrillLibraryProps) {
               className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
                 activeDifficulty === d
                   ? d === "Beginner"
-                    ? "bg-green-500/30 text-green-400 border border-green-500/50"
+                    ? "bg-green/30 text-green border border-green/50"
                     : d === "Intermediate"
-                      ? "bg-yellow-500/30 text-yellow-400 border border-yellow-500/50"
+                      ? "bg-yellow/30 text-yellow border border-yellow/50"
                       : d === "Advanced"
-                        ? "bg-red-500/30 text-red-400 border border-red-500/50"
+                        ? "bg-red/30 text-red border border-red/50"
                         : "bg-white/20 text-foreground border border-white/30"
                   : "bg-white/5 text-muted-foreground border border-white/10 hover:bg-white/10"
               }`}
@@ -406,17 +407,18 @@ export function DrillLibrary({ drills }: DrillLibraryProps) {
         <div className="text-center py-20 text-muted-foreground">
           <div className="text-4xl mb-3">⚽</div>
           <p className="text-sm">No drills match your filters.</p>
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => {
               setSearchQuery("");
               setActiveFilter("all");
               setActiveDifficulty("All");
             }}
-            className="mt-3 text-sm text-green-400 hover:text-green-300 transition-colors"
+            className="mt-3 text-sm text-green hover:text-green/80"
           >
             Clear filters
-          </button>
+          </Button>
         </div>
       )}
 

@@ -129,7 +129,9 @@ const ARCH_SECTIONS: ArchSection[] = [
   },
 ];
 
-export function ArchitectureApp() {
+interface ArchitectureAppProps {}
+
+export function ArchitectureApp({}: ArchitectureAppProps) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   function toggle(id: string) {

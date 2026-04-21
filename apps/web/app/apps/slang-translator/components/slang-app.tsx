@@ -11,6 +11,10 @@ import {
   Button,
   Card,
   CardContent,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Textarea,
 } from "@repo/ui";
 import { GEN_X_MAP } from "../lib/gen-x-map";
 import type {
@@ -23,9 +27,9 @@ import type {
 // ─── helpers ────────────────────────────────────────────────────────────────
 
 function vibeColor(score: number) {
-  if (score >= 8) return "#22c55e";
-  if (score >= 6) return "#eab308";
-  return "#ef4444";
+  if (score >= 8) return "var(--color-green)";
+  if (score >= 6) return "var(--color-yellow)";
+  return "var(--color-red)";
 }
 
 function VibeBar({ score }: { score: number }) {
@@ -51,11 +55,11 @@ function VibeBar({ score }: { score: number }) {
 
 function GenBadge({ gen }: { gen: "gen-alpha" | "gen-x" }) {
   return gen === "gen-alpha" ? (
-    <span className="inline-block text-[10px] px-2.5 py-0.5 rounded-lg font-bold uppercase tracking-wide bg-violet-500/15 text-violet-300">
+    <span className="inline-block text-[10px] px-2.5 py-0.5 rounded-lg font-bold uppercase tracking-wide bg-pill-8/15 text-pill-8">
       Gen Alpha
     </span>
   ) : (
-    <span className="inline-block text-[10px] px-2.5 py-0.5 rounded-lg font-bold uppercase tracking-wide bg-amber-500/15 text-amber-300">
+    <span className="inline-block text-[10px] px-2.5 py-0.5 rounded-lg font-bold uppercase tracking-wide bg-accent/15 text-accent">
       Gen X
     </span>
   );
@@ -63,20 +67,20 @@ function GenBadge({ gen }: { gen: "gen-alpha" | "gen-x" }) {
 
 function CategoryBadge({ category }: { category: string }) {
   const colorMap: Record<string, string> = {
-    compliment: "#22c55e",
-    Approval: "#22c55e",
-    insult: "#ef4444",
-    Insult: "#ef4444",
-    reaction: "#eab308",
-    Reaction: "#eab308",
-    lifestyle: "#8b5cf6",
-    Lifestyle: "#8b5cf6",
-    "internet culture": "#06b6d4",
-    "Internet Culture": "#ec4899",
-    Disapproval: "#f97316",
-    Greeting: "#06b6d4",
+    compliment: "var(--color-green)",
+    Approval: "var(--color-green)",
+    insult: "var(--color-red)",
+    Insult: "var(--color-red)",
+    reaction: "var(--color-yellow)",
+    Reaction: "var(--color-yellow)",
+    lifestyle: "var(--color-pill-8)",
+    Lifestyle: "var(--color-pill-8)",
+    "internet culture": "var(--color-pill-7)",
+    "Internet Culture": "var(--color-pill-6)",
+    Disapproval: "var(--color-orange)",
+    Greeting: "var(--color-pill-7)",
   };
-  const color = colorMap[category] ?? "#6b7280";
+  const color = colorMap[category] ?? "var(--color-slate-dim)";
   return (
     <span
       className="inline-block text-[11px] px-2.5 py-0.5 rounded-lg font-semibold uppercase tracking-wide"
@@ -153,8 +157,8 @@ function SlangCard({
           <div
             className={`text-[12px] px-3 py-2.5 rounded-r-lg mt-2 ${
               slang.generation === "gen-alpha"
-                ? "bg-amber-500/[0.08] border-l-[3px] border-amber-500 text-amber-300"
-                : "bg-violet-500/[0.08] border-l-[3px] border-violet-500 text-violet-300"
+                ? "bg-accent/[0.08] border-l-[3px] border-accent text-accent"
+                : "bg-pill-8/[0.08] border-l-[3px] border-pill-8 text-pill-8"
             }`}
           >
             {eq.gen} equivalent:{" "}
@@ -170,29 +174,19 @@ function SlangDetailModal({
   slang,
   onClose,
 }: {
-  slang: SlangEntry;
+  slang: SlangEntry | null;
   onClose: () => void;
 }) {
+  if (!slang) return null;
   const eq = getEquivalent(slang);
   const vs = slang.vibeScore ?? slang.vibe_score ?? 0;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-      onClick={onClose}
-    >
-      <div
-        className="glass max-w-md w-full rounded-2xl p-6 space-y-3 relative"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          className="absolute top-4 right-4 text-muted-foreground hover:text-foreground text-lg leading-none"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          ×
-        </button>
-        <h2 className="font-heading text-2xl text-accent">{slang.term}</h2>
+    <Dialog open={!!slang} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="glass max-w-md space-y-3">
+        <DialogTitle className="font-heading text-2xl text-accent">
+          {slang.term}
+        </DialogTitle>
         <div className="flex gap-1.5 flex-wrap">
           <GenBadge gen={slang.generation} />
           <CategoryBadge category={slang.category} />
@@ -222,16 +216,16 @@ function SlangDetailModal({
           <div
             className={`text-[12px] px-3 py-2.5 rounded-r-lg ${
               slang.generation === "gen-alpha"
-                ? "bg-amber-500/[0.08] border-l-[3px] border-amber-500 text-amber-300"
-                : "bg-violet-500/[0.08] border-l-[3px] border-violet-500 text-violet-300"
+                ? "bg-accent/[0.08] border-l-[3px] border-accent text-accent"
+                : "bg-pill-8/[0.08] border-l-[3px] border-pill-8 text-pill-8"
             }`}
           >
             {eq.gen} equivalent:{" "}
             <strong className="font-bold">{eq.text}</strong>
           </div>
         )}
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -274,34 +268,34 @@ function DictionaryTab({ allSlang }: { allSlang: SlangEntry[] }) {
       {/* Generation filter */}
       <div className="flex gap-2 flex-wrap">
         {(["all", "gen-alpha", "gen-x"] as const).map((g) => (
-          <button
+          <Button
             key={g}
+            variant="outline"
+            size="sm"
             onClick={() => setGenFilter(g)}
-            className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
-              genFilter === g
-                ? "border-accent bg-accent/15 text-accent"
-                : "border-border text-muted-foreground hover:border-accent/50"
+            className={`rounded-full text-xs ${
+              genFilter === g ? "border-accent bg-accent/15 text-accent" : ""
             }`}
           >
             {g === "all" ? "All Generations" : g === "gen-alpha" ? "Gen Alpha" : "Gen X"}
-          </button>
+          </Button>
         ))}
       </div>
 
       {/* Category filter */}
       <div className="flex gap-1.5 flex-wrap">
         {categories.map((c) => (
-          <button
+          <Button
             key={c}
+            variant="outline"
+            size="sm"
             onClick={() => setCatFilter(c)}
-            className={`text-xs px-2.5 py-1 rounded-lg border transition-colors capitalize ${
-              catFilter === c
-                ? "border-accent bg-accent/15 text-accent"
-                : "border-border text-muted-foreground hover:border-accent/50"
+            className={`rounded-lg capitalize text-xs ${
+              catFilter === c ? "border-accent bg-accent/15 text-accent" : ""
             }`}
           >
             {c === "all" ? "All Categories" : c}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -321,9 +315,7 @@ function DictionaryTab({ allSlang }: { allSlang: SlangEntry[] }) {
         </div>
       )}
 
-      {selected && (
-        <SlangDetailModal slang={selected} onClose={() => setSelected(null)} />
-      )}
+      <SlangDetailModal slang={selected} onClose={() => setSelected(null)} />
     </div>
   );
 }
@@ -400,7 +392,7 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
     return applyTranslationMap(
       input,
       translationMap,
-      isA2X ? "#fbbf24" : "#a78bfa"
+      isA2X ? "var(--color-accent-400)" : "var(--color-neon-violet)"
     );
   }, [input, translationMap, isA2X]);
 
@@ -408,7 +400,7 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
     <div className="space-y-4 max-w-3xl">
       <div className="flex items-center gap-3">
         <span
-          className={`text-sm font-semibold ${isA2X ? "text-violet-300" : "text-amber-300"}`}
+          className={`text-sm font-semibold ${isA2X ? "text-pill-8" : "text-accent"}`}
         >
           {isA2X ? "Gen Alpha" : "Gen X"} →
         </span>
@@ -425,7 +417,7 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
           ⇄ Swap
         </Button>
         <span
-          className={`text-sm font-semibold ${isA2X ? "text-amber-300" : "text-violet-300"}`}
+          className={`text-sm font-semibold ${isA2X ? "text-accent" : "text-pill-8"}`}
         >
           {isA2X ? "Gen X" : "Gen Alpha"}
         </span>
@@ -435,12 +427,12 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
         {/* Input panel */}
         <div className="glass rounded-xl p-4 space-y-2">
           <p
-            className={`text-sm font-bold ${isA2X ? "text-violet-300" : "text-amber-300"}`}
+            className={`text-sm font-bold ${isA2X ? "text-pill-8" : "text-accent"}`}
           >
             {isA2X ? "Gen Alpha" : "Gen X"}
           </p>
-          <textarea
-            className="w-full min-h-[160px] bg-transparent text-sm text-foreground placeholder:text-muted-foreground resize-y outline-none border border-border rounded-lg p-3 focus:border-accent transition-colors font-sans"
+          <Textarea
+            className="min-h-[160px] bg-transparent resize-y font-sans"
             placeholder={`Type or paste ${isA2X ? "Gen Alpha" : "Gen X"} slang here…`}
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -450,7 +442,7 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
         {/* Output panel */}
         <div className="glass rounded-xl p-4 space-y-2">
           <p
-            className={`text-sm font-bold ${isA2X ? "text-amber-300" : "text-violet-300"}`}
+            className={`text-sm font-bold ${isA2X ? "text-accent" : "text-pill-8"}`}
           >
             {isA2X ? "Gen X" : "Gen Alpha"}
           </p>
@@ -513,7 +505,7 @@ function CompareTab({ allSlang }: { allSlang: SlangEntry[] }) {
               className="grid grid-cols-[1fr_auto_1fr] gap-3 items-stretch"
             >
               {/* Gen Alpha card */}
-              <div className="glass rounded-xl p-3 border-t-[3px] border-violet-500 space-y-1">
+              <div className="glass rounded-xl p-3 border-t-[3px] border-pill-8 space-y-1">
                 <GenBadge gen="gen-alpha" />
                 <p className="text-sm font-extrabold mt-1">{p.alpha.term}</p>
                 <p className="text-[12px] text-muted-foreground line-clamp-2">
@@ -528,7 +520,7 @@ function CompareTab({ allSlang }: { allSlang: SlangEntry[] }) {
               </div>
 
               {/* Gen X card */}
-              <div className="glass rounded-xl p-3 border-t-[3px] border-amber-500 space-y-1">
+              <div className="glass rounded-xl p-3 border-t-[3px] border-accent space-y-1">
                 <GenBadge gen="gen-x" />
                 <p className="text-sm font-extrabold mt-1">
                   {p.xEntry ? p.xEntry.term : p.xText}
@@ -641,7 +633,7 @@ function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
       title = "Generation Gap";
       msg = "Time to brush up on both eras of slang!";
     }
-    const barColor = pct >= 60 ? "#22c55e" : pct >= 40 ? "#eab308" : "#ef4444";
+    const barColor = pct >= 60 ? "var(--color-green)" : pct >= 40 ? "var(--color-yellow)" : "var(--color-red)";
     return (
       <div className="max-w-md mx-auto text-center space-y-4 py-4">
         {/* Progress dots */}
@@ -650,7 +642,7 @@ function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
             <div
               key={i}
               className={`w-2.5 h-2.5 rounded-full ${
-                correct ? "bg-green-500" : "bg-red-500"
+                correct ? "bg-green" : "bg-red"
               }`}
             />
           ))}
@@ -709,7 +701,7 @@ function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
           let cls =
             "w-2.5 h-2.5 rounded-full transition-colors ";
           if (i < quiz.answered.length)
-            cls += quiz.answered[i] ? "bg-green-500" : "bg-red-500";
+            cls += quiz.answered[i] ? "bg-green" : "bg-red";
           else if (i === quiz.current)
             cls += "bg-accent shadow-[0_0_8px_var(--accent)]";
           else cls += "bg-muted";
@@ -730,28 +722,22 @@ function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
       </p>
 
       <div className="space-y-2">
-        {curr.options.map((opt) => {
-          let cls =
-            "w-full px-4 py-3 rounded-xl border text-sm text-left transition-all ";
-          if (hasAnswered) {
-            if (opt === curr.correct) cls += "border-green-500 bg-green-500/15";
-            else if (opt === quiz.lastPick)
-              cls += "border-red-500 bg-red-500/15";
-            else cls += "border-border text-muted-foreground";
-          } else {
-            cls += "border-border bg-card hover:border-accent cursor-pointer";
-          }
-          return (
-            <button
-              key={opt}
-              className={cls}
-              onClick={() => handleAnswer(opt)}
-              disabled={hasAnswered}
-            >
-              {opt}
-            </button>
-          );
-        })}
+        {curr.options.map((opt) => (
+          <Button
+            key={opt}
+            variant="outline"
+            className={[
+              "w-full justify-start h-auto px-4 py-3 text-sm text-left whitespace-normal",
+              hasAnswered && opt === curr.correct ? "border-green bg-green/15 hover:bg-green/15" : "",
+              hasAnswered && opt === quiz.lastPick && opt !== curr.correct ? "border-red bg-red/15 hover:bg-red/15" : "",
+              hasAnswered && opt !== curr.correct && opt !== quiz.lastPick ? "text-muted-foreground opacity-70" : "",
+            ].filter(Boolean).join(" ")}
+            onClick={() => handleAnswer(opt)}
+            disabled={hasAnswered}
+          >
+            {opt}
+          </Button>
+        ))}
       </div>
 
       {hasAnswered && (

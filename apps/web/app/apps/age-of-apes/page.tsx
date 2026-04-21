@@ -12,7 +12,7 @@ export default function AgeOfApesHubPage() {
         <p className="text-muted-foreground text-lg max-w-xl mx-auto">
           Calculators, databases, and guides — everything you need to optimize your Age of Apes
           gameplay. Calculate exact costs, times, and power gains across{" "}
-          <span className="text-amber-500 font-semibold">7 calculators</span>.
+          <span className="text-accent font-semibold">7 calculators</span>.
         </p>
         <div className="flex flex-wrap justify-center gap-2 pt-2">
           {CALCULATORS.map((calc) => (
@@ -44,7 +44,7 @@ export default function AgeOfApesHubPage() {
               key={stat.label}
               className="rounded-xl border border-surface-border bg-surface-card p-4 text-center"
             >
-              <div className="font-heading text-2xl font-bold text-amber-500">{stat.value}</div>
+              <div className="font-heading text-2xl font-bold text-accent">{stat.value}</div>
               <div className="text-xs text-muted-foreground mt-1">{stat.label}</div>
             </div>
           ))}
@@ -86,7 +86,7 @@ export default function AgeOfApesHubPage() {
               key={item.step}
               className="flex gap-4 p-4 rounded-xl border border-surface-border bg-surface-card"
             >
-              <div className="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-500 font-bold text-sm shrink-0">
+              <div className="w-8 h-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center text-accent font-bold text-sm shrink-0">
                 {item.step}
               </div>
               <div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, PageHeader } from "@repo/ui";
+import { Badge, Card, CardContent, PageHeader } from "@repo/ui";
 
 interface QuickLink {
   label: string;
@@ -34,12 +34,14 @@ const SERVICES: StatusItem[] = [
 ];
 
 const STATUS_STYLE: Record<string, { color: string; dot: string; label: string }> = {
-  operational: { color: "#4ade80", dot: "#4ade80", label: "Operational" },
-  degraded:    { color: "#fbbf24", dot: "#f59e0b", label: "Degraded" },
-  down:        { color: "#f87171", dot: "#ef4444", label: "Down" },
+  operational: { color: "var(--color-neon-green)", dot: "var(--color-neon-green)", label: "Operational" },
+  degraded:    { color: "var(--color-accent-400)", dot: "var(--color-accent)", label: "Degraded" },
+  down:        { color: "var(--color-red)", dot: "var(--color-pill-4)", label: "Down" },
 };
 
-export function AlphaclawApp() {
+interface AlphaclawAppProps {}
+
+export function AlphaclawApp({}: AlphaclawAppProps) {
   return (
     <div className="space-y-6">
       <PageHeader
@@ -50,9 +52,9 @@ export function AlphaclawApp() {
       {/* Overview cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {[
-          { label: "Platform", value: "v2.4.1", icon: "🦅", color: "#a78bfa" },
-          { label: "Uptime", value: "99.97%", icon: "⚡", color: "#4ade80" },
-          { label: "Active Users", value: "—", icon: "👥", color: "#60a5fa" },
+          { label: "Platform", value: "v2.4.1", icon: "🦅", color: "var(--color-neon-violet)" },
+          { label: "Uptime", value: "99.97%", icon: "⚡", color: "var(--color-neon-green)" },
+          { label: "Active Users", value: "—", icon: "👥", color: "var(--color-neon-blue)" },
         ].map((stat) => (
           <Card key={stat.label} className="p-4">
             <CardContent className="p-0 text-center">
@@ -83,7 +85,9 @@ export function AlphaclawApp() {
                   {svc.latency && svc.latency !== "—" && (
                     <span className="text-xs text-white/30 font-mono">{svc.latency}</span>
                   )}
-                  <span className="text-xs" style={{ color: s.color }}>{s.label}</span>
+                  <Badge className="text-[10px] px-1.5 py-0.5 border-0" style={{ background: s.dot + "22", color: s.color }}>
+                    {s.label}
+                  </Badge>
                 </div>
               );
             })}

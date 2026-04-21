@@ -1,4 +1,6 @@
+import React from "react";
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 export const metadata = {
   title: "HSPT Practice",
@@ -10,14 +12,16 @@ export const viewport = {
   themeColor: "#4F46E5",
 };
 
-export default function HsptPracticeLayout({
+export default async function HsptPracticeLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  await requireAppLayoutAccess("hspt-practice");
+
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-white/10 backdrop-blur-sm sticky top-0 z-10 bg-background/80">
+      <header className="glass-header sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-xl">📝</span>

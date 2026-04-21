@@ -22,3 +22,12 @@ coverage/
 # Backup
 package.json.bak
 .vercel
+
+.alpha-loop/auth/
+.alpha-loop/sessions/
+.alpha-loop/learnings/proposed-updates/
+.alpha-loop/traces/
+.playwright-cli/
+# Alpha-loop ephemeral data (not shared)
+.alpha-loop/templates/*.bak
+.worktrees/

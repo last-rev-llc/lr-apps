@@ -1,4 +1,6 @@
+import React from "react";
 import type { ReactNode } from "react";
+import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 export const metadata = {
   title: "Proper Wine Pour",
@@ -9,13 +11,14 @@ export const viewport = {
   themeColor: "#722F37",
 };
 
-export default function ProperWinePourLayout({ children }: { children: ReactNode }) {
+export default async function ProperWinePourLayout({ children }: { children: ReactNode }) {
+  await requireAppLayoutAccess("proper-wine-pour");
   return (
     <div className="min-h-screen">
       <header className="border-b border-surface-border">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <h1 className="font-heading text-xl" style={{ color: "#e74c6f" }}>
+            <h1 className="font-heading text-xl" style={{ color: "var(--color-pill-6)" }}>
               🍷 Proper Wine Pour
             </h1>
             <nav className="flex gap-4 text-sm">

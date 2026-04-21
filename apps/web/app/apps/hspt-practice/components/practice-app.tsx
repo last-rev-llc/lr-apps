@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
+  cn,
   Button,
   Badge,
   Card,
@@ -111,12 +112,13 @@ function SectionMenu({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
         {(Object.entries(SECTIONS) as [SectionId, (typeof SECTIONS)[SectionId]][]).map(
           ([key, cfg]) => (
-            <button
+            <Button
               key={key}
+              variant="ghost"
               onClick={() => onStart(key)}
-              className="text-left group"
+              className="text-left h-auto p-0 w-full group"
             >
-              <Card className="h-full bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10 transition-all cursor-pointer group-focus-visible:ring-2 group-focus-visible:ring-white/40">
+              <Card className="w-full h-full bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/10 transition-all cursor-pointer group-focus-visible:ring-2 group-focus-visible:ring-white/40">
                 <CardContent className="p-5">
                   <div className="text-3xl mb-2">{cfg.icon}</div>
                   <h3 className={`font-semibold text-lg mb-1 ${cfg.color}`}>
@@ -146,7 +148,7 @@ function SectionMenu({
                   </div>
                 </CardContent>
               </Card>
-            </button>
+            </Button>
           )
         )}
       </div>
@@ -175,10 +177,10 @@ function SectionMenu({
             const cfg = SECTIONS[s.section];
             const pctColor =
               s.percentage >= 80
-                ? "text-green-400"
+                ? "text-green"
                 : s.percentage >= 60
-                  ? "text-amber-400"
-                  : "text-red-400";
+                  ? "text-accent"
+                  : "text-red";
             return (
               <Card
                 key={s.id}
@@ -243,7 +245,7 @@ function QuizView({
           {cfg.icon} {cfg.name}
         </h2>
         <span
-          className={`font-mono text-xl font-bold ${isWarning ? "text-red-400 animate-pulse" : "text-foreground"}`}
+          className={cn("font-mono text-xl font-bold", isWarning ? "text-red animate-pulse" : "text-foreground")}
         >
           {formatTime(timeLeft)}
         </span>
@@ -252,7 +254,7 @@ function QuizView({
       {/* Progress bar */}
       <div className="h-1.5 bg-white/10 rounded-full overflow-hidden mb-1">
         <div
-          className="h-full bg-indigo-500 transition-all duration-300"
+          className="h-full bg-pill-0 transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -288,19 +290,19 @@ function QuizView({
               const letter = letters[i];
               const isSelected = answers[currentQ] === letter;
               return (
-                <button
+                <Button
                   key={letter}
+                  variant="ghost"
                   onClick={() => onAnswer(letter)}
-                  className={`w-full text-left px-4 py-3 rounded-lg border text-sm transition-all
-                    ${
-                      isSelected
-                        ? "border-indigo-500 bg-indigo-500/15 text-foreground"
-                        : "border-white/10 bg-white/5 text-muted-foreground hover:border-white/30 hover:bg-white/10 hover:text-foreground"
-                    }
-                  `}
+                  className={cn(
+                    "w-full justify-start text-left h-auto px-4 py-3 rounded-lg border text-sm transition-all",
+                    isSelected
+                      ? "border-pill-0 bg-pill-0/15 text-foreground hover:bg-pill-0/15"
+                      : "border-white/10 bg-white/5 text-muted-foreground hover:border-white/30 hover:bg-white/10 hover:text-foreground"
+                  )}
                 >
                   <strong className="text-foreground">{letter}.</strong> {opt}
-                </button>
+                </Button>
               );
             })}
           </div>
@@ -316,7 +318,7 @@ function QuizView({
           <Button
             variant="outline"
             size="sm"
-            className="border-red-500/50 text-red-400 hover:bg-red-500/10"
+            className="border-red/50 text-red hover:bg-red/10"
             onClick={onFinish}
           >
             Finish
@@ -334,21 +336,21 @@ function QuizView({
         </summary>
         <div className="flex flex-wrap gap-1.5 mt-2">
           {questions.map((_, i) => (
-            <button
+            <Button
               key={i}
+              variant="ghost"
               onClick={() => onNavigate(i)}
-              className={`w-9 h-9 rounded text-[11px] border transition-all
-                ${
-                  i === currentQ
-                    ? "ring-2 ring-indigo-400 border-indigo-400 text-foreground"
-                    : answers[i] !== undefined
-                      ? "bg-indigo-500 border-indigo-500 text-white"
-                      : "border-white/20 bg-white/5 text-muted-foreground hover:border-white/40"
-                }
-              `}
+              className={cn(
+                "w-9 h-9 p-0 rounded text-[11px] border transition-all",
+                i === currentQ
+                  ? "ring-2 ring-pill-0 border-pill-0 text-foreground"
+                  : answers[i] !== undefined
+                    ? "bg-pill-0 border-pill-0 text-white hover:bg-pill-0/80"
+                    : "border-white/20 bg-white/5 text-muted-foreground hover:border-white/40"
+              )}
             >
               {i + 1}
-            </button>
+            </Button>
           ))}
         </div>
       </details>
@@ -396,10 +398,10 @@ function ResultsView({
 
   const pctColor =
     session.percentage >= 80
-      ? "text-green-400 border-green-400"
+      ? "text-green border-green"
       : session.percentage >= 60
-        ? "text-amber-400 border-amber-400"
-        : "text-red-400 border-red-400";
+        ? "text-accent border-accent"
+        : "text-red border-red";
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -542,10 +544,10 @@ function ReviewView({
                 "border-white/10 bg-white/5 text-muted-foreground cursor-default";
               if (letter === correct)
                 cls =
-                  "border-green-500 bg-green-500/15 text-foreground cursor-default";
+                  "border-green bg-green/15 text-foreground cursor-default";
               else if (letter === userAns && userAns !== correct)
                 cls =
-                  "border-red-500 bg-red-500/15 text-foreground cursor-default";
+                  "border-red bg-red/15 text-foreground cursor-default";
               return (
                 <div
                   key={letter}
@@ -583,11 +585,11 @@ function ReviewView({
 }
 
 const SECTION_COLORS: Record<SectionId, string> = {
-  verbal: "#f59e0b",
-  quantitative: "#3b82f6",
-  reading: "#10b981",
-  mathematics: "#ef4444",
-  language: "#a855f7",
+  verbal: "var(--color-accent)",
+  quantitative: "var(--color-pill-1)",
+  reading: "var(--color-green)",
+  mathematics: "var(--color-pill-4)",
+  language: "var(--color-pill-0)",
 };
 
 function HistoryView({
@@ -645,29 +647,29 @@ function HistoryView({
           <CardContent className="p-4">
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={chartRows}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-surface-border)" />
                 <XAxis
                   dataKey="date"
-                  tick={{ fill: "#888", fontSize: 11 }}
+                  tick={{ fill: "var(--color-slate-dim)", fontSize: 11 }}
                   stroke="transparent"
                 />
                 <YAxis
                   domain={[0, 100]}
-                  tick={{ fill: "#888", fontSize: 11 }}
+                  tick={{ fill: "var(--color-slate-dim)", fontSize: 11 }}
                   stroke="transparent"
                   tickFormatter={(v) => `${v}%`}
                 />
                 <Tooltip
                   contentStyle={{
-                    background: "rgba(0,0,0,0.8)",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    background: "var(--color-popover)",
+                    border: "1px solid var(--color-surface-border)",
                     borderRadius: 8,
                     fontSize: 12,
                   }}
                   formatter={(value: number) => [`${value}%`, ""]}
                 />
                 <Legend
-                  wrapperStyle={{ fontSize: 12, color: "#aaa" }}
+                  wrapperStyle={{ fontSize: 12, color: "var(--color-slate)" }}
                   formatter={(value) =>
                     SECTIONS[value as SectionId]?.name ?? value
                   }
@@ -727,10 +729,10 @@ function HistoryView({
                   const pct = s.percentage;
                   const pctCls =
                     pct >= 80
-                      ? "text-green-400"
+                      ? "text-green"
                       : pct >= 60
-                        ? "text-amber-400"
-                        : "text-red-400";
+                        ? "text-accent"
+                        : "text-red";
                   return (
                     <tr
                       key={s.id}

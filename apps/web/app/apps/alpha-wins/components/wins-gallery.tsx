@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  cn,
 } from "@repo/ui";
 
 interface Win {
@@ -102,28 +103,34 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
         {/* Integration filter pills */}
         {allIntegrations.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            <button
+            <Button
+              variant={activeIntegration === "All" ? "outline" : "ghost"}
+              size="sm"
               onClick={() => setActiveIntegration("All")}
-              className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+              className={cn(
+                "rounded-full text-xs font-semibold",
                 activeIntegration === "All"
-                  ? "bg-accent text-black"
-                  : "bg-white/5 text-muted-foreground hover:bg-white/10"
-              }`}
+                  ? "bg-accent/15 text-accent border-accent/30"
+                  : "",
+              )}
             >
               All
-            </button>
+            </Button>
             {allIntegrations.map((int) => (
-              <button
+              <Button
                 key={int}
+                variant={activeIntegration === int ? "outline" : "ghost"}
+                size="sm"
                 onClick={() => setActiveIntegration(int)}
-                className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+                className={cn(
+                  "rounded-full text-xs font-semibold",
                   activeIntegration === int
-                    ? "bg-accent text-black"
-                    : "bg-white/5 text-muted-foreground hover:bg-white/10"
-                }`}
+                    ? "bg-accent/15 text-accent border-accent/30"
+                    : "",
+                )}
               >
                 {int}
-              </button>
+              </Button>
             ))}
           </div>
         )}
@@ -142,7 +149,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
               <button
                 key={win.id}
                 onClick={() => handleOpenWin(win)}
-                className="glass text-left p-4 cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-[var(--radius-glass)]"
+                className="glass text-left p-4 cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-glass-hover)] hover:bg-white/[0.08] focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-[var(--radius-glass)]"
               >
                 {/* Card top */}
                 <div className="flex items-center gap-2.5 mb-2.5">
@@ -167,7 +174,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                   {(win.integrations ?? []).map((x) => (
                     <span
                       key={x}
-                      className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-500/15 text-amber-400"
+                      className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-accent/15 text-accent"
                     >
                       {x}
                     </span>
@@ -175,7 +182,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                   {(win.skills ?? []).map((x) => (
                     <span
                       key={x}
-                      className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-500/15 text-blue-400"
+                      className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue/15 text-blue"
                     >
                       {x}
                     </span>
@@ -211,7 +218,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                 {(selectedWin.integrations ?? []).map((x) => (
                   <span
                     key={x}
-                    className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-500/15 text-amber-400"
+                    className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-accent/15 text-accent"
                   >
                     {x}
                   </span>
@@ -219,7 +226,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                 {(selectedWin.skills ?? []).map((x) => (
                   <span
                     key={x}
-                    className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-500/15 text-blue-400"
+                    className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue/15 text-blue"
                   >
                     {x}
                   </span>
@@ -271,7 +278,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {selectedWin.integrations!.map((x) => (
-                      <Badge key={x} variant="outline" className="border-amber-500/30 text-amber-400">
+                      <Badge key={x} variant="outline" className="border-accent/30 text-accent">
                         {x}
                       </Badge>
                     ))}
@@ -287,7 +294,7 @@ export function WinsGallery({ wins }: WinsGalleryProps) {
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {selectedWin.skills!.map((x) => (
-                      <Badge key={x} variant="outline" className="border-blue-500/30 text-blue-400">
+                      <Badge key={x} variant="outline" className="border-blue/30 text-blue">
                         {x}
                       </Badge>
                     ))}

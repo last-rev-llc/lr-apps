@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CardContent } from "@repo/ui";
 
 interface PersonCardProps {
   person: {
@@ -13,8 +14,8 @@ interface PersonCardProps {
 }
 
 export function PersonCard({ person }: PersonCardProps) {
-  const primary = person.theme?.primary ?? "#00543C";
-  const accent = person.theme?.accent ?? "#FDBB30";
+  const primary = person.theme?.primary ?? "var(--ss-primary)";
+  const accent = person.theme?.accent ?? "var(--ss-accent)";
   const headshot = person.photos?.headshot;
 
   return (
@@ -52,7 +53,7 @@ export function PersonCard({ person }: PersonCardProps) {
       </div>
 
       {/* Info */}
-      <div className="p-5">
+      <CardContent className="p-5">
         <h3
           className="font-heading text-lg font-bold mb-1 transition-colors group-hover:opacity-90"
           style={{ color: accent }}
@@ -72,7 +73,7 @@ export function PersonCard({ person }: PersonCardProps) {
         >
           View Profile →
         </div>
-      </div>
+      </CardContent>
     </Link>
   );
 }
