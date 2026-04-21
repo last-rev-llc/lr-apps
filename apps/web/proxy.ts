@@ -9,6 +9,7 @@ import {
   getRouteForSubdomain,
   isVercelPreviewHost,
 } from "./lib/proxy-utils";
+import { applyCspHeader } from "./lib/csp";
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   const host = getHostFromRequestHeaders(request.headers);
@@ -16,11 +17,11 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const authResponse = await auth0.middleware(request);
 
   if (request.nextUrl.pathname.startsWith("/auth")) {
-    return authResponse;
+    return applyCspHeader(authResponse);
   }
 
   const withAuth = (inner: NextResponse) =>
-    mergeAuthMiddlewareResponse(authResponse, inner);
+    applyCspHeader(mergeAuthMiddlewareResponse(authResponse, inner));
 
   const hostHeader = request.headers.get("host") ?? "";
   const isPreview = isVercelPreviewHost(hostHeader);
@@ -63,9 +64,11 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const routePath = getRouteForSubdomain(subdomain);
 
   if (!routePath) {
-    return mergeAuthMiddlewareResponse(
-      authResponse,
-      NextResponse.redirect(new URL("https://auth.lastrev.com")),
+    return applyCspHeader(
+      mergeAuthMiddlewareResponse(
+        authResponse,
+        NextResponse.redirect(new URL("https://auth.lastrev.com")),
+      ),
     );
   }
 
