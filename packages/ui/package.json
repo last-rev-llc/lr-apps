@@ -32,8 +32,10 @@
     "@testing-library/react": "^16",
     "@testing-library/user-event": "^14.6.1",
     "@types/react": "^19",
+    "@types/react-dom": "^19",
     "jsdom": "^26",
     "mermaid": "^11.13.0",
+    "react-dom": "^19",
     "typescript": "^5",
     "vitest": "^3"
   }

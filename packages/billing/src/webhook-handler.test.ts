@@ -117,6 +117,33 @@ describe("handleStripeWebhook", () => {
     );
   });
 
+  it("propagates error when constructEvent throws due to invalid signature", async () => {
+    mockConstructEvent.mockImplementation(() => {
+      throw new Error("No signatures found matching the expected signature for payload");
+    });
+
+    await expect(handleStripeWebhook("tampered-body", "bad-sig")).rejects.toThrow(
+      "No signatures found",
+    );
+  });
+
+  it("handles customer.subscription.deleted with missing subscription id gracefully", async () => {
+    mockConstructEvent.mockReturnValue({
+      id: "evt_deleted_no_id",
+      type: "customer.subscription.deleted",
+      data: { object: { id: undefined, customer: "cus_456" } },
+    });
+    const mockEqInner = vi.fn().mockResolvedValue({ error: null });
+    mockUpdate.mockReturnValue({ eq: mockEqInner });
+
+    const result = await handleStripeWebhook("body", "sig");
+
+    expect(result).toEqual({ received: true });
+    expect(mockUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({ status: "canceled" }),
+    );
+  });
+
   it("returns early without calling upsertSubscription for a duplicate event ID", async () => {
     const subscription = { id: "sub_dup", customer: "cus_456" };
     mockConstructEvent.mockReturnValue({
@@ -125,7 +152,6 @@ describe("handleStripeWebhook", () => {
       data: { object: subscription },
     });
 
-    // Simulate event already processed
     mockMaybeSingle.mockResolvedValue({
       data: { event_id: "evt_duplicate" },
       error: null,
@@ -160,11 +186,9 @@ describe("handleStripeWebhook", () => {
 
     mockInsert.mockRejectedValue(new Error("DB write failed"));
 
-    // Should not throw — fail open
     const result = await handleStripeWebhook("body", "sig");
 
     expect(result).toEqual({ received: true });
-    // Event was still processed despite the insert failure
     expect(mockUpsertSubscription).toHaveBeenCalledWith(subscription);
   });
 });

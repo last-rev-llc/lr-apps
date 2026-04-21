@@ -59,4 +59,36 @@ describe("getOrCreateCustomer", () => {
       { onConflict: "user_id" },
     );
   });
+
+  it("handles empty string email when creating customer", async () => {
+    mockSingle.mockResolvedValue({ data: null });
+    mockCustomersCreate.mockResolvedValue({ id: "cus_empty_email" });
+
+    const result = await getOrCreateCustomer("user-3", "");
+
+    expect(result).toBe("cus_empty_email");
+    expect(mockCustomersCreate).toHaveBeenCalledWith({
+      email: "",
+      metadata: { userId: "user-3" },
+    });
+  });
+
+  it("propagates Stripe network error when customer creation fails", async () => {
+    mockSingle.mockResolvedValue({ data: null });
+    mockCustomersCreate.mockRejectedValue(new Error("Network error: connection refused"));
+
+    await expect(getOrCreateCustomer("user-4", "user4@test.com")).rejects.toThrow(
+      "Network error: connection refused",
+    );
+  });
+
+  it("does not call stripe when existing customer is found", async () => {
+    mockSingle.mockResolvedValue({
+      data: { stripe_customer_id: "cus_already_exists" },
+    });
+
+    await getOrCreateCustomer("user-5", "user5@test.com");
+
+    expect(mockCustomersCreate).not.toHaveBeenCalled();
+  });
 });

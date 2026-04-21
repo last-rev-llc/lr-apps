@@ -1,4 +1,4 @@
-import type { Tier } from "./types";
+import type { Tier, SubscriptionStatus } from "./types";
 import { getSubscription } from "./subscriptions";
 
 const TIER_RANK: Record<Tier, number> = {
@@ -16,6 +16,8 @@ const FEATURE_TIER: Record<string, Tier> = {
   sentiment: "pro",
 };
 
+const ALLOWED_STATUSES = new Set<SubscriptionStatus>(["active", "trialing"]);
+
 export async function hasFeatureAccess(
   userId: string,
   feature: string,
@@ -24,6 +26,11 @@ export async function hasFeatureAccess(
   if (!requiredTier) return false;
 
   const subscription = await getSubscription(userId);
+
+  if (subscription && !ALLOWED_STATUSES.has(subscription.status)) {
+    return false;
+  }
+
   const userTier: Tier = subscription?.tier ?? "free";
 
   return TIER_RANK[userTier] >= TIER_RANK[requiredTier];
