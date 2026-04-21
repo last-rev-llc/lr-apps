@@ -7,3 +7,4 @@ Grounded in the current codebase:
 - **Directory Structure** — real tree for `apps/web` (including `(auth)/(dashboard)`, `(auth)/(forms)`, `api/`, every `lib/` file) and all seven packages (`auth`, `billing`, `config`, `db`, `test-utils`, `theme`, `ui`)
 - **Code Style** — kebab-case, `@repo/*` / `@/*` aliases, server-only service role, no hardcoded colors
 - **Non-Negotiables** — registry as source of truth, `requireAppLayoutAccess` gating, `mergeAuthMiddlewareResponse` in proxy, `getAuth0ClientForHost`, `turbo.json` `globalEnv`, append-only migrations, billing via `@repo/billing`
+- **Scripts** — `pnpm db:seed` populates `app_permissions` (admin) + a pro `subscriptions` row for `E2E_TEST_USER_ID`. Requires `E2E_TEST_USER_ID`, `E2E_TEST_USER_EMAIL`, `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`. Idempotent.
