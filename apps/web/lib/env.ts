@@ -41,7 +41,9 @@ function formatIssues(issues: z.ZodIssue[]): string {
     .join("\n");
 }
 
-export function parseEnv(source: NodeJS.ProcessEnv = process.env): Env {
+export function parseEnv(
+  source: Record<string, string | undefined> = process.env,
+): Env {
   const result = envSchema.safeParse(source);
   if (!result.success) {
     throw new Error(

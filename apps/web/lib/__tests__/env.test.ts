@@ -11,7 +11,7 @@ const minimum = {
 
 describe("env schema", () => {
   it("accepts a minimum-valid local env and defaults DEPLOYMENT_ENV to local", () => {
-    const parsed = parseEnv(minimum as NodeJS.ProcessEnv);
+    const parsed = parseEnv(minimum);
     expect(parsed.DEPLOYMENT_ENV).toBe("local");
   });
 
@@ -19,7 +19,7 @@ describe("env schema", () => {
     const parsed = parseEnv({
       ...minimum,
       DEPLOYMENT_ENV: "staging",
-    } as NodeJS.ProcessEnv);
+    });
     expect(parsed.DEPLOYMENT_ENV).toBe("staging");
   });
 
@@ -27,7 +27,7 @@ describe("env schema", () => {
     const parsed = parseEnv({
       ...minimum,
       DEPLOYMENT_ENV: "production",
-    } as NodeJS.ProcessEnv);
+    });
     expect(parsed.DEPLOYMENT_ENV).toBe("production");
   });
 
@@ -36,14 +36,14 @@ describe("env schema", () => {
       parseEnv({
         ...minimum,
         DEPLOYMENT_ENV: "qa",
-      } as NodeJS.ProcessEnv),
+      }),
     ).toThrow(/DEPLOYMENT_ENV/);
   });
 
   it("rejects when a required var is missing", () => {
     const { AUTH0_SECRET: _omit, ...partial } = minimum;
     void _omit;
-    expect(() => parseEnv(partial as NodeJS.ProcessEnv)).toThrow(/AUTH0_SECRET/);
+    expect(() => parseEnv(partial)).toThrow(/AUTH0_SECRET/);
   });
 
   it("schema enumerates only the three known deployment environments", () => {
