@@ -13,7 +13,16 @@ vi.mock("./subscriptions", () => ({
 }));
 
 const mockUpdate = vi.fn(() => ({ eq: vi.fn().mockResolvedValue({ error: null }) }));
-const mockFrom = vi.fn(() => ({ update: mockUpdate }));
+const mockMaybeSingle = vi.fn().mockResolvedValue({ data: null, error: null });
+const mockEq = vi.fn(() => ({ maybeSingle: mockMaybeSingle }));
+const mockSelect = vi.fn(() => ({ eq: mockEq }));
+const mockInsert = vi.fn().mockResolvedValue({ error: null });
+const mockFrom = vi.fn((table: string) => {
+  if (table === "processed_webhook_events") {
+    return { select: mockSelect, insert: mockInsert };
+  }
+  return { update: mockUpdate };
+});
 vi.mock("@repo/db/service-role", () => ({
   createServiceRoleClient: () => ({ from: mockFrom }),
 }));

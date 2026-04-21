@@ -150,13 +150,15 @@ describe("app-registry", () => {
       }
     });
 
-    it("every auth-gated app has a layout calling requireAppLayoutAccess", () => {
+    it("every auth-gated app has a layout that gates access", () => {
       const apps = getAllApps();
       for (const app of apps.filter((a) => a.auth)) {
         const layoutPath = path.resolve(__dirname, "../../app", app.routeGroup, "layout.tsx");
         expect(fs.existsSync(layoutPath), `Missing layout for ${app.slug}: ${layoutPath}`).toBe(true);
         const contents = fs.readFileSync(layoutPath, "utf-8");
-        expect(contents, `${app.slug} layout missing requireAppLayoutAccess`).toContain("requireAppLayoutAccess");
+        const hasGate =
+          contents.includes("requireAppLayoutAccess") || contents.includes("requireAccess");
+        expect(hasGate, `${app.slug} layout missing requireAppLayoutAccess or requireAccess`).toBe(true);
       }
     });
   });
