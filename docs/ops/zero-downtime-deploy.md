@@ -149,9 +149,11 @@ old and new app deployments are compatible with the new schema.
 
 Once the expand migration is live in Production:
 
-- Populate the new column / table from the existing data (a one-shot
-  script via `pnpm db:exec` or the Supabase SQL editor, not a
-  migration). Chunk updates to avoid long-running transactions.
+- Populate the new column / table from the existing data via the
+  Supabase SQL editor (or `psql` against the project connection
+  string) — not a migration, since backfills are one-shots and are
+  not paired with a `.down.sql`. Chunk updates to avoid long-running
+  transactions.
 - Flip the app code to **write to the new shape** while still reading
   from both. Ship this as a separate deploy. Keep it live long
   enough to confirm no code path still writes to the old shape.
