@@ -13,3 +13,8 @@ export {
   act,
   fireEvent,
 } from "./render-with-providers";
+export {
+  withAuthContext,
+  getRlsHarnessConfig,
+  type RlsHarnessConfig,
+} from "./rls-harness";

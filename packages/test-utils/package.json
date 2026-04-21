@@ -13,6 +13,7 @@
     "@supabase/supabase-js": "^2",
     "@testing-library/react": "^16",
     "@testing-library/jest-dom": "^6",
+    "jose": "^6",
     "react": "^19",
     "react-dom": "^19"
   },
