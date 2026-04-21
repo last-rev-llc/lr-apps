@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4",
@@ -24,8 +25,10 @@
     "recharts": "^2"
   },
   "devDependencies": {
+    "@playwright/test": "^1",
     "@repo/config": "workspace:*",
     "@repo/test-utils": "workspace:*",
+    "@supabase/supabase-js": "^2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^22",
     "@types/react": "^19",
