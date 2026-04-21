@@ -97,7 +97,17 @@
       "Bash(xargs -I {} basename {})",
       "Bash(gh pr:*)",
       "Bash(npx vercel:*)",
-      "Bash(gh issue:*)"
+      "Bash(gh issue:*)",
+      "Bash(npm ls *)",
+      "Bash(pip list *)",
+      "Bash(pipx list *)",
+      "Bash(alpha-loop --help)",
+      "Bash(command -v alpha-loop)",
+      "Bash(zsh -ic 'alpha-loop --help')",
+      "Bash(bash -ic 'alpha-loop --help')",
+      "Bash(zsh -ic 'alpha-loop plan --help')",
+      "Bash(zsh -ic \"alpha-loop plan --seed /Users/adamharris/.claude/plans/review-each-of-my-bubbly-garden.md --yes\")",
+      "Bash(tee /tmp/alpha-loop-plan.log)"
     ]
   }
 }
