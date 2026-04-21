@@ -547,7 +547,6 @@ interface SprintAppProps {
 export function SprintApp({ archives }: SprintAppProps) {
   const [sprintData, setSprintData] = useState<SprintData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/apps/sprint-planning/data/backlog-meeting.json")
