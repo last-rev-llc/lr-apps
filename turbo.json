@@ -18,7 +18,11 @@
     "APP_SELF_ENROLL_SLUGS",
     "STRIPE_SECRET_KEY",
     "STRIPE_WEBHOOK_SECRET",
-    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+    "E2E_TEST_USER_EMAIL",
+    "E2E_TEST_USER_PASSWORD",
+    "E2E_TEST_USER_ID",
+    "PLAYWRIGHT_BASE_URL"
   ],
   "tasks": {
     "build": {
@@ -37,6 +41,10 @@
     },
     "test": {
       "dependsOn": ["^build"]
+    },
+    "test:e2e": {
+      "dependsOn": ["^build"],
+      "cache": false
     }
   }
 }
