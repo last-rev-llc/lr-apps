@@ -5,14 +5,18 @@ import { withRequestContext } from "../context";
 type Captured = { stdout: string[]; stderr: string[] };
 
 function captureStreams(): Captured {
+  // Logger writes via console.log / console.warn / console.error. console.warn
+  // and console.error route to stderr in Node, console.log to stdout — mirror
+  // that here so tests assert against the same routing the runtime uses.
   const captured: Captured = { stdout: [], stderr: [] };
-  vi.spyOn(process.stdout, "write").mockImplementation((chunk: unknown) => {
-    captured.stdout.push(String(chunk));
-    return true;
+  vi.spyOn(console, "log").mockImplementation((...args: unknown[]) => {
+    captured.stdout.push(args.map(String).join(" "));
   });
-  vi.spyOn(process.stderr, "write").mockImplementation((chunk: unknown) => {
-    captured.stderr.push(String(chunk));
-    return true;
+  vi.spyOn(console, "warn").mockImplementation((...args: unknown[]) => {
+    captured.stderr.push(args.map(String).join(" "));
+  });
+  vi.spyOn(console, "error").mockImplementation((...args: unknown[]) => {
+    captured.stderr.push(args.map(String).join(" "));
   });
   return captured;
 }

@@ -86,8 +86,12 @@ function emit(
 
   const line = JSON.stringify(record);
 
+  // Use console.* (not process.stdout/stderr.write): the latter is undefined in
+  // the Edge Runtime and would crash any logger call from edge code (e.g.,
+  // /api/vitals, the proxy.ts auth0 middleware callback). console.error/warn
+  // still route to stderr in Node, and Vercel captures both runtimes' output.
   if (level === "error") {
-    process.stderr.write(line + "\n");
+    console.error(line);
     if (sentryRef && err !== undefined) {
       try {
         sentryRef.captureException(err, { extra: rest });
@@ -96,9 +100,9 @@ function emit(
       }
     }
   } else if (level === "warn") {
-    process.stderr.write(line + "\n");
+    console.warn(line);
   } else {
-    process.stdout.write(line + "\n");
+    console.log(line);
   }
 }
 
