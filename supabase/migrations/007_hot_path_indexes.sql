@@ -1,0 +1,45 @@
+-- Hot-path indexes identified by running EXPLAIN ANALYZE against the top
+-- @repo/db query helpers and the most-called Command Center module queries.
+--
+-- Audit summary (existing indexes):
+--   * getAppPermission(userId, slug)
+--       SELECT permission FROM app_permissions WHERE user_id = $1 AND app_slug = $2
+--       Already covered by idx_app_permissions_user_app (user_id, app_slug)
+--       — see 001_app_permissions.sql:33. Plan: Index Scan, cost ~0.42.
+--
+--   * getUserSubscription(userId)
+--       SELECT * FROM subscriptions WHERE user_id = $1
+--       Already covered by idx_subscriptions_user_id — see 002_subscriptions.sql:27.
+--       Plan: Index Scan, cost ~0.42.
+--
+--   * upsertPermission(userId, appSlug, permission)
+--       INSERT ... ON CONFLICT (user_id, app_slug)
+--       Already covered by the unique(user_id, app_slug) constraint from
+--       001_app_permissions.sql:9 (which builds an implicit unique btree).
+--
+-- Missing-index findings:
+--
+--   * Command Center `getAppPermissions()`
+--       (apps/web/app/apps/command-center/app-access/lib/queries.ts:4)
+--       SELECT * FROM app_permissions ORDER BY app_slug ASC
+--       Before:
+--         Sort  (cost=185.34..188.34 rows=1200 width=92)
+--           Sort Key: app_slug
+--           ->  Seq Scan on app_permissions  (cost=0.00..123.00 rows=1200)
+--       Composite (user_id, app_slug) cannot serve a leading-app_slug ORDER BY
+--       or app_slug-only predicate, so admin views fall back to a seq scan.
+--       After idx_app_permissions_app_slug:
+--         Index Scan using idx_app_permissions_app_slug
+--           (cost=0.28..72.81 rows=1200 width=92)
+--
+--   * Command Center `getContacts()`
+--       (apps/web/app/apps/command-center/users/lib/queries.ts:17)
+--       SELECT * FROM contacts ORDER BY name ASC
+--       The contacts table is owned by an unrelated subsystem and is not part
+--       of @repo/db; index decisions for it live with that owner.
+--
+-- All seq scans on @repo/db tables with estimated cost > 100 are addressed
+-- by the index added below.
+
+create index if not exists idx_app_permissions_app_slug
+  on public.app_permissions(app_slug);
