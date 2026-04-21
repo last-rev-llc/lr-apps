@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "analyze": "ANALYZE=true next build --webpack"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4",
@@ -29,6 +30,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16",
     "@playwright/test": "^1",
     "@repo/config": "workspace:*",
     "@repo/test-utils": "workspace:*",
