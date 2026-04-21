@@ -170,6 +170,43 @@ describe("proxy middleware integration", () => {
     });
   });
 
+  describe("Vercel preview hosts", () => {
+    it("does NOT redirect to auth.lastrev.com on a bare preview host", async () => {
+      vi.stubEnv("NODE_ENV", "production");
+      const req = makeRequest(
+        "https://lr-apps-git-feat-x.vercel.app/",
+        "lr-apps-git-feat-x.vercel.app",
+      );
+      const res = await proxy(req);
+      // Falls through to NextResponse.next — does NOT 3xx redirect.
+      expect(res.headers.get("x-middleware-next")).toBe("1");
+      expect(res.headers.get("location")).toBeFalsy();
+    });
+
+    it("rewrites preview /?app=<slug> to the app's route group", async () => {
+      vi.stubEnv("NODE_ENV", "production");
+      const req = makeRequest(
+        "https://lr-apps-git-feat-x.vercel.app/dashboard?app=sentiment",
+        "lr-apps-git-feat-x.vercel.app",
+      );
+      const res = await proxy(req);
+      const rewriteUrl = new URL(res.headers.get("x-middleware-rewrite")!);
+      expect(rewriteUrl.pathname).toBe("/apps/sentiment/dashboard");
+      expect(rewriteUrl.searchParams.get("app")).toBeNull();
+    });
+
+    it("ignores unknown ?app= values on preview hosts", async () => {
+      vi.stubEnv("NODE_ENV", "production");
+      const req = makeRequest(
+        "https://lr-apps-git-feat-x.vercel.app/?app=does-not-exist",
+        "lr-apps-git-feat-x.vercel.app",
+      );
+      const res = await proxy(req);
+      expect(res.headers.get("x-middleware-rewrite")).toBeFalsy();
+      expect(res.headers.get("x-middleware-next")).toBe("1");
+    });
+  });
+
   describe("subdomain resolution across all registered apps", () => {
     it("produces a rewrite for every registered subdomain", async () => {
       vi.stubEnv("NODE_ENV", "production");

@@ -4,7 +4,11 @@ import {
   getHostFromRequestHeaders,
 } from "@repo/auth/auth0-factory";
 import { mergeAuthMiddlewareResponse } from "@repo/auth/merge-auth-middleware";
-import { resolveSubdomain, getRouteForSubdomain } from "./lib/proxy-utils";
+import {
+  resolveSubdomain,
+  getRouteForSubdomain,
+  isVercelPreviewHost,
+} from "./lib/proxy-utils";
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   const host = getHostFromRequestHeaders(request.headers);
@@ -18,7 +22,13 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const withAuth = (inner: NextResponse) =>
     mergeAuthMiddlewareResponse(authResponse, inner);
 
-  if (process.env.NODE_ENV === "development") {
+  const hostHeader = request.headers.get("host") ?? "";
+  const isPreview = isVercelPreviewHost(hostHeader);
+
+  // Honor `?app=<slug>` in development OR on Vercel preview hosts.
+  // Preview hosts share a single domain per branch, so subdomain routing
+  // cannot work — callers append `?app=<slug>` to choose an app.
+  if (process.env.NODE_ENV === "development" || isPreview) {
     const appParam = request.nextUrl.searchParams.get("app");
     if (appParam) {
       const routePath = getRouteForSubdomain(appParam);
@@ -37,7 +47,13 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     }
   }
 
-  const hostHeader = request.headers.get("host") ?? "";
+  // Preview hosts without an explicit ?app=<slug> render the root and
+  // must NOT redirect to the auth hub (auth.lastrev.com), which is the
+  // production behavior for unknown subdomains.
+  if (isPreview) {
+    return withAuth(NextResponse.next({ request }));
+  }
+
   const subdomain = resolveSubdomain(hostHeader);
 
   if (!subdomain) {
