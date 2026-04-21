@@ -100,6 +100,10 @@ describe("app-registry", () => {
   });
 
   describe("registry integrity", () => {
+    it("registers at least 27 apps", () => {
+      expect(getAllApps().length).toBeGreaterThanOrEqual(27);
+    });
+
     it("no duplicate slugs", () => {
       const apps = getAllApps();
       const slugs = apps.map((a) => a.slug);
@@ -110,6 +114,32 @@ describe("app-registry", () => {
       const apps = getAllApps();
       const subdomains = apps.map((a) => a.subdomain);
       expect(new Set(subdomains).size).toBe(subdomains.length);
+    });
+
+    it("every app's subdomain resolves back to the same app", () => {
+      for (const app of getAllApps()) {
+        const resolved = getAppBySubdomain(app.subdomain);
+        expect(resolved, `subdomain ${app.subdomain} must resolve`).toBeDefined();
+        expect(resolved?.slug).toBe(app.slug);
+      }
+    });
+
+    it("every app's slug resolves back to the same app", () => {
+      for (const app of getAllApps()) {
+        const resolved = getAppBySlug(app.slug);
+        expect(resolved, `slug ${app.slug} must resolve`).toBeDefined();
+        expect(resolved?.subdomain).toBe(app.subdomain);
+      }
+    });
+
+    it("every app's routeGroup matches the expected shape", () => {
+      for (const app of getAllApps()) {
+        if (app.slug === "auth") {
+          expect(app.routeGroup).toBe("(auth)");
+        } else {
+          expect(app.routeGroup).toBe(`apps/${app.slug}`);
+        }
+      }
     });
 
     it("every routeGroup maps to an existing directory", () => {
