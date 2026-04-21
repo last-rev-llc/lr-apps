@@ -107,7 +107,9 @@
       "Bash(bash -ic 'alpha-loop --help')",
       "Bash(zsh -ic 'alpha-loop plan --help')",
       "Bash(zsh -ic \"alpha-loop plan --seed /Users/adamharris/.claude/plans/review-each-of-my-bubbly-garden.md --yes\")",
-      "Bash(tee /tmp/alpha-loop-plan.log)"
+      "Bash(tee /tmp/alpha-loop-plan.log)",
+      "Bash(ls apps/web/tests/)",
+      "Bash(ls apps/web/tests/e2e/)"
     ]
   }
 }
