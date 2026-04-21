@@ -86,6 +86,15 @@ Before committing, re-read the issue's acceptance criteria and ask: **"Does my d
 - Preserve custom app-specific styling via `className` passthrough, not by creating app-specific variants in shared components.
 - Add `type="button"` to non-submit buttons during migration.
 
+## Review Artifact Handling
+
+If prior runs produced `review-issue-*.json` files that are present in the repo, these carry forward findings from earlier reviews. Do NOT silently delete them:
+
+- **If all findings are addressed in this PR**, note in the PR description which review file was closed out and what was fixed (e.g., "Resolves review-issue-68.json findings: hover state regression, gradient collapse, missing light-theme shadow token").
+- **If some findings are being deferred** (typically info-severity items outside the current issue's scope), list them explicitly in the PR description as "Deferred from review-issue-N.json" with a one-line rationale for each, or file a follow-up issue and reference its number.
+- **Never delete the file without either path above.** Silent deletion drops info-severity findings into the void — this was flagged as untracked debt in issues #227, #228, and #229.
+- When in doubt, keep the file and add an explicit "unfixed/deferred" section to the PR description.
+
 ## Pre-Commit Checklist
 
 1. `git diff --name-only` — every file must be in scope for this issue. Run `git checkout -- <file>` on any that aren't.
@@ -100,6 +109,7 @@ Before committing, re-read the issue's acceptance criteria and ask: **"Does my d
 10. No non-null assertions (`!`) on helper returns whose TypeScript type includes `null`
 11. For DB/RLS work: `auth.users` is seeded before any FK-dependent insert; all seed upserts throw on error
 12. For new CI scripts: the job that runs the script provisions the script's prerequisites (or the script fails loudly when they're missing)
+13. If any `review-issue-*.json` file was deleted in this diff, the PR description lists resolved-vs-deferred findings for that file
 
 ## Acceptance Criteria Gate
 

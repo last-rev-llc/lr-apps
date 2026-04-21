@@ -102,6 +102,12 @@ Grep the target app directory for remaining inline patterns that should have bee
 - If this is partial/batch work, verify commit message uses `refs #N` not `closes #N`
 - Verify commit message accurately describes the change scope
 
+### 15. Review Artifact Tracking
+If this PR deletes any `review-issue-*.json` files from prior runs, check:
+- The PR description explicitly lists which findings from the deleted file were addressed in this diff, and which were deferred (with a follow-up issue number or a one-line "won't-fix" rationale for each).
+- Silent deletion (file gone, no mention in the PR) drops info-severity findings into the void. This was called out as untracked debt in 3 consecutive runs (#227, #228, #229).
+- Flag as an unfixed item (not a full FAIL unless critical-severity findings were silently dropped). Include the deleted file's findings in the `unfixedItems` array so they surface in the next iteration.
+
 ## Review Output Format
 
 Write a review JSON file at `review-issue-<N>.json` with:
@@ -117,6 +123,7 @@ Write a review JSON file at `review-issue-<N>.json` with:
   "securityIssues": ["list of security concerns"],
   "deadCode": ["list of built-but-unwired items"],
   "nullAssertionIssues": ["list of `!` assertions on nullable helper returns"],
+  "droppedReviewFindings": ["list of findings from deleted review-issue-*.json files that weren't addressed or tracked"],
   "unfixedItems": ["list of issues found but not fixed"],
   "suggestions": ["list of non-blocking improvements"]
 }
@@ -127,7 +134,7 @@ Then write a human-readable summary with tables.
 ## Review Standards
 
 - **FAIL the review** if any of: acceptance criterion is unmet, primary deliverable artifact is missing from the diff, security issues are found, out-of-scope files are included, dead code was added without being used, a CI guard is wired into a job that can't run it, an RLS test seeds FK-dependent rows without creating `auth.users` first, or a test is named "end-to-end"/"integration" while mocking its boundary.
-- **PASS with findings** if: all criteria are met but there are non-blocking suggestions (minor style issues, known component gaps)
+- **PASS with findings** if: all criteria are met but there are non-blocking suggestions (minor style issues, known component gaps, tracked deferrals from prior review files)
 - **`act()` warnings are no longer non-blocking.** If `fireEvent` is used for user interactions, FAIL the review and require replacement with `userEvent`. This pattern has persisted for 8+ runs despite being flagged as a suggestion — it must be enforced.
 - **Non-null assertions on nullable helpers are no longer non-blocking.** The `access!.user.id` pattern has appeared in 4 of the last 5 runs. FAIL the review and require narrowing (`if (!access) return ...`).
 - Code review is the critical safety net — across 56 runs, review caught: missing upsert keys (#2), open redirect (#8), unwired ESLint config (#71), XSS vulnerability (#42), gradient collapse (#69), hover state regressions (#68), theme token regression (#36), scope drift (#214), silent-skip CI guards (#212–#216), and FK-seed omissions (#212–#216). Tests alone missed all of these. Be thorough.
