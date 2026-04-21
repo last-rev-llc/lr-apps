@@ -4,7 +4,6 @@ import { useState, useMemo, useCallback } from "react";
 import { createClient } from "@repo/db/client";
 import {
   Badge,
-  Button,
   Card,
   CardContent,
   EmptyState,

@@ -39,9 +39,7 @@ const STATUS_STYLE: Record<string, { color: string; dot: string; label: string }
   down:        { color: "#f87171", dot: "#ef4444", label: "Down" },
 };
 
-interface AlphaclawAppProps {}
-
-export function AlphaclawApp({}: AlphaclawAppProps) {
+export function AlphaclawApp() {
   return (
     <div className="space-y-6">
       <PageHeader

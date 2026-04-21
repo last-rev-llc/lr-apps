@@ -10,7 +10,7 @@ import {
   PageHeader,
   Search,
 } from "@repo/ui";
-import type { Cron, CronStatus, StatusFilter } from "../lib/types";
+import type { Cron, StatusFilter } from "../lib/types";
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
