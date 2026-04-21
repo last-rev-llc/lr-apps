@@ -1,5 +1,11 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { Database, Permission, AppPermission, SubscriptionRow } from "./types";
+import type {
+  Database,
+  Permission,
+  AppPermission,
+  SubscriptionRow,
+  AuditLogInsert,
+} from "./types";
 
 export async function getAppPermission(
   client: SupabaseClient<Database>,
@@ -48,4 +54,12 @@ export async function upsertPermission(
 
   if (error) throw error;
   return data;
+}
+
+export async function insertAuditLog(
+  client: SupabaseClient<Database>,
+  entry: AuditLogInsert,
+): Promise<void> {
+  const { error } = await client.from("audit_log").insert(entry);
+  if (error) throw error;
 }

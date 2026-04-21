@@ -30,6 +30,18 @@ export interface SubscriptionRow {
   updated_at: string;
 }
 
+export interface AuditLog {
+  id: string;
+  user_id: string | null;
+  action: string;
+  resource: string;
+  metadata: Record<string, unknown> | null;
+  created_at: string;
+}
+
+export type AuditLogInsert = Omit<AuditLog, "id" | "created_at"> &
+  Partial<Pick<AuditLog, "id" | "created_at">>;
+
 export interface Database {
   public: {
     Tables: {
@@ -43,6 +55,11 @@ export interface Database {
         Insert: Omit<SubscriptionRow, "id" | "created_at" | "updated_at"> &
           Partial<Pick<SubscriptionRow, "created_at" | "updated_at">>;
         Update: Partial<Omit<SubscriptionRow, "id">>;
+      };
+      audit_log: {
+        Row: AuditLog;
+        Insert: AuditLogInsert;
+        Update: Partial<Omit<AuditLog, "id">>;
       };
     };
   };

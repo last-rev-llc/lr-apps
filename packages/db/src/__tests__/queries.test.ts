@@ -1,5 +1,10 @@
 import { describe, it, expect, vi } from "vitest";
-import { getAppPermission, getUserSubscription, upsertPermission } from "../queries";
+import {
+  getAppPermission,
+  getUserSubscription,
+  upsertPermission,
+  insertAuditLog,
+} from "../queries";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, AppPermission, SubscriptionRow } from "../types";
 
@@ -11,6 +16,7 @@ function mockClient(result: { data: unknown; error: unknown }) {
     maybeSingle: vi.fn().mockResolvedValue(result),
     upsert: vi.fn().mockReturnThis(),
     single: vi.fn().mockResolvedValue(result),
+    insert: vi.fn().mockResolvedValue(result),
   };
   return chain as unknown as SupabaseClient<Database>;
 }
@@ -115,5 +121,32 @@ describe("upsertPermission", () => {
       { onConflict: "user_id,app_slug" },
     );
     expect(client.select).toHaveBeenCalled();
+  });
+});
+
+describe("insertAuditLog", () => {
+  const entry = {
+    user_id: "user-1",
+    action: "view",
+    resource: "command-center:dashboard",
+    metadata: { extra: "info" },
+  };
+
+  it("passes the row through to .from('audit_log').insert(entry)", async () => {
+    const client = mockClient({ data: null, error: null });
+    await insertAuditLog(client, entry);
+
+    expect(client.from).toHaveBeenCalledWith("audit_log");
+    expect(client.insert).toHaveBeenCalledWith(entry);
+  });
+
+  it("rejects on error", async () => {
+    const client = mockClient({ data: null, error: new Error("rls denied") });
+    await expect(insertAuditLog(client, entry)).rejects.toThrow("rls denied");
+  });
+
+  it("resolves to undefined on success", async () => {
+    const client = mockClient({ data: null, error: null });
+    await expect(insertAuditLog(client, entry)).resolves.toBeUndefined();
   });
 });
