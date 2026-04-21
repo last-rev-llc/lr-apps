@@ -4,6 +4,7 @@ import {
   hrefWithinDeployedApp,
   resolveSubdomain,
 } from "../proxy-utils";
+import { getAllApps } from "../app-registry";
 
 describe("proxy-utils", () => {
   describe("resolveSubdomain", () => {
@@ -103,6 +104,53 @@ describe("proxy-utils", () => {
           "/calculator",
         ),
       ).toBe("/calculator");
+    });
+
+    it("prepends '/' when pathInApp lacks leading slash", () => {
+      expect(
+        hrefWithinDeployedApp("localhost:3000", calc, "settings"),
+      ).toBe("/apps/ai-calculator/settings");
+    });
+
+    it("uses app-root path when host subdomain belongs to a different app", () => {
+      expect(
+        hrefWithinDeployedApp(
+          "sentiment.apps.lastrev.com",
+          calc,
+          "/calculator",
+        ),
+      ).toBe("/apps/ai-calculator/calculator");
+    });
+  });
+
+  describe("full-registry coverage", () => {
+    it("every registered subdomain resolves to a non-null route", () => {
+      for (const app of getAllApps()) {
+        const route = getRouteForSubdomain(app.subdomain);
+        expect(route, `subdomain ${app.subdomain} must resolve`).not.toBeNull();
+        if (app.slug === "auth") {
+          expect(route).toBe("/(auth)");
+        } else {
+          expect(route).toBe(`/apps/${app.slug}`);
+        }
+      }
+    });
+
+    it("every registered subdomain is extractable from a *.apps.lastrev.com host", () => {
+      for (const app of getAllApps()) {
+        const host = `${app.subdomain}.apps.lastrev.com`;
+        expect(resolveSubdomain(host)).toBe(app.subdomain);
+      }
+    });
+
+    it("returns null for unknown subdomains (404 signal)", () => {
+      expect(getRouteForSubdomain("does-not-exist")).toBeNull();
+      expect(getRouteForSubdomain("not-a-real-app")).toBeNull();
+    });
+
+    it("resolveSubdomain returns the raw label for unregistered hosts (rejection handled by getRouteForSubdomain)", () => {
+      expect(resolveSubdomain("mystery.apps.lastrev.com")).toBe("mystery");
+      expect(getRouteForSubdomain("mystery")).toBeNull();
     });
   });
 });
