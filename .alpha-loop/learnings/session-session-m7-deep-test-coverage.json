@@ -1,0 +1,27 @@
+{
+  "name": "session/m7-deep-test-coverage",
+  "branch": "session/m7-deep-test-coverage",
+  "completed": "2026-04-21T14:39:53.656Z",
+  "results": [
+    {
+      "issueNum": 85,
+      "title": "Proxy/routing integration tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/239",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 585,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 86,
+      "title": "Error boundary and edge case tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/239",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 585,
+      "filesChanged": 4
+    }
+  ]
+}
