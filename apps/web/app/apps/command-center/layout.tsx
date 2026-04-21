@@ -1,4 +1,6 @@
-import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { requireAccess } from "@repo/auth/server";
+import { hasFeatureAccess } from "@repo/billing";
+import UpgradePrompt from "@/components/UpgradePrompt";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -36,7 +38,9 @@ export default async function CommandCenterLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAppLayoutAccess("command-center");
+  const { user } = await requireAccess("command-center");
+  const hasAccess = await hasFeatureAccess(user.id, "command-center");
+  if (!hasAccess) return <UpgradePrompt requiredTier="enterprise" />;
 
   return (
     <div className="min-h-screen flex flex-col">

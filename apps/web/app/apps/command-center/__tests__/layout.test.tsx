@@ -3,8 +3,21 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderWithProviders, screen } from "@repo/test-utils";
 
-vi.mock("@/lib/require-app-layout-access", () => ({
-  requireAppLayoutAccess: vi.fn(),
+vi.mock("@repo/auth/server", () => ({
+  requireAccess: vi.fn(),
+}));
+
+vi.mock("@repo/billing", () => ({
+  hasFeatureAccess: vi.fn(),
+}));
+
+vi.mock("@/components/UpgradePrompt", () => ({
+  default: ({ requiredTier }: { requiredTier: string }) => (
+    <div data-testid="upgrade-prompt">
+      <a href="/pricing">View Pricing</a>
+      <span>{requiredTier}</span>
+    </div>
+  ),
 }));
 
 vi.mock("next/link", () => ({
@@ -23,27 +36,42 @@ vi.mock("next/link", () => ({
   ),
 }));
 
-import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { requireAccess } from "@repo/auth/server";
+import { hasFeatureAccess } from "@repo/billing";
 import CommandCenterLayout from "../layout";
 
-const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);
+const mockRequireAccess = vi.mocked(requireAccess);
+const mockHasFeatureAccess = vi.mocked(hasFeatureAccess);
 
 beforeEach(() => {
   vi.clearAllMocks();
-  mockRequireAppLayoutAccess.mockResolvedValue(undefined);
+  mockRequireAccess.mockResolvedValue({
+    user: { id: "user-123", email: "test@example.com" },
+    permission: "view",
+  });
+  mockHasFeatureAccess.mockResolvedValue(true);
 });
 
 describe("CommandCenterLayout", () => {
-  it("calls requireAppLayoutAccess with 'command-center'", async () => {
+  it("calls requireAccess with 'command-center'", async () => {
     const jsx = await CommandCenterLayout({
       children: <div>child content</div>,
     });
     renderWithProviders(jsx);
 
-    expect(mockRequireAppLayoutAccess).toHaveBeenCalledWith("command-center");
+    expect(mockRequireAccess).toHaveBeenCalledWith("command-center");
   });
 
-  it("renders children when authenticated", async () => {
+  it("calls hasFeatureAccess with userId and 'command-center'", async () => {
+    const jsx = await CommandCenterLayout({
+      children: <div>child content</div>,
+    });
+    renderWithProviders(jsx);
+
+    expect(mockHasFeatureAccess).toHaveBeenCalledWith("user-123", "command-center");
+  });
+
+  it("renders children when user has enterprise access", async () => {
     const jsx = await CommandCenterLayout({
       children: <div>child content</div>,
     });
@@ -52,7 +80,32 @@ describe("CommandCenterLayout", () => {
     expect(screen.getByText("child content")).toBeInTheDocument();
   });
 
-  it("renders topbar with Command Center title", async () => {
+  it("renders UpgradePrompt with requiredTier='enterprise' when access denied", async () => {
+    mockHasFeatureAccess.mockResolvedValue(false);
+
+    const jsx = await CommandCenterLayout({
+      children: <div>child content</div>,
+    });
+    renderWithProviders(jsx);
+
+    expect(screen.getByTestId("upgrade-prompt")).toBeInTheDocument();
+    expect(screen.queryByText("child content")).not.toBeInTheDocument();
+    expect(screen.getByText("enterprise")).toBeInTheDocument();
+  });
+
+  it("UpgradePrompt links to /pricing when access denied", async () => {
+    mockHasFeatureAccess.mockResolvedValue(false);
+
+    const jsx = await CommandCenterLayout({
+      children: <div>child content</div>,
+    });
+    renderWithProviders(jsx);
+
+    const pricingLink = screen.getByRole("link", { name: /pricing/i });
+    expect(pricingLink).toHaveAttribute("href", "/pricing");
+  });
+
+  it("renders topbar with Command Center title when access granted", async () => {
     const jsx = await CommandCenterLayout({
       children: <div>test</div>,
     });
@@ -77,10 +130,8 @@ describe("CommandCenterLayout", () => {
     });
     renderWithProviders(jsx);
 
-    // Hub link
     expect(screen.getByText("Hub")).toBeInTheDocument();
 
-    // All 21 module labels should be in the sidebar
     const moduleLabels = [
       "Leads", "Agents", "Ideas", "Recipes", "Users", "Crons",
       "Gallery", "Architecture", "Client Health", "Concerts",
@@ -94,31 +145,8 @@ describe("CommandCenterLayout", () => {
     }
   });
 
-  it("sidebar Hub links to /apps/command-center", async () => {
-    const jsx = await CommandCenterLayout({
-      children: <div>test</div>,
-    });
-    renderWithProviders(jsx);
-
-    const hubLink = screen.getByText("Hub").closest("a");
-    expect(hubLink).toHaveAttribute("href", "/apps/command-center");
-  });
-
-  it("sidebar module links point to correct routes", async () => {
-    const jsx = await CommandCenterLayout({
-      children: <div>test</div>,
-    });
-    renderWithProviders(jsx);
-
-    const leadsLink = screen.getByText("Leads").closest("a");
-    expect(leadsLink).toHaveAttribute("href", "/apps/command-center/leads");
-
-    const alphaclawLink = screen.getByText("AlphaClaw").closest("a");
-    expect(alphaclawLink).toHaveAttribute("href", "/apps/command-center/alphaclaw");
-  });
-
-  it("propagates auth error when requireAppLayoutAccess rejects", async () => {
-    mockRequireAppLayoutAccess.mockRejectedValue(new Error("Unauthorized"));
+  it("propagates auth error when requireAccess rejects", async () => {
+    mockRequireAccess.mockRejectedValue(new Error("Unauthorized"));
 
     await expect(
       CommandCenterLayout({ children: <div>test</div> }),

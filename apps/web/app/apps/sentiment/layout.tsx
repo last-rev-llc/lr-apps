@@ -1,4 +1,6 @@
-import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { requireAccess } from "@repo/auth/server";
+import { hasFeatureAccess } from "@repo/billing";
+import UpgradePrompt from "@/components/UpgradePrompt";
 import type { ReactNode } from "react";
 
 export default async function SentimentLayout({
@@ -6,7 +8,9 @@ export default async function SentimentLayout({
 }: {
   children: ReactNode;
 }) {
-  await requireAppLayoutAccess("sentiment");
+  const { user } = await requireAccess("sentiment");
+  const hasAccess = await hasFeatureAccess(user.id, "sentiment");
+  if (!hasAccess) return <UpgradePrompt requiredTier="pro" />;
 
   return (
     <div className="min-h-screen">
