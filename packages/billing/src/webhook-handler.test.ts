@@ -88,4 +88,43 @@ describe("handleStripeWebhook", () => {
       "STRIPE_WEBHOOK_SECRET",
     );
   });
+
+  it("propagates error when constructEvent throws due to invalid signature", async () => {
+    mockConstructEvent.mockImplementation(() => {
+      throw new Error("No signatures found matching the expected signature for payload");
+    });
+
+    await expect(handleStripeWebhook("tampered-body", "bad-sig")).rejects.toThrow(
+      "No signatures found",
+    );
+  });
+
+  it("ignores unhandled event types gracefully", async () => {
+    mockConstructEvent.mockReturnValue({
+      type: "payment_intent.succeeded",
+      data: { object: { id: "pi_123" } },
+    });
+
+    const result = await handleStripeWebhook("body", "sig");
+
+    expect(result).toEqual({ received: true });
+    expect(mockUpsertSubscription).not.toHaveBeenCalled();
+    expect(mockFrom).not.toHaveBeenCalled();
+  });
+
+  it("handles customer.subscription.deleted with missing subscription id gracefully", async () => {
+    mockConstructEvent.mockReturnValue({
+      type: "customer.subscription.deleted",
+      data: { object: { id: undefined, customer: "cus_456" } },
+    });
+    const mockEq = vi.fn().mockResolvedValue({ error: null });
+    mockUpdate.mockReturnValue({ eq: mockEq });
+
+    const result = await handleStripeWebhook("body", "sig");
+
+    expect(result).toEqual({ received: true });
+    expect(mockUpdate).toHaveBeenCalledWith(
+      expect.objectContaining({ status: "canceled" }),
+    );
+  });
 });

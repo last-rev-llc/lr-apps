@@ -89,6 +89,86 @@ describe("upsertSubscription", () => {
       "No subscription row found",
     );
   });
+
+  it("maps past_due Stripe status to past_due in DB", async () => {
+    mockSingle.mockResolvedValueOnce({ data: { user_id: "user-3" } });
+
+    const stripeSub = {
+      id: "sub_past_due",
+      customer: "cus_789",
+      status: "past_due",
+      current_period_start: 1700000000,
+      current_period_end: 1702592000,
+      items: { data: [{ price: { metadata: { tier: "pro" } } }] },
+    } as unknown as Stripe.Subscription;
+
+    await upsertSubscription(stripeSub);
+
+    expect(mockUpsert).toHaveBeenCalledWith(
+      expect.objectContaining({ status: "past_due" }),
+      expect.anything(),
+    );
+  });
+
+  it("maps incomplete Stripe status to incomplete in DB", async () => {
+    mockSingle.mockResolvedValueOnce({ data: { user_id: "user-4" } });
+
+    const stripeSub = {
+      id: "sub_incomplete",
+      customer: "cus_111",
+      status: "incomplete",
+      current_period_start: 1700000000,
+      current_period_end: 1702592000,
+      items: { data: [{ price: { metadata: { tier: "free" } } }] },
+    } as unknown as Stripe.Subscription;
+
+    await upsertSubscription(stripeSub);
+
+    expect(mockUpsert).toHaveBeenCalledWith(
+      expect.objectContaining({ status: "incomplete" }),
+      expect.anything(),
+    );
+  });
+
+  it("maps unpaid Stripe status to past_due in DB", async () => {
+    mockSingle.mockResolvedValueOnce({ data: { user_id: "user-5" } });
+
+    const stripeSub = {
+      id: "sub_unpaid",
+      customer: "cus_222",
+      status: "unpaid",
+      current_period_start: 1700000000,
+      current_period_end: 1702592000,
+      items: { data: [{ price: { metadata: { tier: "pro" } } }] },
+    } as unknown as Stripe.Subscription;
+
+    await upsertSubscription(stripeSub);
+
+    expect(mockUpsert).toHaveBeenCalledWith(
+      expect.objectContaining({ status: "past_due" }),
+      expect.anything(),
+    );
+  });
+
+  it("maps incomplete_expired to incomplete in DB", async () => {
+    mockSingle.mockResolvedValueOnce({ data: { user_id: "user-6" } });
+
+    const stripeSub = {
+      id: "sub_exp",
+      customer: "cus_333",
+      status: "incomplete_expired",
+      current_period_start: 1700000000,
+      current_period_end: 1702592000,
+      items: { data: [{ price: { metadata: {} } }] },
+    } as unknown as Stripe.Subscription;
+
+    await upsertSubscription(stripeSub);
+
+    expect(mockUpsert).toHaveBeenCalledWith(
+      expect.objectContaining({ status: "incomplete" }),
+      expect.anything(),
+    );
+  });
 });
 
 describe("getSubscription", () => {
