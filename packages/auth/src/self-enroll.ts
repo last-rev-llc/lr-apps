@@ -1,5 +1,6 @@
 import { createServiceRoleClient } from "@repo/db/service-role";
 import type { Permission } from "@repo/db/types";
+import { log } from "@repo/logger";
 
 const APP_DOMAINS = ["apps.lastrev.com", "apps.lastrev.localhost"];
 
@@ -126,7 +127,11 @@ export async function selfEnrollUserIfAllowed(
   if (error?.code === "23505") return true;
 
   if (error) {
-    console.error("[auth] self-enroll app_permissions failed:", error.message);
+    log.error("auth self-enroll app_permissions failed", {
+      err: error,
+      userId,
+      slug,
+    });
     return false;
   }
 

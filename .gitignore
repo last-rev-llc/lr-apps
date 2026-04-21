@@ -31,3 +31,7 @@ package.json.bak
 # Alpha-loop ephemeral data (not shared)
 .alpha-loop/templates/*.bak
 .worktrees/
+
+# Sentry
+.sentryclirc
+.env.sentry-build-plugin

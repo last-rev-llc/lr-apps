@@ -8,11 +8,38 @@ export interface ErrorBoundaryProps {
   children: React.ReactNode;
   fallback?: React.ReactNode | ((props: { error: Error; reset: () => void }) => React.ReactNode);
   onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
+  /** Forward caught errors to Sentry (when @sentry/nextjs is installed). Default true. */
+  reportToSentry?: boolean;
   className?: string;
 }
 
 interface ErrorBoundaryState {
   error: Error | null;
+}
+
+type SentryModule = {
+  captureException: (
+    err: unknown,
+    hint?: { contexts?: Record<string, unknown> },
+  ) => unknown;
+};
+
+async function reportError(
+  error: Error,
+  errorInfo: React.ErrorInfo,
+): Promise<void> {
+  try {
+    const mod: unknown = await import("@sentry/nextjs").catch(() => null);
+    if (!mod) return;
+    const sentry = mod as SentryModule;
+    sentry.captureException(error, {
+      contexts: {
+        react: { componentStack: errorInfo.componentStack },
+      },
+    });
+  } catch {
+    /* Sentry is optional — swallow */
+  }
 }
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -27,6 +54,9 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     this.props.onError?.(error, errorInfo);
+    if (this.props.reportToSentry !== false) {
+      void reportError(error, errorInfo);
+    }
   }
 
   reset = () => {

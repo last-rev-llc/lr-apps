@@ -1,5 +1,6 @@
 import { Auth0Client } from "@auth0/nextjs-auth0/server";
 import { NextResponse } from "next/server";
+import { log } from "@repo/logger";
 import { maybeSelfEnrollAfterLogin, appSlugFromReturnTo } from "./self-enroll";
 
 const ALLOWED_RETURN_HOSTS = [
@@ -127,16 +128,18 @@ export function getAuth0ClientForHost(host: string): Auth0Client {
       try {
         await maybeSelfEnrollAfterLogin(session.user.sub, ctx.returnTo);
       } catch (e) {
-        console.error("[auth] self-enroll skipped:", e);
+        log.error("auth self-enroll skipped", {
+          err: e,
+          userId: session.user.sub,
+          returnTo: ctx.returnTo,
+        });
       }
 
       // Validate returnTo to prevent open-redirect
       const rawTarget = ctx.returnTo || "/my-apps";
       const target = isSafeReturnTo(rawTarget) ? rawTarget : "/my-apps";
       if (target !== rawTarget) {
-        console.warn(
-          `[auth] rejected unsafe returnTo "${rawTarget}", redirecting to /my-apps`,
-        );
+        log.warn("auth rejected unsafe returnTo", { rawTarget });
       }
       return NextResponse.redirect(new URL(target, appBaseUrl));
     },
