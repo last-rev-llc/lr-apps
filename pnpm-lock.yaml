@@ -234,6 +234,31 @@ importers:
         specifier: ^3
         version: 3.2.4(@types/node@22.19.15)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(terser@5.46.1)
 
+  packages/storage:
+    dependencies:
+      '@repo/db':
+        specifier: workspace:*
+        version: link:../db
+      '@repo/logger':
+        specifier: workspace:*
+        version: link:../logger
+      '@supabase/supabase-js':
+        specifier: ^2
+        version: 2.100.0
+    devDependencies:
+      '@repo/config':
+        specifier: workspace:*
+        version: link:../config
+      '@repo/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+      vitest:
+        specifier: ^3
+        version: 3.2.4(@types/node@22.19.15)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(terser@5.46.1)
+
   packages/test-utils:
     dependencies:
       '@supabase/supabase-js':
