@@ -1,0 +1,103 @@
+name: Preview comment
+
+# Posts a PR comment listing per-app preview URLs once Vercel reports the
+# deployment is ready. Triggered by Vercel's deployment_status event on PRs.
+
+on:
+  deployment_status:
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  comment:
+    if: >-
+      github.event.deployment_status.state == 'success' &&
+      contains(github.event.deployment.environment, 'Preview')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Find associated PR
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.payload.deployment.sha;
+            const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: sha,
+            });
+            const pr = prs.find(p => p.state === 'open');
+            if (!pr) {
+              core.info(`No open PR for sha ${sha}`);
+              return '';
+            }
+            core.setOutput('number', String(pr.number));
+            return pr.number;
+
+      - name: Build app list
+        id: apps
+        if: steps.pr.outputs.number != ''
+        run: |
+          node --experimental-strip-types - <<'EOF' > apps-list.json
+          import { getAllApps } from "./apps/web/lib/app-registry.ts";
+          const list = getAllApps()
+            .filter((a) => a.slug !== "auth")
+            .map((a) => ({ slug: a.slug, subdomain: a.subdomain, name: a.name }));
+          process.stdout.write(JSON.stringify(list));
+          EOF
+          echo "json=$(cat apps-list.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Post / update comment
+        if: steps.pr.outputs.number != ''
+        uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ github.event.deployment_status.environment_url }}
+          APPS_JSON: ${{ steps.apps.outputs.json }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+        with:
+          script: |
+            const previewUrl = process.env.PREVIEW_URL;
+            const apps = JSON.parse(process.env.APPS_JSON || '[]');
+            const prNumber = Number(process.env.PR_NUMBER);
+            const marker = '<!-- preview-app-links -->';
+
+            const lines = apps.map(a =>
+              `- **${a.name}** (${a.subdomain}): ${previewUrl}/?app=${a.subdomain}`
+            );
+            const body = [
+              marker,
+              `### Preview app links`,
+              ``,
+              `Bare preview: ${previewUrl}`,
+              ``,
+              `Each app is reachable on the preview by appending \`?app=<slug>\` (subdomain routing only works on \`apps.lastrev.com\`).`,
+              ``,
+              ...lines,
+            ].join('\n');
+
+            const { data: existing } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+            const prior = existing.find(c => c.body && c.body.includes(marker));
+            if (prior) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: prior.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body,
+              });
+            }

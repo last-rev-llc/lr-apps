@@ -8,6 +8,19 @@ const LOCAL_DOMAIN = "lastrev.localhost";
 const APPS_PROD_SUFFIX = `.${APPS_ROOT_DOMAIN}`;
 const APPS_LOCAL_SUFFIX = `.${APPS_ROOT_DOMAIN_LOCAL}`;
 
+const VERCEL_PREVIEW_SUFFIX = ".vercel.app";
+
+/**
+ * True for Vercel preview hosts (e.g. `lr-apps-git-feat-x.vercel.app`).
+ * Preview deployments live on a single hostname per branch, so subdomain-
+ * based app routing cannot work — callers must fall back to the explicit
+ * `?app=<slug>` override or render the root.
+ */
+export function isVercelPreviewHost(host: string): boolean {
+  const hostname = host.split(":")[0];
+  return hostname.endsWith(VERCEL_PREVIEW_SUFFIX);
+}
+
 /**
  * App slug from host when using `*.apps.lastrev.com` (or local equivalent).
  * Returns null for bare `apps.lastrev.com` / `apps.lastrev.localhost`.
