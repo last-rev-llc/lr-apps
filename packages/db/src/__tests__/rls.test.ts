@@ -24,23 +24,50 @@ describeIfRls("RLS cross-tenant denial", () => {
       auth: { persistSession: false, autoRefreshToken: false },
     });
 
-    // Best-effort seed: ensure each user has at least one app_permission and
-    // one subscription row. Tests assert isolation regardless of how many
-    // rows exist.
-    await admin.from("app_permissions").upsert(
+    // Create both test users in auth.users so FK constraints on
+    // app_permissions.user_id, subscriptions.user_id, and audit_log.user_id
+    // are satisfied. Idempotent: ignore "user already registered" errors so
+    // the suite can be run repeatedly against the same local instance.
+    for (const [id, email] of [
+      [USER_A, "rls-test-a@local.test"],
+      [USER_B, "rls-test-b@local.test"],
+    ] as const) {
+      const { error } = await admin.auth.admin.createUser({
+        id,
+        email,
+        email_confirm: true,
+      });
+      if (error && !/already|registered|exists/i.test(error.message)) {
+        throw new Error(
+          `Failed to create RLS test user ${id}: ${error.message}`,
+        );
+      }
+    }
+
+    // Seed one row each for the SELECT-isolation assertions. Surface upsert
+    // errors so a broken seed fails loudly instead of silently producing 0
+    // rows (which would falsely pass the "cannot SELECT user B's rows" tests).
+    const permResult = await admin.from("app_permissions").upsert(
       [
         { user_id: USER_A, app_slug: "command-center", permission: "view" },
         { user_id: USER_B, app_slug: "command-center", permission: "view" },
       ],
       { onConflict: "user_id,app_slug" },
     );
-    await admin.from("subscriptions").upsert(
+    if (permResult.error) {
+      throw new Error(`Seed app_permissions failed: ${permResult.error.message}`);
+    }
+
+    const subResult = await admin.from("subscriptions").upsert(
       [
         { user_id: USER_A, tier: "free", status: "active" },
         { user_id: USER_B, tier: "free", status: "active" },
       ],
       { onConflict: "user_id" },
     );
+    if (subResult.error) {
+      throw new Error(`Seed subscriptions failed: ${subResult.error.message}`);
+    }
   });
 
   describe("app_permissions", () => {
