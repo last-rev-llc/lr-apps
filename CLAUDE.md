@@ -76,3 +76,4 @@ Workspace imports use `@repo/<pkg>`. Web app uses `@/*` alias for its own root.
 - **Migrations are append-only**: add a new numbered file under `supabase/migrations/`; never edit an existing migration.
 - **Design tokens over hex**: use `var(--color-*)` or Tailwind theme classes; the `no-hardcoded-colors` rule will flag violations.
 - **Don't edit `apps/web/next.config.ts`, `turbo.json`, or `pnpm-workspace.yaml`** without a clear reason — these affect every app.
+- **Every new app added to `app-registry.ts` MUST also have a `view` seed row in `supabase/seed.sql`.** The `lint:registry` CI check (`scripts/check-registry-db-consistency.ts`) fails the build otherwise.

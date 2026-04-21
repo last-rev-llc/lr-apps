@@ -4,7 +4,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev & punchlist-qa serve & wait",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint && pnpm lint:registry",
+    "lint:registry": "npx tsx scripts/check-registry-db-consistency.ts",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:rls": "pnpm --filter @repo/db exec vitest run src/__tests__/rls.test.ts",
