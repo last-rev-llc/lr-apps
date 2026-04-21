@@ -22,9 +22,28 @@ const mockMaybeSingle = vi.fn();
 const mockInsert = vi.fn();
 const mockIdempotencyEq = vi.fn(() => ({ maybeSingle: mockMaybeSingle }));
 const mockSelect = vi.fn(() => ({ eq: mockIdempotencyEq }));
+
+// Subscriptions table spies. The real upsertSubscription first calls
+// from('subscriptions').select('user_id').eq('stripe_customer_id', x).single()
+// to look up the existing row, then calls from('subscriptions').upsert(payload).
+const mockSubscriptionsUpsert = vi.fn(() => Promise.resolve({ error: null }));
+const mockSubscriptionsSingle = vi.fn();
+const mockSubscriptionsLookupEq = vi.fn(() => ({
+  single: mockSubscriptionsSingle,
+}));
+const mockSubscriptionsSelect = vi.fn(() => ({
+  eq: mockSubscriptionsLookupEq,
+}));
 const mockFrom = vi.fn((table: string) => {
   if (table === "processed_webhook_events") {
     return { select: mockSelect, insert: mockInsert };
+  }
+  if (table === "subscriptions") {
+    return {
+      update: mockUpdate,
+      select: mockSubscriptionsSelect,
+      upsert: mockSubscriptionsUpsert,
+    };
   }
   return { update: mockUpdate };
 });
@@ -144,6 +163,47 @@ describe("Billing flow integration tests", () => {
       expect(mockFrom).toHaveBeenCalledWith("subscriptions");
       expect(mockUpdate).toHaveBeenCalledWith(
         expect.objectContaining({ status: "canceled" }),
+      );
+    });
+  });
+
+  describe("End-to-end DB row write via real upsertSubscription", () => {
+    // These tests bypass the module-level mock of ./subscriptions and exercise
+    // the real upsertSubscription against the mocked service-role client, so we
+    // can assert that a subscription row is actually written to the DB after a
+    // simulated webhook. This is the M8 billing integration check (#64).
+    it("writes a subscription row with the expected user_id and tier", async () => {
+      const subscriptions = await vi.importActual<
+        typeof import("./subscriptions")
+      >("./subscriptions");
+
+      mockSubscriptionsSingle.mockResolvedValueOnce({
+        data: { user_id: "user-from-db" },
+      });
+
+      const stripeSub = {
+        id: "sub_create_e2e",
+        customer: "cus_create_e2e",
+        status: "active",
+        current_period_start: 1700000000,
+        current_period_end: 1702592000,
+        items: { data: [{ price: { metadata: { tier: "pro" } } }] },
+      };
+
+      await subscriptions.upsertSubscription(
+        stripeSub as unknown as import("stripe").default.Subscription,
+      );
+
+      expect(mockFrom).toHaveBeenCalledWith("subscriptions");
+      expect(mockSubscriptionsUpsert).toHaveBeenCalledWith(
+        expect.objectContaining({
+          user_id: "user-from-db",
+          stripe_subscription_id: "sub_create_e2e",
+          stripe_customer_id: "cus_create_e2e",
+          tier: "pro",
+          status: "active",
+        }),
+        { onConflict: "user_id" },
       );
     });
   });
