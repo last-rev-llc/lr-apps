@@ -11,7 +11,7 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "@sentry/nextjs": "^8 || ^9"
+    "@sentry/nextjs": "^8 || ^9 || ^10"
   },
   "peerDependenciesMeta": {
     "@sentry/nextjs": {

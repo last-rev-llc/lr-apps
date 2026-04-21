@@ -25,6 +25,14 @@
     "react": "^19",
     "tailwind-merge": "^3"
   },
+  "peerDependencies": {
+    "@sentry/nextjs": "^8 || ^9 || ^10"
+  },
+  "peerDependenciesMeta": {
+    "@sentry/nextjs": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@repo/config": "workspace:*",
     "@repo/test-utils": "workspace:*",
