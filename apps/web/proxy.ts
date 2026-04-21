@@ -10,15 +10,36 @@ import {
   isVercelPreviewHost,
 } from "./lib/proxy-utils";
 import { applyCspHeader } from "./lib/csp";
+import {
+  applyRateLimitHeaders,
+  getClientIp,
+  rateLimit,
+  rateLimitNextResponse,
+} from "./lib/rate-limit";
+
+const AUTH_RATE_LIMIT = 10;
+const AUTH_RATE_WINDOW_MS = 60_000;
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   const host = getHostFromRequestHeaders(request.headers);
   const auth0 = getAuth0ClientForHost(host);
-  const authResponse = await auth0.middleware(request);
 
   if (request.nextUrl.pathname.startsWith("/auth")) {
+    const ip = getClientIp(request.headers);
+    const result = rateLimit(
+      `auth:${ip}`,
+      AUTH_RATE_LIMIT,
+      AUTH_RATE_WINDOW_MS,
+    );
+    if (!result.allowed) {
+      return applyCspHeader(rateLimitNextResponse(result));
+    }
+    const authResponse = await auth0.middleware(request);
+    applyRateLimitHeaders(authResponse, result);
     return applyCspHeader(authResponse);
   }
+
+  const authResponse = await auth0.middleware(request);
 
   const withAuth = (inner: NextResponse) =>
     applyCspHeader(mergeAuthMiddlewareResponse(authResponse, inner));

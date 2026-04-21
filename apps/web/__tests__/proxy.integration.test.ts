@@ -11,6 +11,7 @@ vi.mock("@repo/auth/auth0-factory", () => ({
 
 import { proxy } from "../proxy";
 import { getAuth0ClientForHost } from "@repo/auth/auth0-factory";
+import { _resetRateLimitStore } from "../lib/rate-limit";
 
 const mockedGetAuth0 = vi.mocked(getAuth0ClientForHost);
 
@@ -29,6 +30,7 @@ describe("proxy middleware integration", () => {
     middlewareMock.mockReset();
     middlewareMock.mockImplementation(async () => freshAuthResponse());
     mockedGetAuth0.mockClear();
+    _resetRateLimitStore();
   });
 
   afterEach(() => {
@@ -131,6 +133,28 @@ describe("proxy middleware integration", () => {
       const res = await proxy(req);
       expect(res.headers.get("x-auth-marker")).toBe("from-auth0");
       expect(res.headers.get("x-middleware-rewrite")).toBeFalsy();
+    });
+
+    it("rate-limits /auth/* to 10 requests per IP per minute", async () => {
+      for (let i = 0; i < 10; i++) {
+        const req = makeRequest(
+          "https://auth.lastrev.com/auth/callback",
+          "auth.lastrev.com",
+        );
+        req.headers.set("x-forwarded-for", "7.7.7.7");
+        const res = await proxy(req);
+        expect(res.status).toBeLessThan(400);
+        expect(res.headers.get("X-RateLimit-Limit")).toBe("10");
+      }
+      const req = makeRequest(
+        "https://auth.lastrev.com/auth/callback",
+        "auth.lastrev.com",
+      );
+      req.headers.set("x-forwarded-for", "7.7.7.7");
+      const blocked = await proxy(req);
+      expect(blocked.status).toBe(429);
+      expect(blocked.headers.get("X-RateLimit-Remaining")).toBe("0");
+      expect(blocked.headers.get("Retry-After")).toBeTruthy();
     });
   });
 
