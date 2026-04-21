@@ -1,0 +1,26 @@
+{
+  "name": "session/20260420-225002",
+  "branch": "session/20260420-225002",
+  "completed": "2026-04-21T08:32:54.185Z",
+  "results": [
+    {
+      "issueNum": 67,
+      "title": "CI pipeline setup",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/236",
+      "testsPassing": true,
+      "verifyPassing": false,
+      "duration": 4755,
+      "filesChanged": 11
+    },
+    {
+      "issueNum": 85,
+      "title": "Proxy/routing integration tests",
+      "status": "failure",
+      "testsPassing": false,
+      "verifyPassing": false,
+      "duration": 3983,
+      "filesChanged": 0
+    }
+  ]
+}
