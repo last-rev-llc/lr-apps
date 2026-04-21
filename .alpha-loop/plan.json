@@ -1,0 +1,503 @@
+{
+  "vision": null,
+  "milestones": [
+    {
+      "title": "013 - Production Readiness — Staging, Preview, DR",
+      "description": "Fills the biggest operational gap: staging/prod environment separation, preview deployment workflow, migration rollback patterns, secrets rotation runbook, disaster recovery documentation, and a zero-downtime deploy checklist. Prerequisite for any future production cutover.",
+      "dueOn": "2026-07-01",
+      "order": 13
+    },
+    {
+      "title": "014 - Data Integrity & Audit Schema",
+      "description": "Audit log table with proper RLS and indexes, subscriptions RLS fixes unblocking M8 webhook writes, hot-path index additions, an RLS test harness in @repo/test-utils, and a CI registry→DB consistency check. Unblocks M8 and M11.",
+      "dueOn": "2026-05-31",
+      "order": 14
+    },
+    {
+      "title": "015 - Analytics, Feature Flags & Usage Telemetry",
+      "description": "@repo/analytics wrapper package, instrumentation of core product flows, a feature_flags table and getFeatureFlagValue() primitive in @repo/billing, an admin flag UI in Command Center, and an analytics event dashboard. Fills the missing half of observability (M9 covers errors/vitals; this covers product events and experimentation).",
+      "dueOn": "2026-08-01",
+      "order": 15
+    },
+    {
+      "title": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
+      "description": "Playwright mobile viewport audit across all 27 apps with top-10 regression fixes, axe-core accessibility audit and p0 violation fixes, eslint-plugin-jsx-a11y in @repo/config, next-intl scaffold with 3 pilot apps, and responsive @repo/ui component variants.",
+      "dueOn": "2026-10-01",
+      "order": 16
+    },
+    {
+      "title": "017 - Cleanup Backlog",
+      "description": "House pass: Age of Apes @repo/ui migration, finish 4 skeleton apps, resolve M4-M5 review-issue token/hover regressions, CLAUDE.md lib/ sync CI check, and GitHub milestone housekeeping (close empty duplicates #5/#6, consolidate CI scope).",
+      "dueOn": "2026-05-31",
+      "order": 17
+    }
+  ],
+  "issues": [
+    {
+      "id": 1,
+      "title": "Add OpenTelemetry traces for webhook and auth middleware",
+      "body": "## Summary\nAdd distributed tracing via OpenTelemetry to the Stripe webhook handler and auth middleware. Complements Sentry error tracking by surfacing latency regressions that error counts alone won't catch — particularly useful for catching slow permission lookups and webhook processing spikes.\n\n## Acceptance Criteria\n- [ ] Install `@opentelemetry/sdk-node` and configure OTLP exporter (Honeycomb or Grafana Cloud)\n- [ ] Instrument `/api/webhooks/stripe` with spans covering signature verification, event parsing, and DB write\n- [ ] Instrument `proxy.ts` auth middleware with spans for session check, permission lookup, and redirect decision\n- [ ] Add `OTEL_EXPORTER_OTLP_ENDPOINT` and `OTEL_SERVICE_NAME` to `turbo.json` globalEnv and `.env.local.example`\n- [ ] Traces appear in chosen backend with correct parent-child span structure\n- [ ] No-op in test environment (`OTEL_SDK_DISABLED=true`)\n- [ ] Document setup steps in `docs/ops/observability.md`",
+      "labels": [
+        "enhancement",
+        "observability"
+      ],
+      "milestone": "M9: Observability & Error Tracking",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 2,
+      "title": "Add Redis/Upstash caching layer for app registry, permissions, and subscription status",
+      "body": "## Summary\nApp registry lookups, permission checks, and subscription status queries run on every proxied request. Add a Redis/Upstash caching layer in `@repo/db` to reduce Supabase round-trips on the hot path.\n\n## Acceptance Criteria\n- [ ] Add `@upstash/redis` to `packages/db/package.json`\n- [ ] Cache `getAppPermission(userId, slug)` results with 60 s TTL; invalidate on `upsertPermission()`\n- [ ] Cache `getUserSubscription(userId)` with 300 s TTL; invalidate on Stripe webhook upsert\n- [ ] Cache app registry lookups (`getAppBySubdomain`, `getAppBySlug`) indefinitely (static data, invalidated only on deploy)\n- [ ] Add `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` to `turbo.json` globalEnv and `.env.local.example`\n- [ ] Cache layer is bypassed when env vars are absent (local dev fallback to direct Supabase)\n- [ ] Add unit tests for cache hit/miss behavior in `packages/db/src/__tests__/cache.test.ts`",
+      "labels": [
+        "enhancement",
+        "performance",
+        "infrastructure"
+      ],
+      "milestone": "M10: Infrastructure — Email, Cron, Storage",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 3,
+      "title": "Add Zod-validated environment variable loader at application startup",
+      "body": "## Summary\nAdd a startup env validation step that parses all required environment variables through a Zod schema and throws a descriptive error at boot time if any are missing or malformed. Distinct from API-route input validation (issue #163), which validates request payloads.\n\n## Acceptance Criteria\n- [ ] Create `apps/web/lib/env.ts` with a Zod schema covering all required vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `AUTH0_SECRET`, `AUTH0_BASE_URL`, `AUTH0_ISSUER_BASE_URL`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`\n- [ ] Import and validate `env.ts` in `apps/web/app/layout.tsx` (server-side; runs at cold start)\n- [ ] Missing or invalid vars produce a clear error message naming the offending variable\n- [ ] Add `zod` to `apps/web` dependencies if not already present\n- [ ] Add unit test asserting validation throws on a missing required var\n- [ ] Update `CLAUDE.md`: every new env var must be added to `lib/env.ts` before use",
+      "labels": [
+        "enhancement",
+        "security"
+      ],
+      "milestone": "M11: Security Hardening",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 4,
+      "title": "Add @repo/db typed-query documentation and migration authoring guide",
+      "body": "## Summary\nDocument the typed query helpers in `@repo/db` and establish a migration authoring guide that references the rollback pattern. Gives future contributors a clear workflow for DB changes and prevents the query-helper API from being re-implemented ad hoc.\n\n## Acceptance Criteria\n- [ ] Create `packages/db/README.md` documenting `getAppPermission`, `upsertPermission`, `getUserSubscription`, and the service-role vs. anon client distinction\n- [ ] Document when to use `db/server.ts` vs `db/client.ts` vs `db/service-role.ts` with code examples\n- [ ] Create `docs/guides/migrations.md` covering: naming convention, how to write a migration, rollback strategy (pairing `.down.sql`), and CI check integration\n- [ ] Link migration guide from `CLAUDE.md` under the DB section\n- [ ] Add a `db:rollback` script placeholder to root `package.json` with a TODO comment pointing to the guide (to be implemented in M13)",
+      "labels": [
+        "documentation",
+        "dx"
+      ],
+      "milestone": "M12: Developer Experience & Docs",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 5,
+      "title": "Staging environment: second Supabase project, Auth0 tenant, and env var matrix",
+      "body": "## Summary\nCreate a fully isolated staging environment with its own Supabase project and Auth0 tenant. Document the env var matrix and Vercel environment promotion flow so staging changes can be promoted to production safely.\n\n## Acceptance Criteria\n- [ ] Create a second Supabase project for staging; apply all migrations from `supabase/migrations/` to it\n- [ ] Create a staging Auth0 tenant; configure allowed callback URLs for the staging subdomain pattern\n- [ ] Document Stripe test-mode keys as the staging billing credentials (no new keys needed)\n- [ ] Add `.env.staging.example` listing all staging-specific vars\n- [ ] Extend `apps/web/lib/env.ts` Zod schema to validate `DEPLOYMENT_ENV` (`staging | production`)\n- [ ] Document Vercel environment promotion workflow: how to promote staging env vars to production without downtime\n- [ ] Update root `README.md` with an environment matrix table (local / staging / production) listing all vars and their sources",
+      "labels": [
+        "enhancement",
+        "infrastructure"
+      ],
+      "milestone": "013 - Production Readiness — Staging, Preview, DR",
+      "priority": "p0",
+      "complexity": "large",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 6,
+      "title": "Preview deployment workflow: subdomain routing and Auth0 callbacks for Vercel preview URLs",
+      "body": "## Summary\nDocument and automate how subdomain routing and Auth0 allowed-callback URLs work on Vercel preview deployments. Add a PR comment action that posts preview app links after each preview deploy.\n\n## Acceptance Criteria\n- [ ] Document in `docs/ops/preview-deployments.md`: how `proxy.ts` resolves subdomains on Vercel preview URLs and how to add preview URL patterns to Auth0 allowed callbacks\n- [ ] Update `proxy.ts` to handle Vercel preview URL format (`<branch>-<project>.vercel.app`) without incorrectly redirecting to the auth hub\n- [ ] Add a GitHub Actions step (or Vercel Deploy Hook) that posts a PR comment listing preview URLs for each registered app subdomain after a preview deploy succeeds\n- [ ] Manually verify at least one app renders correctly on a preview deployment\n- [ ] Auth0 staging tenant configured with a wildcard allowed callback covering preview URLs",
+      "labels": [
+        "enhancement",
+        "infrastructure",
+        "dx"
+      ],
+      "milestone": "013 - Production Readiness — Staging, Preview, DR",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        5
+      ],
+      "selected": true
+    },
+    {
+      "id": 7,
+      "title": "Database migration rollback pattern: paired .down.sql files and db:rollback script",
+      "body": "## Summary\nEstablish a convention that every Supabase migration ships with a paired `.down.sql` rollback file. Implement the `db:rollback` script placeholder from the M12 docs issue and add a CI lint check to enforce the pairing rule.\n\n## Acceptance Criteria\n- [ ] Implement `db:rollback` script in root `package.json` that applies the most recent `.down.sql` against the local Supabase instance (`supabase db reset --db-url` or equivalent)\n- [ ] Retroactively create `.down.sql` files for all existing migrations in `supabase/migrations/`\n- [ ] Add CI lint step that fails if any `*.sql` migration file lacks a corresponding `*.down.sql`\n- [ ] Update `CLAUDE.md` DB section: every migration must ship with a paired `.down.sql` rollback file\n- [ ] Update `docs/guides/migrations.md` (created in issue #4) with the rollback procedure and the CI check\n- [ ] Document manual revert procedure for migrations already applied to the production Supabase project",
+      "labels": [
+        "enhancement",
+        "database",
+        "infrastructure"
+      ],
+      "milestone": "013 - Production Readiness — Staging, Preview, DR",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        4
+      ],
+      "selected": true
+    },
+    {
+      "id": 8,
+      "title": "Secrets rotation runbook: Stripe, Auth0, Supabase service role, and CRON_SECRET",
+      "body": "## Summary\nCreate an ops runbook covering the rotation procedure for every long-lived secret in the platform. Includes revocation order, verification steps, and a rollback path if a rotation causes a live incident.\n\n## Acceptance Criteria\n- [ ] Create `docs/ops/secrets-rotation.md` with dedicated sections for: Stripe webhook secret, Auth0 client secret, Supabase service role key, `CRON_SECRET`, and `AUTH0_SECRET`\n- [ ] Each section documents: how to generate the new secret, how to update it in Vercel for staging then production, how to verify the old secret is revoked, and the safe overlap window for in-flight requests\n- [ ] Document rotation order (Stripe → Supabase → Auth0 → Cron) to avoid cross-service auth failures\n- [ ] Add `docs/ops/ROTATION_HISTORY.md` placeholder for logging rotation dates and operator\n- [ ] Reference the runbook from the main `README.md` Ops section\n- [ ] Add the runbook path to `.alpha-loop.yaml` under ops documentation",
+      "labels": [
+        "documentation",
+        "security",
+        "infrastructure"
+      ],
+      "milestone": "013 - Production Readiness — Staging, Preview, DR",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        5
+      ],
+      "selected": true
+    },
+    {
+      "id": 9,
+      "title": "Disaster recovery documentation: RTO/RPO targets, Supabase PITR restore, and Stripe event replay",
+      "body": "## Summary\nDocument RTO/RPO assumptions, Supabase point-in-time recovery steps, Stripe webhook event replay procedure for missed events, and an incident contact list. Establishes the recovery baseline before production traffic scales.\n\n## Acceptance Criteria\n- [ ] Create `docs/ops/disaster-recovery.md` with: RTO/RPO targets per service tier, Supabase PITR restore steps (dashboard + CLI), Stripe webhook replay steps for events missed during an outage, and Auth0 tenant export/import\n- [ ] Document Supabase automatic daily backup schedule and retention period\n- [ ] Add incident contact list: Supabase support, Stripe support, Auth0 support, Vercel support (with SLA response times)\n- [ ] Define recovery runbook for the top three failure scenarios: DB corruption/accidental drop, auth provider outage, billing provider outage\n- [ ] Reference from `README.md` Ops section",
+      "labels": [
+        "documentation",
+        "infrastructure"
+      ],
+      "milestone": "013 - Production Readiness — Staging, Preview, DR",
+      "priority": "p2",
+      "complexity": "medium",
+      "dependsOn": [
+        5
+      ],
+      "selected": true
+    },
+    {
+      "id": 10,
+      "title": "Zero-downtime deploy checklist: webhook availability, expand-contract DB schema, canary rollout",
+      "body": "## Summary\nCreate a pre-deploy checklist ensuring webhook handler availability during Vercel rolling deploys, documenting the expand-then-contract pattern for additive DB schema changes, and defining a canary/feature-flag rollout approach.\n\n## Acceptance Criteria\n- [ ] Create `docs/ops/zero-downtime-deploy.md` covering: pre-deploy checklist, webhook availability during Vercel rolling deploys (requires health check endpoint from M9 #149), expand-contract migration steps\n- [ ] Document Vercel rolling deploy behavior and how it interacts with Next.js server actions and Supabase connections\n- [ ] Describe the feature-flag rollout pattern using the `feature_flags` table (from issue #18)\n- [ ] Document Vercel traffic splitting option for canary deploys\n- [ ] Reference from `README.md` Ops section",
+      "labels": [
+        "documentation",
+        "infrastructure"
+      ],
+      "milestone": "013 - Production Readiness — Staging, Preview, DR",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        5,
+        7
+      ],
+      "selected": true
+    },
+    {
+      "id": 11,
+      "title": "Add audit_log table with insert-only RLS, service-role bypass, and query indexes",
+      "body": "## Summary\nCreate the `audit_log` database table that M11's audit log middleware (issue #162) writes to. Implements insert-only RLS for user context and a service-role bypass for server-side writes, plus the indexes required for Command Center admin queries.\n\n## Acceptance Criteria\n- [ ] Create `supabase/migrations/005_audit_log.sql` with schema: `(id uuid DEFAULT gen_random_uuid() PRIMARY KEY, user_id uuid REFERENCES auth.users(id), action text NOT NULL, resource text NOT NULL, metadata jsonb, created_at timestamptz DEFAULT now() NOT NULL)`\n- [ ] Enable RLS: authenticated users may only INSERT rows where `auth.uid() = user_id`; no SELECT/UPDATE/DELETE for user role\n- [ ] Service role bypasses RLS for all operations\n- [ ] Add indexes: `idx_audit_log_user_created (user_id, created_at)` and `idx_audit_log_action (action)`\n- [ ] Create paired `005_audit_log.down.sql` rollback file\n- [ ] Add `AuditLog` row type to `packages/db/src/types.ts` and extend the `Database` interface\n- [ ] Add `insertAuditLog(entry: AuditLogInsert): Promise<void>` helper to `packages/db/src/queries.ts` with a unit test",
+      "labels": [
+        "enhancement",
+        "database",
+        "security"
+      ],
+      "milestone": "014 - Data Integrity & Audit Schema",
+      "priority": "p0",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 12,
+      "title": "Fix subscriptions table RLS: add service-role INSERT/UPDATE policies and stripe_subscription_id index",
+      "body": "## Summary\nThe `subscriptions` table is missing INSERT and UPDATE policies for the service-role context, which means the Stripe webhook handler (`upsertSubscription()`) cannot write rows. Also adds the lookup index required on every webhook event to prevent full-table scans.\n\n## Acceptance Criteria\n- [ ] Create migration adding INSERT policy for service role: `WITH CHECK (auth.role() = 'service_role')`\n- [ ] Create migration adding UPDATE policy for service role with same condition\n- [ ] Add `idx_subscriptions_stripe_subscription_id (stripe_subscription_id)` index\n- [ ] Add `idx_subscriptions_user_id (user_id)` index if not already present\n- [ ] Create paired `.down.sql` rollback file\n- [ ] Verify `upsertSubscription()` succeeds end-to-end against a local Supabase instance\n- [ ] Update M8 billing integration test (issue #64) to assert a subscription row exists in the DB after a simulated webhook",
+      "labels": [
+        "bug",
+        "database",
+        "security"
+      ],
+      "milestone": "014 - Data Integrity & Audit Schema",
+      "priority": "p0",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 13,
+      "title": "Add missing hot-path indexes for app_permissions and top-5 @repo/db query patterns",
+      "body": "## Summary\nRun `EXPLAIN ANALYZE` on the five most-called query helpers in `@repo/db` and add any missing indexes. Specifically targets `app_permissions(app_slug)` which is missing an index used by Command Center admin permission views.\n\n## Acceptance Criteria\n- [ ] Run `EXPLAIN ANALYZE` against: `getAppPermission()`, `getUserSubscription()`, `upsertPermission()`, and the two most-called Command Center module queries\n- [ ] Add `idx_app_permissions_app_slug (app_slug)` index\n- [ ] Add any further indexes identified where `EXPLAIN ANALYZE` shows a sequential scan with estimated cost > 100\n- [ ] Create a single migration for all new indexes plus a paired `.down.sql`\n- [ ] Include `EXPLAIN ANALYZE` output excerpts as comments in the migration file to document the decision\n- [ ] Verify query plans improve to index scans after migration",
+      "labels": [
+        "performance",
+        "database"
+      ],
+      "milestone": "014 - Data Integrity & Audit Schema",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        11,
+        12
+      ],
+      "selected": true
+    },
+    {
+      "id": 14,
+      "title": "Add RLS test harness to @repo/test-utils with withAuthContext helper and cross-tenant denial tests",
+      "body": "## Summary\nExtend `@repo/test-utils` with a `withAuthContext(userId, fn)` helper that runs Supabase queries under a specific user's JWT context against a local Supabase instance. Use it to assert every table denies cross-tenant reads in CI.\n\n## Acceptance Criteria\n- [ ] Add `withAuthContext(userId: string, fn: (client: SupabaseClient) => Promise<T>): Promise<T>` to `packages/test-utils/src/rls-harness.ts`; sets `SET LOCAL role = 'authenticated'` and `SET LOCAL request.jwt.claims = '...'` via a raw SQL helper\n- [ ] Export `withAuthContext` from `@repo/test-utils`\n- [ ] Write RLS tests in `packages/db/src/__tests__/rls.test.ts` covering: `app_permissions` (user A cannot SELECT user B's rows), `subscriptions` (same), `audit_log` (user can INSERT own rows, cannot SELECT any rows)\n- [ ] Tests run against `supabase start` local instance via `SUPABASE_TEST_URL` env var\n- [ ] Add `test:rls` script to root `package.json` that runs RLS tests (requires local Supabase to be running)\n- [ ] CI job runs `test:rls` after `supabase db reset --local` on pull requests",
+      "labels": [
+        "testing",
+        "security",
+        "database"
+      ],
+      "milestone": "014 - Data Integrity & Audit Schema",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [
+        11,
+        12
+      ],
+      "selected": true
+    },
+    {
+      "id": 15,
+      "title": "Registry → DB consistency check: CI script verifying all app slugs have app_permissions seed data",
+      "body": "## Summary\nAdd a CI script that fails if any slug in `apps/web/lib/app-registry.ts` lacks a matching row in the `app_permissions` seed data. Prevents deploying apps that have no grantable permissions entry.\n\n## Acceptance Criteria\n- [ ] Create `scripts/check-registry-db-consistency.ts` that: reads all slugs from `app-registry.ts`, queries local Supabase for all distinct `app_slug` values in `app_permissions`, and exits non-zero with a clear message listing any unrepresented slugs\n- [ ] Add the script to the `pnpm lint` pipeline so it runs in CI\n- [ ] Create or update `supabase/seed.sql` with a `view` permission row for each registered app slug (using the admin bootstrap user ID as a placeholder)\n- [ ] Update `CLAUDE.md`: every new app added to the registry must also have a seed data row in `supabase/seed.sql`",
+      "labels": [
+        "testing",
+        "database",
+        "ci"
+      ],
+      "milestone": "014 - Data Integrity & Audit Schema",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        14
+      ],
+      "selected": true
+    },
+    {
+      "id": 16,
+      "title": "Create @repo/analytics package with client track() and server capture() — PostHog or Plausible",
+      "body": "## Summary\nBuild a thin analytics wrapper package that works both client-side and server-side, respects Do Not Track, and no-ops in test environments. Keeps the backend swappable behind a stable interface.\n\n## Acceptance Criteria\n- [ ] Create `packages/analytics/` with `package.json`, `src/client.ts` (exports `track(event: string, props?: Record<string, unknown>)`), `src/server.ts` (exports `capture(userId: string, event: string, props?: Record<string, unknown>)`), and `src/index.ts`\n- [ ] Integrate PostHog (preferred) or Plausible as the backend; wrap in a thin interface so the backend can be swapped by changing one file\n- [ ] Client `track()` is a no-op when `navigator.doNotTrack === '1'`\n- [ ] Both functions are no-ops when `process.env.NODE_ENV === 'test'` or `ANALYTICS_DISABLED=true`\n- [ ] Add `NEXT_PUBLIC_ANALYTICS_HOST` and `NEXT_PUBLIC_ANALYTICS_KEY` to `turbo.json` globalEnv and `.env.local.example`\n- [ ] Add `@repo/analytics` as a dependency of `apps/web`\n- [ ] Write unit tests asserting no-op behavior in test env and correct event shape passed to the backend",
+      "labels": [
+        "enhancement",
+        "analytics"
+      ],
+      "milestone": "015 - Analytics, Feature Flags & Usage Telemetry",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 17,
+      "title": "Instrument core product flows: login, app-open, subscription start/cancel, webhook received",
+      "body": "## Summary\nAdd `@repo/analytics` calls for the highest-signal events across the platform. Keep the event count small and every event documented in the package README to avoid analytics sprawl.\n\n## Acceptance Criteria\n- [ ] Login success: `track('login', { method: 'email' })` fires on successful Auth0 callback in the auth hub\n- [ ] App open: `capture(userId, 'app_opened', { slug })` fires server-side in each app's `layout.tsx` (one call per layout, not per render)\n- [ ] Subscription start: `capture(userId, 'subscription_started', { tier })` fires in `webhook-handler.ts` on `customer.subscription.created`\n- [ ] Subscription cancel: `capture(userId, 'subscription_canceled', { tier })` fires on `customer.subscription.deleted`\n- [ ] Webhook received: `capture('system', 'webhook_received', { type })` fires at the top of the webhook handler before signature verification\n- [ ] All events documented in `packages/analytics/README.md` event catalogue with property descriptions\n- [ ] No PII in event properties — no raw email addresses; user IDs hashed with SHA-256 if included",
+      "labels": [
+        "enhancement",
+        "analytics"
+      ],
+      "milestone": "015 - Analytics, Feature Flags & Usage Telemetry",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        16
+      ],
+      "selected": true
+    },
+    {
+      "id": 18,
+      "title": "Add feature_flags table and getFeatureFlagValue() primitive to @repo/billing",
+      "body": "## Summary\nExtend `@repo/billing` with a database-backed feature flag primitive. Use it to gate rollout of M8 tier enforcement behind a flag so it can be enabled gradually per user or tier without a code deploy.\n\n## Acceptance Criteria\n- [ ] Create migration `supabase/migrations/006_feature_flags.sql`: `(id uuid, key text NOT NULL, user_id uuid NULLABLE, tier text NULLABLE, enabled boolean NOT NULL DEFAULT false, created_at timestamptz DEFAULT now())` with a unique constraint on `(key, user_id)` and a partial unique index on `(key)` WHERE `user_id IS NULL AND tier IS NULL`\n- [ ] Create paired `.down.sql`\n- [ ] Add `getFeatureFlagValue(userId: string, key: string): Promise<boolean>` to `packages/billing/src/feature-flags.ts`; resolution order: user-specific override → tier-level default → global default → `false`\n- [ ] Export from `packages/billing/src/index.ts`\n- [ ] Unit tests for: user-specific override wins, tier-level flag, global flag, and default-false fallback\n- [ ] Gate M8 tier enforcement in app layouts behind `getFeatureFlagValue(userId, 'tier_enforcement_enabled')`\n- [ ] Seed `feature_flags` with `key='tier_enforcement_enabled', enabled=false` in `supabase/seed.sql`",
+      "labels": [
+        "enhancement",
+        "billing",
+        "database"
+      ],
+      "milestone": "015 - Analytics, Feature Flags & Usage Telemetry",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 19,
+      "title": "Add cc-flags sub-module to Command Center: toggle feature flags per user and tier",
+      "body": "## Summary\nAdd a new sub-module in Command Center that lets admins view and toggle feature flags per user or tier using the `feature_flags` table. Closes the loop between the DB primitive (issue #18) and operational control.\n\n## Acceptance Criteria\n- [ ] Create `apps/web/app/apps/command-center/cc-flags/` with `page.tsx` listing all flags, their current global/tier/user values, and enable/disable controls\n- [ ] Admin can add a user-specific override (lookup by email → resolve to `user_id`)\n- [ ] Admin can set a tier-level default (free / pro / enterprise)\n- [ ] Changes write to the `feature_flags` table via a Next.js server action with optimistic UI update\n- [ ] Route requires `admin` permission on `command-center`; unauthorized access redirects to `/unauthorized`\n- [ ] Add entry in the Command Center sidebar navigation\n- [ ] Integration test: toggling a flag via the UI reflects in the next `getFeatureFlagValue()` response",
+      "labels": [
+        "enhancement",
+        "command-center",
+        "billing"
+      ],
+      "milestone": "015 - Analytics, Feature Flags & Usage Telemetry",
+      "priority": "p2",
+      "complexity": "large",
+      "dependsOn": [
+        18
+      ],
+      "selected": true
+    },
+    {
+      "id": 20,
+      "title": "Add analytics event dashboard to Command Center (cc-analytics sub-module)",
+      "body": "## Summary\nAdd a Command Center view showing recent analytics events aggregated by app slug. Provides visibility into usage patterns without leaving the admin hub.\n\n## Acceptance Criteria\n- [ ] Create `apps/web/app/apps/command-center/cc-analytics/` with `page.tsx` and required components\n- [ ] Page shows: total event count by slug for the last 7 days, a recent events list (timestamp, userId hash, event name, slug), and a bar chart of top 10 events using a `@repo/ui` chart component\n- [ ] Data source: PostHog Insights API if using PostHog; direct Supabase query if events are stored locally\n- [ ] Route requires `admin` permission on `command-center`\n- [ ] Add entry in the Command Center sidebar navigation under the Analytics section\n- [ ] Loading skeleton renders while data fetches; error boundary handles API failures gracefully",
+      "labels": [
+        "enhancement",
+        "command-center",
+        "analytics"
+      ],
+      "milestone": "015 - Analytics, Feature Flags & Usage Telemetry",
+      "priority": "p2",
+      "complexity": "medium",
+      "dependsOn": [
+        16,
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 21,
+      "title": "Mobile viewport audit of all 27 apps with Playwright matrix (375/768/1440) and top-10 regression fixes",
+      "body": "## Summary\nRun a Playwright viewport matrix across all 27 apps to surface layout regressions at mobile breakpoints. Fix the 10 most impactful issues and add a `test:mobile` script for regression prevention.\n\n## Acceptance Criteria\n- [ ] Create `apps/web/e2e/mobile-audit.spec.ts` that visits each app's root route at 375 px, 768 px, and 1440 px and captures screenshots\n- [ ] Add `test:mobile` script to root `package.json`\n- [ ] Review all screenshots; document every layout issue found per app\n- [ ] Fix the top 10 most impactful layout breakages (overflowing text, hidden navigation, broken grids, buttons that clip off-screen)\n- [ ] All 27 apps render without horizontal scroll at 375 px after fixes\n- [ ] Commit baseline screenshots to `e2e/snapshots/mobile/`\n- [ ] CI runs `test:mobile` on PRs that touch `app/apps/` or `packages/ui/`",
+      "labels": [
+        "enhancement",
+        "testing",
+        "ux",
+        "mobile"
+      ],
+      "milestone": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 22,
+      "title": "Accessibility audit with @axe-core/playwright across all 27 apps — fix all critical violations",
+      "body": "## Summary\nRun `@axe-core/playwright` against every app route and fix all `critical` and `serious` WCAG 2.1 AA violations: missing form labels, images without alt text, insufficient color contrast, and keyboard traps.\n\n## Acceptance Criteria\n- [ ] Install `@axe-core/playwright` and create `apps/web/e2e/a11y-audit.spec.ts` that runs axe against the root route of every registered app\n- [ ] Output violations as JSON to `e2e/reports/a11y/` per app\n- [ ] Fix all violations at the `critical` and `serious` impact levels across all 27 apps\n- [ ] After fixes, `axe` reports zero `critical` violations on any app route\n- [ ] Add `test:a11y` script to root `package.json`\n- [ ] CI runs `test:a11y` on PRs and fails on any new `critical` violation introduced",
+      "labels": [
+        "enhancement",
+        "accessibility",
+        "testing"
+      ],
+      "milestone": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 23,
+      "title": "Add eslint-plugin-jsx-a11y to @repo/config to enforce accessibility lint rules",
+      "body": "## Summary\nAdd `eslint-plugin-jsx-a11y` to the shared ESLint config in `@repo/config` so accessibility issues are caught at author time, not just in the audit sweep.\n\n## Acceptance Criteria\n- [ ] Add `eslint-plugin-jsx-a11y` to `packages/config/package.json` devDependencies\n- [ ] Enable the `jsx-a11y/recommended` ruleset in `packages/config/eslint.config.mjs` with sensible project-level overrides (document any disabled rules and why)\n- [ ] Run `pnpm lint` across all apps; fix every new violation introduced by enabling the plugin\n- [ ] Zero lint errors after enabling the plugin\n- [ ] Document the plugin and disabled-rule rationale in `CLAUDE.md` under the Accessibility section",
+      "labels": [
+        "enhancement",
+        "accessibility",
+        "dx"
+      ],
+      "milestone": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [
+        22
+      ],
+      "selected": true
+    },
+    {
+      "id": 24,
+      "title": "Add next-intl i18n scaffold with pilot apps: Dad Joke, Slang Translator, Proper Wine Pour",
+      "body": "## Summary\nAdopt `next-intl` for internationalization. Extract all user-visible strings from 3 pilot apps into `messages/en.json` files, add `messages/es.json` stubs to validate the pattern, and document the approach before committing to a broader rollout.\n\n## Acceptance Criteria\n- [ ] Install `next-intl` in `apps/web`; configure the plugin in `next.config.ts` with `en` as the default locale\n- [ ] Create `apps/web/messages/<slug>/en.json` for `dad-joke-of-the-day`, `slang-translator`, and `proper-wine-pour` with all user-visible strings extracted\n- [ ] All hardcoded UI strings in the 3 pilot apps replaced with `t()` calls from `next-intl`\n- [ ] Add `messages/<slug>/es.json` stub with placeholder translations (demonstrating the multi-locale pattern)\n- [ ] Each pilot app renders correctly in the `en` locale with no missing translation keys\n- [ ] Add a locale switcher component to each pilot app layout (initially `en` / `es`)\n- [ ] Unit tests assert that `en.json` and `es.json` have identical key sets (no missing keys)\n- [ ] Document the i18n approach in `docs/guides/i18n.md`",
+      "labels": [
+        "enhancement",
+        "i18n"
+      ],
+      "milestone": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
+      "priority": "p2",
+      "complexity": "large",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 25,
+      "title": "Audit @repo/ui components for mobile responsiveness and add responsive variants",
+      "body": "## Summary\nAudit all `@repo/ui` components at 375 px viewport width, fix any that assume desktop layout, and add mobile-responsive variants to the Sidebar, Topbar, Card, and DataGrid components. This unblocks clean fixes in the mobile audit issue (#21).\n\n## Acceptance Criteria\n- [ ] Review every component in `packages/ui/src/components/` rendered at 375 px\n- [ ] Fix components that break at mobile width: non-wrapping flex rows, fixed-pixel widths, off-screen overflow\n- [ ] Add `sm:` / `md:` responsive breakpoint variants to `Sidebar` (collapsible drawer on mobile), `Topbar` (hamburger menu), and `NavigationMenu`\n- [ ] Add a `compact` size variant to `Card` and `DataGrid` for dense mobile contexts\n- [ ] Visual snapshots at 375 px committed for each updated component\n- [ ] Zero horizontal overflow at 375 px for all updated components after changes\n- [ ] `pnpm typecheck` and `pnpm lint` pass with no new errors",
+      "labels": [
+        "enhancement",
+        "ui",
+        "mobile"
+      ],
+      "milestone": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 26,
+      "title": "Migrate Age of Apes to @repo/ui shared components",
+      "body": "## Summary\nAge of Apes is the only app not using `@repo/ui`. Completing this migration means all 27 apps share the same component foundation, removing the last inconsistency that blocks a uniform visual audit.\n\n## Acceptance Criteria\n- [ ] Replace all inline button, card, badge, and input elements in Age of Apes with `@repo/ui` equivalents\n- [ ] Replace any hardcoded color values with theme token classes\n- [ ] The app's unique visual style (animations, custom illustrations) is preserved unchanged\n- [ ] `pnpm lint` and `pnpm typecheck` pass with no new violations\n- [ ] App builds and renders correctly in both dev and production mode after migration\n- [ ] Add or update tests in `app/apps/age-of-apes/__tests__/` covering the migrated components",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "017 - Cleanup Backlog",
+      "priority": "p2",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 27,
+      "title": "Finish 4 skeleton apps: Alpha Wins, Brommie Quake, Proper Wine Pour, Travel Collection",
+      "body": "## Summary\nFour apps exist as skeletons with no real content or functionality. Build each to a functional state, resolve the Travel Collection auth ambiguity, and ensure all four pass the standard quality bar.\n\n## Acceptance Criteria\n- [ ] **Alpha Wins**: Implement gallery filtering by category/tag; wire a real data source (Supabase table or curated static JSON)\n- [ ] **Brommie Quake**: Add story or content cards with real copy; connect the custom animation to actual data\n- [ ] **Proper Wine Pour**: Make the calculator dynamic (pull pour sizes/data from Supabase or config); add functional community wall (submit + list posts)\n- [ ] **Travel Collection**: Decide auth status (gate or keep public); wire real property/destination data; update app registry `auth` field to reflect the decision\n- [ ] All 4 apps pass `pnpm typecheck`, `pnpm lint`, and `pnpm build`\n- [ ] Each app has at least one meaningful test in its `__tests__/` directory\n- [ ] App registry entries updated to reflect final `auth` status for each app",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "017 - Cleanup Backlog",
+      "priority": "p2",
+      "complexity": "large",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 28,
+      "title": "Resolve review-issue backlog: token regressions and hover-state mismatches from M4-M5",
+      "body": "## Summary\nConsolidate and fix all findings from `review-issue-36.json`, `review-issue-38.json`, and `review-issue-68.json` — token regressions and hover-state mismatches flagged during the Sentiment and Sprint Planning migrations in M4.\n\n## Acceptance Criteria\n- [ ] Read all three review-issue JSON files and triage every finding into: fix, won't fix (with reason), or superseded\n- [ ] Fix all token regression findings (hardcoded colors that survived the M3 audit)\n- [ ] Fix all hover-state mismatches (components using non-token hover colors or incorrect state styles)\n- [ ] Ship all fixes in a single PR, referencing the review-issue files as the change source\n- [ ] Delete or archive the three review-issue JSON files after fixes are merged\n- [ ] `pnpm lint` passes with the M3 theme token lint rule enabled, with no suppressed violations",
+      "labels": [
+        "bug",
+        "ui",
+        "theme"
+      ],
+      "milestone": "017 - Cleanup Backlog",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 29,
+      "title": "Add CI check enforcing CLAUDE.md lib/ listing stays in sync with apps/web/lib/ filesystem",
+      "body": "## Summary\nThe `lib/` directory listing in `CLAUDE.md` has historically drifted from the actual filesystem. Add a CI lint check that diffs `apps/web/lib/` against the CLAUDE.md listing and fails on any divergence.\n\n## Acceptance Criteria\n- [ ] Create `scripts/check-claude-md-lib-sync.ts` that: reads the top-level files in `apps/web/lib/` (non-recursively), parses the `lib/` section of `CLAUDE.md`, and reports files present in the filesystem but absent from the docs (or vice versa)\n- [ ] Script exits non-zero on any mismatch with a clear message naming the offending files\n- [ ] Add the script to the `pnpm lint` pipeline so it runs in CI\n- [ ] Update the `CLAUDE.md` `lib/` section to exactly match the current `apps/web/lib/` filesystem before enabling the check\n- [ ] Update `CLAUDE.md` with the rule: every new file added to `apps/web/lib/` must be added to the CLAUDE.md lib listing in the same PR",
+      "labels": [
+        "dx",
+        "documentation",
+        "ci"
+      ],
+      "milestone": "017 - Cleanup Backlog",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 30,
+      "title": "GitHub housekeeping: close empty duplicate milestones #5 and #6, verify CI scope consolidation",
+      "body": "## Summary\nClose the two open empty duplicate GitHub milestones (#5, #6) that were superseded by the correctly-titled closed M5/M6 milestones, keeping numbering clean for new milestones. Verify M7 issue #67 covers the full CI scope originally split with M12 issue #165, and close #165 as a duplicate.\n\n## Acceptance Criteria\n- [ ] Close GitHub milestone #5 ('M5: App Batch 2 — Mid-Tier', 0 issues) with a closing comment referencing the correct closed M5 milestone\n- [ ] Close GitHub milestone #6 ('M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules', 0 issues) with a closing comment referencing the correct closed M6 milestone\n- [ ] Verify issue #67 (M7 CI pipeline) acceptance criteria explicitly covers: `pnpm lint`, `pnpm typecheck`, Node version matrix (18/20/22), and Turbo remote cache configuration\n- [ ] If #67 is missing any of the above scope items, add them via a comment or issue body edit\n- [ ] Close M12 issue #165 as a duplicate of #67 with a reference comment explaining the consolidation decision\n- [ ] Post a summary comment on #67 documenting the final consolidated CI scope so future contributors have a single source of truth",
+      "labels": [
+        "housekeeping",
+        "ci"
+      ],
+      "milestone": "017 - Cleanup Backlog",
+      "priority": "p1",
+      "complexity": "trivial",
+      "dependsOn": [],
+      "selected": true
+    }
+  ],
+  "projectBoard": null
+}
