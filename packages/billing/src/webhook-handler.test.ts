@@ -24,6 +24,9 @@ const mockSelect = vi.fn(() => ({ eq: mockEq }));
 const mockInsert = vi.fn();
 const mockAuditInsert = vi.fn().mockResolvedValue({ error: null });
 const mockUpdate = vi.fn(() => ({ eq: vi.fn() }));
+const mockSubMaybeSingle = vi.fn().mockResolvedValue({ data: null, error: null });
+const mockSubEq = vi.fn(() => ({ maybeSingle: mockSubMaybeSingle }));
+const mockSubSelect = vi.fn(() => ({ eq: mockSubEq }));
 const mockFrom = vi.fn((table: string) => {
   if (table === "processed_webhook_events") {
     return {
@@ -34,7 +37,7 @@ const mockFrom = vi.fn((table: string) => {
   if (table === "audit_log") {
     return { insert: mockAuditInsert };
   }
-  return { update: mockUpdate };
+  return { update: mockUpdate, select: mockSubSelect };
 });
 
 vi.mock("@repo/db/service-role", () => ({

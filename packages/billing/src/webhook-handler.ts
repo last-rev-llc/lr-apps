@@ -3,6 +3,7 @@ import { getStripe } from "./stripe-client";
 import { upsertSubscription } from "./subscriptions";
 import { createServiceRoleClient } from "@repo/db/service-role";
 import { logAuditEvent } from "@repo/db/audit";
+import { cacheDel, cacheKeys } from "@repo/db/cache";
 import type { Database } from "@repo/db/types";
 import { log } from "@repo/logger";
 import { withSpan } from "./otel";
@@ -61,6 +62,11 @@ export async function handleStripeWebhook(
     { "event.id": event.id, "event.type": event.type, "subscription.id": subscription.id },
     async () => {
       if (event.type === "customer.subscription.deleted") {
+        const { data: existing } = await db
+          .from("subscriptions")
+          .select("user_id")
+          .eq("stripe_subscription_id", subscription.id)
+          .maybeSingle<{ user_id: string }>();
         const update: Database["public"]["Tables"]["subscriptions"]["Update"] = {
           status: "canceled",
           updated_at: new Date().toISOString(),
@@ -69,6 +75,9 @@ export async function handleStripeWebhook(
           .from("subscriptions")
           .update(update)
           .eq("stripe_subscription_id", subscription.id);
+        if (existing?.user_id) {
+          await cacheDel([cacheKeys.subscription(existing.user_id)]);
+        }
       } else {
         await upsertSubscription(subscription);
       }

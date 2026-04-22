@@ -13,11 +13,13 @@
     "./middleware": "./src/middleware.ts",
     "./types": "./src/types.ts",
     "./service-role": "./src/service-role.ts",
-    "./audit": "./src/audit.ts"
+    "./audit": "./src/audit.ts",
+    "./cache": "./src/cache.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6",
-    "@supabase/supabase-js": "^2"
+    "@supabase/supabase-js": "^2",
+    "@upstash/redis": "^1.37.0"
   },
   "peerDependencies": {
     "next": "^16"
