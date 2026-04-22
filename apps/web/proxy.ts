@@ -22,11 +22,20 @@ import {
   shouldValidateCsrf,
   validateCsrf,
 } from "./lib/csrf";
+import { withSpan } from "./lib/otel";
 
 const AUTH_RATE_LIMIT = 10;
 const AUTH_RATE_WINDOW_MS = 60_000;
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
+  return withSpan(
+    "proxy.auth",
+    { "request.pathname": request.nextUrl.pathname },
+    () => proxyImpl(request),
+  );
+}
+
+async function proxyImpl(request: NextRequest): Promise<NextResponse> {
   if (shouldValidateCsrf(request)) {
     const csrf = validateCsrf(request);
     if (!csrf.ok) {
@@ -47,12 +56,16 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     if (!result.allowed) {
       return applyCspHeader(rateLimitNextResponse(result));
     }
-    const authResponse = await auth0.middleware(request);
+    const authResponse = await withSpan("auth.session_check", {}, () =>
+      auth0.middleware(request),
+    );
     applyRateLimitHeaders(authResponse, result);
     return applyCspHeader(authResponse);
   }
 
-  const authResponse = await auth0.middleware(request);
+  const authResponse = await withSpan("auth.session_check", {}, () =>
+    auth0.middleware(request),
+  );
 
   const withAuth = (inner: NextResponse) =>
     applyCspHeader(
@@ -94,32 +107,38 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
     return withAuth(NextResponse.next({ request }));
   }
 
-  const subdomain = resolveSubdomain(hostHeader);
+  return withSpan(
+    "proxy.redirect_decision",
+    { "request.host": hostHeader },
+    async () => {
+      const subdomain = resolveSubdomain(hostHeader);
 
-  if (!subdomain) {
-    return withAuth(NextResponse.next({ request }));
-  }
+      if (!subdomain) {
+        return withAuth(NextResponse.next({ request }));
+      }
 
-  const routePath = getRouteForSubdomain(subdomain);
+      const routePath = getRouteForSubdomain(subdomain);
 
-  if (!routePath) {
-    return applyCspHeader(
-      mergeAuthMiddlewareResponse(
-        authResponse,
-        NextResponse.redirect(new URL("https://auth.lastrev.com")),
-      ),
-    );
-  }
+      if (!routePath) {
+        return applyCspHeader(
+          mergeAuthMiddlewareResponse(
+            authResponse,
+            NextResponse.redirect(new URL("https://auth.lastrev.com")),
+          ),
+        );
+      }
 
-  const originalPathname = request.nextUrl.pathname;
-  const url = request.nextUrl.clone();
-  url.pathname = `${routePath}${url.pathname}`;
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-app-pathname", originalPathname);
-  const rewrite = NextResponse.rewrite(url, {
-    request: { headers: requestHeaders },
-  });
-  return withAuth(rewrite);
+      const originalPathname = request.nextUrl.pathname;
+      const url = request.nextUrl.clone();
+      url.pathname = `${routePath}${url.pathname}`;
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("x-app-pathname", originalPathname);
+      const rewrite = NextResponse.rewrite(url, {
+        request: { headers: requestHeaders },
+      });
+      return withAuth(rewrite);
+    },
+  );
 }
 
 export const config = {

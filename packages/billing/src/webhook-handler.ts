@@ -5,6 +5,7 @@ import { createServiceRoleClient } from "@repo/db/service-role";
 import { logAuditEvent } from "@repo/db/audit";
 import type { Database } from "@repo/db/types";
 import { log } from "@repo/logger";
+import { withSpan } from "./otel";
 import type { WebhookEventType } from "./types";
 
 const AUDIT_ACTIONS: Record<string, string> = {
@@ -29,39 +30,50 @@ export async function handleStripeWebhook(
   }
 
   const stripe = getStripe();
-  const event = stripe.webhooks.constructEvent(body, signature, secret);
-
-  if (!HANDLED_EVENTS.has(event.type)) {
-    return { received: true };
-  }
+  const event = await withSpan("stripe.webhook.verify", {}, () =>
+    stripe.webhooks.constructEvent(body, signature, secret),
+  );
 
   const db = createServiceRoleClient();
 
-  // Idempotency: skip if this event has already been processed
-  const { data: existing } = await db
-    .from("processed_webhook_events")
-    .select("event_id")
-    .eq("event_id", event.id)
-    .maybeSingle<{ event_id: string }>();
+  const skip = await withSpan(
+    "stripe.webhook.parse",
+    { "event.id": event.id, "event.type": event.type },
+    async () => {
+      if (!HANDLED_EVENTS.has(event.type)) return true;
+      const { data: existing } = await db
+        .from("processed_webhook_events")
+        .select("event_id")
+        .eq("event_id", event.id)
+        .maybeSingle<{ event_id: string }>();
+      return Boolean(existing);
+    },
+  );
 
-  if (existing) {
+  if (skip) {
     return { received: true };
   }
 
   const subscription = event.data.object as Stripe.Subscription;
 
-  if (event.type === "customer.subscription.deleted") {
-    const update: Database["public"]["Tables"]["subscriptions"]["Update"] = {
-      status: "canceled",
-      updated_at: new Date().toISOString(),
-    };
-    await db
-      .from("subscriptions")
-      .update(update)
-      .eq("stripe_subscription_id", subscription.id);
-  } else {
-    await upsertSubscription(subscription);
-  }
+  await withSpan(
+    "stripe.webhook.db_write",
+    { "event.id": event.id, "event.type": event.type, "subscription.id": subscription.id },
+    async () => {
+      if (event.type === "customer.subscription.deleted") {
+        const update: Database["public"]["Tables"]["subscriptions"]["Update"] = {
+          status: "canceled",
+          updated_at: new Date().toISOString(),
+        };
+        await db
+          .from("subscriptions")
+          .update(update)
+          .eq("stripe_subscription_id", subscription.id);
+      } else {
+        await upsertSubscription(subscription);
+      }
+    },
+  );
 
   // Record the event ID to prevent duplicate processing
   try {
