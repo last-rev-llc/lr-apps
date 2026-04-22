@@ -1,16 +1,31 @@
 import { headers } from "next/headers";
+import { z } from "zod";
 import { getOrCreateCustomer, getStripe } from "@repo/billing";
 import {
   getAuth0ClientForHost,
   getHostFromRequestHeaders,
 } from "@repo/auth/auth0-factory";
+import { logAuditEvent } from "@repo/db/audit";
+import { createServiceRoleClient } from "@repo/db/service-role";
 import { log, withRequestContext } from "@repo/logger";
+import { validateJson } from "@/lib/validate-request";
+import { csrfFailureResponse, validateCsrf } from "@/lib/csrf";
+
+const checkoutSchema = z.object({
+  priceId: z.string().min(1),
+});
 
 export async function POST(request: Request): Promise<Response> {
   const requestId = crypto.randomUUID();
   return withRequestContext(
     { requestId, route: "checkout-session" },
     async () => {
+      const csrf = validateCsrf(request);
+      if (!csrf.ok) {
+        log.warn("checkout session csrf_invalid", { reason: csrf.reason });
+        return csrfFailureResponse(csrf.reason);
+      }
+
       const h = await headers();
       const host = getHostFromRequestHeaders(h);
       const auth0 = getAuth0ClientForHost(host);
@@ -25,22 +40,12 @@ export async function POST(request: Request): Promise<Response> {
       const email =
         typeof session.user.email === "string" ? session.user.email : "";
 
-      let body: { priceId: string };
-      try {
-        body = (await request.json()) as { priceId: string };
-      } catch {
-        log.warn("checkout session invalid body", { userId });
-        return Response.json(
-          { error: "Invalid request body" },
-          { status: 400 },
-        );
+      const validated = await validateJson(request, checkoutSchema);
+      if (!validated.ok) {
+        log.warn("checkout session invalid input", { userId });
+        return validated.response;
       }
-
-      const { priceId } = body;
-      if (!priceId) {
-        log.warn("checkout session missing priceId", { userId });
-        return Response.json({ error: "Missing priceId" }, { status: 400 });
-      }
+      const { priceId } = validated.data;
 
       const appUrl = process.env.APP_BASE_URL ?? "http://localhost:3000";
 
@@ -56,6 +61,12 @@ export async function POST(request: Request): Promise<Response> {
         });
 
         log.info("checkout session created", { userId, priceId });
+        await logAuditEvent(createServiceRoleClient(), {
+          userId,
+          action: "checkout.session.created",
+          resource: checkoutSession.id ?? null,
+          metadata: { priceId },
+        });
         return Response.json({ checkoutUrl: checkoutSession.url });
       } catch (err) {
         log.error("checkout session failed", { err, userId, priceId });

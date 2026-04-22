@@ -9,18 +9,58 @@ import {
   getRouteForSubdomain,
   isVercelPreviewHost,
 } from "./lib/proxy-utils";
+import { applyCspHeader } from "./lib/csp";
+import {
+  applyRateLimitHeaders,
+  getClientIp,
+  rateLimit,
+  rateLimitNextResponse,
+} from "./lib/rate-limit";
+import {
+  csrfFailureNextResponse,
+  ensureCsrfCookie,
+  shouldValidateCsrf,
+  validateCsrf,
+} from "./lib/csrf";
+
+const AUTH_RATE_LIMIT = 10;
+const AUTH_RATE_WINDOW_MS = 60_000;
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
-  const host = getHostFromRequestHeaders(request.headers);
-  const auth0 = getAuth0ClientForHost(host);
-  const authResponse = await auth0.middleware(request);
-
-  if (request.nextUrl.pathname.startsWith("/auth")) {
-    return authResponse;
+  if (shouldValidateCsrf(request)) {
+    const csrf = validateCsrf(request);
+    if (!csrf.ok) {
+      return applyCspHeader(csrfFailureNextResponse(csrf.reason));
+    }
   }
 
+  const host = getHostFromRequestHeaders(request.headers);
+  const auth0 = getAuth0ClientForHost(host);
+
+  if (request.nextUrl.pathname.startsWith("/auth")) {
+    const ip = getClientIp(request.headers);
+    const result = rateLimit(
+      `auth:${ip}`,
+      AUTH_RATE_LIMIT,
+      AUTH_RATE_WINDOW_MS,
+    );
+    if (!result.allowed) {
+      return applyCspHeader(rateLimitNextResponse(result));
+    }
+    const authResponse = await auth0.middleware(request);
+    applyRateLimitHeaders(authResponse, result);
+    return applyCspHeader(authResponse);
+  }
+
+  const authResponse = await auth0.middleware(request);
+
   const withAuth = (inner: NextResponse) =>
-    mergeAuthMiddlewareResponse(authResponse, inner);
+    applyCspHeader(
+      ensureCsrfCookie(
+        mergeAuthMiddlewareResponse(authResponse, inner),
+        request,
+      ),
+    );
 
   const hostHeader = request.headers.get("host") ?? "";
   const isPreview = isVercelPreviewHost(hostHeader);
@@ -63,9 +103,11 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const routePath = getRouteForSubdomain(subdomain);
 
   if (!routePath) {
-    return mergeAuthMiddlewareResponse(
-      authResponse,
-      NextResponse.redirect(new URL("https://auth.lastrev.com")),
+    return applyCspHeader(
+      mergeAuthMiddlewareResponse(
+        authResponse,
+        NextResponse.redirect(new URL("https://auth.lastrev.com")),
+      ),
     );
   }
 

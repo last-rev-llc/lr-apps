@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { POST } from "./route";
+import { _resetRateLimitStore } from "@/lib/rate-limit";
 
 const mockHandleStripeWebhook = vi.fn();
 vi.mock("@repo/billing/webhook-handler", () => ({
@@ -17,6 +18,7 @@ function makeRequest(body: string, headers: Record<string, string> = {}): Reques
 describe("POST /api/webhooks/stripe", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    _resetRateLimitStore();
   });
 
   it("returns 200 with { received: true } on valid signature", async () => {
@@ -62,5 +64,31 @@ describe("POST /api/webhooks/stripe", () => {
     expect(Buffer.isBuffer(body)).toBe(true);
     expect(body.toString()).toBe("raw-body");
     expect(signature).toBe("sig_test");
+  });
+
+  it("includes X-RateLimit headers on successful response", async () => {
+    mockHandleStripeWebhook.mockResolvedValue({ received: true });
+    const request = makeRequest("payload", {
+      "stripe-signature": "sig_ok",
+      "x-forwarded-for": "9.9.9.9",
+    });
+    const response = await POST(request);
+
+    expect(response.headers.get("X-RateLimit-Limit")).toBe("100");
+    expect(response.headers.get("X-RateLimit-Remaining")).toBe("99");
+    expect(response.headers.get("X-RateLimit-Reset")).toBeTruthy();
+  });
+
+  it("returns 429 after exceeding the webhook rate limit", async () => {
+    mockHandleStripeWebhook.mockResolvedValue({ received: true });
+    const headers = { "stripe-signature": "sig_ok", "x-forwarded-for": "8.8.8.8" };
+    for (let i = 0; i < 100; i++) {
+      const res = await POST(makeRequest("payload", headers));
+      expect(res.status).toBe(200);
+    }
+    const blocked = await POST(makeRequest("payload", headers));
+    expect(blocked.status).toBe(429);
+    expect(blocked.headers.get("Retry-After")).toBeTruthy();
+    expect(blocked.headers.get("X-RateLimit-Remaining")).toBe("0");
   });
 });

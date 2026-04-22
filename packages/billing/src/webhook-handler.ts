@@ -2,9 +2,16 @@ import type Stripe from "stripe";
 import { getStripe } from "./stripe-client";
 import { upsertSubscription } from "./subscriptions";
 import { createServiceRoleClient } from "@repo/db/service-role";
+import { logAuditEvent } from "@repo/db/audit";
 import type { Database } from "@repo/db/types";
 import { log } from "@repo/logger";
 import type { WebhookEventType } from "./types";
+
+const AUDIT_ACTIONS: Record<string, string> = {
+  "customer.subscription.created": "subscription.created",
+  "customer.subscription.updated": "subscription.updated",
+  "customer.subscription.deleted": "subscription.deleted",
+};
 
 const HANDLED_EVENTS: Set<string> = new Set<WebhookEventType>([
   "customer.subscription.created",
@@ -67,6 +74,22 @@ export async function handleStripeWebhook(
       err,
       eventId: event.id,
       eventType: event.type,
+    });
+  }
+
+  const auditAction = AUDIT_ACTIONS[event.type];
+  if (auditAction) {
+    await logAuditEvent(db, {
+      action: auditAction,
+      resource: subscription.id,
+      metadata: {
+        eventId: event.id,
+        customerId:
+          typeof subscription.customer === "string"
+            ? subscription.customer
+            : subscription.customer?.id,
+        status: subscription.status,
+      },
     });
   }
 
