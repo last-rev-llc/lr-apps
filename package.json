@@ -7,7 +7,7 @@
     "lint": "node --experimental-strip-types scripts/check-claude-md-lib-sync.ts && node --experimental-strip-types scripts/check-migration-pairs.ts && turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "create-app": "echo 'CLI not yet implemented — see tools/create-app/'",
+    "create-app": "node --experimental-strip-types scripts/create-app.ts",
     "audit:tokens": "npx tsx scripts/audit-tokens.ts",
     "db:check-migration-pairs": "node --experimental-strip-types scripts/check-migration-pairs.ts",
     "db:rollback": "node --experimental-strip-types scripts/db-rollback.ts",
