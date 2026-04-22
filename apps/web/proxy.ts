@@ -16,11 +16,24 @@ import {
   rateLimit,
   rateLimitNextResponse,
 } from "./lib/rate-limit";
+import {
+  csrfFailureNextResponse,
+  ensureCsrfCookie,
+  shouldValidateCsrf,
+  validateCsrf,
+} from "./lib/csrf";
 
 const AUTH_RATE_LIMIT = 10;
 const AUTH_RATE_WINDOW_MS = 60_000;
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
+  if (shouldValidateCsrf(request)) {
+    const csrf = validateCsrf(request);
+    if (!csrf.ok) {
+      return applyCspHeader(csrfFailureNextResponse(csrf.reason));
+    }
+  }
+
   const host = getHostFromRequestHeaders(request.headers);
   const auth0 = getAuth0ClientForHost(host);
 
@@ -42,7 +55,12 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   const authResponse = await auth0.middleware(request);
 
   const withAuth = (inner: NextResponse) =>
-    applyCspHeader(mergeAuthMiddlewareResponse(authResponse, inner));
+    applyCspHeader(
+      ensureCsrfCookie(
+        mergeAuthMiddlewareResponse(authResponse, inner),
+        request,
+      ),
+    );
 
   const hostHeader = request.headers.get("host") ?? "";
   const isPreview = isVercelPreviewHost(hostHeader);

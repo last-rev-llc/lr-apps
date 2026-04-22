@@ -37,10 +37,20 @@ vi.mock("@repo/db/service-role", () => ({
   createServiceRoleClient: vi.fn().mockReturnValue({}),
 }));
 
-function makeRequest(body: unknown): Request {
+const CSRF_VALUE = "test-csrf-token";
+
+function makeRequest(
+  body: unknown,
+  options: { csrfCookie?: string | null; csrfHeader?: string | null } = {},
+): Request {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const cookieVal = options.csrfCookie === undefined ? CSRF_VALUE : options.csrfCookie;
+  const headerVal = options.csrfHeader === undefined ? CSRF_VALUE : options.csrfHeader;
+  if (cookieVal !== null) headers["cookie"] = `csrf_token=${cookieVal}`;
+  if (headerVal !== null) headers["x-csrf-token"] = headerVal;
   return new Request("http://localhost/api/checkout/session", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(body),
   });
 }
@@ -165,7 +175,11 @@ describe("POST /api/checkout/session", () => {
     const { POST } = await import("../route");
     const req = new Request("http://localhost/api/checkout/session", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        cookie: `csrf_token=${CSRF_VALUE}`,
+        "x-csrf-token": CSRF_VALUE,
+      },
       body: "not-json",
     });
 
@@ -174,5 +188,36 @@ describe("POST /api/checkout/session", () => {
     expect(res.status).toBe(400);
     const data = (await res.json()) as { error: string };
     expect(data.error).toBe("invalid_json");
+  });
+
+  it("returns 403 csrf_invalid when the csrf cookie is missing", async () => {
+    mockGetSession.mockResolvedValue({
+      user: { sub: "user_1", email: "user@example.com" },
+    });
+    const { POST } = await import("../route");
+
+    const res = await POST(
+      makeRequest({ priceId: "price_pro_monthly" }, { csrfCookie: null }),
+    );
+
+    expect(res.status).toBe(403);
+    const data = (await res.json()) as { error: string };
+    expect(data.error).toBe("csrf_invalid");
+  });
+
+  it("returns 403 csrf_invalid when header and cookie mismatch", async () => {
+    mockGetSession.mockResolvedValue({
+      user: { sub: "user_1", email: "user@example.com" },
+    });
+    const { POST } = await import("../route");
+
+    const res = await POST(
+      makeRequest(
+        { priceId: "price_pro_monthly" },
+        { csrfHeader: "different-token" },
+      ),
+    );
+
+    expect(res.status).toBe(403);
   });
 });

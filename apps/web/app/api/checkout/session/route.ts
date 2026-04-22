@@ -9,6 +9,7 @@ import { logAuditEvent } from "@repo/db/audit";
 import { createServiceRoleClient } from "@repo/db/service-role";
 import { log, withRequestContext } from "@repo/logger";
 import { validateJson } from "@/lib/validate-request";
+import { csrfFailureResponse, validateCsrf } from "@/lib/csrf";
 
 const checkoutSchema = z.object({
   priceId: z.string().min(1),
@@ -19,6 +20,12 @@ export async function POST(request: Request): Promise<Response> {
   return withRequestContext(
     { requestId, route: "checkout-session" },
     async () => {
+      const csrf = validateCsrf(request);
+      if (!csrf.ok) {
+        log.warn("checkout session csrf_invalid", { reason: csrf.reason });
+        return csrfFailureResponse(csrf.reason);
+      }
+
       const h = await headers();
       const host = getHostFromRequestHeaders(h);
       const auth0 = getAuth0ClientForHost(host);

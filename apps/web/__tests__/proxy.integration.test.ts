@@ -231,6 +231,51 @@ describe("proxy middleware integration", () => {
     });
   });
 
+  describe("CSRF protection", () => {
+    it("returns 403 for POST /api/checkout/session without a csrf token", async () => {
+      const req = new NextRequest(
+        "https://apps.lastrev.com/api/checkout/session",
+        { method: "POST", headers: { host: "apps.lastrev.com" } },
+      );
+      const res = await proxy(req);
+      expect(res.status).toBe(403);
+      const body = (await res.json()) as { error: string };
+      expect(body.error).toBe("csrf_invalid");
+    });
+
+    it("skips CSRF check for the stripe webhook", async () => {
+      const req = new NextRequest(
+        "https://apps.lastrev.com/api/webhooks/stripe",
+        { method: "POST", headers: { host: "apps.lastrev.com" } },
+      );
+      const res = await proxy(req);
+      expect(res.status).not.toBe(403);
+    });
+
+    it("sets a csrf_token cookie on safe GET responses", async () => {
+      const req = makeRequest(
+        "https://apps.lastrev.com/my-apps",
+        "apps.lastrev.com",
+      );
+      const res = await proxy(req);
+      const setCookie = res.headers.get("set-cookie") ?? "";
+      expect(setCookie).toContain("csrf_token=");
+    });
+
+    it("does not overwrite an existing csrf_token cookie", async () => {
+      const req = new NextRequest("https://apps.lastrev.com/my-apps", {
+        headers: {
+          host: "apps.lastrev.com",
+          cookie: "csrf_token=already-here",
+        },
+      });
+      const res = await proxy(req);
+      const setCookie = res.headers.get("set-cookie") ?? "";
+      // The auth mock always sets appSession, but we should not see a new csrf_token.
+      expect(setCookie).not.toMatch(/csrf_token=(?!already-here)/);
+    });
+  });
+
   describe("subdomain resolution across all registered apps", () => {
     it("produces a rewrite for every registered subdomain", async () => {
       vi.stubEnv("NODE_ENV", "production");
