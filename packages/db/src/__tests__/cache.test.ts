@@ -144,7 +144,7 @@ describe("getUserSubscription (cached)", () => {
     stripe_customer_id: "cus_123",
     stripe_subscription_id: "sub_123",
     status: "active",
-    plan: "pro",
+    tier: "pro",
     current_period_start: "2026-01-01T00:00:00Z",
     current_period_end: "2026-02-01T00:00:00Z",
     created_at: "2026-01-01T00:00:00Z",
