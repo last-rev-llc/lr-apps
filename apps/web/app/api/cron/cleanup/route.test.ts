@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockSelect = vi.fn();
-const mockLt = vi.fn(() => ({ select: mockSelect }));
+const mockLt = vi.fn((_column: string, _value: string) => ({ select: mockSelect }));
 const mockDelete = vi.fn(() => ({ lt: mockLt }));
 const mockFrom = vi.fn(() => ({ delete: mockDelete }));
 
@@ -78,7 +78,9 @@ describe("GET /api/cron/cleanup", () => {
     await GET(makeRequest());
     const after = Date.now();
 
-    const cutoffArg = mockLt.mock.calls[0][1];
+    const call = mockLt.mock.calls[0];
+    if (!call) throw new Error("mockLt was not called");
+    const cutoffArg = call[1];
     const cutoffMs = Date.parse(cutoffArg);
     const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
     expect(cutoffMs).toBeGreaterThanOrEqual(before - thirtyDaysMs - 1000);
