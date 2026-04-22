@@ -14,6 +14,9 @@ shared packages under `packages/` (`@repo/auth`, `@repo/billing`,
   `<slug>.apps.lastrev.localhost:3000`.
 - Auth via Auth0; billing via Stripe; data via Supabase.
 
+See [docs/architecture.md](docs/architecture.md) for request-flow,
+webhook, and package-topology diagrams.
+
 ## Environments
 
 Three environments, each fully isolated:

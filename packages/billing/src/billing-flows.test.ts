@@ -22,11 +22,14 @@ const mockMaybeSingle = vi.fn();
 const mockInsert = vi.fn();
 const mockIdempotencyEq = vi.fn(() => ({ maybeSingle: mockMaybeSingle }));
 const mockSelect = vi.fn(() => ({ eq: mockIdempotencyEq }));
+const mockSubLookupMaybeSingle = vi.fn().mockResolvedValue({ data: null, error: null });
+const mockSubLookupEq = vi.fn(() => ({ maybeSingle: mockSubLookupMaybeSingle }));
+const mockSubLookupSelect = vi.fn(() => ({ eq: mockSubLookupEq }));
 const mockFrom = vi.fn((table: string) => {
   if (table === "processed_webhook_events") {
     return { select: mockSelect, insert: mockInsert };
   }
-  return { update: mockUpdate };
+  return { update: mockUpdate, select: mockSubLookupSelect };
 });
 vi.mock("@repo/db/service-role", () => ({
   createServiceRoleClient: () => ({ from: mockFrom }),

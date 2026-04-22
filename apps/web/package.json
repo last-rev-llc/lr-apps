@@ -15,6 +15,11 @@
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.215.0",
+    "@opentelemetry/resources": "^2.7.0",
+    "@opentelemetry/sdk-node": "^0.215.0",
+    "@opentelemetry/semantic-conventions": "^1.40.0",
     "@repo/auth": "workspace:*",
     "@repo/billing": "workspace:*",
     "@repo/db": "workspace:*",

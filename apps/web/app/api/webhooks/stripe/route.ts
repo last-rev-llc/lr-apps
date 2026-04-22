@@ -7,6 +7,7 @@ import {
   rateLimit,
   rateLimitResponse,
 } from "@/lib/rate-limit";
+import { withSpan } from "@/lib/otel";
 
 const WEBHOOK_RATE_LIMIT = 100;
 const WEBHOOK_RATE_WINDOW_MS = 60_000;
@@ -22,7 +23,7 @@ export async function POST(request: Request): Promise<Response> {
   const requestId = crypto.randomUUID();
   return withRequestContext(
     { requestId, route: "stripe-webhook" },
-    async () => {
+    async () => withSpan("stripe.webhook.POST", { "request.id": requestId }, async () => {
       const ip = getClientIp(request.headers);
       const rateLimitResult = rateLimit(
         `webhook:${ip}`,
@@ -69,6 +70,6 @@ export async function POST(request: Request): Promise<Response> {
           rateLimitResult,
         );
       }
-    },
+    }),
   );
 }

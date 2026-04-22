@@ -12,6 +12,8 @@ export async function register(): Promise<void> {
     const { env } = await import("./lib/env");
     env();
     await import("./sentry.server.config");
+    const { startOtelSdk } = await import("./lib/otel-sdk");
+    await startOtelSdk();
   }
 
   if (process.env.NEXT_RUNTIME === "edge") {
