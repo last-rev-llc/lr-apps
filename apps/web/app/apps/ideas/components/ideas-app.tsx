@@ -495,6 +495,7 @@ function CardActions({
             e.stopPropagation();
             setSnoozeMenuId(snoozeMenuId === idea.id ? null : idea.id);
           }}
+          aria-label="Snooze"
           title={
             snoozed
               ? `Snoozed until ${new Date(idea.snoozedUntil!).toLocaleDateString()}`

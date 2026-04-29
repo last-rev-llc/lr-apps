@@ -134,8 +134,15 @@ test.describe("ideas app", () => {
       await page.goto(TEST_APP_ROUTE);
       await page.waitForLoadState("networkidle");
 
-      // Show=All so no client-side filter could explain absence
-      await page.getByRole("button", { name: /^all$/i }).click();
+      // Show=All so no client-side filter could explain absence.
+      // Scope to the Show row because the Categories PillList also renders
+      // an "All" pill with role="button" — strict mode would otherwise match
+      // both. The show filter uses real <Button> elements, so .last() picks
+      // the trailing one in DOM order.
+      await page
+        .getByRole("button", { name: /^all$/i })
+        .last()
+        .click();
 
       await expect(page.getByText(foreignTitle)).toHaveCount(0);
     } finally {
