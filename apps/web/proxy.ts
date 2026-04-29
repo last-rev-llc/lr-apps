@@ -101,7 +101,7 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
     const appParam = request.nextUrl.searchParams.get("app");
     if (appParam) {
       const routePath = getRouteForSubdomain(appParam);
-      if (routePath) {
+      if (routePath !== null) {
         const devPathname = request.nextUrl.pathname;
         const url = request.nextUrl.clone();
         url.searchParams.delete("app");
@@ -135,7 +135,7 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
 
       const routePath = getRouteForSubdomain(subdomain);
 
-      if (!routePath) {
+      if (routePath === null) {
         return applyCspHeader(
           mergeAuthMiddlewareResponse(
             authResponse,

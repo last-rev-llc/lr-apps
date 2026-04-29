@@ -150,17 +150,37 @@ describe("proxy middleware integration", () => {
       expect(urlLegacy.pathname).toBe("/apps/sentiment/dashboard");
     });
 
-    it("recognizes auth.apps.lastrev.com as the auth hub route group", async () => {
+    it("rewrites auth.apps.lastrev.com paths without a route-group prefix", async () => {
+      // `(auth)` is a Next.js route group — invisible in URLs. Rewriting to
+      // `/(auth)/login` 404s because no URL contains a literal `(auth)`
+      // segment; the page at `app/(auth)/(forms)/login/page.tsx` actually
+      // serves `/login`. The proxy must leave the path alone.
       const req = makeRequest(
-        "https://auth.apps.lastrev.com/some-page",
+        "https://auth.apps.lastrev.com/login",
         "auth.apps.lastrev.com",
       );
       const res = await proxy(req);
       const rewrite = res.headers.get("x-middleware-rewrite");
       expect(rewrite).toBeTruthy();
       const url = new URL(rewrite!);
-      expect(url.pathname).toBe("/(auth)/some-page");
+      expect(url.pathname).toBe("/login");
     });
+
+    it.each(["/login", "/signup", "/unauthorized", "/my-apps", "/account"])(
+      "leaves %s unchanged on auth.apps.lastrev.com (route-group page)",
+      async (path) => {
+        middlewareMock.mockResolvedValueOnce(freshAuthResponse());
+        const req = makeRequest(
+          `https://auth.apps.lastrev.com${path}`,
+          "auth.apps.lastrev.com",
+        );
+        const res = await proxy(req);
+        const rewrite = res.headers.get("x-middleware-rewrite");
+        expect(rewrite, `auth hub should rewrite ${path}`).toBeTruthy();
+        const url = new URL(rewrite!);
+        expect(url.pathname).toBe(path);
+      },
+    );
   });
 
   describe("bare apps host (no subdomain)", () => {

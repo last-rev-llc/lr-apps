@@ -44,10 +44,28 @@ export function resolveSubdomain(host: string): string | null {
   return sub;
 }
 
+/**
+ * URL-space prefix for `subdomain`'s route group, ready to prepend to the
+ * incoming pathname inside `proxy.ts`.
+ *
+ * Strips Next.js route group segments — names wrapped in parens like
+ * `(auth)` — because they exist only on the filesystem and are not part
+ * of any URL Next.js will route. Rewriting to `/(auth)/login` 404s since
+ * no URL contains a literal `(auth)` segment; the
+ * `app/(auth)/(forms)/login/page.tsx` page actually serves `/login`.
+ *
+ * - `null` → unknown subdomain (caller redirects to the auth hub).
+ * - `""` → known subdomain whose routeGroup is purely Next.js route groups
+ *   (e.g. `auth` → `(auth)`); proxy leaves the pathname unchanged.
+ * - `"/apps/<slug>"` → standard app route-group prefix.
+ */
 export function getRouteForSubdomain(subdomain: string): string | null {
   const app = getAppBySubdomain(subdomain);
   if (!app) return null;
-  return `/${app.routeGroup}`;
+  const urlSegments = app.routeGroup
+    .split("/")
+    .filter((seg) => !(seg.startsWith("(") && seg.endsWith(")")));
+  return urlSegments.length === 0 ? "" : `/${urlSegments.join("/")}`;
 }
 
 /**
