@@ -12,7 +12,7 @@ LR Apps is a single Next.js 16 deployment at `apps/web/` that hosts 27+ micro-ap
 **Canonical host builder.** All cross-app URL emission must go through `apps/web/lib/app-host.ts`:
 
 - `APPS_ROOT_DOMAIN` (`apps.lastrev.com`) is the production root.
-- `classify(hostHeader)` decides which cluster the inbound host belongs to (`apps-prod`, `apps-local`, `legacy-prod`, `legacy-local`, `vercel-preview`, `localhost`, `unknown`).
+- Internally the module classifies the inbound host into one of seven clusters (`apps-prod`, `apps-local`, `legacy-prod`, `legacy-local`, `vercel-preview`, `localhost`, `unknown`); the helpers below dispatch on that classification.
 - `appHost(app, hostHeader)` returns the host string for a given app under the same cluster as the inbound request.
 - `appOrigin(app, hostHeader)` returns `scheme://host[:port]` (https for production, http for local).
 - `authHubOrigin(hostHeader)` returns the auth hub origin under the same cluster.
