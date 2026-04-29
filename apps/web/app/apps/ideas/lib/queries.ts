@@ -6,6 +6,7 @@ export async function getIdeas(): Promise<Idea[]> {
   const { data, error } = await supabase
     .from("ideas")
     .select("*")
+    .neq("status", "archived")
     .order("compositeScore", { ascending: false, nullsFirst: false })
     .order("createdAt", { ascending: false });
 

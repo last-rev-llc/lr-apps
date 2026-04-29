@@ -431,3 +431,85 @@ export async function snoozeIdea(
     },
   );
 }
+
+export async function archiveIdea(id: string): Promise<ActionResult> {
+  return withSpan(
+    "ideas.archiveIdea",
+    { "app.slug": "ideas", "idea.id": id },
+    async () => {
+      const { user } = await requireAccess("ideas");
+      const userId = user.id;
+
+      const parsedId = IdSchema.safeParse(id);
+      if (!parsedId.success) {
+        log.warn("ideas.archiveIdea invalid input", {
+          action: "archiveIdea",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const supabase = await createClient();
+      const { data: row, error } = await supabase
+        .from("ideas")
+        .update({ status: "archived" })
+        .eq("id", parsedId.data)
+        .eq("user_id", userId)
+        .select("*")
+        .single();
+
+      if (error) {
+        log.error("ideas.archiveIdea db error", {
+          action: "archiveIdea",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "failed to archive idea" };
+      }
+
+      log.debug("ideas.archiveIdea ok", { action: "archiveIdea", userId });
+      return { ok: true, idea: row as unknown as Idea };
+    },
+  );
+}
+
+export type DeleteResult = { ok: true } | { ok: false; error: string };
+
+export async function deleteIdea(id: string): Promise<DeleteResult> {
+  return withSpan(
+    "ideas.deleteIdea",
+    { "app.slug": "ideas", "idea.id": id },
+    async () => {
+      const { user } = await requireAccess("ideas");
+      const userId = user.id;
+
+      const parsedId = IdSchema.safeParse(id);
+      if (!parsedId.success) {
+        log.warn("ideas.deleteIdea invalid input", {
+          action: "deleteIdea",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const supabase = await createClient();
+      const { error } = await supabase
+        .from("ideas")
+        .delete()
+        .eq("id", parsedId.data)
+        .eq("user_id", userId);
+
+      if (error) {
+        log.error("ideas.deleteIdea db error", {
+          action: "deleteIdea",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "failed to delete idea" };
+      }
+
+      log.debug("ideas.deleteIdea ok", { action: "deleteIdea", userId });
+      return { ok: true };
+    },
+  );
+}
