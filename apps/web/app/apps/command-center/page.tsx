@@ -19,13 +19,6 @@ const MODULES = [
     category: "AI",
   },
   {
-    slug: "ideas",
-    label: "Ideas",
-    icon: "💡",
-    description: "Capture and track product ideas",
-    category: "Product",
-  },
-  {
     slug: "recipes",
     label: "Recipes",
     icon: "📋",
@@ -171,6 +164,7 @@ export default function CommandCenterPage() {
     dateStyle: "medium",
     timeStyle: "short",
   });
+  const categoryCount = new Set(MODULES.map((m) => m.category)).size;
 
   return (
     <div>
@@ -182,8 +176,8 @@ export default function CommandCenterPage() {
       {/* Quick stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         <StatCard value={MODULES.length} label="Modules" size="sm" />
-        <StatCard value="21" label="Routes" size="sm" />
-        <StatCard value="7" label="Categories" size="sm" />
+        <StatCard value={MODULES.length} label="Routes" size="sm" />
+        <StatCard value={categoryCount} label="Categories" size="sm" />
         <StatCard value="Active" label="Status" size="sm" />
       </div>
 

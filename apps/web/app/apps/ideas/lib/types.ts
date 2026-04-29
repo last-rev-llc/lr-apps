@@ -26,6 +26,9 @@ export interface Idea {
   rating: number | null;
   hidden: boolean | null;
   snoozedUntil: string | null;
+  plan: string | null;
+  planModel: string | null;
+  planGeneratedAt: string | null;
   createdAt: string | null;
   updatedAt: string | null;
   completedAt: string | null;

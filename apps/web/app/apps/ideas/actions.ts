@@ -4,9 +4,16 @@ import { z } from "zod";
 import { requireAccess } from "@repo/auth/server";
 import { createClient } from "@repo/db/server";
 import { log } from "@repo/logger";
+import { hasFeatureAccess, FeatureAccessError } from "@repo/billing";
 import { withSpan } from "@/lib/otel";
+import { rateLimit } from "@/lib/rate-limit";
 import { computeComposite } from "./lib/score";
+import { PLAN_MODEL_ID, planIdea } from "./lib/ai-plan";
+import { RateLimitedError } from "./lib/errors";
 import type { Idea } from "./lib/types";
+
+const PLAN_RATE_LIMIT = 20;
+const PLAN_RATE_WINDOW_MS = 60 * 60 * 1000;
 
 type ActionResult =
   | { ok: true; idea: Idea }
@@ -518,6 +525,111 @@ export async function deleteIdea(id: string): Promise<DeleteResult> {
 
       log.debug("ideas.deleteIdea ok", { action: "deleteIdea", userId });
       return { ok: true };
+    },
+  );
+}
+
+export async function planAndScoreIdea(id: string): Promise<ActionResult> {
+  return withSpan(
+    "ideas.planAndScoreIdea",
+    { "app.slug": "ideas", "idea.id": id },
+    async () => {
+      const { user } = await requireAccess("ideas");
+      const userId = user.id;
+
+      const parsedId = IdSchema.safeParse(id);
+      if (!parsedId.success) {
+        log.warn("ideas.planAndScoreIdea invalid input", {
+          action: "planAndScoreIdea",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const allowed = await hasFeatureAccess(userId, "ideas:ai-plan");
+      if (!allowed) {
+        throw new FeatureAccessError("ideas:ai-plan");
+      }
+
+      const limit = rateLimit(
+        `ideas:planAndScoreIdea:${userId}`,
+        PLAN_RATE_LIMIT,
+        PLAN_RATE_WINDOW_MS,
+      );
+      if (!limit.allowed) {
+        log.warn("ideas.planAndScoreIdea rate limited", {
+          action: "planAndScoreIdea",
+          userId,
+          resetAt: limit.reset,
+        });
+        throw new RateLimitedError(limit.reset);
+      }
+
+      const supabase = await createClient();
+      const { data: existing, error: fetchError } = await supabase
+        .from("ideas")
+        .select("title,description,category")
+        .eq("id", parsedId.data)
+        .eq("user_id", userId)
+        .single();
+
+      if (fetchError || !existing) {
+        log.error("ideas.planAndScoreIdea fetch error", {
+          action: "planAndScoreIdea",
+          userId,
+          err: fetchError,
+        });
+        return { ok: false, error: "idea not found" };
+      }
+
+      const source = existing as {
+        title: string;
+        description: string | null;
+        category: string | null;
+      };
+
+      const generated = await planIdea({
+        title: source.title,
+        description: source.description,
+        category: source.category,
+      });
+
+      const compositeScore = computeComposite(
+        generated.feasibility,
+        generated.impact,
+        generated.effort,
+      );
+
+      const { data: row, error } = await supabase
+        .from("ideas")
+        .update({
+          feasibility: generated.feasibility,
+          impact: generated.impact,
+          effort: generated.effort,
+          compositeScore,
+          plan: generated.plan,
+          planModel: PLAN_MODEL_ID,
+          planGeneratedAt: new Date().toISOString(),
+        })
+        .eq("id", parsedId.data)
+        .eq("user_id", userId)
+        .select("*")
+        .single();
+
+      if (error) {
+        log.error("ideas.planAndScoreIdea db error", {
+          action: "planAndScoreIdea",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "failed to plan idea" };
+      }
+
+      log.debug("ideas.planAndScoreIdea ok", {
+        action: "planAndScoreIdea",
+        userId,
+      });
+      return { ok: true, idea: row as unknown as Idea };
     },
   );
 }

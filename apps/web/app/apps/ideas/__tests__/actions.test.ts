@@ -119,6 +119,30 @@ vi.mock("@repo/db/server", () => ({
   createClient: vi.fn(async () => mockDb),
 }));
 
+const hasFeatureAccessMock = vi.fn().mockResolvedValue(true);
+vi.mock("@repo/billing", async () => {
+  const actual = await vi.importActual<typeof import("@repo/billing")>(
+    "@repo/billing",
+  );
+  return {
+    ...actual,
+    hasFeatureAccess: (...args: Parameters<typeof actual.hasFeatureAccess>) =>
+      hasFeatureAccessMock(...args),
+  };
+});
+
+const planIdeaMock = vi.fn();
+vi.mock("../lib/ai-plan", async () => {
+  const actual = await vi.importActual<typeof import("../lib/ai-plan")>(
+    "../lib/ai-plan",
+  );
+  return {
+    ...actual,
+    planIdea: (...args: Parameters<typeof actual.planIdea>) =>
+      planIdeaMock(...args),
+  };
+});
+
 import {
   createIdea,
   updateIdea,
@@ -128,13 +152,25 @@ import {
   snoozeIdea,
   archiveIdea,
   deleteIdea,
+  planAndScoreIdea,
 } from "../actions";
 import { createClient } from "@repo/db/server";
+import { FeatureAccessError } from "@repo/billing";
+import { _resetRateLimitStore } from "@/lib/rate-limit";
+import { RateLimitedError } from "../lib/errors";
 
 beforeEach(() => {
   store = [];
   nextId = 1;
   vi.clearAllMocks();
+  hasFeatureAccessMock.mockResolvedValue(true);
+  planIdeaMock.mockResolvedValue({
+    feasibility: 7,
+    impact: 8,
+    effort: "Medium",
+    plan: "1. step one\n2. step two",
+  });
+  _resetRateLimitStore();
 });
 
 describe("ideas server actions", () => {
@@ -531,6 +567,119 @@ describe("ideas server actions", () => {
     it("rejects invalid UUID", async () => {
       const result = await deleteIdea("not-a-uuid");
       expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+  });
+
+  describe("planAndScoreIdea", () => {
+    function seed(extra: Partial<Row> = {}): string {
+      const id = SAMPLE_UUID;
+      store.push({
+        id,
+        user_id: TEST_USER_ID,
+        title: "Build dashboard",
+        description: "An AI dashboard",
+        category: "Product",
+        feasibility: null,
+        impact: null,
+        effort: null,
+        compositeScore: null,
+        plan: null,
+        planModel: null,
+        planGeneratedAt: null,
+        ...extra,
+      });
+      return id;
+    }
+
+    it("rejects invalid UUID", async () => {
+      const result = await planAndScoreIdea("not-a-uuid");
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+      expect(planIdeaMock).not.toHaveBeenCalled();
+    });
+
+    it("throws FeatureAccessError when feature gate denies", async () => {
+      hasFeatureAccessMock.mockResolvedValueOnce(false);
+      const id = seed();
+      await expect(planAndScoreIdea(id)).rejects.toBeInstanceOf(
+        FeatureAccessError,
+      );
+      expect(planIdeaMock).not.toHaveBeenCalled();
+    });
+
+    it("persists feasibility, impact, effort, compositeScore, plan, planModel, planGeneratedAt", async () => {
+      const id = seed();
+      const result = await planAndScoreIdea(id);
+      expect(result.ok).toBe(true);
+      const row = store[0];
+      expect(row.feasibility).toBe(7);
+      expect(row.impact).toBe(8);
+      expect(row.effort).toBe("Medium");
+      // (7 + 8) / 2 = 7.5
+      expect(row.compositeScore).toBe(7.5);
+      expect(row.plan).toBe("1. step one\n2. step two");
+      expect(row.planModel).toBe("claude-sonnet-4-6");
+      expect(typeof row.planGeneratedAt).toBe("string");
+    });
+
+    it("calls planIdea with title/description/category from the row", async () => {
+      const id = seed({
+        title: "T",
+        description: "D",
+        category: "C",
+      });
+      await planAndScoreIdea(id);
+      expect(planIdeaMock).toHaveBeenCalledWith({
+        title: "T",
+        description: "D",
+        category: "C",
+      });
+    });
+
+    it("returns idea-not-found when row belongs to another user", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other",
+      });
+      const result = await planAndScoreIdea(SAMPLE_UUID);
+      expect(result).toEqual({ ok: false, error: "idea not found" });
+      expect(planIdeaMock).not.toHaveBeenCalled();
+    });
+
+    it("rate-limits to 20 calls per hour per user — 21st throws RateLimitedError without invoking the model", async () => {
+      const id = seed();
+      for (let i = 0; i < 20; i++) {
+        const r = await planAndScoreIdea(id);
+        expect(r.ok).toBe(true);
+      }
+      expect(planIdeaMock).toHaveBeenCalledTimes(20);
+      planIdeaMock.mockClear();
+      await expect(planAndScoreIdea(id)).rejects.toBeInstanceOf(
+        RateLimitedError,
+      );
+      expect(planIdeaMock).not.toHaveBeenCalled();
+    });
+
+    it("rate-limit key is scoped per user (different users do not collide)", async () => {
+      const id = seed();
+      for (let i = 0; i < 20; i++) {
+        await planAndScoreIdea(id);
+      }
+      // Switch to a different user and ensure the new user is not blocked.
+      const auth = await import("@repo/auth/server");
+      vi.mocked(auth.requireAccess).mockResolvedValueOnce({
+        user: { id: OTHER_USER_ID, email: "other@example.com" },
+        permission: "view",
+      } as Awaited<ReturnType<typeof auth.requireAccess>>);
+      store.push({
+        id: SECOND_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other idea",
+        description: null,
+        category: null,
+      });
+      const r = await planAndScoreIdea(SECOND_UUID);
+      expect(r.ok).toBe(true);
     });
   });
 });

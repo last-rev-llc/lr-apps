@@ -36,7 +36,6 @@ import CommandCenterPage from "../page";
 const EXPECTED_MODULES = [
   { slug: "leads", label: "Leads", icon: "🎯", category: "Sales" },
   { slug: "agents", label: "Agents", icon: "🤖", category: "AI" },
-  { slug: "ideas", label: "Ideas", icon: "💡", category: "Product" },
   { slug: "recipes", label: "Recipes", icon: "📋", category: "Ops" },
   { slug: "users", label: "Users", icon: "👥", category: "Admin" },
   { slug: "crons", label: "Crons", icon: "⏰", category: "Ops" },
@@ -58,12 +57,17 @@ const EXPECTED_MODULES = [
 ];
 
 describe("CommandCenterPage", () => {
-  it("renders all 21 module cards", () => {
+  it("renders all module cards", () => {
     renderWithProviders(<CommandCenterPage />);
 
     for (const mod of EXPECTED_MODULES) {
       expect(screen.getByText(mod.label)).toBeInTheDocument();
     }
+  });
+
+  it("does not render the ideas tile (promoted to standalone subdomain)", () => {
+    renderWithProviders(<CommandCenterPage />);
+    expect(screen.queryByText("Capture and track product ideas")).toBeNull();
   });
 
   it("renders correct description for each module", () => {
@@ -77,8 +81,9 @@ describe("CommandCenterPage", () => {
   it("renders category badges for each module", () => {
     renderWithProviders(<CommandCenterPage />);
 
-    // Each category should appear at least once
-    for (const cat of ["Sales", "AI", "Product", "Ops", "Admin", "Dev", "Content", "Personal", "Fun"]) {
+    // Each category that's referenced by at least one module should appear at least once.
+    const categories = Array.from(new Set(EXPECTED_MODULES.map((m) => m.category)));
+    for (const cat of categories) {
       expect(screen.getAllByText(cat).length).toBeGreaterThan(0);
     }
   });
@@ -111,10 +116,12 @@ describe("CommandCenterPage", () => {
     expect(screen.getByText("⚡ Command Center")).toBeInTheDocument();
   });
 
-  it("shows total module count in section header", () => {
+  it("shows total module count in section header derived from MODULES.length", () => {
     renderWithProviders(<CommandCenterPage />);
 
     expect(screen.getByText("All Modules")).toBeInTheDocument();
-    expect(screen.getByText("21 total")).toBeInTheDocument();
+    expect(
+      screen.getByText(`${EXPECTED_MODULES.length} total`),
+    ).toBeInTheDocument();
   });
 });
