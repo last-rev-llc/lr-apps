@@ -156,6 +156,8 @@ import {
 } from "../actions";
 import { createClient } from "@repo/db/server";
 import { FeatureAccessError } from "@repo/billing";
+import { _resetRateLimitStore } from "@/lib/rate-limit";
+import { RateLimitedError } from "../lib/errors";
 
 beforeEach(() => {
   store = [];
@@ -168,6 +170,7 @@ beforeEach(() => {
     effort: "Medium",
     plan: "1. step one\n2. step two",
   });
+  _resetRateLimitStore();
 });
 
 describe("ideas server actions", () => {
@@ -643,5 +646,40 @@ describe("ideas server actions", () => {
       expect(planIdeaMock).not.toHaveBeenCalled();
     });
 
+    it("rate-limits to 20 calls per hour per user — 21st throws RateLimitedError without invoking the model", async () => {
+      const id = seed();
+      for (let i = 0; i < 20; i++) {
+        const r = await planAndScoreIdea(id);
+        expect(r.ok).toBe(true);
+      }
+      expect(planIdeaMock).toHaveBeenCalledTimes(20);
+      planIdeaMock.mockClear();
+      await expect(planAndScoreIdea(id)).rejects.toBeInstanceOf(
+        RateLimitedError,
+      );
+      expect(planIdeaMock).not.toHaveBeenCalled();
+    });
+
+    it("rate-limit key is scoped per user (different users do not collide)", async () => {
+      const id = seed();
+      for (let i = 0; i < 20; i++) {
+        await planAndScoreIdea(id);
+      }
+      // Switch to a different user and ensure the new user is not blocked.
+      const auth = await import("@repo/auth/server");
+      vi.mocked(auth.requireAccess).mockResolvedValueOnce({
+        user: { id: OTHER_USER_ID, email: "other@example.com" },
+        permission: "view",
+      } as Awaited<ReturnType<typeof auth.requireAccess>>);
+      store.push({
+        id: SECOND_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other idea",
+        description: null,
+        category: null,
+      });
+      const r = await planAndScoreIdea(SECOND_UUID);
+      expect(r.ok).toBe(true);
+    });
   });
 });
