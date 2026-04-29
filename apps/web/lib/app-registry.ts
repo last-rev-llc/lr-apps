@@ -1,3 +1,7 @@
+// AppConfig.subdomain is the leftmost DNS label only (e.g. "client-health").
+// The full host is built by lib/app-host.ts so the registry stays env-agnostic
+// (works across *.apps.lastrev.com, legacy *.lastrev.com, and local mirrors).
+
 /** Shown on /unauthorized when instant access isn’t available (e.g. checkout, pricing). */
 export interface AppAccessRequest {
   label: string;

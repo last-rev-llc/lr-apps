@@ -116,6 +116,16 @@ describe("app-registry", () => {
       expect(new Set(subdomains).size).toBe(subdomains.length);
     });
 
+    it("every subdomain is a single DNS label (no dots) — host built by lib/app-host.ts", () => {
+      for (const app of getAllApps()) {
+        expect(
+          app.subdomain.includes("."),
+          `${app.slug}.subdomain must be a leftmost DNS label, not a full host`,
+        ).toBe(false);
+        expect(app.subdomain.length).toBeGreaterThan(0);
+      }
+    });
+
     it("every app's subdomain resolves back to the same app", () => {
       for (const app of getAllApps()) {
         const resolved = getAppBySubdomain(app.subdomain);
