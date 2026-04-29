@@ -287,6 +287,37 @@ describe("ideas server actions", () => {
       const result = await updateIdea("not-a-uuid", { title: "x" });
       expect(result).toEqual({ ok: false, error: "invalid input" });
     });
+
+    it("does not update a row owned by another user", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other's idea",
+        feasibility: 1,
+        impact: 1,
+        effort: "Low",
+        compositeScore: 2,
+      });
+      const result = await updateIdea(SAMPLE_UUID, { title: "Hijacked" });
+      expect(result.ok).toBe(false);
+      expect(store[0].title).toBe("Other's idea");
+    });
+
+    it("does not recompute compositeScore on a row owned by another user", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other's idea",
+        feasibility: 1,
+        impact: 1,
+        effort: "Low",
+        compositeScore: 2,
+      });
+      const result = await updateIdea(SAMPLE_UUID, { feasibility: 9 });
+      expect(result.ok).toBe(false);
+      expect(store[0].feasibility).toBe(1);
+      expect(store[0].compositeScore).toBe(2);
+    });
   });
 
   describe("setIdeaStatus", () => {
@@ -335,6 +366,20 @@ describe("ideas server actions", () => {
     it("rejects an invalid UUID id", async () => {
       const result = await setIdeaStatus("not-a-uuid", "completed");
       expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("does not change status on a row owned by another user", async () => {
+      store.push({
+        id: SECOND_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other's idea",
+        status: "new",
+        completedAt: null,
+      });
+      const result = await setIdeaStatus(SECOND_UUID, "completed");
+      expect(result.ok).toBe(false);
+      expect(store[0].status).toBe("new");
+      expect(store[0].completedAt).toBeNull();
     });
   });
 
@@ -487,6 +532,18 @@ describe("ideas server actions", () => {
     it("rejects invalid UUID", async () => {
       const result = await snoozeIdea("not-a-uuid", "1d");
       expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("does not snooze a row owned by another user", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other's idea",
+        snoozedUntil: null,
+      });
+      const result = await snoozeIdea(SAMPLE_UUID, "1w");
+      expect(result.ok).toBe(false);
+      expect(store[0].snoozedUntil).toBeNull();
     });
   });
 
@@ -658,6 +715,30 @@ describe("ideas server actions", () => {
         RateLimitedError,
       );
       expect(planIdeaMock).not.toHaveBeenCalled();
+    });
+
+    it("runs against the local-dev stub fallback when ANTHROPIC_API_KEY is unset (no real Anthropic call)", async () => {
+      const id = seed();
+      const original = process.env.ANTHROPIC_API_KEY;
+      delete process.env.ANTHROPIC_API_KEY;
+      const actual = await vi.importActual<typeof import("../lib/ai-plan")>(
+        "../lib/ai-plan",
+      );
+      planIdeaMock.mockImplementationOnce(actual.planIdea);
+      try {
+        const result = await planAndScoreIdea(id);
+        expect(result.ok).toBe(true);
+        if (result.ok) {
+          expect(result.idea.plan).toMatch(/Build dashboard/);
+          expect(typeof result.idea.feasibility).toBe("number");
+          expect(typeof result.idea.impact).toBe("number");
+          expect(["Low", "Medium", "High"]).toContain(result.idea.effort);
+          expect(result.idea.planModel).toBe("claude-sonnet-4-6");
+        }
+      } finally {
+        if (original === undefined) delete process.env.ANTHROPIC_API_KEY;
+        else process.env.ANTHROPIC_API_KEY = original;
+      }
     });
 
     it("rate-limit key is scoped per user (different users do not collide)", async () => {
