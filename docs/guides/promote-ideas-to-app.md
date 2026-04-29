@@ -2,7 +2,7 @@
 
 ## Goal
 
-Move `ideas` out of `command-center` into its own mini-app at `ideas.lastrev.com`, with a real Supabase-backed `ideas` table and a complete write surface (manual CRUD + AI-powered planning/scoring). Today it is a sub-route under Command Center, queries a table that does not exist, and mutates from the client to that nonexistent table.
+Move `ideas` out of `command-center` into its own mini-app at `ideas.apps.lastrev.com`, with a real Supabase-backed `ideas` table and a complete write surface (manual CRUD + AI-powered planning/scoring). Today it is a sub-route under Command Center, queries a table that does not exist, and mutates from the client to that nonexistent table.
 
 ## Resolved decisions
 
@@ -40,7 +40,7 @@ ideas/
 
 ## Target state
 
-- Subdomain: `ideas.lastrev.com`
+- Subdomain: `ideas.apps.lastrev.com`
 - Route group: `apps/ideas` (files at `apps/web/app/apps/ideas/`)
 - App tier: `free`, auth `true`, permission `view`, template `full`
 - Feature flag `ideas:ai-plan` requires paid tier (registered in `lib/tier-config.ts`)

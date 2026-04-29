@@ -2,14 +2,14 @@
 
 ## Goal
 
-Move `meme-generator` out of `command-center` into its own mini-app at `meme-generator.lastrev.com`, and level it up from a stateless canvas tool into a full meme studio: saved-meme library, real image templates with multiple text zones, and AI-generated captions. Free tier gets a small library cap; paid (`pro`) tier unlocks AI and a much higher cap.
+Move `meme-generator` out of `command-center` into its own mini-app at `meme-generator.apps.lastrev.com`, and level it up from a stateless canvas tool into a full meme studio: saved-meme library, real image templates with multiple text zones, and AI-generated captions. Free tier gets a small library cap; paid (`pro`) tier unlocks AI and a much higher cap.
 
 ## Resolved decisions
 
 | # | Decision | Choice |
 |---|---|---|
 | 1 | Scope | **Option C** — full studio: library + image templates + AI captions, all in one PR. |
-| 2 | Subdomain | **`meme-generator`** (`meme-generator.lastrev.com`). Slug stays the same. |
+| 2 | Subdomain | **`meme-generator`** (`meme-generator.apps.lastrev.com`). Slug stays the same. |
 | 3 | Auth / app tier | `auth: true`, `tier: free`, `permission: view`, `template: full`. Per-feature gating handles the paid bits. |
 | 4 | Ownership | Per-user. `meme_creations.user_id` with own-only RLS. |
 | 5 | Image storage | Supabase Storage. Two buckets: **`memes`** (private, user creations, signed URLs) and **`meme-templates`** (public, template backgrounds). Both created via SQL migration. |
