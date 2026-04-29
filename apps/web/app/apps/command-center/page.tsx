@@ -61,13 +61,6 @@ const MODULES = [
     category: "Dev",
   },
   {
-    slug: "client-health",
-    label: "Client Health",
-    icon: "💚",
-    description: "Client site health and uptime status",
-    category: "Ops",
-  },
-  {
     slug: "concerts",
     label: "Concerts",
     icon: "🎵",
@@ -182,7 +175,7 @@ export default function CommandCenterPage() {
       {/* Quick stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         <StatCard value={MODULES.length} label="Modules" size="sm" />
-        <StatCard value="21" label="Routes" size="sm" />
+        <StatCard value="20" label="Routes" size="sm" />
         <StatCard value="7" label="Categories" size="sm" />
         <StatCard value="Active" label="Status" size="sm" />
       </div>

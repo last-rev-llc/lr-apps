@@ -19,7 +19,6 @@ const MODULES = [
   { slug: "crons", label: "Crons", icon: "⏰" },
   { slug: "gallery", label: "Gallery", icon: "🖼️" },
   { slug: "architecture", label: "Architecture", icon: "🏗️" },
-  { slug: "client-health", label: "Client Health", icon: "💚" },
   { slug: "concerts", label: "Concerts", icon: "🎵" },
   { slug: "contentful", label: "Contentful", icon: "📦" },
   { slug: "iron", label: "Iron", icon: "🔩" },

@@ -124,7 +124,7 @@ describe("CommandCenterLayout", () => {
     expect(dashboardLink).toHaveAttribute("href", "/");
   });
 
-  it("renders sidebar with Hub + 21 module items (22 total)", async () => {
+  it("renders sidebar with Hub + 20 module items (21 total)", async () => {
     const jsx = await CommandCenterLayout({
       children: <div>test</div>,
     });
@@ -134,7 +134,7 @@ describe("CommandCenterLayout", () => {
 
     const moduleLabels = [
       "Leads", "Agents", "Ideas", "Recipes", "Users", "Crons",
-      "Gallery", "Architecture", "Client Health", "Concerts",
+      "Gallery", "Architecture", "Concerts",
       "Contentful", "Iron", "Meeting Summaries", "Meme Generator",
       "PR Review", "Rizz Guide", "Shopping List", "Team USF",
       "AI Scripts", "App Access", "AlphaClaw",
