@@ -1,0 +1,197 @@
+{
+  "name": "session/021-ideas-app-promotion-to-standalone-mini-app",
+  "branch": "session/021-ideas-app-promotion-to-standalone-mini-app",
+  "completed": "2026-04-29T23:15:43.773Z",
+  "results": [
+    {
+      "issueNum": 287,
+      "title": "Add paired migration for public.ideas table with per-user RLS",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/356",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 192,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 288,
+      "title": "Scaffold ideas app via pnpm create-app and register at ideas.lastrev.com",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/356",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 192,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 289,
+      "title": "Move ideas files from command-center into the new ideas app",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/356",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 192,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 290,
+      "title": "Add composite-score helper with table-driven tests",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/356",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 192,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 291,
+      "title": "Implement core CRUD server actions (create, update, setStatus)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/356",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 192,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 292,
+      "title": "Migrate rate/hide/snooze mutations to server actions",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/359",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 290,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 293,
+      "title": "Add archive (soft delete) and delete server actions",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/359",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 290,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 294,
+      "title": "Add CRUD UI surfaces: New Idea modal, edit, status dropdown, row menu",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/359",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 290,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 295,
+      "title": "Register ideas:ai-plan feature flag in tier-config",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/359",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 290,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 296,
+      "title": "Wire ANTHROPIC_API_KEY env var and AI SDK dependencies",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/359",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 290,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 297,
+      "title": "Implement planAndScoreIdea action with Vercel AI SDK + Anthropic",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/360",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 263,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 298,
+      "title": "Rate-limit planAndScoreIdea to 20 calls/hour per user",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/360",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 263,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 299,
+      "title": "Render markdown plan with planModel/planGeneratedAt staleness indicator",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/360",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 263,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 300,
+      "title": "Update Command Center: drop ideas tile and fix module count",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/360",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 263,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 301,
+      "title": "Optional 301 redirect from /apps/command-center/ideas to ideas.lastrev.com",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/360",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 263,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 302,
+      "title": "Token-audit cleanup pass on ideas-app.tsx",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/361",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 404,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 303,
+      "title": "Vitest coverage for actions, queries, and RLS rejection",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/361",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 404,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 304,
+      "title": "Playwright e2e: sign-in to archive, AI mocked at network layer",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/361",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 404,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 305,
+      "title": "Bump CLAUDE.md app count from 27 to 28",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/361",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 404,
+      "filesChanged": 3
+    }
+  ]
+}
