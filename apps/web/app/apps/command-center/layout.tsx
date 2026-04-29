@@ -32,6 +32,7 @@ const MODULES = [
   { slug: "ai-scripts", label: "AI Scripts", icon: "🤖" },
   { slug: "app-access", label: "App Access", icon: "🔐" },
   { slug: "alphaclaw", label: "AlphaClaw", icon: "🦅" },
+  { slug: "cc-flags", label: "Feature Flags", icon: "🚩" },
 ];
 
 export default async function CommandCenterLayout({
