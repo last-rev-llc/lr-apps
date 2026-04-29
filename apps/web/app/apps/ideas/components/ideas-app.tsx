@@ -69,12 +69,6 @@ const EFFORT_COLORS: Record<string, string> = {
   High: "var(--color-pill-4)",
 };
 
-const SOURCE_COLORS: Record<string, string> = {
-  generated: "var(--color-pill-1)",
-  community: "var(--color-pill-8)",
-  manual: "var(--color-accent)",
-};
-
 const QUICK_FILTERS: Array<{
   key: QuickFilterKey;
   label: string;
