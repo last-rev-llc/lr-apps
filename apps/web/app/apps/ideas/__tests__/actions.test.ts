@@ -274,12 +274,20 @@ describe("ideas server actions", () => {
       expect(typeof store[0].completedAt).toBe("string");
     });
 
-    it("clears completedAt when transitioning away from 'completed'", async () => {
+    it("clears completedAt when transitioning to a non-archived non-completed status", async () => {
+      const id = seed("completed", "2026-01-01T00:00:00.000Z");
+      const result = await setIdeaStatus(id, "in-progress");
+      expect(result.ok).toBe(true);
+      expect(store[0].status).toBe("in-progress");
+      expect(store[0].completedAt).toBeNull();
+    });
+
+    it("preserves completedAt when archiving via setIdeaStatus (matches archiveIdea)", async () => {
       const id = seed("completed", "2026-01-01T00:00:00.000Z");
       const result = await setIdeaStatus(id, "archived");
       expect(result.ok).toBe(true);
       expect(store[0].status).toBe("archived");
-      expect(store[0].completedAt).toBeNull();
+      expect(store[0].completedAt).toBe("2026-01-01T00:00:00.000Z");
     });
 
     it("rejects an invalid status value", async () => {

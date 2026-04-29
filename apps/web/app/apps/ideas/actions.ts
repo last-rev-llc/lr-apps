@@ -242,13 +242,21 @@ export async function setIdeaStatus(
         return { ok: false, error: "invalid input" };
       }
 
-      const completedAt =
-        parsed.data.status === "completed" ? new Date().toISOString() : null;
-
       const supabase = await createClient();
+      const update: Record<string, unknown> = { status: parsed.data.status };
+      if (parsed.data.status === "completed") {
+        update.completedAt = new Date().toISOString();
+      } else if (parsed.data.status !== "archived") {
+        // Transitioning to a non-archived, non-completed status clears the
+        // completion timestamp. Archiving preserves it so the history stays
+        // intact regardless of whether the user archives via the row menu
+        // (archiveIdea) or the status dropdown (this action).
+        update.completedAt = null;
+      }
+
       const { data: row, error } = await supabase
         .from("ideas")
-        .update({ status: parsed.data.status, completedAt })
+        .update(update)
         .eq("id", parsed.data.id)
         .eq("user_id", userId)
         .select("*")
