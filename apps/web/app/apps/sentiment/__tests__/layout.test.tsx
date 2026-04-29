@@ -7,8 +7,8 @@ vi.mock("@repo/auth/server", () => ({
   requireAccess: vi.fn(),
 }));
 
-vi.mock("@repo/billing", () => ({
-  hasFeatureAccess: vi.fn(),
+vi.mock("@/lib/enforce-feature-tier", () => ({
+  enforceFeatureTier: vi.fn(),
 }));
 
 vi.mock("@/components/UpgradePrompt", () => ({
@@ -21,11 +21,11 @@ vi.mock("@/components/UpgradePrompt", () => ({
 }));
 
 import { requireAccess } from "@repo/auth/server";
-import { hasFeatureAccess } from "@repo/billing";
+import { enforceFeatureTier } from "@/lib/enforce-feature-tier";
 import SentimentLayout from "../layout";
 
 const mockRequireAccess = vi.mocked(requireAccess);
-const mockHasFeatureAccess = vi.mocked(hasFeatureAccess);
+const mockHasFeatureAccess = vi.mocked(enforceFeatureTier);
 
 beforeEach(() => {
   vi.clearAllMocks();

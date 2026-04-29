@@ -46,6 +46,15 @@ export type AuditLogRow = {
   created_at: string;
 };
 
+export type FeatureFlagRow = {
+  id: string;
+  key: string;
+  user_id: string | null;
+  tier: Tier | null;
+  enabled: boolean;
+  created_at: string;
+};
+
 export interface Database {
   public: {
     Tables: {
@@ -74,6 +83,13 @@ export interface Database {
         Insert: Pick<AuditLogRow, "action"> &
           Partial<Omit<AuditLogRow, "id" | "action" | "created_at">>;
         Update: Partial<Omit<AuditLogRow, "id" | "created_at">>;
+        Relationships: [];
+      };
+      feature_flags: {
+        Row: FeatureFlagRow;
+        Insert: Pick<FeatureFlagRow, "key"> &
+          Partial<Omit<FeatureFlagRow, "id" | "created_at">>;
+        Update: Partial<Omit<FeatureFlagRow, "id" | "created_at">>;
         Relationships: [];
       };
     };

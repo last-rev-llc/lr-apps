@@ -1,6 +1,6 @@
 import { requireAccess } from "@repo/auth/server";
 import { capture } from "@repo/analytics/server";
-import { hasFeatureAccess } from "@repo/billing";
+import { enforceFeatureTier } from "@/lib/enforce-feature-tier";
 import UpgradePrompt from "@/components/UpgradePrompt";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -40,7 +40,7 @@ export default async function CommandCenterLayout({
   children: ReactNode;
 }) {
   const { user } = await requireAccess("command-center");
-  const hasAccess = await hasFeatureAccess(user.id, "command-center");
+  const hasAccess = await enforceFeatureTier(user.id, "command-center");
   if (!hasAccess) return <UpgradePrompt requiredTier="enterprise" />;
   await capture(user.id, "app_opened", { slug: "command-center" });
 
