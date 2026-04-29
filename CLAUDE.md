@@ -2,7 +2,7 @@
 
 ## Overview
 
-`lr-apps` is a Turborepo monorepo that hosts ~27 small apps under one Next.js App Router deployment (`apps/web`). Subdomain-based routing is implemented in `apps/web/proxy.ts`: `<slug>.lastrev.com` is rewritten to `/apps/<routeGroup>/...`, and `auth.lastrev.com` is the central auth hub. The proxy merges Auth0 v4 middleware cookies/headers with the rewrite response via `mergeAuthMiddlewareResponse`, then layers CSP, rate limiting, and CSRF on top. App metadata (slug, subdomain, route group, tier, gating) lives in `apps/web/lib/app-registry.ts` and is the single source of truth consumed by both the proxy and per-app layouts.
+`lr-apps` is a Turborepo monorepo that hosts ~28 small apps under one Next.js App Router deployment (`apps/web`). Subdomain-based routing is implemented in `apps/web/proxy.ts`: `<slug>.lastrev.com` is rewritten to `/apps/<routeGroup>/...`, and `auth.lastrev.com` is the central auth hub. The proxy merges Auth0 v4 middleware cookies/headers with the rewrite response via `mergeAuthMiddlewareResponse`, then layers CSP, rate limiting, and CSRF on top. App metadata (slug, subdomain, route group, tier, gating) lives in `apps/web/lib/app-registry.ts` and is the single source of truth consumed by both the proxy and per-app layouts.
 
 ## Tech Stack
 
@@ -29,7 +29,7 @@ apps/web/
       layout.tsx
       (dashboard)/account, (dashboard)/my-apps
       (forms)/login, (forms)/signup, (forms)/unauthorized
-    apps/<slug>/                 # 27 apps (accounts, command-center, sentiment, ...)
+    apps/<slug>/                 # 28 apps (accounts, client-health, command-center, sentiment, ...)
     api/                         # checkout, cron, health, vitals, webhooks
     checkout/, pricing/
   lib/                           # Shared web-app helpers (see lib-listing below)

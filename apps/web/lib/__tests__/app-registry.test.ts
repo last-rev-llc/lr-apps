@@ -100,8 +100,8 @@ describe("app-registry", () => {
   });
 
   describe("registry integrity", () => {
-    it("registers at least 27 apps", () => {
-      expect(getAllApps().length).toBeGreaterThanOrEqual(27);
+    it("registers at least 28 apps", () => {
+      expect(getAllApps().length).toBeGreaterThanOrEqual(28);
     });
 
     it("no duplicate slugs", () => {
