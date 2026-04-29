@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export default async function IdeasPage() {
   const { user } = await requireAccess("ideas");
   const [ideas, canUseAiPlan] = await Promise.all([
-    getIdeas(),
+    getIdeas(user.id),
     hasFeatureAccess(user.id, "ideas:ai-plan"),
   ]);
 

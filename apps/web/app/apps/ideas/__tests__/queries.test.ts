@@ -4,6 +4,7 @@ import type { Idea } from "../lib/types";
 interface ChainCalls {
   from?: string;
   select?: string;
+  eq?: [string, unknown];
   neq?: [string, unknown];
   orderCalls: Array<[string, { ascending?: boolean; nullsFirst?: boolean }]>;
 }
@@ -15,6 +16,10 @@ function makeBuilder() {
   const builder: Record<string, unknown> = {};
   builder.select = (cols: string) => {
     calls.select = cols;
+    return builder;
+  };
+  builder.eq = (col: string, val: unknown) => {
+    calls.eq = [col, val];
     return builder;
   };
   builder.neq = (col: string, val: unknown) => {
@@ -49,9 +54,12 @@ vi.mock("@repo/db/server", () => ({
 
 import { getIdeas } from "../lib/queries";
 
+const TEST_USER_ID = "11111111-1111-4111-8111-111111111111";
+
 beforeEach(() => {
   calls.from = undefined;
   calls.select = undefined;
+  calls.eq = undefined;
   calls.neq = undefined;
   calls.orderCalls = [];
   resolved = { data: [], error: null };
@@ -60,17 +68,22 @@ beforeEach(() => {
 
 describe("getIdeas", () => {
   it("queries the 'ideas' table", async () => {
-    await getIdeas();
+    await getIdeas(TEST_USER_ID);
     expect(calls.from).toBe("ideas");
   });
 
+  it("scopes to the caller's user_id", async () => {
+    await getIdeas(TEST_USER_ID);
+    expect(calls.eq).toEqual(["user_id", TEST_USER_ID]);
+  });
+
   it("excludes archived ideas via .neq('status', 'archived')", async () => {
-    await getIdeas();
+    await getIdeas(TEST_USER_ID);
     expect(calls.neq).toEqual(["status", "archived"]);
   });
 
   it("sorts by compositeScore desc nulls last, then createdAt desc", async () => {
-    await getIdeas();
+    await getIdeas(TEST_USER_ID);
     expect(calls.orderCalls).toHaveLength(2);
     expect(calls.orderCalls[0]).toEqual([
       "compositeScore",
@@ -92,7 +105,7 @@ describe("getIdeas", () => {
       },
     ];
     resolved = { data: fixture, error: null };
-    const result = await getIdeas();
+    const result = await getIdeas(TEST_USER_ID);
     expect(result).toHaveLength(1);
     expect(result[0].tags).toEqual(["alpha", "beta"]);
     expect(Array.isArray(result[0].tags)).toBe(true);
@@ -101,14 +114,14 @@ describe("getIdeas", () => {
   it("returns [] on db error", async () => {
     resolved = { data: null, error: { message: "boom" } };
     const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const result = await getIdeas();
+    const result = await getIdeas(TEST_USER_ID);
     expect(result).toEqual([]);
     errSpy.mockRestore();
   });
 
   it("returns [] when data is null but no error", async () => {
     resolved = { data: null, error: null };
-    const result = await getIdeas();
+    const result = await getIdeas(TEST_USER_ID);
     expect(result).toEqual([]);
   });
 });

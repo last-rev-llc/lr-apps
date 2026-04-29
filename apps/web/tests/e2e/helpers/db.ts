@@ -53,3 +53,63 @@ export async function getPermission(
   if (error) throw new Error(`getPermission failed: ${error.message}`);
   return (data?.permission as Permission) ?? null;
 }
+
+export interface SeedIdeaInput {
+  title: string;
+  description?: string | null;
+  category?: string | null;
+  tags?: string[];
+  plan?: string | null;
+  planModel?: string | null;
+  planGeneratedAt?: string | null;
+  feasibility?: number | null;
+  impact?: number | null;
+  effort?: "Low" | "Medium" | "High" | null;
+  status?: "new" | "backlog" | "in-progress" | "completed" | "archived";
+}
+
+export async function seedIdea(
+  userId: string,
+  input: SeedIdeaInput,
+): Promise<string> {
+  const client = getServiceClient();
+  const row: Record<string, unknown> = {
+    user_id: userId,
+    title: input.title,
+    description: input.description ?? null,
+    category: input.category ?? null,
+    tags: input.tags ?? [],
+    status: input.status ?? "new",
+    source: "manual",
+  };
+  if (input.plan !== undefined) row.plan = input.plan;
+  if (input.planModel !== undefined) row.planModel = input.planModel;
+  if (input.planGeneratedAt !== undefined)
+    row.planGeneratedAt = input.planGeneratedAt;
+  if (input.feasibility !== undefined) row.feasibility = input.feasibility;
+  if (input.impact !== undefined) row.impact = input.impact;
+  if (input.effort !== undefined) row.effort = input.effort;
+
+  const { data, error } = await client
+    .from("ideas")
+    .insert(row)
+    .select("id")
+    .single();
+  if (error) throw new Error(`seedIdea failed: ${error.message}`);
+  return data.id as string;
+}
+
+export async function deleteIdeasForUser(userId: string): Promise<void> {
+  const client = getServiceClient();
+  const { error } = await client
+    .from("ideas")
+    .delete()
+    .eq("user_id", userId);
+  if (error) throw new Error(`deleteIdeasForUser failed: ${error.message}`);
+}
+
+export async function deleteIdea(id: string): Promise<void> {
+  const client = getServiceClient();
+  const { error } = await client.from("ideas").delete().eq("id", id);
+  if (error) throw new Error(`deleteIdea failed: ${error.message}`);
+}
