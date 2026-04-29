@@ -1,8 +1,10 @@
 import { describe, it, expect } from "vitest";
 import {
+  appBaseUrlsForHost,
   authHubOriginForHost,
   authHubUrl,
   isAuthHubOrigin,
+  requestOriginForHost,
 } from "../cluster-host";
 
 describe("authHubOriginForHost", () => {
@@ -110,5 +112,62 @@ describe("authHubUrl", () => {
     expect(authHubUrl("sentiment.lastrev.com", "/unauthorized?app=sentiment")).toBe(
       "https://auth.lastrev.com/unauthorized?app=sentiment",
     );
+  });
+});
+
+describe("requestOriginForHost", () => {
+  it("uses https for production hosts", () => {
+    expect(requestOriginForHost("lighthouse.apps.lastrev.com")).toBe(
+      "https://lighthouse.apps.lastrev.com",
+    );
+    expect(requestOriginForHost("auth.apps.lastrev.com")).toBe(
+      "https://auth.apps.lastrev.com",
+    );
+  });
+
+  it("uses http for localhost and *.localhost mirrors (port preserved)", () => {
+    expect(requestOriginForHost("localhost:3000")).toBe(
+      "http://localhost:3000",
+    );
+    expect(requestOriginForHost("auth.apps.lastrev.localhost:3000")).toBe(
+      "http://auth.apps.lastrev.localhost:3000",
+    );
+  });
+
+  it("uses https for Vercel preview hosts", () => {
+    expect(requestOriginForHost("lr-apps-git-feat-x.vercel.app")).toBe(
+      "https://lr-apps-git-feat-x.vercel.app",
+    );
+  });
+});
+
+describe("appBaseUrlsForHost", () => {
+  it("includes both the request's origin and the cluster auth hub on app subdomains", () => {
+    expect(appBaseUrlsForHost("lighthouse.apps.lastrev.com")).toEqual([
+      "https://lighthouse.apps.lastrev.com",
+      "https://auth.apps.lastrev.com",
+    ]);
+    expect(appBaseUrlsForHost("sentiment.lastrev.com")).toEqual([
+      "https://sentiment.lastrev.com",
+      "https://auth.lastrev.com",
+    ]);
+  });
+
+  it("dedupes when the request is already on the auth hub", () => {
+    expect(appBaseUrlsForHost("auth.apps.lastrev.com")).toEqual([
+      "https://auth.apps.lastrev.com",
+    ]);
+  });
+
+  it("returns the single localhost origin in dev (auth hub is the same origin)", () => {
+    expect(appBaseUrlsForHost("localhost:3000")).toEqual([
+      "http://localhost:3000",
+    ]);
+  });
+
+  it("returns the single preview origin on Vercel previews", () => {
+    expect(appBaseUrlsForHost("lr-apps-git-feat-x.vercel.app")).toEqual([
+      "https://lr-apps-git-feat-x.vercel.app",
+    ]);
   });
 });

@@ -1,7 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
+const { Auth0ClientMock } = vi.hoisted(() => ({
+  Auth0ClientMock: vi.fn().mockImplementation(() => ({ __mocked: true })),
+}));
+
 vi.mock("@auth0/nextjs-auth0/server", () => ({
-  Auth0Client: vi.fn().mockImplementation(() => ({ __mocked: true })),
+  Auth0Client: Auth0ClientMock,
 }));
 
 vi.mock("next/server", () => ({
@@ -48,6 +52,7 @@ describe("getHostFromRequestHeaders", () => {
 describe("getAuth0ClientForHost", () => {
   beforeEach(() => {
     vi.unstubAllEnvs();
+    Auth0ClientMock.mockClear();
   });
 
   it("returns a client when AUTH0_CLIENT_ID and AUTH0_CLIENT_SECRET are set", () => {
@@ -118,6 +123,77 @@ describe("getAuth0ClientForHost", () => {
 
     const client = getAuth0ClientForHost("any-host-unique-777.example.com");
     expect(client).toBeDefined();
+  });
+
+  describe("appBaseUrl derivation", () => {
+    // Use a unique clientId per test so the module-level clientCache (keyed
+    // by `${clientId}|${host}`) cannot leak entries between tests.
+    let clientIdCounter = 0;
+    const uniqueClientId = () => `test-client-derive-${++clientIdCounter}`;
+
+    beforeEach(() => {
+      vi.stubEnv("AUTH0_CLIENT_ID", uniqueClientId());
+      vi.stubEnv("AUTH0_CLIENT_SECRET", "test-secret");
+      vi.stubEnv("AUTH0_DOMAIN", "test.auth0.com");
+      vi.stubEnv("AUTH0_SECRET", "very-long-secret-derive");
+      vi.stubEnv("AUTH0_PRODUCTS_JSON", "");
+    });
+
+    it("includes the request's own origin so /auth/login validates", () => {
+      vi.stubEnv("AUTH0_ALLOWED_BASE_URLS", "");
+      vi.stubEnv("APP_BASE_URL", "https://apps.lastrev.com");
+
+      getAuth0ClientForHost("auth.apps.lastrev.com");
+
+      const opts = Auth0ClientMock.mock.calls.at(-1)?.[0];
+      expect(opts.appBaseUrl).toContain("https://auth.apps.lastrev.com");
+    });
+
+    it("includes the auth hub for the cluster (post-redirect /auth/* calls)", () => {
+      vi.stubEnv("AUTH0_ALLOWED_BASE_URLS", "");
+      vi.stubEnv("APP_BASE_URL", "https://apps.lastrev.com");
+
+      getAuth0ClientForHost("lighthouse.apps.lastrev.com");
+
+      const opts = Auth0ClientMock.mock.calls.at(-1)?.[0];
+      expect(opts.appBaseUrl).toEqual(
+        expect.arrayContaining([
+          "https://lighthouse.apps.lastrev.com",
+          "https://auth.apps.lastrev.com",
+        ]),
+      );
+    });
+
+    it("unions env-var entries with derived origins, deduped", () => {
+      vi.stubEnv(
+        "AUTH0_ALLOWED_BASE_URLS",
+        "https://apps.lastrev.com,https://auth.apps.lastrev.com,https://staging.apps.lastrev.com",
+      );
+
+      getAuth0ClientForHost("auth.apps.lastrev.com");
+
+      const opts = Auth0ClientMock.mock.calls.at(-1)?.[0];
+      const seen = new Set(opts.appBaseUrl);
+      expect(seen.size).toBe(opts.appBaseUrl.length);
+      expect(seen).toContain("https://apps.lastrev.com");
+      expect(seen).toContain("https://auth.apps.lastrev.com");
+      expect(seen).toContain("https://staging.apps.lastrev.com");
+    });
+
+    it("caches per (clientId, host) so each subdomain gets its own appBaseUrl", () => {
+      vi.stubEnv("AUTH0_ALLOWED_BASE_URLS", "");
+      // Counter from beforeEach already moved this test to a fresh clientId,
+      // so the cache starts empty for this clientId.
+      const callsBefore = Auth0ClientMock.mock.calls.length;
+
+      getAuth0ClientForHost("lighthouse.apps.lastrev.com");
+      getAuth0ClientForHost("generations.apps.lastrev.com");
+      // Same host hits the cache and does not reconstruct.
+      getAuth0ClientForHost("lighthouse.apps.lastrev.com");
+
+      const callsAfter = Auth0ClientMock.mock.calls.length;
+      expect(callsAfter - callsBefore).toBe(2);
+    });
   });
 });
 

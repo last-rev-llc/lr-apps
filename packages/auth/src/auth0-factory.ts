@@ -5,6 +5,7 @@ import { logAuditEvent } from "@repo/db/audit";
 import { createServiceRoleClient } from "@repo/db/service-role";
 import { capture } from "@repo/analytics/server";
 import { maybeSelfEnrollAfterLogin, appSlugFromReturnTo } from "./self-enroll";
+import { appBaseUrlsForHost } from "./cluster-host";
 
 const ALLOWED_RETURN_HOSTS = [
   "apps.lastrev.com",
@@ -85,21 +86,34 @@ const clientCache = new Map<string, Auth0Client>();
 
 /**
  * Host header value (may include port), e.g. `accounts.apps.lastrev.com` or `localhost:3000`.
- * Use one Auth0 tenant; use AUTH0_PRODUCTS_JSON for per-host client ID/secret (separate Auth0 applications per product).
+ *
+ * `Auth0Client` validates that every incoming request's origin is present in
+ * its `appBaseUrl` array — otherwise `/auth/login` throws `InvalidConfigurationError`.
+ * Static env-var lists fall out of date as new subdomains land, so we always
+ * union the per-host derived origins (current host + cluster auth hub) into
+ * whatever `AUTH0_ALLOWED_BASE_URLS` / `APP_BASE_URL` provides. The cache is
+ * keyed by `clientId|host` because the client's `appBaseUrl` is fixed at
+ * construction; each host needs its own cached client.
+ *
+ * Use one Auth0 tenant; use AUTH0_PRODUCTS_JSON for per-host client ID/secret
+ * (separate Auth0 applications per product).
  */
 export function getAuth0ClientForHost(host: string): Auth0Client {
   const cfg = resolveProductConfig(host);
-  const cacheKey = cfg.clientId;
+  const cacheKey = `${cfg.clientId}|${host.toLowerCase()}`;
   const existing = clientCache.get(cacheKey);
   if (existing) return existing;
 
-  const allowList = parseAllowList();
+  const envEntries = parseAllowList();
+  const derived = appBaseUrlsForHost(host);
+  const appBaseUrl = [...new Set([...derived, ...envEntries])];
+
   const client = new Auth0Client({
     domain: process.env.AUTH0_DOMAIN,
     clientId: cfg.clientId,
     clientSecret: cfg.clientSecret,
     secret: process.env.AUTH0_SECRET,
-    ...(allowList.length > 0 ? { appBaseUrl: allowList } : {}),
+    appBaseUrl,
     async onCallback(error, ctx, session) {
       const appBaseUrl =
         ctx.appBaseUrl ??
