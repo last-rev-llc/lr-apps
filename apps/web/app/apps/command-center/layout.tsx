@@ -33,6 +33,7 @@ const MODULES = [
   { slug: "app-access", label: "App Access", icon: "🔐" },
   { slug: "alphaclaw", label: "AlphaClaw", icon: "🦅" },
   { slug: "cc-flags", label: "Feature Flags", icon: "🚩" },
+  { slug: "cc-analytics", label: "Analytics", icon: "📊" },
 ];
 
 export default async function CommandCenterLayout({
