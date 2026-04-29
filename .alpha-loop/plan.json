@@ -2,46 +2,22 @@
   "vision": null,
   "milestones": [
     {
-      "title": "013 - Production Readiness — Staging, Preview, DR",
-      "description": "Fills the biggest operational gap: staging/prod environment separation, preview deployment workflow, migration rollback patterns, secrets rotation runbook, disaster recovery documentation, and a zero-downtime deploy checklist. Prerequisite for any future production cutover.",
-      "dueOn": "2026-07-01",
-      "order": 13
-    },
-    {
-      "title": "014 - Data Integrity & Audit Schema",
-      "description": "Audit log table with proper RLS and indexes, subscriptions RLS fixes unblocking M8 webhook writes, hot-path index additions, an RLS test harness in @repo/test-utils, and a CI registry→DB consistency check. Unblocks M8 and M11.",
-      "dueOn": "2026-05-31",
-      "order": 14
-    },
-    {
-      "title": "015 - Analytics, Feature Flags & Usage Telemetry",
-      "description": "@repo/analytics wrapper package, instrumentation of core product flows, a feature_flags table and getFeatureFlagValue() primitive in @repo/billing, an admin flag UI in Command Center, and an analytics event dashboard. Fills the missing half of observability (M9 covers errors/vitals; this covers product events and experimentation).",
-      "dueOn": "2026-08-01",
-      "order": 15
-    },
-    {
-      "title": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
-      "description": "Playwright mobile viewport audit across all 27 apps with top-10 regression fixes, axe-core accessibility audit and p0 violation fixes, eslint-plugin-jsx-a11y in @repo/config, next-intl scaffold with 3 pilot apps, and responsive @repo/ui component variants.",
-      "dueOn": "2026-10-01",
-      "order": 16
-    },
-    {
-      "title": "017 - Cleanup Backlog",
-      "description": "House pass: Age of Apes @repo/ui migration, finish 4 skeleton apps, resolve M4-M5 review-issue token/hover regressions, CLAUDE.md lib/ sync CI check, and GitHub milestone housekeeping (close empty duplicates #5/#6, consolidate CI scope).",
-      "dueOn": "2026-05-31",
-      "order": 17
+      "title": "023 - CRM App — Promotion from command-center/users to standalone",
+      "description": "Promote the read-only users sub-app out of command-center into its own enterprise-tier mini-app at crm.apps.lastrev.com. Lands a paired idempotent migration that formally tracks the existing public.contacts table (RLS, updated_at trigger, indexes), scaffolds the app via create-app, ports the list/detail UI from command-center/users with rename UsersApp→CrmApp and header copy CRM, builds zod-validated server actions for full CRUD (create/update/delete contact, edit notes/tags), introduces a unified ContactForm component used by both the new-contact dialog and an edit toggle in the detail panel, ships an AI enrichment endpoint at /api/enrich gated behind crm:admin and rate-limited (30/hour/user) that runs Vercel AI SDK + @ai-sdk/anthropic generateObject (claude-sonnet-4-6) against a ContactInsights zod schema and persists to contacts.insights + contacts.last_researched_at, deprecates the existing external insights writer to prevent clobbering, removes the users tile from command-center MODULES, deletes the old sub-app directory and test, adds a temporary redirect stub at command-center/users/page.tsx pointing to crm.apps.lastrev.com (slated for removal ~30 days post-release), introduces a re-runnable scripts/audit-contacts-schema.ts for live-schema drift detection, and ships unit + component + integration coverage for actions and the enrichment endpoint.",
+      "dueOn": "2026-06-15",
+      "order": 23
     }
   ],
   "issues": [
     {
       "id": 1,
-      "title": "Add OpenTelemetry traces for webhook and auth middleware",
-      "body": "## Summary\nAdd distributed tracing via OpenTelemetry to the Stripe webhook handler and auth middleware. Complements Sentry error tracking by surfacing latency regressions that error counts alone won't catch — particularly useful for catching slow permission lookups and webhook processing spikes.\n\n## Acceptance Criteria\n- [ ] Install `@opentelemetry/sdk-node` and configure OTLP exporter (Honeycomb or Grafana Cloud)\n- [ ] Instrument `/api/webhooks/stripe` with spans covering signature verification, event parsing, and DB write\n- [ ] Instrument `proxy.ts` auth middleware with spans for session check, permission lookup, and redirect decision\n- [ ] Add `OTEL_EXPORTER_OTLP_ENDPOINT` and `OTEL_SERVICE_NAME` to `turbo.json` globalEnv and `.env.local.example`\n- [ ] Traces appear in chosen backend with correct parent-child span structure\n- [ ] No-op in test environment (`OTEL_SDK_DISABLED=true`)\n- [ ] Document setup steps in `docs/ops/observability.md`",
+      "title": "Add scripts/audit-contacts-schema.ts for live-schema drift detection",
+      "body": "## Summary\nIntroduce a re-runnable script that introspects the live `public.contacts` table via PostgREST's OpenAPI endpoint and reports drift against an `EXPECTED_COLUMNS` map hard-coded in the script. Used as a pre-flight before authoring the contacts migration and wired into CI later.\n\n## Background\nThe `contacts` table already exists in Supabase but is not tracked in this repo. Before writing an idempotent migration, we need to confirm the live shape matches what we plan to write. The script keeps the expected schema co-located with the migration and `lib/types.ts`.\n\n## Acceptance Criteria\n- [ ] Script lives at `scripts/audit-contacts-schema.ts` and is invoked via `pnpm tsx scripts/audit-contacts-schema.ts`\n- [ ] Reads `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` from env via `lib/env.ts` (or direct, since this is a script)\n- [ ] Hits PostgREST OpenAPI endpoint to introspect column names, types, nullability for `public.contacts`\n- [ ] Hard-coded `EXPECTED_COLUMNS` map mirrors `apps/web/app/apps/crm/lib/types.ts` Contact shape and the migration DDL\n- [ ] Per-column output uses the four-state symbol legend: `✓` ok, `Δ` drift, `✖` missing in live, `?` extra in live\n- [ ] Exits with non-zero status if any drift, missing, or extra columns are found\n- [ ] Supports `--json` flag for machine-readable output\n- [ ] README comment at top of file documents env requirements and exit codes\n- [ ] Script is added to package.json scripts (e.g. `\"audit:contacts\": \"tsx scripts/audit-contacts-schema.ts\"`) only if natural; otherwise documented in plan and run ad-hoc",
       "labels": [
         "enhancement",
-        "observability"
+        "scripts"
       ],
-      "milestone": "M9: Observability & Error Tracking",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
       "complexity": "medium",
       "dependsOn": [],
@@ -49,73 +25,75 @@
     },
     {
       "id": 2,
-      "title": "Add Redis/Upstash caching layer for app registry, permissions, and subscription status",
-      "body": "## Summary\nApp registry lookups, permission checks, and subscription status queries run on every proxied request. Add a Redis/Upstash caching layer in `@repo/db` to reduce Supabase round-trips on the hot path.\n\n## Acceptance Criteria\n- [ ] Add `@upstash/redis` to `packages/db/package.json`\n- [ ] Cache `getAppPermission(userId, slug)` results with 60 s TTL; invalidate on `upsertPermission()`\n- [ ] Cache `getUserSubscription(userId)` with 300 s TTL; invalidate on Stripe webhook upsert\n- [ ] Cache app registry lookups (`getAppBySubdomain`, `getAppBySlug`) indefinitely (static data, invalidated only on deploy)\n- [ ] Add `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` to `turbo.json` globalEnv and `.env.local.example`\n- [ ] Cache layer is bypassed when env vars are absent (local dev fallback to direct Supabase)\n- [ ] Add unit tests for cache hit/miss behavior in `packages/db/src/__tests__/cache.test.ts`",
+      "title": "Run live-schema audit and reconcile drift before writing migration",
+      "body": "## Summary\nExecute `scripts/audit-contacts-schema.ts` against the live Supabase database, capture any drift / missing / extra columns, and reconcile by either updating `EXPECTED_COLUMNS` + the proposed migration DDL or by planning a follow-up migration for legacy columns.\n\n## Background\nThe migration must be idempotent and non-destructive against the existing live table. The audit guarantees the DDL we ship matches the live shape so applying the migration is a no-op for column shape and only adds RLS/trigger/indexes.\n\n## Acceptance Criteria\n- [ ] `pnpm tsx scripts/audit-contacts-schema.ts` runs cleanly with non-zero exit only when drift exists\n- [ ] All `Δ` (drift) entries resolved by updating either the script's `EXPECTED_COLUMNS` or the planned migration DDL\n- [ ] All `✖` (missing in live) entries resolved by either removing from DDL or accepting that the migration will add them on apply (idempotent `add column if not exists`)\n- [ ] All `?` (extra in live) entries triaged: documented as legacy in plan comment, added to DDL, or scheduled for a follow-up drop migration\n- [ ] Final audit run produces all `✓` output (or documented exceptions) before issue is closed\n- [ ] Audit output captured in PR description for traceability",
       "labels": [
-        "enhancement",
-        "performance",
-        "infrastructure"
+        "chore",
+        "db"
       ],
-      "milestone": "M10: Infrastructure — Email, Cron, Storage",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [],
+      "complexity": "small",
+      "dependsOn": [
+        1
+      ],
       "selected": true
     },
     {
       "id": 3,
-      "title": "Add Zod-validated environment variable loader at application startup",
-      "body": "## Summary\nAdd a startup env validation step that parses all required environment variables through a Zod schema and throws a descriptive error at boot time if any are missing or malformed. Distinct from API-route input validation (issue #163), which validates request payloads.\n\n## Acceptance Criteria\n- [ ] Create `apps/web/lib/env.ts` with a Zod schema covering all required vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `AUTH0_SECRET`, `AUTH0_BASE_URL`, `AUTH0_ISSUER_BASE_URL`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`\n- [ ] Import and validate `env.ts` in `apps/web/app/layout.tsx` (server-side; runs at cold start)\n- [ ] Missing or invalid vars produce a clear error message naming the offending variable\n- [ ] Add `zod` to `apps/web` dependencies if not already present\n- [ ] Add unit test asserting validation throws on a missing required var\n- [ ] Update `CLAUDE.md`: every new env var must be added to `lib/env.ts` before use",
+      "title": "Scaffold crm app via pnpm create-app and verify registry entry",
+      "body": "## Summary\nRun `pnpm create-app crm --name=\"CRM\" --tier=enterprise --permission=admin --template=full` to register the app in `apps/web/lib/app-registry.ts` and scaffold the directory under `apps/web/app/apps/crm/`.\n\n## Background\nThe registry entry is the single source of truth for proxy routing, layout access, and tier gating. The `full` template wires `requireAppLayoutAccess(\"crm\")` automatically.\n\n## Acceptance Criteria\n- [ ] Confirm `crm` slug is not already taken in `app-registry.ts` before running\n- [ ] `pnpm create-app crm --name=\"CRM\" --tier=enterprise --permission=admin --template=full` completes without error\n- [ ] `app-registry.ts` contains: `{ slug: \"crm\", name: \"CRM\", subdomain: \"crm\", routeGroup: \"apps/crm\", auth: true, permission: \"admin\", template: \"full\", tier: \"enterprise\", features: {} }`\n- [ ] `apps/web/app/apps/crm/` directory exists with `layout.tsx`, `page.tsx`, `__tests__/page.test.tsx` from the `full` template\n- [ ] `layout.tsx` invokes `requireAppLayoutAccess(\"crm\")`\n- [ ] `pnpm lint` passes (registry / lib-listing checks happy)\n- [ ] Local proxy routing verified: requests to `crm.apps.lastrev.com` (or local equivalent) hit `/apps/crm/...`",
       "labels": [
         "enhancement",
-        "security"
+        "scaffolding"
       ],
-      "milestone": "M11: Security Hardening",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
-      "complexity": "small",
+      "complexity": "trivial",
       "dependsOn": [],
       "selected": true
     },
     {
       "id": 4,
-      "title": "Add @repo/db typed-query documentation and migration authoring guide",
-      "body": "## Summary\nDocument the typed query helpers in `@repo/db` and establish a migration authoring guide that references the rollback pattern. Gives future contributors a clear workflow for DB changes and prevents the query-helper API from being re-implemented ad hoc.\n\n## Acceptance Criteria\n- [ ] Create `packages/db/README.md` documenting `getAppPermission`, `upsertPermission`, `getUserSubscription`, and the service-role vs. anon client distinction\n- [ ] Document when to use `db/server.ts` vs `db/client.ts` vs `db/service-role.ts` with code examples\n- [ ] Create `docs/guides/migrations.md` covering: naming convention, how to write a migration, rollback strategy (pairing `.down.sql`), and CI check integration\n- [ ] Link migration guide from `CLAUDE.md` under the DB section\n- [ ] Add a `db:rollback` script placeholder to root `package.json` with a TODO comment pointing to the guide (to be implemented in M13)",
+      "title": "Add paired contacts migration (RLS, trigger, indexes) — idempotent",
+      "body": "## Summary\nLand `supabase/migrations/<DATE>_crm_contacts.up.sql` + matching `down.sql` that captures the existing `contacts` table shape going forward. The up-migration is idempotent and non-destructive — `create table if not exists`, `do $$ ... $$` guards on policy creation, `create index if not exists`, `drop trigger if exists` before re-creating.\n\n## Background\nThe `contacts` table predates this repo. We're formalizing it without risking data loss. Down-migration drops the trigger, function, policy, and indexes — but **not the table**, since the data predates the repo. RLS gates via `crm:admin` permission, not per-row ownership (org-shared contacts).\n\n## Acceptance Criteria\n- [ ] Migration pair created under `supabase/migrations/` with paired `up.sql` + `down.sql` (date prefix matches repo convention)\n- [ ] `up.sql` uses `create table if not exists public.contacts (...)` with all columns from the plan DDL: id, name, email, phone, title, company, type (with check constraint), avatar, location, timezone, slack_id, slack_handle, github_handle, linkedin_url, twitter_handle, website, tags (jsonb default '[]'), notes, insights (jsonb), last_researched_at, confidence, source, created_at, updated_at\n- [ ] `alter table public.contacts enable row level security;`\n- [ ] Single permissive policy `\"crm admins manage contacts\"` for `all` to `authenticated` using `(true)` with check `(true)` — gating happens at the app layer via permission\n- [ ] Policy creation guarded against duplicate-policy errors (do-block or `drop policy if exists` first)\n- [ ] `set_contacts_updated_at()` trigger function created with `create or replace`\n- [ ] `trg_contacts_updated_at` trigger created with `drop trigger if exists` first\n- [ ] Indexes created with `create index if not exists`: `idx_contacts_name`, `idx_contacts_company`, `idx_contacts_type`, `idx_contacts_last_researched` (last with `desc nulls last`)\n- [ ] `down.sql` drops trigger, function, policy, and four indexes — does NOT drop the table\n- [ ] `pnpm lint` passes (`scripts/check-migration-pairs.ts` happy)\n- [ ] Migration applied locally and re-applied successfully (idempotent verified)",
       "labels": [
-        "documentation",
-        "dx"
+        "db",
+        "migration"
       ],
-      "milestone": "M12: Developer Experience & Docs",
-      "priority": "p2",
-      "complexity": "small",
-      "dependsOn": [],
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        2
+      ],
       "selected": true
     },
     {
       "id": 5,
-      "title": "Staging environment: second Supabase project, Auth0 tenant, and env var matrix",
-      "body": "## Summary\nCreate a fully isolated staging environment with its own Supabase project and Auth0 tenant. Document the env var matrix and Vercel environment promotion flow so staging changes can be promoted to production safely.\n\n## Acceptance Criteria\n- [ ] Create a second Supabase project for staging; apply all migrations from `supabase/migrations/` to it\n- [ ] Create a staging Auth0 tenant; configure allowed callback URLs for the staging subdomain pattern\n- [ ] Document Stripe test-mode keys as the staging billing credentials (no new keys needed)\n- [ ] Add `.env.staging.example` listing all staging-specific vars\n- [ ] Extend `apps/web/lib/env.ts` Zod schema to validate `DEPLOYMENT_ENV` (`staging | production`)\n- [ ] Document Vercel environment promotion workflow: how to promote staging env vars to production without downtime\n- [ ] Update root `README.md` with an environment matrix table (local / staging / production) listing all vars and their sources",
+      "title": "Port lib/types.ts and lib/queries.ts from users sub-app to crm",
+      "body": "## Summary\nCopy `apps/web/app/apps/command-center/users/lib/types.ts` to `apps/web/app/apps/crm/lib/types.ts` unchanged. Port `lib/queries.ts` and add a new `getContactById(id)` query alongside the existing `getContacts()`.\n\n## Background\nTypes (`Contact`, `ContactInsights`, `CommunicationStyle`, `Personality`, `Interests`, sort/view enums) are unchanged. Queries continue to use `@repo/db/server` and parse `tags` + `insights` JSON fields; `getContactById` is needed by the enrichment endpoint and the edit/detail flow.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/lib/types.ts` exists, identical to the source file (only the path changes)\n- [ ] `apps/web/app/apps/crm/lib/queries.ts` exports `getContacts()` matching the existing behavior\n- [ ] `getContactById(id: string): Promise<Contact | null>` added; uses `@repo/db/server` and parses `tags`/`insights` consistently\n- [ ] Both queries wrapped in `withSpan` from `lib/otel.ts`\n- [ ] No imports from `@/app/apps/command-center/...` — the crm app is self-contained",
       "labels": [
-        "enhancement",
-        "infrastructure"
+        "enhancement"
       ],
-      "milestone": "013 - Production Readiness — Staging, Preview, DR",
-      "priority": "p0",
-      "complexity": "large",
-      "dependsOn": [],
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        3
+      ],
       "selected": true
     },
     {
       "id": 6,
-      "title": "Preview deployment workflow: subdomain routing and Auth0 callbacks for Vercel preview URLs",
-      "body": "## Summary\nDocument and automate how subdomain routing and Auth0 allowed-callback URLs work on Vercel preview deployments. Add a PR comment action that posts preview app links after each preview deploy.\n\n## Acceptance Criteria\n- [ ] Document in `docs/ops/preview-deployments.md`: how `proxy.ts` resolves subdomains on Vercel preview URLs and how to add preview URL patterns to Auth0 allowed callbacks\n- [ ] Update `proxy.ts` to handle Vercel preview URL format (`<branch>-<project>.vercel.app`) without incorrectly redirecting to the auth hub\n- [ ] Add a GitHub Actions step (or Vercel Deploy Hook) that posts a PR comment listing preview URLs for each registered app subdomain after a preview deploy succeeds\n- [ ] Manually verify at least one app renders correctly on a preview deployment\n- [ ] Auth0 staging tenant configured with a wildcard allowed callback covering preview URLs",
+      "title": "Add lib/schemas.ts with zod schemas for ContactInput and ContactInsights",
+      "body": "## Summary\nCentralize zod schemas for input validation. `ContactInputSchema` is used by server actions and the create/edit form; `InsightsSchema` is used by the AI enrichment endpoint via `generateObject` and mirrors the `ContactInsights` shape from `lib/types.ts`.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/lib/schemas.ts` created\n- [ ] `ContactInputSchema` covers all writable contact fields (name required; type enum constrained to the same values as the DB check constraint; tags array; optional socials)\n- [ ] `ContactInputSchema` exports a TS type via `z.infer<>` named `ContactInput`\n- [ ] `InsightsSchema` matches the spec from the plan: confidence enum (high/medium/low), summary (1..280), bestApproach (1..280), communicationStyle (4 nullable strings), personality (3 nullable strings + motivators[<=6] + stressors[<=6]), interests (professional[<=8], personal[<=8], sharedWithAdam[<=6]), conversationStarters[<=6], topicsToAvoid[<=6]\n- [ ] Schema field shapes verified against `lib/types.ts` `ContactInsights` (no drift)\n- [ ] Zod v3 syntax matches the rest of the repo",
       "labels": [
-        "enhancement",
-        "infrastructure",
-        "dx"
+        "enhancement"
       ],
-      "milestone": "013 - Production Readiness — Staging, Preview, DR",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
-      "complexity": "medium",
+      "complexity": "small",
       "dependsOn": [
         5
       ],
@@ -123,48 +101,65 @@
     },
     {
       "id": 7,
-      "title": "Database migration rollback pattern: paired .down.sql files and db:rollback script",
-      "body": "## Summary\nEstablish a convention that every Supabase migration ships with a paired `.down.sql` rollback file. Implement the `db:rollback` script placeholder from the M12 docs issue and add a CI lint check to enforce the pairing rule.\n\n## Acceptance Criteria\n- [ ] Implement `db:rollback` script in root `package.json` that applies the most recent `.down.sql` against the local Supabase instance (`supabase db reset --db-url` or equivalent)\n- [ ] Retroactively create `.down.sql` files for all existing migrations in `supabase/migrations/`\n- [ ] Add CI lint step that fails if any `*.sql` migration file lacks a corresponding `*.down.sql`\n- [ ] Update `CLAUDE.md` DB section: every migration must ship with a paired `.down.sql` rollback file\n- [ ] Update `docs/guides/migrations.md` (created in issue #4) with the rollback procedure and the CI check\n- [ ] Document manual revert procedure for migrations already applied to the production Supabase project",
+      "title": "Add lib/actions.ts: createContact, updateContact, deleteContact server actions",
+      "body": "## Summary\nImplement server actions for full CRUD on the `contacts` table, matching the `cringe-rizzler` and `cc-flags` patterns. Each action validates with `ContactInputSchema`, writes via `@repo/db/server` (RLS-respecting), revalidates the path, and is wrapped in `withSpan`.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/lib/actions.ts` starts with `\"use server\";`\n- [ ] `createContact(input: ContactInput): Promise<Contact>` validates input with `ContactInputSchema`, inserts, returns full row\n- [ ] `updateContact(id: string, input: Partial<ContactInput>): Promise<Contact>` validates with `ContactInputSchema.partial()`, updates by id, returns updated row\n- [ ] `deleteContact(id: string): Promise<void>` deletes by id\n- [ ] All three actions use `@repo/db/server` (NOT service-role)\n- [ ] All three actions call `revalidatePath(\"/\")` (or the appropriate crm app path) after mutation\n- [ ] All three actions wrapped in `withSpan(\"crm.<action>\", { contactId? })` from `lib/otel.ts`\n- [ ] Errors logged via `@repo/logger`, never `console.log`\n- [ ] Type validation errors throw a structured error the form can render",
       "labels": [
-        "enhancement",
-        "database",
-        "infrastructure"
+        "enhancement"
       ],
-      "milestone": "013 - Production Readiness — Staging, Preview, DR",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
       "complexity": "medium",
       "dependsOn": [
-        4
+        4,
+        6
       ],
       "selected": true
     },
     {
       "id": 8,
-      "title": "Secrets rotation runbook: Stripe, Auth0, Supabase service role, and CRON_SECRET",
-      "body": "## Summary\nCreate an ops runbook covering the rotation procedure for every long-lived secret in the platform. Includes revocation order, verification steps, and a rollback path if a rotation causes a live incident.\n\n## Acceptance Criteria\n- [ ] Create `docs/ops/secrets-rotation.md` with dedicated sections for: Stripe webhook secret, Auth0 client secret, Supabase service role key, `CRON_SECRET`, and `AUTH0_SECRET`\n- [ ] Each section documents: how to generate the new secret, how to update it in Vercel for staging then production, how to verify the old secret is revoked, and the safe overlap window for in-flight requests\n- [ ] Document rotation order (Stripe → Supabase → Auth0 → Cron) to avoid cross-service auth failures\n- [ ] Add `docs/ops/ROTATION_HISTORY.md` placeholder for logging rotation dates and operator\n- [ ] Reference the runbook from the main `README.md` Ops section\n- [ ] Add the runbook path to `.alpha-loop.yaml` under ops documentation",
+      "title": "Add lib/enrich.ts: AI enrichment via @ai-sdk/anthropic generateObject",
+      "body": "## Summary\nImplement the core AI enrichment routine that the `/api/enrich` route handler calls. Uses Vercel AI SDK + `@ai-sdk/anthropic` `generateObject` against the `InsightsSchema` from `lib/schemas.ts`. Model is `claude-sonnet-4-6`. Prompt is the v0 placeholder structure from the plan; treat as iterable.\n\n## Background\nThe schema is the contract; prompt wording can iterate without changing the API. Grounded-only output rules in the system prompt prevent invented biographical claims.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/lib/enrich.ts` exports `enrichContact(contact: Contact): Promise<ContactInsights>`\n- [ ] Uses `@ai-sdk/anthropic` provider with model `claude-sonnet-4-6`\n- [ ] Calls `generateObject` with `schema: InsightsSchema` from `lib/schemas.ts`\n- [ ] System prompt matches the plan's v0 wording (relationship-intelligence framing for Adam Harris / Last Rev, evidence-only rules, no private/sensitive content)\n- [ ] User message templated from the contact fields per the plan (name, title, company, type, email, location, timezone, linkedin, github, twitter, slack, website, tags, notes)\n- [ ] Function does NOT persist; persistence is the route handler's job\n- [ ] Wrapped in `withSpan(\"crm.enrich\", { contactId })`\n- [ ] Errors from the AI SDK are surfaced to the caller with enough detail to log\n- [ ] Implementation respects `@repo/auth`'s server-only constraints (no client imports leaked)",
       "labels": [
-        "documentation",
-        "security",
-        "infrastructure"
+        "enhancement",
+        "ai"
       ],
-      "milestone": "013 - Production Readiness — Staging, Preview, DR",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
       "complexity": "medium",
       "dependsOn": [
-        5
+        6
       ],
       "selected": true
     },
     {
       "id": 9,
-      "title": "Disaster recovery documentation: RTO/RPO targets, Supabase PITR restore, and Stripe event replay",
-      "body": "## Summary\nDocument RTO/RPO assumptions, Supabase point-in-time recovery steps, Stripe webhook event replay procedure for missed events, and an incident contact list. Establishes the recovery baseline before production traffic scales.\n\n## Acceptance Criteria\n- [ ] Create `docs/ops/disaster-recovery.md` with: RTO/RPO targets per service tier, Supabase PITR restore steps (dashboard + CLI), Stripe webhook replay steps for events missed during an outage, and Auth0 tenant export/import\n- [ ] Document Supabase automatic daily backup schedule and retention period\n- [ ] Add incident contact list: Supabase support, Stripe support, Auth0 support, Vercel support (with SLA response times)\n- [ ] Define recovery runbook for the top three failure scenarios: DB corruption/accidental drop, auth provider outage, billing provider outage\n- [ ] Reference from `README.md` Ops section",
+      "title": "Add api/enrich/route.ts: POST endpoint with auth, rate limit, persistence",
+      "body": "## Summary\nImplement the `POST /api/enrich` route handler under `apps/web/app/apps/crm/api/enrich/route.ts`. Validates auth + permission, rate-limits per user, calls `enrichContact()`, persists `insights` + `last_researched_at`, returns the updated insights.\n\n## Acceptance Criteria\n- [ ] Route at `apps/web/app/apps/crm/api/enrich/route.ts` exports `POST`\n- [ ] Body: `{ contactId: string }` validated with zod\n- [ ] Auth: `requireAccess(\"crm\", \"admin\")` from `@repo/auth` (or the route-handler equivalent of `requireAppLayoutAccess(\"crm\")`)\n- [ ] Rate limit: `lib/rate-limit.ts`, 30/hour/user (keyed on auth subject)\n- [ ] Loads contact via `getContactById(contactId)`; 404 if missing\n- [ ] Calls `enrichContact(contact)` from `lib/enrich.ts`\n- [ ] Persists via `@repo/db/server`: updates `contacts.insights = <result>` and `contacts.last_researched_at = now()`\n- [ ] Response: `{ insights: ContactInsights, last_researched_at: string }`\n- [ ] Wrapped in `withSpan(\"crm.enrich\", { contactId })`\n- [ ] Errors logged via `@repo/logger`; rate-limit hits return 429 with `Retry-After`\n- [ ] Validation failures return 400 with structured error",
       "labels": [
-        "documentation",
-        "infrastructure"
+        "enhancement",
+        "ai",
+        "api"
       ],
-      "milestone": "013 - Production Readiness — Staging, Preview, DR",
-      "priority": "p2",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        5,
+        7,
+        8
+      ],
+      "selected": true
+    },
+    {
+      "id": 10,
+      "title": "Port users-app.tsx to crm-app.tsx with rename and CRM header",
+      "body": "## Summary\nCopy `apps/web/app/apps/command-center/users/components/users-app.tsx` (410 lines) to `apps/web/app/apps/crm/components/crm-app.tsx`. Rename the `UsersApp` component to `CrmApp`. Change header copy from `\"👥 Contacts\"` to `\"CRM\"`. Keep the existing subtitle (`\"{n} contacts · {m} with insights\"`) untouched. Preserve search, filter (type/company), sort, grid/list view toggle, and detail-panel toggle.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/components/crm-app.tsx` exists with `\"use client\"` directive\n- [ ] Component exported as `CrmApp` (not `UsersApp`)\n- [ ] Header text: `CRM` (no leading emoji); subtitle preserved verbatim\n- [ ] All existing search, filter, sort, view-mode functionality works as before\n- [ ] Imports from `@/app/apps/crm/lib/...`, NOT from the old command-center path\n- [ ] No inline hex colors introduced (token audit clean)\n- [ ] Renders without console errors against an empty contacts list and a populated list",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "priority": "p1",
       "complexity": "medium",
       "dependsOn": [
         5
@@ -172,330 +167,169 @@
       "selected": true
     },
     {
-      "id": 10,
-      "title": "Zero-downtime deploy checklist: webhook availability, expand-contract DB schema, canary rollout",
-      "body": "## Summary\nCreate a pre-deploy checklist ensuring webhook handler availability during Vercel rolling deploys, documenting the expand-then-contract pattern for additive DB schema changes, and defining a canary/feature-flag rollout approach.\n\n## Acceptance Criteria\n- [ ] Create `docs/ops/zero-downtime-deploy.md` covering: pre-deploy checklist, webhook availability during Vercel rolling deploys (requires health check endpoint from M9 #149), expand-contract migration steps\n- [ ] Document Vercel rolling deploy behavior and how it interacts with Next.js server actions and Supabase connections\n- [ ] Describe the feature-flag rollout pattern using the `feature_flags` table (from issue #18)\n- [ ] Document Vercel traffic splitting option for canary deploys\n- [ ] Reference from `README.md` Ops section",
+      "id": 11,
+      "title": "Add components/contact-form.tsx (shared create + edit form)",
+      "body": "## Summary\nNew unified form component used by both the new-contact dialog and the edit toggle in the detail panel. Driven by `ContactInputSchema`. Built with `@repo/ui` form primitives.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/components/contact-form.tsx` created with `\"use client\"` directive\n- [ ] Props: `{ initialValues?: Partial<ContactInput>; onSubmit: (input: ContactInput) => Promise<void>; onCancel?: () => void; submitLabel?: string }`\n- [ ] Fields cover all writable Contact columns (name required; type as a select matching the DB check constraint; tags as a multi-input; socials as optional text inputs)\n- [ ] Client-side validation via `ContactInputSchema` (resolver pattern matches repo convention)\n- [ ] Uses `@repo/ui` primitives (Form, Input, Select, Textarea, Button) — no Radix imports directly\n- [ ] No hardcoded colors; uses theme tokens\n- [ ] Loading + error states surfaced inline\n- [ ] Submits via the `onSubmit` prop so callers wire up the appropriate server action",
       "labels": [
-        "documentation",
-        "infrastructure"
+        "enhancement",
+        "ui"
       ],
-      "milestone": "013 - Production Readiness — Staging, Preview, DR",
-      "priority": "p2",
-      "complexity": "small",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "priority": "p1",
+      "complexity": "medium",
       "dependsOn": [
-        5,
+        6,
         7
       ],
       "selected": true
     },
     {
-      "id": 11,
-      "title": "Add audit_log table with insert-only RLS, service-role bypass, and query indexes",
-      "body": "## Summary\nCreate the `audit_log` database table that M11's audit log middleware (issue #162) writes to. Implements insert-only RLS for user context and a service-role bypass for server-side writes, plus the indexes required for Command Center admin queries.\n\n## Acceptance Criteria\n- [ ] Create `supabase/migrations/005_audit_log.sql` with schema: `(id uuid DEFAULT gen_random_uuid() PRIMARY KEY, user_id uuid REFERENCES auth.users(id), action text NOT NULL, resource text NOT NULL, metadata jsonb, created_at timestamptz DEFAULT now() NOT NULL)`\n- [ ] Enable RLS: authenticated users may only INSERT rows where `auth.uid() = user_id`; no SELECT/UPDATE/DELETE for user role\n- [ ] Service role bypasses RLS for all operations\n- [ ] Add indexes: `idx_audit_log_user_created (user_id, created_at)` and `idx_audit_log_action (action)`\n- [ ] Create paired `005_audit_log.down.sql` rollback file\n- [ ] Add `AuditLog` row type to `packages/db/src/types.ts` and extend the `Database` interface\n- [ ] Add `insertAuditLog(entry: AuditLogInsert): Promise<void>` helper to `packages/db/src/queries.ts` with a unit test",
+      "id": 12,
+      "title": "Port contact-detail.tsx with Edit toggle, Delete, and Re-research actions",
+      "body": "## Summary\nCopy `apps/web/app/apps/command-center/users/components/contact-detail.tsx` (595 lines) to `apps/web/app/apps/crm/components/contact-detail.tsx`. Add: (1) an Edit toggle that swaps the read-only view for `<ContactForm>` bound to the selected contact and saves via `updateContact`, (2) a Delete button with confirm dialog wired to `deleteContact`, and (3) a Re-research button that POSTs to `/api/enrich` and updates the in-place insights view. If the file naturally splits into edit/view sub-components during the work, do that — otherwise leave the monolith.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/components/contact-detail.tsx` exists with `\"use client\"` directive\n- [ ] Read-only view continues to render the existing detail layout (insights, communication style, personality, interests, etc.)\n- [ ] Edit button toggles into `<ContactForm initialValues={contact} onSubmit={(i) => updateContact(contact.id, i)} />`\n- [ ] Delete button opens a confirm dialog (`@repo/ui` Dialog) and calls `deleteContact(contact.id)` on confirm\n- [ ] Re-research button POSTs `{ contactId: contact.id }` to `/api/enrich`, shows loading state, updates insights inline on success, surfaces 429 / error states\n- [ ] Detail panel closes (or refreshes) after successful delete\n- [ ] No hardcoded colors; theme tokens only\n- [ ] No imports from old command-center path",
       "labels": [
         "enhancement",
-        "database",
-        "security"
+        "ui"
       ],
-      "milestone": "014 - Data Integrity & Audit Schema",
-      "priority": "p0",
-      "complexity": "medium",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 12,
-      "title": "Fix subscriptions table RLS: add service-role INSERT/UPDATE policies and stripe_subscription_id index",
-      "body": "## Summary\nThe `subscriptions` table is missing INSERT and UPDATE policies for the service-role context, which means the Stripe webhook handler (`upsertSubscription()`) cannot write rows. Also adds the lookup index required on every webhook event to prevent full-table scans.\n\n## Acceptance Criteria\n- [ ] Create migration adding INSERT policy for service role: `WITH CHECK (auth.role() = 'service_role')`\n- [ ] Create migration adding UPDATE policy for service role with same condition\n- [ ] Add `idx_subscriptions_stripe_subscription_id (stripe_subscription_id)` index\n- [ ] Add `idx_subscriptions_user_id (user_id)` index if not already present\n- [ ] Create paired `.down.sql` rollback file\n- [ ] Verify `upsertSubscription()` succeeds end-to-end against a local Supabase instance\n- [ ] Update M8 billing integration test (issue #64) to assert a subscription row exists in the DB after a simulated webhook",
-      "labels": [
-        "bug",
-        "database",
-        "security"
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [
+        7,
+        9,
+        11
       ],
-      "milestone": "014 - Data Integrity & Audit Schema",
-      "priority": "p0",
-      "complexity": "small",
-      "dependsOn": [],
       "selected": true
     },
     {
       "id": 13,
-      "title": "Add missing hot-path indexes for app_permissions and top-5 @repo/db query patterns",
-      "body": "## Summary\nRun `EXPLAIN ANALYZE` on the five most-called query helpers in `@repo/db` and add any missing indexes. Specifically targets `app_permissions(app_slug)` which is missing an index used by Command Center admin permission views.\n\n## Acceptance Criteria\n- [ ] Run `EXPLAIN ANALYZE` against: `getAppPermission()`, `getUserSubscription()`, `upsertPermission()`, and the two most-called Command Center module queries\n- [ ] Add `idx_app_permissions_app_slug (app_slug)` index\n- [ ] Add any further indexes identified where `EXPLAIN ANALYZE` shows a sequential scan with estimated cost > 100\n- [ ] Create a single migration for all new indexes plus a paired `.down.sql`\n- [ ] Include `EXPLAIN ANALYZE` output excerpts as comments in the migration file to document the decision\n- [ ] Verify query plans improve to index scans after migration",
+      "title": "Wire CRUD UI into crm-app.tsx (New Contact dialog)",
+      "body": "## Summary\nAdd a `+ New Contact` button to `crm-app.tsx` that opens `<ContactForm>` in a dialog and calls `createContact` on submit. After successful create, close the dialog and let the page revalidation refresh the list.\n\n## Acceptance Criteria\n- [ ] `+ New Contact` button rendered in the crm-app header area\n- [ ] Click opens an `@repo/ui` Dialog containing `<ContactForm onSubmit={createContact} />`\n- [ ] Successful create closes the dialog and the list reflects the new contact (via the action's `revalidatePath`)\n- [ ] Validation errors render inline within the form (no toast-only)\n- [ ] Cancel closes the dialog without state leakage\n- [ ] Dialog accessible: focus trap, ESC closes, ARIA labels via `@repo/ui` defaults",
       "labels": [
-        "performance",
-        "database"
+        "enhancement",
+        "ui"
       ],
-      "milestone": "014 - Data Integrity & Audit Schema",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
       "complexity": "small",
       "dependsOn": [
-        11,
-        12
+        10,
+        11
       ],
       "selected": true
     },
     {
       "id": 14,
-      "title": "Add RLS test harness to @repo/test-utils with withAuthContext helper and cross-tenant denial tests",
-      "body": "## Summary\nExtend `@repo/test-utils` with a `withAuthContext(userId, fn)` helper that runs Supabase queries under a specific user's JWT context against a local Supabase instance. Use it to assert every table denies cross-tenant reads in CI.\n\n## Acceptance Criteria\n- [ ] Add `withAuthContext(userId: string, fn: (client: SupabaseClient) => Promise<T>): Promise<T>` to `packages/test-utils/src/rls-harness.ts`; sets `SET LOCAL role = 'authenticated'` and `SET LOCAL request.jwt.claims = '...'` via a raw SQL helper\n- [ ] Export `withAuthContext` from `@repo/test-utils`\n- [ ] Write RLS tests in `packages/db/src/__tests__/rls.test.ts` covering: `app_permissions` (user A cannot SELECT user B's rows), `subscriptions` (same), `audit_log` (user can INSERT own rows, cannot SELECT any rows)\n- [ ] Tests run against `supabase start` local instance via `SUPABASE_TEST_URL` env var\n- [ ] Add `test:rls` script to root `package.json` that runs RLS tests (requires local Supabase to be running)\n- [ ] CI job runs `test:rls` after `supabase db reset --local` on pull requests",
+      "title": "Update apps/crm/page.tsx to render CrmApp",
+      "body": "## Summary\nReplace the scaffolded `page.tsx` body with the server component pattern from the existing users sub-app: `getContacts()` then render `<CrmApp contacts={...} />`.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/page.tsx` is a server component (no `\"use client\"`)\n- [ ] Calls `getContacts()` from `@/app/apps/crm/lib/queries`\n- [ ] Renders `<CrmApp contacts={contacts} />`\n- [ ] Adds `loading.tsx` and `error.tsx` siblings (basic implementations using `@repo/ui` Skeleton / error layout)\n- [ ] Page renders without errors against the live database in dev",
       "labels": [
-        "testing",
-        "security",
-        "database"
+        "enhancement"
       ],
-      "milestone": "014 - Data Integrity & Audit Schema",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
-      "complexity": "large",
+      "complexity": "trivial",
       "dependsOn": [
-        11,
-        12
+        10
       ],
       "selected": true
     },
     {
       "id": 15,
-      "title": "Registry → DB consistency check: CI script verifying all app slugs have app_permissions seed data",
-      "body": "## Summary\nAdd a CI script that fails if any slug in `apps/web/lib/app-registry.ts` lacks a matching row in the `app_permissions` seed data. Prevents deploying apps that have no grantable permissions entry.\n\n## Acceptance Criteria\n- [ ] Create `scripts/check-registry-db-consistency.ts` that: reads all slugs from `app-registry.ts`, queries local Supabase for all distinct `app_slug` values in `app_permissions`, and exits non-zero with a clear message listing any unrepresented slugs\n- [ ] Add the script to the `pnpm lint` pipeline so it runs in CI\n- [ ] Create or update `supabase/seed.sql` with a `view` permission row for each registered app slug (using the admin bootstrap user ID as a placeholder)\n- [ ] Update `CLAUDE.md`: every new app added to the registry must also have a seed data row in `supabase/seed.sql`",
+      "title": "Port users smoke test → crm-app.test.tsx and add page.test.tsx coverage",
+      "body": "## Summary\nMove the smoke test from `apps/web/app/apps/command-center/__tests__/users.test.tsx` into the crm app, renamed and re-imported from the new location.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/__tests__/crm-app.test.tsx` imports `CrmApp` from `@/app/apps/crm/components/crm-app`\n- [ ] Test asserts the component renders without crashing for an empty list and a populated list\n- [ ] Test asserts the header text is `CRM` and the subtitle pattern (`\"X contacts\"`) is present\n- [ ] The scaffolded `__tests__/page.test.tsx` from create-app still passes (or is updated to assert it renders the contact list shell)\n- [ ] `pnpm test --filter=apps/web` green for the new tests",
       "labels": [
-        "testing",
-        "database",
-        "ci"
+        "test"
       ],
-      "milestone": "014 - Data Integrity & Audit Schema",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
-      "complexity": "medium",
+      "complexity": "small",
       "dependsOn": [
+        10,
         14
       ],
       "selected": true
     },
     {
       "id": 16,
-      "title": "Create @repo/analytics package with client track() and server capture() — PostHog or Plausible",
-      "body": "## Summary\nBuild a thin analytics wrapper package that works both client-side and server-side, respects Do Not Track, and no-ops in test environments. Keeps the backend swappable behind a stable interface.\n\n## Acceptance Criteria\n- [ ] Create `packages/analytics/` with `package.json`, `src/client.ts` (exports `track(event: string, props?: Record<string, unknown>)`), `src/server.ts` (exports `capture(userId: string, event: string, props?: Record<string, unknown>)`), and `src/index.ts`\n- [ ] Integrate PostHog (preferred) or Plausible as the backend; wrap in a thin interface so the backend can be swapped by changing one file\n- [ ] Client `track()` is a no-op when `navigator.doNotTrack === '1'`\n- [ ] Both functions are no-ops when `process.env.NODE_ENV === 'test'` or `ANALYTICS_DISABLED=true`\n- [ ] Add `NEXT_PUBLIC_ANALYTICS_HOST` and `NEXT_PUBLIC_ANALYTICS_KEY` to `turbo.json` globalEnv and `.env.local.example`\n- [ ] Add `@repo/analytics` as a dependency of `apps/web`\n- [ ] Write unit tests asserting no-op behavior in test env and correct event shape passed to the backend",
+      "title": "Add actions.test.ts: server-action contracts",
+      "body": "## Summary\nUnit-test `createContact`, `updateContact`, `deleteContact` against a mocked `@repo/db/server`. Assert input validation, span instrumentation, and revalidation calls.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/__tests__/actions.test.ts` exists\n- [ ] Tests cover happy-path create / update / delete\n- [ ] Tests cover validation failure (e.g. missing required `name`) returning a structured error\n- [ ] Mock for `@repo/db/server` returns the inserted/updated row shape\n- [ ] `revalidatePath` mocked and asserted called once per successful mutation\n- [ ] No real network or DB calls in the test\n- [ ] `pnpm test` green",
       "labels": [
-        "enhancement",
-        "analytics"
+        "test"
       ],
-      "milestone": "015 - Analytics, Feature Flags & Usage Telemetry",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [],
+      "complexity": "small",
+      "dependsOn": [
+        7
+      ],
       "selected": true
     },
     {
       "id": 17,
-      "title": "Instrument core product flows: login, app-open, subscription start/cancel, webhook received",
-      "body": "## Summary\nAdd `@repo/analytics` calls for the highest-signal events across the platform. Keep the event count small and every event documented in the package README to avoid analytics sprawl.\n\n## Acceptance Criteria\n- [ ] Login success: `track('login', { method: 'email' })` fires on successful Auth0 callback in the auth hub\n- [ ] App open: `capture(userId, 'app_opened', { slug })` fires server-side in each app's `layout.tsx` (one call per layout, not per render)\n- [ ] Subscription start: `capture(userId, 'subscription_started', { tier })` fires in `webhook-handler.ts` on `customer.subscription.created`\n- [ ] Subscription cancel: `capture(userId, 'subscription_canceled', { tier })` fires on `customer.subscription.deleted`\n- [ ] Webhook received: `capture('system', 'webhook_received', { type })` fires at the top of the webhook handler before signature verification\n- [ ] All events documented in `packages/analytics/README.md` event catalogue with property descriptions\n- [ ] No PII in event properties — no raw email addresses; user IDs hashed with SHA-256 if included",
+      "title": "Add enrich.test.ts: enrichment endpoint with mocked AI client",
+      "body": "## Summary\nIntegration-style test for the `POST /api/enrich` route handler with a mocked `@ai-sdk/anthropic` client. Assert auth gating, rate limiting, schema-shaped response, and persistence side effects.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/__tests__/enrich.test.ts` exists\n- [ ] Mocks `@ai-sdk/anthropic` so `generateObject` returns a fixture matching `InsightsSchema`\n- [ ] Test: unauthenticated request → 401/redirect (per `requireAccess` behavior)\n- [ ] Test: missing `crm:admin` permission → 403\n- [ ] Test: happy path → 200 with `{ insights, last_researched_at }` and DB write asserted\n- [ ] Test: invalid body (missing `contactId`) → 400\n- [ ] Test: missing contact → 404\n- [ ] Test: rate-limit exceeded → 429 with `Retry-After`\n- [ ] No real Anthropic API calls\n- [ ] `pnpm test` green",
       "labels": [
-        "enhancement",
-        "analytics"
+        "test",
+        "ai"
       ],
-      "milestone": "015 - Analytics, Feature Flags & Usage Telemetry",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
       "complexity": "medium",
       "dependsOn": [
-        16
+        9
       ],
       "selected": true
     },
     {
       "id": 18,
-      "title": "Add feature_flags table and getFeatureFlagValue() primitive to @repo/billing",
-      "body": "## Summary\nExtend `@repo/billing` with a database-backed feature flag primitive. Use it to gate rollout of M8 tier enforcement behind a flag so it can be enabled gradually per user or tier without a code deploy.\n\n## Acceptance Criteria\n- [ ] Create migration `supabase/migrations/006_feature_flags.sql`: `(id uuid, key text NOT NULL, user_id uuid NULLABLE, tier text NULLABLE, enabled boolean NOT NULL DEFAULT false, created_at timestamptz DEFAULT now())` with a unique constraint on `(key, user_id)` and a partial unique index on `(key)` WHERE `user_id IS NULL AND tier IS NULL`\n- [ ] Create paired `.down.sql`\n- [ ] Add `getFeatureFlagValue(userId: string, key: string): Promise<boolean>` to `packages/billing/src/feature-flags.ts`; resolution order: user-specific override → tier-level default → global default → `false`\n- [ ] Export from `packages/billing/src/index.ts`\n- [ ] Unit tests for: user-specific override wins, tier-level flag, global flag, and default-false fallback\n- [ ] Gate M8 tier enforcement in app layouts behind `getFeatureFlagValue(userId, 'tier_enforcement_enabled')`\n- [ ] Seed `feature_flags` with `key='tier_enforcement_enabled', enabled=false` in `supabase/seed.sql`",
+      "title": "Identify and disable existing external insights writer",
+      "body": "## Summary\nFind the current pipeline that populates `contacts.insights` and `contacts.last_researched_at` from outside this repo. Disable it (or coordinate a hand-off date) so the new in-app endpoint isn't fighting it. Document the source and the disable steps in the PR.\n\n## Background\nFrom the plan: \"the `last_researched_at`/`insights` fields are populated externally — that pipeline will be replaced by the new in-app endpoint.\" Leaving both writers running risks clobbering writes on contacts that get enriched manually.\n\n## Acceptance Criteria\n- [ ] External writer identified (cron / external service / script — capture name + location in PR description)\n- [ ] Disable mechanism executed (pause cron, disable function, comment out script — whatever fits the source) OR a hard cutover date scheduled and documented\n- [ ] Confirmation that no automated process is writing to `contacts.insights` after the cutover\n- [ ] PR description records the before / after state for audit\n- [ ] Rollback plan documented (how to re-enable the external writer if the new endpoint underperforms)",
       "labels": [
-        "enhancement",
-        "billing",
-        "database"
+        "chore",
+        "ops"
       ],
-      "milestone": "015 - Analytics, Feature Flags & Usage Telemetry",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
       "priority": "p1",
-      "complexity": "medium",
+      "complexity": "small",
       "dependsOn": [],
       "selected": true
     },
     {
       "id": 19,
-      "title": "Add cc-flags sub-module to Command Center: toggle feature flags per user and tier",
-      "body": "## Summary\nAdd a new sub-module in Command Center that lets admins view and toggle feature flags per user or tier using the `feature_flags` table. Closes the loop between the DB primitive (issue #18) and operational control.\n\n## Acceptance Criteria\n- [ ] Create `apps/web/app/apps/command-center/cc-flags/` with `page.tsx` listing all flags, their current global/tier/user values, and enable/disable controls\n- [ ] Admin can add a user-specific override (lookup by email → resolve to `user_id`)\n- [ ] Admin can set a tier-level default (free / pro / enterprise)\n- [ ] Changes write to the `feature_flags` table via a Next.js server action with optimistic UI update\n- [ ] Route requires `admin` permission on `command-center`; unauthorized access redirects to `/unauthorized`\n- [ ] Add entry in the Command Center sidebar navigation\n- [ ] Integration test: toggling a flag via the UI reflects in the next `getFeatureFlagValue()` response",
+      "title": "Remove users sub-app from command-center and add redirect stub",
+      "body": "## Summary\nDelete `apps/web/app/apps/command-center/users/` and `apps/web/app/apps/command-center/__tests__/users.test.tsx`. Remove the `slug: \"users\"` entry from the MODULES grid in `apps/web/app/apps/command-center/page.tsx:36`. Add a redirect stub at `apps/web/app/apps/command-center/users/page.tsx` that calls `redirect(\"https://crm.apps.lastrev.com\")` from `next/navigation`.\n\n## Background\nPlan calls for the redirect stub to live at the old path so we can remove it cleanly later (~30 days post-release once analytics confirm zero residual traffic). `next.config.ts` redirects are global and harder to scope per-host, so we avoid that route.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/command-center/users/components/`, `lib/` directories deleted\n- [ ] `apps/web/app/apps/command-center/__tests__/users.test.tsx` deleted\n- [ ] `apps/web/app/apps/command-center/page.tsx` MODULES array no longer contains the `slug: \"users\"` entry\n- [ ] New file at `apps/web/app/apps/command-center/users/page.tsx` whose body is `import { redirect } from \"next/navigation\"; export default function UsersRedirect() { redirect(\"https://crm.apps.lastrev.com\"); }`\n- [ ] Hitting `command-center.apps.lastrev.com/users` in dev redirects to `crm.apps.lastrev.com`\n- [ ] No lingering imports from the deleted directory anywhere in the repo (grep clean)\n- [ ] PR description includes a calendar reminder / follow-up issue link to remove the redirect ~30 days post-release",
       "labels": [
-        "enhancement",
-        "command-center",
-        "billing"
+        "chore",
+        "cleanup"
       ],
-      "milestone": "015 - Analytics, Feature Flags & Usage Telemetry",
-      "priority": "p2",
-      "complexity": "large",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "priority": "p1",
+      "complexity": "small",
       "dependsOn": [
-        18
+        14
       ],
       "selected": true
     },
     {
       "id": 20,
-      "title": "Add analytics event dashboard to Command Center (cc-analytics sub-module)",
-      "body": "## Summary\nAdd a Command Center view showing recent analytics events aggregated by app slug. Provides visibility into usage patterns without leaving the admin hub.\n\n## Acceptance Criteria\n- [ ] Create `apps/web/app/apps/command-center/cc-analytics/` with `page.tsx` and required components\n- [ ] Page shows: total event count by slug for the last 7 days, a recent events list (timestamp, userId hash, event name, slug), and a bar chart of top 10 events using a `@repo/ui` chart component\n- [ ] Data source: PostHog Insights API if using PostHog; direct Supabase query if events are stored locally\n- [ ] Route requires `admin` permission on `command-center`\n- [ ] Add entry in the Command Center sidebar navigation under the Analytics section\n- [ ] Loading skeleton renders while data fetches; error boundary handles API failures gracefully",
+      "title": "Final verification: pnpm lint, pnpm test, manual proxy + auth + enrich smoke",
+      "body": "## Summary\nRun the full local quality gate and a manual smoke pass before opening the bundled PR. Capture results in the PR description.\n\n## Acceptance Criteria\n- [ ] `pnpm lint` passes (registry, lib-listing, migration pairs, token audit, jsx-a11y)\n- [ ] `pnpm test` passes (all new + existing suites green)\n- [ ] `pnpm typecheck` passes\n- [ ] Manual: `crm.apps.lastrev.com` (or local equivalent) loads, auth gate works, contacts list renders\n- [ ] Manual: create / edit / delete contact succeeds; list refreshes\n- [ ] Manual: Re-research button hits `/api/enrich`, persists insights, UI updates inline\n- [ ] Manual: rate-limit hit on /api/enrich returns 429 (force by lowering threshold temporarily, then revert)\n- [ ] Manual: `command-center.apps.lastrev.com/users` redirects to `crm.apps.lastrev.com`\n- [ ] Manual: command-center MODULES grid no longer shows the Users tile\n- [ ] PR description includes a checklist of these verification steps and any deviations",
       "labels": [
-        "enhancement",
-        "command-center",
-        "analytics"
+        "chore",
+        "qa"
       ],
-      "milestone": "015 - Analytics, Feature Flags & Usage Telemetry",
-      "priority": "p2",
-      "complexity": "medium",
+      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "priority": "p1",
+      "complexity": "small",
       "dependsOn": [
+        12,
+        13,
+        15,
         16,
-        17
+        17,
+        18,
+        19
       ],
-      "selected": true
-    },
-    {
-      "id": 21,
-      "title": "Mobile viewport audit of all 27 apps with Playwright matrix (375/768/1440) and top-10 regression fixes",
-      "body": "## Summary\nRun a Playwright viewport matrix across all 27 apps to surface layout regressions at mobile breakpoints. Fix the 10 most impactful issues and add a `test:mobile` script for regression prevention.\n\n## Acceptance Criteria\n- [ ] Create `apps/web/e2e/mobile-audit.spec.ts` that visits each app's root route at 375 px, 768 px, and 1440 px and captures screenshots\n- [ ] Add `test:mobile` script to root `package.json`\n- [ ] Review all screenshots; document every layout issue found per app\n- [ ] Fix the top 10 most impactful layout breakages (overflowing text, hidden navigation, broken grids, buttons that clip off-screen)\n- [ ] All 27 apps render without horizontal scroll at 375 px after fixes\n- [ ] Commit baseline screenshots to `e2e/snapshots/mobile/`\n- [ ] CI runs `test:mobile` on PRs that touch `app/apps/` or `packages/ui/`",
-      "labels": [
-        "enhancement",
-        "testing",
-        "ux",
-        "mobile"
-      ],
-      "milestone": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
-      "priority": "p1",
-      "complexity": "large",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 22,
-      "title": "Accessibility audit with @axe-core/playwright across all 27 apps — fix all critical violations",
-      "body": "## Summary\nRun `@axe-core/playwright` against every app route and fix all `critical` and `serious` WCAG 2.1 AA violations: missing form labels, images without alt text, insufficient color contrast, and keyboard traps.\n\n## Acceptance Criteria\n- [ ] Install `@axe-core/playwright` and create `apps/web/e2e/a11y-audit.spec.ts` that runs axe against the root route of every registered app\n- [ ] Output violations as JSON to `e2e/reports/a11y/` per app\n- [ ] Fix all violations at the `critical` and `serious` impact levels across all 27 apps\n- [ ] After fixes, `axe` reports zero `critical` violations on any app route\n- [ ] Add `test:a11y` script to root `package.json`\n- [ ] CI runs `test:a11y` on PRs and fails on any new `critical` violation introduced",
-      "labels": [
-        "enhancement",
-        "accessibility",
-        "testing"
-      ],
-      "milestone": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
-      "priority": "p1",
-      "complexity": "large",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 23,
-      "title": "Add eslint-plugin-jsx-a11y to @repo/config to enforce accessibility lint rules",
-      "body": "## Summary\nAdd `eslint-plugin-jsx-a11y` to the shared ESLint config in `@repo/config` so accessibility issues are caught at author time, not just in the audit sweep.\n\n## Acceptance Criteria\n- [ ] Add `eslint-plugin-jsx-a11y` to `packages/config/package.json` devDependencies\n- [ ] Enable the `jsx-a11y/recommended` ruleset in `packages/config/eslint.config.mjs` with sensible project-level overrides (document any disabled rules and why)\n- [ ] Run `pnpm lint` across all apps; fix every new violation introduced by enabling the plugin\n- [ ] Zero lint errors after enabling the plugin\n- [ ] Document the plugin and disabled-rule rationale in `CLAUDE.md` under the Accessibility section",
-      "labels": [
-        "enhancement",
-        "accessibility",
-        "dx"
-      ],
-      "milestone": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
-      "priority": "p2",
-      "complexity": "small",
-      "dependsOn": [
-        22
-      ],
-      "selected": true
-    },
-    {
-      "id": 24,
-      "title": "Add next-intl i18n scaffold with pilot apps: Dad Joke, Slang Translator, Proper Wine Pour",
-      "body": "## Summary\nAdopt `next-intl` for internationalization. Extract all user-visible strings from 3 pilot apps into `messages/en.json` files, add `messages/es.json` stubs to validate the pattern, and document the approach before committing to a broader rollout.\n\n## Acceptance Criteria\n- [ ] Install `next-intl` in `apps/web`; configure the plugin in `next.config.ts` with `en` as the default locale\n- [ ] Create `apps/web/messages/<slug>/en.json` for `dad-joke-of-the-day`, `slang-translator`, and `proper-wine-pour` with all user-visible strings extracted\n- [ ] All hardcoded UI strings in the 3 pilot apps replaced with `t()` calls from `next-intl`\n- [ ] Add `messages/<slug>/es.json` stub with placeholder translations (demonstrating the multi-locale pattern)\n- [ ] Each pilot app renders correctly in the `en` locale with no missing translation keys\n- [ ] Add a locale switcher component to each pilot app layout (initially `en` / `es`)\n- [ ] Unit tests assert that `en.json` and `es.json` have identical key sets (no missing keys)\n- [ ] Document the i18n approach in `docs/guides/i18n.md`",
-      "labels": [
-        "enhancement",
-        "i18n"
-      ],
-      "milestone": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
-      "priority": "p2",
-      "complexity": "large",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 25,
-      "title": "Audit @repo/ui components for mobile responsiveness and add responsive variants",
-      "body": "## Summary\nAudit all `@repo/ui` components at 375 px viewport width, fix any that assume desktop layout, and add mobile-responsive variants to the Sidebar, Topbar, Card, and DataGrid components. This unblocks clean fixes in the mobile audit issue (#21).\n\n## Acceptance Criteria\n- [ ] Review every component in `packages/ui/src/components/` rendered at 375 px\n- [ ] Fix components that break at mobile width: non-wrapping flex rows, fixed-pixel widths, off-screen overflow\n- [ ] Add `sm:` / `md:` responsive breakpoint variants to `Sidebar` (collapsible drawer on mobile), `Topbar` (hamburger menu), and `NavigationMenu`\n- [ ] Add a `compact` size variant to `Card` and `DataGrid` for dense mobile contexts\n- [ ] Visual snapshots at 375 px committed for each updated component\n- [ ] Zero horizontal overflow at 375 px for all updated components after changes\n- [ ] `pnpm typecheck` and `pnpm lint` pass with no new errors",
-      "labels": [
-        "enhancement",
-        "ui",
-        "mobile"
-      ],
-      "milestone": "016 - UX Polish — Mobile, A11y, i18n Scaffold",
-      "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 26,
-      "title": "Migrate Age of Apes to @repo/ui shared components",
-      "body": "## Summary\nAge of Apes is the only app not using `@repo/ui`. Completing this migration means all 27 apps share the same component foundation, removing the last inconsistency that blocks a uniform visual audit.\n\n## Acceptance Criteria\n- [ ] Replace all inline button, card, badge, and input elements in Age of Apes with `@repo/ui` equivalents\n- [ ] Replace any hardcoded color values with theme token classes\n- [ ] The app's unique visual style (animations, custom illustrations) is preserved unchanged\n- [ ] `pnpm lint` and `pnpm typecheck` pass with no new violations\n- [ ] App builds and renders correctly in both dev and production mode after migration\n- [ ] Add or update tests in `app/apps/age-of-apes/__tests__/` covering the migrated components",
-      "labels": [
-        "enhancement",
-        "ui"
-      ],
-      "milestone": "017 - Cleanup Backlog",
-      "priority": "p2",
-      "complexity": "medium",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 27,
-      "title": "Finish 4 skeleton apps: Alpha Wins, Brommie Quake, Proper Wine Pour, Travel Collection",
-      "body": "## Summary\nFour apps exist as skeletons with no real content or functionality. Build each to a functional state, resolve the Travel Collection auth ambiguity, and ensure all four pass the standard quality bar.\n\n## Acceptance Criteria\n- [ ] **Alpha Wins**: Implement gallery filtering by category/tag; wire a real data source (Supabase table or curated static JSON)\n- [ ] **Brommie Quake**: Add story or content cards with real copy; connect the custom animation to actual data\n- [ ] **Proper Wine Pour**: Make the calculator dynamic (pull pour sizes/data from Supabase or config); add functional community wall (submit + list posts)\n- [ ] **Travel Collection**: Decide auth status (gate or keep public); wire real property/destination data; update app registry `auth` field to reflect the decision\n- [ ] All 4 apps pass `pnpm typecheck`, `pnpm lint`, and `pnpm build`\n- [ ] Each app has at least one meaningful test in its `__tests__/` directory\n- [ ] App registry entries updated to reflect final `auth` status for each app",
-      "labels": [
-        "enhancement"
-      ],
-      "milestone": "017 - Cleanup Backlog",
-      "priority": "p2",
-      "complexity": "large",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 28,
-      "title": "Resolve review-issue backlog: token regressions and hover-state mismatches from M4-M5",
-      "body": "## Summary\nConsolidate and fix all findings from `review-issue-36.json`, `review-issue-38.json`, and `review-issue-68.json` — token regressions and hover-state mismatches flagged during the Sentiment and Sprint Planning migrations in M4.\n\n## Acceptance Criteria\n- [ ] Read all three review-issue JSON files and triage every finding into: fix, won't fix (with reason), or superseded\n- [ ] Fix all token regression findings (hardcoded colors that survived the M3 audit)\n- [ ] Fix all hover-state mismatches (components using non-token hover colors or incorrect state styles)\n- [ ] Ship all fixes in a single PR, referencing the review-issue files as the change source\n- [ ] Delete or archive the three review-issue JSON files after fixes are merged\n- [ ] `pnpm lint` passes with the M3 theme token lint rule enabled, with no suppressed violations",
-      "labels": [
-        "bug",
-        "ui",
-        "theme"
-      ],
-      "milestone": "017 - Cleanup Backlog",
-      "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 29,
-      "title": "Add CI check enforcing CLAUDE.md lib/ listing stays in sync with apps/web/lib/ filesystem",
-      "body": "## Summary\nThe `lib/` directory listing in `CLAUDE.md` has historically drifted from the actual filesystem. Add a CI lint check that diffs `apps/web/lib/` against the CLAUDE.md listing and fails on any divergence.\n\n## Acceptance Criteria\n- [ ] Create `scripts/check-claude-md-lib-sync.ts` that: reads the top-level files in `apps/web/lib/` (non-recursively), parses the `lib/` section of `CLAUDE.md`, and reports files present in the filesystem but absent from the docs (or vice versa)\n- [ ] Script exits non-zero on any mismatch with a clear message naming the offending files\n- [ ] Add the script to the `pnpm lint` pipeline so it runs in CI\n- [ ] Update the `CLAUDE.md` `lib/` section to exactly match the current `apps/web/lib/` filesystem before enabling the check\n- [ ] Update `CLAUDE.md` with the rule: every new file added to `apps/web/lib/` must be added to the CLAUDE.md lib listing in the same PR",
-      "labels": [
-        "dx",
-        "documentation",
-        "ci"
-      ],
-      "milestone": "017 - Cleanup Backlog",
-      "priority": "p2",
-      "complexity": "small",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 30,
-      "title": "GitHub housekeeping: close empty duplicate milestones #5 and #6, verify CI scope consolidation",
-      "body": "## Summary\nClose the two open empty duplicate GitHub milestones (#5, #6) that were superseded by the correctly-titled closed M5/M6 milestones, keeping numbering clean for new milestones. Verify M7 issue #67 covers the full CI scope originally split with M12 issue #165, and close #165 as a duplicate.\n\n## Acceptance Criteria\n- [ ] Close GitHub milestone #5 ('M5: App Batch 2 — Mid-Tier', 0 issues) with a closing comment referencing the correct closed M5 milestone\n- [ ] Close GitHub milestone #6 ('M6: App Batch 3 — Stubs, Showcase & CC Sub-Modules', 0 issues) with a closing comment referencing the correct closed M6 milestone\n- [ ] Verify issue #67 (M7 CI pipeline) acceptance criteria explicitly covers: `pnpm lint`, `pnpm typecheck`, Node version matrix (18/20/22), and Turbo remote cache configuration\n- [ ] If #67 is missing any of the above scope items, add them via a comment or issue body edit\n- [ ] Close M12 issue #165 as a duplicate of #67 with a reference comment explaining the consolidation decision\n- [ ] Post a summary comment on #67 documenting the final consolidated CI scope so future contributors have a single source of truth",
-      "labels": [
-        "housekeeping",
-        "ci"
-      ],
-      "milestone": "017 - Cleanup Backlog",
-      "priority": "p1",
-      "complexity": "trivial",
-      "dependsOn": [],
       "selected": true
     }
   ],
