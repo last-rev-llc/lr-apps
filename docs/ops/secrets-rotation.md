@@ -291,6 +291,41 @@ why the rotation failed in `ROTATION_HISTORY.md`.
 
 ---
 
+---
+
+## Auth0 allowed URL changes (not a rotation, but tracked here)
+
+Adding new hosts to Auth0 is not a secret rotation, but every change to
+Allowed Callback / Logout / Web Origin URLs must be logged in
+[`ROTATION_HISTORY.md`](./ROTATION_HISTORY.md) so we have an audit trail
+of what the dashboard accepts.
+
+### When you change Auth0 allowed URLs
+
+1. In the Auth0 dashboard, update **every** application referenced by
+   `AUTH0_PRODUCTS_JSON` plus the platform default application
+   (Allowed Callback URLs, Allowed Logout URLs, Allowed Web Origins).
+   Apply both the new entries and any legacy entries that must remain
+   until cutover. See the table in
+   [`environments.md`](./environments.md) for the canonical values.
+2. Update Vercel env vars in the appropriate scopes:
+   - `AUTH0_ALLOWED_BASE_URLS` — comma-separated list passed through to
+     `Auth0Client.appBaseUrl` (parsed at
+     `packages/auth/src/auth0-factory.ts`).
+   - `APP_BASE_URL` — single canonical base URL (the first entry of
+     `AUTH0_ALLOWED_BASE_URLS` is fine).
+   - `NEXT_PUBLIC_AUTH_URL` — auth hub URL exposed to the browser.
+3. Trigger a redeploy so the new env vars take effect.
+4. Manual end-to-end verification: log in → land on dashboard → log out
+   on a sample app on the **new** host (e.g.
+   `client-health.apps.lastrev.com`). Run the same flow on a legacy
+   `<slug>.lastrev.com` host until cutover. Confirm no callback/origin
+   errors appear in the Auth0 logs.
+5. Append a row to `ROTATION_HISTORY.md` with date, who changed what,
+   and which entries were added or removed.
+
+---
+
 ## See also
 
 - [`environments.md`](./environments.md) — env-var matrix.

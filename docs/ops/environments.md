@@ -12,7 +12,55 @@ three.
 |-------------|----------------|------------------------|--------------------|--------------------|-------------|
 | local       | `local`        | `localhost:3000`       | dev project (shared) | dev tenant         | test        |
 | staging     | `staging`      | Vercel `staging.apps.lastrev.com` (+ all preview URLs) | dedicated staging project | dedicated staging tenant | test        |
-| production  | `production`   | Vercel `apps.lastrev.com` | dedicated production project | production tenant | live        |
+| production  | `production`   | Vercel `apps.lastrev.com` and `*.apps.lastrev.com` (per-app subdomain) | dedicated production project | production tenant | live        |
+
+## DNS and TLS
+
+The platform is reachable on two host shapes during the `*.apps.lastrev.com`
+cutover:
+
+| Host shape                | Purpose                                     | Cert                       |
+|---------------------------|---------------------------------------------|----------------------------|
+| `apps.lastrev.com`        | App catalog apex                            | covered by `*.lastrev.com` (apex) |
+| `*.apps.lastrev.com`      | Per-app subdomain (e.g. `sentiment.apps.lastrev.com`) | dedicated `*.apps.lastrev.com` wildcard cert |
+| `*.lastrev.com` (legacy)  | Per-app subdomain pre-cutover               | existing `*.lastrev.com` wildcard cert |
+| `auth.apps.lastrev.com`   | Auth hub on the apps cluster                | covered by `*.apps.lastrev.com` |
+| `auth.lastrev.com` (legacy) | Auth hub pre-cutover                      | covered by `*.lastrev.com` |
+
+Wildcards do **not** traverse a label, so `*.apps.lastrev.com` requires a
+separate cert from `*.lastrev.com`.
+
+### Provisioning
+
+1. Vercel project (production) → Domains → add `*.apps.lastrev.com`. Vercel
+   will request a Let's Encrypt cert that covers any leftmost label under
+   `apps.lastrev.com`.
+2. Registrar / DNS provider → add a `CNAME` record for `*.apps.lastrev.com`
+   pointing to `cname.vercel-dns.com` (or the A/ALIAS target Vercel
+   recommends in the domain pane).
+3. Wait for the Vercel domain pane to report **VALID** for both DNS and
+   TLS, then verify externally:
+   ```sh
+   curl -I https://anything.apps.lastrev.com
+   ```
+   A 4xx from app routing is fine — we just need a successful TLS
+   handshake and a Vercel-served response.
+4. Confirm the existing `*.lastrev.com` cert still reports **VALID** in the
+   Vercel domain pane (no regression).
+
+### Renewal
+
+Vercel auto-renews Let's Encrypt certs ~30 days before expiry. No manual
+action is required as long as the DNS record continues to resolve to
+Vercel's targets. The Vercel domain pane is the source of truth — alert
+on `Failed` status there.
+
+If the renewal fails:
+
+1. Confirm the wildcard CNAME is still pointing at `cname.vercel-dns.com`.
+2. In the Vercel domain pane, click **Refresh** to retry issuance.
+3. If issuance still fails, follow the Vercel troubleshooting steps and
+   record the incident in `ROTATION_HISTORY.md`.
 
 ## Variable matrix
 
@@ -29,9 +77,9 @@ three.
 | `AUTH0_CLIENT_SECRET`                 | dev secret                         | staging secret                           | prod secret                               | Auth0 dashboard → Applications. Rotate per `secrets-rotation.md`. |
 | `AUTH0_SECRET`                        | random 32+ char (dev only)         | random 32+ char (staging only)           | random 32+ char (prod only)               | `openssl rand -hex 32`. **Must differ per env** so cookies do not cross-decrypt. |
 | `AUTH0_PRODUCTS_JSON`                 | optional per-host map              | per-product staging client IDs           | per-product prod client IDs               | Hand-built JSON; see `packages/auth/src/auth0-factory.ts` |
-| `AUTH0_ALLOWED_BASE_URLS`             | `http://localhost:3000,http://lastrev.localhost:3000` | `https://staging.apps.lastrev.com` (+ preview wildcard via Vercel-injected `VERCEL_URL` if needed) | `https://apps.lastrev.com` | Comma-separated list passed to Auth0Client `appBaseUrl` |
+| `AUTH0_ALLOWED_BASE_URLS`             | `http://localhost:3000,http://lastrev.localhost:3000,http://apps.lastrev.localhost:3000` | `https://staging.apps.lastrev.com` (+ preview wildcard via Vercel-injected `VERCEL_URL` if needed) | `https://apps.lastrev.com,https://auth.apps.lastrev.com,https://lastrev.com,https://auth.lastrev.com` (legacy entries kept until cutover) | Comma-separated list passed to Auth0Client `appBaseUrl` |
 | `APP_BASE_URL`                        | `http://localhost:3000`            | `https://staging.apps.lastrev.com`       | `https://apps.lastrev.com`                | Single canonical base URL                        |
-| `NEXT_PUBLIC_AUTH_URL`                | `http://localhost:3000`            | `https://staging-auth.lastrev.com`       | `https://auth.lastrev.com`                | Auth hub URL exposed to the browser              |
+| `NEXT_PUBLIC_AUTH_URL`                | `http://localhost:3000`            | `https://staging-auth.lastrev.com`       | `https://auth.apps.lastrev.com` (legacy `https://auth.lastrev.com` accepted until cutover) | Auth hub URL exposed to the browser              |
 | `APP_SELF_ENROLL_SLUGS`               | comma list (dev: all)              | restricted comma list                    | restricted comma list                     | App slugs that auto-enroll a user on first login |
 | `STRIPE_SECRET_KEY`                   | `sk_test_…` (shared with staging)  | `sk_test_…` (shared with local)          | `sk_live_…`                               | Stripe dashboard → Developers → API keys         |
 | `STRIPE_WEBHOOK_SECRET`               | `whsec_…` test                     | `whsec_…` test                           | `whsec_…` live                            | Stripe dashboard → Developers → Webhooks         |
@@ -56,6 +104,34 @@ Each environment is a **separate Auth0 tenant** so that user records, RBAC
 roles, social-login client IDs, and session cookies cannot cross
 environments. The staging tenant must include the Vercel preview wildcard
 in its Allowed Callback URLs (see `preview-deployments.md`).
+
+#### Allowed URLs (production tenant + every product application in `AUTH0_PRODUCTS_JSON`)
+
+Apply each set to **every** Auth0 application referenced by
+`AUTH0_PRODUCTS_JSON` (one per product) and to the platform default
+application. During the `*.apps.lastrev.com` cutover, keep the legacy
+`*.lastrev.com` entries in place so legacy hosts continue to authenticate.
+
+| Field                       | Apps cluster (new)                                    | Legacy (kept until cutover)              |
+|-----------------------------|-------------------------------------------------------|------------------------------------------|
+| Allowed Callback URLs       | `https://*.apps.lastrev.com/auth/callback`            | `https://*.lastrev.com/auth/callback`    |
+| Allowed Logout URLs         | `https://*.apps.lastrev.com`, `https://auth.apps.lastrev.com` | `https://*.lastrev.com`, `https://auth.lastrev.com` |
+| Allowed Web Origins         | `https://*.apps.lastrev.com`                          | `https://*.lastrev.com`                  |
+
+If the tenant plan does not support wildcards in any of the above fields,
+fall back to enumerating one entry per registered subdomain in
+`apps/web/lib/app-registry.ts` (the registry has 27+ entries today, so
+prefer wildcards where supported). The required exact entries are:
+
+- `https://auth.apps.lastrev.com/auth/callback`
+- `https://<sub>.apps.lastrev.com/auth/callback` for every entry in `getAllApps()`.
+- The same set of origins (without `/auth/callback`) for Web Origins and
+  Logout URLs.
+
+`getAuth0ClientForHost(host)` derives the per-host base URL from the
+request host header (see `packages/auth/src/auth0-factory.ts`), so once
+the dashboard accepts the new host, no application code change is needed
+to start serving auth on `*.apps.lastrev.com`.
 
 ### Stripe
 

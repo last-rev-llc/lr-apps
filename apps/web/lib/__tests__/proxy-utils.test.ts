@@ -54,6 +54,15 @@ describe("proxy-utils", () => {
     it("handles localhost without subdomain", () => {
       expect(resolveSubdomain("localhost:3000")).toBeNull();
     });
+
+    it("extracts auth from both host shapes", () => {
+      expect(resolveSubdomain("auth.apps.lastrev.com")).toBe("auth");
+      expect(resolveSubdomain("auth.lastrev.com")).toBe("auth");
+      expect(resolveSubdomain("auth.apps.lastrev.localhost:3000")).toBe(
+        "auth",
+      );
+      expect(resolveSubdomain("auth.lastrev.localhost:3000")).toBe("auth");
+    });
   });
 
   describe("isVercelPreviewHost", () => {
