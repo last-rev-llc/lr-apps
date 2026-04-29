@@ -78,7 +78,7 @@ const mockDb = {
     }
     return {
       select(cols?: string) {
-        return makeBuilder().select(cols);
+        return (makeBuilder() as { select: (c?: string) => unknown }).select(cols);
       },
       async insert(row: Omit<Row, "id">) {
         const newRow: Row = {

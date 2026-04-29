@@ -64,10 +64,23 @@ export function FlagsApp({ initialFlags, knownKeys }: FlagsAppProps) {
   function handleAddOverride(key: string, enabled: boolean) {
     const email = (emailInput[key] ?? "").trim();
     if (!email) return;
+    const placeholderId = `pending-${Date.now()}`;
+    applyOptimistic(key, (f) => ({
+      ...f,
+      users: [
+        ...f.users.filter((u) => u.user_email !== email),
+        { id: placeholderId, user_id: email, user_email: email, enabled },
+      ],
+    }));
     startTransition(async () => {
       const result = await addUserOverride(key, email, enabled);
-      if (!result.ok) handleErr(key, result.error);
-      else {
+      if (!result.ok) {
+        applyOptimistic(key, (f) => ({
+          ...f,
+          users: f.users.filter((u) => u.id !== placeholderId),
+        }));
+        handleErr(key, result.error);
+      } else {
         handleErr(key, "");
         setEmailInput((prev) => ({ ...prev, [key]: "" }));
       }
