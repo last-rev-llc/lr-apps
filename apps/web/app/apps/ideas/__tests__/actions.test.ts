@@ -108,7 +108,7 @@ const mockDb = {
             store = store.filter((r) => !filters.every((f) => f(r)));
             resolve({ error: null });
           },
-        } as Record<string, unknown> & PromiseLike<{ error: null }>;
+        } as unknown as Record<string, unknown> & PromiseLike<{ error: null }>;
         return chain;
       },
     };
