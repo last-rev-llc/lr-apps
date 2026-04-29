@@ -19,9 +19,13 @@ import {
   toggleHideIdea as toggleHideIdeaAction,
   snoozeIdea as snoozeIdeaAction,
 } from "../actions";
+import { IdeaFormModal } from "./idea-form-modal";
+import { StatusDropdown } from "./status-dropdown";
+import { RowMenu } from "./row-menu";
 import type {
   Idea,
   IdeaCategory,
+  IdeaStatus,
   QuickFilterKey,
   ShowFilter,
   SortKey,
@@ -30,13 +34,21 @@ import type {
 
 // ── Constants ───────────────────────────────────────────────────────────────
 
-const CATEGORIES: IdeaCategory[] = [
+export const CATEGORIES: IdeaCategory[] = [
   "Product",
   "Content",
   "Business",
   "Technical",
   "Creative",
   "Skills",
+];
+
+export const STATUS_OPTIONS: Array<{ value: IdeaStatus; label: string }> = [
+  { value: "new", label: "New" },
+  { value: "backlog", label: "Backlog" },
+  { value: "in-progress", label: "In Progress" },
+  { value: "completed", label: "Completed" },
+  { value: "archived", label: "Archived" },
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -46,14 +58,6 @@ const CATEGORY_COLORS: Record<string, string> = {
   Technical: "var(--color-blue)",
   Creative: "var(--color-pill-6)",
   Skills: "var(--color-orange)",
-};
-
-const STATUS_COLORS: Record<string, string> = {
-  new: "var(--color-blue)",
-  backlog: "var(--color-slate-dim)",
-  "in-progress": "var(--color-orange)",
-  completed: "var(--color-pill-2)",
-  archived: "var(--color-slate-dim)",
 };
 
 const EFFORT_COLORS: Record<string, string> = {
@@ -145,6 +149,7 @@ export function IdeasApp({ initialIdeas }: IdeasAppProps) {
   const [showFilter, setShowFilter] = useState<ShowFilter>("active");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [snoozeMenuId, setSnoozeMenuId] = useState<string | null>(null);
+  const [newModalOpen, setNewModalOpen] = useState(false);
   const router = useRouter();
 
   // ── Mutations ────────────────────────────────────────────────────────────
@@ -311,11 +316,17 @@ export function IdeasApp({ initialIdeas }: IdeasAppProps) {
           placeholder="Search ideas, tags…"
           className="flex-1"
         />
+        <Button onClick={() => setNewModalOpen(true)}>+ New Idea</Button>
         <ViewToggle
           view={viewMode}
           onChange={(v) => setViewMode(v as ViewMode)}
         />
       </div>
+      <IdeaFormModal
+        mode="create"
+        open={newModalOpen}
+        onClose={() => setNewModalOpen(false)}
+      />
 
       {/* Quick filters */}
       <PillList
@@ -578,7 +589,6 @@ function IdeaCard({
 } & Omit<ViewProps, "ideas">) {
   const catColor = CATEGORY_COLORS[idea.category] ?? "var(--color-slate-dim)";
   const effortColor = EFFORT_COLORS[idea.effort ?? ""] ?? "var(--color-slate-dim)";
-  const statusColor = STATUS_COLORS[idea.status] ?? "var(--color-slate-dim)";
   const snoozed = isSnoozed(idea);
 
   return (
@@ -622,15 +632,7 @@ function IdeaCard({
               {idea.effort}
             </Badge>
           )}
-          <Badge
-            className="text-[10px] px-1.5 py-0.5 border-0"
-            style={{
-              background: statusColor + "22",
-              color: statusColor,
-            }}
-          >
-            {idea.status}
-          </Badge>
+          <StatusDropdown idea={idea} />
         </div>
 
         {/* Description */}
@@ -678,14 +680,17 @@ function IdeaCard({
               <span className="ml-1">· {idea.author}</span>
             )}
           </span>
-          <CardActions
-            idea={idea}
-            onRate={onRate}
-            onToggleHide={onToggleHide}
-            onSnooze={onSnooze}
-            snoozeMenuId={snoozeMenuId}
-            setSnoozeMenuId={setSnoozeMenuId}
-          />
+          <div className="flex items-center gap-1">
+            <CardActions
+              idea={idea}
+              onRate={onRate}
+              onToggleHide={onToggleHide}
+              onSnooze={onSnooze}
+              snoozeMenuId={snoozeMenuId}
+              setSnoozeMenuId={setSnoozeMenuId}
+            />
+            <RowMenu idea={idea} />
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -726,6 +731,8 @@ function ListView(props: ViewProps) {
             >
               {idea.category}
             </Badge>
+            {/* Status dropdown */}
+            <StatusDropdown idea={idea} />
             {/* Actions */}
             <CardActions
               idea={idea}
@@ -735,6 +742,7 @@ function ListView(props: ViewProps) {
               snoozeMenuId={snoozeMenuId}
               setSnoozeMenuId={setSnoozeMenuId}
             />
+            <RowMenu idea={idea} />
           </div>
         );
       })}

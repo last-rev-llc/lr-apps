@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import React from "react";
 import { describe, it, expect, vi, beforeAll } from "vitest";
-import { renderWithProviders, screen } from "@repo/test-utils";
+import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
 
 beforeAll(() => {
   global.IntersectionObserver = vi.fn().mockImplementation((callback) => ({
@@ -101,5 +101,30 @@ describe("IdeasApp", () => {
     renderWithProviders(<IdeasApp initialIdeas={FIXTURE_IDEAS} />);
     expect(screen.getByText("Medium")).toBeInTheDocument();
     expect(screen.getByText("High")).toBeInTheDocument();
+  });
+
+  it("renders a 'New Idea' button that opens the form modal", () => {
+    renderWithProviders(<IdeasApp initialIdeas={FIXTURE_IDEAS} />);
+    const button = screen.getByRole("button", { name: /new idea/i });
+    expect(button).toBeInTheDocument();
+    fireEvent.click(button);
+    // The dialog title appears
+    expect(screen.getByText("New Idea", { selector: "h2,div" })).toBeInTheDocument();
+  });
+
+  it("renders a status dropdown for each idea (per-row option-menu)", () => {
+    renderWithProviders(<IdeasApp initialIdeas={FIXTURE_IDEAS} />);
+    const selects = screen.getAllByRole("combobox", { name: /status/i });
+    expect(selects.length).toBe(FIXTURE_IDEAS.length);
+    // Each dropdown has all five status options
+    expect(
+      selects[0].querySelectorAll("option").length,
+    ).toBe(5);
+  });
+
+  it("exposes a row menu (kebab) on every idea", () => {
+    renderWithProviders(<IdeasApp initialIdeas={FIXTURE_IDEAS} />);
+    const buttons = screen.getAllByRole("button", { name: /idea options/i });
+    expect(buttons.length).toBe(FIXTURE_IDEAS.length);
   });
 });
