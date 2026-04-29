@@ -1,0 +1,117 @@
+{
+  "name": "session/019-client-health-app-foundation-schema",
+  "branch": "session/019-client-health-app-foundation-schema",
+  "completed": "2026-04-29T20:12:36.788Z",
+  "results": [
+    {
+      "issueNum": 265,
+      "title": "Scaffold client-health mini-app via pnpm create-app",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/348",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 202,
+      "filesChanged": 10
+    },
+    {
+      "issueNum": 266,
+      "title": "Migration: clients table (paired up/down)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/348",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 202,
+      "filesChanged": 10
+    },
+    {
+      "issueNum": 267,
+      "title": "Migration: client_sites table (paired up/down)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/348",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 202,
+      "filesChanged": 10
+    },
+    {
+      "issueNum": 268,
+      "title": "Migration: site_metadata table (paired up/down)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/348",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 202,
+      "filesChanged": 10
+    },
+    {
+      "issueNum": 269,
+      "title": "Migration: client_health_settings table (paired up/down)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/348",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 202,
+      "filesChanged": 10
+    },
+    {
+      "issueNum": 270,
+      "title": "Migration: client_health_alerts table (paired up/down)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/349",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 404,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 271,
+      "title": "Move and rewrite client-health UI from command-center into the new app",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/349",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 404,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 272,
+      "title": "Server actions: client and site CRUD + listClientHealth",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/349",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 404,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 273,
+      "title": "Health-score helper (lib/score.ts) with locked weights",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/349",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 404,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 274,
+      "title": "Remove client-health tile from Command Center and decrement app count",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/349",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 404,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 275,
+      "title": "Pin status-pulse  columns and add a smoke test for schema drift",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/350",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 649,
+      "filesChanged": 4
+    }
+  ]
+}
