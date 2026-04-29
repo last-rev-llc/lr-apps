@@ -1,6 +1,7 @@
 import { createClient } from "@repo/db/server";
 import { Badge } from "@repo/ui";
 import { Card, CardContent, CardHeader } from "@repo/ui";
+import { STATUS_PULSE_SITE_COLUMNS } from "@/app/apps/client-health/lib/status-pulse-schema";
 import type { Site } from "./lib/types";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +15,7 @@ async function getSites(): Promise<Site[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("sites")
-    .select("*")
+    .select(STATUS_PULSE_SITE_COLUMNS)
     .order("name", { ascending: true });
 
   if (error) {

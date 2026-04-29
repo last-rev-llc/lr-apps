@@ -15,6 +15,7 @@ import type {
   StatusPulseSiteRow,
 } from "@repo/db/types";
 import { computeHealthScore } from "./lib/score";
+import { STATUS_PULSE_SITE_COLUMNS } from "./lib/status-pulse-schema";
 import type { ActionResult, ClientHealthPayload } from "./lib/types";
 
 // @repo/db/server returns a SupabaseClient typed by @supabase/ssr's older
@@ -372,7 +373,7 @@ async function assemblePayloads(
   let metadata: SiteMetadataRow[] = [];
   if (urls.length > 0) {
     const [{ data: pulseData }, { data: metaData }] = await Promise.all([
-      supabase.from("sites").select("*").in("url", urls),
+      supabase.from("sites").select(STATUS_PULSE_SITE_COLUMNS).in("url", urls),
       supabase.from("site_metadata").select("*").in("url", urls),
     ]);
     pulse = (pulseData ?? []) as StatusPulseSiteRow[];

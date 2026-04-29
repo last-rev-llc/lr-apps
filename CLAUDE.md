@@ -91,3 +91,7 @@ scripts/                         # create-app, db-rollback, db-seed, audit-token
 - **Billing flows** go through `@repo/billing` exclusively (Stripe client, customers, subscriptions, webhook handler). Web routes under `app/api/webhooks/` and `app/api/checkout/` should be thin adapters.
 - **Cron endpoints** must validate via `lib/cron-auth.ts` (`CRON_SECRET`); webhooks must validate signatures inside the package's `webhook-handler`. Rate-limit any unauthenticated POST via `lib/rate-limit.ts`.
 - **Keep this file's `lib-listing` block accurate.** When adding/removing files in `apps/web/lib/`, update the bullet list above in the same change — `pnpm lint` will block otherwise.
+
+## External Schema Dependencies
+
+- **`sites` table is owned by [`last-rev-llc/status-pulse`](https://github.com/last-rev-llc/status-pulse)** — not this repo. We join to it by URL from `client-health` and read it directly from `uptime`. Because the schema lives in another repo, every read site **must pin the column list** (no `select("*")`) so an upstream rename or drop surfaces as an explicit PostgREST `42703` error rather than a silent join miss. The pinned list is the single export `STATUS_PULSE_SITE_COLUMNS` in `apps/web/app/apps/client-health/lib/status-pulse-schema.ts` — import from there, don't redeclare. The smoke test `apps/web/__tests__/sites-schema.test.ts` is the canary: it queries each pinned column against the live `sites` table in CI and fails loudly if one disappears.
