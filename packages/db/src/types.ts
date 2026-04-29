@@ -55,6 +55,47 @@ export type FeatureFlagRow = {
   created_at: string;
 };
 
+// Mirrors `supabase/migrations/20260429_ideas.sql`. Mixed naming is intentional:
+// `id`, `user_id`, `title`, etc. are unquoted (snake_case) while the camelCase
+// columns are quoted in the migration so the app code in apps/web/app/apps/ideas
+// can use them without an adapter layer.
+export type IdeaStatus =
+  | "new"
+  | "backlog"
+  | "in-progress"
+  | "completed"
+  | "archived";
+
+export type IdeaSource = "generated" | "community" | "manual";
+
+export type IdeaEffort = "Low" | "Medium" | "High";
+
+export type IdeaRow = {
+  id: string;
+  user_id: string;
+  title: string;
+  description: string | null;
+  category: string | null;
+  status: IdeaStatus;
+  source: IdeaSource;
+  feasibility: number | null;
+  impact: number | null;
+  effort: IdeaEffort | null;
+  compositeScore: number | null;
+  rating: number | null;
+  hidden: boolean;
+  snoozedUntil: string | null;
+  tags: string[];
+  author: string | null;
+  sourceUrl: string | null;
+  plan: string | null;
+  planModel: string | null;
+  planGeneratedAt: string | null;
+  completedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export interface Database {
   public: {
     Tables: {
@@ -90,6 +131,18 @@ export interface Database {
         Insert: Pick<FeatureFlagRow, "key"> &
           Partial<Omit<FeatureFlagRow, "id" | "created_at">>;
         Update: Partial<Omit<FeatureFlagRow, "id" | "created_at">>;
+        Relationships: [];
+      };
+      ideas: {
+        Row: IdeaRow;
+        Insert: Pick<IdeaRow, "user_id" | "title"> &
+          Partial<
+            Omit<
+              IdeaRow,
+              "id" | "user_id" | "title" | "createdAt" | "updatedAt"
+            >
+          >;
+        Update: Partial<Omit<IdeaRow, "id" | "user_id" | "createdAt">>;
         Relationships: [];
       };
     };
