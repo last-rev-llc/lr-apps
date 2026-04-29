@@ -9,7 +9,7 @@ import {
   getRouteForSubdomain,
   isVercelPreviewHost,
 } from "./lib/proxy-utils";
-import { authHubOrigin } from "./lib/app-host";
+import { appOrigin, authHubOrigin } from "./lib/app-host";
 import { applyCspHeader } from "./lib/csp";
 import {
   applyRateLimitHeaders,
@@ -36,12 +36,27 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   );
 }
 
+const LEGACY_IDEAS_PATH = "/apps/command-center/ideas";
+
 async function proxyImpl(request: NextRequest): Promise<NextResponse> {
   if (shouldValidateCsrf(request)) {
     const csrf = validateCsrf(request);
     if (!csrf.ok) {
       return applyCspHeader(csrfFailureNextResponse(csrf.reason));
     }
+  }
+
+  const hostHeaderForRedirect = request.headers.get("host") ?? "";
+  const pathname = request.nextUrl.pathname;
+  if (
+    pathname === LEGACY_IDEAS_PATH ||
+    pathname.startsWith(`${LEGACY_IDEAS_PATH}/`)
+  ) {
+    const tail = pathname.slice(LEGACY_IDEAS_PATH.length) || "/";
+    const target = new URL(
+      `${appOrigin({ subdomain: "ideas" }, hostHeaderForRedirect)}${tail}${request.nextUrl.search}`,
+    );
+    return applyCspHeader(NextResponse.redirect(target, 301));
   }
 
   const host = getHostFromRequestHeaders(request.headers);

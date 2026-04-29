@@ -124,7 +124,7 @@ describe("CommandCenterLayout", () => {
     expect(dashboardLink).toHaveAttribute("href", "/");
   });
 
-  it("renders sidebar with Hub + 21 module items (22 total)", async () => {
+  it("renders sidebar with Hub + module items", async () => {
     const jsx = await CommandCenterLayout({
       children: <div>test</div>,
     });
@@ -133,7 +133,7 @@ describe("CommandCenterLayout", () => {
     expect(screen.getByText("Hub")).toBeInTheDocument();
 
     const moduleLabels = [
-      "Leads", "Agents", "Ideas", "Recipes", "Users", "Crons",
+      "Leads", "Agents", "Recipes", "Users", "Crons",
       "Gallery", "Architecture", "Client Health", "Concerts",
       "Contentful", "Iron", "Meeting Summaries", "Meme Generator",
       "PR Review", "Rizz Guide", "Shopping List", "Team USF",
@@ -143,6 +143,9 @@ describe("CommandCenterLayout", () => {
     for (const label of moduleLabels) {
       expect(screen.getByText(label)).toBeInTheDocument();
     }
+
+    // Ideas was promoted to its own subdomain — no longer a CC sub-route.
+    expect(screen.queryByText("Ideas")).toBeNull();
   });
 
   it("propagates auth error when requireAccess rejects", async () => {

@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { createClient } from "@repo/db/client";
+import { useRouter } from "next/navigation";
 import {
   Badge,
   Button,
   Card,
   CardContent,
+  Dialog,
+  DialogContent,
   EmptyState,
   PageHeader,
   PillList,
@@ -14,9 +16,20 @@ import {
   StarRating,
   ViewToggle,
 } from "@repo/ui";
+import UpgradePrompt from "@/components/UpgradePrompt";
+import {
+  rateIdea as rateIdeaAction,
+  toggleHideIdea as toggleHideIdeaAction,
+  snoozeIdea as snoozeIdeaAction,
+} from "../actions";
+import { IdeaFormModal } from "./idea-form-modal";
+import { StatusDropdown } from "./status-dropdown";
+import { RowMenu } from "./row-menu";
+import { PlanSection } from "./plan-section";
 import type {
   Idea,
   IdeaCategory,
+  IdeaStatus,
   QuickFilterKey,
   ShowFilter,
   SortKey,
@@ -25,13 +38,21 @@ import type {
 
 // ── Constants ───────────────────────────────────────────────────────────────
 
-const CATEGORIES: IdeaCategory[] = [
+export const CATEGORIES: IdeaCategory[] = [
   "Product",
   "Content",
   "Business",
   "Technical",
   "Creative",
   "Skills",
+];
+
+export const STATUS_OPTIONS: Array<{ value: IdeaStatus; label: string }> = [
+  { value: "new", label: "New" },
+  { value: "backlog", label: "Backlog" },
+  { value: "in-progress", label: "In Progress" },
+  { value: "completed", label: "Completed" },
+  { value: "archived", label: "Archived" },
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -43,24 +64,10 @@ const CATEGORY_COLORS: Record<string, string> = {
   Skills: "var(--color-orange)",
 };
 
-const STATUS_COLORS: Record<string, string> = {
-  new: "var(--color-blue)",
-  backlog: "var(--color-slate-dim)",
-  "in-progress": "var(--color-orange)",
-  completed: "var(--color-pill-2)",
-  archived: "var(--color-slate-dim)",
-};
-
 const EFFORT_COLORS: Record<string, string> = {
   Low: "var(--color-pill-2)",
   Medium: "var(--color-accent)",
   High: "var(--color-pill-4)",
-};
-
-const SOURCE_COLORS: Record<string, string> = {
-  generated: "var(--color-pill-1)",
-  community: "var(--color-pill-8)",
-  manual: "var(--color-accent)",
 };
 
 const QUICK_FILTERS: Array<{
@@ -80,14 +87,16 @@ const SORT_OPTIONS: Array<{ value: SortKey; label: string }> = [
   { value: "title", label: "Title" },
 ];
 
-const SNOOZE_OPTIONS: Array<{ label: string; value: string }> = [
+type SnoozeDuration = "1d" | "1w" | "2w" | "1mo";
+
+const SNOOZE_OPTIONS: Array<{ label: string; value: SnoozeDuration }> = [
   { label: "1 Day", value: "1d" },
   { label: "1 Week", value: "1w" },
   { label: "2 Weeks", value: "2w" },
   { label: "1 Month", value: "1mo" },
 ];
 
-const SNOOZE_MS: Record<string, number> = {
+const SNOOZE_MS: Record<SnoozeDuration, number> = {
   "1d": 86_400_000,
   "1w": 604_800_000,
   "2w": 1_209_600_000,
@@ -125,9 +134,10 @@ function isNewToday(idea: Idea): boolean {
 
 interface IdeasAppProps {
   initialIdeas: Idea[];
+  canUseAiPlan?: boolean;
 }
 
-export function IdeasApp({ initialIdeas }: IdeasAppProps) {
+export function IdeasApp({ initialIdeas, canUseAiPlan = false }: IdeasAppProps) {
   const [ideas, setIdeas] = useState<Idea[]>(initialIdeas);
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -138,68 +148,68 @@ export function IdeasApp({ initialIdeas }: IdeasAppProps) {
   const [showFilter, setShowFilter] = useState<ShowFilter>("active");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [snoozeMenuId, setSnoozeMenuId] = useState<string | null>(null);
-
-  const db = createClient();
+  const [newModalOpen, setNewModalOpen] = useState(false);
+  const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
+  const router = useRouter();
 
   // ── Mutations ────────────────────────────────────────────────────────────
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const ideasTable = () => (db as any).from("ideas");
-
   const rateIdea = useCallback(
     async (id: string, stars: number) => {
+      const prev = ideas;
       let newRating = stars;
-      setIdeas((prev) =>
-        prev.map((idea) => {
+      setIdeas((current) =>
+        current.map((idea) => {
           if (idea.id !== id) return idea;
           newRating = idea.rating === stars ? 0 : stars;
-          return { ...idea, rating: newRating };
+          return { ...idea, rating: newRating === 0 ? null : newRating };
         }),
       );
-      await ideasTable()
-        .upsert({ id, rating: newRating })
-        .catch((e: unknown) => console.warn("rating update failed:", e));
+      const result = await rateIdeaAction(id, newRating);
+      if (!result.ok) {
+        setIdeas(prev);
+        router.refresh();
+      }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [db],
+    [ideas, router],
   );
 
   const toggleHide = useCallback(
     async (id: string) => {
-      let nextHidden = true;
-      setIdeas((prev) =>
-        prev.map((idea) => {
-          if (idea.id !== id) return idea;
-          nextHidden = !idea.hidden;
-          return { ...idea, hidden: nextHidden };
-        }),
+      const prev = ideas;
+      setIdeas((current) =>
+        current.map((idea) =>
+          idea.id === id ? { ...idea, hidden: !idea.hidden } : idea,
+        ),
       );
-      await ideasTable()
-        .upsert({ id, hidden: nextHidden })
-        .catch((e: unknown) => console.warn("hide update failed:", e));
+      const result = await toggleHideIdeaAction(id);
+      if (!result.ok) {
+        setIdeas(prev);
+        router.refresh();
+      }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [db],
+    [ideas, router],
   );
 
   const snoozeIdea = useCallback(
     async (id: string, duration: string) => {
-      const until =
-        duration === "show"
-          ? null
-          : new Date(Date.now() + SNOOZE_MS[duration]).toISOString();
-      setIdeas((prev) =>
-        prev.map((idea) =>
+      const prev = ideas;
+      const isShow = duration === "show";
+      const dur = isShow ? null : (duration as SnoozeDuration);
+      const until = dur === null ? null : new Date(Date.now() + SNOOZE_MS[dur]).toISOString();
+      setIdeas((current) =>
+        current.map((idea) =>
           idea.id === id ? { ...idea, snoozedUntil: until } : idea,
         ),
       );
-      await ideasTable()
-        .upsert({ id, snoozedUntil: until })
-        .catch((e: unknown) => console.warn("snooze update failed:", e));
+      const result = await snoozeIdeaAction(id, dur);
+      if (!result.ok) {
+        setIdeas(prev);
+        router.refresh();
+      }
       setSnoozeMenuId(null);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [db],
+    [ideas, router],
   );
 
   // ── Filtering + Sorting ───────────────────────────────────────────────────
@@ -306,11 +316,36 @@ export function IdeasApp({ initialIdeas }: IdeasAppProps) {
           placeholder="Search ideas, tags…"
           className="flex-1"
         />
+        <Button onClick={() => setNewModalOpen(true)}>+ New Idea</Button>
+        <Button
+          variant="outline"
+          onClick={() => {
+            if (!canUseAiPlan) {
+              setShowUpgradePrompt(true);
+              return;
+            }
+            // TODO: invoke AI plan action — wired in a later issue
+          }}
+        >
+          ✨ Plan & score with AI
+        </Button>
         <ViewToggle
           view={viewMode}
           onChange={(v) => setViewMode(v as ViewMode)}
         />
       </div>
+      {showUpgradePrompt && !canUseAiPlan && (
+        <Dialog open={showUpgradePrompt} onOpenChange={(next) => (next ? null : setShowUpgradePrompt(false))}>
+          <DialogContent>
+            <UpgradePrompt requiredTier="pro" />
+          </DialogContent>
+        </Dialog>
+      )}
+      <IdeaFormModal
+        mode="create"
+        open={newModalOpen}
+        onClose={() => setNewModalOpen(false)}
+      />
 
       {/* Quick filters */}
       <PillList
@@ -573,7 +608,6 @@ function IdeaCard({
 } & Omit<ViewProps, "ideas">) {
   const catColor = CATEGORY_COLORS[idea.category] ?? "var(--color-slate-dim)";
   const effortColor = EFFORT_COLORS[idea.effort ?? ""] ?? "var(--color-slate-dim)";
-  const statusColor = STATUS_COLORS[idea.status] ?? "var(--color-slate-dim)";
   const snoozed = isSnoozed(idea);
 
   return (
@@ -617,15 +651,7 @@ function IdeaCard({
               {idea.effort}
             </Badge>
           )}
-          <Badge
-            className="text-[10px] px-1.5 py-0.5 border-0"
-            style={{
-              background: statusColor + "22",
-              color: statusColor,
-            }}
-          >
-            {idea.status}
-          </Badge>
+          <StatusDropdown idea={idea} />
         </div>
 
         {/* Description */}
@@ -663,6 +689,13 @@ function IdeaCard({
           </div>
         )}
 
+        {/* AI plan */}
+        <PlanSection
+          plan={idea.plan}
+          planModel={idea.planModel}
+          planGeneratedAt={idea.planGeneratedAt}
+        />
+
         {/* Footer: date + actions */}
         <div className="flex items-center justify-between pt-1 border-t border-white/8">
           <span className="text-[10px] text-white/30">
@@ -673,14 +706,17 @@ function IdeaCard({
               <span className="ml-1">· {idea.author}</span>
             )}
           </span>
-          <CardActions
-            idea={idea}
-            onRate={onRate}
-            onToggleHide={onToggleHide}
-            onSnooze={onSnooze}
-            snoozeMenuId={snoozeMenuId}
-            setSnoozeMenuId={setSnoozeMenuId}
-          />
+          <div className="flex items-center gap-1">
+            <CardActions
+              idea={idea}
+              onRate={onRate}
+              onToggleHide={onToggleHide}
+              onSnooze={onSnooze}
+              snoozeMenuId={snoozeMenuId}
+              setSnoozeMenuId={setSnoozeMenuId}
+            />
+            <RowMenu idea={idea} />
+          </div>
         </div>
       </CardContent>
     </Card>
@@ -721,6 +757,8 @@ function ListView(props: ViewProps) {
             >
               {idea.category}
             </Badge>
+            {/* Status dropdown */}
+            <StatusDropdown idea={idea} />
             {/* Actions */}
             <CardActions
               idea={idea}
@@ -730,6 +768,7 @@ function ListView(props: ViewProps) {
               snoozeMenuId={snoozeMenuId}
               setSnoozeMenuId={setSnoozeMenuId}
             />
+            <RowMenu idea={idea} />
           </div>
         );
       })}

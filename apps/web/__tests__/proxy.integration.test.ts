@@ -332,6 +332,62 @@ describe("proxy middleware integration", () => {
     });
   });
 
+  describe("legacy /apps/command-center/ideas redirect", () => {
+    it("redirects 301 to ideas.apps.lastrev.com on the apps cluster", async () => {
+      const req = makeRequest(
+        "https://command-center.apps.lastrev.com/apps/command-center/ideas/foo?bar=1",
+        "command-center.apps.lastrev.com",
+      );
+      const res = await proxy(req);
+      expect(res.status).toBe(301);
+      const location = res.headers.get("location") ?? "";
+      expect(location).toBe("https://ideas.apps.lastrev.com/foo?bar=1");
+    });
+
+    it("redirects to the legacy ideas subdomain when invoked on the legacy cluster", async () => {
+      const req = makeRequest(
+        "https://command-center.lastrev.com/apps/command-center/ideas/foo",
+        "command-center.lastrev.com",
+      );
+      const res = await proxy(req);
+      expect(res.status).toBe(301);
+      const location = res.headers.get("location") ?? "";
+      expect(location).toBe("https://ideas.lastrev.com/foo");
+    });
+
+    it("redirects the bare legacy path on the apex host", async () => {
+      const req = makeRequest(
+        "https://lastrev.com/apps/command-center/ideas",
+        "lastrev.com",
+      );
+      const res = await proxy(req);
+      expect(res.status).toBe(301);
+      expect(res.headers.get("location")).toBe(
+        "https://ideas.lastrev.com/",
+      );
+    });
+
+    it("does not redirect for other command-center sub-routes", async () => {
+      const req = makeRequest(
+        "https://command-center.apps.lastrev.com/apps/command-center/leads",
+        "command-center.apps.lastrev.com",
+      );
+      const res = await proxy(req);
+      expect(res.status).not.toBe(301);
+    });
+
+    it("does not consume CSRF middleware (auth0 still runs on next request)", async () => {
+      // The redirect short-circuits before auth0 — Auth0 will run on the
+      // next request to the new origin. Verify auth0 is NOT invoked here.
+      const req = makeRequest(
+        "https://command-center.apps.lastrev.com/apps/command-center/ideas",
+        "command-center.apps.lastrev.com",
+      );
+      await proxy(req);
+      expect(middlewareMock).not.toHaveBeenCalled();
+    });
+  });
+
   describe("subdomain resolution across all registered apps", () => {
     it("produces a rewrite for every registered subdomain", async () => {
       vi.stubEnv("NODE_ENV", "production");

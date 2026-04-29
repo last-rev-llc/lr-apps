@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import React from "react";
 import { describe, it, expect, vi, beforeAll } from "vitest";
-import { renderWithProviders, screen } from "@repo/test-utils";
+import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
 
 beforeAll(() => {
   global.IntersectionObserver = vi.fn().mockImplementation((callback) => ({
@@ -19,18 +19,30 @@ vi.mock("next/link", () => ({
   ),
 }));
 
-vi.mock("@repo/db/client", () => ({
-  createClient: vi.fn(() => ({
-    from: vi.fn(() => ({
-      update: vi.fn(() => ({ eq: vi.fn(() => Promise.resolve({ error: null })) })),
-      upsert: vi.fn(() => Promise.resolve({ error: null })),
-      select: vi.fn(() => ({ order: vi.fn(() => Promise.resolve({ data: [], error: null })) })),
-    })),
-  })),
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: vi.fn(),
+    push: vi.fn(),
+    replace: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+  }),
 }));
 
-import { IdeasApp } from "../ideas/components/ideas-app";
-import type { Idea } from "../ideas/lib/types";
+vi.mock("../actions", () => ({
+  rateIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+  toggleHideIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+  snoozeIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+  archiveIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+  deleteIdea: vi.fn(async () => ({ ok: true })),
+  setIdeaStatus: vi.fn(async () => ({ ok: true, idea: {} })),
+  createIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+  updateIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+}));
+
+import { IdeasApp } from "../components/ideas-app";
+import type { Idea } from "../lib/types";
 
 const makeIdea = (overrides: Partial<Idea> = {}): Idea => ({
   id: "idea-1",
@@ -49,6 +61,9 @@ const makeIdea = (overrides: Partial<Idea> = {}): Idea => ({
   rating: null,
   hidden: null,
   snoozedUntil: null,
+  plan: null,
+  planModel: null,
+  planGeneratedAt: null,
   createdAt: null,
   updatedAt: null,
   completedAt: null,
@@ -89,5 +104,30 @@ describe("IdeasApp", () => {
     renderWithProviders(<IdeasApp initialIdeas={FIXTURE_IDEAS} />);
     expect(screen.getByText("Medium")).toBeInTheDocument();
     expect(screen.getByText("High")).toBeInTheDocument();
+  });
+
+  it("renders a 'New Idea' button that opens the form modal", () => {
+    renderWithProviders(<IdeasApp initialIdeas={FIXTURE_IDEAS} />);
+    const button = screen.getByRole("button", { name: /new idea/i });
+    expect(button).toBeInTheDocument();
+    fireEvent.click(button);
+    // The dialog title appears
+    expect(screen.getByText("New Idea", { selector: "h2,div" })).toBeInTheDocument();
+  });
+
+  it("renders a status dropdown for each idea (per-row option-menu)", () => {
+    renderWithProviders(<IdeasApp initialIdeas={FIXTURE_IDEAS} />);
+    const selects = screen.getAllByRole("combobox", { name: /status/i });
+    expect(selects.length).toBe(FIXTURE_IDEAS.length);
+    // Each dropdown has all five status options
+    expect(
+      selects[0].querySelectorAll("option").length,
+    ).toBe(5);
+  });
+
+  it("exposes a row menu (kebab) on every idea", () => {
+    renderWithProviders(<IdeasApp initialIdeas={FIXTURE_IDEAS} />);
+    const buttons = screen.getAllByRole("button", { name: /idea options/i });
+    expect(buttons.length).toBe(FIXTURE_IDEAS.length);
   });
 });
