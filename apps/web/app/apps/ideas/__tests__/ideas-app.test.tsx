@@ -29,8 +29,8 @@ vi.mock("@repo/db/client", () => ({
   })),
 }));
 
-import { IdeasApp } from "../ideas/components/ideas-app";
-import type { Idea } from "../ideas/lib/types";
+import { IdeasApp } from "../components/ideas-app";
+import type { Idea } from "../lib/types";
 
 const makeIdea = (overrides: Partial<Idea> = {}): Idea => ({
   id: "idea-1",
