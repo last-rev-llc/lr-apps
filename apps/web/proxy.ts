@@ -9,6 +9,7 @@ import {
   getRouteForSubdomain,
   isVercelPreviewHost,
 } from "./lib/proxy-utils";
+import { authHubOrigin } from "./lib/app-host";
 import { applyCspHeader } from "./lib/csp";
 import {
   applyRateLimitHeaders,
@@ -123,7 +124,7 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
         return applyCspHeader(
           mergeAuthMiddlewareResponse(
             authResponse,
-            NextResponse.redirect(new URL("https://auth.lastrev.com")),
+            NextResponse.redirect(new URL(authHubOrigin(hostHeader))),
           ),
         );
       }
