@@ -83,7 +83,7 @@ export function RowMenu({ idea, onChanged }: RowMenuProps) {
                 setConfirmOpen(true);
                 setOpen(false);
               }}
-              className="block w-full rounded px-3 py-1.5 text-left text-xs text-red-400 hover:bg-white/10"
+              className="block w-full rounded px-3 py-1.5 text-left text-xs text-destructive hover:bg-surface-hover"
             >
               🗑 Delete
             </button>

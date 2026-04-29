@@ -55,20 +55,25 @@ export const STATUS_OPTIONS: Array<{ value: IdeaStatus; label: string }> = [
   { value: "archived", label: "Archived" },
 ];
 
-const CATEGORY_COLORS: Record<string, string> = {
-  Product: "var(--color-pill-8)",
-  Content: "var(--color-pill-9)",
-  Business: "var(--color-accent)",
-  Technical: "var(--color-blue)",
-  Creative: "var(--color-pill-6)",
-  Skills: "var(--color-orange)",
+const CATEGORY_CLASS: Record<string, string> = {
+  Product: "bg-pill-8/20 text-pill-8",
+  Content: "bg-pill-9/20 text-pill-9",
+  Business: "bg-accent/20 text-accent",
+  Technical: "bg-blue/20 text-blue",
+  Creative: "bg-pill-6/20 text-pill-6",
+  Skills: "bg-orange/20 text-orange",
 };
 
-const EFFORT_COLORS: Record<string, string> = {
-  Low: "var(--color-pill-2)",
-  Medium: "var(--color-accent)",
-  High: "var(--color-pill-4)",
+const CATEGORY_FALLBACK_CLASS = "bg-slate-dim/20 text-slate-dim";
+
+const EFFORT_CLASS: Record<string, string> = {
+  Low: "bg-pill-2/20 text-pill-2",
+  Medium: "bg-accent/20 text-accent",
+  High: "bg-pill-4/20 text-pill-4",
 };
+
+const IMPACT_BAR_CLASS = "bg-blue";
+const FEASIBILITY_BAR_CLASS = "bg-pill-2";
 
 const QUICK_FILTERS: Array<{
   key: QuickFilterKey;
@@ -375,7 +380,7 @@ export function IdeasApp({ initialIdeas, canUseAiPlan = false }: IdeasAppProps) 
         />
         <div className="ml-auto flex items-center gap-2 flex-wrap">
           {/* Sort */}
-          <div className="flex items-center gap-1 text-xs text-white/50">
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <span>Sort:</span>
             {SORT_OPTIONS.map((opt) => (
               <Button
@@ -390,7 +395,7 @@ export function IdeasApp({ initialIdeas, canUseAiPlan = false }: IdeasAppProps) 
                     setSortAsc(false);
                   }
                 }}
-                className={sortKey === opt.value ? "bg-amber-500/20 text-amber-400" : ""}
+                className={sortKey === opt.value ? "bg-accent/20 text-accent" : ""}
               >
                 {opt.label}
                 {sortKey === opt.value && (
@@ -400,7 +405,7 @@ export function IdeasApp({ initialIdeas, canUseAiPlan = false }: IdeasAppProps) 
             ))}
           </div>
           {/* Show filter */}
-          <div className="flex items-center gap-1 text-xs text-white/50">
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <span>Show:</span>
             {(
               [
@@ -416,7 +421,7 @@ export function IdeasApp({ initialIdeas, canUseAiPlan = false }: IdeasAppProps) 
                 variant={showFilter === v ? "outline" : "ghost"}
                 size="sm"
                 onClick={() => setShowFilter(v)}
-                className={showFilter === v ? "bg-amber-500/20 text-amber-400" : ""}
+                className={showFilter === v ? "bg-accent/20 text-accent" : ""}
               >
                 {label}
               </Button>
@@ -497,18 +502,18 @@ function CardActions({
           }
           className={`rounded px-1.5 py-1 text-xs transition-colors ${
             snoozed
-              ? "text-amber-400"
-              : "text-white/40 hover:text-white/80"
+              ? "text-accent"
+              : "text-muted-foreground hover:text-foreground"
           }`}
         >
           ⏰
         </button>
         {snoozeMenuId === idea.id && (
-          <div className="absolute bottom-full right-0 z-50 mb-1 rounded-xl border border-white/15 bg-popover p-1 shadow-xl min-w-[110px]">
+          <div className="absolute bottom-full right-0 z-50 mb-1 rounded-xl border border-surface-border bg-popover p-1 shadow-xl min-w-[110px]">
             {snoozed && (
               <button
                 onClick={() => onSnooze(idea.id, "show")}
-                className="block w-full rounded px-3 py-1.5 text-left text-xs text-white/70 hover:bg-white/10"
+                className="block w-full rounded px-3 py-1.5 text-left text-xs text-foreground/70 hover:bg-surface-hover"
               >
                 👁 Show Now
               </button>
@@ -517,7 +522,7 @@ function CardActions({
               <button
                 key={opt.value}
                 onClick={() => onSnooze(idea.id, opt.value)}
-                className="block w-full rounded px-3 py-1.5 text-left text-xs text-white/70 hover:bg-white/10"
+                className="block w-full rounded px-3 py-1.5 text-left text-xs text-foreground/70 hover:bg-surface-hover"
               >
                 {opt.label}
               </button>
@@ -532,7 +537,7 @@ function CardActions({
           onToggleHide(idea.id);
         }}
         title={idea.hidden ? "Restore" : "Dismiss"}
-        className="rounded px-1.5 py-1 text-xs text-white/40 transition-colors hover:text-white/80"
+        className="rounded px-1.5 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
       >
         {idea.hidden ? "👁" : "✕"}
       </button>
@@ -544,22 +549,22 @@ function CardActions({
 
 function BarTrack({
   value,
-  color,
+  barClassName,
   label,
 }: {
   value: number;
-  color: string;
+  barClassName: string;
   label: string;
 }) {
   return (
     <div className="flex items-center gap-1.5 flex-1">
-      <span className="text-[10px] text-white/40 whitespace-nowrap">
+      <span className="text-[10px] text-muted-foreground whitespace-nowrap">
         {label} {value}/10
       </span>
-      <div className="h-1 flex-1 rounded-full bg-white/10 overflow-hidden">
+      <div className="h-1 flex-1 rounded-full bg-surface-hover overflow-hidden">
         <div
-          className="h-full rounded-full transition-all"
-          style={{ width: `${value * 10}%`, background: color }}
+          className={`h-full rounded-full transition-all ${barClassName}`}
+          style={{ width: `${value * 10}%` }}
         />
       </div>
     </div>
@@ -606,8 +611,8 @@ function IdeaCard({
 }: {
   idea: Idea;
 } & Omit<ViewProps, "ideas">) {
-  const catColor = CATEGORY_COLORS[idea.category] ?? "var(--color-slate-dim)";
-  const effortColor = EFFORT_COLORS[idea.effort ?? ""] ?? "var(--color-slate-dim)";
+  const catClass = CATEGORY_CLASS[idea.category] ?? CATEGORY_FALLBACK_CLASS;
+  const effortClass = EFFORT_CLASS[idea.effort ?? ""] ?? CATEGORY_FALLBACK_CLASS;
   const snoozed = isSnoozed(idea);
 
   return (
@@ -619,11 +624,11 @@ function IdeaCard({
       <CardContent className="p-0 flex flex-col gap-3">
         {/* Title + score */}
         <div className="flex items-start gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/8 text-sm font-bold text-amber-400 border border-white/10">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-hover text-sm font-bold text-accent border border-surface-border">
             {scoreLabel(idea)}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-semibold text-sm text-white leading-snug line-clamp-2">
+            <p className="font-semibold text-sm text-foreground leading-snug line-clamp-2">
               {idea.title}
             </p>
           </div>
@@ -631,23 +636,11 @@ function IdeaCard({
 
         {/* Badges */}
         <div className="flex flex-wrap gap-1.5">
-          <Badge
-            className="text-[10px] px-1.5 py-0.5 border-0"
-            style={{
-              background: catColor + "22",
-              color: catColor,
-            }}
-          >
+          <Badge className={`text-[10px] px-1.5 py-0.5 border-0 ${catClass}`}>
             {idea.category}
           </Badge>
           {idea.effort && (
-            <Badge
-              className="text-[10px] px-1.5 py-0.5 border-0"
-              style={{
-                background: effortColor + "22",
-                color: effortColor,
-              }}
-            >
+            <Badge className={`text-[10px] px-1.5 py-0.5 border-0 ${effortClass}`}>
               {idea.effort}
             </Badge>
           )}
@@ -655,7 +648,7 @@ function IdeaCard({
         </div>
 
         {/* Description */}
-        <p className="text-xs text-white/50 leading-relaxed line-clamp-2">
+        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
           {idea.description}
         </p>
 
@@ -663,12 +656,12 @@ function IdeaCard({
         {(idea.impact || idea.feasibility) && (
           <div className="flex gap-3">
             {idea.impact != null && (
-              <BarTrack value={idea.impact} color="var(--color-blue)" label="Impact" />
+              <BarTrack value={idea.impact} barClassName={IMPACT_BAR_CLASS} label="Impact" />
             )}
             {idea.feasibility != null && (
               <BarTrack
                 value={idea.feasibility}
-                color="var(--color-pill-2)"
+                barClassName={FEASIBILITY_BAR_CLASS}
                 label="Feas."
               />
             )}
@@ -681,7 +674,7 @@ function IdeaCard({
             {(idea.tags ?? []).slice(0, 4).map((tag) => (
               <span
                 key={tag}
-                className="inline-block rounded px-1.5 py-0.5 text-[10px] text-white/50 bg-white/8"
+                className="inline-block rounded px-1.5 py-0.5 text-[10px] text-muted-foreground bg-surface-hover"
               >
                 {tag}
               </span>
@@ -697,8 +690,8 @@ function IdeaCard({
         />
 
         {/* Footer: date + actions */}
-        <div className="flex items-center justify-between pt-1 border-t border-white/8">
-          <span className="text-[10px] text-white/30">
+        <div className="flex items-center justify-between pt-1 border-t border-surface-border">
+          <span className="text-[10px] text-muted-foreground">
             {idea.createdAt
               ? new Date(idea.createdAt).toLocaleDateString()
               : ""}
@@ -730,31 +723,28 @@ function ListView(props: ViewProps) {
   return (
     <div className="flex flex-col gap-2">
       {ideas.map((idea) => {
-        const catColor = CATEGORY_COLORS[idea.category] ?? "var(--color-slate-dim)";
+        const catClass = CATEGORY_CLASS[idea.category] ?? CATEGORY_FALLBACK_CLASS;
         const snoozed = isSnoozed(idea);
         return (
           <div
             key={idea.id}
-            className={`flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur transition-opacity ${
+            className={`flex items-center gap-3 rounded-xl border border-surface-border bg-surface px-4 py-3 backdrop-blur transition-opacity ${
               idea.hidden || snoozed ? "opacity-60" : ""
             }`}
           >
             {/* Score */}
-            <div className="w-8 shrink-0 text-center text-xs font-bold text-amber-400">
+            <div className="w-8 shrink-0 text-center text-xs font-bold text-accent">
               {scoreLabel(idea)}
             </div>
             {/* Title */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">
+              <p className="text-sm font-medium text-foreground truncate">
                 {idea.title}
               </p>
-              <p className="text-xs text-white/40 truncate">{idea.description}</p>
+              <p className="text-xs text-muted-foreground truncate">{idea.description}</p>
             </div>
             {/* Category badge */}
-            <Badge
-              className="shrink-0 text-[10px] px-1.5 py-0.5 border-0"
-              style={{ background: catColor + "22", color: catColor }}
-            >
+            <Badge className={`shrink-0 text-[10px] px-1.5 py-0.5 border-0 ${catClass}`}>
               {idea.category}
             </Badge>
             {/* Status dropdown */}

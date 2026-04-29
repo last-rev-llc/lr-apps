@@ -57,7 +57,7 @@ export function StatusDropdown({ idea, onChanged }: StatusDropdownProps) {
         ))}
       </select>
       {error && (
-        <span className="absolute top-full left-0 mt-1 text-[10px] text-red-400">
+        <span className="absolute top-full left-0 mt-1 text-[10px] text-destructive">
           {error}
         </span>
       )}

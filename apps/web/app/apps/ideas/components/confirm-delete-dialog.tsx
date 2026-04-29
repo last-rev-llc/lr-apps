@@ -57,7 +57,7 @@ export function ConfirmDeleteDialog({
           </DialogDescription>
         </DialogHeader>
         {error && (
-          <div className="text-xs text-red-400" role="alert">
+          <div className="text-xs text-destructive" role="alert">
             {error}
           </div>
         )}
