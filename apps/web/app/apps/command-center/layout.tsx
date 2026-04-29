@@ -13,7 +13,6 @@ export const metadata = {
 const MODULES = [
   { slug: "leads", label: "Leads", icon: "🎯" },
   { slug: "agents", label: "Agents", icon: "🤖" },
-  { slug: "ideas", label: "Ideas", icon: "💡" },
   { slug: "recipes", label: "Recipes", icon: "📋" },
   { slug: "users", label: "Users", icon: "👥" },
   { slug: "crons", label: "Crons", icon: "⏰" },
