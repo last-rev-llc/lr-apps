@@ -96,8 +96,11 @@ describe("proxy-utils", () => {
       expect(getRouteForSubdomain("sentiment")).toBe("/apps/sentiment");
     });
 
-    it("maps auth subdomain to auth route group", () => {
-      expect(getRouteForSubdomain("auth")).toBe("/(auth)");
+    it("maps auth subdomain to an empty URL prefix (route group lives on disk only)", () => {
+      // `(auth)` is a Next.js route group — invisible in URLs, so we strip it.
+      // The proxy leaves `/login` as `/login` so it resolves to
+      // `app/(auth)/(forms)/login/page.tsx` instead of 404'ing on `/(auth)/login`.
+      expect(getRouteForSubdomain("auth")).toBe("");
     });
 
     it("maps command-center subdomain", () => {
@@ -165,7 +168,8 @@ describe("proxy-utils", () => {
         const route = getRouteForSubdomain(app.subdomain);
         expect(route, `subdomain ${app.subdomain} must resolve`).not.toBeNull();
         if (app.slug === "auth") {
-          expect(route).toBe("/(auth)");
+          // `(auth)` is a route group; URL prefix is empty.
+          expect(route).toBe("");
         } else {
           expect(route).toBe(`/apps/${app.slug}`);
         }
