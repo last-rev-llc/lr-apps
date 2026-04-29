@@ -106,3 +106,5 @@ export { StatCard } from "./components/stat-card";
 export type { StatCardProps } from "./components/stat-card";
 export { ShareButton } from "./components/share-button";
 export type { ShareButtonProps } from "./components/share-button";
+export { BarChart } from "./components/bar-chart";
+export type { BarChartDatum, BarChartProps } from "./components/bar-chart";

@@ -1,5 +1,6 @@
 import { requireAccess } from "@repo/auth/server";
-import { hasFeatureAccess } from "@repo/billing";
+import { capture } from "@repo/analytics/server";
+import { enforceFeatureTier } from "@/lib/enforce-feature-tier";
 import UpgradePrompt from "@/components/UpgradePrompt";
 import type { ReactNode } from "react";
 
@@ -9,8 +10,9 @@ export default async function SentimentLayout({
   children: ReactNode;
 }) {
   const { user } = await requireAccess("sentiment");
-  const hasAccess = await hasFeatureAccess(user.id, "sentiment");
+  const hasAccess = await enforceFeatureTier(user.id, "sentiment");
   if (!hasAccess) return <UpgradePrompt requiredTier="pro" />;
+  await capture(user.id, "app_opened", { slug: "sentiment" });
 
   return (
     <div className="min-h-screen">

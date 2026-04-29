@@ -1,5 +1,6 @@
 import { requireAccess } from "@repo/auth/server";
-import { hasFeatureAccess } from "@repo/billing";
+import { capture } from "@repo/analytics/server";
+import { enforceFeatureTier } from "@/lib/enforce-feature-tier";
 import UpgradePrompt from "@/components/UpgradePrompt";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -12,8 +13,9 @@ export default async function GenerationsLayout({
   children: ReactNode;
 }) {
   const { user } = await requireAccess("generations");
-  const hasAccess = await hasFeatureAccess(user.id, "generations");
+  const hasAccess = await enforceFeatureTier(user.id, "generations");
   if (!hasAccess) return <UpgradePrompt requiredTier="pro" />;
+  await capture(user.id, "app_opened", { slug: "generations" });
 
   const navItems = GENERATIONS.map((gen) => ({
     label: `${gen.emoji} ${gen.name}`,

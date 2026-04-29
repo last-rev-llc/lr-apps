@@ -13,10 +13,12 @@
     "./subscriptions": "./src/subscriptions.ts",
     "./has-feature-access": "./src/has-feature-access.ts",
     "./webhook-handler": "./src/webhook-handler.ts",
+    "./feature-flags": "./src/feature-flags.ts",
     "./types": "./src/types.ts"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.1",
+    "@repo/analytics": "workspace:*",
     "@repo/db": "workspace:*",
     "@repo/logger": "workspace:*",
     "stripe": "^17"
