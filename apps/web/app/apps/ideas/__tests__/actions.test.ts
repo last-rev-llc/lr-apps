@@ -97,6 +97,20 @@ const mockDb = {
         };
         return chain;
       },
+      delete() {
+        const filters: Array<(r: Row) => boolean> = [];
+        const chain: Record<string, unknown> & PromiseLike<{ error: null }> = {
+          eq(col: string, val: unknown) {
+            filters.push((r) => r[col] === val);
+            return chain;
+          },
+          then(resolve: (value: { error: null }) => void) {
+            store = store.filter((r) => !filters.every((f) => f(r)));
+            resolve({ error: null });
+          },
+        } as Record<string, unknown> & PromiseLike<{ error: null }>;
+        return chain;
+      },
     };
   },
 };
@@ -109,6 +123,11 @@ import {
   createIdea,
   updateIdea,
   setIdeaStatus,
+  rateIdea,
+  toggleHideIdea,
+  snoozeIdea,
+  archiveIdea,
+  deleteIdea,
 } from "../actions";
 import { createClient } from "@repo/db/server";
 
@@ -255,12 +274,20 @@ describe("ideas server actions", () => {
       expect(typeof store[0].completedAt).toBe("string");
     });
 
-    it("clears completedAt when transitioning away from 'completed'", async () => {
+    it("clears completedAt when transitioning to a non-archived non-completed status", async () => {
+      const id = seed("completed", "2026-01-01T00:00:00.000Z");
+      const result = await setIdeaStatus(id, "in-progress");
+      expect(result.ok).toBe(true);
+      expect(store[0].status).toBe("in-progress");
+      expect(store[0].completedAt).toBeNull();
+    });
+
+    it("preserves completedAt when archiving via setIdeaStatus (matches archiveIdea)", async () => {
       const id = seed("completed", "2026-01-01T00:00:00.000Z");
       const result = await setIdeaStatus(id, "archived");
       expect(result.ok).toBe(true);
       expect(store[0].status).toBe("archived");
-      expect(store[0].completedAt).toBeNull();
+      expect(store[0].completedAt).toBe("2026-01-01T00:00:00.000Z");
     });
 
     it("rejects an invalid status value", async () => {
@@ -271,6 +298,238 @@ describe("ideas server actions", () => {
 
     it("rejects an invalid UUID id", async () => {
       const result = await setIdeaStatus("not-a-uuid", "completed");
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+  });
+
+  describe("rateIdea", () => {
+    function seed(rating: number | null = null): string {
+      const id = SAMPLE_UUID;
+      store.push({
+        id,
+        user_id: TEST_USER_ID,
+        title: "Existing",
+        rating,
+      });
+      return id;
+    }
+
+    it("sets rating when given a value 1-5", async () => {
+      const id = seed();
+      const result = await rateIdea(id, 4);
+      expect(result.ok).toBe(true);
+      expect(store[0].rating).toBe(4);
+    });
+
+    it("clears rating (stores null) when stars is 0", async () => {
+      const id = seed(3);
+      const result = await rateIdea(id, 0);
+      expect(result.ok).toBe(true);
+      expect(store[0].rating).toBeNull();
+    });
+
+    it("rejects rating > 5", async () => {
+      const id = seed();
+      const result = await rateIdea(id, 6);
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("rejects negative rating", async () => {
+      const id = seed();
+      const result = await rateIdea(id, -1);
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("rejects an invalid UUID id", async () => {
+      const result = await rateIdea("not-a-uuid", 3);
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("does not update a row owned by another user", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other's idea",
+        rating: 1,
+      });
+      const result = await rateIdea(SAMPLE_UUID, 5);
+      expect(result.ok).toBe(false);
+      expect(store[0].rating).toBe(1);
+    });
+  });
+
+  describe("toggleHideIdea", () => {
+    function seed(hidden: boolean | null = null): string {
+      const id = SAMPLE_UUID;
+      store.push({
+        id,
+        user_id: TEST_USER_ID,
+        title: "Existing",
+        hidden,
+      });
+      return id;
+    }
+
+    it("flips hidden from false to true", async () => {
+      const id = seed(false);
+      const result = await toggleHideIdea(id);
+      expect(result.ok).toBe(true);
+      expect(store[0].hidden).toBe(true);
+    });
+
+    it("flips hidden from true to false", async () => {
+      const id = seed(true);
+      const result = await toggleHideIdea(id);
+      expect(result.ok).toBe(true);
+      expect(store[0].hidden).toBe(false);
+    });
+
+    it("treats null hidden as false (sets to true)", async () => {
+      const id = seed(null);
+      const result = await toggleHideIdea(id);
+      expect(result.ok).toBe(true);
+      expect(store[0].hidden).toBe(true);
+    });
+
+    it("rejects invalid UUID", async () => {
+      const result = await toggleHideIdea("not-a-uuid");
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("returns not-found when idea belongs to another user", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other's idea",
+        hidden: false,
+      });
+      const result = await toggleHideIdea(SAMPLE_UUID);
+      expect(result.ok).toBe(false);
+      expect(store[0].hidden).toBe(false);
+    });
+  });
+
+  describe("snoozeIdea", () => {
+    function seed(snoozedUntil: string | null = null): string {
+      const id = SAMPLE_UUID;
+      store.push({
+        id,
+        user_id: TEST_USER_ID,
+        title: "Existing",
+        snoozedUntil,
+      });
+      return id;
+    }
+
+    it("sets snoozedUntil for '1d' duration", async () => {
+      const id = seed();
+      const before = Date.now();
+      const result = await snoozeIdea(id, "1d");
+      expect(result.ok).toBe(true);
+      const until = new Date(store[0].snoozedUntil as string).getTime();
+      expect(until).toBeGreaterThanOrEqual(before + 86_400_000 - 100);
+      expect(until).toBeLessThanOrEqual(Date.now() + 86_400_000 + 100);
+    });
+
+    it("clears snoozedUntil when duration is null", async () => {
+      const id = seed("2099-01-01T00:00:00.000Z");
+      const result = await snoozeIdea(id, null);
+      expect(result.ok).toBe(true);
+      expect(store[0].snoozedUntil).toBeNull();
+    });
+
+    it("rejects unknown duration code", async () => {
+      const id = seed();
+      const result = await snoozeIdea(
+        id,
+        // @ts-expect-error — invalid enum
+        "foo",
+      );
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("rejects invalid UUID", async () => {
+      const result = await snoozeIdea("not-a-uuid", "1d");
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+  });
+
+  describe("archiveIdea", () => {
+    function seed(extra: Partial<Row> = {}): string {
+      const id = SAMPLE_UUID;
+      store.push({
+        id,
+        user_id: TEST_USER_ID,
+        title: "Existing",
+        status: "in-progress",
+        completedAt: null,
+        ...extra,
+      });
+      return id;
+    }
+
+    it("sets status to 'archived'", async () => {
+      const id = seed();
+      const result = await archiveIdea(id);
+      expect(result.ok).toBe(true);
+      expect(store[0].status).toBe("archived");
+    });
+
+    it("does not touch completedAt", async () => {
+      const id = seed({
+        status: "completed",
+        completedAt: "2026-01-01T00:00:00.000Z",
+      });
+      const result = await archiveIdea(id);
+      expect(result.ok).toBe(true);
+      expect(store[0].status).toBe("archived");
+      expect(store[0].completedAt).toBe("2026-01-01T00:00:00.000Z");
+    });
+
+    it("rejects invalid UUID", async () => {
+      const result = await archiveIdea("not-a-uuid");
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("does not archive cross-user rows", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other",
+        status: "new",
+      });
+      const result = await archiveIdea(SAMPLE_UUID);
+      expect(result.ok).toBe(false);
+      expect(store[0].status).toBe("new");
+    });
+  });
+
+  describe("deleteIdea", () => {
+    it("deletes the row scoped by id and user_id", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: TEST_USER_ID,
+        title: "Mine",
+      });
+      const result = await deleteIdea(SAMPLE_UUID);
+      expect(result).toEqual({ ok: true });
+      expect(store).toHaveLength(0);
+    });
+
+    it("does not delete rows owned by another user", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other",
+      });
+      const result = await deleteIdea(SAMPLE_UUID);
+      // mock returns ok because no row matched scope; but the row remains
+      expect(result.ok).toBe(true);
+      expect(store).toHaveLength(1);
+    });
+
+    it("rejects invalid UUID", async () => {
+      const result = await deleteIdea("not-a-uuid");
       expect(result).toEqual({ ok: false, error: "invalid input" });
     });
   });

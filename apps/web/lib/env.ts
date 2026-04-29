@@ -31,6 +31,10 @@ export const envSchema = z.object({
   STRIPE_PRICE_ID_ENTERPRISE: optional,
 
   CRON_SECRET: optional,
+
+  // Anthropic API key for the ideas AI planning action.
+  // Optional because local dev / unset deployments fall back gracefully.
+  ANTHROPIC_API_KEY: optional,
 });
 
 export type Env = z.infer<typeof envSchema>;

@@ -12,6 +12,13 @@ type ActionResult =
   | { ok: true; idea: Idea }
   | { ok: false; error: string };
 
+const SNOOZE_DURATION_MS: Record<string, number> = {
+  "1d": 86_400_000,
+  "1w": 604_800_000,
+  "2w": 1_209_600_000,
+  "1mo": 2_592_000_000,
+};
+
 const TitleSchema = z.string().trim().min(1).max(200);
 const DescriptionSchema = z.string().max(5000).optional();
 const CategorySchema = z.string().max(80).optional();
@@ -58,6 +65,23 @@ const SetStatusSchema = z
   .object({
     id: IdSchema,
     status: StatusSchema,
+  })
+  .strict();
+
+const RateIdeaSchema = z
+  .object({
+    id: IdSchema,
+    stars: z.number().int().min(0).max(5),
+  })
+  .strict();
+
+const SnoozeDurationSchema = z
+  .union([z.enum(["1d", "1w", "2w", "1mo"]), z.null()]);
+
+const SnoozeIdeaSchema = z
+  .object({
+    id: IdSchema,
+    duration: SnoozeDurationSchema,
   })
   .strict();
 
@@ -218,13 +242,21 @@ export async function setIdeaStatus(
         return { ok: false, error: "invalid input" };
       }
 
-      const completedAt =
-        parsed.data.status === "completed" ? new Date().toISOString() : null;
-
       const supabase = await createClient();
+      const update: Record<string, unknown> = { status: parsed.data.status };
+      if (parsed.data.status === "completed") {
+        update.completedAt = new Date().toISOString();
+      } else if (parsed.data.status !== "archived") {
+        // Transitioning to a non-archived, non-completed status clears the
+        // completion timestamp. Archiving preserves it so the history stays
+        // intact regardless of whether the user archives via the row menu
+        // (archiveIdea) or the status dropdown (this action).
+        update.completedAt = null;
+      }
+
       const { data: row, error } = await supabase
         .from("ideas")
-        .update({ status: parsed.data.status, completedAt })
+        .update(update)
         .eq("id", parsed.data.id)
         .eq("user_id", userId)
         .select("*")
@@ -244,6 +276,248 @@ export async function setIdeaStatus(
         userId,
       });
       return { ok: true, idea: row as unknown as Idea };
+    },
+  );
+}
+
+export async function rateIdea(
+  id: string,
+  stars: number,
+): Promise<ActionResult> {
+  return withSpan(
+    "ideas.rateIdea",
+    { "app.slug": "ideas", "idea.id": id },
+    async () => {
+      const { user } = await requireAccess("ideas");
+      const userId = user.id;
+
+      const parsed = RateIdeaSchema.safeParse({ id, stars });
+      if (!parsed.success) {
+        log.warn("ideas.rateIdea invalid input", {
+          action: "rateIdea",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const ratingValue = parsed.data.stars === 0 ? null : parsed.data.stars;
+
+      const supabase = await createClient();
+      const { data: row, error } = await supabase
+        .from("ideas")
+        .update({ rating: ratingValue })
+        .eq("id", parsed.data.id)
+        .eq("user_id", userId)
+        .select("*")
+        .single();
+
+      if (error) {
+        log.error("ideas.rateIdea db error", {
+          action: "rateIdea",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "failed to rate idea" };
+      }
+
+      log.debug("ideas.rateIdea ok", { action: "rateIdea", userId });
+      return { ok: true, idea: row as unknown as Idea };
+    },
+  );
+}
+
+export async function toggleHideIdea(id: string): Promise<ActionResult> {
+  return withSpan(
+    "ideas.toggleHideIdea",
+    { "app.slug": "ideas", "idea.id": id },
+    async () => {
+      const { user } = await requireAccess("ideas");
+      const userId = user.id;
+
+      const parsedId = IdSchema.safeParse(id);
+      if (!parsedId.success) {
+        log.warn("ideas.toggleHideIdea invalid input", {
+          action: "toggleHideIdea",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const supabase = await createClient();
+      const { data: existing, error: fetchError } = await supabase
+        .from("ideas")
+        .select("hidden")
+        .eq("id", parsedId.data)
+        .eq("user_id", userId)
+        .single();
+
+      if (fetchError || !existing) {
+        log.error("ideas.toggleHideIdea fetch error", {
+          action: "toggleHideIdea",
+          userId,
+          err: fetchError,
+        });
+        return { ok: false, error: "idea not found" };
+      }
+
+      const current = (existing as { hidden: boolean | null }).hidden ?? false;
+      const next = !current;
+
+      const { data: row, error } = await supabase
+        .from("ideas")
+        .update({ hidden: next })
+        .eq("id", parsedId.data)
+        .eq("user_id", userId)
+        .select("*")
+        .single();
+
+      if (error) {
+        log.error("ideas.toggleHideIdea db error", {
+          action: "toggleHideIdea",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "failed to toggle hidden" };
+      }
+
+      log.debug("ideas.toggleHideIdea ok", {
+        action: "toggleHideIdea",
+        userId,
+      });
+      return { ok: true, idea: row as unknown as Idea };
+    },
+  );
+}
+
+export async function snoozeIdea(
+  id: string,
+  duration: "1d" | "1w" | "2w" | "1mo" | null,
+): Promise<ActionResult> {
+  return withSpan(
+    "ideas.snoozeIdea",
+    { "app.slug": "ideas", "idea.id": id },
+    async () => {
+      const { user } = await requireAccess("ideas");
+      const userId = user.id;
+
+      const parsed = SnoozeIdeaSchema.safeParse({ id, duration });
+      if (!parsed.success) {
+        log.warn("ideas.snoozeIdea invalid input", {
+          action: "snoozeIdea",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const snoozedUntil =
+        parsed.data.duration === null
+          ? null
+          : new Date(
+              Date.now() + SNOOZE_DURATION_MS[parsed.data.duration],
+            ).toISOString();
+
+      const supabase = await createClient();
+      const { data: row, error } = await supabase
+        .from("ideas")
+        .update({ snoozedUntil })
+        .eq("id", parsed.data.id)
+        .eq("user_id", userId)
+        .select("*")
+        .single();
+
+      if (error) {
+        log.error("ideas.snoozeIdea db error", {
+          action: "snoozeIdea",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "failed to snooze idea" };
+      }
+
+      log.debug("ideas.snoozeIdea ok", { action: "snoozeIdea", userId });
+      return { ok: true, idea: row as unknown as Idea };
+    },
+  );
+}
+
+export async function archiveIdea(id: string): Promise<ActionResult> {
+  return withSpan(
+    "ideas.archiveIdea",
+    { "app.slug": "ideas", "idea.id": id },
+    async () => {
+      const { user } = await requireAccess("ideas");
+      const userId = user.id;
+
+      const parsedId = IdSchema.safeParse(id);
+      if (!parsedId.success) {
+        log.warn("ideas.archiveIdea invalid input", {
+          action: "archiveIdea",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const supabase = await createClient();
+      const { data: row, error } = await supabase
+        .from("ideas")
+        .update({ status: "archived" })
+        .eq("id", parsedId.data)
+        .eq("user_id", userId)
+        .select("*")
+        .single();
+
+      if (error) {
+        log.error("ideas.archiveIdea db error", {
+          action: "archiveIdea",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "failed to archive idea" };
+      }
+
+      log.debug("ideas.archiveIdea ok", { action: "archiveIdea", userId });
+      return { ok: true, idea: row as unknown as Idea };
+    },
+  );
+}
+
+export type DeleteResult = { ok: true } | { ok: false; error: string };
+
+export async function deleteIdea(id: string): Promise<DeleteResult> {
+  return withSpan(
+    "ideas.deleteIdea",
+    { "app.slug": "ideas", "idea.id": id },
+    async () => {
+      const { user } = await requireAccess("ideas");
+      const userId = user.id;
+
+      const parsedId = IdSchema.safeParse(id);
+      if (!parsedId.success) {
+        log.warn("ideas.deleteIdea invalid input", {
+          action: "deleteIdea",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const supabase = await createClient();
+      const { error } = await supabase
+        .from("ideas")
+        .delete()
+        .eq("id", parsedId.data)
+        .eq("user_id", userId);
+
+      if (error) {
+        log.error("ideas.deleteIdea db error", {
+          action: "deleteIdea",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "failed to delete idea" };
+      }
+
+      log.debug("ideas.deleteIdea ok", { action: "deleteIdea", userId });
+      return { ok: true };
     },
   );
 }
