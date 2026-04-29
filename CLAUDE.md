@@ -3,7 +3,7 @@
 
 ## Overview
 
-LR Apps is a single Next.js 16 deployment at `apps/web/` that hosts 27+ micro-applications behind subdomain routing. The host header (or the `?app=<slug>` query param in dev) selects an `AppConfig` from `apps/web/lib/app-registry.ts`, which drives the rewrite path, auth gating, billing tier, and feature flags.
+LR Apps is a single Next.js 16 deployment at `apps/web/` that hosts 28+ micro-applications behind subdomain routing. The host header (or the `?app=<slug>` query param in dev) selects an `AppConfig` from `apps/web/lib/app-registry.ts`, which drives the rewrite path, auth gating, billing tier, and feature flags.
 
 **Routing pattern.** Apps are served at `<slug>.apps.lastrev.com` in production. The local dev mirror is `<slug>.apps.lastrev.localhost:3000` (configured in `/etc/hosts`). The auth hub lives at `auth.apps.lastrev.com` (production) and `auth.apps.lastrev.localhost:3000` (local).
 
