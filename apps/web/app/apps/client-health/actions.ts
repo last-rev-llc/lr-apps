@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { createClient as createSupabase } from "@repo/db/server";
 import { log } from "@repo/logger";
@@ -9,11 +10,22 @@ import type {
   ClientRow,
   ClientSiteRow,
   ContractStatus,
+  Database,
   SiteMetadataRow,
   StatusPulseSiteRow,
 } from "@repo/db/types";
 import { computeHealthScore } from "./lib/score";
 import type { ActionResult, ClientHealthPayload } from "./lib/types";
+
+// @repo/db/server returns a SupabaseClient typed by @supabase/ssr's older
+// 3-param signature, which collapses our Database schema to `never` for
+// .insert/.update payloads. Cast through a fresh `SupabaseClient<Database>`
+// (5-param signature in @supabase/supabase-js) so writes type-check
+// against our declared Tables.
+async function db(): Promise<SupabaseClient<Database>> {
+  const client = await createSupabase();
+  return client as unknown as SupabaseClient<Database>;
+}
 
 const REVALIDATE = "/apps/client-health";
 const UNIQUE_VIOLATION = "23505";
@@ -57,10 +69,12 @@ const TicketCountSchema = z.object({
 
 const UuidSchema = z.string().uuid();
 
-export type ClientInput = z.infer<typeof ClientInputSchema>;
-export type SiteInput = z.infer<typeof SiteInputSchema>;
-export type SiteUpdate = z.infer<typeof SiteUpdateSchema>;
-export type TicketCountInput = z.infer<typeof TicketCountSchema>;
+// Use z.input for action signatures so callers don't have to fill in
+// fields that have schema-level defaults (e.g. `status`, `isPrimary`).
+export type ClientInput = z.input<typeof ClientInputSchema>;
+export type SiteInput = z.input<typeof SiteInputSchema>;
+export type SiteUpdate = z.input<typeof SiteUpdateSchema>;
+export type TicketCountInput = z.input<typeof TicketCountSchema>;
 
 function flatten(err: z.ZodError): string {
   return err.issues.map((i) => i.message).join("; ");
@@ -77,7 +91,7 @@ export async function createClient(
       return { ok: false, error: flatten(parsed.error) };
     }
 
-    const supabase = await createSupabase();
+    const supabase = await db();
     const { data, error } = await supabase
       .from("clients")
       .insert(parsed.data)
@@ -104,7 +118,7 @@ export async function updateClient(
     const parsed = ClientInputSchema.safeParse(input);
     if (!parsed.success) return { ok: false, error: flatten(parsed.error) };
 
-    const supabase = await createSupabase();
+    const supabase = await db();
     const { data, error } = await supabase
       .from("clients")
       .update(parsed.data)
@@ -127,7 +141,7 @@ export async function deleteClient(id: string): Promise<ActionResult<null>> {
     const parsed = UuidSchema.safeParse(id);
     if (!parsed.success) return { ok: false, error: "Invalid client id" };
 
-    const supabase = await createSupabase();
+    const supabase = await db();
     const { error } = await supabase
       .from("clients")
       .delete()
@@ -152,7 +166,7 @@ export async function addClientSite(
     const parsed = SiteInputSchema.safeParse(input);
     if (!parsed.success) return { ok: false, error: flatten(parsed.error) };
 
-    const supabase = await createSupabase();
+    const supabase = await db();
     const { data, error } = await supabase
       .from("client_sites")
       .insert(parsed.data)
@@ -192,7 +206,7 @@ export async function updateClientSite(
       const parsed = SiteUpdateSchema.safeParse(input);
       if (!parsed.success) return { ok: false, error: flatten(parsed.error) };
 
-      const supabase = await createSupabase();
+      const supabase = await db();
       const { data, error } = await supabase
         .from("client_sites")
         .update(parsed.data)
@@ -227,7 +241,7 @@ export async function deleteClientSite(
       const parsed = UuidSchema.safeParse(id);
       if (!parsed.success) return { ok: false, error: "Invalid site id" };
 
-      const supabase = await createSupabase();
+      const supabase = await db();
       const { error } = await supabase
         .from("client_sites")
         .delete()
@@ -254,7 +268,7 @@ export async function setOpenTicketCount(
       const parsed = TicketCountSchema.safeParse(input);
       if (!parsed.success) return { ok: false, error: flatten(parsed.error) };
 
-      const supabase = await createSupabase();
+      const supabase = await db();
       const { data, error } = await supabase
         .from("client_sites")
         .update({
@@ -283,7 +297,7 @@ export async function setOpenTicketCount(
 
 export async function listClientHealth(): Promise<ClientHealthPayload[]> {
   return withSpan("clientHealth.listClientHealth", {}, async () => {
-    const supabase = await createSupabase();
+    const supabase = await db();
 
     // RLS scopes these reads to auth.uid().
     const { data: clients, error: clientsErr } = await supabase
@@ -315,7 +329,7 @@ export async function getClientHealth(
       const parsed = UuidSchema.safeParse(clientId);
       if (!parsed.success) return null;
 
-      const supabase = await createSupabase();
+      const supabase = await db();
       const { data: client, error } = await supabase
         .from("clients")
         .select("*")
@@ -341,7 +355,7 @@ export async function getClientHealth(
 }
 
 async function assemblePayloads(
-  supabase: Awaited<ReturnType<typeof createSupabase>>,
+  supabase: SupabaseClient<Database>,
   clientList: ClientRow[],
 ): Promise<ClientHealthPayload[]> {
   const clientIds = clientList.map((c) => c.id);
