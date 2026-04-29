@@ -1,7 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ErrorBoundary } from "../components/error-boundary";
+
+const captureException = vi.fn();
+vi.mock("@sentry/nextjs", () => ({
+  captureException: (...args: unknown[]) => captureException(...args),
+}));
 
 function ThrowingComponent({ shouldThrow }: { shouldThrow: boolean }) {
   if (shouldThrow) throw new Error("Test error");
@@ -11,6 +16,7 @@ function ThrowingComponent({ shouldThrow }: { shouldThrow: boolean }) {
 describe("ErrorBoundary", () => {
   // Suppress React's error boundary console.error noise in tests
   beforeEach(() => {
+    captureException.mockReset();
     vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
@@ -69,6 +75,32 @@ describe("ErrorBoundary", () => {
     expect(onError).toHaveBeenCalledOnce();
     expect(onError.mock.calls[0][0]).toBeInstanceOf(Error);
     expect(onError.mock.calls[0][0].message).toBe("Test error");
+  });
+
+  it("forwards caught errors to Sentry by default", async () => {
+    render(
+      <ErrorBoundary>
+        <ThrowingComponent shouldThrow={true} />
+      </ErrorBoundary>,
+    );
+    await waitFor(() => expect(captureException).toHaveBeenCalledOnce());
+    const [err, hint] = captureException.mock.calls[0];
+    expect(err).toBeInstanceOf(Error);
+    expect((err as Error).message).toBe("Test error");
+    expect(hint).toMatchObject({
+      contexts: { react: { componentStack: expect.any(String) } },
+    });
+  });
+
+  it("does not forward to Sentry when reportToSentry={false}", async () => {
+    render(
+      <ErrorBoundary reportToSentry={false}>
+        <ThrowingComponent shouldThrow={true} />
+      </ErrorBoundary>,
+    );
+    // Allow any pending microtasks to settle
+    await Promise.resolve();
+    expect(captureException).not.toHaveBeenCalled();
   });
 
   it("resets error state when Try again is clicked", async () => {

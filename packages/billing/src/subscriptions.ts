@@ -1,5 +1,6 @@
 import type Stripe from "stripe";
 import { createServiceRoleClient } from "@repo/db/service-role";
+import { cacheDel, cacheKeys } from "@repo/db/cache";
 import type { Subscription, Tier, SubscriptionStatus } from "./types";
 
 function mapStatus(status: Stripe.Subscription.Status): SubscriptionStatus {
@@ -63,6 +64,8 @@ export async function upsertSubscription(
     },
     { onConflict: "user_id" },
   );
+
+  await cacheDel([cacheKeys.subscription(existing.user_id)]);
 }
 
 export async function getSubscription(

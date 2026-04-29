@@ -1,0 +1,26 @@
+{
+  "name": "@repo/logger",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@sentry/nextjs": "^8 || ^9 || ^10"
+  },
+  "peerDependenciesMeta": {
+    "@sentry/nextjs": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "typescript": "^5",
+    "vitest": "^3"
+  }
+}

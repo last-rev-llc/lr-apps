@@ -1,5 +1,6 @@
 import { requireAccess } from "@repo/auth/server";
 import { isPublicRoute } from "./app-registry";
+import { withSpan } from "./otel";
 
 /**
  * Layout-level gate: all apps are gated by default. If the app declares
@@ -11,5 +12,7 @@ export async function requireAppLayoutAccess(
   pathname?: string,
 ) {
   if (pathname && isPublicRoute(appSlug, pathname)) return;
-  await requireAccess(appSlug);
+  await withSpan("auth.permission_lookup", { "app.slug": appSlug }, () =>
+    requireAccess(appSlug),
+  );
 }

@@ -22,7 +22,11 @@ const mockMaybeSingle = vi.fn();
 const mockEq = vi.fn(() => ({ maybeSingle: mockMaybeSingle }));
 const mockSelect = vi.fn(() => ({ eq: mockEq }));
 const mockInsert = vi.fn();
+const mockAuditInsert = vi.fn().mockResolvedValue({ error: null });
 const mockUpdate = vi.fn(() => ({ eq: vi.fn() }));
+const mockSubMaybeSingle = vi.fn().mockResolvedValue({ data: null, error: null });
+const mockSubEq = vi.fn(() => ({ maybeSingle: mockSubMaybeSingle }));
+const mockSubSelect = vi.fn(() => ({ eq: mockSubEq }));
 const mockFrom = vi.fn((table: string) => {
   if (table === "processed_webhook_events") {
     return {
@@ -30,7 +34,10 @@ const mockFrom = vi.fn((table: string) => {
       insert: mockInsert,
     };
   }
-  return { update: mockUpdate };
+  if (table === "audit_log") {
+    return { insert: mockAuditInsert };
+  }
+  return { update: mockUpdate, select: mockSubSelect };
 });
 
 vi.mock("@repo/db/service-role", () => ({
@@ -174,6 +181,33 @@ describe("handleStripeWebhook", () => {
     await handleStripeWebhook("body", "sig");
 
     expect(mockInsert).toHaveBeenCalledWith({ event_id: "evt_new" });
+  });
+
+  it("writes an audit_log entry for subscription events", async () => {
+    const subscription = {
+      id: "sub_audit",
+      customer: "cus_audit",
+      status: "active",
+    };
+    mockConstructEvent.mockReturnValue({
+      id: "evt_audit",
+      type: "customer.subscription.created",
+      data: { object: subscription },
+    });
+
+    await handleStripeWebhook("body", "sig");
+
+    expect(mockAuditInsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        action: "subscription.created",
+        resource: "sub_audit",
+        metadata: expect.objectContaining({
+          eventId: "evt_audit",
+          customerId: "cus_audit",
+          status: "active",
+        }),
+      }),
+    );
   });
 
   it("does not throw when insert into processed_webhook_events fails (fail open)", async () => {

@@ -11,6 +11,7 @@ vi.mock("@repo/auth/auth0-factory", () => ({
 
 import { proxy } from "../proxy";
 import { getAuth0ClientForHost } from "@repo/auth/auth0-factory";
+import { _resetRateLimitStore } from "../lib/rate-limit";
 
 const mockedGetAuth0 = vi.mocked(getAuth0ClientForHost);
 
@@ -29,6 +30,7 @@ describe("proxy middleware integration", () => {
     middlewareMock.mockReset();
     middlewareMock.mockImplementation(async () => freshAuthResponse());
     mockedGetAuth0.mockClear();
+    _resetRateLimitStore();
   });
 
   afterEach(() => {
@@ -132,6 +134,28 @@ describe("proxy middleware integration", () => {
       expect(res.headers.get("x-auth-marker")).toBe("from-auth0");
       expect(res.headers.get("x-middleware-rewrite")).toBeFalsy();
     });
+
+    it("rate-limits /auth/* to 10 requests per IP per minute", async () => {
+      for (let i = 0; i < 10; i++) {
+        const req = makeRequest(
+          "https://auth.lastrev.com/auth/callback",
+          "auth.lastrev.com",
+        );
+        req.headers.set("x-forwarded-for", "7.7.7.7");
+        const res = await proxy(req);
+        expect(res.status).toBeLessThan(400);
+        expect(res.headers.get("X-RateLimit-Limit")).toBe("10");
+      }
+      const req = makeRequest(
+        "https://auth.lastrev.com/auth/callback",
+        "auth.lastrev.com",
+      );
+      req.headers.set("x-forwarded-for", "7.7.7.7");
+      const blocked = await proxy(req);
+      expect(blocked.status).toBe(429);
+      expect(blocked.headers.get("X-RateLimit-Remaining")).toBe("0");
+      expect(blocked.headers.get("Retry-After")).toBeTruthy();
+    });
   });
 
   describe("localhost dev mode with ?app=<slug>", () => {
@@ -204,6 +228,51 @@ describe("proxy middleware integration", () => {
       const res = await proxy(req);
       expect(res.headers.get("x-middleware-rewrite")).toBeFalsy();
       expect(res.headers.get("x-middleware-next")).toBe("1");
+    });
+  });
+
+  describe("CSRF protection", () => {
+    it("returns 403 for POST /api/checkout/session without a csrf token", async () => {
+      const req = new NextRequest(
+        "https://apps.lastrev.com/api/checkout/session",
+        { method: "POST", headers: { host: "apps.lastrev.com" } },
+      );
+      const res = await proxy(req);
+      expect(res.status).toBe(403);
+      const body = (await res.json()) as { error: string };
+      expect(body.error).toBe("csrf_invalid");
+    });
+
+    it("skips CSRF check for the stripe webhook", async () => {
+      const req = new NextRequest(
+        "https://apps.lastrev.com/api/webhooks/stripe",
+        { method: "POST", headers: { host: "apps.lastrev.com" } },
+      );
+      const res = await proxy(req);
+      expect(res.status).not.toBe(403);
+    });
+
+    it("sets a csrf_token cookie on safe GET responses", async () => {
+      const req = makeRequest(
+        "https://apps.lastrev.com/my-apps",
+        "apps.lastrev.com",
+      );
+      const res = await proxy(req);
+      const setCookie = res.headers.get("set-cookie") ?? "";
+      expect(setCookie).toContain("csrf_token=");
+    });
+
+    it("does not overwrite an existing csrf_token cookie", async () => {
+      const req = new NextRequest("https://apps.lastrev.com/my-apps", {
+        headers: {
+          host: "apps.lastrev.com",
+          cookie: "csrf_token=already-here",
+        },
+      });
+      const res = await proxy(req);
+      const setCookie = res.headers.get("set-cookie") ?? "";
+      // The auth mock always sets appSession, but we should not see a new csrf_token.
+      expect(setCookie).not.toMatch(/csrf_token=(?!already-here)/);
     });
   });
 

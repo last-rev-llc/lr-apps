@@ -85,12 +85,43 @@ const apps: AppConfig[] = [
 const subdomainIndex = new Map(apps.map((app) => [app.subdomain, app]));
 const slugIndex = new Map(apps.map((app) => [app.slug, app]));
 
+// The registry is currently an in-process Map, so caching adds no
+// latency win. We still cache for hot-path consistency and to prep for
+// a future DB-backed registry — keys include CACHE_VERSION so each
+// deploy invalidates them automatically.
+import { cacheGet, cacheSet, cacheKeys } from "@repo/db/cache";
+
 export function getAppBySubdomain(subdomain: string): AppConfig | undefined {
-  return subdomainIndex.get(subdomain);
+  const hit = subdomainIndex.get(subdomain);
+  if (hit) {
+    void cacheSet(cacheKeys.appBySubdomain(subdomain), hit);
+  }
+  return hit;
 }
 
 export function getAppBySlug(slug: string): AppConfig | undefined {
-  return slugIndex.get(slug);
+  const hit = slugIndex.get(slug);
+  if (hit) {
+    void cacheSet(cacheKeys.appBySlug(slug), hit);
+  }
+  return hit;
+}
+
+/** Async variant that reads the cache first, falls back to the Map. */
+export async function getAppBySubdomainCached(
+  subdomain: string,
+): Promise<AppConfig | undefined> {
+  const cached = await cacheGet<AppConfig>(cacheKeys.appBySubdomain(subdomain));
+  if (cached) return cached;
+  return getAppBySubdomain(subdomain);
+}
+
+export async function getAppBySlugCached(
+  slug: string,
+): Promise<AppConfig | undefined> {
+  const cached = await cacheGet<AppConfig>(cacheKeys.appBySlug(slug));
+  if (cached) return cached;
+  return getAppBySlug(slug);
 }
 
 export function getAllApps(): AppConfig[] {

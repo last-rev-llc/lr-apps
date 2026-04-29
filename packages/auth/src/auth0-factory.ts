@@ -1,5 +1,8 @@
 import { Auth0Client } from "@auth0/nextjs-auth0/server";
 import { NextResponse } from "next/server";
+import { log } from "@repo/logger";
+import { logAuditEvent } from "@repo/db/audit";
+import { createServiceRoleClient } from "@repo/db/service-role";
 import { maybeSelfEnrollAfterLogin, appSlugFromReturnTo } from "./self-enroll";
 
 const ALLOWED_RETURN_HOSTS = [
@@ -103,6 +106,10 @@ export function getAuth0ClientForHost(host: string): Auth0Client {
         "http://localhost:3000";
 
       if (error) {
+        await logAuditEvent(createServiceRoleClient(), {
+          action: "auth.login.failed",
+          metadata: { reason: error.message, returnTo: ctx.returnTo ?? null },
+        });
         const u = new URL("/login", appBaseUrl);
         u.searchParams.set("error", error.message);
         // Preserve the redirect param so the user can retry without losing their destination
@@ -115,6 +122,10 @@ export function getAuth0ClientForHost(host: string): Auth0Client {
 
       // Handle expired/invalid session: redirect to login with session_expired error
       if (!session?.user?.sub) {
+        await logAuditEvent(createServiceRoleClient(), {
+          action: "auth.login.failed",
+          metadata: { reason: "session_expired", returnTo: ctx.returnTo ?? null },
+        });
         const u = new URL("/login", appBaseUrl);
         u.searchParams.set("error", "session_expired");
         const slug = appSlugFromReturnTo(ctx.returnTo);
@@ -127,16 +138,24 @@ export function getAuth0ClientForHost(host: string): Auth0Client {
       try {
         await maybeSelfEnrollAfterLogin(session.user.sub, ctx.returnTo);
       } catch (e) {
-        console.error("[auth] self-enroll skipped:", e);
+        log.error("auth self-enroll skipped", {
+          err: e,
+          userId: session.user.sub,
+          returnTo: ctx.returnTo,
+        });
       }
+
+      await logAuditEvent(createServiceRoleClient(), {
+        userId: session.user.sub,
+        action: "auth.login.succeeded",
+        metadata: { returnTo: ctx.returnTo ?? null },
+      });
 
       // Validate returnTo to prevent open-redirect
       const rawTarget = ctx.returnTo || "/my-apps";
       const target = isSafeReturnTo(rawTarget) ? rawTarget : "/my-apps";
       if (target !== rawTarget) {
-        console.warn(
-          `[auth] rejected unsafe returnTo "${rawTarget}", redirecting to /my-apps`,
-        );
+        log.warn("auth rejected unsafe returnTo", { rawTarget });
       }
       return NextResponse.redirect(new URL(target, appBaseUrl));
     },

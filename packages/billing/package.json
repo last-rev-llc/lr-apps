@@ -16,7 +16,9 @@
     "./types": "./src/types.ts"
   },
   "dependencies": {
+    "@opentelemetry/api": "^1.9.1",
     "@repo/db": "workspace:*",
+    "@repo/logger": "workspace:*",
     "stripe": "^17"
   },
   "devDependencies": {

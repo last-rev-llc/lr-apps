@@ -10,15 +10,23 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "analyze": "ANALYZE=true next build --webpack"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.215.0",
+    "@opentelemetry/resources": "^2.7.0",
+    "@opentelemetry/sdk-node": "^0.215.0",
+    "@opentelemetry/semantic-conventions": "^1.40.0",
     "@repo/auth": "workspace:*",
     "@repo/billing": "workspace:*",
     "@repo/db": "workspace:*",
+    "@repo/logger": "workspace:*",
     "@repo/theme": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@sentry/nextjs": "^10",
     "geist": "^1",
     "next": "^16",
     "react": "^19",
@@ -27,6 +35,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16",
     "@playwright/test": "^1",
     "@repo/config": "workspace:*",
     "@repo/test-utils": "workspace:*",

@@ -28,10 +28,29 @@ vi.mock("@repo/billing", () => ({
   }),
 }));
 
-function makeRequest(body: unknown): Request {
+// ── Mock @repo/db for audit logging ───────────────────────────────────────────
+const mockLogAuditEvent = vi.fn().mockResolvedValue(undefined);
+vi.mock("@repo/db/audit", () => ({
+  logAuditEvent: (...args: unknown[]) => mockLogAuditEvent(...args),
+}));
+vi.mock("@repo/db/service-role", () => ({
+  createServiceRoleClient: vi.fn().mockReturnValue({}),
+}));
+
+const CSRF_VALUE = "test-csrf-token";
+
+function makeRequest(
+  body: unknown,
+  options: { csrfCookie?: string | null; csrfHeader?: string | null } = {},
+): Request {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const cookieVal = options.csrfCookie === undefined ? CSRF_VALUE : options.csrfCookie;
+  const headerVal = options.csrfHeader === undefined ? CSRF_VALUE : options.csrfHeader;
+  if (cookieVal !== null) headers["cookie"] = `csrf_token=${cookieVal}`;
+  if (headerVal !== null) headers["x-csrf-token"] = headerVal;
   return new Request("http://localhost/api/checkout/session", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(body),
   });
 }
@@ -53,7 +72,7 @@ describe("POST /api/checkout/session", () => {
     expect(data.error).toBe("Unauthorized");
   });
 
-  it("returns 400 when priceId is missing", async () => {
+  it("returns 400 with invalid_input issues when priceId is missing", async () => {
     mockGetSession.mockResolvedValue({
       user: { sub: "user_1", email: "user@example.com" },
     });
@@ -62,8 +81,27 @@ describe("POST /api/checkout/session", () => {
     const res = await POST(makeRequest({}));
 
     expect(res.status).toBe(400);
-    const data = await res.json() as { error: string };
-    expect(data.error).toBe("Missing priceId");
+    const data = (await res.json()) as {
+      error: string;
+      issues: Array<{ path: unknown; message: string }>;
+    };
+    expect(data.error).toBe("invalid_input");
+    expect(data.issues).toBeInstanceOf(Array);
+    expect(data.issues.length).toBeGreaterThan(0);
+    expect(data.issues[0]?.path).toContain("priceId");
+  });
+
+  it("returns 400 with invalid_input when priceId is empty string", async () => {
+    mockGetSession.mockResolvedValue({
+      user: { sub: "user_1", email: "user@example.com" },
+    });
+    const { POST } = await import("../route");
+
+    const res = await POST(makeRequest({ priceId: "" }));
+
+    expect(res.status).toBe(400);
+    const data = (await res.json()) as { error: string };
+    expect(data.error).toBe("invalid_input");
   });
 
   it("creates checkout session and returns checkoutUrl", async () => {
@@ -72,6 +110,7 @@ describe("POST /api/checkout/session", () => {
     });
     mockGetOrCreateCustomer.mockResolvedValue("cus_abc123");
     mockCheckoutSessionsCreate.mockResolvedValue({
+      id: "cs_test_abc",
       url: "https://checkout.stripe.com/pay/cs_test_abc",
     });
     const { POST } = await import("../route");
@@ -81,6 +120,15 @@ describe("POST /api/checkout/session", () => {
     expect(res.status).toBe(200);
     const data = await res.json() as { checkoutUrl: string };
     expect(data.checkoutUrl).toBe("https://checkout.stripe.com/pay/cs_test_abc");
+    expect(mockLogAuditEvent).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        userId: "user_1",
+        action: "checkout.session.created",
+        resource: "cs_test_abc",
+        metadata: { priceId: "price_pro_monthly" },
+      }),
+    );
   });
 
   it("passes correct customer ID and price to Stripe", async () => {
@@ -120,21 +168,56 @@ describe("POST /api/checkout/session", () => {
     expect(data.error).toBe("Stripe error");
   });
 
-  it("returns 400 when request body is not valid JSON", async () => {
+  it("returns 400 invalid_json when request body is not valid JSON", async () => {
     mockGetSession.mockResolvedValue({
       user: { sub: "user_1", email: "user@example.com" },
     });
     const { POST } = await import("../route");
     const req = new Request("http://localhost/api/checkout/session", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        cookie: `csrf_token=${CSRF_VALUE}`,
+        "x-csrf-token": CSRF_VALUE,
+      },
       body: "not-json",
     });
 
     const res = await POST(req);
 
     expect(res.status).toBe(400);
-    const data = await res.json() as { error: string };
-    expect(data.error).toBe("Invalid request body");
+    const data = (await res.json()) as { error: string };
+    expect(data.error).toBe("invalid_json");
+  });
+
+  it("returns 403 csrf_invalid when the csrf cookie is missing", async () => {
+    mockGetSession.mockResolvedValue({
+      user: { sub: "user_1", email: "user@example.com" },
+    });
+    const { POST } = await import("../route");
+
+    const res = await POST(
+      makeRequest({ priceId: "price_pro_monthly" }, { csrfCookie: null }),
+    );
+
+    expect(res.status).toBe(403);
+    const data = (await res.json()) as { error: string };
+    expect(data.error).toBe("csrf_invalid");
+  });
+
+  it("returns 403 csrf_invalid when header and cookie mismatch", async () => {
+    mockGetSession.mockResolvedValue({
+      user: { sub: "user_1", email: "user@example.com" },
+    });
+    const { POST } = await import("../route");
+
+    const res = await POST(
+      makeRequest(
+        { priceId: "price_pro_monthly" },
+        { csrfHeader: "different-token" },
+      ),
+    );
+
+    expect(res.status).toBe(403);
   });
 });
