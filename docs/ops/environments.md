@@ -12,7 +12,55 @@ three.
 |-------------|----------------|------------------------|--------------------|--------------------|-------------|
 | local       | `local`        | `localhost:3000`       | dev project (shared) | dev tenant         | test        |
 | staging     | `staging`      | Vercel `staging.apps.lastrev.com` (+ all preview URLs) | dedicated staging project | dedicated staging tenant | test        |
-| production  | `production`   | Vercel `apps.lastrev.com` | dedicated production project | production tenant | live        |
+| production  | `production`   | Vercel `apps.lastrev.com` and `*.apps.lastrev.com` (per-app subdomain) | dedicated production project | production tenant | live        |
+
+## DNS and TLS
+
+The platform is reachable on two host shapes during the `*.apps.lastrev.com`
+cutover:
+
+| Host shape                | Purpose                                     | Cert                       |
+|---------------------------|---------------------------------------------|----------------------------|
+| `apps.lastrev.com`        | App catalog apex                            | covered by `*.lastrev.com` (apex) |
+| `*.apps.lastrev.com`      | Per-app subdomain (e.g. `sentiment.apps.lastrev.com`) | dedicated `*.apps.lastrev.com` wildcard cert |
+| `*.lastrev.com` (legacy)  | Per-app subdomain pre-cutover               | existing `*.lastrev.com` wildcard cert |
+| `auth.apps.lastrev.com`   | Auth hub on the apps cluster                | covered by `*.apps.lastrev.com` |
+| `auth.lastrev.com` (legacy) | Auth hub pre-cutover                      | covered by `*.lastrev.com` |
+
+Wildcards do **not** traverse a label, so `*.apps.lastrev.com` requires a
+separate cert from `*.lastrev.com`.
+
+### Provisioning
+
+1. Vercel project (production) → Domains → add `*.apps.lastrev.com`. Vercel
+   will request a Let's Encrypt cert that covers any leftmost label under
+   `apps.lastrev.com`.
+2. Registrar / DNS provider → add a `CNAME` record for `*.apps.lastrev.com`
+   pointing to `cname.vercel-dns.com` (or the A/ALIAS target Vercel
+   recommends in the domain pane).
+3. Wait for the Vercel domain pane to report **VALID** for both DNS and
+   TLS, then verify externally:
+   ```sh
+   curl -I https://anything.apps.lastrev.com
+   ```
+   A 4xx from app routing is fine — we just need a successful TLS
+   handshake and a Vercel-served response.
+4. Confirm the existing `*.lastrev.com` cert still reports **VALID** in the
+   Vercel domain pane (no regression).
+
+### Renewal
+
+Vercel auto-renews Let's Encrypt certs ~30 days before expiry. No manual
+action is required as long as the DNS record continues to resolve to
+Vercel's targets. The Vercel domain pane is the source of truth — alert
+on `Failed` status there.
+
+If the renewal fails:
+
+1. Confirm the wildcard CNAME is still pointing at `cname.vercel-dns.com`.
+2. In the Vercel domain pane, click **Refresh** to retry issuance.
+3. If issuance still fails, follow the Vercel troubleshooting steps and
+   record the incident in `ROTATION_HISTORY.md`.
 
 ## Variable matrix
 
