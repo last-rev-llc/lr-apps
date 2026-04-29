@@ -1,5 +1,6 @@
 import { createServerClient, type SetAllCookies } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "./types";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -12,10 +13,19 @@ function serverSupabaseKey(): string {
   );
 }
 
-export async function createClient() {
+// Explicit return type — `@supabase/ssr@0.6` declares `createServerClient`
+// as `SupabaseClient<Database, SchemaName, Schema>` (3 generics) while
+// `SupabaseClient` actually takes 5 (Database, SchemaNameOrClientOptions,
+// SchemaName, Schema, ClientOptions). The mis-aligned positional generics
+// shift `Schema` into the `SchemaName` slot at the call site, which makes
+// the real `Schema` collapse to `never` and every `from(table).insert(...)`
+// reject its values as assignable to `never`. The cast through `unknown`
+// re-aligns the parameters to the canonical SupabaseClient<Database> shape
+// callers expect; we revisit if @supabase/ssr fixes its declaration.
+export async function createClient(): Promise<SupabaseClient<Database>> {
   const cookieStore = await cookies();
 
-  return createServerClient<Database>(
+  const client = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     serverSupabaseKey(),
     {
@@ -39,4 +49,5 @@ export async function createClient() {
       },
     },
   );
+  return client as unknown as SupabaseClient<Database>;
 }
