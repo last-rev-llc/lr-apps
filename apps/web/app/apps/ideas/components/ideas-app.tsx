@@ -25,6 +25,7 @@ import {
 import { IdeaFormModal } from "./idea-form-modal";
 import { StatusDropdown } from "./status-dropdown";
 import { RowMenu } from "./row-menu";
+import { PlanSection } from "./plan-section";
 import type {
   Idea,
   IdeaCategory,
@@ -687,6 +688,13 @@ function IdeaCard({
             ))}
           </div>
         )}
+
+        {/* AI plan */}
+        <PlanSection
+          plan={idea.plan}
+          planModel={idea.planModel}
+          planGeneratedAt={idea.planGeneratedAt}
+        />
 
         {/* Footer: date + actions */}
         <div className="flex items-center justify-between pt-1 border-t border-white/8">
