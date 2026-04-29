@@ -7,6 +7,7 @@ import {
   getAuth0ClientForHost,
   getHostFromRequestHeaders,
 } from "./auth0-factory";
+import { authHubUrl } from "./cluster-host";
 
 export interface AccessResult {
   user: {
@@ -29,7 +30,10 @@ export async function requireAccess(
     // Distinguish between no session and expired/invalid session
     const errorParam = session ? "&error=session_expired" : "";
     redirect(
-      `/login?redirect=${encodeURIComponent(appSlug)}${errorParam}`,
+      authHubUrl(
+        host,
+        `/login?redirect=${encodeURIComponent(appSlug)}${errorParam}`,
+      ),
     );
   }
 
@@ -47,7 +51,9 @@ export async function requireAccess(
     .single()) as { data: { permission: string } | null };
 
   if (!perm || !hasPermission(perm.permission as Permission, minPermission)) {
-    redirect(`/unauthorized?app=${encodeURIComponent(appSlug)}`);
+    redirect(
+      authHubUrl(host, `/unauthorized?app=${encodeURIComponent(appSlug)}`),
+    );
   }
 
   return {

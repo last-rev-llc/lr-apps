@@ -6,15 +6,17 @@ vi.mock("next/navigation", () => ({
   },
 }));
 
+let mockHost = "localhost:3000";
+
 vi.mock("next/headers", () => ({
   headers: vi.fn().mockResolvedValue({
-    get: (key: string) => (key === "host" ? "localhost:3000" : null),
+    get: (key: string) => (key === "host" ? mockHost : null),
   }),
 }));
 
 vi.mock("../auth0-factory", () => ({
   getAuth0ClientForHost: vi.fn(),
-  getHostFromRequestHeaders: vi.fn(() => "localhost:3000"),
+  getHostFromRequestHeaders: vi.fn(() => mockHost),
 }));
 
 vi.mock("@repo/db/server", () => ({
@@ -31,6 +33,7 @@ const mockCreateClient = vi.mocked(createClient);
 describe("requireAccess edge cases", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockHost = "localhost:3000";
   });
 
   describe("unauthenticated", () => {
@@ -40,6 +43,26 @@ describe("requireAccess edge cases", () => {
 
       await expect(requireAccess("sentiment")).rejects.toThrow(
         /REDIRECT:\/login\?redirect=sentiment/,
+      );
+    });
+
+    it("redirects to the auth-hub absolute URL on an app subdomain (avoids loop)", async () => {
+      mockHost = "generations.apps.lastrev.com";
+      const getSession = vi.fn().mockResolvedValue(null);
+      mockGetAuth0ClientForHost.mockReturnValue({ getSession } as never);
+
+      await expect(requireAccess("generations")).rejects.toThrow(
+        /REDIRECT:https:\/\/auth\.apps\.lastrev\.com\/login\?redirect=generations/,
+      );
+    });
+
+    it("redirects to the legacy auth hub on the legacy cluster", async () => {
+      mockHost = "sentiment.lastrev.com";
+      const getSession = vi.fn().mockResolvedValue(null);
+      mockGetAuth0ClientForHost.mockReturnValue({ getSession } as never);
+
+      await expect(requireAccess("sentiment")).rejects.toThrow(
+        /REDIRECT:https:\/\/auth\.lastrev\.com\/login\?redirect=sentiment/,
       );
     });
 
