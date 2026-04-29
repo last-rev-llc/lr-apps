@@ -109,6 +109,9 @@ import {
   createIdea,
   updateIdea,
   setIdeaStatus,
+  rateIdea,
+  toggleHideIdea,
+  snoozeIdea,
 } from "../actions";
 import { createClient } from "@repo/db/server";
 
@@ -274,4 +277,157 @@ describe("ideas server actions", () => {
       expect(result).toEqual({ ok: false, error: "invalid input" });
     });
   });
+
+  describe("rateIdea", () => {
+    function seed(rating: number | null = null): string {
+      const id = SAMPLE_UUID;
+      store.push({
+        id,
+        user_id: TEST_USER_ID,
+        title: "Existing",
+        rating,
+      });
+      return id;
+    }
+
+    it("sets rating when given a value 1-5", async () => {
+      const id = seed();
+      const result = await rateIdea(id, 4);
+      expect(result.ok).toBe(true);
+      expect(store[0].rating).toBe(4);
+    });
+
+    it("clears rating (stores null) when stars is 0", async () => {
+      const id = seed(3);
+      const result = await rateIdea(id, 0);
+      expect(result.ok).toBe(true);
+      expect(store[0].rating).toBeNull();
+    });
+
+    it("rejects rating > 5", async () => {
+      const id = seed();
+      const result = await rateIdea(id, 6);
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("rejects negative rating", async () => {
+      const id = seed();
+      const result = await rateIdea(id, -1);
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("rejects an invalid UUID id", async () => {
+      const result = await rateIdea("not-a-uuid", 3);
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("does not update a row owned by another user", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other's idea",
+        rating: 1,
+      });
+      const result = await rateIdea(SAMPLE_UUID, 5);
+      expect(result.ok).toBe(false);
+      expect(store[0].rating).toBe(1);
+    });
+  });
+
+  describe("toggleHideIdea", () => {
+    function seed(hidden: boolean | null = null): string {
+      const id = SAMPLE_UUID;
+      store.push({
+        id,
+        user_id: TEST_USER_ID,
+        title: "Existing",
+        hidden,
+      });
+      return id;
+    }
+
+    it("flips hidden from false to true", async () => {
+      const id = seed(false);
+      const result = await toggleHideIdea(id);
+      expect(result.ok).toBe(true);
+      expect(store[0].hidden).toBe(true);
+    });
+
+    it("flips hidden from true to false", async () => {
+      const id = seed(true);
+      const result = await toggleHideIdea(id);
+      expect(result.ok).toBe(true);
+      expect(store[0].hidden).toBe(false);
+    });
+
+    it("treats null hidden as false (sets to true)", async () => {
+      const id = seed(null);
+      const result = await toggleHideIdea(id);
+      expect(result.ok).toBe(true);
+      expect(store[0].hidden).toBe(true);
+    });
+
+    it("rejects invalid UUID", async () => {
+      const result = await toggleHideIdea("not-a-uuid");
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("returns not-found when idea belongs to another user", async () => {
+      store.push({
+        id: SAMPLE_UUID,
+        user_id: OTHER_USER_ID,
+        title: "Other's idea",
+        hidden: false,
+      });
+      const result = await toggleHideIdea(SAMPLE_UUID);
+      expect(result.ok).toBe(false);
+      expect(store[0].hidden).toBe(false);
+    });
+  });
+
+  describe("snoozeIdea", () => {
+    function seed(snoozedUntil: string | null = null): string {
+      const id = SAMPLE_UUID;
+      store.push({
+        id,
+        user_id: TEST_USER_ID,
+        title: "Existing",
+        snoozedUntil,
+      });
+      return id;
+    }
+
+    it("sets snoozedUntil for '1d' duration", async () => {
+      const id = seed();
+      const before = Date.now();
+      const result = await snoozeIdea(id, "1d");
+      expect(result.ok).toBe(true);
+      const until = new Date(store[0].snoozedUntil as string).getTime();
+      expect(until).toBeGreaterThanOrEqual(before + 86_400_000 - 100);
+      expect(until).toBeLessThanOrEqual(Date.now() + 86_400_000 + 100);
+    });
+
+    it("clears snoozedUntil when duration is null", async () => {
+      const id = seed("2099-01-01T00:00:00.000Z");
+      const result = await snoozeIdea(id, null);
+      expect(result.ok).toBe(true);
+      expect(store[0].snoozedUntil).toBeNull();
+    });
+
+    it("rejects unknown duration code", async () => {
+      const id = seed();
+      const result = await snoozeIdea(
+        id,
+        // @ts-expect-error — invalid enum
+        "foo",
+      );
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("rejects invalid UUID", async () => {
+      const result = await snoozeIdea("not-a-uuid", "1d");
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+  });
+
 });

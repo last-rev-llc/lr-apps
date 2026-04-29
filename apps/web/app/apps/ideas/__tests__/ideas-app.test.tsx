@@ -19,14 +19,26 @@ vi.mock("next/link", () => ({
   ),
 }));
 
-vi.mock("@repo/db/client", () => ({
-  createClient: vi.fn(() => ({
-    from: vi.fn(() => ({
-      update: vi.fn(() => ({ eq: vi.fn(() => Promise.resolve({ error: null })) })),
-      upsert: vi.fn(() => Promise.resolve({ error: null })),
-      select: vi.fn(() => ({ order: vi.fn(() => Promise.resolve({ data: [], error: null })) })),
-    })),
-  })),
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: vi.fn(),
+    push: vi.fn(),
+    replace: vi.fn(),
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+}));
+
+vi.mock("../actions", () => ({
+  rateIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+  toggleHideIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+  snoozeIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+  archiveIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+  deleteIdea: vi.fn(async () => ({ ok: true })),
+  setIdeaStatus: vi.fn(async () => ({ ok: true, idea: {} })),
+  createIdea: vi.fn(async () => ({ ok: true, idea: {} })),
+  updateIdea: vi.fn(async () => ({ ok: true, idea: {} })),
 }));
 
 import { IdeasApp } from "../components/ideas-app";

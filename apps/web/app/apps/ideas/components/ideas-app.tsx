@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { createClient } from "@repo/db/client";
+import { useRouter } from "next/navigation";
 import {
   Badge,
   Button,
@@ -14,6 +14,11 @@ import {
   StarRating,
   ViewToggle,
 } from "@repo/ui";
+import {
+  rateIdea as rateIdeaAction,
+  toggleHideIdea as toggleHideIdeaAction,
+  snoozeIdea as snoozeIdeaAction,
+} from "../actions";
 import type {
   Idea,
   IdeaCategory,
@@ -80,14 +85,16 @@ const SORT_OPTIONS: Array<{ value: SortKey; label: string }> = [
   { value: "title", label: "Title" },
 ];
 
-const SNOOZE_OPTIONS: Array<{ label: string; value: string }> = [
+type SnoozeDuration = "1d" | "1w" | "2w" | "1mo";
+
+const SNOOZE_OPTIONS: Array<{ label: string; value: SnoozeDuration }> = [
   { label: "1 Day", value: "1d" },
   { label: "1 Week", value: "1w" },
   { label: "2 Weeks", value: "2w" },
   { label: "1 Month", value: "1mo" },
 ];
 
-const SNOOZE_MS: Record<string, number> = {
+const SNOOZE_MS: Record<SnoozeDuration, number> = {
   "1d": 86_400_000,
   "1w": 604_800_000,
   "2w": 1_209_600_000,
@@ -138,68 +145,66 @@ export function IdeasApp({ initialIdeas }: IdeasAppProps) {
   const [showFilter, setShowFilter] = useState<ShowFilter>("active");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [snoozeMenuId, setSnoozeMenuId] = useState<string | null>(null);
-
-  const db = createClient();
+  const router = useRouter();
 
   // ── Mutations ────────────────────────────────────────────────────────────
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const ideasTable = () => (db as any).from("ideas");
-
   const rateIdea = useCallback(
     async (id: string, stars: number) => {
+      const prev = ideas;
       let newRating = stars;
-      setIdeas((prev) =>
-        prev.map((idea) => {
+      setIdeas((current) =>
+        current.map((idea) => {
           if (idea.id !== id) return idea;
           newRating = idea.rating === stars ? 0 : stars;
-          return { ...idea, rating: newRating };
+          return { ...idea, rating: newRating === 0 ? null : newRating };
         }),
       );
-      await ideasTable()
-        .upsert({ id, rating: newRating })
-        .catch((e: unknown) => console.warn("rating update failed:", e));
+      const result = await rateIdeaAction(id, newRating);
+      if (!result.ok) {
+        setIdeas(prev);
+        router.refresh();
+      }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [db],
+    [ideas, router],
   );
 
   const toggleHide = useCallback(
     async (id: string) => {
-      let nextHidden = true;
-      setIdeas((prev) =>
-        prev.map((idea) => {
-          if (idea.id !== id) return idea;
-          nextHidden = !idea.hidden;
-          return { ...idea, hidden: nextHidden };
-        }),
+      const prev = ideas;
+      setIdeas((current) =>
+        current.map((idea) =>
+          idea.id === id ? { ...idea, hidden: !idea.hidden } : idea,
+        ),
       );
-      await ideasTable()
-        .upsert({ id, hidden: nextHidden })
-        .catch((e: unknown) => console.warn("hide update failed:", e));
+      const result = await toggleHideIdeaAction(id);
+      if (!result.ok) {
+        setIdeas(prev);
+        router.refresh();
+      }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [db],
+    [ideas, router],
   );
 
   const snoozeIdea = useCallback(
     async (id: string, duration: string) => {
-      const until =
-        duration === "show"
-          ? null
-          : new Date(Date.now() + SNOOZE_MS[duration]).toISOString();
-      setIdeas((prev) =>
-        prev.map((idea) =>
+      const prev = ideas;
+      const isShow = duration === "show";
+      const dur = isShow ? null : (duration as SnoozeDuration);
+      const until = dur === null ? null : new Date(Date.now() + SNOOZE_MS[dur]).toISOString();
+      setIdeas((current) =>
+        current.map((idea) =>
           idea.id === id ? { ...idea, snoozedUntil: until } : idea,
         ),
       );
-      await ideasTable()
-        .upsert({ id, snoozedUntil: until })
-        .catch((e: unknown) => console.warn("snooze update failed:", e));
+      const result = await snoozeIdeaAction(id, dur);
+      if (!result.ok) {
+        setIdeas(prev);
+        router.refresh();
+      }
       setSnoozeMenuId(null);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [db],
+    [ideas, router],
   );
 
   // ── Filtering + Sorting ───────────────────────────────────────────────────
