@@ -50,3 +50,12 @@ export const TIERS: Record<Tier, TierConfig> = {
 };
 
 export const TIER_ORDER: Tier[] = ["free", "pro", "enterprise"];
+
+export interface FeatureLabel {
+  requiredTier: Tier;
+  label: string;
+}
+
+export const FEATURE_LABELS: Record<string, FeatureLabel> = {
+  "ideas:ai-plan": { requiredTier: "pro", label: "AI idea planning & scoring" },
+};

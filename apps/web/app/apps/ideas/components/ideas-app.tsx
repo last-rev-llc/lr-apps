@@ -7,6 +7,8 @@ import {
   Button,
   Card,
   CardContent,
+  Dialog,
+  DialogContent,
   EmptyState,
   PageHeader,
   PillList,
@@ -14,6 +16,7 @@ import {
   StarRating,
   ViewToggle,
 } from "@repo/ui";
+import UpgradePrompt from "@/components/UpgradePrompt";
 import {
   rateIdea as rateIdeaAction,
   toggleHideIdea as toggleHideIdeaAction,
@@ -136,9 +139,10 @@ function isNewToday(idea: Idea): boolean {
 
 interface IdeasAppProps {
   initialIdeas: Idea[];
+  canUseAiPlan?: boolean;
 }
 
-export function IdeasApp({ initialIdeas }: IdeasAppProps) {
+export function IdeasApp({ initialIdeas, canUseAiPlan = false }: IdeasAppProps) {
   const [ideas, setIdeas] = useState<Idea[]>(initialIdeas);
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -150,6 +154,7 @@ export function IdeasApp({ initialIdeas }: IdeasAppProps) {
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [snoozeMenuId, setSnoozeMenuId] = useState<string | null>(null);
   const [newModalOpen, setNewModalOpen] = useState(false);
+  const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
   const router = useRouter();
 
   // ── Mutations ────────────────────────────────────────────────────────────
@@ -317,11 +322,30 @@ export function IdeasApp({ initialIdeas }: IdeasAppProps) {
           className="flex-1"
         />
         <Button onClick={() => setNewModalOpen(true)}>+ New Idea</Button>
+        <Button
+          variant="outline"
+          onClick={() => {
+            if (!canUseAiPlan) {
+              setShowUpgradePrompt(true);
+              return;
+            }
+            // TODO: invoke AI plan action — wired in a later issue
+          }}
+        >
+          ✨ Plan & score with AI
+        </Button>
         <ViewToggle
           view={viewMode}
           onChange={(v) => setViewMode(v as ViewMode)}
         />
       </div>
+      {showUpgradePrompt && !canUseAiPlan && (
+        <Dialog open={showUpgradePrompt} onOpenChange={(next) => (next ? null : setShowUpgradePrompt(false))}>
+          <DialogContent>
+            <UpgradePrompt requiredTier="pro" />
+          </DialogContent>
+        </Dialog>
+      )}
       <IdeaFormModal
         mode="create"
         open={newModalOpen}
