@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { log } from "@repo/logger";
 import { logAuditEvent } from "@repo/db/audit";
 import { createServiceRoleClient } from "@repo/db/service-role";
+import { capture } from "@repo/analytics/server";
 import { maybeSelfEnrollAfterLogin, appSlugFromReturnTo } from "./self-enroll";
 
 const ALLOWED_RETURN_HOSTS = [
@@ -150,6 +151,8 @@ export function getAuth0ClientForHost(host: string): Auth0Client {
         action: "auth.login.succeeded",
         metadata: { returnTo: ctx.returnTo ?? null },
       });
+
+      await capture(session.user.sub, "login", { method: "email" });
 
       // Validate returnTo to prevent open-redirect
       const rawTarget = ctx.returnTo || "/my-apps";

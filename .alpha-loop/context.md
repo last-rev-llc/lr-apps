@@ -1,22 +1,23 @@
 ## Architecture
-- **Single Next.js 16 host** at `apps/web/` routes multi-tenant apps by subdomain. `proxy.ts` resolves the host via `lib/proxy-utils.ts`, looks up the app in `lib/app-registry.ts`, and rewrites to `app/<routeGroup>/...` while merging Auth0 middleware from `@repo/auth`.
-- **Dev shortcut**: `?app=<subdomain>` query param in dev mode bypasses subdomain resolution (proxy.ts:22-38).
-- **Database**: Supabase (Postgres) with migrations in `supabase/migrations/` (append-only, numbered + date-prefixed). Client helpers in `packages/db/src/`: `client.ts` (browser), `server.ts` (SSR), `service-role.ts` (server-only), `queries.ts`, `types.ts`.
-- **Key directories**: `apps/web/app/` (route groups `(auth)`, `apps/<slug>/`, `api/`, `checkout/`, `pricing/`), `apps/web/lib/` (host/proxy/access helpers, `tier-config.ts`), `packages/` (`auth`, `billing`, `db`, `ui`, `theme`, `config`, `test-utils`).
+- Single Next.js 16 host at `apps/web/` routes 27+ micro-apps by subdomain via `apps/web/proxy.ts`; host header (or `?app=<slug>` in dev) selects an `AppConfig` from `apps/web/lib/app-registry.ts` to drive rewrite path, auth, and tier gate.
+- Database: Supabase (Postgres) via `@supabase/supabase-js` v2; schema in `supabase/migrations/` as paired `.sql` / `.down.sql` files; service-role client is server-only (see `@repo/db`).
+- Auth: Auth0 v4 (`@auth0/nextjs-auth0`) — auth hub on `auth.lastrev.com`; `getAuth0ClientForHost` + `mergeAuthMiddlewareResponse` from `@repo/auth` are merged inside `proxy.ts`.
+- Apps live under `apps/web/app/apps/<slug>/`; shared route groups under `app/(auth)/`; APIs under `app/api/`; cross-cutting libs in `apps/web/lib/` (csp, csrf, rate-limit, otel, app-host, require-app-layout-access).
+- Workspace packages: `@repo/auth`, `@repo/billing` (Stripe), `@repo/db`, `@repo/ui`, `@repo/theme`, `@repo/config`, `@repo/test-utils`, `@repo/email`, `@repo/logger`, `@repo/storage`.
 
 ## Conventions
-- **Stack**: pnpm workspaces + Turbo, Next 16 (turbopack dev), React 19, TS 5, Auth0 v4, Supabase v2, Stripe, Tailwind 4, Vitest, Playwright, ESLint 9, punchlist-qa.
-- **Imports**: workspace packages as `@repo/*`, local app files as `@/*`. Files use kebab-case.
-- **Tests**: Vitest unit tests via workspace (`vitest.workspace.ts`), colocated in `__tests__/` dirs. E2E via Playwright (`apps/web/playwright.config.ts`). Run `pnpm test` (turbo), `pnpm --filter @repo/web test:e2e` for E2E.
-- **Wiring a new app**: add an `AppConfig` entry to `apps/web/lib/app-registry.ts`, create `apps/web/app/apps/<slug>/` matching its `routeGroup`, and gate pages with `requireAppLayoutAccess` from `apps/web/lib/`.
+- TypeScript 5, React 19, Next 16 (App Router, Turbopack), Tailwind 4, Auth0 v4, Stripe, Supabase v2; pnpm 9 workspaces, Turbo 2.
+- File naming kebab-case; aliases `@repo/*` (workspace pkgs) and `@/*` (web app); ESLint 9 flat config.
+- Tests: Vitest 3 unit (`apps/web/__tests__/`, `apps/web/vitest.config.ts`, `vitest.workspace.ts`) — `pnpm test`; Playwright 1 e2e (`apps/web/tests/`, `playwright.config.ts`) — `pnpm --filter @repo/web test:e2e`.
+- New app: add `AppConfig` to `apps/web/lib/app-registry.ts`, create `apps/web/app/apps/<slug>/` matching `routeGroup`, gate pages with `requireAppLayoutAccess` from `apps/web/lib/`.
+- Migrations are append-only and require a paired `.down.sql` (CI enforces via `scripts/check-migration-pairs.ts`).
 
 ## Critical Rules
-- **`app-registry.ts` is the single source of truth** for subdomain→route mapping, auth, tier, and public routes. Adding routes without a registry entry leaves them unreachable via subdomain.
-- **Auth middleware must be merged** via `mergeAuthMiddlewareResponse` — don't return bare `NextResponse` from proxy logic or you drop session cookies.
-- **Service-role client is server-only** (`packages/db/src/service-role.ts`). Never import from client components.
-- **Migrations are append-only** — never edit or delete files in `supabase/migrations/`.
-- **New env vars** must be added to `turbo.json` `globalEnv` or they won't reach tasks.
-- **No hardcoded hex colors** — use tokens from `@repo/theme` (enforced by `scripts/audit-tokens.ts`).
+- `apps/web/lib/app-registry.ts` is the single source of truth — registry, route group, and gating must stay aligned.
+- `proxy.ts` must merge Auth0 middleware via `mergeAuthMiddlewareResponse` and resolve hosts via `getAuth0ClientForHost`; do not bypass CSP / CSRF / rate-limit wrappers.
+- All env vars consumed by the app must be listed in `turbo.json` `globalEnv` or Turbo will not pass them through.
+- Never commit a migration without its `.down.sql`; never call the Supabase service-role key from client code.
+- Billing flows go through `@repo/billing`; do not hardcode Stripe price IDs or theme colors (use `@repo/theme`).
 
 ## Active State
 - Test status: (will be filled in by the loop)

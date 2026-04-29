@@ -1,0 +1,57 @@
+{
+  "name": "session/015-analytics-feature-flags-usage-telemetry",
+  "branch": "session/015-analytics-feature-flags-usage-telemetry",
+  "completed": "2026-04-29T16:32:53.967Z",
+  "results": [
+    {
+      "issueNum": 217,
+      "title": "Create @repo/analytics package with client track() and server capture() — PostHog or Plausible",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/257",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 461,
+      "filesChanged": 6
+    },
+    {
+      "issueNum": 218,
+      "title": "Instrument core product flows: login, app-open, subscription start/cancel, webhook received",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/257",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 461,
+      "filesChanged": 6
+    },
+    {
+      "issueNum": 219,
+      "title": "Add feature_flags table and getFeatureFlagValue() primitive to @repo/billing",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/257",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 461,
+      "filesChanged": 6
+    },
+    {
+      "issueNum": 220,
+      "title": "Add cc-flags sub-module to Command Center: toggle feature flags per user and tier",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/257",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 461,
+      "filesChanged": 6
+    },
+    {
+      "issueNum": 221,
+      "title": "Add analytics event dashboard to Command Center (cc-analytics sub-module)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/257",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 461,
+      "filesChanged": 6
+    }
+  ]
+}
