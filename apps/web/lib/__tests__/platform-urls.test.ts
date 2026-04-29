@@ -45,6 +45,24 @@ describe("platform-urls", () => {
         "https://auth.lastrev.com",
       );
     });
+
+    it("stays on legacy auth host when already on auth.lastrev.com", () => {
+      expect(getPlatformBaseUrl("auth.lastrev.com")).toBe(
+        "https://auth.lastrev.com",
+      );
+    });
+
+    it("maps local apps app subdomain to local apps auth hub", () => {
+      expect(
+        getPlatformBaseUrl("sentiment.apps.lastrev.localhost:3000"),
+      ).toBe("http://auth.apps.lastrev.localhost:3000");
+    });
+
+    it("maps legacy local app subdomain to legacy local auth hub", () => {
+      expect(getPlatformBaseUrl("sentiment.lastrev.localhost:3000")).toBe(
+        "http://auth.lastrev.localhost:3000",
+      );
+    });
   });
 
   describe("getAppsCatalogUrl", () => {
@@ -60,6 +78,18 @@ describe("platform-urls", () => {
 
     it("uses lastrev.com apex for legacy subdomains", () => {
       expect(getAppsCatalogUrl("uptime.lastrev.com")).toBe(
+        "https://lastrev.com",
+      );
+    });
+
+    it("uses apps apex for the auth hub on the apps cluster", () => {
+      expect(getAppsCatalogUrl("auth.apps.lastrev.com")).toBe(
+        "https://apps.lastrev.com",
+      );
+    });
+
+    it("uses legacy apex for the legacy auth hub", () => {
+      expect(getAppsCatalogUrl("auth.lastrev.com")).toBe(
         "https://lastrev.com",
       );
     });
@@ -89,6 +119,18 @@ describe("platform-urls", () => {
         getAppLaunchUrl("calculator", "auth.apps.lastrev.com"),
       ).toBe("https://calculator.apps.lastrev.com");
     });
+
+    it("uses legacy subdomain URL when called from a legacy host", () => {
+      expect(
+        getAppLaunchUrl("calculator", "auth.lastrev.com"),
+      ).toBe("https://calculator.lastrev.com");
+    });
+
+    it("uses local apps subdomain URL on local apps cluster", () => {
+      expect(
+        getAppLaunchUrl("calculator", "auth.apps.lastrev.localhost:3000"),
+      ).toBe("http://calculator.apps.lastrev.localhost:3000");
+    });
   });
 
   describe("getAppLaunchUrlLabel", () => {
@@ -101,6 +143,12 @@ describe("platform-urls", () => {
     it("describes production subdomain", () => {
       expect(getAppLaunchUrlLabel("calculator", "auth.apps.lastrev.com")).toBe(
         "calculator.apps.lastrev.com",
+      );
+    });
+
+    it("describes legacy production subdomain when called from legacy host", () => {
+      expect(getAppLaunchUrlLabel("calculator", "auth.lastrev.com")).toBe(
+        "calculator.lastrev.com",
       );
     });
   });

@@ -105,6 +105,62 @@ describe("proxy middleware integration", () => {
       await proxy(req);
       expect(middlewareMock).toHaveBeenCalled();
     });
+
+    it("redirects unknown <slug>.apps.lastrev.com to apps-cluster auth hub", async () => {
+      const req = makeRequest(
+        "https://nonexistent.apps.lastrev.com/foo",
+        "nonexistent.apps.lastrev.com",
+      );
+      const res = await proxy(req);
+      const location = res.headers.get("location") ?? "";
+      expect(location).toContain("https://auth.apps.lastrev.com");
+    });
+
+    it("redirects unknown legacy <slug>.lastrev.com to legacy auth hub during cutover", async () => {
+      const req = makeRequest(
+        "https://nonexistent.lastrev.com/foo",
+        "nonexistent.lastrev.com",
+      );
+      const res = await proxy(req);
+      const location = res.headers.get("location") ?? "";
+      expect(location).toContain("https://auth.lastrev.com");
+      expect(location).not.toContain("auth.apps.lastrev.com");
+    });
+  });
+
+  describe("apps cluster host parsing", () => {
+    it("rewrites <slug>.apps.lastrev.com same as legacy <slug>.lastrev.com", async () => {
+      const reqApps = makeRequest(
+        "https://sentiment.apps.lastrev.com/dashboard",
+        "sentiment.apps.lastrev.com",
+      );
+      const resApps = await proxy(reqApps);
+      const urlApps = new URL(resApps.headers.get("x-middleware-rewrite")!);
+      expect(urlApps.pathname).toBe("/apps/sentiment/dashboard");
+
+      middlewareMock.mockResolvedValueOnce(freshAuthResponse());
+      const reqLegacy = makeRequest(
+        "https://sentiment.lastrev.com/dashboard",
+        "sentiment.lastrev.com",
+      );
+      const resLegacy = await proxy(reqLegacy);
+      const urlLegacy = new URL(
+        resLegacy.headers.get("x-middleware-rewrite")!,
+      );
+      expect(urlLegacy.pathname).toBe("/apps/sentiment/dashboard");
+    });
+
+    it("recognizes auth.apps.lastrev.com as the auth hub route group", async () => {
+      const req = makeRequest(
+        "https://auth.apps.lastrev.com/some-page",
+        "auth.apps.lastrev.com",
+      );
+      const res = await proxy(req);
+      const rewrite = res.headers.get("x-middleware-rewrite");
+      expect(rewrite).toBeTruthy();
+      const url = new URL(rewrite!);
+      expect(url.pathname).toBe("/(auth)/some-page");
+    });
   });
 
   describe("bare apps host (no subdomain)", () => {

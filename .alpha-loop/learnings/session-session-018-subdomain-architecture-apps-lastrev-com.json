@@ -1,0 +1,77 @@
+{
+  "name": "session/018-subdomain-architecture-apps-lastrev-com",
+  "branch": "session/018-subdomain-architecture-apps-lastrev-com",
+  "completed": "2026-04-29T21:14:38.916Z",
+  "results": [
+    {
+      "issueNum": 258,
+      "title": "Add wildcard DNS + TLS cert for *.apps.lastrev.com",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/353",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 174,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 259,
+      "title": "Recognize <slug>.apps.lastrev.com host pattern in proxy.ts",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/353",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 174,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 260,
+      "title": "Confirm app-registry subdomain semantics (label vs full host)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/353",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 174,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 261,
+      "title": "Update lib/platform-urls.ts cross-app link helpers",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/353",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 174,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 262,
+      "title": "Add *.apps.lastrev.com to Auth0 allowed callbacks and Web Origins",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/353",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 174,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 263,
+      "title": "Update CLAUDE.md routing docs and reconcile ideas/memes plan URL examples",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/354",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 505,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 264,
+      "title": "Smoke-test subdomain routing end-to-end across representative apps",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/354",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 505,
+      "filesChanged": 2
+    }
+  ]
+}
