@@ -42,7 +42,6 @@ const EXPECTED_MODULES = [
   { slug: "crons", label: "Crons", icon: "⏰", category: "Ops" },
   { slug: "gallery", label: "Gallery", icon: "🖼️", category: "Content" },
   { slug: "architecture", label: "Architecture", icon: "🏗️", category: "Dev" },
-  { slug: "client-health", label: "Client Health", icon: "💚", category: "Ops" },
   { slug: "concerts", label: "Concerts", icon: "🎵", category: "Personal" },
   { slug: "contentful", label: "Contentful", icon: "📦", category: "Dev" },
   { slug: "iron", label: "Iron", icon: "🔩", category: "Dev" },
@@ -58,7 +57,7 @@ const EXPECTED_MODULES = [
 ];
 
 describe("CommandCenterPage", () => {
-  it("renders all 21 module cards", () => {
+  it("renders all 20 module cards", () => {
     renderWithProviders(<CommandCenterPage />);
 
     for (const mod of EXPECTED_MODULES) {
@@ -115,6 +114,6 @@ describe("CommandCenterPage", () => {
     renderWithProviders(<CommandCenterPage />);
 
     expect(screen.getByText("All Modules")).toBeInTheDocument();
-    expect(screen.getByText("21 total")).toBeInTheDocument();
+    expect(screen.getByText("20 total")).toBeInTheDocument();
   });
 });
