@@ -1,7 +1,10 @@
-export default function IdeasPage() {
-  return (
-    <div>
-      <h1 className="font-heading text-2xl font-bold">Ideas</h1>
-    </div>
-  );
+import { getIdeas } from "./lib/queries";
+import { IdeasApp } from "./components/ideas-app";
+
+export const dynamic = "force-dynamic";
+
+export default async function IdeasPage() {
+  const ideas = await getIdeas();
+
+  return <IdeasApp initialIdeas={ideas} />;
 }
