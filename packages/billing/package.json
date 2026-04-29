@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.1",
+    "@repo/analytics": "workspace:*",
     "@repo/db": "workspace:*",
     "@repo/logger": "workspace:*",
     "stripe": "^17"

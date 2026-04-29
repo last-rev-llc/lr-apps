@@ -1,4 +1,5 @@
 import { requireAccess } from "@repo/auth/server";
+import { capture } from "@repo/analytics/server";
 import { hasFeatureAccess } from "@repo/billing";
 import UpgradePrompt from "@/components/UpgradePrompt";
 import Link from "next/link";
@@ -41,6 +42,7 @@ export default async function CommandCenterLayout({
   const { user } = await requireAccess("command-center");
   const hasAccess = await hasFeatureAccess(user.id, "command-center");
   if (!hasAccess) return <UpgradePrompt requiredTier="enterprise" />;
+  await capture(user.id, "app_opened", { slug: "command-center" });
 
   return (
     <div className="min-h-screen flex flex-col">

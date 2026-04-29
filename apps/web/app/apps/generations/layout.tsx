@@ -1,4 +1,5 @@
 import { requireAccess } from "@repo/auth/server";
+import { capture } from "@repo/analytics/server";
 import { hasFeatureAccess } from "@repo/billing";
 import UpgradePrompt from "@/components/UpgradePrompt";
 import Link from "next/link";
@@ -14,6 +15,7 @@ export default async function GenerationsLayout({
   const { user } = await requireAccess("generations");
   const hasAccess = await hasFeatureAccess(user.id, "generations");
   if (!hasAccess) return <UpgradePrompt requiredTier="pro" />;
+  await capture(user.id, "app_opened", { slug: "generations" });
 
   const navItems = GENERATIONS.map((gen) => ({
     label: `${gen.emoji} ${gen.name}`,

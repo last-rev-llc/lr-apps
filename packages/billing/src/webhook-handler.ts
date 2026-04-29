@@ -6,8 +6,15 @@ import { logAuditEvent } from "@repo/db/audit";
 import { cacheDel, cacheKeys } from "@repo/db/cache";
 import type { Database } from "@repo/db/types";
 import { log } from "@repo/logger";
+import { capture } from "@repo/analytics/server";
 import { withSpan } from "./otel";
-import type { WebhookEventType } from "./types";
+import type { WebhookEventType, Tier } from "./types";
+
+function extractTier(subscription: Stripe.Subscription): Tier {
+  const tier = subscription.items?.data?.[0]?.price?.metadata?.tier;
+  if (tier === "pro" || tier === "enterprise") return tier;
+  return "free";
+}
 
 const AUDIT_ACTIONS: Record<string, string> = {
   "customer.subscription.created": "subscription.created",
@@ -25,6 +32,8 @@ export async function handleStripeWebhook(
   body: string | Buffer,
   signature: string,
 ): Promise<{ received: true }> {
+  await capture("system", "webhook_received", { type: "stripe" });
+
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!secret) {
     throw new Error("STRIPE_WEBHOOK_SECRET environment variable is required");
@@ -64,9 +73,9 @@ export async function handleStripeWebhook(
       if (event.type === "customer.subscription.deleted") {
         const { data: existing } = await db
           .from("subscriptions")
-          .select("user_id")
+          .select("user_id, tier")
           .eq("stripe_subscription_id", subscription.id)
-          .maybeSingle<{ user_id: string }>();
+          .maybeSingle<{ user_id: string; tier: Tier }>();
         const update: Database["public"]["Tables"]["subscriptions"]["Update"] = {
           status: "canceled",
           updated_at: new Date().toISOString(),
@@ -77,9 +86,30 @@ export async function handleStripeWebhook(
           .eq("stripe_subscription_id", subscription.id);
         if (existing?.user_id) {
           await cacheDel([cacheKeys.subscription(existing.user_id)]);
+          await capture(existing.user_id, "subscription_canceled", {
+            tier: existing.tier ?? "free",
+          });
         }
       } else {
         await upsertSubscription(subscription);
+        if (event.type === "customer.subscription.created") {
+          const customerId =
+            typeof subscription.customer === "string"
+              ? subscription.customer
+              : subscription.customer?.id;
+          if (customerId) {
+            const { data: row } = await db
+              .from("subscriptions")
+              .select("user_id")
+              .eq("stripe_customer_id", customerId)
+              .maybeSingle<{ user_id: string }>();
+            if (row?.user_id) {
+              await capture(row.user_id, "subscription_started", {
+                tier: extractTier(subscription),
+              });
+            }
+          }
+        }
       }
     },
   );
