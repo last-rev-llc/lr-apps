@@ -1,0 +1,27 @@
+{
+  "name": "session/027-alpha-wins-e2e-tests",
+  "branch": "session/027-alpha-wins-e2e-tests",
+  "completed": "2026-04-30T22:53:34.026Z",
+  "results": [
+    {
+      "issueNum": 419,
+      "title": "E2E spec: Alpha Wins access & gating (Group A, cases 1-3)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/580",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 322,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 421,
+      "title": "E2E spec: Alpha Wins gallery interactions (Group A, cases 4-8)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/580",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 322,
+      "filesChanged": 2
+    }
+  ]
+}
