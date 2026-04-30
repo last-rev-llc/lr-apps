@@ -383,8 +383,17 @@ function ArchiveCard({ record }: { record: ArchiveRecord }) {
 
   return (
     <div
-      className="glass border border-surface-border rounded-lg p-4 mb-2.5 cursor-pointer hover:border-accent/40 transition-colors"
+      role="button"
+      tabIndex={0}
+      aria-expanded={open}
+      className="glass border border-surface-border rounded-lg p-4 mb-2.5 cursor-pointer hover:border-accent/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
       onClick={() => setOpen((o) => !o)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setOpen((o) => !o);
+        }
+      }}
     >
       <div className="flex items-center gap-2 flex-wrap">
         <span className="font-semibold text-sm text-foreground">

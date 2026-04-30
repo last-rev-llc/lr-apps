@@ -546,10 +546,11 @@ function SubmitTab({
         <CardContent className="space-y-4">
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-2 space-y-1">
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+              <label htmlFor="dance-name" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                 Dance Name
               </label>
               <Input
+                id="dance-name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. The Shuffle"
@@ -557,10 +558,11 @@ function SubmitTab({
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+              <label htmlFor="dance-emoji" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                 Emoji
               </label>
               <Input
+                id="dance-emoji"
                 value={emoji}
                 onChange={(e) => setEmoji(e.target.value)}
                 placeholder="🎵"
@@ -571,10 +573,11 @@ function SubmitTab({
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            <label htmlFor="dance-description" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
               Description
             </label>
             <textarea
+              id="dance-description"
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
               placeholder="Describe the dance moves, style, and feel…"
@@ -584,10 +587,11 @@ function SubmitTab({
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            <label htmlFor="dance-difficulty" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
               Difficulty
             </label>
             <select
+              id="dance-difficulty"
               value={difficulty}
               onChange={(e) =>
                 setDifficulty(e.target.value as DanceSubmission["difficulty"])
@@ -602,10 +606,11 @@ function SubmitTab({
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            <label htmlFor="dance-tags" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
               Tags (comma-separated)
             </label>
             <Input
+              id="dance-tags"
               value={tags}
               onChange={(e) => setTags(e.target.value)}
               placeholder="hip-hop, viral, party"
@@ -720,10 +725,11 @@ function GeneratorTab() {
             Roblox character.
           </p>
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            <label htmlFor="dance-prompt" className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
               Dance Description
             </label>
             <textarea
+              id="dance-prompt"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="A smooth salsa dance with hip sways, arm extensions, and spinning turns…"

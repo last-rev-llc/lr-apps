@@ -20,6 +20,7 @@ vi.mock("@repo/ui", () => ({
     <div data-tab={value}>{children}</div>
   ),
   Card: ({ children, className, onClick }: any) => (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div className={className ?? ""} onClick={onClick}>
       {children}
     </div>

@@ -50,5 +50,6 @@
 - Migration authoring, naming, rollback pattern, and CI checks: `docs/guides/migrations.md`.
 
 ## Accessibility
-- Author-time enforcement: `eslint-plugin-jsx-a11y` (recommended ruleset) is wired into the shared ESLint config in `@repo/config`. Disabled rules are documented inline in `packages/config/eslint.config.mjs`.
+- Author-time enforcement: `eslint-plugin-jsx-a11y` (recommended ruleset) is wired into the shared ESLint config in `@repo/config`, scoped to `**/*.tsx`. Disabled rule:
+  - `jsx-a11y/anchor-is-valid` — off because Next.js `<Link>` wraps `<a>` in patterns where the href lives on the parent component; the Next ESLint preset already lints `<Link>` misuse.
 - Runtime audit: `pnpm test:a11y` runs `@axe-core/playwright` against every registered app's root route and fails on any `critical` violation. Mobile layout audit at 375 / 768 / 1440 px: `pnpm test:mobile`.
