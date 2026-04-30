@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 const { Auth0ClientMock } = vi.hoisted(() => ({
-  Auth0ClientMock: vi.fn().mockImplementation(() => ({ __mocked: true })),
+  Auth0ClientMock: vi.fn().mockImplementation(function () {
+    return { __mocked: true };
+  }),
 }));
 
 vi.mock("@auth0/nextjs-auth0/server", () => ({

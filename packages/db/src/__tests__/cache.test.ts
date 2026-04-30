@@ -45,7 +45,9 @@ class FakeRedis {
 
 let fakeRedis: FakeRedis;
 vi.mock("@upstash/redis", () => ({
-  Redis: vi.fn().mockImplementation(() => fakeRedis),
+  Redis: vi.fn().mockImplementation(function () {
+    return fakeRedis;
+  }),
 }));
 
 function mockClient(result: { data: unknown; error: unknown }) {
