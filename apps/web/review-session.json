@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "summary": "Cringe Rizzler E2E session is integrated cleanly: data-testids match spec selectors, redirect/permission flow lines up with @repo/auth, and Playwright auto-discovers the new spec under tests/e2e/cringe-rizzler/ without extra wiring.",
+  "findings": [
+    {
+      "severity": "info",
+      "description": "FALLBACK_PHRASES is duplicated verbatim from app/apps/cringe-rizzler/lib/actions.ts into the e2e spec (the spec comment explains why: actions.ts is a 'use server' module). If actions.ts ever drifts, the test silently flakes rather than failing fast. Acceptable for now but worth a TODO if more 'use server' fallback fixtures show up.",
+      "fixed": false,
+      "file": "apps/web/tests/e2e/cringe-rizzler/access-and-generate.spec.ts"
+    },
+    {
+      "severity": "info",
+      "description": "Pre-existing typecheck errors in apps/web (uptime/sentiment test mocks, a11y-audit @axe-core/playwright type, @repo/email module resolution) are present on origin/main and unrelated to this session's changes — none touch cringe-rizzler files or the new spec.",
+      "fixed": false,
+      "file": "apps/web/app/apps/uptime/__tests__/page.test.tsx"
+    }
+  ]
+}
