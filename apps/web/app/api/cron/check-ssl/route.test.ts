@@ -1,17 +1,69 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-// In-memory sites table — overridden per test
+// In-memory tables — overridden per test
 let sitesRows: Array<{ url: string }> = [];
+let clientSitesDetail: Array<{
+  user_id: string | null;
+  client_id: string | null;
+  client_name: string | null;
+  url: string;
+}> = [];
+let usersRows: Array<{ id: string; email: string | null }> = [];
+let alertsRows: Array<{ user_id: string; client_id: string; type: string }> = [];
 const upsertCalls: Array<{
   url: string;
   payload: Record<string, unknown>;
 }> = [];
 
+function makeQuery(initial: unknown[]) {
+  let rows = [...initial];
+  const builder: Record<string, unknown> = {
+    eq: (col: string, val: unknown) => {
+      rows = rows.filter((r) => (r as Record<string, unknown>)[col] === val);
+      return builder;
+    },
+    is: (col: string, val: unknown) => {
+      rows = rows.filter((r) => (r as Record<string, unknown>)[col] === val);
+      return builder;
+    },
+    in: (col: string, vals: unknown[]) => {
+      const set = new Set(vals);
+      rows = rows.filter((r) => set.has((r as Record<string, unknown>)[col]));
+      return builder;
+    },
+    not: () => builder,
+    limit: () => builder,
+    maybeSingle: () => Promise.resolve({ data: rows[0] ?? null, error: null }),
+    then: (resolve: (v: { data: unknown[]; error: null }) => unknown) =>
+      resolve({ data: rows, error: null }),
+  };
+  return builder;
+}
+
 function makeFromMock() {
   return (table: string) => {
     if (table === "client_sites") {
       return {
-        select: vi.fn().mockResolvedValue({ data: sitesRows, error: null }),
+        // First call: .select("url") returns thenable for the urls list.
+        // Second call: .select("...").in(...) for the alert fan-out.
+        select: vi.fn((cols: string) => {
+          if (cols === "url") {
+            return { then: (r: (v: unknown) => unknown) => r({ data: sitesRows, error: null }) };
+          }
+          return makeQuery(clientSitesDetail);
+        }),
+      };
+    }
+    if (table === "users") {
+      return { select: () => makeQuery(usersRows) };
+    }
+    if (table === "client_health_settings") {
+      return { select: () => makeQuery([]) };
+    }
+    if (table === "client_health_alerts") {
+      return {
+        select: () => makeQuery(alertsRows),
+        insert: vi.fn(async () => ({ error: null })),
       };
     }
     if (table === "site_metadata") {
@@ -65,7 +117,13 @@ vi.mock("./check-url", () => ({
       sslLastChecked: checkedAt,
       sslLastError: null,
     });
-    return { url, ok: true as const, sslExpiry: result.validTo, sslIssuer: result.issuer };
+    return {
+      url,
+      ok: true as const,
+      sslExpiry: result.validTo,
+      sslIssuer: result.issuer,
+      daysUntilExpiry: (Date.parse(result.validTo) - Date.now()) / (1000 * 60 * 60 * 24),
+    };
   }),
 }));
 
@@ -77,6 +135,9 @@ beforeEach(() => {
   vi.clearAllMocks();
   process.env = { ...ORIGINAL_ENV };
   sitesRows = [];
+  clientSitesDetail = [];
+  usersRows = [];
+  alertsRows = [];
   upsertCalls.length = 0;
   certMockMap.clear();
 });

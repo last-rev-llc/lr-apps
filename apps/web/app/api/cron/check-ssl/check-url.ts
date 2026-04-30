@@ -49,7 +49,10 @@ export async function readCertificate(rawUrl: string): Promise<CertInfo> {
             reject(new Error("certificate missing valid_to"));
             return;
           }
-          const issuer = cert.issuer?.CN ?? cert.issuer?.O ?? null;
+          const cn = cert.issuer?.CN;
+          const o = cert.issuer?.O;
+          const issuerRaw = cn ?? o ?? null;
+          const issuer = Array.isArray(issuerRaw) ? (issuerRaw[0] ?? null) : issuerRaw;
           resolve({
             validTo: new Date(validTo).toISOString(),
             issuer,
@@ -75,7 +78,14 @@ export async function readCertificate(rawUrl: string): Promise<CertInfo> {
 }
 
 export type SslCheckResult =
-  | { url: string; ok: true; sslExpiry: string; sslIssuer: string | null }
+  | {
+      url: string;
+      ok: true;
+      sslExpiry: string;
+      sslIssuer: string | null;
+      /** Days until expiry — derived once so callers don't reparse the date. */
+      daysUntilExpiry: number;
+    }
   | { url: string; ok: false; error: string };
 
 export async function checkSslForUrl(
@@ -100,7 +110,14 @@ export async function checkSslForUrl(
         log.error("ssl upsert failed", { url, err: error });
         return { url, ok: false, error: error.message };
       }
-      return { url, ok: true, sslExpiry: cert.validTo, sslIssuer: cert.issuer };
+      const daysUntilExpiry = (Date.parse(cert.validTo) - Date.now()) / (1000 * 60 * 60 * 24);
+      return {
+        url,
+        ok: true,
+        sslExpiry: cert.validTo,
+        sslIssuer: cert.issuer,
+        daysUntilExpiry,
+      };
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       log.warn("ssl check failed", { url, err: message });

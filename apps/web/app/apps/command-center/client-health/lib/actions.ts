@@ -32,7 +32,17 @@ export async function addClientSite(input: AddClientSiteInput): Promise<AddClien
     return { ok: false, error: "invalid url" };
   }
 
-  const db = createServiceRoleClient();
+  // Cast the typed schema away — `client_sites` lives outside the generated
+  // Supabase type union (managed by an out-of-tree migration trail).
+  const db = createServiceRoleClient() as unknown as {
+    from: (table: string) => {
+      insert: (row: Record<string, unknown>) => {
+        select: (cols: string) => {
+          single: () => Promise<{ data: { id: string } | null; error: { message: string } | null }>;
+        };
+      };
+    };
+  };
   const { data, error } = await db
     .from("client_sites")
     .insert({ url, name: input.name ?? null })
