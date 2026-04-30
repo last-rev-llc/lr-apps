@@ -119,7 +119,7 @@ function PhraseTab() {
   return (
     <div className="max-w-2xl mx-auto space-y-5">
       {/* Result card */}
-      <Card className="border-pill-6/20 glass-sm">
+      <Card className="border-pill-6/20 glass-sm" data-testid="phrase-result">
         <CardContent className="p-6 text-center min-h-[180px] flex flex-col items-center justify-center">
           {isPending ? (
             <div className="space-y-3">
@@ -152,6 +152,7 @@ function PhraseTab() {
                 <Button
                   size="sm"
                   onClick={handleSave}
+                  data-testid="phrase-save-button"
                   className="bg-pill-6/20 hover:bg-pill-6/30 text-pill-6 border border-pill-6/30 hover:border-pill-6/50"
                 >
                   ♥ Save
@@ -181,6 +182,7 @@ function PhraseTab() {
         <Button
           onClick={handleGenerate}
           disabled={isPending}
+          data-testid="phrase-generate-button"
           className="px-8 py-3 text-base font-bold rounded-xl text-white border-0"
           style={{
             background: "linear-gradient(135deg, var(--color-pill-6), var(--color-pill-0))",
@@ -193,12 +195,12 @@ function PhraseTab() {
 
       {/* Saved collection */}
       {saved.length > 0 && (
-        <div className="space-y-3 pt-2">
+        <div className="space-y-3 pt-2" data-testid="phrase-saved-list">
           <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider">
             Saved This Session
           </h3>
           {saved.map((item) => (
-            <Card key={item.id} className="border-white/10 bg-white/5">
+            <Card key={item.id} className="border-white/10 bg-white/5" data-testid="phrase-saved-item">
               <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
@@ -504,11 +506,13 @@ function GlossaryTab() {
           placeholder="Search slang or definition..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          data-testid="glossary-search-input"
           className="flex-1 bg-transparent text-white border-white/10 focus:border-pill-6/50 placeholder:text-muted-foreground"
         />
         <select
           value={activeCategory}
           onChange={(e) => setActiveCategory(e.target.value)}
+          data-testid="glossary-category-select"
           className="px-3 py-2.5 rounded-xl bg-white/8 border border-white/10 text-white text-sm focus:outline-none focus:border-pill-6/50 transition-all"
         >
           {CATEGORIES.map((c) => (
@@ -519,14 +523,14 @@ function GlossaryTab() {
         </select>
       </div>
 
-      <p className="text-xs text-muted-foreground">
+      <p className="text-xs text-muted-foreground" data-testid="glossary-count">
         {filtered.length} term{filtered.length !== 1 ? "s" : ""} — sorted by vibe score
       </p>
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {filtered.map((item) => (
-          <Card key={item.term} className="border-white/8 bg-white/5 hover:bg-white/8 transition-all">
+          <Card key={item.term} className="border-white/8 bg-white/5 hover:bg-white/8 transition-all" data-testid="glossary-term-card">
             <CardContent className="p-4 space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <h3 className="font-bold text-white text-base">{item.term}</h3>
@@ -577,18 +581,21 @@ export function CringeApp() {
         <TabsList className="w-full max-w-md mx-auto flex bg-white/5 border border-white/10 p-1 rounded-xl">
           <TabsTrigger
             value="phrases"
+            data-testid="cringe-tab-phrases"
             className="flex-1 text-sm data-[state=active]:bg-pill-6/20 data-[state=active]:text-pill-6 data-[state=active]:shadow-none rounded-lg transition-all text-white/50"
           >
             💬 Phrases
           </TabsTrigger>
           <TabsTrigger
             value="memes"
+            data-testid="cringe-tab-memes"
             className="flex-1 text-sm data-[state=active]:bg-pill-8/20 data-[state=active]:text-pill-8 data-[state=active]:shadow-none rounded-lg transition-all text-white/50"
           >
             🖼️ Memes
           </TabsTrigger>
           <TabsTrigger
             value="glossary"
+            data-testid="cringe-tab-glossary"
             className="flex-1 text-sm data-[state=active]:bg-accent/20 data-[state=active]:text-accent data-[state=active]:shadow-none rounded-lg transition-all text-white/50"
           >
             📖 Glossary
