@@ -5,6 +5,7 @@ import {
   authHubUrl,
   isAuthHubOrigin,
   requestOriginForHost,
+  sessionCookieDomainForHost,
 } from "../cluster-host";
 
 describe("authHubOriginForHost", () => {
@@ -169,5 +170,46 @@ describe("appBaseUrlsForHost", () => {
     expect(appBaseUrlsForHost("lr-apps-git-feat-x.vercel.app")).toEqual([
       "https://lr-apps-git-feat-x.vercel.app",
     ]);
+  });
+});
+
+describe("sessionCookieDomainForHost", () => {
+  it("returns the apps cluster parent domain for every host in that cluster", () => {
+    expect(sessionCookieDomainForHost("auth.apps.lastrev.com")).toBe(
+      ".apps.lastrev.com",
+    );
+    expect(sessionCookieDomainForHost("lighthouse.apps.lastrev.com")).toBe(
+      ".apps.lastrev.com",
+    );
+    expect(sessionCookieDomainForHost("apps.lastrev.com")).toBe(
+      ".apps.lastrev.com",
+    );
+  });
+
+  it("returns the legacy cluster parent domain", () => {
+    expect(sessionCookieDomainForHost("sentiment.lastrev.com")).toBe(
+      ".lastrev.com",
+    );
+    expect(sessionCookieDomainForHost("auth.lastrev.com")).toBe(".lastrev.com");
+  });
+
+  it("returns the local-mirror parent domain (port stripped)", () => {
+    expect(
+      sessionCookieDomainForHost("auth.apps.lastrev.localhost:3000"),
+    ).toBe(".apps.lastrev.localhost");
+    expect(
+      sessionCookieDomainForHost("lighthouse.apps.lastrev.localhost:3000"),
+    ).toBe(".apps.lastrev.localhost");
+    expect(sessionCookieDomainForHost("auth.lastrev.localhost:3000")).toBe(
+      ".lastrev.localhost",
+    );
+  });
+
+  it("returns undefined for single-host environments", () => {
+    expect(sessionCookieDomainForHost("localhost:3000")).toBeUndefined();
+    expect(sessionCookieDomainForHost("127.0.0.1")).toBeUndefined();
+    expect(
+      sessionCookieDomainForHost("lr-apps-git-feat-x.vercel.app"),
+    ).toBeUndefined();
   });
 });

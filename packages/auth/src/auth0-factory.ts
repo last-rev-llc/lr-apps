@@ -5,7 +5,7 @@ import { logAuditEvent } from "@repo/db/audit";
 import { createServiceRoleClient } from "@repo/db/service-role";
 import { capture } from "@repo/analytics/server";
 import { maybeSelfEnrollAfterLogin, appSlugFromReturnTo } from "./self-enroll";
-import { appBaseUrlsForHost } from "./cluster-host";
+import { appBaseUrlsForHost, sessionCookieDomainForHost } from "./cluster-host";
 
 const ALLOWED_RETURN_HOSTS = [
   "apps.lastrev.com",
@@ -95,6 +95,12 @@ const clientCache = new Map<string, Auth0Client>();
  * keyed by `clientId|host` because the client's `appBaseUrl` is fixed at
  * construction; each host needs its own cached client.
  *
+ * Also sets `session.cookie.domain` to the cluster's parent domain so the
+ * `__session` cookie set by `/auth/callback` on the auth hub is visible on
+ * every app subdomain in the cluster — without this, the cross-host redirect
+ * after login lands on a host that doesn't carry the session and bounces
+ * straight back to `/login`.
+ *
  * Use one Auth0 tenant; use AUTH0_PRODUCTS_JSON for per-host client ID/secret
  * (separate Auth0 applications per product).
  */
@@ -107,6 +113,7 @@ export function getAuth0ClientForHost(host: string): Auth0Client {
   const envEntries = parseAllowList();
   const derived = appBaseUrlsForHost(host);
   const appBaseUrl = [...new Set([...derived, ...envEntries])];
+  const cookieDomain = sessionCookieDomainForHost(host);
 
   const client = new Auth0Client({
     domain: process.env.AUTH0_DOMAIN,
@@ -114,6 +121,9 @@ export function getAuth0ClientForHost(host: string): Auth0Client {
     clientSecret: cfg.clientSecret,
     secret: process.env.AUTH0_SECRET,
     appBaseUrl,
+    session: {
+      cookie: { domain: cookieDomain },
+    },
     async onCallback(error, ctx, session) {
       const appBaseUrl =
         ctx.appBaseUrl ??

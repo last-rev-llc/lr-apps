@@ -117,3 +117,44 @@ export function appBaseUrlsForHost(host: string): string[] {
   const hub = authHubOriginForHost(host);
   return current === hub ? [current] : [current, hub];
 }
+
+/**
+ * Cookie `Domain` attribute for the Auth0 session cookie so a single login
+ * survives a cross-host redirect from the auth hub to an app subdomain.
+ * Returns the parent domain (with leading dot) for clusters with multiple
+ * hosts, or `undefined` for single-host environments where a host-only cookie
+ * is correct (browsers ignore `Domain` on bare hosts).
+ *
+ * - `*.apps.lastrev.com` → `.apps.lastrev.com`
+ * - `*.apps.lastrev.localhost` → `.apps.lastrev.localhost`
+ * - legacy `*.lastrev.com` → `.lastrev.com`
+ * - legacy `*.lastrev.localhost` → `.lastrev.localhost`
+ * - bare `localhost` / `127.0.0.1` → `undefined`
+ * - `*.vercel.app` → `undefined` (each preview is its own host)
+ * - anything else → `undefined`
+ */
+export function sessionCookieDomainForHost(host: string): string | undefined {
+  const hostname = host.trim().split(":")[0].toLowerCase();
+
+  if (hostname === "localhost" || hostname === "127.0.0.1") return undefined;
+  if (hostname.endsWith(".vercel.app")) return undefined;
+  if (hostname === APPS_ROOT_DOMAIN || hostname.endsWith(`.${APPS_ROOT_DOMAIN}`)) {
+    return `.${APPS_ROOT_DOMAIN}`;
+  }
+  if (
+    hostname === APPS_ROOT_DOMAIN_LOCAL ||
+    hostname.endsWith(`.${APPS_ROOT_DOMAIN_LOCAL}`)
+  ) {
+    return `.${APPS_ROOT_DOMAIN_LOCAL}`;
+  }
+  if (hostname === LEGACY_ROOT_DOMAIN || hostname.endsWith(`.${LEGACY_ROOT_DOMAIN}`)) {
+    return `.${LEGACY_ROOT_DOMAIN}`;
+  }
+  if (
+    hostname === LEGACY_ROOT_DOMAIN_LOCAL ||
+    hostname.endsWith(`.${LEGACY_ROOT_DOMAIN_LOCAL}`)
+  ) {
+    return `.${LEGACY_ROOT_DOMAIN_LOCAL}`;
+  }
+  return undefined;
+}
