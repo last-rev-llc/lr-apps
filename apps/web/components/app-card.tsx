@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useRef } from "react";
 import { Badge, Card, CardHeader, CardTitle, CardDescription, cn } from "@repo/ui";
 
+type Tier = "free" | "pro" | "enterprise";
+
 interface AppCardProps {
   href: string;
   name: string;
@@ -13,9 +15,17 @@ interface AppCardProps {
   alt?: string;
   /** Top-right pill rendered over the media (or in the header if no media). */
   badge?: { label: string; variant?: "default" | "outline"; tone?: "accent" | "muted" };
+  /** Top-left tier pill (or in the header if no media). */
+  tier?: Tier;
   /** Render with dashed border + reduced opacity to indicate access required. */
   locked?: boolean;
 }
+
+const TIER_TONE: Record<Tier, string> = {
+  free: "text-muted-foreground",
+  pro: "text-sky-400",
+  enterprise: "text-amber-400",
+};
 
 export function AppCard({
   href,
@@ -25,6 +35,7 @@ export function AppCard({
   videoSrc,
   alt,
   badge,
+  tier,
   locked = false,
 }: AppCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -67,6 +78,15 @@ export function AppCard({
     </Badge>
   ) : null;
 
+  const tierNode = tier ? (
+    <Badge
+      variant="outline"
+      className={cn("text-xs shrink-0 backdrop-blur-md", TIER_TONE[tier])}
+    >
+      {tier}
+    </Badge>
+  ) : null;
+
   return (
     <a href={href} onMouseEnter={handleEnter} onMouseLeave={handleLeave} className="block">
       <Card
@@ -102,6 +122,9 @@ export function AppCard({
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
             )}
+            {tierNode && (
+              <div className="absolute top-2 left-2 z-10">{tierNode}</div>
+            )}
             {badgeNode && (
               <div className="absolute top-2 right-2 z-10">{badgeNode}</div>
             )}
@@ -110,7 +133,12 @@ export function AppCard({
         <CardHeader className="p-4">
           <div className="flex items-center justify-between gap-2">
             <CardTitle className="text-sm">{name}</CardTitle>
-            {!imageSrc && badgeNode}
+            {!imageSrc && (
+              <div className="flex items-center gap-1.5">
+                {tierNode}
+                {badgeNode}
+              </div>
+            )}
           </div>
           <CardDescription className="text-xs">{subdomain}</CardDescription>
         </CardHeader>

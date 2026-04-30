@@ -34,6 +34,7 @@ export default async function Home() {
               href={getAppLaunchUrl(app.subdomain, host)}
               name={app.name}
               subdomain={app.subdomain}
+              tier={app.tier}
               {...appCardMedia(app.slug)}
             />
           ))}
@@ -52,6 +53,7 @@ export default async function Home() {
               href={getAppLaunchUrl(app.subdomain, host)}
               name={app.name}
               subdomain={app.subdomain}
+              tier={app.tier}
               {...appCardMedia(app.slug)}
             />
           ))}

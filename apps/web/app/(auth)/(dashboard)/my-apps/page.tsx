@@ -83,6 +83,7 @@ export default async function MyAppsPage() {
                 href={getAppLaunchUrl(app.subdomain, host)}
                 name={app.name}
                 subdomain={app.subdomain}
+                tier={app.tier}
                 badge={badge}
                 {...appCardMedia(app.slug)}
               />
@@ -110,6 +111,7 @@ export default async function MyAppsPage() {
                 href={getAppLaunchUrl(app.subdomain, host)}
                 name={app.name}
                 subdomain={app.subdomain}
+                tier={app.tier}
                 badge={{ label: "access required", tone: "muted" }}
                 locked
                 {...appCardMedia(app.slug)}
