@@ -4,7 +4,7 @@ import type { LighthouseSite } from "./types";
 export async function getSites(): Promise<LighthouseSite[]> {
   const supabase = await createClient();
   const { data: sites, error } = await (supabase as any)
-    .from("lighthouse_sites")
+    .from("lighthouse_audits")
     .select("*, lighthouse_runs(id, performance, accessibility, best_practices, seo, lcp, fid, cls, fcp, ttfb, run_at)")
     .order("name", { ascending: true });
 
