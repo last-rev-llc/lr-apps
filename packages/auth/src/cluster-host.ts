@@ -90,3 +90,30 @@ export function authHubUrl(host: string, pathAndQuery: string): string {
   if (isAuthHubOrigin(host)) return pathAndQuery;
   return `${authHubOriginForHost(host)}${pathAndQuery}`;
 }
+
+/**
+ * Origin (`scheme://host[:port]`) of the request itself. `http` for localhost
+ * and `*.localhost` mirrors, `https` for everything else.
+ */
+export function requestOriginForHost(host: string): string {
+  const raw = host.trim();
+  const hostname = raw.split(":")[0].toLowerCase();
+  const isLocal =
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname.endsWith(".localhost");
+  return `${isLocal ? "http" : "https"}://${raw}`;
+}
+
+/**
+ * Origins Auth0 must accept as the `appBaseUrl` for a request from `host`.
+ * Auth0 v4 throws `InvalidConfigurationError` when the request origin isn't
+ * in `appBaseUrl`, so this always includes the current host plus the cluster's
+ * auth hub (so a follow-up call on `auth.<cluster>` after the cross-host
+ * redirect from `requireAccess` validates too).
+ */
+export function appBaseUrlsForHost(host: string): string[] {
+  const current = requestOriginForHost(host);
+  const hub = authHubOriginForHost(host);
+  return current === hub ? [current] : [current, hub];
+}
