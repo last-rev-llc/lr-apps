@@ -32,6 +32,20 @@ import { withSpan } from "./lib/otel";
 const AUTH_RATE_LIMIT = 10;
 const AUTH_RATE_WINDOW_MS = 60_000;
 
+function generateNonce(): string {
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  let binary = "";
+  for (const b of bytes) binary += String.fromCharCode(b);
+  return btoa(binary);
+}
+
+function withNonceHeader(request: NextRequest, nonce: string): Headers {
+  const headers = new Headers(request.headers);
+  headers.set("x-nonce", nonce);
+  return headers;
+}
+
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   return withSpan(
     "proxy.auth",
@@ -43,10 +57,14 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
 const LEGACY_IDEAS_PATH = "/apps/command-center/ideas";
 
 async function proxyImpl(request: NextRequest): Promise<NextResponse> {
+  const nonce = generateNonce();
+  const applyCsp = <T extends NextResponse | Response>(r: T) =>
+    applyCspHeader(r, { nonce });
+
   if (shouldValidateCsrf(request)) {
     const csrf = validateCsrf(request);
     if (!csrf.ok) {
-      return applyCspHeader(csrfFailureNextResponse(csrf.reason));
+      return applyCsp(csrfFailureNextResponse(csrf.reason));
     }
   }
 
@@ -60,7 +78,7 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
     const target = new URL(
       `${appOrigin({ subdomain: "ideas" }, hostHeaderForRedirect)}${tail}${request.nextUrl.search}`,
     );
-    return applyCspHeader(NextResponse.redirect(target, 301));
+    return applyCsp(NextResponse.redirect(target, 301));
   }
 
   const host = getHostFromRequestHeaders(request.headers);
@@ -74,13 +92,13 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
       AUTH_RATE_WINDOW_MS,
     );
     if (!result.allowed) {
-      return applyCspHeader(rateLimitNextResponse(result));
+      return applyCsp(rateLimitNextResponse(result));
     }
     const authResponse = await withSpan("auth.session_check", {}, () =>
       auth0.middleware(request),
     );
     applyRateLimitHeaders(authResponse, result);
-    return applyCspHeader(authResponse);
+    return applyCsp(authResponse);
   }
 
   const authResponse = await withSpan("auth.session_check", {}, () =>
@@ -88,7 +106,7 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
   );
 
   const withAuth = (inner: NextResponse) =>
-    applyCspHeader(
+    applyCsp(
       ensureCsrfCookie(
         mergeAuthMiddlewareResponse(authResponse, inner),
         request,
@@ -110,7 +128,7 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
         const url = request.nextUrl.clone();
         url.searchParams.delete("app");
         url.pathname = `${routePath}${url.pathname}`;
-        const devHeaders = new Headers(request.headers);
+        const devHeaders = withNonceHeader(request, nonce);
         devHeaders.set("x-app-pathname", devPathname);
         const rewrite = NextResponse.rewrite(url, {
           request: { headers: devHeaders },
@@ -124,7 +142,11 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
   // must NOT redirect to the auth hub (auth.lastrev.com), which is the
   // production behavior for unknown subdomains.
   if (isPreview) {
-    return withAuth(NextResponse.next({ request }));
+    return withAuth(
+      NextResponse.next({
+        request: { headers: withNonceHeader(request, nonce) },
+      }),
+    );
   }
 
   return withSpan(
@@ -134,13 +156,17 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
       const subdomain = resolveSubdomain(hostHeader);
 
       if (!subdomain) {
-        return withAuth(NextResponse.next({ request }));
+        return withAuth(
+          NextResponse.next({
+            request: { headers: withNonceHeader(request, nonce) },
+          }),
+        );
       }
 
       const routePath = getRouteForSubdomain(subdomain);
 
       if (routePath === null) {
-        return applyCspHeader(
+        return applyCsp(
           mergeAuthMiddlewareResponse(
             authResponse,
             NextResponse.redirect(new URL(authHubOrigin(hostHeader))),
@@ -151,7 +177,7 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
       const originalPathname = request.nextUrl.pathname;
       const url = request.nextUrl.clone();
       url.pathname = `${routePath}${url.pathname}`;
-      const requestHeaders = new Headers(request.headers);
+      const requestHeaders = withNonceHeader(request, nonce);
       requestHeaders.set("x-app-pathname", originalPathname);
       const rewrite = NextResponse.rewrite(url, {
         request: { headers: requestHeaders },

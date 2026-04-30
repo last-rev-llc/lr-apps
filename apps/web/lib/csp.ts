@@ -12,6 +12,7 @@ const CSP_REPORT_ONLY_HEADER = "Content-Security-Policy-Report-Only";
 
 export type BuildCspOptions = {
   reportOnly?: boolean;
+  nonce?: string;
 };
 
 export function buildCspHeader(opts: BuildCspOptions = {}): string {
@@ -20,7 +21,12 @@ export function buildCspHeader(opts: BuildCspOptions = {}): string {
   const connectSrc = ["'self'", ...extraConnect];
 
   const isProd = process.env.NODE_ENV === "production";
-  const scriptSrc = isProd ? ["'self'"] : ["'self'", "'unsafe-inline'"];
+  const scriptSrc: string[] = ["'self'"];
+  if (opts.nonce) {
+    scriptSrc.push(`'nonce-${opts.nonce}'`, "'strict-dynamic'");
+  } else if (!isProd) {
+    scriptSrc.push("'unsafe-inline'");
+  }
 
   const directives: Record<string, string[]> = {
     "default-src": ["'self'"],
@@ -34,7 +40,7 @@ export function buildCspHeader(opts: BuildCspOptions = {}): string {
     "form-action": ["'self'"],
   };
 
-  void opts;
+  void opts.reportOnly;
 
   return Object.entries(directives)
     .map(([name, values]) => `${name} ${values.join(" ")}`)
@@ -49,8 +55,14 @@ export function isReportOnly(): boolean {
   return process.env.CSP_REPORT_ONLY === "true" || process.env.CSP_REPORT_ONLY === "1";
 }
 
-export function applyCspHeader<T extends NextResponse | Response>(response: T): T {
+export function applyCspHeader<T extends NextResponse | Response>(
+  response: T,
+  opts: { nonce?: string } = {},
+): T {
   const reportOnly = isReportOnly();
-  response.headers.set(cspHeaderName(reportOnly), buildCspHeader({ reportOnly }));
+  response.headers.set(
+    cspHeaderName(reportOnly),
+    buildCspHeader({ reportOnly, nonce: opts.nonce }),
+  );
   return response;
 }

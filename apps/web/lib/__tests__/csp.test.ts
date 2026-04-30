@@ -37,6 +37,16 @@ describe("buildCspHeader", () => {
     expect(scriptSrc).toContain("'unsafe-inline'");
   });
 
+  it("uses nonce + 'strict-dynamic' for script-src when nonce is provided", () => {
+    vi.stubEnv("NODE_ENV", "production");
+    const header = buildCspHeader({ nonce: "abc123" });
+    const scriptSrc = header.split(";").find((d) => d.trim().startsWith("script-src"));
+    expect(scriptSrc).toBeDefined();
+    expect(scriptSrc).toContain("'nonce-abc123'");
+    expect(scriptSrc).toContain("'strict-dynamic'");
+    expect(scriptSrc).not.toContain("'unsafe-inline'");
+  });
+
   it("merges connect-src hosts from .csp-defaults.json", () => {
     const header = buildCspHeader();
     expect(header).toContain("https://fzmhqcgzvgtvkswpwruc.supabase.co");
