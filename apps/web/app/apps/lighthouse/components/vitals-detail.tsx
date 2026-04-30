@@ -5,18 +5,21 @@ import type { LighthouseRun } from "../lib/types";
 
 function vitalLevel(metric: string, value: number | null | undefined): "default" | "secondary" | "destructive" {
   if (value == null) return "secondary";
-  // Core Web Vitals thresholds
+  // Core Web Vitals + Lighthouse-lab thresholds (web.dev guidance).
+  // FID/TTFB were dropped in modern Lighthouse — TBT and SI replace them.
   if (metric === "lcp") return value <= 2500 ? "default" : value <= 4000 ? "secondary" : "destructive";
-  if (metric === "fid") return value <= 100 ? "default" : value <= 300 ? "secondary" : "destructive";
+  if (metric === "tbt") return value <= 200 ? "default" : value <= 600 ? "secondary" : "destructive";
   if (metric === "cls") return value <= 0.1 ? "default" : value <= 0.25 ? "secondary" : "destructive";
   if (metric === "fcp") return value <= 1800 ? "default" : value <= 3000 ? "secondary" : "destructive";
-  if (metric === "ttfb") return value <= 800 ? "default" : value <= 1800 ? "secondary" : "destructive";
+  // Speed Index is reported in seconds (e.g. 2.4), not ms.
+  if (metric === "si") return value <= 3.4 ? "default" : value <= 5.8 ? "secondary" : "destructive";
   return "secondary";
 }
 
 function formatValue(metric: string, value: number | null | undefined): string {
   if (value == null) return "—";
   if (metric === "cls") return value.toFixed(3);
+  if (metric === "si") return `${value.toFixed(1)}s`;
   return `${Math.round(value)}ms`;
 }
 
@@ -34,10 +37,10 @@ interface VitalsDetailProps {
 export function VitalsDetail({ run, siteName }: VitalsDetailProps) {
   const vitals = [
     { key: "lcp", label: "LCP", description: "Largest Contentful Paint", value: run.lcp },
-    { key: "fid", label: "FID", description: "First Input Delay", value: run.fid },
+    { key: "tbt", label: "TBT", description: "Total Blocking Time", value: run.tbt },
     { key: "cls", label: "CLS", description: "Cumulative Layout Shift", value: run.cls },
     { key: "fcp", label: "FCP", description: "First Contentful Paint", value: run.fcp },
-    { key: "ttfb", label: "TTFB", description: "Time to First Byte", value: run.ttfb },
+    { key: "si", label: "SI", description: "Speed Index", value: run.si },
   ];
 
   return (
