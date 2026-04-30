@@ -150,9 +150,9 @@ export function StandupApp({ days, lastUpdated }: StandupAppProps) {
       {/* Header row */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="font-heading text-2xl font-bold text-foreground">
+          <h2 className="font-heading text-2xl font-bold text-foreground">
             📋 Daily Standup
-          </h1>
+          </h2>
           <p className="text-muted-foreground text-sm mt-0.5">
             Aggregated updates from Slack, GitHub, and Workspace.
           </p>

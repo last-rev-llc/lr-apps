@@ -130,11 +130,13 @@ export default function AiCalculatorPage() {
 
       setLeadStatus("success");
       setLeadMsg("Thanks! We'll send your personalized AI strategy soon.");
-    } catch {
-      // Graceful fallback — still acknowledge the user
-      setLeadStatus("success");
+    } catch (err) {
+      // Surfacing the failure rather than masking it — leads we can't persist
+      // are leads we can't follow up on, and silent success was hiding the loss.
+      console.error("[ai-calculator] lead capture failed", err);
+      setLeadStatus("error");
       setLeadMsg(
-        "Thanks! We'll be in touch with your personalized recommendations.",
+        "We couldn't save your details just now. Please try again, or email hello@lastrev.com.",
       );
     }
   }

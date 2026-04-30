@@ -10,7 +10,7 @@ Travel Collection is a **public, read-only** catalog (`auth: false` in `apps/web
 
 - **Auth fixture: do NOT use `loggedInPage`.** This app is public — using the auth fixture would mask a regression where someone accidentally adds `requireAppLayoutAccess` to the route. Tests use the plain Playwright `page` fixture (or `unauthPage` from `auth.fixture.ts` to be explicit about no cookies).
 - **Env**: `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (already used by `tests/e2e/helpers/db.ts`). No `E2E_TEST_USER_*` needed.
-- **Migration prerequisite.** As of 2026-04-30 there is no `travel_properties` migration in `supabase/migrations/`. Seed helpers will fail until that lands — call this out in the helper with a `// TODO: depends on travel_properties migration` comment.
+- **Migration**: `travel_properties` table is provisioned by `supabase/migrations/20260430_travel_properties.sql` (landed in [#410](https://github.com/last-rev-llc/lr-apps/pull/410)). Public-read RLS policy is enabled so the auth=false page can render rows.
 
 ## 2. Test data strategy
 
@@ -87,7 +87,6 @@ Components lean on text + `aria-label` on the `<select>`s. Add minimum `data-tes
 
 ## Execution order
 
-1. Land the `travel_properties` migration (prereq — §1).
-2. Add `data-testid` hooks (§5).
-3. Add `tests/e2e/helpers/travel-collection.ts`.
-4. Write `access.spec.ts` first (protects the public-route invariant), then `filters.spec.ts`, then `modal.spec.ts`.
+1. Add `data-testid` hooks (§5).
+2. Add `tests/e2e/helpers/travel-collection.ts` against `supabase/migrations/20260430_travel_properties.sql`.
+3. Write `access.spec.ts` first (protects the public-route invariant), then `filters.spec.ts`, then `modal.spec.ts`.
