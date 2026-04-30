@@ -2,9 +2,27 @@
 import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderWithProviders, screen } from "@repo/test-utils";
+import slangMessages from "../../../../messages/slang-translator/en.json";
+
+const I18N_MESSAGES = { "slang-translator": slangMessages };
 
 vi.mock("@/lib/require-app-layout-access", () => ({
   requireAppLayoutAccess: vi.fn(),
+}));
+
+vi.mock("next-intl/server", () => ({
+  getTranslations: vi.fn(async (namespace: string) => {
+    const parts = namespace.split(".");
+    return (key: string) => {
+      let cursor: any = I18N_MESSAGES;
+      for (const p of parts) cursor = cursor?.[p];
+      return cursor?.[key] ?? `${namespace}.${key}`;
+    };
+  }),
+}));
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ refresh: vi.fn(), push: vi.fn() }),
 }));
 
 vi.mock("@repo/ui", () => ({

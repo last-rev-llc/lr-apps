@@ -5,6 +5,10 @@ vi.mock("@/lib/require-app-layout-access", () => ({
   requireAppLayoutAccess: vi.fn(),
 }));
 
+vi.mock("next-intl/server", () => ({
+  getTranslations: vi.fn(async () => (key: string) => key),
+}));
+
 import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
 
 const mockRequireAppLayoutAccess = vi.mocked(requireAppLayoutAccess);

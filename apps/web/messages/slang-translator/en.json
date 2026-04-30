@@ -1,0 +1,90 @@
+{
+  "layout": {
+    "title": "🗣️ Slang Translator",
+    "navApp": "App",
+    "navAbout": "About",
+    "navDashboard": "Dashboard"
+  },
+  "page": {
+    "heading": "Slang Translator",
+    "subheading": "Gen Alpha & Gen X cross-generational slang decoder"
+  },
+  "app": {
+    "tabDictionary": "Dictionary",
+    "tabTranslator": "Translator",
+    "tabCompare": "Compare",
+    "tabQuiz": "Quiz"
+  },
+  "dictionary": {
+    "searchPlaceholder": "Search slang terms, definitions, aliases…",
+    "filterAllGenerations": "All Generations",
+    "filterGenAlpha": "Gen Alpha",
+    "filterGenX": "Gen X",
+    "filterAllCategories": "All Categories",
+    "termsFoundSingular": "{count} term found",
+    "termsFoundPlural": "{count} terms found",
+    "emptyState": "No slang found for that filter combo.",
+    "equivalentLabel": "{gen} equivalent:"
+  },
+  "vibe": {
+    "label": "Vibe"
+  },
+  "translator": {
+    "swap": "⇄ Swap",
+    "swapTitle": "Swap direction",
+    "inputPlaceholderAlpha": "Type or paste Gen Alpha slang here…",
+    "inputPlaceholderX": "Type or paste Gen X slang here…",
+    "outputPlaceholder": "Translation appears here…",
+    "noMatches": "No recognized slang terms found. Try typing some slang!"
+  },
+  "compare": {
+    "subtitle": "Side-by-side view of how the same concepts are expressed across generations.",
+    "fallbackXDefinition": "Classic Gen X expression"
+  },
+  "quiz": {
+    "intro": "Test your cross-generational slang knowledge. 10 questions mixing both directions.",
+    "start": "Start Quiz",
+    "tryAgain": "Try Again",
+    "questionAlpha": "What's the Gen X equivalent of \"{term}\"?",
+    "questionX": "What's the Gen Alpha equivalent of \"{term}\"?",
+    "questionProgress": "Question {current} of {total}",
+    "next": "Next",
+    "seeResults": "See Results",
+    "resultMasterTitle": "Cross-Gen Master",
+    "resultMasterMsg": "You speak both generations fluently. Impressive range.",
+    "resultBilingualTitle": "Bilingual Vibes",
+    "resultBilingualMsg": "Solid knowledge across generations. Almost there.",
+    "resultGettingThereTitle": "Getting There",
+    "resultGettingThereMsg": "You know your own generation but need to study the other.",
+    "resultGapTitle": "Generation Gap",
+    "resultGapMsg": "Time to brush up on both eras of slang!"
+  },
+  "badges": {
+    "genAlpha": "Gen Alpha",
+    "genX": "Gen X"
+  },
+  "about": {
+    "title": "The Rosetta Stone for Generational Slang",
+    "subtitle": "Bridge the communication gap between Gen Alpha and Gen X.",
+    "feature1Title": "Unified Dictionary",
+    "feature1Desc": "All slang from both generations in one searchable card grid with generation badges and filters.",
+    "feature2Title": "Live Translator",
+    "feature2Desc": "Two-panel translator that converts Gen Alpha slang to Gen X and vice versa in real time.",
+    "feature3Title": "Side-by-Side Comparisons",
+    "feature3Desc": "Matched pairs showing how the same concept was expressed across generations.",
+    "feature4Title": "Cross-Gen Quiz",
+    "feature4Desc": "Test your knowledge with quizzes that ask for equivalents across generations.",
+    "feature5Title": "Smart Search",
+    "feature5Desc": "Search across terms, definitions, and aliases from both generations simultaneously.",
+    "feature6Title": "Generation Filters",
+    "feature6Desc": "Filter by generation, category, and vibe score to find exactly what you need.",
+    "howItWorksTitle": "How it works",
+    "step1Title": "Browse the Dictionary",
+    "step1Desc": "Explore all slang from both generations with rich cards showing definitions, examples, vibe scores, and cross-generation equivalents.",
+    "step2Title": "Translate Between Eras",
+    "step2Desc": "Paste text into the translator and see recognized slang highlighted with their cross-generation equivalents.",
+    "step3Title": "Test Your Knowledge",
+    "step3Desc": "Take the cross-generational quiz to see if you can speak both languages fluently.",
+    "ctaButton": "Open Translator →"
+  }
+}

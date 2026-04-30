@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { createClient } from "@repo/db/client";
 import {
   Tabs,
@@ -107,11 +108,12 @@ function WineGlass({
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function GuideTab() {
+  const t = useTranslations("proper-wine-pour.guide");
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="font-heading text-2xl mb-1">Know Your Pour</h2>
-        <p className="text-muted-foreground text-sm">A visual guide to what you should be getting in your glass.</p>
+        <h2 className="font-heading text-2xl mb-1">{t("heading")}</h2>
+        <p className="text-muted-foreground text-sm">{t("subheading")}</p>
       </div>
 
       {/* Pour size cards */}
@@ -130,15 +132,15 @@ function GuideTab() {
 
       {/* Golden rule */}
       <div className="border border-red rounded-xl p-5 text-center" style={{ background: "linear-gradient(135deg, color-mix(in srgb, var(--color-red) 30%, transparent), color-mix(in srgb, var(--color-red) 20%, transparent))" }}>
-        <h3 className="font-heading text-xl mb-2" style={{ color: "var(--color-pill-6)" }}>The Golden Rule</h3>
-        <p className="text-sm font-semibold mb-1">1 bottle (750ml) = 5 standard glasses (5oz each)</p>
-        <p className="text-muted-foreground text-xs">If a restaurant charges you $18/glass for a $45 bottle, that's 5 glasses at $9 cost each.</p>
-        <p className="text-muted-foreground text-xs mt-1">If you're getting less than 5oz, you're being shorted. Period.</p>
+        <h3 className="font-heading text-xl mb-2" style={{ color: "var(--color-pill-6)" }}>{t("goldenRuleHeading")}</h3>
+        <p className="text-sm font-semibold mb-1">{t("goldenRuleLine1")}</p>
+        <p className="text-muted-foreground text-xs">{t("goldenRuleLine2")}</p>
+        <p className="text-muted-foreground text-xs mt-1">{t("goldenRuleLine3")}</p>
       </div>
 
       {/* Glass types */}
       <div>
-        <h3 className="font-heading text-lg mb-4">Glass Types &amp; Proper Fill Levels</h3>
+        <h3 className="font-heading text-lg mb-4">{t("glassTypesHeading")}</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {GLASS_TYPES.map((g) => (
             <div key={g.label} className="glass text-center p-4 rounded-xl">
@@ -157,6 +159,7 @@ function GuideTab() {
 }
 
 function CalculatorTab() {
+  const t = useTranslations("proper-wine-pour.calculator");
   const [bottlePrice, setBottlePrice] = useState(45);
   const [pourSize, setPourSize] = useState(5);
   const [glassPrice, setGlassPrice] = useState(18);
@@ -167,11 +170,11 @@ function CalculatorTab() {
   const markup = glassPrice / parseFloat(costPerGlass);
   const ripOff = Math.min(100, Math.max(0, ((markup - 1) / 4) * 100));
 
-  let ripLabel = "Fair Deal";
-  if (ripOff > 75) ripLabel = "Highway Robbery";
-  else if (ripOff > 55) ripLabel = "Outrageous";
-  else if (ripOff > 35) ripLabel = "Steep";
-  else if (ripOff > 15) ripLabel = "Normal Markup";
+  let ripLabel = t("ripFair");
+  if (ripOff > 75) ripLabel = t("ripRobbery");
+  else if (ripOff > 55) ripLabel = t("ripOutrageous");
+  else if (ripOff > 35) ripLabel = t("ripSteep");
+  else if (ripOff > 15) ripLabel = t("ripNormal");
 
   const markupPct = (markup * 100).toFixed(0);
   const markupColor = ripOff > 55 ? "var(--color-red)" : ripOff > 30 ? "var(--color-orange)" : "var(--color-green)";
@@ -179,8 +182,8 @@ function CalculatorTab() {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="font-heading text-2xl mb-1">Pour Calculator</h2>
-        <p className="text-muted-foreground text-sm">Find out if you're getting ripped off.</p>
+        <h2 className="font-heading text-2xl mb-1">{t("heading")}</h2>
+        <p className="text-muted-foreground text-sm">{t("subheading")}</p>
       </div>
 
       <Card className="glass border-surface-border">
@@ -191,7 +194,7 @@ function CalculatorTab() {
                 htmlFor="wine-bottle-price"
                 className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1"
               >
-                Retail Bottle Price ($)
+                {t("labelBottlePrice")}
               </label>
               <Input
                 id="wine-bottle-price"
@@ -208,7 +211,7 @@ function CalculatorTab() {
                 htmlFor="wine-pour-size"
                 className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1"
               >
-                Pour Size (oz)
+                {t("labelPourSize")}
               </label>
               <Input
                 id="wine-pour-size"
@@ -226,7 +229,7 @@ function CalculatorTab() {
                 htmlFor="wine-glass-price"
                 className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1"
               >
-                Restaurant Glass Price ($)
+                {t("labelGlassPrice")}
               </label>
               <Input
                 id="wine-glass-price"
@@ -246,17 +249,17 @@ function CalculatorTab() {
       <Card className="glass border-surface-border">
         <CardContent className="p-5 space-y-3">
           {[
-            { label: "Your cost per glass (retail)", value: `$${costPerGlass}`, color: "text-foreground" },
-            { label: "Cost per oz (retail)", value: `$${costPerOz}`, color: "text-foreground" },
-            { label: "Restaurant price per glass", value: `$${glassPrice.toFixed(2)}`, color: "text-foreground" },
-            { label: "Actual markup", value: `${markupPct}%`, color: "" },
-            { label: "Glasses per bottle", value: glassesPerBottle.toFixed(1), color: "text-foreground" },
+            { key: "costPerGlass", label: t("rowCostPerGlass"), value: `$${costPerGlass}` },
+            { key: "costPerOz", label: t("rowCostPerOz"), value: `$${costPerOz}` },
+            { key: "restaurantPrice", label: t("rowRestaurantPrice"), value: `$${glassPrice.toFixed(2)}` },
+            { key: "markup", label: t("rowMarkup"), value: `${markupPct}%` },
+            { key: "glassesPerBottle", label: t("rowGlassesPerBottle"), value: glassesPerBottle.toFixed(1) },
           ].map((row) => (
-            <div key={row.label} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
+            <div key={row.key} className="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
               <span className="text-muted-foreground text-sm">{row.label}</span>
               <span
                 className="font-bold text-base"
-                style={row.label.includes("markup") ? { color: markupColor } : undefined}
+                style={row.key === "markup" ? { color: markupColor } : undefined}
               >
                 {row.value}
               </span>
@@ -269,7 +272,7 @@ function CalculatorTab() {
       <Card className="glass border-surface-border">
         <CardContent className="p-5">
           <h4 className="font-heading text-center mb-3">
-            Rip-Off Meter:{" "}
+            {t("ripOffHeading")}{" "}
             <span style={{ color: markupColor }}>{ripLabel}</span>
           </h4>
           <div
@@ -282,11 +285,11 @@ function CalculatorTab() {
             />
           </div>
           <div className="flex justify-between text-[11px] text-muted-foreground mt-1">
-            <span>Fair Deal</span>
-            <span>Normal</span>
-            <span>Steep</span>
-            <span>Outrageous</span>
-            <span>Robbery</span>
+            <span>{t("scaleFair")}</span>
+            <span>{t("scaleNormal")}</span>
+            <span>{t("scaleSteep")}</span>
+            <span>{t("scaleOutrageous")}</span>
+            <span>{t("scaleRobbery")}</span>
           </div>
         </CardContent>
       </Card>
@@ -299,6 +302,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
   pourLogs: WinePour[];
   onAddPour: (pour: Omit<WinePour, "id" | "created_at">) => Promise<void>;
 }) {
+  const t = useTranslations("proper-wine-pour.tracker");
   const [filterRating, setFilterRating] = useState<PourRating | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -334,7 +338,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
         pour_rating: form.pour_rating,
         price_paid: form.price_paid ? parseFloat(form.price_paid) : null,
         notes: form.notes || null,
-        user_name: form.user_name || "Anonymous",
+        user_name: form.user_name || t("anonymous"),
       });
       setShowForm(false);
       setForm({ restaurant_name: "", wine_name: "", pour_rating: "standard", price_paid: "", notes: "", user_name: "" });
@@ -345,26 +349,35 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
 
   const generous = restaurants.filter((r) => r.pour_rating === "generous").length;
 
+  const filterLabel = (r: "all" | PourRating) => {
+    if (r === "all") return t("filterAll");
+    return t(`filter${r.charAt(0).toUpperCase()}${r.slice(1)}` as
+      | "filterGenerous"
+      | "filterStandard"
+      | "filterStingy"
+      | "filterCriminal");
+  };
+
   return (
     <div className="space-y-5">
       <div className="text-center">
-        <h2 className="font-heading text-2xl mb-1">Pour Tracker</h2>
-        <p className="text-muted-foreground text-sm">Track and rate restaurant wine pours.</p>
+        <h2 className="font-heading text-2xl mb-1">{t("heading")}</h2>
+        <p className="text-muted-foreground text-sm">{t("subheading")}</p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3 text-center">
         <div className="glass rounded-xl p-3">
           <div className="text-2xl font-bold text-green">{generous}</div>
-          <div className="text-xs text-muted-foreground">Generous Spots</div>
+          <div className="text-xs text-muted-foreground">{t("statGenerous")}</div>
         </div>
         <div className="glass rounded-xl p-3">
           <div className="text-2xl font-bold">{restaurants.length}</div>
-          <div className="text-xs text-muted-foreground">Restaurants</div>
+          <div className="text-xs text-muted-foreground">{t("statRestaurants")}</div>
         </div>
         <div className="glass rounded-xl p-3">
           <div className="text-2xl font-bold">{pourLogs.length}</div>
-          <div className="text-xs text-muted-foreground">Pours Logged</div>
+          <div className="text-xs text-muted-foreground">{t("statPours")}</div>
         </div>
       </div>
 
@@ -378,12 +391,12 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
             onClick={() => setFilterRating(r)}
             className={`rounded-full text-xs capitalize ${filterRating === r ? "bg-accent text-black border-accent" : ""}`}
           >
-            {r === "all" ? "All" : r}
+            {filterLabel(r)}
           </Button>
         ))}
         <Input
           type="text"
-          placeholder="Search restaurants..."
+          placeholder={t("searchPlaceholder")}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="ml-auto w-48 glass-input text-sm"
@@ -396,7 +409,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
           onClick={() => setShowForm((v) => !v)}
           className={showForm ? "" : "bg-accent text-black hover:opacity-90"}
         >
-          {showForm ? "Cancel" : "+ Log Pour"}
+          {showForm ? t("buttonCancel") : t("buttonLogPour")}
         </Button>
       </div>
 
@@ -404,50 +417,50 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
       {showForm && (
         <Card className="glass border-surface-border">
           <CardContent className="p-5 space-y-3">
-            <h3 className="font-heading text-base mb-2">Log a Pour</h3>
+            <h3 className="font-heading text-base mb-2">{t("formHeading")}</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label htmlFor="wine-restaurant-name" className="block text-xs text-muted-foreground font-semibold mb-1">Restaurant Name *</label>
+                <label htmlFor="wine-restaurant-name" className="block text-xs text-muted-foreground font-semibold mb-1">{t("labelRestaurantName")}</label>
                 <Input
                   id="wine-restaurant-name"
                   type="text"
-                  placeholder="e.g. Gary Danko"
+                  placeholder={t("placeholderRestaurant")}
                   value={form.restaurant_name}
                   onChange={(e) => setForm((f) => ({ ...f, restaurant_name: e.target.value }))}
                   className="glass-input"
                 />
               </div>
               <div>
-                <label htmlFor="wine-name" className="block text-xs text-muted-foreground font-semibold mb-1">Wine Ordered *</label>
+                <label htmlFor="wine-name" className="block text-xs text-muted-foreground font-semibold mb-1">{t("labelWineName")}</label>
                 <Input
                   id="wine-name"
                   type="text"
-                  placeholder="e.g. Caymus Cabernet 2021"
+                  placeholder={t("placeholderWine")}
                   value={form.wine_name}
                   onChange={(e) => setForm((f) => ({ ...f, wine_name: e.target.value }))}
                   className="glass-input"
                 />
               </div>
               <div>
-                <label htmlFor="wine-pour-rating" className="block text-xs text-muted-foreground font-semibold mb-1">Pour Rating</label>
+                <label htmlFor="wine-pour-rating" className="block text-xs text-muted-foreground font-semibold mb-1">{t("labelPourRating")}</label>
                 <select
                   id="wine-pour-rating"
                   value={form.pour_rating}
                   onChange={(e) => setForm((f) => ({ ...f, pour_rating: e.target.value as PourRating }))}
                   className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
                 >
-                  <option value="generous">Generous</option>
-                  <option value="standard">Standard</option>
-                  <option value="stingy">Stingy</option>
-                  <option value="criminal">Criminal</option>
+                  <option value="generous">{t("ratingGenerous")}</option>
+                  <option value="standard">{t("ratingStandard")}</option>
+                  <option value="stingy">{t("ratingStingy")}</option>
+                  <option value="criminal">{t("ratingCriminal")}</option>
                 </select>
               </div>
               <div>
-                <label htmlFor="wine-price-paid" className="block text-xs text-muted-foreground font-semibold mb-1">Price Paid ($)</label>
+                <label htmlFor="wine-price-paid" className="block text-xs text-muted-foreground font-semibold mb-1">{t("labelPricePaid")}</label>
                 <Input
                   id="wine-price-paid"
                   type="number"
-                  placeholder="18"
+                  placeholder={t("placeholderPrice")}
                   min={1}
                   max={500}
                   value={form.price_paid}
@@ -457,21 +470,21 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
               </div>
             </div>
             <div>
-              <label htmlFor="wine-notes" className="block text-xs text-muted-foreground font-semibold mb-1">Notes</label>
+              <label htmlFor="wine-notes" className="block text-xs text-muted-foreground font-semibold mb-1">{t("labelNotes")}</label>
               <textarea
                 id="wine-notes"
-                placeholder="How was the pour? Any comments..."
+                placeholder={t("placeholderNotes")}
                 value={form.notes}
                 onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
                 className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-16 resize-y"
               />
             </div>
             <div>
-              <label htmlFor="wine-user-name-pour" className="block text-xs text-muted-foreground font-semibold mb-1">Your Name</label>
+              <label htmlFor="wine-user-name-pour" className="block text-xs text-muted-foreground font-semibold mb-1">{t("labelUserName")}</label>
               <Input
                 id="wine-user-name-pour"
                 type="text"
-                placeholder="Your name"
+                placeholder={t("placeholderUserName")}
                 value={form.user_name}
                 onChange={(e) => setForm((f) => ({ ...f, user_name: e.target.value }))}
                 className="glass-input"
@@ -482,7 +495,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
               disabled={saving || !form.restaurant_name || !form.wine_name}
               className="bg-accent text-black hover:opacity-90"
             >
-              {saving ? "Saving…" : "Save Pour"}
+              {saving ? t("buttonSaving") : t("buttonSave")}
             </Button>
           </CardContent>
         </Card>
@@ -493,7 +506,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
         {filtered.length === 0 ? (
           <div className="text-center py-10 text-muted-foreground">
             <div className="text-3xl mb-2">🍷</div>
-            <p className="text-sm">No restaurants match this filter</p>
+            <p className="text-sm">{t("emptyState")}</p>
           </div>
         ) : (
           filtered.map((r) => (
@@ -502,7 +515,7 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 <div>
                   <h4 className="font-semibold text-sm">{r.name}</h4>
                   <p className="text-muted-foreground text-xs mt-0.5">
-                    {r.neighborhood} · Avg ${r.avg_glass_price}/glass
+                    {t("restaurantMeta", { neighborhood: r.neighborhood, price: r.avg_glass_price })}
                   </p>
                   <div className="flex gap-0.5 mt-1">
                     {Array.from({ length: 5 }, (_, i) => (
@@ -531,34 +544,67 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
 }
 
 function KnowledgeTab() {
+  const t = useTranslations("proper-wine-pour.knowledge");
+
+  const temps = [
+    { type: t("temp1Type"), temp: t("temp1Temp"), tip: t("temp1Tip") },
+    { type: t("temp2Type"), temp: t("temp2Temp"), tip: t("temp2Tip") },
+    { type: t("temp3Type"), temp: t("temp3Temp"), tip: t("temp3Tip") },
+    { type: t("temp4Type"), temp: t("temp4Temp"), tip: t("temp4Tip") },
+    { type: t("temp5Type"), temp: t("temp5Temp"), tip: t("temp5Tip") },
+    { type: t("temp6Type"), temp: t("temp6Temp"), tip: t("temp6Tip") },
+  ];
+
+  const pairings = [
+    { food: t("pair1Food"), wine: t("pair1Wine") },
+    { food: t("pair2Food"), wine: t("pair2Wine") },
+    { food: t("pair3Food"), wine: t("pair3Wine") },
+    { food: t("pair4Food"), wine: t("pair4Wine") },
+    { food: t("pair5Food"), wine: t("pair5Wine") },
+    { food: t("pair6Food"), wine: t("pair6Wine") },
+  ];
+
+  const shortPourTests = [
+    { title: t("short1Title"), body: t("short1Body") },
+    { title: t("short2Title"), body: t("short2Body") },
+    { title: t("short3Title"), body: t("short3Body") },
+    { title: t("short4Title"), body: t("short4Body") },
+  ];
+
+  const terms = [
+    { term: t("term1"), def: t("term1Def") },
+    { term: t("term2"), def: t("term2Def") },
+    { term: t("term3"), def: t("term3Def") },
+    { term: t("term4"), def: t("term4Def") },
+    { term: t("term5"), def: t("term5Def") },
+    { term: t("term6"), def: t("term6Def") },
+    { term: t("term7"), def: t("term7Def") },
+    { term: t("term8"), def: t("term8Def") },
+    { term: t("term9"), def: t("term9Def") },
+    { term: t("term10"), def: t("term10Def") },
+  ];
+
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="font-heading text-2xl mb-1">Wine Knowledge</h2>
-        <p className="text-muted-foreground text-sm">Everything you need to know to be a savvy wine drinker.</p>
+        <h2 className="font-heading text-2xl mb-1">{t("heading")}</h2>
+        <p className="text-muted-foreground text-sm">{t("subheading")}</p>
       </div>
 
       {/* Serving Temperatures */}
       <section>
-        <h3 className="font-heading text-lg mb-3">Serving Temperatures</h3>
+        <h3 className="font-heading text-lg mb-3">{t("tempsHeading")}</h3>
         <div className="glass rounded-xl overflow-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-white/10">
-                <th className="text-left px-4 py-2 text-xs text-muted-foreground uppercase tracking-wide font-semibold">Wine Type</th>
-                <th className="text-left px-4 py-2 text-xs text-muted-foreground uppercase tracking-wide font-semibold">Temperature</th>
-                <th className="text-left px-4 py-2 text-xs text-muted-foreground uppercase tracking-wide font-semibold hidden sm:table-cell">Tip</th>
+                <th className="text-left px-4 py-2 text-xs text-muted-foreground uppercase tracking-wide font-semibold">{t("tempsCol1")}</th>
+                <th className="text-left px-4 py-2 text-xs text-muted-foreground uppercase tracking-wide font-semibold">{t("tempsCol2")}</th>
+                <th className="text-left px-4 py-2 text-xs text-muted-foreground uppercase tracking-wide font-semibold hidden sm:table-cell">{t("tempsCol3")}</th>
               </tr>
             </thead>
             <tbody>
-              {[
-                { type: "Light Reds (Pinot Noir)", temp: "55-60°F / 13-16°C", tip: "Slightly cool, not room temp" },
-                { type: "Full Reds (Cabernet)", temp: "60-65°F / 16-18°C", tip: '"Room temp" means a cool room' },
-                { type: "White Wine", temp: "45-50°F / 7-10°C", tip: "20 min out of fridge" },
-                { type: "Sparkling", temp: "40-45°F / 4-7°C", tip: "Ice bucket for 15 min" },
-                { type: "Rosé", temp: "45-55°F / 7-13°C", tip: "Slightly warmer than white" },
-                { type: "Dessert Wine", temp: "43-47°F / 6-8°C", tip: "Well chilled" },
-              ].map((row) => (
+              {temps.map((row) => (
                 <tr key={row.type} className="border-b border-white/5 last:border-0">
                   <td className="px-4 py-2.5 font-medium">{row.type}</td>
                   <td className="px-4 py-2.5 text-muted-foreground">{row.temp}</td>
@@ -572,16 +618,9 @@ function KnowledgeTab() {
 
       {/* Food Pairings */}
       <section>
-        <h3 className="font-heading text-lg mb-3">Food Pairing Basics</h3>
+        <h3 className="font-heading text-lg mb-3">{t("pairingsHeading")}</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {[
-            { food: "Red Meat", wine: "Bold reds: Cabernet Sauvignon, Malbec, Syrah. Tannins cut through fat." },
-            { food: "Seafood", wine: "Crisp whites: Sauvignon Blanc, Chablis, Muscadet. Acidity complements fish." },
-            { food: "Pasta (Red Sauce)", wine: "Italian reds: Chianti, Barbera, Sangiovese. Acidity matches tomato." },
-            { food: "Spicy Food", wine: "Off-dry whites: Riesling, Gewürztraminer. Sweetness tames heat." },
-            { food: "Cheese", wine: "Match intensity. Soft cheese = light wine. Aged cheese = bold wine." },
-            { food: "Dessert", wine: "Wine should be sweeter than dessert. Port, Sauternes, late harvest." },
-          ].map((p) => (
+          {pairings.map((p) => (
             <div key={p.food} className="glass rounded-xl p-3">
               <h4 className="text-sm font-semibold mb-1">{p.food}</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">{p.wine}</p>
@@ -592,14 +631,9 @@ function KnowledgeTab() {
 
       {/* How to tell if your pour is short */}
       <section>
-        <h3 className="font-heading text-lg mb-3">How to Tell If Your Pour Is Short</h3>
+        <h3 className="font-heading text-lg mb-3">{t("shortPourHeading")}</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {[
-            { title: "The Finger Test", body: "Standard pour = about 2 fingers width in a standard red wine glass. Less than 1.5 fingers? You're being shorted." },
-            { title: "The Weight Test", body: "Pick up the glass. 5oz of wine should have noticeable weight. If it feels empty, it probably is." },
-            { title: "The Bottle Math", body: "If they pour more than 5-6 glasses from a bottle, each pour is under 5oz. Watch the bottle." },
-            { title: "The Swirl Test", body: "In a proper pour, swirling should show wine reaching the widest part of the bowl. If it barely moves, it's too little." },
-          ].map((item) => (
+          {shortPourTests.map((item) => (
             <div key={item.title} className="glass rounded-xl p-3">
               <h4 className="text-sm font-semibold mb-1">{item.title}</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">{item.body}</p>
@@ -610,30 +644,17 @@ function KnowledgeTab() {
 
       {/* Corkage */}
       <section>
-        <h3 className="font-heading text-lg mb-2">Corkage Fee Guide</h3>
+        <h3 className="font-heading text-lg mb-2">{t("corkageHeading")}</h3>
         <div className="glass rounded-xl p-4">
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Bringing your own bottle (BYO) means paying a corkage fee, typically $25–75. It&apos;s worth it if your bottle costs significantly less than the restaurant&apos;s markup. Etiquette: Always offer the sommelier a taste. Don&apos;t bring a wine the restaurant already sells. Some restaurants waive corkage if you also buy a bottle from their list.
-          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">{t("corkageBody")}</p>
         </div>
       </section>
 
       {/* Terminology */}
       <section>
-        <h3 className="font-heading text-lg mb-3">Wine Terminology</h3>
+        <h3 className="font-heading text-lg mb-3">{t("termsHeading")}</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {[
-            { term: "Tannins", def: "Compounds that create a drying sensation. Higher in red wines. Softens with age." },
-            { term: "Body", def: "How heavy/full the wine feels. Light (Pinot Grigio) to full (Cabernet)." },
-            { term: "Terroir", def: "The environment where grapes grow: soil, climate, altitude. Makes each wine unique." },
-            { term: "Vintage", def: "The year the grapes were harvested. Not all years are equal." },
-            { term: "Decanting", def: "Pouring wine into a vessel to aerate it. Opens up flavors in young bold reds." },
-            { term: "Legs/Tears", def: "Droplets running down the glass after swirling. Indicates alcohol/sugar content." },
-            { term: "Corked", def: "Wine contaminated by TCA. Smells like wet cardboard. Send it back." },
-            { term: "Varietal", def: "Wine made primarily from one grape variety (e.g., 100% Chardonnay)." },
-            { term: "Sommelier", def: "Trained wine professional. Your ally in getting a proper pour." },
-            { term: "Finish", def: "The taste that lingers after swallowing. Long finish = quality wine." },
-          ].map((item) => (
+          {terms.map((item) => (
             <div key={item.term} className="glass rounded-lg px-3 py-2.5">
               <strong className="text-sm font-heading">{item.term}</strong>
               <span className="text-xs text-muted-foreground"> — {item.def}</span>
@@ -650,6 +671,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
   onAddPost: (post: Omit<WallPost, "id" | "created_at" | "upvotes">) => Promise<void>;
   onUpvote: (id: string, newCount: number) => Promise<void>;
 }) {
+  const t = useTranslations("proper-wine-pour.wall");
   const [filterType, setFilterType] = useState<WallPostType | "all">("all");
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -663,7 +685,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
     setSaving(true);
     try {
       await onAddPost({
-        user_name: form.user_name || "Anonymous",
+        user_name: form.user_name || t("anonymous"),
         pour_type: form.pour_type,
         content: form.content,
       });
@@ -684,23 +706,28 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
     }
   }
 
+  const filterLabel = (k: "all" | WallPostType) => {
+    if (k === "all") return t("filterAll");
+    return k === "glory" ? t("filterGlory") : t("filterShame");
+  };
+
   return (
     <div className="space-y-5">
       <div className="text-center">
-        <h2 className="font-heading text-2xl mb-1">Community Wall</h2>
-        <p className="text-muted-foreground text-sm">Share your pour stories — the good, the bad, and the criminal.</p>
+        <h2 className="font-heading text-2xl mb-1">{t("heading")}</h2>
+        <p className="text-muted-foreground text-sm">{t("subheading")}</p>
       </div>
 
       <div className="flex items-center gap-3 flex-wrap">
-        {(["all", "glory", "shame"] as const).map((t) => (
+        {(["all", "glory", "shame"] as const).map((k) => (
           <Button
-            key={t}
-            variant={filterType === t ? "default" : "outline"}
+            key={k}
+            variant={filterType === k ? "default" : "outline"}
             size="sm"
-            onClick={() => setFilterType(t)}
-            className={`rounded-full capitalize ${filterType === t ? "bg-accent text-black border-accent" : ""}`}
+            onClick={() => setFilterType(k)}
+            className={`rounded-full capitalize ${filterType === k ? "bg-accent text-black border-accent" : ""}`}
           >
-            {t === "all" ? "All" : t === "glory" ? "Pour of Glory" : "Pour of Shame"}
+            {filterLabel(k)}
           </Button>
         ))}
         <Button
@@ -708,7 +735,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
           onClick={() => setShowForm((v) => !v)}
           className={`ml-auto ${showForm ? "" : "bg-accent text-black hover:opacity-90"}`}
         >
-          {showForm ? "Cancel" : "+ Share Story"}
+          {showForm ? t("buttonCancel") : t("buttonShare")}
         </Button>
       </div>
 
@@ -716,35 +743,35 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
       {showForm && (
         <Card className="glass border-surface-border">
           <CardContent className="p-5 space-y-3">
-            <h3 className="font-heading text-base">Share a Pour Story</h3>
+            <h3 className="font-heading text-base">{t("formHeading")}</h3>
             <div>
-              <label htmlFor="wine-user-name-story" className="block text-xs text-muted-foreground font-semibold mb-1">Your Name</label>
+              <label htmlFor="wine-user-name-story" className="block text-xs text-muted-foreground font-semibold mb-1">{t("labelUserName")}</label>
               <Input
                 id="wine-user-name-story"
                 type="text"
-                placeholder="Your name"
+                placeholder={t("placeholderUserName")}
                 value={form.user_name}
                 onChange={(e) => setForm((f) => ({ ...f, user_name: e.target.value }))}
                 className="glass-input"
               />
             </div>
             <div>
-              <label htmlFor="wine-pour-type" className="block text-xs text-muted-foreground font-semibold mb-1">Story Type</label>
+              <label htmlFor="wine-pour-type" className="block text-xs text-muted-foreground font-semibold mb-1">{t("labelType")}</label>
               <select
                 id="wine-pour-type"
                 value={form.pour_type}
                 onChange={(e) => setForm((f) => ({ ...f, pour_type: e.target.value as WallPostType }))}
                 className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
               >
-                <option value="glory">Pour of Glory (great pour!)</option>
-                <option value="shame">Pour of Shame (terrible pour)</option>
+                <option value="glory">{t("typeGloryOption")}</option>
+                <option value="shame">{t("typeShameOption")}</option>
               </select>
             </div>
             <div>
-              <label htmlFor="wine-story-content" className="block text-xs text-muted-foreground font-semibold mb-1">Your Story *</label>
+              <label htmlFor="wine-story-content" className="block text-xs text-muted-foreground font-semibold mb-1">{t("labelContent")}</label>
               <textarea
                 id="wine-story-content"
-                placeholder="Tell us about your pour experience..."
+                placeholder={t("placeholderContent")}
                 value={form.content}
                 onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
                 className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent min-h-20 resize-y"
@@ -755,7 +782,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
               disabled={saving || !form.content.trim()}
               className="bg-accent text-black hover:opacity-90"
             >
-              {saving ? "Posting…" : "Post Story"}
+              {saving ? t("buttonPosting") : t("buttonPost")}
             </Button>
           </CardContent>
         </Card>
@@ -765,7 +792,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
       {filtered.length === 0 ? (
         <div className="text-center py-10 text-muted-foreground">
           <div className="text-3xl mb-2">🍷</div>
-          <p className="text-sm">No stories yet. Be the first to share!</p>
+          <p className="text-sm">{t("emptyState")}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -778,7 +805,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
                     variant={post.pour_type === "glory" ? "secondary" : "destructive"}
                     className={post.pour_type === "glory" ? "text-green bg-green/15 border-green/30" : ""}
                   >
-                    {post.pour_type === "glory" ? "Pour of Glory" : "Pour of Shame"}
+                    {post.pour_type === "glory" ? t("badgeGlory") : t("badgeShame")}
                   </Badge>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-3">{post.content}</p>
@@ -806,6 +833,7 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export function WineApp({ restaurants, initialPourLogs, initialWallPosts }: Props) {
+  const tTabs = useTranslations("proper-wine-pour.tabs");
   const [pourLogs, setPourLogs] = useState<WinePour[]>(initialPourLogs);
   const [wallPosts, setWallPosts] = useState<WallPost[]>(initialWallPosts);
 
@@ -853,11 +881,11 @@ export function WineApp({ restaurants, initialPourLogs, initialWallPosts }: Prop
     <div>
       <Tabs defaultValue="guide">
         <TabsList className="w-full flex-wrap h-auto gap-1 border-b border-surface-border rounded-none bg-transparent pb-0 mb-6">
-          <TabsTrigger value="guide">🍷 Pour Guide</TabsTrigger>
-          <TabsTrigger value="calculator">🧮 Calculator</TabsTrigger>
-          <TabsTrigger value="tracker">📋 Tracker</TabsTrigger>
-          <TabsTrigger value="knowledge">📖 Knowledge</TabsTrigger>
-          <TabsTrigger value="wall">💬 Community</TabsTrigger>
+          <TabsTrigger value="guide">{tTabs("guide")}</TabsTrigger>
+          <TabsTrigger value="calculator">{tTabs("calculator")}</TabsTrigger>
+          <TabsTrigger value="tracker">{tTabs("tracker")}</TabsTrigger>
+          <TabsTrigger value="knowledge">{tTabs("knowledge")}</TabsTrigger>
+          <TabsTrigger value="wall">{tTabs("wall")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="guide">

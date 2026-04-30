@@ -1,12 +1,16 @@
 import React from "react";
 import type { ReactNode } from "react";
+import { getTranslations } from "next-intl/server";
 import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { LocaleSwitcher } from "@/components/locale-switcher";
 
-export const metadata = {
-  title: "Dad Joke of the Day",
-  description:
-    "A fresh dad joke every day — punchline reveals, ratings, and 55+ jokes to keep you cringing.",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("dad-joke-of-the-day.layout");
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 export const viewport = {
   themeColor: "#f59e0b",
@@ -14,6 +18,7 @@ export const viewport = {
 
 export default async function DadJokeLayout({ children }: { children: ReactNode }) {
   await requireAppLayoutAccess("dad-joke-of-the-day");
+  const t = await getTranslations("dad-joke-of-the-day.layout");
   return (
     <div className="min-h-screen bg-background">
       <header className="glass-header sticky top-0 z-10">
@@ -21,22 +26,23 @@ export default async function DadJokeLayout({ children }: { children: ReactNode 
           <div className="flex items-center gap-2">
             <span className="text-2xl">🤣</span>
             <h1 className="font-heading text-lg text-foreground font-semibold">
-              Dad Joke of the Day
+              {t("title")}
             </h1>
           </div>
-          <nav className="flex gap-4 text-sm">
+          <nav className="flex items-center gap-4 text-sm">
             <a
               href="/apps/dad-joke-of-the-day"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              App
+              {t("navApp")}
             </a>
             <a
               href="/apps/dad-joke-of-the-day/about"
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              About
+              {t("navAbout")}
             </a>
+            <LocaleSwitcher />
           </nav>
         </div>
       </header>

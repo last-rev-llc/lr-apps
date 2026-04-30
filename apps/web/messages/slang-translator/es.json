@@ -1,0 +1,90 @@
+{
+  "layout": {
+    "title": "🗣️ Traductor de Argot",
+    "navApp": "Aplicación",
+    "navAbout": "Acerca de",
+    "navDashboard": "Panel"
+  },
+  "page": {
+    "heading": "Traductor de Argot",
+    "subheading": "Decodificador de argot intergeneracional Gen Alpha y Gen X"
+  },
+  "app": {
+    "tabDictionary": "Diccionario",
+    "tabTranslator": "Traductor",
+    "tabCompare": "Comparar",
+    "tabQuiz": "Cuestionario"
+  },
+  "dictionary": {
+    "searchPlaceholder": "Buscar términos, definiciones, alias…",
+    "filterAllGenerations": "Todas las Generaciones",
+    "filterGenAlpha": "Gen Alpha",
+    "filterGenX": "Gen X",
+    "filterAllCategories": "Todas las Categorías",
+    "termsFoundSingular": "{count} término encontrado",
+    "termsFoundPlural": "{count} términos encontrados",
+    "emptyState": "No se encontró argot para esa combinación de filtros.",
+    "equivalentLabel": "Equivalente de {gen}:"
+  },
+  "vibe": {
+    "label": "Vibra"
+  },
+  "translator": {
+    "swap": "⇄ Cambiar",
+    "swapTitle": "Cambiar dirección",
+    "inputPlaceholderAlpha": "Escribe o pega argot Gen Alpha aquí…",
+    "inputPlaceholderX": "Escribe o pega argot Gen X aquí…",
+    "outputPlaceholder": "La traducción aparece aquí…",
+    "noMatches": "No se encontraron términos de argot reconocidos. ¡Prueba escribiendo algo!"
+  },
+  "compare": {
+    "subtitle": "Vista en paralelo de cómo se expresan los mismos conceptos entre generaciones.",
+    "fallbackXDefinition": "Expresión clásica de Gen X"
+  },
+  "quiz": {
+    "intro": "Pon a prueba tu conocimiento de argot intergeneracional. 10 preguntas mezclando ambas direcciones.",
+    "start": "Iniciar Cuestionario",
+    "tryAgain": "Intentar de Nuevo",
+    "questionAlpha": "¿Cuál es el equivalente Gen X de \"{term}\"?",
+    "questionX": "¿Cuál es el equivalente Gen Alpha de \"{term}\"?",
+    "questionProgress": "Pregunta {current} de {total}",
+    "next": "Siguiente",
+    "seeResults": "Ver Resultados",
+    "resultMasterTitle": "Maestro Intergeneracional",
+    "resultMasterMsg": "Hablas ambas generaciones con fluidez. Rango impresionante.",
+    "resultBilingualTitle": "Vibras Bilingües",
+    "resultBilingualMsg": "Conocimiento sólido entre generaciones. Casi llegas.",
+    "resultGettingThereTitle": "Llegando",
+    "resultGettingThereMsg": "Conoces tu propia generación pero necesitas estudiar la otra.",
+    "resultGapTitle": "Brecha Generacional",
+    "resultGapMsg": "¡Es hora de repasar ambas eras del argot!"
+  },
+  "badges": {
+    "genAlpha": "Gen Alpha",
+    "genX": "Gen X"
+  },
+  "about": {
+    "title": "La Piedra Rosetta del Argot Generacional",
+    "subtitle": "Cierra la brecha de comunicación entre Gen Alpha y Gen X.",
+    "feature1Title": "Diccionario Unificado",
+    "feature1Desc": "Todo el argot de ambas generaciones en una cuadrícula buscable con insignias de generación y filtros.",
+    "feature2Title": "Traductor en Vivo",
+    "feature2Desc": "Traductor de dos paneles que convierte argot Gen Alpha a Gen X y viceversa en tiempo real.",
+    "feature3Title": "Comparaciones en Paralelo",
+    "feature3Desc": "Pares emparejados que muestran cómo se expresaba el mismo concepto entre generaciones.",
+    "feature4Title": "Cuestionario Intergeneracional",
+    "feature4Desc": "Pon a prueba tu conocimiento con cuestionarios que piden equivalentes entre generaciones.",
+    "feature5Title": "Búsqueda Inteligente",
+    "feature5Desc": "Busca en términos, definiciones y alias de ambas generaciones simultáneamente.",
+    "feature6Title": "Filtros de Generación",
+    "feature6Desc": "Filtra por generación, categoría y puntaje de vibra para encontrar exactamente lo que necesitas.",
+    "howItWorksTitle": "Cómo funciona",
+    "step1Title": "Explora el Diccionario",
+    "step1Desc": "Explora todo el argot de ambas generaciones con tarjetas ricas que muestran definiciones, ejemplos, puntajes de vibra y equivalentes intergeneracionales.",
+    "step2Title": "Traduce Entre Eras",
+    "step2Desc": "Pega texto en el traductor y ve el argot reconocido resaltado con sus equivalentes intergeneracionales.",
+    "step3Title": "Prueba tu Conocimiento",
+    "step3Desc": "Realiza el cuestionario intergeneracional para ver si puedes hablar ambos idiomas con fluidez.",
+    "ctaButton": "Abrir Traductor →"
+  }
+}

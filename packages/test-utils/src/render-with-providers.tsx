@@ -1,24 +1,44 @@
-import React, { type ReactElement } from "react";
+import React, { type ReactElement, type ReactNode } from "react";
 import { render, type RenderOptions } from "@testing-library/react";
+import { NextIntlClientProvider, type AbstractIntlMessages } from "next-intl";
 
-/**
- * Wraps components in shared providers for testing.
- * Currently a passthrough — add providers here as the app grows.
- */
-function AllProviders({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+interface ProviderProps {
+  children: ReactNode;
+  messages?: AbstractIntlMessages;
+  locale?: string;
 }
 
-/**
- * Renders a component wrapped in all shared providers.
- * Drop-in replacement for `@testing-library/react` render().
- */
+function AllProviders({ children, messages, locale = "en" }: ProviderProps) {
+  return (
+    <NextIntlClientProvider
+      locale={locale}
+      messages={messages ?? {}}
+      onError={() => {}}
+      getMessageFallback={({ key, namespace }) => `${namespace ?? ""}.${key}`}
+    >
+      {children}
+    </NextIntlClientProvider>
+  );
+}
+
+export interface RenderWithProvidersOptions
+  extends Omit<RenderOptions, "wrapper"> {
+  messages?: AbstractIntlMessages;
+  locale?: string;
+}
+
 export function renderWithProviders(
   ui: ReactElement,
-  options?: Omit<RenderOptions, "wrapper">,
+  { messages, locale, ...options }: RenderWithProvidersOptions = {},
 ) {
-  return render(ui, { wrapper: AllProviders, ...options });
+  return render(ui, {
+    wrapper: ({ children }) => (
+      <AllProviders messages={messages} locale={locale}>
+        {children}
+      </AllProviders>
+    ),
+    ...options,
+  });
 }
 
-// Re-export everything from testing-library for convenience
 export { screen, waitFor, within, act, fireEvent } from "@testing-library/react";

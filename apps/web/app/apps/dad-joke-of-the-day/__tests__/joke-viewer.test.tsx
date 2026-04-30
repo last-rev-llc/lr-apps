@@ -3,7 +3,10 @@ import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { act } from "react";
 import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
+import dadJokeMessages from "../../../../messages/dad-joke-of-the-day/en.json";
 import type { DadJoke } from "../lib/types";
+
+const I18N_MESSAGES = { "dad-joke-of-the-day": dadJokeMessages };
 
 // ── Mock @repo/ui ──────────────────────────────────────────────────────────
 
@@ -77,33 +80,25 @@ beforeEach(() => {
 describe("JokeViewer", () => {
   it("renders the initial joke setup text", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
     expect(screen.getByText("Pun setup")).toBeInTheDocument();
   });
 
   it("hides the punchline by default", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
     expect(screen.queryByText("Pun punchline")).not.toBeInTheDocument();
   });
 
   it("shows the reveal punchline button by default", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
     expect(screen.getByText(/Reveal Punchline/i)).toBeInTheDocument();
   });
 
   it("reveals the punchline after clicking the reveal button", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
 
     await act(async () => {
       fireEvent.click(screen.getByText(/Reveal Punchline/i));
@@ -114,9 +109,7 @@ describe("JokeViewer", () => {
 
   it("renders category filter badges for all categories", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
     expect(screen.getAllByText("Animals").length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText("Puns").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("All")).toBeInTheDocument();
@@ -124,26 +117,20 @@ describe("JokeViewer", () => {
 
   it("shows JOTD mode badge by default", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
     expect(screen.getAllByText(/Joke of the Day/i).length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders navigation buttons: Random Joke and Joke of the Day", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
     expect(screen.getByRole("button", { name: /Random Joke/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Joke of the Day/i })).toBeInTheDocument();
   });
 
   it("switches to a different joke when category is selected", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
 
     // Click the Animals category badge
     const animalsBadge = screen.getByText("Animals");
@@ -157,9 +144,7 @@ describe("JokeViewer", () => {
 
   it("shows pool count when a specific category is selected", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
 
     const animalsBadge = screen.getByText("Animals");
     await act(async () => {
@@ -171,9 +156,7 @@ describe("JokeViewer", () => {
 
   it("shows rating buttons after punchline is revealed", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
 
     await act(async () => {
       fireEvent.click(screen.getByText(/Reveal Punchline/i));
@@ -184,9 +167,7 @@ describe("JokeViewer", () => {
 
   it("renders the current joke's category badge", async () => {
     const { JokeViewer } = await import("../components/joke-viewer");
-    renderWithProviders(
-      <JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />,
-    );
+    renderWithProviders(<JokeViewer jokes={JOKES} initialJoke={punsJoke} categories={CATEGORIES} />, { messages: I18N_MESSAGES });
     // "Puns" appears as both a filter badge and the joke's category label
     const punsElements = screen.getAllByText("Puns");
     expect(punsElements.length).toBeGreaterThanOrEqual(1);

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { getWinePours, getWallPosts } from "./lib/queries";
 import { WineApp } from "./components/wine-app";
 import restaurantsData from "./data/restaurants.json";
@@ -10,6 +11,7 @@ export default async function ProperWinePourPage() {
     getWinePours(),
     getWallPosts(),
   ]);
+  const t = await getTranslations("proper-wine-pour.page");
 
   const restaurants = restaurantsData as Restaurant[];
 
@@ -17,11 +19,9 @@ export default async function ProperWinePourPage() {
     <div>
       <div className="mb-6">
         <h1 className="font-heading text-2xl" style={{ color: "var(--color-pill-6)" }}>
-          Proper Wine Pour
+          {t("heading")}
         </h1>
-        <p className="text-muted-foreground text-sm">
-          Pour calculator, restaurant ratings &amp; community wall
-        </p>
+        <p className="text-muted-foreground text-sm">{t("subheading")}</p>
       </div>
       <WineApp
         restaurants={restaurants}

@@ -2,7 +2,29 @@
 import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderWithProviders, screen } from "@repo/test-utils";
+import dadJokeMessages from "../../../../messages/dad-joke-of-the-day/en.json";
 import type { DadJoke } from "../lib/types";
+
+const I18N_MESSAGES = { "dad-joke-of-the-day": dadJokeMessages };
+
+// ── Mock next-intl/server (page.tsx is a server component using getTranslations) ──
+
+vi.mock("next-intl/server", () => ({
+  getTranslations: vi.fn(async (namespace: string) => {
+    const parts = namespace.split(".");
+    return (key: string, params?: Record<string, unknown>) => {
+      let cursor: any = I18N_MESSAGES;
+      for (const p of parts) cursor = cursor?.[p];
+      let value = cursor?.[key] ?? `${namespace}.${key}`;
+      if (params && typeof value === "string") {
+        for (const [pk, pv] of Object.entries(params)) {
+          value = value.replace(new RegExp(`\\{${pk}\\}`, "g"), String(pv));
+        }
+      }
+      return value;
+    };
+  }),
+}));
 
 // ── Mock @repo/ui ──────────────────────────────────────────────────────────
 
@@ -73,7 +95,7 @@ describe("DadJokePage", () => {
   it("renders the heading", async () => {
     const { default: DadJokePage } = await import("../page");
     const jsx = await DadJokePage();
-    renderWithProviders(jsx);
+    renderWithProviders(jsx, { messages: I18N_MESSAGES });
 
     expect(screen.getByText("One Groan Per Day.")).toBeInTheDocument();
   });
@@ -81,7 +103,7 @@ describe("DadJokePage", () => {
   it("renders joke count and category count", async () => {
     const { default: DadJokePage } = await import("../page");
     const jsx = await DadJokePage();
-    renderWithProviders(jsx);
+    renderWithProviders(jsx, { messages: I18N_MESSAGES });
 
     expect(screen.getByText(/2 jokes across 2 categories/)).toBeInTheDocument();
   });
@@ -89,7 +111,7 @@ describe("DadJokePage", () => {
   it("renders the JOTD setup text via JokeViewer", async () => {
     const { default: DadJokePage } = await import("../page");
     const jsx = await DadJokePage();
-    renderWithProviders(jsx);
+    renderWithProviders(jsx, { messages: I18N_MESSAGES });
 
     expect(screen.getByText(mockJOTD.setup)).toBeInTheDocument();
   });
@@ -101,7 +123,7 @@ describe("DadJokePage", () => {
 
     const { default: DadJokePage } = await import("../page");
     const jsx = await DadJokePage();
-    renderWithProviders(jsx);
+    renderWithProviders(jsx, { messages: I18N_MESSAGES });
 
     expect(screen.getByTestId("empty-state")).toBeInTheDocument();
     expect(screen.getByText(/No jokes found/)).toBeInTheDocument();
@@ -110,7 +132,7 @@ describe("DadJokePage", () => {
   it("renders category filter badges", async () => {
     const { default: DadJokePage } = await import("../page");
     const jsx = await DadJokePage();
-    renderWithProviders(jsx);
+    renderWithProviders(jsx, { messages: I18N_MESSAGES });
 
     expect(screen.getAllByText("Animals").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("Food")).toBeInTheDocument();

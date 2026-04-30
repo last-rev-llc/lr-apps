@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@repo/ui";
 import { Badge } from "@repo/ui";
 import { Card, CardContent } from "@repo/ui";
@@ -15,6 +16,7 @@ interface JokeViewerProps {
 }
 
 export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) {
+  const t = useTranslations("dad-joke-of-the-day.viewer");
   const [currentJoke, setCurrentJoke] = useState<DadJoke>(initialJoke);
   const [punchlineRevealed, setPunchlineRevealed] = useState(false);
   const [ratedKey, setRatedKey] = useState<string | null>(null);
@@ -136,7 +138,10 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
 
   const statsLabel =
     (currentJoke.times_rated ?? 0) > 0
-      ? `⭐ ${currentJoke.rating?.toFixed(1) ?? "—"} (${currentJoke.times_rated} ratings)`
+      ? t("stats", {
+          rating: currentJoke.rating?.toFixed(1) ?? "—",
+          count: currentJoke.times_rated ?? 0,
+        })
       : null;
 
   return (
@@ -155,7 +160,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
               : "cursor-pointer border-white/10 text-muted-foreground hover:border-white/30"
           }
         >
-          All
+          {t("filterAll")}
         </Badge>
         {categories.map((cat) => (
           <Badge
@@ -185,7 +190,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
               variant="outline"
               className="border-accent/40 text-accent bg-accent/10"
             >
-              {mode === "jotd" ? "🗓️ Joke of the Day" : "🎲 Random Joke"}
+              {mode === "jotd" ? t("modeJotd") : t("modeRandom")}
             </Badge>
           </div>
 
@@ -205,7 +210,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
               {!ratedKey ? (
                 <div>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Rate this joke:
+                    {t("ratePrompt")}
                   </p>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {RATINGS.map(({ key, emoji, label }) => (
@@ -223,9 +228,9 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
                 </div>
               ) : (
                 <p className="text-sm text-muted-foreground">
-                  Rated{" "}
-                  {RATINGS.find((r) => r.key === ratedKey)?.emoji ?? ""} —
-                  thanks!
+                  {t("ratedThanks", {
+                    emoji: RATINGS.find((r) => r.key === ratedKey)?.emoji ?? "",
+                  })}
                 </p>
               )}
             </div>
@@ -234,7 +239,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
               onClick={() => setPunchlineRevealed(true)}
               className="bg-accent hover:bg-accent-400 text-black font-semibold"
             >
-              👇 Reveal Punchline
+              {t("revealPunchline")}
             </Button>
           )}
 
@@ -259,22 +264,24 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
           onClick={showRandom}
           className="bg-pill-1 hover:bg-pill-1/80 text-white"
         >
-          🎲 Random Joke
+          {t("navRandom")}
         </Button>
         <Button
           onClick={showJOTD}
           variant="outline"
           className="border-white/20 hover:border-white/40 text-foreground"
         >
-          🗓️ Joke of the Day
+          {t("navJotd")}
         </Button>
       </div>
 
       {/* Pool count */}
       {selectedCategory !== "all" && (
         <p className="text-center text-xs text-muted-foreground">
-          {filteredJokes.length} joke{filteredJokes.length !== 1 ? "s" : ""} in{" "}
-          {selectedCategory}
+          {t(filteredJokes.length === 1 ? "poolCountSingular" : "poolCountPlural", {
+            count: filteredJokes.length,
+            category: selectedCategory,
+          })}
         </p>
       )}
     </div>

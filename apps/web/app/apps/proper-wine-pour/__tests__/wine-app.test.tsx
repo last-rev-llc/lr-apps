@@ -2,6 +2,9 @@
 import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderWithProviders, screen, fireEvent, act, waitFor } from "@repo/test-utils";
+import wineMessages from "../../../../messages/proper-wine-pour/en.json";
+
+const I18N_MESSAGES = { "proper-wine-pour": wineMessages };
 
 // ── Mock @repo/db/client ───────────────────────────────────────────────────
 
@@ -159,18 +162,14 @@ beforeEach(() => {
 
 describe("WineApp — Guide tab (default)", () => {
   it("renders the Guide tab by default", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     expect(screen.getByRole("tab", { name: /Pour Guide/i })).toHaveAttribute("aria-selected", "true");
     expect(screen.getByText("Know Your Pour")).toBeInTheDocument();
   });
 
   it("renders pour size cards from data/pour-sizes.json", async () => {
     const { default: pourSizes } = await import("../data/pour-sizes.json");
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     for (const ps of pourSizes.pourSizes) {
       expect(screen.getByText(ps.label)).toBeInTheDocument();
       expect(screen.getByText(ps.size)).toBeInTheDocument();
@@ -179,18 +178,14 @@ describe("WineApp — Guide tab (default)", () => {
 
   it("renders glass type cards from data/pour-sizes.json", async () => {
     const { default: pourSizes } = await import("../data/pour-sizes.json");
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     for (const gt of pourSizes.glassTypes) {
       expect(screen.getByText(gt.label)).toBeInTheDocument();
     }
   });
 
   it("renders 5 tab triggers", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     expect(screen.getByRole("tab", { name: /Pour Guide/i })).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: /Calculator/i })).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: /Tracker/i })).toBeInTheDocument();
@@ -201,26 +196,20 @@ describe("WineApp — Guide tab (default)", () => {
 
 describe("WineApp — Calculator tab", () => {
   it("renders calculator with default values", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     fireEvent.click(screen.getByRole("tab", { name: /Calculator/i }));
     expect(screen.getByText("Pour Calculator")).toBeInTheDocument();
   });
 
   it("shows the correct oz-per-glass calculation for 750ml ÷ 5oz", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     fireEvent.click(screen.getByRole("tab", { name: /Calculator/i }));
     // Default: 45 bottle / 5 oz pour → ~5.07 glasses per bottle displayed as "5.1"
     expect(screen.getByText("5.1")).toBeInTheDocument();
   });
 
   it("renders Input fields for bottle price, pour size, and glass price", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     fireEvent.click(screen.getByRole("tab", { name: /Calculator/i }));
     expect(screen.getByText(/Retail Bottle Price/i)).toBeInTheDocument();
     expect(screen.getByText(/Pour Size \(oz\)/i)).toBeInTheDocument();
@@ -233,18 +222,14 @@ describe("WineApp — Calculator tab", () => {
 
 describe("WineApp — Tracker tab", () => {
   it("renders restaurant cards with name and neighborhood", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     fireEvent.click(screen.getByRole("tab", { name: /Tracker/i }));
     expect(screen.getByText("Restaurant Gary Danko")).toBeInTheDocument();
     expect(screen.getByText(/Fisherman's Wharf/i)).toBeInTheDocument();
   });
 
   it("renders pour_rating Badge with correct variant", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     fireEvent.click(screen.getByRole("tab", { name: /Tracker/i }));
     // Both the filter button and the restaurant badge show the pour rating text.
     // Check that at least one Badge span (not a button) renders the rating.
@@ -258,9 +243,7 @@ describe("WineApp — Tracker tab", () => {
   });
 
   it("shows pour log count in stats", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     fireEvent.click(screen.getByRole("tab", { name: /Tracker/i }));
     // "Pours Logged" stat label confirms the section exists
     expect(screen.getByText("Pours Logged")).toBeInTheDocument();
@@ -270,9 +253,7 @@ describe("WineApp — Tracker tab", () => {
   });
 
   it("shows Log Pour button", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     fireEvent.click(screen.getByRole("tab", { name: /Tracker/i }));
     expect(screen.getByRole("button", { name: /\+ Log Pour/i })).toBeInTheDocument();
   });
@@ -280,9 +261,7 @@ describe("WineApp — Tracker tab", () => {
 
 describe("WineApp — Community Wall tab", () => {
   it("renders wall posts with user names and content", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     fireEvent.click(screen.getByRole("tab", { name: /Community/i }));
     expect(screen.getByText("Bob")).toBeInTheDocument();
     expect(screen.getByText("Alice")).toBeInTheDocument();
@@ -291,9 +270,7 @@ describe("WineApp — Community Wall tab", () => {
   });
 
   it("shows glory and shame badges with correct variants", () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     fireEvent.click(screen.getByRole("tab", { name: /Community/i }));
     // Both filter buttons and post badges use the text "Pour of Glory" / "Pour of Shame".
     // Badge spans (not buttons) carry the data-variant attribute.
@@ -309,9 +286,7 @@ describe("WineApp — Community Wall tab", () => {
   });
 
   it("upvote button increments count optimistically", async () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     fireEvent.click(screen.getByRole("tab", { name: /Community/i }));
 
     // Bob's post has 5 upvotes initially
@@ -323,9 +298,7 @@ describe("WineApp — Community Wall tab", () => {
   });
 
   it("submitting a new wall post inserts it into the list", async () => {
-    renderWithProviders(
-      <WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />,
-    );
+    renderWithProviders(<WineApp restaurants={MOCK_RESTAURANTS} initialPourLogs={MOCK_POUR_LOGS} initialWallPosts={MOCK_WALL_POSTS} />, { messages: I18N_MESSAGES });
     await act(async () => {
       fireEvent.click(screen.getByRole("tab", { name: /Community/i }));
     });

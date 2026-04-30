@@ -1,11 +1,16 @@
 import React from "react";
 import type { ReactNode } from "react";
+import { getTranslations } from "next-intl/server";
 import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";
+import { LocaleSwitcher } from "@/components/locale-switcher";
 
-export const metadata = {
-  title: "Proper Wine Pour",
-  description: "Pour calculator, rip-off meter, restaurant ratings & community wall",
-};
+export async function generateMetadata() {
+  const t = await getTranslations("proper-wine-pour.layout");
+  return {
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+  };
+}
 
 export const viewport = {
   themeColor: "#722F37",
@@ -13,33 +18,35 @@ export const viewport = {
 
 export default async function ProperWinePourLayout({ children }: { children: ReactNode }) {
   await requireAppLayoutAccess("proper-wine-pour");
+  const t = await getTranslations("proper-wine-pour.layout");
   return (
     <div className="min-h-screen">
       <header className="border-b border-surface-border">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <h1 className="font-heading text-xl" style={{ color: "var(--color-pill-6)" }}>
-              🍷 Proper Wine Pour
+              {t("title")}
             </h1>
-            <nav className="flex gap-4 text-sm">
+            <nav className="flex items-center gap-4 text-sm">
               <a
                 href="/apps/proper-wine-pour"
                 className="text-foreground hover:text-accent"
               >
-                App
+                {t("navApp")}
               </a>
               <a
                 href="/apps/proper-wine-pour/about"
                 className="text-muted-foreground hover:text-accent"
               >
-                About
+                {t("navAbout")}
               </a>
               <a
                 href="/"
                 className="text-muted-foreground hover:text-accent"
               >
-                Dashboard
+                {t("navDashboard")}
               </a>
+              <LocaleSwitcher />
             </nav>
           </div>
         </div>

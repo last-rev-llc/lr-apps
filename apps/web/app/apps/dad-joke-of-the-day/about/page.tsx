@@ -1,70 +1,77 @@
+import { getTranslations } from "next-intl/server";
 import { Card, CardContent } from "@repo/ui";
 import { Badge } from "@repo/ui";
 import Link from "next/link";
 
-const features = [
-  {
-    icon: "🗓️",
-    title: "Joke of the Day",
-    description:
-      "Same joke for everyone, all day. Deterministic by date so you can share it.",
-    color: "text-accent",
-  },
-  {
-    icon: "🎲",
-    title: "Random Mode",
-    description:
-      "Can't wait until tomorrow? Hit random for instant dad-joke gratification.",
-    color: "text-pill-8",
-  },
-  {
-    icon: "👁️",
-    title: "Punchline Reveal",
-    description:
-      "The setup builds suspense. Click to reveal. Groan accordingly.",
-    color: "text-blue",
-  },
-  {
-    icon: "⭐",
-    title: "Rate Jokes",
-    description:
-      "Was it groan-worthy, eye-roll material, or actually funny? You decide.",
-    color: "text-green",
-  },
-  {
-    icon: "🗂️",
-    title: "7 Categories",
-    description:
-      "Classic, Food, Animals, Tech, Holiday, Work, and Science jokes in the mix.",
-    color: "text-pill-6",
-  },
-  {
-    icon: "📊",
-    title: "Community Ratings",
-    description:
-      "Ratings are aggregated across all users — see which jokes earn the most groans.",
-    color: "text-pill-7",
-  },
-];
+export default async function DadJokeAboutPage() {
+  const t = await getTranslations("dad-joke-of-the-day.about");
 
-const steps = [
-  {
-    title: "Open the App",
-    description:
-      "Today's joke is already waiting. The setup is right there, punchline hidden.",
-  },
-  {
-    title: "Reveal the Punchline",
-    description: "Click the button. Brace yourself. Let the groan escape.",
-  },
-  {
-    title: "Rate and Repeat",
-    description:
-      "Rate it, then hit random for another. Share the pain with friends.",
-  },
-];
+  const features = [
+    {
+      icon: "🗓️",
+      title: t("featureJotdTitle"),
+      description: t("featureJotdDescription"),
+      color: "text-accent",
+    },
+    {
+      icon: "🎲",
+      title: t("featureRandomTitle"),
+      description: t("featureRandomDescription"),
+      color: "text-pill-8",
+    },
+    {
+      icon: "👁️",
+      title: t("featureRevealTitle"),
+      description: t("featureRevealDescription"),
+      color: "text-blue",
+    },
+    {
+      icon: "⭐",
+      title: t("featureRateTitle"),
+      description: t("featureRateDescription"),
+      color: "text-green",
+    },
+    {
+      icon: "🗂️",
+      title: t("featureCategoriesTitle"),
+      description: t("featureCategoriesDescription"),
+      color: "text-pill-6",
+    },
+    {
+      icon: "📊",
+      title: t("featureRatingsTitle"),
+      description: t("featureRatingsDescription"),
+      color: "text-pill-7",
+    },
+  ];
 
-export default function DadJokeAboutPage() {
+  const steps = [
+    { title: t("step1Title"), description: t("step1Description") },
+    { title: t("step2Title"), description: t("step2Description") },
+    { title: t("step3Title"), description: t("step3Description") },
+  ];
+
+  const audiences = [
+    {
+      icon: "👨‍👧‍👦",
+      title: t("audienceDadsTitle"),
+      description: t("audienceDadsDescription"),
+      color: "text-accent",
+    },
+    {
+      icon: "☕",
+      title: t("audienceOfficeTitle"),
+      description: t("audienceOfficeDescription"),
+      color: "text-pill-8",
+    },
+    {
+      icon: "😊",
+      title: t("audienceLaughTitle"),
+      description: t("audienceLaughDescription"),
+      color: "text-green",
+    },
+  ];
+
   return (
     <div className="space-y-16">
       {/* Hero */}
@@ -73,22 +80,21 @@ export default function DadJokeAboutPage() {
           variant="outline"
           className="border-accent/40 text-accent bg-accent/10"
         >
-          👔 Daily Dad-Grade Humor 👔
+          {t("heroBadge")}
         </Badge>
         <h2 className="text-4xl font-bold text-foreground">
-          One Groan
+          {t("heroTitleLine1")}
           <br />
-          Per Day.
+          {t("heroTitleLine2")}
         </h2>
         <p className="text-muted-foreground max-w-md mx-auto">
-          A fresh dad joke every day, with punchline reveals, ratings, and 55+
-          jokes to keep you cringing.
+          {t("heroSubtitle")}
         </p>
         <Link
           href="/apps/dad-joke-of-the-day"
           className="inline-flex items-center gap-2 bg-accent hover:bg-accent-400 text-black font-semibold px-6 py-2 rounded-lg transition-colors"
         >
-          Get Today's Joke →
+          {t("heroCta")}
         </Link>
       </div>
 
@@ -96,19 +102,16 @@ export default function DadJokeAboutPage() {
       <section className="space-y-6">
         <div className="text-center">
           <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
-            What it does
+            {t("featuresEyebrow")}
           </p>
-          <h3 className="text-2xl font-bold text-foreground">Peak Dad Energy</h3>
+          <h3 className="text-2xl font-bold text-foreground">{t("featuresHeading")}</h3>
           <p className="text-muted-foreground mt-2">
-            Everything you need to deliver maximum eye-rolls at the dinner table.
+            {t("featuresSubtitle")}
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((f) => (
-            <Card
-              key={f.title}
-              className="glass-sm"
-            >
+            <Card key={f.title} className="glass-sm">
               <CardContent className="p-5 space-y-2">
                 <div className={`text-2xl ${f.color}`}>{f.icon}</div>
                 <h4 className="font-semibold text-foreground">{f.title}</h4>
@@ -123,13 +126,13 @@ export default function DadJokeAboutPage() {
       <section className="space-y-6">
         <div className="text-center">
           <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
-            How it works
+            {t("stepsEyebrow")}
           </p>
           <h3 className="text-2xl font-bold text-foreground">
-            Three Steps to Peak Cringe
+            {t("stepsHeading")}
           </h3>
           <p className="text-muted-foreground mt-2">
-            It's simpler than explaining why the chicken crossed the road.
+            {t("stepsSubtitle")}
           </p>
         </div>
         <div className="space-y-4 max-w-lg mx-auto">
@@ -153,43 +156,18 @@ export default function DadJokeAboutPage() {
       <section className="space-y-6">
         <div className="text-center">
           <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2">
-            Who it's for
+            {t("audienceEyebrow")}
           </p>
           <h3 className="text-2xl font-bold text-foreground">
-            Certified Dad Joke Enthusiasts
+            {t("audienceHeading")}
           </h3>
           <p className="text-muted-foreground mt-2">
-            If you've ever said "Hi Hungry, I'm Dad" — this is your app.
+            {t("audienceSubtitle")}
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {[
-            {
-              icon: "👨‍👧‍👦",
-              title: "Actual Dads",
-              description:
-                "Arm yourself with a fresh joke every morning. Your kids will pretend to hate it.",
-              color: "text-accent",
-            },
-            {
-              icon: "☕",
-              title: "Office Ice-Breakers",
-              description:
-                "Start every standup with a dad joke. Morale through mandatory cringing.",
-              color: "text-pill-8",
-            },
-            {
-              icon: "😊",
-              title: "Anyone Who Needs a Laugh",
-              description:
-                "Bad day? A terrible joke somehow makes everything a little better.",
-              color: "text-green",
-            },
-          ].map((uc) => (
-            <Card
-              key={uc.title}
-              className="glass-sm"
-            >
+          {audiences.map((uc) => (
+            <Card key={uc.title} className="glass-sm">
               <CardContent className="p-5 space-y-2">
                 <div className={`text-2xl ${uc.color}`}>{uc.icon}</div>
                 <h4 className="font-semibold text-foreground">{uc.title}</h4>
@@ -202,15 +180,13 @@ export default function DadJokeAboutPage() {
 
       {/* CTA */}
       <section className="text-center py-8 space-y-4">
-        <h3 className="text-2xl font-bold text-foreground">Ready to Groan?</h3>
-        <p className="text-muted-foreground">
-          Your daily dose of dad humor is one click away.
-        </p>
+        <h3 className="text-2xl font-bold text-foreground">{t("ctaHeading")}</h3>
+        <p className="text-muted-foreground">{t("ctaSubtitle")}</p>
         <Link
           href="/apps/dad-joke-of-the-day"
           className="inline-flex items-center gap-2 bg-accent hover:bg-accent-400 text-black font-semibold px-6 py-2 rounded-lg transition-colors"
         >
-          Get Today's Joke →
+          {t("ctaButton")}
         </Link>
       </section>
     </div>

@@ -2,6 +2,9 @@
 import React from "react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
+import slangMessages from "../../../../messages/slang-translator/en.json";
+
+const I18N_MESSAGES = { "slang-translator": slangMessages };
 
 // ── Mock @repo/ui ──────────────────────────────────────────────────────────
 
@@ -134,7 +137,7 @@ beforeEach(() => {
 
 describe("SlangApp — DictionaryTab", () => {
   it("renders dictionary tab by default with all terms", () => {
-    renderWithProviders(<SlangApp allSlang={allSlang} />);
+    renderWithProviders(<SlangApp allSlang={allSlang} />, { messages: I18N_MESSAGES });
 
     // Use getAllByText since "Rizz" also appears as a gen-x equivalent in the Rad card
     expect(screen.getAllByText("Rizz").length).toBeGreaterThanOrEqual(1);
@@ -143,7 +146,7 @@ describe("SlangApp — DictionaryTab", () => {
   });
 
   it("filters by search query", () => {
-    renderWithProviders(<SlangApp allSlang={allSlang} />);
+    renderWithProviders(<SlangApp allSlang={allSlang} />, { messages: I18N_MESSAGES });
 
     const input = screen.getByPlaceholderText(/Search slang/i);
     fireEvent.change(input, { target: { value: "bussin" } });
@@ -154,7 +157,7 @@ describe("SlangApp — DictionaryTab", () => {
   });
 
   it("filters by generation — Gen Alpha only", () => {
-    renderWithProviders(<SlangApp allSlang={allSlang} />);
+    renderWithProviders(<SlangApp allSlang={allSlang} />, { messages: I18N_MESSAGES });
 
     fireEvent.click(screen.getByRole("button", { name: "Gen Alpha" }));
 
@@ -164,7 +167,7 @@ describe("SlangApp — DictionaryTab", () => {
   });
 
   it("filters by generation — Gen X only", () => {
-    renderWithProviders(<SlangApp allSlang={allSlang} />);
+    renderWithProviders(<SlangApp allSlang={allSlang} />, { messages: I18N_MESSAGES });
 
     fireEvent.click(screen.getByRole("button", { name: "Gen X" }));
 
@@ -174,7 +177,7 @@ describe("SlangApp — DictionaryTab", () => {
   });
 
   it("opens modal when a slang card is clicked", () => {
-    renderWithProviders(<SlangApp allSlang={allSlang} />);
+    renderWithProviders(<SlangApp allSlang={allSlang} />, { messages: I18N_MESSAGES });
 
     // Click the Rad card (gen-x) — it has a unique term text at the top level
     const radCard = screen.getByText("Rad").closest("div[class]")!;
@@ -184,7 +187,7 @@ describe("SlangApp — DictionaryTab", () => {
   });
 
   it("shows no-results message when filter matches nothing", () => {
-    renderWithProviders(<SlangApp allSlang={allSlang} />);
+    renderWithProviders(<SlangApp allSlang={allSlang} />, { messages: I18N_MESSAGES });
 
     const input = screen.getByPlaceholderText(/Search slang/i);
     fireEvent.change(input, { target: { value: "zzznomatch" } });
@@ -195,7 +198,7 @@ describe("SlangApp — DictionaryTab", () => {
 
 describe("SlangApp — TranslatorTab", () => {
   it("switches to translator tab and shows direction labels", () => {
-    renderWithProviders(<SlangApp allSlang={allSlang} />);
+    renderWithProviders(<SlangApp allSlang={allSlang} />, { messages: I18N_MESSAGES });
 
     fireEvent.click(screen.getByRole("tab", { name: /Translator/i }));
 
@@ -205,7 +208,7 @@ describe("SlangApp — TranslatorTab", () => {
   });
 
   it("shows the translation textarea in translator tab", () => {
-    renderWithProviders(<SlangApp allSlang={allSlang} />);
+    renderWithProviders(<SlangApp allSlang={allSlang} />, { messages: I18N_MESSAGES });
 
     fireEvent.click(screen.getByRole("tab", { name: /Translator/i }));
 
@@ -215,7 +218,7 @@ describe("SlangApp — TranslatorTab", () => {
   });
 
   it("shows placeholder text in the output panel before typing", () => {
-    renderWithProviders(<SlangApp allSlang={allSlang} />);
+    renderWithProviders(<SlangApp allSlang={allSlang} />, { messages: I18N_MESSAGES });
 
     fireEvent.click(screen.getByRole("tab", { name: /Translator/i }));
 
@@ -223,7 +226,7 @@ describe("SlangApp — TranslatorTab", () => {
   });
 
   it("swap button flips translation direction", () => {
-    renderWithProviders(<SlangApp allSlang={allSlang} />);
+    renderWithProviders(<SlangApp allSlang={allSlang} />, { messages: I18N_MESSAGES });
 
     fireEvent.click(screen.getByRole("tab", { name: /Translator/i }));
 

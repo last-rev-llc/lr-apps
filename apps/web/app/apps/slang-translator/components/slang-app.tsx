@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import {
   Tabs,
   TabsList,
@@ -34,9 +35,10 @@ function vibeColor(score: number) {
 
 function VibeBar({ score }: { score: number }) {
   const pct = Math.min(100, (score / 10) * 100);
+  const t = useTranslations("slang-translator.vibe");
   return (
     <div className="flex items-center gap-2 mt-1.5">
-      <span className="text-[11px] text-muted-foreground">Vibe</span>
+      <span className="text-[11px] text-muted-foreground">{t("label")}</span>
       <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-all"
@@ -54,13 +56,14 @@ function VibeBar({ score }: { score: number }) {
 }
 
 function GenBadge({ gen }: { gen: "gen-alpha" | "gen-x" }) {
+  const t = useTranslations("slang-translator.badges");
   return gen === "gen-alpha" ? (
     <span className="inline-block text-[10px] px-2.5 py-0.5 rounded-lg font-bold uppercase tracking-wide bg-pill-8/15 text-pill-8">
-      Gen Alpha
+      {t("genAlpha")}
     </span>
   ) : (
     <span className="inline-block text-[10px] px-2.5 py-0.5 rounded-lg font-bold uppercase tracking-wide bg-accent/15 text-accent">
-      Gen X
+      {t("genX")}
     </span>
   );
 }
@@ -92,14 +95,15 @@ function CategoryBadge({ category }: { category: string }) {
 }
 
 function getEquivalent(
-  s: SlangEntry
+  s: SlangEntry,
+  labels: { genAlpha: string; genX: string },
 ): { gen: string; text: string } | null {
   if (s.generation === "gen-alpha") {
     const text = GEN_X_MAP[s.id];
-    return text ? { gen: "Gen X", text } : null;
+    return text ? { gen: labels.genX, text } : null;
   }
   if (s.generation === "gen-x" && s.equivalents?.genAlpha) {
-    return { gen: "Gen Alpha", text: s.equivalents.genAlpha };
+    return { gen: labels.genAlpha, text: s.equivalents.genAlpha };
   }
   return null;
 }
@@ -113,7 +117,12 @@ function SlangCard({
   slang: SlangEntry;
   onClick: (s: SlangEntry) => void;
 }) {
-  const eq = getEquivalent(slang);
+  const tBadges = useTranslations("slang-translator.badges");
+  const tDict = useTranslations("slang-translator.dictionary");
+  const eq = getEquivalent(slang, {
+    genAlpha: tBadges("genAlpha"),
+    genX: tBadges("genX"),
+  });
   const vs = slang.vibeScore ?? slang.vibe_score ?? 0;
 
   return (
@@ -161,7 +170,7 @@ function SlangCard({
                 : "bg-pill-8/[0.08] border-l-[3px] border-pill-8 text-pill-8"
             }`}
           >
-            {eq.gen} equivalent:{" "}
+            {tDict("equivalentLabel", { gen: eq.gen })}{" "}
             <strong className="font-bold">{eq.text}</strong>
           </div>
         )}
@@ -177,8 +186,13 @@ function SlangDetailModal({
   slang: SlangEntry | null;
   onClose: () => void;
 }) {
+  const tBadges = useTranslations("slang-translator.badges");
+  const tDict = useTranslations("slang-translator.dictionary");
   if (!slang) return null;
-  const eq = getEquivalent(slang);
+  const eq = getEquivalent(slang, {
+    genAlpha: tBadges("genAlpha"),
+    genX: tBadges("genX"),
+  });
   const vs = slang.vibeScore ?? slang.vibe_score ?? 0;
 
   return (
@@ -220,7 +234,7 @@ function SlangDetailModal({
                 : "bg-pill-8/[0.08] border-l-[3px] border-pill-8 text-pill-8"
             }`}
           >
-            {eq.gen} equivalent:{" "}
+            {tDict("equivalentLabel", { gen: eq.gen })}{" "}
             <strong className="font-bold">{eq.text}</strong>
           </div>
         )}
@@ -230,6 +244,7 @@ function SlangDetailModal({
 }
 
 function DictionaryTab({ allSlang }: { allSlang: SlangEntry[] }) {
+  const t = useTranslations("slang-translator.dictionary");
   const [search, setSearch] = useState("");
   const [genFilter, setGenFilter] = useState<GenerationFilter>("all");
   const [catFilter, setCatFilter] = useState("all");
@@ -256,10 +271,17 @@ function DictionaryTab({ allSlang }: { allSlang: SlangEntry[] }) {
     return r;
   }, [allSlang, genFilter, catFilter, search]);
 
+  const genLabel = (g: "all" | "gen-alpha" | "gen-x") =>
+    g === "all"
+      ? t("filterAllGenerations")
+      : g === "gen-alpha"
+        ? t("filterGenAlpha")
+        : t("filterGenX");
+
   return (
     <div className="space-y-4">
       <Input
-        placeholder="Search slang terms, definitions, aliases…"
+        placeholder={t("searchPlaceholder")}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className="max-w-lg"
@@ -277,7 +299,7 @@ function DictionaryTab({ allSlang }: { allSlang: SlangEntry[] }) {
               genFilter === g ? "border-accent bg-accent/15 text-accent" : ""
             }`}
           >
-            {g === "all" ? "All Generations" : g === "gen-alpha" ? "Gen Alpha" : "Gen X"}
+            {genLabel(g)}
           </Button>
         ))}
       </div>
@@ -294,18 +316,20 @@ function DictionaryTab({ allSlang }: { allSlang: SlangEntry[] }) {
               catFilter === c ? "border-accent bg-accent/15 text-accent" : ""
             }`}
           >
-            {c === "all" ? "All Categories" : c}
+            {c === "all" ? t("filterAllCategories") : c}
           </Button>
         ))}
       </div>
 
       <p className="text-xs text-muted-foreground">
-        {filtered.length} term{filtered.length !== 1 ? "s" : ""} found
+        {t(filtered.length === 1 ? "termsFoundSingular" : "termsFoundPlural", {
+          count: filtered.length,
+        })}
       </p>
 
       {filtered.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground text-sm">
-          No slang found for that filter combo.
+          {t("emptyState")}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -351,6 +375,8 @@ function applyTranslationMap(
 }
 
 function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
+  const t = useTranslations("slang-translator.translator");
+  const tBadges = useTranslations("slang-translator.badges");
   const [direction, setDirection] = useState<"alpha-to-x" | "x-to-alpha">(
     "alpha-to-x"
   );
@@ -396,13 +422,16 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
     );
   }, [input, translationMap, isA2X]);
 
+  const fromLabel = isA2X ? tBadges("genAlpha") : tBadges("genX");
+  const toLabel = isA2X ? tBadges("genX") : tBadges("genAlpha");
+
   return (
     <div className="space-y-4 max-w-3xl">
       <div className="flex items-center gap-3">
         <span
           className={`text-sm font-semibold ${isA2X ? "text-pill-8" : "text-accent"}`}
         >
-          {isA2X ? "Gen Alpha" : "Gen X"} →
+          {fromLabel} →
         </span>
         <Button
           variant="outline"
@@ -411,15 +440,15 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
             setDirection(isA2X ? "x-to-alpha" : "alpha-to-x");
             setInput("");
           }}
-          title="Swap direction"
+          title={t("swapTitle")}
           className="px-3"
         >
-          ⇄ Swap
+          {t("swap")}
         </Button>
         <span
           className={`text-sm font-semibold ${isA2X ? "text-accent" : "text-pill-8"}`}
         >
-          {isA2X ? "Gen X" : "Gen Alpha"}
+          {toLabel}
         </span>
       </div>
 
@@ -429,11 +458,11 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
           <p
             className={`text-sm font-bold ${isA2X ? "text-pill-8" : "text-accent"}`}
           >
-            {isA2X ? "Gen Alpha" : "Gen X"}
+            {fromLabel}
           </p>
           <Textarea
             className="min-h-[160px] bg-transparent resize-y font-sans"
-            placeholder={`Type or paste ${isA2X ? "Gen Alpha" : "Gen X"} slang here…`}
+            placeholder={isA2X ? t("inputPlaceholderAlpha") : t("inputPlaceholderX")}
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
@@ -444,12 +473,12 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
           <p
             className={`text-sm font-bold ${isA2X ? "text-accent" : "text-pill-8"}`}
           >
-            {isA2X ? "Gen X" : "Gen Alpha"}
+            {toLabel}
           </p>
           <div className="min-h-[160px] text-sm leading-relaxed">
             {!input.trim() ? (
               <span className="text-muted-foreground">
-                Translation appears here…
+                {t("outputPlaceholder")}
               </span>
             ) : translatedHtml ? (
               <span
@@ -458,7 +487,7 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
               />
             ) : (
               <span className="text-muted-foreground">
-                No recognized slang terms found. Try typing some slang!
+                {t("noMatches")}
               </span>
             )}
           </div>
@@ -471,6 +500,7 @@ function TranslatorTab({ allSlang }: { allSlang: SlangEntry[] }) {
 // ─── Compare tab ──────────────────────────────────────────────────────────────
 
 function CompareTab({ allSlang }: { allSlang: SlangEntry[] }) {
+  const t = useTranslations("slang-translator.compare");
   const pairs = useMemo(() => {
     const genAlpha = allSlang.filter((s) => s.generation === "gen-alpha");
     const genX = allSlang.filter((s) => s.generation === "gen-x");
@@ -489,10 +519,7 @@ function CompareTab({ allSlang }: { allSlang: SlangEntry[] }) {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-muted-foreground">
-        Side-by-side view of how the same concepts are expressed across
-        generations.
-      </p>
+      <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {pairs.map((p) => {
           const alphaVs = p.alpha.vibeScore ?? p.alpha.vibe_score ?? 0;
@@ -526,7 +553,7 @@ function CompareTab({ allSlang }: { allSlang: SlangEntry[] }) {
                   {p.xEntry ? p.xEntry.term : p.xText}
                 </p>
                 <p className="text-[12px] text-muted-foreground line-clamp-2">
-                  {p.xEntry ? p.xEntry.definition : "Classic Gen X expression"}
+                  {p.xEntry ? p.xEntry.definition : t("fallbackXDefinition")}
                 </p>
                 {p.xEntry && <VibeBar score={xVs} />}
               </div>
@@ -540,7 +567,10 @@ function CompareTab({ allSlang }: { allSlang: SlangEntry[] }) {
 
 // ─── Quiz tab ─────────────────────────────────────────────────────────────────
 
-function buildQuiz(allSlang: SlangEntry[]): QuizQuestion[] {
+function buildQuiz(
+  allSlang: SlangEntry[],
+  templates: { questionAlpha: (term: string) => string; questionX: (term: string) => string },
+): QuizQuestion[] {
   const genAlpha = allSlang.filter(
     (s) => s.generation === "gen-alpha" && GEN_X_MAP[s.id]
   );
@@ -559,7 +589,7 @@ function buildQuiz(allSlang: SlangEntry[]): QuizQuestion[] {
       Object.values(GEN_X_MAP).filter((v) => v !== correct)
     ).slice(0, 3);
     pool.push({
-      question: `What's the Gen X equivalent of "${s.term}"?`,
+      question: templates.questionAlpha(s.term),
       correct,
       options: shuffle([correct, ...wrongs]),
       badge: "gen-alpha",
@@ -585,7 +615,7 @@ function buildQuiz(allSlang: SlangEntry[]): QuizQuestion[] {
       .slice(0, 3);
     if (wrongs.length < 3) continue;
     pool.push({
-      question: `What's the Gen Alpha equivalent of "${s.term}"?`,
+      question: templates.questionX(s.term),
       correct,
       options: shuffle([correct, ...wrongs]),
       badge: "gen-x",
@@ -596,22 +626,23 @@ function buildQuiz(allSlang: SlangEntry[]): QuizQuestion[] {
 }
 
 function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
+  const t = useTranslations("slang-translator.quiz");
   const [quiz, setQuiz] = useState<QuizState | null>(null);
 
   const startQuiz = useCallback(() => {
-    const questions = buildQuiz(allSlang);
+    const questions = buildQuiz(allSlang, {
+      questionAlpha: (term) => t("questionAlpha", { term }),
+      questionX: (term) => t("questionX", { term }),
+    });
     if (questions.length === 0) return;
     setQuiz({ questions, current: 0, score: 0, answered: [], done: false });
-  }, [allSlang]);
+  }, [allSlang, t]);
 
   if (!quiz) {
     return (
       <div className="text-center py-12 space-y-4">
-        <p className="text-muted-foreground text-sm">
-          Test your cross-generational slang knowledge. 10 questions mixing
-          both directions.
-        </p>
-        <Button onClick={startQuiz}>Start Quiz</Button>
+        <p className="text-muted-foreground text-sm">{t("intro")}</p>
+        <Button onClick={startQuiz}>{t("start")}</Button>
       </div>
     );
   }
@@ -621,17 +652,17 @@ function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
     let title: string;
     let msg: string;
     if (pct >= 80) {
-      title = "Cross-Gen Master";
-      msg = "You speak both generations fluently. Impressive range.";
+      title = t("resultMasterTitle");
+      msg = t("resultMasterMsg");
     } else if (pct >= 60) {
-      title = "Bilingual Vibes";
-      msg = "Solid knowledge across generations. Almost there.";
+      title = t("resultBilingualTitle");
+      msg = t("resultBilingualMsg");
     } else if (pct >= 40) {
-      title = "Getting There";
-      msg = "You know your own generation but need to study the other.";
+      title = t("resultGettingThereTitle");
+      msg = t("resultGettingThereMsg");
     } else {
-      title = "Generation Gap";
-      msg = "Time to brush up on both eras of slang!";
+      title = t("resultGapTitle");
+      msg = t("resultGapMsg");
     }
     const barColor = pct >= 60 ? "var(--color-green)" : pct >= 40 ? "var(--color-yellow)" : "var(--color-red)";
     return (
@@ -658,7 +689,7 @@ function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
             style={{ width: `${pct}%`, background: barColor }}
           />
         </div>
-        <Button onClick={startQuiz}>Try Again</Button>
+        <Button onClick={startQuiz}>{t("tryAgain")}</Button>
       </div>
     );
   }
@@ -710,7 +741,10 @@ function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
       </div>
 
       <p className="text-xs text-muted-foreground text-center">
-        Question {quiz.current + 1} of {quiz.questions.length}
+        {t("questionProgress", {
+          current: quiz.current + 1,
+          total: quiz.questions.length,
+        })}
       </p>
 
       <div className="flex justify-center">
@@ -743,7 +777,7 @@ function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
       {hasAnswered && (
         <div className="text-center">
           <Button onClick={handleNext}>
-            {quiz.current < quiz.questions.length - 1 ? "Next" : "See Results"}
+            {quiz.current < quiz.questions.length - 1 ? t("next") : t("seeResults")}
           </Button>
         </div>
       )}
@@ -758,13 +792,14 @@ interface SlangAppProps {
 }
 
 export function SlangApp({ allSlang }: SlangAppProps) {
+  const t = useTranslations("slang-translator.app");
   return (
     <Tabs defaultValue="dictionary" className="space-y-4">
       <TabsList className="w-full sm:w-auto">
-        <TabsTrigger value="dictionary">Dictionary</TabsTrigger>
-        <TabsTrigger value="translator">Translator</TabsTrigger>
-        <TabsTrigger value="compare">Compare</TabsTrigger>
-        <TabsTrigger value="quiz">Quiz</TabsTrigger>
+        <TabsTrigger value="dictionary">{t("tabDictionary")}</TabsTrigger>
+        <TabsTrigger value="translator">{t("tabTranslator")}</TabsTrigger>
+        <TabsTrigger value="compare">{t("tabCompare")}</TabsTrigger>
+        <TabsTrigger value="quiz">{t("tabQuiz")}</TabsTrigger>
       </TabsList>
 
       <TabsContent value="dictionary">
