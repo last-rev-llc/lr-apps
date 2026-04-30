@@ -18,6 +18,7 @@
 - `app-host.ts`
 - `app-registry.ts`
 - `auth-login-redirect.ts`
+- `concurrent.ts`
 - `cron-auth.ts`
 - `csp.ts`
 - `csrf.ts`
