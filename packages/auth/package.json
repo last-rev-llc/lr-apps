@@ -16,7 +16,7 @@
     "./self-enroll": "./src/self-enroll.ts"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^4",
+    "@auth0/nextjs-auth0": "^4.19.0",
     "@repo/analytics": "workspace:*",
     "@repo/db": "workspace:*",
     "@repo/logger": "workspace:*",
@@ -29,8 +29,8 @@
     "@repo/config": "workspace:*",
     "@repo/test-utils": "workspace:*",
     "@types/react": "^19",
-    "next": "^16",
+    "next": "^16.2.4",
     "typescript": "^5",
-    "vitest": "^3"
+    "vitest": "^4.1.5"
   }
 }

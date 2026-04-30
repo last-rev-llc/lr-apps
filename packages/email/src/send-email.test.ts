@@ -4,9 +4,11 @@ import type { EmailTemplate } from "./types";
 const mockEmailsSend = vi.fn();
 
 vi.mock("resend", () => ({
-  Resend: vi.fn(() => ({
-    emails: { send: (...args: unknown[]) => mockEmailsSend(...args) },
-  })),
+  Resend: vi.fn(function () {
+    return {
+      emails: { send: (...args: unknown[]) => mockEmailsSend(...args) },
+    };
+  }),
 }));
 
 vi.mock("@repo/logger", () => ({

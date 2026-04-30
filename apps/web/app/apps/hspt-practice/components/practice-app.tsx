@@ -666,7 +666,7 @@ function HistoryView({
                     borderRadius: 8,
                     fontSize: 12,
                   }}
-                  formatter={(value: number) => [`${value}%`, ""]}
+                  formatter={(value) => [`${value}%`, ""]}
                 />
                 <Legend
                   wrapperStyle={{ fontSize: 12, color: "var(--color-slate)" }}

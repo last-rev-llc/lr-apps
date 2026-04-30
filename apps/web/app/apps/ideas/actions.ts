@@ -10,7 +10,10 @@ import { rateLimit } from "@/lib/rate-limit";
 import { computeComposite } from "./lib/score";
 import { PLAN_MODEL_ID, planIdea } from "./lib/ai-plan";
 import { RateLimitedError } from "./lib/errors";
+import type { Database } from "@repo/db/types";
 import type { Idea } from "./lib/types";
+
+type IdeaUpdate = Database["public"]["Tables"]["ideas"]["Update"];
 
 const PLAN_RATE_LIMIT = 20;
 const PLAN_RATE_WINDOW_MS = 60 * 60 * 1000;
@@ -161,7 +164,7 @@ export async function updateIdea(
       }
 
       const supabase = await createClient();
-      const update: Record<string, unknown> = {};
+      const update: IdeaUpdate = {};
       const p = parsedPatch.data;
       if (p.title !== undefined) update.title = p.title;
       if (p.description !== undefined)
@@ -250,7 +253,7 @@ export async function setIdeaStatus(
       }
 
       const supabase = await createClient();
-      const update: Record<string, unknown> = { status: parsed.data.status };
+      const update: IdeaUpdate = { status: parsed.data.status };
       if (parsed.data.status === "completed") {
         update.completedAt = new Date().toISOString();
       } else if (parsed.data.status !== "archived") {

@@ -12,11 +12,13 @@ import { Confetti } from "../components/confetti";
 import { Particles } from "../components/particles";
 
 beforeAll(() => {
-  const mockObserver = vi.fn().mockImplementation(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  }));
+  const mockObserver = vi.fn().mockImplementation(function () {
+    return {
+      observe: vi.fn(),
+      unobserve: vi.fn(),
+      disconnect: vi.fn(),
+    };
+  });
   vi.stubGlobal("IntersectionObserver", mockObserver);
 
   vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) => {
