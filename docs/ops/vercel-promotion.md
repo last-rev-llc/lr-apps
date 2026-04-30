@@ -65,9 +65,9 @@ these unchanged will break auth or billing.
 
 - Feature-flag env vars (when added) — usually shared so that what you
   tested on staging is what runs in prod.
-- `APP_SELF_ENROLL_SLUGS` — usually intentionally identical between
-  environments. Tighten only if staging needs a broader allowlist than
-  prod.
+- `APP_SELF_ENROLL_SLUGS` — usually empty in both staging and prod, since
+  free-tier apps self-enroll automatically via `apps/web/lib/app-registry.ts`.
+  Use this only as an override to opt non-free apps in for a specific env.
 
 ## Reference
 

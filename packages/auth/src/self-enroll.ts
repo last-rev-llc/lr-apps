@@ -82,12 +82,32 @@ function parseSelfEnrollSlugs(): Set<string> {
 
 const SLUG_PATTERN = /^[a-z][a-z0-9-]*$/;
 
+export type AppTier = "free" | "pro" | "enterprise";
+export type AppTierResolver = (slug: string) => AppTier | undefined;
+
+let tierResolver: AppTierResolver | null = null;
+
 /**
- * Explicit list in APP_SELF_ENROLL_SLUGS, or — in development only — any slug
- * when the env var is unset (so local testing works without copying every slug).
+ * Registers a function that maps a slug to its billing tier. Called once at
+ * startup from `apps/web/lib/app-registry.ts` so the auth package stays
+ * decoupled from the app's registry shape. Free-tier apps then auto-allow
+ * self-enroll without an env-var update for each new app.
+ */
+export function setSelfEnrollTierResolver(resolver: AppTierResolver | null): void {
+  tierResolver = resolver;
+}
+
+/**
+ * Resolution order:
+ *   1. Free-tier app (per registered resolver) → allow.
+ *   2. Slug present in `APP_SELF_ENROLL_SLUGS` → allow (override to opt
+ *      non-free apps in selectively, e.g. a paid app open in staging).
+ *   3. `APP_SELF_ENROLL_SLUGS` set but slug missing → deny (explicit allowlist).
+ *   4. Otherwise development → allow (local convenience), production → deny.
  */
 export function isSelfEnrollAllowedForSlug(slug: string): boolean {
   if (!SLUG_PATTERN.test(slug)) return false;
+  if (tierResolver?.(slug) === "free") return true;
   const allowed = parseSelfEnrollSlugs();
   if (allowed.size > 0) return allowed.has(slug);
   return process.env.NODE_ENV === "development";
