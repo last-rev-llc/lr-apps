@@ -119,7 +119,22 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
   // Honor `?app=<slug>` in development OR on Vercel preview hosts.
   // Preview hosts share a single domain per branch, so subdomain routing
   // cannot work — callers append `?app=<slug>` to choose an app.
-  if (process.env.NODE_ENV === "development" || isPreview) {
+  //
+  // Hub-only paths (e.g. `/unauthorized?app=ideas`) use the `app` query for
+  // a different purpose — they're requesting the auth hub page that
+  // references the app, not the app itself. Skip the rewrite for them so
+  // the hub page renders.
+  const isHubOnlyPath =
+    pathname === "/login" ||
+    pathname === "/signup" ||
+    pathname === "/unauthorized" ||
+    pathname === "/my-apps" ||
+    pathname === "/account" ||
+    pathname.startsWith("/account/");
+  if (
+    !isHubOnlyPath &&
+    (process.env.NODE_ENV === "development" || isPreview)
+  ) {
     const appParam = request.nextUrl.searchParams.get("app");
     if (appParam) {
       const routePath = getRouteForSubdomain(appParam);

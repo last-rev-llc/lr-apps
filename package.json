@@ -4,6 +4,11 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev & punchlist-qa serve & wait",
+    "dev:local": "bash scripts/dev-local.sh",
+    "db:local:start": "supabase start",
+    "db:local:stop": "supabase stop",
+    "db:local:reset": "supabase db reset",
+    "db:local:status": "supabase status",
     "lint": "node --experimental-strip-types scripts/check-claude-md-lib-sync.ts && node --experimental-strip-types scripts/check-migration-pairs.ts && turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",

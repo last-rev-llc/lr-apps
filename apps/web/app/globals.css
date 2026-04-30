@@ -1,1 +1,4 @@
 @import "@repo/theme/globals.css";
+
+@source "../../../packages/ui/src/**/*.{ts,tsx}";
+@source "../../../packages/theme/src/**/*.{ts,tsx}";

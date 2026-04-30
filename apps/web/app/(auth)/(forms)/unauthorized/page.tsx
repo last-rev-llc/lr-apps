@@ -46,6 +46,42 @@ export default async function UnauthorizedPage({
     error === "closed" &&
     !gate;
 
+  // Friendly self-enroll prompt: signed-in user landing on a free-tier (or
+  // explicitly allowed) app for the first time. Reads as an invitation, not
+  // a denial.
+  if (signedIn && canRequestAccess && !error && !gate) {
+    const appName = app?.name ?? "this app";
+    return (
+      <div className="text-center max-w-md mx-auto">
+        <h1 className="font-heading text-2xl text-accent mb-2">
+          Open {appName}?
+        </h1>
+        <p className="text-muted-foreground mb-6">
+          {appName} is free. Click below and we’ll set you up.
+        </p>
+
+        <div className="flex flex-col gap-3">
+          <form action={requestAppAccess}>
+            <input type="hidden" name="app" value={appSlug} />
+            <Button type="submit" className="w-full">
+              Open {appName}
+            </Button>
+          </form>
+          <Button asChild variant="outline" className="w-full">
+            <a href="/my-apps">Back to My Apps</a>
+          </Button>
+        </div>
+
+        <p className="text-xs text-muted-foreground mt-6">
+          Wrong account?{" "}
+          <a href="/auth/logout" className="underline hover:text-foreground">
+            Sign out
+          </a>
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="text-center max-w-md mx-auto">
       <h1 className="font-heading text-2xl text-accent mb-2">
