@@ -343,10 +343,11 @@ function ListView({
           text: "var(--color-slate)",
         };
         return (
-          <div
+          <button
             key={r.id}
+            type="button"
             onClick={() => onOpen(r)}
-            className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 cursor-pointer hover:border-white/20 transition-colors"
+            className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 cursor-pointer hover:border-white/20 transition-colors text-left w-full"
           >
             <span className="text-lg shrink-0">{r.icon ?? "📄"}</span>
             <span className="font-semibold text-sm text-white flex-shrink-0">
@@ -371,7 +372,7 @@ function ListView({
                 </span>
               ))}
             </div>
-          </div>
+          </button>
         );
       })}
     </div>

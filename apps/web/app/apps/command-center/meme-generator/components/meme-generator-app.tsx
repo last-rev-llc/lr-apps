@@ -149,8 +149,9 @@ export function MemeGeneratorApp() {
             <CardContent className="p-0 space-y-3">
               <h3 className="text-sm font-semibold text-white">Text</h3>
               <div>
-                <label className="text-xs text-white/40 mb-1 block">Top text</label>
+                <label htmlFor="meme-top-text" className="text-xs text-white/40 mb-1 block">Top text</label>
                 <input
+                  id="meme-top-text"
                   type="text"
                   value={topText}
                   onChange={(e) => setTopText(e.target.value)}
@@ -159,8 +160,9 @@ export function MemeGeneratorApp() {
                 />
               </div>
               <div>
-                <label className="text-xs text-white/40 mb-1 block">Bottom text</label>
+                <label htmlFor="meme-bottom-text" className="text-xs text-white/40 mb-1 block">Bottom text</label>
                 <input
+                  id="meme-bottom-text"
                   type="text"
                   value={bottomText}
                   onChange={(e) => setBottomText(e.target.value)}

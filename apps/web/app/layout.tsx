@@ -3,7 +3,12 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { LastRevMiniHeader } from "@/components/last-rev-mini-header";
 import { WebVitalsReporter } from "@/components/web-vitals-reporter";
+import { env } from "@/lib/env";
 import "./globals.css";
+
+// Validate environment at cold start. Throws a descriptive Zod error if any
+// required variable is missing or malformed before any request is served.
+env();
 
 export const metadata: Metadata = {
   title: "Last Rev Apps",
