@@ -195,6 +195,59 @@ describe("getAuth0ClientForHost", () => {
       expect(callsAfter - callsBefore).toBe(2);
     });
   });
+
+  describe("session cookie domain", () => {
+    let clientIdCounter = 0;
+    const uniqueClientId = () => `test-client-cookie-${++clientIdCounter}`;
+
+    beforeEach(() => {
+      vi.stubEnv("AUTH0_CLIENT_ID", uniqueClientId());
+      vi.stubEnv("AUTH0_CLIENT_SECRET", "test-secret");
+      vi.stubEnv("AUTH0_DOMAIN", "test.auth0.com");
+      vi.stubEnv("AUTH0_SECRET", "very-long-secret-cookie");
+      vi.stubEnv("AUTH0_PRODUCTS_JSON", "");
+      vi.stubEnv("AUTH0_ALLOWED_BASE_URLS", "");
+      vi.stubEnv("APP_BASE_URL", "https://apps.lastrev.com");
+    });
+
+    it("scopes the session cookie to the apps cluster parent domain", () => {
+      getAuth0ClientForHost("lighthouse.apps.lastrev.com");
+
+      const opts = Auth0ClientMock.mock.calls.at(-1)?.[0];
+      expect(opts.session?.cookie?.domain).toBe(".apps.lastrev.com");
+    });
+
+    it("scopes the session cookie on the auth hub itself (so the cookie set on /auth/callback is shared)", () => {
+      getAuth0ClientForHost("auth.apps.lastrev.com");
+
+      const opts = Auth0ClientMock.mock.calls.at(-1)?.[0];
+      expect(opts.session?.cookie?.domain).toBe(".apps.lastrev.com");
+    });
+
+    it("scopes the session cookie on the legacy cluster", () => {
+      getAuth0ClientForHost("sentiment.lastrev.com");
+
+      const opts = Auth0ClientMock.mock.calls.at(-1)?.[0];
+      expect(opts.session?.cookie?.domain).toBe(".lastrev.com");
+    });
+
+    it("scopes the session cookie on the local *.apps.lastrev.localhost mirror", () => {
+      getAuth0ClientForHost("lighthouse.apps.lastrev.localhost:3000");
+
+      const opts = Auth0ClientMock.mock.calls.at(-1)?.[0];
+      expect(opts.session?.cookie?.domain).toBe(".apps.lastrev.localhost");
+    });
+
+    it("leaves the cookie host-only (undefined) on bare localhost and Vercel previews", () => {
+      getAuth0ClientForHost("localhost:3000");
+      const localOpts = Auth0ClientMock.mock.calls.at(-1)?.[0];
+      expect(localOpts.session?.cookie?.domain).toBeUndefined();
+
+      getAuth0ClientForHost("lr-apps-git-feat-x.vercel.app");
+      const previewOpts = Auth0ClientMock.mock.calls.at(-1)?.[0];
+      expect(previewOpts.session?.cookie?.domain).toBeUndefined();
+    });
+  });
 });
 
 describe("isSafeReturnTo", () => {
