@@ -12,12 +12,12 @@ export function PageHeader({ title, subtitle, actions, className }: PageHeaderPr
   return (
     <div
       className={cn(
-        "flex items-start justify-between gap-4 border-b border-white/10 pb-4 mb-5",
+        "flex flex-col items-start justify-between gap-3 border-b border-white/10 pb-4 mb-5 sm:flex-row sm:items-start sm:gap-4",
         className,
       )}
     >
       <div className="flex-1 min-w-0">
-        <h1 className="text-2xl font-semibold bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
+        <h1 className="text-xl sm:text-2xl font-semibold bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent">
           {title}
         </h1>
         {subtitle && (
@@ -25,7 +25,7 @@ export function PageHeader({ title, subtitle, actions, className }: PageHeaderPr
         )}
       </div>
       {actions && (
-        <div className="flex flex-shrink-0 items-center gap-3">{actions}</div>
+        <div className="flex flex-wrap items-center gap-2 sm:flex-shrink-0 sm:gap-3">{actions}</div>
       )}
     </div>
   );

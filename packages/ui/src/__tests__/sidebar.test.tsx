@@ -105,4 +105,58 @@ describe("Sidebar", () => {
     const aside = container.querySelector("aside");
     expect(aside).toHaveClass("hidden", "md:flex");
   });
+
+  describe("mobile drawer", () => {
+    it("renders mobile trigger button when showMobileTrigger is true", () => {
+      render(<Sidebar items={SAMPLE_ITEMS} showMobileTrigger />);
+      const trigger = screen.getByRole("button", { name: /open sidebar/i });
+      expect(trigger).toBeInTheDocument();
+      // Hidden on md+
+      expect(trigger).toHaveClass("md:hidden");
+    });
+
+    it("does not render mobile trigger when showMobileTrigger is false (default)", () => {
+      render(<Sidebar items={SAMPLE_ITEMS} />);
+      expect(screen.queryByRole("button", { name: /open sidebar/i })).not.toBeInTheDocument();
+    });
+
+    it("opens drawer when uncontrolled trigger is clicked", async () => {
+      const user = userEvent.setup();
+      const { container } = render(<Sidebar items={SAMPLE_ITEMS} showMobileTrigger />);
+
+      const aside = container.querySelector("aside");
+      // Drawer starts closed (translated off-canvas)
+      expect(aside).toHaveClass("-translate-x-full");
+
+      await user.click(screen.getByRole("button", { name: /open sidebar/i }));
+      expect(aside).toHaveClass("translate-x-0");
+    });
+
+    it("supports controlled mobileOpen state", () => {
+      const { container, rerender } = render(
+        <Sidebar items={SAMPLE_ITEMS} mobileOpen={false} />,
+      );
+      const aside = container.querySelector("aside");
+      expect(aside).toHaveClass("-translate-x-full");
+
+      rerender(<Sidebar items={SAMPLE_ITEMS} mobileOpen={true} />);
+      expect(aside).toHaveClass("translate-x-0");
+    });
+
+    it("calls onMobileOpenChange when drawer state changes via close button", async () => {
+      const onChange = vi.fn();
+      const user = userEvent.setup();
+      render(
+        <Sidebar items={SAMPLE_ITEMS} mobileOpen={true} onMobileOpenChange={onChange} />,
+      );
+
+      await user.click(screen.getByRole("button", { name: /close sidebar/i }));
+      expect(onChange).toHaveBeenCalledWith(false);
+    });
+
+    it("renders close button in drawer header", () => {
+      render(<Sidebar items={SAMPLE_ITEMS} mobileOpen />);
+      expect(screen.getByRole("button", { name: /close sidebar/i })).toBeInTheDocument();
+    });
+  });
 });

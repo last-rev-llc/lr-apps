@@ -31,6 +31,8 @@ export interface DataGridProps<T> extends React.HTMLAttributes<HTMLDivElement> {
   emptyTitle?: string;
   emptyDescription?: string;
   emptyAction?: React.ReactNode;
+  /** "compact" stacks rows vertically below md and tightens row spacing. */
+  size?: "default" | "compact";
 }
 
 type SortState = { key: string; direction: "asc" | "desc" } | null;
@@ -47,11 +49,13 @@ function DataGridInner<T extends Record<string, unknown>>(
     emptyTitle = "No data",
     emptyDescription,
     emptyAction,
+    size = "default",
     className,
     ...props
   }: DataGridProps<T>,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) {
+  const isCompact = size === "compact";
   const [sort, setSort] = React.useState<SortState>(null);
   const [selected, setSelected] = React.useState<Set<string>>(new Set());
 
@@ -114,46 +118,25 @@ function DataGridInner<T extends Record<string, unknown>>(
   }
 
   return (
-    <div ref={ref} className={cn("w-full", className)} {...props}>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            {selectable && (
-              <TableHead className="w-10">
-                <input
-                  type="checkbox"
-                  role="checkbox"
-                  checked={selected.size === data.length}
-                  onChange={toggleAll}
-                  aria-label="Select all rows"
-                />
-              </TableHead>
-            )}
-            {columns.map((col) => {
-              const isSortable = col.sortable ?? sortable;
-              return (
-                <TableHead
-                  key={col.key}
-                  sorted={sort?.key === col.key ? sort.direction : false}
-                  onSort={isSortable ? () => handleSort(col.key) : undefined}
-                  className={col.className}
-                >
-                  {col.header}
-                </TableHead>
-              );
-            })}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
+    <div
+      ref={ref}
+      data-size={size}
+      className={cn("w-full", className)}
+      {...props}
+    >
+      {isCompact && (
+        <div className="md:hidden flex flex-col gap-2" role="list">
           {sortedData.map((row) => {
             const rowKey = String(row[keyField]);
             return (
-              <TableRow
+              <div
                 key={rowKey}
+                role="listitem"
                 data-state={selected.has(rowKey) ? "selected" : undefined}
+                className="rounded-lg border border-white/10 bg-white/5 p-3 text-sm"
               >
                 {selectable && (
-                  <TableCell>
+                  <div className="mb-2">
                     <input
                       type="checkbox"
                       role="checkbox"
@@ -161,20 +144,92 @@ function DataGridInner<T extends Record<string, unknown>>(
                       onChange={() => toggleRow(rowKey)}
                       aria-label={`Select row ${rowKey}`}
                     />
-                  </TableCell>
+                  </div>
                 )}
                 {columns.map((col) => (
-                  <TableCell key={col.key} className={col.className}>
-                    {col.render
-                      ? col.render(row[col.key], row)
-                      : (row[col.key] as React.ReactNode)}
-                  </TableCell>
+                  <div
+                    key={col.key}
+                    className="flex justify-between gap-3 py-1 border-b border-white/5 last:border-0"
+                  >
+                    <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                      {col.header}
+                    </span>
+                    <span className={cn("text-right", col.className)}>
+                      {col.render
+                        ? col.render(row[col.key], row)
+                        : (row[col.key] as React.ReactNode)}
+                    </span>
+                  </div>
                 ))}
-              </TableRow>
+              </div>
             );
           })}
-        </TableBody>
-      </Table>
+        </div>
+      )}
+
+      <div className={cn("w-full overflow-x-auto", isCompact && "hidden md:block")}>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {selectable && (
+                <TableHead className="w-10">
+                  <input
+                    type="checkbox"
+                    role="checkbox"
+                    checked={selected.size === data.length}
+                    onChange={toggleAll}
+                    aria-label="Select all rows"
+                  />
+                </TableHead>
+              )}
+              {columns.map((col) => {
+                const isSortable = col.sortable ?? sortable;
+                return (
+                  <TableHead
+                    key={col.key}
+                    sorted={sort?.key === col.key ? sort.direction : false}
+                    onSort={isSortable ? () => handleSort(col.key) : undefined}
+                    className={col.className}
+                  >
+                    {col.header}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {sortedData.map((row) => {
+              const rowKey = String(row[keyField]);
+              return (
+                <TableRow
+                  key={rowKey}
+                  data-state={selected.has(rowKey) ? "selected" : undefined}
+                  className={isCompact ? "[&>td]:py-1.5" : undefined}
+                >
+                  {selectable && (
+                    <TableCell>
+                      <input
+                        type="checkbox"
+                        role="checkbox"
+                        checked={selected.has(rowKey)}
+                        onChange={() => toggleRow(rowKey)}
+                        aria-label={`Select row ${rowKey}`}
+                      />
+                    </TableCell>
+                  )}
+                  {columns.map((col) => (
+                    <TableCell key={col.key} className={col.className}>
+                      {col.render
+                        ? col.render(row[col.key], row)
+                        : (row[col.key] as React.ReactNode)}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }

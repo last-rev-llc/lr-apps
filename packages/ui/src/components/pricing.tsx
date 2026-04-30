@@ -30,7 +30,7 @@ export function Pricing({
   return (
     <div
       className={cn(
-        "glass relative flex flex-col rounded-2xl border p-8 transition-transform hover:-translate-y-0.5",
+        "glass relative flex flex-col rounded-2xl border p-5 sm:p-8 transition-transform hover:-translate-y-0.5",
         highlighted
           ? "border-accent/60 shadow-glow-accent-md"
           : "border-white/10",

@@ -12,13 +12,13 @@ export function Hero({ title, subtitle, children, className }: HeroProps) {
   return (
     <section
       className={cn(
-        "relative flex min-h-[50vh] flex-col items-center justify-center px-6 py-16 text-center",
+        "relative flex min-h-[50vh] flex-col items-center justify-center overflow-hidden px-4 py-12 text-center sm:px-6 sm:py-16",
         className,
       )}
     >
       {/* Ambient glow */}
       <div
-        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[400px] rounded-full bg-amber-400/10 blur-[80px]"
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[60vw] w-[60vw] max-h-[400px] max-w-[400px] rounded-full bg-amber-400/10 blur-[80px]"
         aria-hidden
       />
       <div className="relative z-10 max-w-3xl">

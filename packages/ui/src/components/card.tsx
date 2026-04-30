@@ -1,21 +1,45 @@
 import * as React from "react";
 import { cn } from "../lib/utils";
 
-const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn("rounded-xl border bg-card text-card-foreground shadow", className)}
-      {...props}
-    />
+type CardSize = "default" | "compact";
+
+const CardSizeContext = React.createContext<CardSize>("default");
+
+type CardProps = React.HTMLAttributes<HTMLDivElement> & { size?: CardSize };
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, size = "default", ...props }, ref) => (
+    <CardSizeContext.Provider value={size}>
+      <div
+        ref={ref}
+        data-size={size}
+        className={cn(
+          "rounded-xl border bg-card text-card-foreground shadow",
+          size === "compact" && "rounded-lg text-sm",
+          className,
+        )}
+        {...props}
+      />
+    </CardSizeContext.Provider>
   ),
 );
 Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex flex-col space-y-1.5 p-6", className)} {...props} />
-  ),
+  ({ className, ...props }, ref) => {
+    const size = React.useContext(CardSizeContext);
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "flex flex-col space-y-1.5",
+          size === "compact" ? "p-3" : "p-6",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
 );
 CardHeader.displayName = "CardHeader";
 
@@ -38,16 +62,34 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
 CardDescription.displayName = "CardDescription";
 
 const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-  ),
+  ({ className, ...props }, ref) => {
+    const size = React.useContext(CardSizeContext);
+    return (
+      <div
+        ref={ref}
+        className={cn(size === "compact" ? "p-3 pt-0" : "p-6 pt-0", className)}
+        {...props}
+      />
+    );
+  },
 );
 CardContent.displayName = "CardContent";
 
 const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("flex items-center p-6 pt-0", className)} {...props} />
-  ),
+  ({ className, ...props }, ref) => {
+    const size = React.useContext(CardSizeContext);
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "flex items-center",
+          size === "compact" ? "p-3 pt-0" : "p-6 pt-0",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
 );
 CardFooter.displayName = "CardFooter";
 
