@@ -1,37 +1,189 @@
 {
   "vision": null,
-  "milestones": [
-    {
-      "title": "023 - CRM App — Promotion from command-center/users to standalone",
-      "description": "Promote the read-only users sub-app out of command-center into its own enterprise-tier mini-app at crm.apps.lastrev.com. Lands a paired idempotent migration that formally tracks the existing public.contacts table (RLS, updated_at trigger, indexes), scaffolds the app via create-app, ports the list/detail UI from command-center/users with rename UsersApp→CrmApp and header copy CRM, builds zod-validated server actions for full CRUD (create/update/delete contact, edit notes/tags), introduces a unified ContactForm component used by both the new-contact dialog and an edit toggle in the detail panel, ships an AI enrichment endpoint at /api/enrich gated behind crm:admin and rate-limited (30/hour/user) that runs Vercel AI SDK + @ai-sdk/anthropic generateObject (claude-sonnet-4-6) against a ContactInsights zod schema and persists to contacts.insights + contacts.last_researched_at, deprecates the existing external insights writer to prevent clobbering, removes the users tile from command-center MODULES, deletes the old sub-app directory and test, adds a temporary redirect stub at command-center/users/page.tsx pointing to crm.apps.lastrev.com (slated for removal ~30 days post-release), introduces a re-runnable scripts/audit-contacts-schema.ts for live-schema drift detection, and ships unit + component + integration coverage for actions and the enrichment endpoint.",
-      "dueOn": "2026-06-15",
-      "order": 23
-    }
-  ],
+  "milestones": [],
   "issues": [
     {
       "id": 1,
-      "title": "Add scripts/audit-contacts-schema.ts for live-schema drift detection",
-      "body": "## Summary\nIntroduce a re-runnable script that introspects the live `public.contacts` table via PostgREST's OpenAPI endpoint and reports drift against an `EXPECTED_COLUMNS` map hard-coded in the script. Used as a pre-flight before authoring the contacts migration and wired into CI later.\n\n## Background\nThe `contacts` table already exists in Supabase but is not tracked in this repo. Before writing an idempotent migration, we need to confirm the live shape matches what we plan to write. The script keeps the expected schema co-located with the migration and `lib/types.ts`.\n\n## Acceptance Criteria\n- [ ] Script lives at `scripts/audit-contacts-schema.ts` and is invoked via `pnpm tsx scripts/audit-contacts-schema.ts`\n- [ ] Reads `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` from env via `lib/env.ts` (or direct, since this is a script)\n- [ ] Hits PostgREST OpenAPI endpoint to introspect column names, types, nullability for `public.contacts`\n- [ ] Hard-coded `EXPECTED_COLUMNS` map mirrors `apps/web/app/apps/crm/lib/types.ts` Contact shape and the migration DDL\n- [ ] Per-column output uses the four-state symbol legend: `✓` ok, `Δ` drift, `✖` missing in live, `?` extra in live\n- [ ] Exits with non-zero status if any drift, missing, or extra columns are found\n- [ ] Supports `--json` flag for machine-readable output\n- [ ] README comment at top of file documents env requirements and exit codes\n- [ ] Script is added to package.json scripts (e.g. `\"audit:contacts\": \"tsx scripts/audit-contacts-schema.ts\"`) only if natural; otherwise documented in plan and run ad-hoc",
+      "title": "Add data-testid hooks to Ideas app components",
+      "body": "## Summary\nAdd stable `data-testid` selectors to high-traffic Ideas UI elements before writing specs. Selector-by-text is fragile against copy/style changes; this is a small, surgical, no-behavior-change PR that the rest of the e2e effort depends on.\n\n## Scope\nUpdate the following components in `apps/web/app/apps/ideas/`:\n- `ideas-app.tsx`\n- `idea-form-modal.tsx`\n- `row-menu.tsx`\n- `status-dropdown.tsx`\n- card/list view components\n\n## Acceptance Criteria\n- [ ] `idea-card`, `idea-card-title`, `idea-card-score` testids present on the card surface\n- [ ] `new-idea-button`, `idea-form`, `idea-form-title-input`, `idea-form-submit` testids on form/modal\n- [ ] `quick-filter-${key}` testids on each Quick Filter button (needs-rating, quick-wins, top-rated, new-today)\n- [ ] `category-pill-${name}`, `show-filter-${key}`, `sort-${key}` testids on filter/sort controls\n- [ ] `view-toggle-grid` and `view-toggle-list` testids on the view switcher\n- [ ] `snooze-menu`, `snooze-1d`, `snooze-1w`, `snooze-2w`, `snooze-1mo`, `snooze-show` testids on the snooze submenu\n- [ ] `hide-button`, `restore-button`, `delete-confirm` testids on row-menu actions\n- [ ] No visual regression — manually verify on `/apps/ideas` that the page renders identically\n- [ ] No new behavior, no new dependencies, no test changes in this PR",
       "labels": [
-        "enhancement",
-        "scripts"
+        "test",
+        "ideas"
       ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
       "priority": "p1",
-      "complexity": "medium",
+      "complexity": "small",
       "dependsOn": [],
       "selected": true
     },
     {
       "id": 2,
-      "title": "Run live-schema audit and reconcile drift before writing migration",
-      "body": "## Summary\nExecute `scripts/audit-contacts-schema.ts` against the live Supabase database, capture any drift / missing / extra columns, and reconcile by either updating `EXPECTED_COLUMNS` + the proposed migration DDL or by planning a follow-up migration for legacy columns.\n\n## Background\nThe migration must be idempotent and non-destructive against the existing live table. The audit guarantees the DDL we ship matches the live shape so applying the migration is a no-op for column shape and only adds RLS/trigger/indexes.\n\n## Acceptance Criteria\n- [ ] `pnpm tsx scripts/audit-contacts-schema.ts` runs cleanly with non-zero exit only when drift exists\n- [ ] All `Δ` (drift) entries resolved by updating either the script's `EXPECTED_COLUMNS` or the planned migration DDL\n- [ ] All `✖` (missing in live) entries resolved by either removing from DDL or accepting that the migration will add them on apply (idempotent `add column if not exists`)\n- [ ] All `?` (extra in live) entries triaged: documented as legacy in plan comment, added to DDL, or scheduled for a follow-up drop migration\n- [ ] Final audit run produces all `✓` output (or documented exceptions) before issue is closed\n- [ ] Audit output captured in PR description for traceability",
+      "title": "Create tests/e2e/helpers/ideas.ts DB seed/cleanup helpers",
+      "body": "## Summary\nAdd service-role Supabase helpers that let specs reach a deterministic starting state (e.g. \"5 ideas with mixed status/rating/snooze\") without driving the UI. Reaching that state through the UI is slow and brittle.\n\n## Location\n`apps/web/tests/e2e/helpers/ideas.ts`\n\n## API\n```ts\nexport async function seedIdea(userId: string, partial?: Partial<IdeaRow>): Promise<Idea>\nexport async function seedIdeas(userId: string, count: number, factoryFn?: (i: number) => Partial<IdeaRow>): Promise<Idea[]>\nexport async function getIdea(id: string): Promise<Idea | null>\nexport async function listIdeasForUser(userId: string): Promise<Idea[]>\nexport async function deleteIdeasForUser(userId: string): Promise<void>\n```\n\n## Acceptance Criteria\n- [ ] Uses the existing service-role client pattern from `tests/e2e/helpers/db.ts` (do not duplicate the client)\n- [ ] `seedIdea` returns the inserted row with all fields hydrated, accepts overrides for title/description/category/tags/sourceUrl/status/rating/feasibility/impact/effort/snoozedUntil/hiddenAt\n- [ ] `seedIdeas` supports a factory callback for varied fixtures and resolves in parallel\n- [ ] `getIdea` and `listIdeasForUser` return current DB state for read-after-write assertions\n- [ ] `deleteIdeasForUser` removes all rows for the user; safe to call when user has zero ideas\n- [ ] All helpers respect RLS by using service role; never call from the browser or test page context\n- [ ] Types come from `@repo/db` (no hand-rolled `IdeaRow`)\n- [ ] Smoke unit test: insert → read → delete round-trip against a real DB",
       "labels": [
-        "chore",
-        "db"
+        "test",
+        "ideas"
       ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 3,
+      "title": "Provision pro-tier E2E user and entitlement env vars",
+      "body": "## Summary\nAdd a second Auth0 test user that holds the `ideas:ai-plan` entitlement so we can exercise both upgrade-dialog and entitled-user paths in `ai-plan.spec.ts`. The free-tier user is already wired up in `auth.fixture.ts`.\n\n## Acceptance Criteria\n- [ ] New env vars declared and consumed: `E2E_TEST_USER_PRO_EMAIL`, `E2E_TEST_USER_PRO_PASSWORD`, `E2E_TEST_USER_PRO_ID`\n- [ ] Vars added to `turbo.json` `globalEnv` (per CLAUDE.md non-negotiable)\n- [ ] Vars added to `.env.local.example` with placeholder values and a comment\n- [ ] GitHub Actions secrets created for CI (note for reviewer; not committed)\n- [ ] New `loggedInProPage` fixture in `tests/e2e/fixtures/auth.fixture.ts` that authenticates as the pro user with its own `storageState` file (e.g. `.auth/pro-user.json`)\n- [ ] Pro user provisioned in Auth0 (manual step documented in `tests/e2e/README.md` or equivalent)\n- [ ] `seedPermission` for `ideas:ai-plan` entitlement helper covers the pro user flow\n- [ ] No secrets committed",
+      "labels": [
+        "test",
+        "infra",
+        "ideas"
+      ],
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
+      "priority": "p2",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 4,
+      "title": "E2E spec: Ideas access & gating (Group A)",
+      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/access.spec.ts` covering authentication, permission, and entitlement gating for `/apps/ideas`.\n\n## Test cases\n1. Unauth visitor → `/apps/ideas` redirects to login\n2. Auth user without `ideas` permission → unauthorized page renders\n3. Auth user with `ideas:edit` permission → page renders with header `💡 Ideas`\n4. User without `ideas:ai-plan` entitlement → clicking `✨ Plan & score with AI` opens the upgrade dialog\n5. User with `ideas:ai-plan` entitlement → button does NOT show upgrade dialog\n\n## Acceptance Criteria\n- [ ] `beforeAll` uses `seedPermission(userId, \"ideas\", \"edit\")`; `afterAll` removes it\n- [ ] Reuses `loggedInPage` and `loggedInProPage` fixtures (no new auth fixtures invented)\n- [ ] Unauth case uses an unauthenticated context (fresh `browser.newContext()`)\n- [ ] Selectors use the testids added in #1, fall back to role/aria where testid is not warranted\n- [ ] Each test passes locally and against `next start` in CI mode\n- [ ] No flake on 10 consecutive runs (`--repeat-each=10`)",
+      "labels": [
+        "test",
+        "ideas",
+        "e2e"
+      ],
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
+      "priority": "p1",
+      "complexity": "small",
+      "dependsOn": [
+        1,
+        3
+      ],
+      "selected": true
+    },
+    {
+      "id": 5,
+      "title": "E2E spec: Ideas CRUD (Group B)",
+      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/crud.spec.ts` covering Create, Edit, and Delete server-action flows end-to-end (UI → action → DB).\n\n## Test cases\n6. Open `+ New Idea` modal → modal renders centered, title field empty\n7. Submit empty title → inline error \"Title is required\"; assert no DB row created\n8. Create with title only → row appears in grid; assert DB row exists via `getIdea`\n9. Create with full payload (title/description/category/tags/sourceUrl) → all fields persisted; tags parsed CSV → array\n10. Open edit modal on existing idea → fields populated, including feasibility/impact/effort\n11. Edit and save → DB updated; optimistic UI shows new values immediately\n12. Cancel edit → no DB write; modal closes\n13. Delete via row menu → confirm dialog → DB row removed\n\n## Acceptance Criteria\n- [ ] `beforeAll` seeds `ideas:edit` permission; `afterEach` calls `deleteIdeasForUser` for isolation\n- [ ] Read-after-write assertions go through `getIdea` / `listIdeasForUser` (don't trust the UI alone)\n- [ ] Tag CSV parsing assertion compares array equality, not string equality\n- [ ] Confirm dialog interaction uses the `delete-confirm` testid from #1\n- [ ] No flake on 10 consecutive runs",
+      "labels": [
+        "test",
+        "ideas",
+        "e2e"
+      ],
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        1,
+        2
+      ],
+      "selected": true
+    },
+    {
+      "id": 6,
+      "title": "E2E spec: Ideas status & rating (Group C)",
+      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/status-rating.spec.ts` covering the inline status dropdown and star-rating control, plus the optimistic-update rollback path.\n\n## Test cases\n14. Status change new → in-progress → persisted, visible in card label\n15. Click 4 stars → rating persists, derived score updates\n16. Click same star count twice → rating clears to 0/null\n17. Optimistic-update rollback on server error — mock action failure, assert UI reverts and error toast/inline message\n\n## Acceptance Criteria\n- [ ] Seed a single idea per test via `seedIdea`; assert state via `getIdea`\n- [ ] Star widget tested both via mouse and keyboard activation\n- [ ] Test 17 mocks the server action response (e.g. via `page.route` on the action endpoint, or by temporarily bad-stating the row so the action throws)\n- [ ] After rollback, DB state matches pre-click state\n- [ ] `afterEach` cleans up via `deleteIdeasForUser`\n- [ ] No flake on 10 consecutive runs",
+      "labels": [
+        "test",
+        "ideas",
+        "e2e"
+      ],
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        1,
+        2
+      ],
+      "selected": true
+    },
+    {
+      "id": 7,
+      "title": "E2E spec: Ideas hide & snooze (Group D)",
+      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/hide-snooze.spec.ts` covering hide/restore and snooze/show-now flows including the snoozed indicator.\n\n## Test cases\n18. Hide via `✕` → idea moves out of Active view, lands in Hidden (n) filter\n19. Restore from hidden → returns to active\n20. Snooze 1 week → idea moves to Snoozed view, `snoozedUntil` set ~7 days out\n21. `Show Now` from snooze menu → returns to active, `snoozedUntil` cleared\n22. Snoozed indicator/opacity rendered on the card while snoozed\n\n## Acceptance Criteria\n- [ ] `snoozedUntil` assertion allows for clock skew (within ±1 hour of expected)\n- [ ] Hidden filter count assertion matches DB count for hidden rows\n- [ ] Test 22 uses computed-style assertion on the card's opacity (not a screenshot diff)\n- [ ] Seed varied state (some active, some snoozed, some hidden) in `beforeEach`\n- [ ] `afterEach` cleans up via `deleteIdeasForUser`",
+      "labels": [
+        "test",
+        "ideas",
+        "e2e"
+      ],
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
+      "priority": "p2",
+      "complexity": "medium",
+      "dependsOn": [
+        1,
+        2
+      ],
+      "selected": true
+    },
+    {
+      "id": 8,
+      "title": "E2E spec: Ideas filters, search & sort (Group E)",
+      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/filters-search.spec.ts` covering search, quick filters, category pills, sort, and show-filter counts.\n\n## Test cases\n23. Search by title → list narrows to matches\n24. Search by tag → matched\n25. Search empty state — no match → EmptyState component renders\n26. Quick filter `Needs Rating` → only rows with null/0 rating\n27. Quick filter `Quick Wins` → feasibility ≥ 7 + Low effort\n28. Quick filter `Top Rated` → sorted by rating desc\n29. Quick filter `New Today` → only items created < 24h ago\n30. Category pill `Product` → only Product rows\n31. Sort by Rating → toggle asc/desc, arrow indicator + DB-verified order\n32. Show filter Snoozed/Completed/Hidden/All counts match DB counts\n\n## Acceptance Criteria\n- [ ] Seed a deterministic mix of ~10 ideas in `beforeEach` covering edges (low/high feasibility, varied effort, multiple categories, mix of timestamps)\n- [ ] Use `seedIdea` overrides for `createdAt` to deterministically populate `New Today` and \"older than today\" buckets — no `setTimeout` or wall-clock hacks\n- [ ] Filter assertions check count AND identities (so a wrong-but-same-cardinality result still fails)\n- [ ] No flake on 10 consecutive runs",
+      "labels": [
+        "test",
+        "ideas",
+        "e2e"
+      ],
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
+      "priority": "p2",
+      "complexity": "large",
+      "dependsOn": [
+        1,
+        2
+      ],
+      "selected": true
+    },
+    {
+      "id": 9,
+      "title": "E2E spec: Ideas view modes (Group F)",
+      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/views.spec.ts` covering the grid ↔ list view toggle and confirming actions still work in both.\n\n## Test cases\n33. Toggle list view → list rows render with same row actions (status, rating, hide, snooze)\n34. Toggle back to grid → cards render\n\n## Acceptance Criteria\n- [ ] In list view, exercise at least one mutating action (e.g. status change) and read back via `getIdea`\n- [ ] Assert preferred-view persistence if implemented (otherwise document as not-applicable)\n- [ ] Uses `view-toggle-grid` / `view-toggle-list` testids from #1\n- [ ] No flake on 10 consecutive runs",
+      "labels": [
+        "test",
+        "ideas",
+        "e2e"
+      ],
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
+      "priority": "p3",
+      "complexity": "small",
+      "dependsOn": [
+        1,
+        2
+      ],
+      "selected": true
+    },
+    {
+      "id": 10,
+      "title": "E2E spec: Ideas AI plan & rate-limit (Group G)",
+      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/ai-plan.spec.ts` covering the entitled AI-plan path and the rate-limit error surface. Gated by the pro-user fixture from #3.\n\n## Test cases\n35. With `ideas:ai-plan` entitlement: trigger plan on an idea → plan section populates. Either mock the model response, or run against a fixed prompt with stable assertion targets via `data-testid=\"plan-caption\"`.\n36. Rate-limited path → user-visible error after N invocations (matches `RateLimitedError` from the Ideas plan action)\n\n## Acceptance Criteria\n- [ ] Uses `loggedInProPage` from #3\n- [ ] Either: (a) mock the AI provider via `page.route` on the AI Gateway endpoint, or (b) use the local-dev stub fallback documented in milestone 021. Document the choice in the spec header.\n- [ ] Test 35 asserts on the plan markdown rendering (`data-testid=\"plan-caption\"` or equivalent), not on raw model output\n- [ ] Test 36 deterministically triggers the rate limit (e.g. by seeding the rate-limit Redis key, or by burst-invoking until threshold) and asserts the error surface text is user-visible\n- [ ] Skipped (not failed) in CI when `E2E_TEST_USER_PRO_*` env vars are missing — log a clear message\n- [ ] `afterEach` cleans up the seeded idea and any rate-limit state",
+      "labels": [
+        "test",
+        "ideas",
+        "e2e",
+        "ai"
+      ],
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
+      "priority": "p2",
+      "complexity": "large",
+      "dependsOn": [
+        1,
+        2,
+        3
+      ],
+      "selected": true
+    },
+    {
+      "id": 11,
+      "title": "E2E spec: Ideas modal centering & a11y regression (Group H)",
+      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/modal-centering.spec.ts` as an explicit regression guard for the modal-centering bug fixed 2026-04-30 (Tailwind scan caused the modal to render misaligned). Also covers keyboard a11y for the form modal.\n\n## Test cases\n37. Open `+ New Idea` modal → assert computed-style centering: modal's bounding rect is horizontally and vertically centered within the viewport (within ±2px tolerance)\n38. Keyboard: pressing `Esc` closes modal; `Tab` order through form fields matches the visual order; first focusable element receives focus when modal opens\n\n## Acceptance Criteria\n- [ ] Centering uses `page.evaluate(() => getBoundingClientRect())` against the modal element, not a screenshot diff\n- [ ] Asserts at two viewport sizes (e.g. 1280×800 and 375×812) so a regression at one breakpoint is caught\n- [ ] Tab order test does not rely on `waitForTimeout` — uses focus-change events / `expect.poll` if needed\n- [ ] Spec header comment links back to the fix commit/PR for the 2026-04-30 bug\n- [ ] No flake on 10 consecutive runs",
+      "labels": [
+        "test",
+        "ideas",
+        "e2e",
+        "a11y"
+      ],
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
       "priority": "p1",
       "complexity": "small",
       "dependsOn": [
@@ -40,295 +192,26 @@
       "selected": true
     },
     {
-      "id": 3,
-      "title": "Scaffold crm app via pnpm create-app and verify registry entry",
-      "body": "## Summary\nRun `pnpm create-app crm --name=\"CRM\" --tier=enterprise --permission=admin --template=full` to register the app in `apps/web/lib/app-registry.ts` and scaffold the directory under `apps/web/app/apps/crm/`.\n\n## Background\nThe registry entry is the single source of truth for proxy routing, layout access, and tier gating. The `full` template wires `requireAppLayoutAccess(\"crm\")` automatically.\n\n## Acceptance Criteria\n- [ ] Confirm `crm` slug is not already taken in `app-registry.ts` before running\n- [ ] `pnpm create-app crm --name=\"CRM\" --tier=enterprise --permission=admin --template=full` completes without error\n- [ ] `app-registry.ts` contains: `{ slug: \"crm\", name: \"CRM\", subdomain: \"crm\", routeGroup: \"apps/crm\", auth: true, permission: \"admin\", template: \"full\", tier: \"enterprise\", features: {} }`\n- [ ] `apps/web/app/apps/crm/` directory exists with `layout.tsx`, `page.tsx`, `__tests__/page.test.tsx` from the `full` template\n- [ ] `layout.tsx` invokes `requireAppLayoutAccess(\"crm\")`\n- [ ] `pnpm lint` passes (registry / lib-listing checks happy)\n- [ ] Local proxy routing verified: requests to `crm.apps.lastrev.com` (or local equivalent) hit `/apps/crm/...`",
+      "id": 12,
+      "title": "Wire Ideas e2e into pnpm script and CI workflow",
+      "body": "## Summary\nAdd a runnable `test:e2e` script and integrate the Ideas e2e suite into the existing CI workflow so it runs on every PR.\n\n## Acceptance Criteria\n- [ ] `apps/web/package.json` exposes `test:e2e` → `playwright test` (only add if not already present)\n- [ ] `pnpm --filter web test:e2e` runs the full Ideas suite locally against a reused dev server\n- [ ] CI workflow runs `next build && next start` per the existing `webServer.command` flow and executes the suite\n- [ ] CI surfaces Playwright HTML report on failure (artifact upload)\n- [ ] `APP_SELF_ENROLL_SLUGS` env in CI either includes `ideas` OR the workflow explicitly relies on `seedPermission` — pick one approach and document it in `tests/e2e/README.md`\n- [ ] Pro-user specs are conditionally skipped when `E2E_TEST_USER_PRO_*` env vars are absent (no hard CI failure)\n- [ ] CI run time for the Ideas suite is documented in the PR description\n- [ ] Suite passes 3 consecutive CI runs with no flake before merge",
       "labels": [
-        "enhancement",
-        "scaffolding"
+        "test",
+        "ci",
+        "ideas"
       ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "trivial",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 4,
-      "title": "Add paired contacts migration (RLS, trigger, indexes) — idempotent",
-      "body": "## Summary\nLand `supabase/migrations/<DATE>_crm_contacts.up.sql` + matching `down.sql` that captures the existing `contacts` table shape going forward. The up-migration is idempotent and non-destructive — `create table if not exists`, `do $$ ... $$` guards on policy creation, `create index if not exists`, `drop trigger if exists` before re-creating.\n\n## Background\nThe `contacts` table predates this repo. We're formalizing it without risking data loss. Down-migration drops the trigger, function, policy, and indexes — but **not the table**, since the data predates the repo. RLS gates via `crm:admin` permission, not per-row ownership (org-shared contacts).\n\n## Acceptance Criteria\n- [ ] Migration pair created under `supabase/migrations/` with paired `up.sql` + `down.sql` (date prefix matches repo convention)\n- [ ] `up.sql` uses `create table if not exists public.contacts (...)` with all columns from the plan DDL: id, name, email, phone, title, company, type (with check constraint), avatar, location, timezone, slack_id, slack_handle, github_handle, linkedin_url, twitter_handle, website, tags (jsonb default '[]'), notes, insights (jsonb), last_researched_at, confidence, source, created_at, updated_at\n- [ ] `alter table public.contacts enable row level security;`\n- [ ] Single permissive policy `\"crm admins manage contacts\"` for `all` to `authenticated` using `(true)` with check `(true)` — gating happens at the app layer via permission\n- [ ] Policy creation guarded against duplicate-policy errors (do-block or `drop policy if exists` first)\n- [ ] `set_contacts_updated_at()` trigger function created with `create or replace`\n- [ ] `trg_contacts_updated_at` trigger created with `drop trigger if exists` first\n- [ ] Indexes created with `create index if not exists`: `idx_contacts_name`, `idx_contacts_company`, `idx_contacts_type`, `idx_contacts_last_researched` (last with `desc nulls last`)\n- [ ] `down.sql` drops trigger, function, policy, and four indexes — does NOT drop the table\n- [ ] `pnpm lint` passes (`scripts/check-migration-pairs.ts` happy)\n- [ ] Migration applied locally and re-applied successfully (idempotent verified)",
-      "labels": [
-        "db",
-        "migration"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [
-        2
-      ],
-      "selected": true
-    },
-    {
-      "id": 5,
-      "title": "Port lib/types.ts and lib/queries.ts from users sub-app to crm",
-      "body": "## Summary\nCopy `apps/web/app/apps/command-center/users/lib/types.ts` to `apps/web/app/apps/crm/lib/types.ts` unchanged. Port `lib/queries.ts` and add a new `getContactById(id)` query alongside the existing `getContacts()`.\n\n## Background\nTypes (`Contact`, `ContactInsights`, `CommunicationStyle`, `Personality`, `Interests`, sort/view enums) are unchanged. Queries continue to use `@repo/db/server` and parse `tags` + `insights` JSON fields; `getContactById` is needed by the enrichment endpoint and the edit/detail flow.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/lib/types.ts` exists, identical to the source file (only the path changes)\n- [ ] `apps/web/app/apps/crm/lib/queries.ts` exports `getContacts()` matching the existing behavior\n- [ ] `getContactById(id: string): Promise<Contact | null>` added; uses `@repo/db/server` and parses `tags`/`insights` consistently\n- [ ] Both queries wrapped in `withSpan` from `lib/otel.ts`\n- [ ] No imports from `@/app/apps/command-center/...` — the crm app is self-contained",
-      "labels": [
-        "enhancement"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "small",
-      "dependsOn": [
-        3
-      ],
-      "selected": true
-    },
-    {
-      "id": 6,
-      "title": "Add lib/schemas.ts with zod schemas for ContactInput and ContactInsights",
-      "body": "## Summary\nCentralize zod schemas for input validation. `ContactInputSchema` is used by server actions and the create/edit form; `InsightsSchema` is used by the AI enrichment endpoint via `generateObject` and mirrors the `ContactInsights` shape from `lib/types.ts`.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/lib/schemas.ts` created\n- [ ] `ContactInputSchema` covers all writable contact fields (name required; type enum constrained to the same values as the DB check constraint; tags array; optional socials)\n- [ ] `ContactInputSchema` exports a TS type via `z.infer<>` named `ContactInput`\n- [ ] `InsightsSchema` matches the spec from the plan: confidence enum (high/medium/low), summary (1..280), bestApproach (1..280), communicationStyle (4 nullable strings), personality (3 nullable strings + motivators[<=6] + stressors[<=6]), interests (professional[<=8], personal[<=8], sharedWithAdam[<=6]), conversationStarters[<=6], topicsToAvoid[<=6]\n- [ ] Schema field shapes verified against `lib/types.ts` `ContactInsights` (no drift)\n- [ ] Zod v3 syntax matches the rest of the repo",
-      "labels": [
-        "enhancement"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "small",
-      "dependsOn": [
-        5
-      ],
-      "selected": true
-    },
-    {
-      "id": 7,
-      "title": "Add lib/actions.ts: createContact, updateContact, deleteContact server actions",
-      "body": "## Summary\nImplement server actions for full CRUD on the `contacts` table, matching the `cringe-rizzler` and `cc-flags` patterns. Each action validates with `ContactInputSchema`, writes via `@repo/db/server` (RLS-respecting), revalidates the path, and is wrapped in `withSpan`.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/lib/actions.ts` starts with `\"use server\";`\n- [ ] `createContact(input: ContactInput): Promise<Contact>` validates input with `ContactInputSchema`, inserts, returns full row\n- [ ] `updateContact(id: string, input: Partial<ContactInput>): Promise<Contact>` validates with `ContactInputSchema.partial()`, updates by id, returns updated row\n- [ ] `deleteContact(id: string): Promise<void>` deletes by id\n- [ ] All three actions use `@repo/db/server` (NOT service-role)\n- [ ] All three actions call `revalidatePath(\"/\")` (or the appropriate crm app path) after mutation\n- [ ] All three actions wrapped in `withSpan(\"crm.<action>\", { contactId? })` from `lib/otel.ts`\n- [ ] Errors logged via `@repo/logger`, never `console.log`\n- [ ] Type validation errors throw a structured error the form can render",
-      "labels": [
-        "enhancement"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
+      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
       "priority": "p1",
       "complexity": "medium",
       "dependsOn": [
         4,
-        6
-      ],
-      "selected": true
-    },
-    {
-      "id": 8,
-      "title": "Add lib/enrich.ts: AI enrichment via @ai-sdk/anthropic generateObject",
-      "body": "## Summary\nImplement the core AI enrichment routine that the `/api/enrich` route handler calls. Uses Vercel AI SDK + `@ai-sdk/anthropic` `generateObject` against the `InsightsSchema` from `lib/schemas.ts`. Model is `claude-sonnet-4-6`. Prompt is the v0 placeholder structure from the plan; treat as iterable.\n\n## Background\nThe schema is the contract; prompt wording can iterate without changing the API. Grounded-only output rules in the system prompt prevent invented biographical claims.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/lib/enrich.ts` exports `enrichContact(contact: Contact): Promise<ContactInsights>`\n- [ ] Uses `@ai-sdk/anthropic` provider with model `claude-sonnet-4-6`\n- [ ] Calls `generateObject` with `schema: InsightsSchema` from `lib/schemas.ts`\n- [ ] System prompt matches the plan's v0 wording (relationship-intelligence framing for Adam Harris / Last Rev, evidence-only rules, no private/sensitive content)\n- [ ] User message templated from the contact fields per the plan (name, title, company, type, email, location, timezone, linkedin, github, twitter, slack, website, tags, notes)\n- [ ] Function does NOT persist; persistence is the route handler's job\n- [ ] Wrapped in `withSpan(\"crm.enrich\", { contactId })`\n- [ ] Errors from the AI SDK are surfaced to the caller with enough detail to log\n- [ ] Implementation respects `@repo/auth`'s server-only constraints (no client imports leaked)",
-      "labels": [
-        "enhancement",
-        "ai"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [
-        6
-      ],
-      "selected": true
-    },
-    {
-      "id": 9,
-      "title": "Add api/enrich/route.ts: POST endpoint with auth, rate limit, persistence",
-      "body": "## Summary\nImplement the `POST /api/enrich` route handler under `apps/web/app/apps/crm/api/enrich/route.ts`. Validates auth + permission, rate-limits per user, calls `enrichContact()`, persists `insights` + `last_researched_at`, returns the updated insights.\n\n## Acceptance Criteria\n- [ ] Route at `apps/web/app/apps/crm/api/enrich/route.ts` exports `POST`\n- [ ] Body: `{ contactId: string }` validated with zod\n- [ ] Auth: `requireAccess(\"crm\", \"admin\")` from `@repo/auth` (or the route-handler equivalent of `requireAppLayoutAccess(\"crm\")`)\n- [ ] Rate limit: `lib/rate-limit.ts`, 30/hour/user (keyed on auth subject)\n- [ ] Loads contact via `getContactById(contactId)`; 404 if missing\n- [ ] Calls `enrichContact(contact)` from `lib/enrich.ts`\n- [ ] Persists via `@repo/db/server`: updates `contacts.insights = <result>` and `contacts.last_researched_at = now()`\n- [ ] Response: `{ insights: ContactInsights, last_researched_at: string }`\n- [ ] Wrapped in `withSpan(\"crm.enrich\", { contactId })`\n- [ ] Errors logged via `@repo/logger`; rate-limit hits return 429 with `Retry-After`\n- [ ] Validation failures return 400 with structured error",
-      "labels": [
-        "enhancement",
-        "ai",
-        "api"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [
         5,
-        7,
-        8
-      ],
-      "selected": true
-    },
-    {
-      "id": 10,
-      "title": "Port users-app.tsx to crm-app.tsx with rename and CRM header",
-      "body": "## Summary\nCopy `apps/web/app/apps/command-center/users/components/users-app.tsx` (410 lines) to `apps/web/app/apps/crm/components/crm-app.tsx`. Rename the `UsersApp` component to `CrmApp`. Change header copy from `\"👥 Contacts\"` to `\"CRM\"`. Keep the existing subtitle (`\"{n} contacts · {m} with insights\"`) untouched. Preserve search, filter (type/company), sort, grid/list view toggle, and detail-panel toggle.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/components/crm-app.tsx` exists with `\"use client\"` directive\n- [ ] Component exported as `CrmApp` (not `UsersApp`)\n- [ ] Header text: `CRM` (no leading emoji); subtitle preserved verbatim\n- [ ] All existing search, filter, sort, view-mode functionality works as before\n- [ ] Imports from `@/app/apps/crm/lib/...`, NOT from the old command-center path\n- [ ] No inline hex colors introduced (token audit clean)\n- [ ] Renders without console errors against an empty contacts list and a populated list",
-      "labels": [
-        "enhancement",
-        "ui"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [
-        5
-      ],
-      "selected": true
-    },
-    {
-      "id": 11,
-      "title": "Add components/contact-form.tsx (shared create + edit form)",
-      "body": "## Summary\nNew unified form component used by both the new-contact dialog and the edit toggle in the detail panel. Driven by `ContactInputSchema`. Built with `@repo/ui` form primitives.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/components/contact-form.tsx` created with `\"use client\"` directive\n- [ ] Props: `{ initialValues?: Partial<ContactInput>; onSubmit: (input: ContactInput) => Promise<void>; onCancel?: () => void; submitLabel?: string }`\n- [ ] Fields cover all writable Contact columns (name required; type as a select matching the DB check constraint; tags as a multi-input; socials as optional text inputs)\n- [ ] Client-side validation via `ContactInputSchema` (resolver pattern matches repo convention)\n- [ ] Uses `@repo/ui` primitives (Form, Input, Select, Textarea, Button) — no Radix imports directly\n- [ ] No hardcoded colors; uses theme tokens\n- [ ] Loading + error states surfaced inline\n- [ ] Submits via the `onSubmit` prop so callers wire up the appropriate server action",
-      "labels": [
-        "enhancement",
-        "ui"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [
         6,
-        7
-      ],
-      "selected": true
-    },
-    {
-      "id": 12,
-      "title": "Port contact-detail.tsx with Edit toggle, Delete, and Re-research actions",
-      "body": "## Summary\nCopy `apps/web/app/apps/command-center/users/components/contact-detail.tsx` (595 lines) to `apps/web/app/apps/crm/components/contact-detail.tsx`. Add: (1) an Edit toggle that swaps the read-only view for `<ContactForm>` bound to the selected contact and saves via `updateContact`, (2) a Delete button with confirm dialog wired to `deleteContact`, and (3) a Re-research button that POSTs to `/api/enrich` and updates the in-place insights view. If the file naturally splits into edit/view sub-components during the work, do that — otherwise leave the monolith.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/components/contact-detail.tsx` exists with `\"use client\"` directive\n- [ ] Read-only view continues to render the existing detail layout (insights, communication style, personality, interests, etc.)\n- [ ] Edit button toggles into `<ContactForm initialValues={contact} onSubmit={(i) => updateContact(contact.id, i)} />`\n- [ ] Delete button opens a confirm dialog (`@repo/ui` Dialog) and calls `deleteContact(contact.id)` on confirm\n- [ ] Re-research button POSTs `{ contactId: contact.id }` to `/api/enrich`, shows loading state, updates insights inline on success, surfaces 429 / error states\n- [ ] Detail panel closes (or refreshes) after successful delete\n- [ ] No hardcoded colors; theme tokens only\n- [ ] No imports from old command-center path",
-      "labels": [
-        "enhancement",
-        "ui"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "large",
-      "dependsOn": [
         7,
+        8,
         9,
-        11
-      ],
-      "selected": true
-    },
-    {
-      "id": 13,
-      "title": "Wire CRUD UI into crm-app.tsx (New Contact dialog)",
-      "body": "## Summary\nAdd a `+ New Contact` button to `crm-app.tsx` that opens `<ContactForm>` in a dialog and calls `createContact` on submit. After successful create, close the dialog and let the page revalidation refresh the list.\n\n## Acceptance Criteria\n- [ ] `+ New Contact` button rendered in the crm-app header area\n- [ ] Click opens an `@repo/ui` Dialog containing `<ContactForm onSubmit={createContact} />`\n- [ ] Successful create closes the dialog and the list reflects the new contact (via the action's `revalidatePath`)\n- [ ] Validation errors render inline within the form (no toast-only)\n- [ ] Cancel closes the dialog without state leakage\n- [ ] Dialog accessible: focus trap, ESC closes, ARIA labels via `@repo/ui` defaults",
-      "labels": [
-        "enhancement",
-        "ui"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "small",
-      "dependsOn": [
         10,
         11
-      ],
-      "selected": true
-    },
-    {
-      "id": 14,
-      "title": "Update apps/crm/page.tsx to render CrmApp",
-      "body": "## Summary\nReplace the scaffolded `page.tsx` body with the server component pattern from the existing users sub-app: `getContacts()` then render `<CrmApp contacts={...} />`.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/page.tsx` is a server component (no `\"use client\"`)\n- [ ] Calls `getContacts()` from `@/app/apps/crm/lib/queries`\n- [ ] Renders `<CrmApp contacts={contacts} />`\n- [ ] Adds `loading.tsx` and `error.tsx` siblings (basic implementations using `@repo/ui` Skeleton / error layout)\n- [ ] Page renders without errors against the live database in dev",
-      "labels": [
-        "enhancement"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "trivial",
-      "dependsOn": [
-        10
-      ],
-      "selected": true
-    },
-    {
-      "id": 15,
-      "title": "Port users smoke test → crm-app.test.tsx and add page.test.tsx coverage",
-      "body": "## Summary\nMove the smoke test from `apps/web/app/apps/command-center/__tests__/users.test.tsx` into the crm app, renamed and re-imported from the new location.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/__tests__/crm-app.test.tsx` imports `CrmApp` from `@/app/apps/crm/components/crm-app`\n- [ ] Test asserts the component renders without crashing for an empty list and a populated list\n- [ ] Test asserts the header text is `CRM` and the subtitle pattern (`\"X contacts\"`) is present\n- [ ] The scaffolded `__tests__/page.test.tsx` from create-app still passes (or is updated to assert it renders the contact list shell)\n- [ ] `pnpm test --filter=apps/web` green for the new tests",
-      "labels": [
-        "test"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "small",
-      "dependsOn": [
-        10,
-        14
-      ],
-      "selected": true
-    },
-    {
-      "id": 16,
-      "title": "Add actions.test.ts: server-action contracts",
-      "body": "## Summary\nUnit-test `createContact`, `updateContact`, `deleteContact` against a mocked `@repo/db/server`. Assert input validation, span instrumentation, and revalidation calls.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/__tests__/actions.test.ts` exists\n- [ ] Tests cover happy-path create / update / delete\n- [ ] Tests cover validation failure (e.g. missing required `name`) returning a structured error\n- [ ] Mock for `@repo/db/server` returns the inserted/updated row shape\n- [ ] `revalidatePath` mocked and asserted called once per successful mutation\n- [ ] No real network or DB calls in the test\n- [ ] `pnpm test` green",
-      "labels": [
-        "test"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "small",
-      "dependsOn": [
-        7
-      ],
-      "selected": true
-    },
-    {
-      "id": 17,
-      "title": "Add enrich.test.ts: enrichment endpoint with mocked AI client",
-      "body": "## Summary\nIntegration-style test for the `POST /api/enrich` route handler with a mocked `@ai-sdk/anthropic` client. Assert auth gating, rate limiting, schema-shaped response, and persistence side effects.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/crm/__tests__/enrich.test.ts` exists\n- [ ] Mocks `@ai-sdk/anthropic` so `generateObject` returns a fixture matching `InsightsSchema`\n- [ ] Test: unauthenticated request → 401/redirect (per `requireAccess` behavior)\n- [ ] Test: missing `crm:admin` permission → 403\n- [ ] Test: happy path → 200 with `{ insights, last_researched_at }` and DB write asserted\n- [ ] Test: invalid body (missing `contactId`) → 400\n- [ ] Test: missing contact → 404\n- [ ] Test: rate-limit exceeded → 429 with `Retry-After`\n- [ ] No real Anthropic API calls\n- [ ] `pnpm test` green",
-      "labels": [
-        "test",
-        "ai"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [
-        9
-      ],
-      "selected": true
-    },
-    {
-      "id": 18,
-      "title": "Identify and disable existing external insights writer",
-      "body": "## Summary\nFind the current pipeline that populates `contacts.insights` and `contacts.last_researched_at` from outside this repo. Disable it (or coordinate a hand-off date) so the new in-app endpoint isn't fighting it. Document the source and the disable steps in the PR.\n\n## Background\nFrom the plan: \"the `last_researched_at`/`insights` fields are populated externally — that pipeline will be replaced by the new in-app endpoint.\" Leaving both writers running risks clobbering writes on contacts that get enriched manually.\n\n## Acceptance Criteria\n- [ ] External writer identified (cron / external service / script — capture name + location in PR description)\n- [ ] Disable mechanism executed (pause cron, disable function, comment out script — whatever fits the source) OR a hard cutover date scheduled and documented\n- [ ] Confirmation that no automated process is writing to `contacts.insights` after the cutover\n- [ ] PR description records the before / after state for audit\n- [ ] Rollback plan documented (how to re-enable the external writer if the new endpoint underperforms)",
-      "labels": [
-        "chore",
-        "ops"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "small",
-      "dependsOn": [],
-      "selected": true
-    },
-    {
-      "id": 19,
-      "title": "Remove users sub-app from command-center and add redirect stub",
-      "body": "## Summary\nDelete `apps/web/app/apps/command-center/users/` and `apps/web/app/apps/command-center/__tests__/users.test.tsx`. Remove the `slug: \"users\"` entry from the MODULES grid in `apps/web/app/apps/command-center/page.tsx:36`. Add a redirect stub at `apps/web/app/apps/command-center/users/page.tsx` that calls `redirect(\"https://crm.apps.lastrev.com\")` from `next/navigation`.\n\n## Background\nPlan calls for the redirect stub to live at the old path so we can remove it cleanly later (~30 days post-release once analytics confirm zero residual traffic). `next.config.ts` redirects are global and harder to scope per-host, so we avoid that route.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/command-center/users/components/`, `lib/` directories deleted\n- [ ] `apps/web/app/apps/command-center/__tests__/users.test.tsx` deleted\n- [ ] `apps/web/app/apps/command-center/page.tsx` MODULES array no longer contains the `slug: \"users\"` entry\n- [ ] New file at `apps/web/app/apps/command-center/users/page.tsx` whose body is `import { redirect } from \"next/navigation\"; export default function UsersRedirect() { redirect(\"https://crm.apps.lastrev.com\"); }`\n- [ ] Hitting `command-center.apps.lastrev.com/users` in dev redirects to `crm.apps.lastrev.com`\n- [ ] No lingering imports from the deleted directory anywhere in the repo (grep clean)\n- [ ] PR description includes a calendar reminder / follow-up issue link to remove the redirect ~30 days post-release",
-      "labels": [
-        "chore",
-        "cleanup"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "small",
-      "dependsOn": [
-        14
-      ],
-      "selected": true
-    },
-    {
-      "id": 20,
-      "title": "Final verification: pnpm lint, pnpm test, manual proxy + auth + enrich smoke",
-      "body": "## Summary\nRun the full local quality gate and a manual smoke pass before opening the bundled PR. Capture results in the PR description.\n\n## Acceptance Criteria\n- [ ] `pnpm lint` passes (registry, lib-listing, migration pairs, token audit, jsx-a11y)\n- [ ] `pnpm test` passes (all new + existing suites green)\n- [ ] `pnpm typecheck` passes\n- [ ] Manual: `crm.apps.lastrev.com` (or local equivalent) loads, auth gate works, contacts list renders\n- [ ] Manual: create / edit / delete contact succeeds; list refreshes\n- [ ] Manual: Re-research button hits `/api/enrich`, persists insights, UI updates inline\n- [ ] Manual: rate-limit hit on /api/enrich returns 429 (force by lowering threshold temporarily, then revert)\n- [ ] Manual: `command-center.apps.lastrev.com/users` redirects to `crm.apps.lastrev.com`\n- [ ] Manual: command-center MODULES grid no longer shows the Users tile\n- [ ] PR description includes a checklist of these verification steps and any deviations",
-      "labels": [
-        "chore",
-        "qa"
-      ],
-      "milestone": "023 - CRM App — Promotion from command-center/users to standalone",
-      "priority": "p1",
-      "complexity": "small",
-      "dependsOn": [
-        12,
-        13,
-        15,
-        16,
-        17,
-        18,
-        19
       ],
       "selected": true
     }
