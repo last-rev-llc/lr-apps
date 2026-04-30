@@ -147,13 +147,26 @@ function DrillModal({
   onClose: () => void;
 }) {
   return (
+    // role="dialog" + Escape/click-outside handlers are the established
+    // modal pattern; jsx-a11y flags interactions on a dialog element
+    // because dialog is technically non-interactive. The combination is
+    // intentional — a focusable wrapper that closes on Escape or
+    // backdrop click.
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <div
+      role="dialog"
+      aria-modal="true"
+      tabIndex={-1}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
-      onClick={onClose}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") onClose();
+      }}
     >
       <div
         className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-background border border-white/10 rounded-2xl shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
       >
         {/* Video */}
         <div className="rounded-t-2xl overflow-hidden">

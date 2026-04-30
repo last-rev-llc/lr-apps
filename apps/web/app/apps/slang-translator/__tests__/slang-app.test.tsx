@@ -58,6 +58,7 @@ vi.mock("@repo/ui", () => {
       </button>
     ),
     Card: ({ children, className, onClick }: any) => (
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
       <div className={className} onClick={onClick}>{children}</div>
     ),
     CardContent: ({ children, className }: any) => <div className={className}>{children}</div>,

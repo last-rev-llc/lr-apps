@@ -11,6 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:mobile": "playwright test mobile-audit.spec.ts",
+    "test:a11y": "playwright test a11y-audit.spec.ts",
     "analyze": "ANALYZE=true next build --webpack"
   },
   "dependencies": {
@@ -39,6 +41,7 @@
     "zod": "^4.4.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
     "@next/bundle-analyzer": "^16",
     "@playwright/test": "^1",
     "@repo/config": "workspace:*",
