@@ -187,10 +187,14 @@ function CalculatorTab() {
         <CardContent className="p-5">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1">
+              <label
+                htmlFor="wine-bottle-price"
+                className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1"
+              >
                 Retail Bottle Price ($)
               </label>
               <Input
+                id="wine-bottle-price"
                 type="number"
                 value={bottlePrice}
                 min={5}
@@ -200,10 +204,14 @@ function CalculatorTab() {
               />
             </div>
             <div>
-              <label className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1">
+              <label
+                htmlFor="wine-pour-size"
+                className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1"
+              >
                 Pour Size (oz)
               </label>
               <Input
+                id="wine-pour-size"
                 type="number"
                 value={pourSize}
                 min={1}
@@ -214,10 +222,14 @@ function CalculatorTab() {
               />
             </div>
             <div>
-              <label className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1">
+              <label
+                htmlFor="wine-glass-price"
+                className="block text-xs text-muted-foreground font-semibold uppercase tracking-wide mb-1"
+              >
                 Restaurant Glass Price ($)
               </label>
               <Input
+                id="wine-glass-price"
                 type="number"
                 value={glassPrice}
                 min={5}
@@ -395,8 +407,9 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
             <h3 className="font-heading text-base mb-2">Log a Pour</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs text-muted-foreground font-semibold mb-1">Restaurant Name *</label>
+                <label htmlFor="wine-restaurant-name" className="block text-xs text-muted-foreground font-semibold mb-1">Restaurant Name *</label>
                 <Input
+                  id="wine-restaurant-name"
                   type="text"
                   placeholder="e.g. Gary Danko"
                   value={form.restaurant_name}
@@ -405,8 +418,9 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 />
               </div>
               <div>
-                <label className="block text-xs text-muted-foreground font-semibold mb-1">Wine Ordered *</label>
+                <label htmlFor="wine-name" className="block text-xs text-muted-foreground font-semibold mb-1">Wine Ordered *</label>
                 <Input
+                  id="wine-name"
                   type="text"
                   placeholder="e.g. Caymus Cabernet 2021"
                   value={form.wine_name}
@@ -415,8 +429,9 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 />
               </div>
               <div>
-                <label className="block text-xs text-muted-foreground font-semibold mb-1">Pour Rating</label>
+                <label htmlFor="wine-pour-rating" className="block text-xs text-muted-foreground font-semibold mb-1">Pour Rating</label>
                 <select
+                  id="wine-pour-rating"
                   value={form.pour_rating}
                   onChange={(e) => setForm((f) => ({ ...f, pour_rating: e.target.value as PourRating }))}
                   className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
@@ -428,8 +443,9 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-muted-foreground font-semibold mb-1">Price Paid ($)</label>
+                <label htmlFor="wine-price-paid" className="block text-xs text-muted-foreground font-semibold mb-1">Price Paid ($)</label>
                 <Input
+                  id="wine-price-paid"
                   type="number"
                   placeholder="18"
                   min={1}
@@ -441,8 +457,9 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
               </div>
             </div>
             <div>
-              <label className="block text-xs text-muted-foreground font-semibold mb-1">Notes</label>
+              <label htmlFor="wine-notes" className="block text-xs text-muted-foreground font-semibold mb-1">Notes</label>
               <textarea
+                id="wine-notes"
                 placeholder="How was the pour? Any comments..."
                 value={form.notes}
                 onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
@@ -450,8 +467,9 @@ function TrackerTab({ restaurants, pourLogs, onAddPour }: {
               />
             </div>
             <div>
-              <label className="block text-xs text-muted-foreground font-semibold mb-1">Your Name</label>
+              <label htmlFor="wine-user-name-pour" className="block text-xs text-muted-foreground font-semibold mb-1">Your Name</label>
               <Input
+                id="wine-user-name-pour"
                 type="text"
                 placeholder="Your name"
                 value={form.user_name}
@@ -700,8 +718,9 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
           <CardContent className="p-5 space-y-3">
             <h3 className="font-heading text-base">Share a Pour Story</h3>
             <div>
-              <label className="block text-xs text-muted-foreground font-semibold mb-1">Your Name</label>
+              <label htmlFor="wine-user-name-story" className="block text-xs text-muted-foreground font-semibold mb-1">Your Name</label>
               <Input
+                id="wine-user-name-story"
                 type="text"
                 placeholder="Your name"
                 value={form.user_name}
@@ -710,8 +729,9 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
               />
             </div>
             <div>
-              <label className="block text-xs text-muted-foreground font-semibold mb-1">Story Type</label>
+              <label htmlFor="wine-pour-type" className="block text-xs text-muted-foreground font-semibold mb-1">Story Type</label>
               <select
+                id="wine-pour-type"
                 value={form.pour_type}
                 onChange={(e) => setForm((f) => ({ ...f, pour_type: e.target.value as WallPostType }))}
                 className="w-full px-3 py-2 glass-input text-sm focus:outline-none focus:ring-1 focus:ring-accent"
@@ -721,8 +741,9 @@ function WallTab({ wallPosts, onAddPost, onUpvote }: {
               </select>
             </div>
             <div>
-              <label className="block text-xs text-muted-foreground font-semibold mb-1">Your Story *</label>
+              <label htmlFor="wine-story-content" className="block text-xs text-muted-foreground font-semibold mb-1">Your Story *</label>
               <textarea
+                id="wine-story-content"
                 placeholder="Tell us about your pour experience..."
                 value={form.content}
                 onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}

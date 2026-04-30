@@ -60,6 +60,7 @@ docs/                      Operational/architecture docs
 - `app-host.ts`
 - `app-registry.ts`
 - `auth-login-redirect.ts`
+- `concurrent.ts`
 - `cron-auth.ts`
 - `csp.ts`
 - `csrf.ts`
@@ -124,3 +125,24 @@ docs/                      Operational/architecture docs
 10. **CSP nonce** generated in `proxy.ts` flows through `applyCspHeader`
     and must be threaded into any inline script tag (`<Script nonce>`).
     Don't disable CSP — set `CSP_REPORT_ONLY=1` to debug.
+
+## Database
+
+- Typed query helpers and client selection live in `@repo/db`. See
+  `packages/db/README.md` for `getAppPermission`, `upsertPermission`,
+  `getUserSubscription`, and the `server.ts` / `client.ts` /
+  `service-role.ts` distinction.
+- Migration authoring, naming, rollback pattern, and CI checks:
+  `docs/guides/migrations.md`.
+
+## Accessibility
+
+- Author-time enforcement: `eslint-plugin-jsx-a11y` (recommended ruleset)
+  is wired into the shared ESLint config in `@repo/config`, scoped to
+  `**/*.tsx`. Disabled rule:
+  - `jsx-a11y/anchor-is-valid` — off because Next.js `<Link>` wraps `<a>`
+    in patterns where the href lives on the parent component; the Next
+    ESLint preset already lints `<Link>` misuse.
+- Runtime audit: `pnpm test:a11y` runs `@axe-core/playwright` against
+  every registered app's root route and fails on any `critical` violation.
+  Mobile layout audit at 375 / 768 / 1440 px: `pnpm test:mobile`.

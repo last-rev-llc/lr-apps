@@ -1,0 +1,2 @@
+# Generated axe reports per run — keep the directory but ignore contents.
+*.json

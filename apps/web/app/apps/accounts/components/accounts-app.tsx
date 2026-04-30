@@ -697,10 +697,14 @@ export function AccountsApp({ clients }: AccountsAppProps) {
     <div>
       {/* Client selector */}
       <div className="flex items-center gap-3 mb-6 p-4 glass border border-surface-border rounded-xl">
-        <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest shrink-0">
+        <label
+          htmlFor="accounts-client-select"
+          className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest shrink-0"
+        >
           Client
         </label>
         <select
+          id="accounts-client-select"
           value={selectedId}
           onChange={(e) => setSelectedId(e.target.value)}
           className="flex-1 bg-surface border border-surface-border rounded-lg px-3 py-2 text-sm text-foreground focus:outline-none focus:border-pill-9/60"

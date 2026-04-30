@@ -205,16 +205,28 @@ export function PersonProfile({ person }: PersonProfileProps) {
     <>
       {/* Lightbox */}
       {lightboxSrc && (
+        // role="dialog" + Escape/click-outside is the standard modal
+        // pattern; the rule flags dialog as non-interactive even though
+        // these handlers are exactly what an accessible modal needs.
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image lightbox"
+          tabIndex={-1}
           className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 p-4"
-          onClick={() => setLightboxSrc(null)}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setLightboxSrc(null);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setLightboxSrc(null);
+          }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={lightboxSrc}
             alt="Gallery"
             className="max-w-full max-h-full rounded-xl object-contain"
-            onClick={(e) => e.stopPropagation()}
           />
           <Button
             variant="ghost"
@@ -263,21 +275,27 @@ export function PersonProfile({ person }: PersonProfileProps) {
             </div>
           )}
           {actionPhoto && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={actionPhoto}
-              alt={`${person.name} action`}
-              className="absolute bottom-[-10px] right-[-40px] w-[110px] h-[110px] rounded-xl object-cover border-3 shadow-xl action-photo cursor-pointer"
-              style={{
-                borderColor: primary,
-                border: `3px solid ${primary}`,
-                transform: "rotate(5deg)",
-              }}
+            <button
+              type="button"
+              aria-label={`Open ${person.name} action photo`}
               onClick={() => setLightboxSrc(actionPhoto)}
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = "none";
-              }}
-            />
+              className="absolute bottom-[-10px] right-[-40px] p-0 border-0 bg-transparent cursor-pointer"
+              style={{ transform: "rotate(5deg)" }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={actionPhoto}
+                alt={`${person.name} action`}
+                className="w-[110px] h-[110px] rounded-xl object-cover border-3 shadow-xl action-photo block"
+                style={{
+                  borderColor: primary,
+                  border: `3px solid ${primary}`,
+                }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+            </button>
           )}
         </div>
 
@@ -368,7 +386,20 @@ export function PersonProfile({ person }: PersonProfileProps) {
             <SectionHeader>📸 Gallery</SectionHeader>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-12">
               {allPhotos.map(([key, url]) => (
-                <div key={key} className="relative group cursor-pointer rounded-xl overflow-hidden" onClick={() => setLightboxSrc(url)}>
+                <div
+                  key={key}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Open ${key} photo`}
+                  className="relative group cursor-pointer rounded-xl overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                  onClick={() => setLightboxSrc(url)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setLightboxSrc(url);
+                    }
+                  }}
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={url}

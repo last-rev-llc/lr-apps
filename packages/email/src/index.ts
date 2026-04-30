@@ -8,7 +8,12 @@ export {
   welcomeEmail,
   subscriptionConfirmationEmail,
   subscriptionCancellationEmail,
+  clientHealthAlertEmail,
   type WelcomeEmailData,
   type SubscriptionConfirmationData,
   type SubscriptionCancellationData,
+  type ClientHealthAlertEmailData,
+  type ClientHealthAlertSeverity,
+  type ClientHealthAlertType,
+  type ClientHealthAlertOffender,
 } from "./templates";

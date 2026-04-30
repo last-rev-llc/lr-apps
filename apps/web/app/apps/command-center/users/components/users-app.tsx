@@ -334,8 +334,16 @@ function ContactCard({ contact, onClick }: ContactCardProps) {
 function ContactRow({ contact, onClick }: ContactCardProps) {
   return (
     <div
-      className="flex items-center gap-3 cursor-pointer rounded-xl border border-white/8 bg-white/3 px-4 py-2.5 transition-all hover:border-amber-500/25 hover:bg-white/5"
+      role="button"
+      tabIndex={0}
+      className="flex items-center gap-3 cursor-pointer rounded-xl border border-white/8 bg-white/3 px-4 py-2.5 transition-all hover:border-amber-500/25 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50"
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
     >
       <Avatar className="h-8 w-8 shrink-0">
         {contact.avatar ? <AvatarImage src={contact.avatar} alt={contact.name} /> : null}
