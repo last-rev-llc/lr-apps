@@ -7,3 +7,10 @@ export {
   subscriptionCancellationEmail,
   type SubscriptionCancellationData,
 } from "./subscription-cancellation";
+export {
+  clientHealthAlertEmail,
+  type ClientHealthAlertEmailData,
+  type ClientHealthAlertSeverity,
+  type ClientHealthAlertType,
+  type ClientHealthAlertOffender,
+} from "./client-health-alert";
