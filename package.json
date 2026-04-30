@@ -13,6 +13,7 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "test:mobile": "pnpm --filter @repo/web test:mobile",
+    "test:a11y": "pnpm --filter @repo/web test:a11y",
     "create-app": "node --experimental-strip-types scripts/create-app.ts",
     "audit:tokens": "npx tsx scripts/audit-tokens.ts",
     "db:check-migration-pairs": "node --experimental-strip-types scripts/check-migration-pairs.ts",
