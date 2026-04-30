@@ -5,6 +5,7 @@ import {
   getHostFromRequestHeaders,
 } from "@repo/auth/auth0-factory";
 import { getAppsCatalogUrl, getPlatformBaseUrl } from "@/lib/platform-urls";
+import { LastRevLogo } from "./last-rev-logo";
 import { LastRevMiniHeaderActions } from "./last-rev-mini-header-actions";
 
 export async function LastRevMiniHeader() {
@@ -28,20 +29,20 @@ export async function LastRevMiniHeader() {
       : null;
 
   return (
-    <header className="glass-header sticky top-0 z-100">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 h-10 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3 min-w-0">
+    <header className="sticky top-0 z-100 bg-[rgba(8,8,15,0.35)] backdrop-blur-[20px] border-b border-white/5">
+      <div className="px-5 sm:px-10 h-16 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-8 min-w-0">
           <Link
             href={catalogUrl}
-            className="font-heading text-sm text-accent hover:opacity-90 transition-opacity shrink-0"
+            className="text-white shrink-0 inline-flex items-center"
+            aria-label="Last Rev"
           >
-            Last Rev
+            <LastRevLogo className="h-8 w-auto" />
           </Link>
-          <span className="text-border hidden sm:inline">|</span>
-          <nav className="flex items-center gap-2 text-xs min-w-0">
+          <nav className="hidden sm:flex items-center gap-8 text-sm min-w-0">
             <Link
               href={`${platformBaseUrl}/my-apps`}
-              className="text-muted-foreground hover:text-foreground transition-colors truncate"
+              className="text-white/50 hover:text-white font-medium transition-colors truncate"
             >
               Dashboard
             </Link>

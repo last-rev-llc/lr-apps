@@ -30,9 +30,10 @@ export default async function AccountPage() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="font-heading text-3xl text-accent mb-1">Subscription</h1>
-        <p className="text-muted-foreground">
+      <div className="mb-12 text-center">
+        <span className="lp-eyebrow">Account</span>
+        <h1 className="lp-h1">Subscription</h1>
+        <p className="lp-body-lg mx-auto">
           Manage your plan and billing details.
         </p>
       </div>

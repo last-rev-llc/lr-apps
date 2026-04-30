@@ -5,7 +5,6 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -47,21 +46,20 @@ export function LastRevMiniHeaderActions({
 
   if (!user?.email && !user?.name) {
     return (
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="sm" className="h-8 text-xs" asChild>
-          <Link href={`${platformBaseUrl}/login`}>Sign in</Link>
-        </Button>
-      </div>
+      <Link
+        href={`${platformBaseUrl}/login`}
+        className="inline-flex items-center px-6 py-2.5 rounded-[10px] bg-[image:var(--gradient-accent)] text-black font-bold text-[13px] shadow-[0_0_30px_rgba(245,158,11,0.15)] transition-all hover:-translate-y-px hover:shadow-[0_0_40px_rgba(245,158,11,0.3)]"
+      >
+        Sign in
+      </Link>
     );
   }
 
-  const label = user.name?.trim() || user.email || "Account";
-
   return (
-    <div className="flex items-center gap-2 sm:gap-3">
+    <div className="flex items-center gap-6">
       <Link
         href={myAppsHref}
-        className="hidden sm:inline text-xs text-muted-foreground hover:text-accent transition-colors"
+        className="hidden sm:inline text-sm text-white/50 hover:text-white font-medium transition-colors"
       >
         My apps
       </Link>
@@ -72,11 +70,11 @@ export function LastRevMiniHeaderActions({
             className="rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             aria-label="Account menu"
           >
-            <Avatar className="h-8 w-8">
+            <Avatar className="h-9 w-9">
               {user.picture ? (
                 <AvatarImage src={user.picture} alt="" />
               ) : null}
-              <AvatarFallback className="text-[10px] bg-surface-raised">
+              <AvatarFallback className="text-xs bg-surface-raised">
                 {initials(user.name, user.email)}
               </AvatarFallback>
             </Avatar>

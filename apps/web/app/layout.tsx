@@ -21,6 +21,7 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} dark`}
     >
       <body className="min-h-screen flex flex-col">
+        <div className="lp-bg-fixed" aria-hidden />
         <WebVitalsReporter />
         <LastRevMiniHeader />
         <div className="flex-1">{children}</div>
