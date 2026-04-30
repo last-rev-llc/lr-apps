@@ -30,10 +30,10 @@ const FIXTURE_RUN_1 = {
   bestPractices: 92,
   seo: 100,
   lcp: 1800,
-  fid: 50,
+  tbt: 50,
   cls: 0.05,
   fcp: 1200,
-  ttfb: 400,
+  si: 2.4,
   runAt: "2026-04-01T12:00:00Z",
 };
 
@@ -45,10 +45,10 @@ const FIXTURE_RUN_1_OLD = {
   bestPractices: 90,
   seo: 95,
   lcp: 2200,
-  fid: 80,
+  tbt: 80,
   cls: 0.08,
   fcp: 1500,
-  ttfb: 500,
+  si: 3.0,
   runAt: "2026-03-25T12:00:00Z",
 };
 
@@ -60,10 +60,10 @@ const FIXTURE_RUN_2 = {
   bestPractices: 58,
   seo: 80,
   lcp: 5000,
-  fid: 400,
+  tbt: 400,
   cls: 0.3,
   fcp: 3500,
-  ttfb: 2000,
+  si: 6.0,
   runAt: "2026-04-01T12:00:00Z",
 };
 
