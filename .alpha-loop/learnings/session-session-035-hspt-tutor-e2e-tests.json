@@ -1,0 +1,27 @@
+{
+  "name": "session/035-hspt-tutor-e2e-tests",
+  "branch": "session/035-hspt-tutor-e2e-tests",
+  "completed": "2026-04-30T23:40:34.802Z",
+  "results": [
+    {
+      "issueNum": 424,
+      "title": "E2E spec: HSPT Tutor access & gating (Group A)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/612",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 295,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 426,
+      "title": "Verify HSPT Tutor E2E suite locally and confirm permission lifecycle",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/612",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 295,
+      "filesChanged": 2
+    }
+  ]
+}
