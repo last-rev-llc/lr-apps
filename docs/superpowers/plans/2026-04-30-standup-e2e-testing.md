@@ -101,16 +101,9 @@ Each file: `beforeAll` seeds permission + (where needed) `days` rows; `afterEach
 
 Small, surgical, and avoids querying by emoji/text. The unit tests in `__tests__/standup-app.test.tsx` query by visible text today — they keep working because the `data-testid` adds are additive.
 
-## 6. Open question (decide before writing §A3 / §E25)
+## 6. Resolved (was: duplicate `<h1>` open question)
 
-`layout.tsx` and `components/standup-app.tsx` **both** render an `<h1>` ("📋 Daily Standup" in each). The layout's is the page-level heading; the inner one is the body's section heading. That is two `<h1>`s on one accessibility tree, which fails common axe rules and conflicts with §E25 above.
-
-Options:
-- (a) Demote the inner one to `<h2>`. Lowest-risk fix; update §A3 and §E25 to assert a single `<h1>`.
-- (b) Drop the layout `<h1>` and keep only the body's. Bigger visual change, alters the consolidated header.
-- (c) Accept the duplicate and assert "≥ 1 `<h1>` matches /Daily Standup/" in §A3, and remove §E25.
-
-Recommendation: (a). Cheap, removes a real a11y warning, keeps the existing visual layout. Treat as a tiny prerequisite PR before this plan's specs.
+Originally `layout.tsx` and `components/standup-app.tsx` both rendered `<h1>📋 Daily Standup</h1>`, producing two `<h1>`s on one accessibility tree. The inner heading has been demoted to `<h2>` (option (a) from the original draft); §A3 / §E25 should assert a single `<h1>` from the layout and an `<h2>` in the body.
 
 ## 7. Running
 
@@ -122,7 +115,7 @@ Recommendation: (a). Cheap, removes a real a11y warning, keeps the existing visu
 
 - Server-action tests — none exist (Standup has no server actions); nothing to duplicate.
 - Aggregation pipeline (the cron/source code that **populates** the `days` table) — separate effort. E2E covers UI ← `days` only.
-- Migration for the `days` table itself — there is currently no `supabase/migrations/*standup*` file; whoever owns the standup ingest pipeline owns that migration. These specs assume the table exists in the test database. If it does not, add a migration as a prereq PR (append-only rule + matching `.down.sql` per `CLAUDE.md` non-negotiable §5).
+- Migration for the `days` table itself — landed in [#410](https://github.com/last-rev-llc/lr-apps/pull/410) (`supabase/migrations/20260430_days.sql`). The aggregation pipeline that *populates* the table is still out of scope here.
 - Visual regression (screenshot diff) — separate effort.
 - Cross-app session test that involves Standup — already covered in `tests/e2e/auth.spec.ts` (it's the `SECOND_APP`); don't duplicate here.
 
@@ -132,7 +125,6 @@ Recommendation: (a). Cheap, removes a real a11y warning, keeps the existing visu
 
 1. Resolve §6 (small a11y PR, no behavior change beyond `<h1>` → `<h2>`)
 2. Add `data-testid` hooks (§5) — small PR, no behavior change
-3. Add `tests/e2e/helpers/standup.ts` — DB seed/cleanup with id-prefix scoping
-4. Confirm a `days`-table migration exists in `supabase/migrations/`; if not, file the prereq PR (see §8)
-5. Write `access.spec.ts` + `render.spec.ts` first (highest value, lowest flake risk)
-6. Layer in `filter.spec.ts`, then `static-content.spec.ts` and `a11y.spec.ts`
+3. Add `tests/e2e/helpers/standup.ts` — DB seed/cleanup with id-prefix scoping (table provisioned by `supabase/migrations/20260430_days.sql`)
+4. Write `access.spec.ts` + `render.spec.ts` first (highest value, lowest flake risk)
+5. Layer in `filter.spec.ts`, then `static-content.spec.ts` and `a11y.spec.ts`

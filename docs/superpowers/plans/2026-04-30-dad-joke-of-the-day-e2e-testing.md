@@ -30,7 +30,7 @@ What we do need:
 
 Why no helper: a helper that wraps a single `supabase.from('dad_jokes').select(...)` adds indirection without reuse. If a second spec ever needs the same query we promote it then.
 
-> **Note on the schema.** No `supabase/migrations/*dad_jokes*.sql` exists in the repo today (verified 2026-04-30). The table is created and seeded out-of-band. Before this plan ships an actual spec, confirm the migration is committed (and has a paired `.down.sql` per non-negotiable #5) — otherwise CI will run against an empty `dad_jokes` table and Group A test 3 will land on the `EmptyState` branch.
+> **Schema reference**: `dad_jokes` migration landed in [#410](https://github.com/last-rev-llc/lr-apps/pull/410) (`supabase/migrations/20260430_dad_jokes.sql`). The table is empty by default — Group A test 3 needs the inline `beforeAll` seed described above (or seed via the live Supabase out-of-band) to avoid landing on the `EmptyState` branch.
 
 ## 3. Use-case catalog (test inventory)
 
@@ -93,7 +93,6 @@ Querying by emoji is fragile — copy changes (and *will* change for an app whos
 ## Execution order
 
 1. Add `data-testid` hooks (§5) — small PR, no behavior change
-2. Confirm `dad_jokes` migration + seed exists in `supabase/migrations/` (with paired `.down.sql`); if missing, that's a blocker, not part of this plan
-3. Add `dad-joke-of-the-day` to `APP_SELF_ENROLL_SLUGS` in `playwright.config.ts`
-4. Write `access.spec.ts` (A1–A3) — covers the auth/proxy boundary, highest value
-5. Write `viewer.spec.ts` (A4–A9) — covers the one interactive flow
+2. Add `dad-joke-of-the-day` to `APP_SELF_ENROLL_SLUGS` in `playwright.config.ts`
+3. Write `access.spec.ts` (A1–A3) — covers the auth/proxy boundary, highest value
+4. Write `viewer.spec.ts` (A4–A9) — covers the one interactive flow (table provisioned by `supabase/migrations/20260430_dad_jokes.sql`)

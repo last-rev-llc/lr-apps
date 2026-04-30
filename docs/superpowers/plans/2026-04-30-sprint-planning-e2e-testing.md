@@ -32,7 +32,7 @@ Add `tests/e2e/helpers/sprint-planning.ts` with service-role helpers:
 
 Why DB-direct seeding (not UI): there is no UI to create archive records — they're populated by external pipelines. Tests must shape DB state up-front.
 
-> **Open question / blocker**: there is no migration in `supabase/migrations/` for `daily_digests`, `daily_overviews`, or `weekly_summaries` (verified 2026-04-30). The app reads these tables, so they must already exist in the target Supabase project (likely created out-of-band or owned by another stack). Step 0 of execution is to **confirm the schema** (column names + types) by running `\d daily_digests` etc. against the test Supabase before writing the helper. If the tables do not exist in CI, decide between (a) adding a migration that creates them or (b) mocking the route-level fetch. This plan assumes (a).
+> ✓ Resolved: all three tables landed in [#410](https://github.com/last-rev-llc/lr-apps/pull/410) (`supabase/migrations/20260430_sprint_planning_archives.sql`). Schemas are inferred from the app's reads — verify column shapes against live Supabase before writing the helper if rows already exist there.
 
 ### 2b. Backlog JSON (client-side `fetch`)
 
@@ -175,11 +175,10 @@ Small, surgical, and avoids querying by emoji — emoji glyphs change.
 
 ## Execution order
 
-1. Resolve the §2a open question — confirm `daily_digests` / `daily_overviews` / `weekly_summaries` schemas in the test Supabase, or add a migration. Without this, no Archives test can run.
-2. Add `data-testid` hooks (§5) — small PR, no behaviour change
-3. Add `tests/e2e/helpers/sprint-planning.ts` — DB seed/cleanup + `mockBacklog(page, data)` route helper
-4. Write `access.spec.ts` first (highest value, lowest dependencies — no archive seeds, no JSON mock)
-5. Write `agenda-rendering.spec.ts` + `agenda-grouping.spec.ts` (depend only on `mockBacklog`)
-6. Write `agenda-badges.spec.ts` (priority/due-date/source-link assertions)
-7. Write `archives.spec.ts` (depends on §2a being resolved)
-8. Layer in `tab-navigation.spec.ts` and `a11y.spec.ts` last
+1. Add `data-testid` hooks (§5) — small PR, no behaviour change
+2. Add `tests/e2e/helpers/sprint-planning.ts` — DB seed/cleanup against `supabase/migrations/20260430_sprint_planning_archives.sql` + `mockBacklog(page, data)` route helper
+3. Write `access.spec.ts` first (highest value, lowest dependencies — no archive seeds, no JSON mock)
+4. Write `agenda-rendering.spec.ts` + `agenda-grouping.spec.ts` (depend only on `mockBacklog`)
+5. Write `agenda-badges.spec.ts` (priority/due-date/source-link assertions)
+6. Write `archives.spec.ts`
+7. Layer in `tab-navigation.spec.ts` and `a11y.spec.ts` last

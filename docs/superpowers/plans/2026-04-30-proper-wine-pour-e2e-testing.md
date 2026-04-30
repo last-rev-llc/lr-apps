@@ -20,8 +20,8 @@
 No dedicated `helpers/proper-wine-pour.ts` is needed for Group A. Why:
 
 - The Tracker tab reads `restaurants` from the static JSON (`data/restaurants.json`) bundled with the app — no DB seed required to render rows.
-- The Tracker/Wall write paths target Supabase tables `wine_pours` and `pour_wall`, but **no migration exists** under `supabase/migrations/` for these tables (verified 2026-04-30). `getWinePours`/`getWallPosts` swallow the error and return `[]`, so the page still renders. Group A asserts the page renders with empty state — it intentionally does NOT exercise create/upvote against a missing table.
-- A follow-up plan should land the migration + a `helpers/proper-wine-pour.ts` (`seedPour`, `seedWallPost`, `delete*ForUser`) before any Group B/C work.
+- The Tracker/Wall write paths target Supabase tables `wine_pours` and `pour_wall`, both provisioned by `supabase/migrations/20260430_wine_pours.sql` (landed in [#410](https://github.com/last-rev-llc/lr-apps/pull/410)). `id` is `text` because the client generates `pour-${Date.now()}` / `wall-${Date.now()}` literals; RLS is left disabled so the browser anon key can insert/upvote.
+- A follow-up plan should add `helpers/proper-wine-pour.ts` (`seedPour`, `seedWallPost`, `delete*ByIdPrefix`) for Group B/C work.
 
 ## 3. Use-case catalog (test inventory)
 
@@ -60,7 +60,7 @@ No `data-testid` hooks are required for Group A. Add them later (Group B+) when 
 
 ## 7. Out of scope (for this plan)
 
-- **Tracker create flow**, **Wall post create**, **upvote** — gated on the missing `wine_pours` / `pour_wall` migrations. File a follow-up to add `supabase/migrations/<date>_wine_pours.sql` (+ `.down.sql`, append-only rule) before writing Group B.
+- **Tracker create flow**, **Wall post create**, **upvote** — out of scope for *this* plan; the underlying tables are now provisioned by `supabase/migrations/20260430_wine_pours.sql`, so a Group B follow-up plan can land without a migration prereq.
 - **Knowledge / Guide tab content drift** — the JSON-fed tabs are exercised at the unit-test layer (`__tests__/wine-app.test.tsx`); duplicating that in E2E adds no signal.
 - **Calculator boundary math** (negative inputs, NaN) — covered by unit tests; E2E only smoke-checks the default render.
 - **Visual regression / screenshot diff** — separate effort.
@@ -70,5 +70,4 @@ No `data-testid` hooks are required for Group A. Add them later (Group B+) when 
 ## Execution order
 
 1. Write `access.spec.ts` (Group A 1-6) — single file, ~120 LOC, reuses existing helpers.
-2. Land the `wine_pours` + `pour_wall` migrations in a separate PR.
-3. After migrations land: add `helpers/proper-wine-pour.ts` and Group B (CRUD on Tracker + Wall).
+2. Add `helpers/proper-wine-pour.ts` and Group B (CRUD on Tracker + Wall) against `supabase/migrations/20260430_wine_pours.sql`.

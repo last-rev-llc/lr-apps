@@ -19,10 +19,9 @@ Daily Updates is a **read-only social feed**: a list of "updates" posted by othe
 
 ## 2. Test data strategy (the work that doesn't exist yet)
 
-The `daily_updates` and `daily_update_profiles` tables are queried by `app/apps/daily-updates/lib/queries.ts` but **no migration for them exists in `supabase/migrations/`**. Two consequences for this plan:
-
-1. We must not assume the tables exist on a fresh local Supabase. The seeder helper has to either create-if-absent, or the migration has to be authored as a prereq before specs run. Recommend: pair this E2E work with a `supabase/migrations/<date>_daily_updates.sql` (and `.down.sql` — append-only-migrations rule is enforced by `scripts/check-migration-pairs.ts`). That migration is out of scope for this plan but blocks the specs from green-running.
-2. `getSourceApps()` already swallows "table does not exist" and returns `[]`, but `getInitialUpdates()` will throw. The page is `force-dynamic`, so a missing table = 500 in CI. Specs must guard with `test.skip(!tableExists, ...)` or the migration must land first.
+✓ Migrations + API route landed in [#410](https://github.com/last-rev-llc/lr-apps/pull/410):
+- `supabase/migrations/20260430_daily_updates.sql` provisions `daily_updates` + `daily_update_profiles`.
+- `apps/web/app/api/daily-updates/route.ts` provides the `GET` handler (Zod-validated `offset`/`limit`, gated by `requireAccess("daily-updates", "view")`) that powers the "Load more" button.
 
 Add `tests/e2e/helpers/daily-updates.ts` with service-role helpers:
 
@@ -92,14 +91,12 @@ Reactions today have **no server persistence** — `handleReact` only updates `u
 
 ### Group F — Load more / pagination
 
-`loadMore` calls `GET /api/daily-updates?offset=N&limit=20`. **This route does not exist in `app/api/`** — the fetch will 404 in CI today. Two paths:
+`loadMore` calls `GET /api/daily-updates?offset=N&limit=20`. The route is implemented at `apps/web/app/api/daily-updates/route.ts` (landed in #410); it validates `offset`/`limit` with Zod, gates on `requireAccess("daily-updates", "view")`, and returns `DailyUpdate[]` directly.
 
-- (a) author the route as a prereq, then test it for real, **or**
-- (b) until the route exists, mock the response with `page.route("**/api/daily-updates*", ...)`.
-
-28. (route exists path) Click "Load more" with 25 seeded rows → next 5 cards append; button hides because `newUpdates.length < 20`
-29. (route exists path) Click "Load more" with 40 seeded rows → cards append; button stays visible because the last batch returned 20
-30. (route mocked path) Mock `/api/daily-updates` → 500 → `loadMore` swallows the error silently per current code; button re-enables, no cards append, no toast/alert. Documents current swallow-on-failure behavior so the regression is visible if a future change adds error UI without updating the test.
+28. Click "Load more" with 25 seeded rows → next 5 cards append; button hides because `newUpdates.length < 20`
+29. Click "Load more" with 40 seeded rows → cards append; button stays visible because the last batch returned 20
+30. Mock `/api/daily-updates` → 500 → `loadMore` swallows the error silently per current code; button re-enables, no cards append, no toast/alert. Documents current swallow-on-failure behavior so the regression is visible if a future change adds error UI without updating the test.
+31. Unauth fetch direct against `/api/daily-updates` → redirects to login (the route's `requireAccess` covers it the same way the layout does).
 
 ### Group G — Navigation
 
@@ -152,8 +149,6 @@ Surgical, avoids querying by emoji-only text (🔥 collides with the High-priori
 
 ## 7. Out of scope
 
-- The `daily_updates` / `daily_update_profiles` SQL migration. This plan **assumes** it lands in a separate PR before the specs are merged. Without it `getInitialUpdates` throws and every spec in B/C/D/E/F fails for the wrong reason.
-- The `GET /api/daily-updates` route handler. Group F is gated on it existing or being mocked.
 - Server-persistence of reactions. If/when reactions ship to the DB (with a `POST /api/daily-updates/[id]/reactions` or similar), Group E expands and Group E27 inverts. Do not pre-write that.
 - Component-unit-test duplication: `__tests__/feed-app.test.tsx` already covers rendering, search, category filter, today-tab, and reaction increment in jsdom. E2E re-covers them at the integration layer because the unit test mocks `@repo/ui` — the real shadcn components and the real Supabase round-trip are only exercised end-to-end.
 - Visual regression (screenshot diff) — separate effort.
@@ -162,10 +157,9 @@ Surgical, avoids querying by emoji-only text (🔥 collides with the High-priori
 
 ## Execution order
 
-1. **Prereq (separate PR):** author `supabase/migrations/<date>_daily_updates.sql` + `.down.sql` for `daily_updates` and `daily_update_profiles`. Without this, no spec below can pass.
-2. **Prereq (separate PR or this one):** add `data-testid` hooks (§5) — small, no behavior change.
-3. Add `tests/e2e/helpers/daily-updates.ts` — DB seed/cleanup with id-prefix safety.
-4. Write `access.spec.ts` + `render.spec.ts` first (highest value, lowest flake risk).
-5. Layer in C/D/G/H.
-6. `reactions.spec.ts` last — small surface, but the contract is "client-only" today and that's the test we're encoding.
-7. `load-more.spec.ts` only after `/api/daily-updates` ships, or with a `page.route` mock if we want the test now.
+1. Add `data-testid` hooks (§5) — small, no behavior change.
+2. Add `tests/e2e/helpers/daily-updates.ts` — DB seed/cleanup with id-prefix safety against `supabase/migrations/20260430_daily_updates.sql`.
+3. Write `access.spec.ts` + `render.spec.ts` first (highest value, lowest flake risk).
+4. Layer in C/D/G/H.
+5. `reactions.spec.ts` — small surface; the contract is "client-only" today and that's the test we're encoding.
+6. `load-more.spec.ts` against the live `/api/daily-updates` route.

@@ -15,7 +15,7 @@ The Accounts app (`apps/web/app/apps/accounts/`) is a **read-only client-intelli
   - `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` — already used; required for seed/cleanup
 - **No new fixtures**: reuse `loggedInPage` from `auth.fixture.ts`. Accounts has no entitlement gating (`tier: "free"`, no `features` flags), so no second user is needed.
 - **Permissions**: registry has `permission: "view"` for accounts (not `edit`). In `beforeAll`, call `seedPermission(userId, "accounts", "view")`. Tear down after the suite. Why `view` and not `edit`: matches the registry's `permission` field — `requireAppLayoutAccess` uses that value as the minimum required level, and we want tests to mirror real production gating.
-- **Prerequisite (BLOCKING — outside this plan's scope)**: there is no `clients` table migration in `supabase/migrations/`. Either (a) the migration must land first, or (b) the seed/cleanup helper below uses an existing local table created out-of-band. Note this in the rollout PR; do not stub it inside e2e helpers, as that hides drift between the test env and production.
+- **Prerequisite**: ✓ Resolved — the `clients` table migration landed in [#410](https://github.com/last-rev-llc/lr-apps/pull/410) (`supabase/migrations/20260430_clients.sql`). Schema uses quoted camelCase columns to match the `Client` TS type so `.select("*")` casts directly.
 
 ## 2. Test data strategy (the work that doesn't exist yet)
 
@@ -151,7 +151,7 @@ Small, surgical, and avoids querying by emoji/text. Why now: every selector here
 - `pnpm --filter web test:e2e` → `playwright test`
 - Local: dev server is reused (`reuseExistingServer: !CI`)
 - CI: note `APP_SELF_ENROLL_SLUGS` in `playwright.config.ts` currently lists only `command-center,standup`. Either (a) add `accounts` so the test user can self-enroll, OR (b) rely on the explicit `seedPermission(userId, "accounts", "view")` in `beforeAll`. The plan recommends (b) — keeps the test surface tight and doesn't change prod-adjacent config for a test concern.
-- DB prereq: a `clients` table must exist in the test database (see §1 BLOCKING note).
+- DB prereq: `clients` table is provisioned by `supabase/migrations/20260430_clients.sql`.
 
 ## 7. Out of scope
 
@@ -165,10 +165,9 @@ Small, surgical, and avoids querying by emoji/text. Why now: every selector here
 
 ## Execution order
 
-1. Land the `clients` table migration (BLOCKING prereq, separate PR)
-2. Add `data-testid` hooks (§5) — small PR, no behavior change
-3. Add `tests/e2e/helpers/accounts.ts` — DB seed/cleanup with JSON-stringification of nested fields
-4. Write `access.spec.ts` + `overview-stats.spec.ts` first (highest value, lowest flake risk — exercises the auth→render→aggregate path that all other specs depend on)
-5. Layer in D (health), E (overview tab), F–I (one tab spec at a time)
-6. C (selector switching) after the per-tab specs land — easier to assert "tab content updated" once the tab specs define the assertion vocabulary
-7. J (a11y/regression) last — polish, with the security-relevant `rel="noopener"` assertions baked in
+1. Add `data-testid` hooks (§5) — small PR, no behavior change
+2. Add `tests/e2e/helpers/accounts.ts` — DB seed/cleanup with JSON-stringification of nested fields
+3. Write `access.spec.ts` + `overview-stats.spec.ts` first (highest value, lowest flake risk — exercises the auth→render→aggregate path that all other specs depend on)
+4. Layer in D (health), E (overview tab), F–I (one tab spec at a time)
+5. C (selector switching) after the per-tab specs land — easier to assert "tab content updated" once the tab specs define the assertion vocabulary
+6. J (a11y/regression) last — polish, with the security-relevant `rel="noopener"` assertions baked in

@@ -6,7 +6,7 @@ Existing infra is solid — Playwright is configured at `apps/web/playwright.con
 
 Scope note — Uptime is a **read-only status dashboard**. The app has no forms, no server actions, no API routes, no client-side mutations: `app/apps/uptime/page.tsx` does a single `supabase.from("sites").select("*")` and renders the result. Sites are populated by an external repo (`last-rev-llc/status-pulse`) — there is no in-app create/edit/delete. Therefore this plan has **no Group B (CRUD)** — fabricating CRUD specs would test features that don't exist. Coverage focuses on access/gating and the read-only render contract.
 
-Second scope note — there is currently **no `sites` table in `supabase/migrations/`** (only `lighthouse_sites`, an unrelated app). The page's catch-error branch always fires in real environments today, so the empty-state path is the de-facto production behavior. Specs must seed the table directly in `beforeAll` (creating it if a future migration lands) rather than expect any UI to populate it.
+Second scope note — the `sites` table migration landed in [#410](https://github.com/last-rev-llc/lr-apps/pull/410) (`supabase/migrations/20260430_sites.sql`). The schema uses quoted camelCase columns (`responseTimeMs`, `uptimePercent`, `lastChecked`) to match the `Site` TS type so `page.tsx`'s `.select("*")` casts directly with no adapter.
 
 ---
 
@@ -30,7 +30,7 @@ Add `tests/e2e/helpers/uptime.ts` with service-role helpers:
 
 Why DB-direct seeding (the only option): the app exposes no write surface. There is literally no other way to put a site on screen.
 
-Open question for the implementer — the `sites` table does not yet exist in migrations. The helper can either (a) assume a future migration `<date>_sites.sql` lands first (preferred — file an issue and block the e2e PR on it), or (b) lazily `create table if not exists` inside the helper for ephemeral CI runs. Option (a) is cleaner and matches the append-only-migrations non-negotiable in `CLAUDE.md`. The schema must match the `Site` type in `app/apps/uptime/lib/types.ts` — `id`, `name`, `url`, `description`, `status` (`up`/`down`/`degraded`), `response_time_ms`, `uptime_percent`, `last_checked`, `history` (jsonb).
+Schema reference (committed in `supabase/migrations/20260430_sites.sql`): the helper inserts rows matching the `Site` type in `app/apps/uptime/lib/types.ts` — `id` (uuid), `name`, `url`, `description`, `status` (`up`/`down`/`degraded` — CHECK-constrained), `"responseTimeMs"`, `"uptimePercent"`, `"lastChecked"`, `history` (jsonb), `"createdAt"`, `"updatedAt"`. Quoted camelCase column names are deliberate so `.select("*")` casts to the TS type without adapter logic.
 
 ## 3. Use-case catalog (test inventory)
 
@@ -123,9 +123,8 @@ Why: copy-text queries break the moment a designer reorders the banner string, a
 
 ## Execution order
 
-1. Land the missing `<date>_sites.sql` migration first (blocker — the helper has nothing to insert into otherwise). Open as a separate, small PR.
-2. Add `data-testid` hooks to `page.tsx` and `layout.tsx` (§5) — small PR, no behavior change.
-3. Add `tests/e2e/helpers/uptime.ts` — DB seed/cleanup.
-4. Write `access.spec.ts` + `banner.spec.ts` first (highest value, lowest flake risk — banner state is the headline UX).
-5. Layer in `cards.spec.ts` and `history.spec.ts`.
-6. Empty/error and layout specs last (lowest churn, longest tail value).
+1. Add `data-testid` hooks to `page.tsx` and `layout.tsx` (§5) — small PR, no behavior change.
+2. Add `tests/e2e/helpers/uptime.ts` — DB seed/cleanup against `supabase/migrations/20260430_sites.sql`.
+3. Write `access.spec.ts` + `banner.spec.ts` first (highest value, lowest flake risk — banner state is the headline UX).
+4. Layer in `cards.spec.ts` and `history.spec.ts`.
+5. Empty/error and layout specs last (lowest churn, longest tail value).

@@ -29,7 +29,7 @@ Add `tests/e2e/helpers/summaries.ts` with service-role helpers that seed all thr
 
 Why DB-direct seeding (not UI): there is no UI to create summaries. The only alternative would be calling Zoom/Slack/Jira ingest endpoints, which is out of scope for an app-level e2e suite.
 
-**Schema caveat**: this repo's `supabase/migrations/` directory contains no `summaries_*` table definitions, so the schema lives elsewhere (likely managed by an upstream service or a not-yet-checked-in migration). Before writing the helper, confirm column names against the live Supabase project (`participants`/`action_items`/`key_decisions` are stored as JSON per `lib/queries.ts`'s `parseJsonField`). If the columns drift, the helper is the single point to update.
+**Schema reference**: the three tables landed in [#410](https://github.com/last-rev-llc/lr-apps/pull/410) (`supabase/migrations/20260430_summaries_sources.sql`). Column shapes were inferred from `lib/queries.ts`'s `parseJsonField` and the `ZoomSummary`/`SlackSummary`/`JiraSummary` TS types. If rows already exist in the live Supabase from upstream ingestion, verify column shapes match before writing the helper.
 
 ## 3. Use-case catalog (test inventory)
 
