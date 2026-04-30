@@ -1,5 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { appSlugFromReturnTo, isSelfEnrollAllowedForSlug } from "../self-enroll";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import {
+  appSlugFromReturnTo,
+  isSelfEnrollAllowedForSlug,
+  setSelfEnrollTierResolver,
+} from "../self-enroll";
 
 describe("appSlugFromReturnTo", () => {
   it("extracts slug from /apps/foo", () => {
@@ -98,6 +102,11 @@ describe("appSlugFromReturnTo", () => {
 describe("isSelfEnrollAllowedForSlug", () => {
   beforeEach(() => {
     vi.unstubAllEnvs();
+    setSelfEnrollTierResolver(null);
+  });
+
+  afterEach(() => {
+    setSelfEnrollTierResolver(null);
   });
 
   it("returns false for invalid slug format", () => {
@@ -125,5 +134,59 @@ describe("isSelfEnrollAllowedForSlug", () => {
     vi.stubEnv("APP_SELF_ENROLL_SLUGS", "");
     vi.stubEnv("NODE_ENV", "production");
     expect(isSelfEnrollAllowedForSlug("anything")).toBe(false);
+  });
+
+  describe("with tier resolver", () => {
+    it("allows free-tier slugs in production with no env var", () => {
+      vi.stubEnv("APP_SELF_ENROLL_SLUGS", "");
+      vi.stubEnv("NODE_ENV", "production");
+      setSelfEnrollTierResolver((slug) =>
+        slug === "lighthouse" ? "free" : undefined,
+      );
+      expect(isSelfEnrollAllowedForSlug("lighthouse")).toBe(true);
+    });
+
+    it("denies pro-tier slugs in production unless explicitly allowlisted", () => {
+      vi.stubEnv("APP_SELF_ENROLL_SLUGS", "");
+      vi.stubEnv("NODE_ENV", "production");
+      setSelfEnrollTierResolver((slug) =>
+        slug === "sentiment" ? "pro" : undefined,
+      );
+      expect(isSelfEnrollAllowedForSlug("sentiment")).toBe(false);
+    });
+
+    it("denies enterprise-tier slugs in production", () => {
+      vi.stubEnv("APP_SELF_ENROLL_SLUGS", "");
+      vi.stubEnv("NODE_ENV", "production");
+      setSelfEnrollTierResolver((slug) =>
+        slug === "command-center" ? "enterprise" : undefined,
+      );
+      expect(isSelfEnrollAllowedForSlug("command-center")).toBe(false);
+    });
+
+    it("env-var override still allows non-free apps when listed", () => {
+      vi.stubEnv("APP_SELF_ENROLL_SLUGS", "sentiment");
+      vi.stubEnv("NODE_ENV", "production");
+      setSelfEnrollTierResolver((slug) =>
+        slug === "sentiment" ? "pro" : undefined,
+      );
+      expect(isSelfEnrollAllowedForSlug("sentiment")).toBe(true);
+    });
+
+    it("env-var allowlist does not block free-tier apps not in the list", () => {
+      vi.stubEnv("APP_SELF_ENROLL_SLUGS", "sentiment");
+      vi.stubEnv("NODE_ENV", "production");
+      setSelfEnrollTierResolver((slug) =>
+        slug === "lighthouse" ? "free" : undefined,
+      );
+      expect(isSelfEnrollAllowedForSlug("lighthouse")).toBe(true);
+    });
+
+    it("resolver returning undefined falls through to env/dev rules", () => {
+      vi.stubEnv("APP_SELF_ENROLL_SLUGS", "");
+      vi.stubEnv("NODE_ENV", "production");
+      setSelfEnrollTierResolver(() => undefined);
+      expect(isSelfEnrollAllowedForSlug("unknown-app")).toBe(false);
+    });
   });
 });

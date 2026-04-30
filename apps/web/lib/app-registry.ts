@@ -95,6 +95,12 @@ const slugIndex = new Map(apps.map((app) => [app.slug, app]));
 // a future DB-backed registry — keys include CACHE_VERSION so each
 // deploy invalidates them automatically.
 import { cacheGet, cacheSet, cacheKeys } from "@repo/db/cache";
+import { setSelfEnrollTierResolver } from "@repo/auth/self-enroll";
+
+// Lets `@repo/auth` auto-allow self-enroll for any free-tier app without
+// duplicating the slug list. Side-effect import from proxy.ts and any page
+// that touches this registry, so middleware and request handlers see it.
+setSelfEnrollTierResolver((slug) => slugIndex.get(slug)?.tier);
 
 export function getAppBySubdomain(subdomain: string): AppConfig | undefined {
   const hit = subdomainIndex.get(subdomain);

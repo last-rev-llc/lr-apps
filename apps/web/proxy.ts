@@ -4,6 +4,10 @@ import {
   getHostFromRequestHeaders,
 } from "@repo/auth/auth0-factory";
 import { mergeAuthMiddlewareResponse } from "@repo/auth/merge-auth-middleware";
+// Side-effect import: registers the registry's tier resolver with `@repo/auth`
+// so the `/auth/callback` self-enroll path (running in middleware) recognizes
+// free-tier apps without an env-var allowlist.
+import "./lib/app-registry";
 import {
   resolveSubdomain,
   getRouteForSubdomain,

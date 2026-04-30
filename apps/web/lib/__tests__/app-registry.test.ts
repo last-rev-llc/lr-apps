@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import {
@@ -8,6 +8,7 @@ import {
   isPublicRoute,
   type AppConfig,
 } from "../app-registry";
+import { isSelfEnrollAllowedForSlug } from "@repo/auth/self-enroll";
 
 describe("app-registry", () => {
   it("looks up an app by subdomain", () => {
@@ -157,6 +158,27 @@ describe("app-registry", () => {
       for (const app of apps) {
         const dir = path.resolve(__dirname, "../../app", app.routeGroup);
         expect(fs.existsSync(dir), `Missing directory for ${app.slug}: ${dir}`).toBe(true);
+      }
+    });
+
+    it("registers the tier resolver with @repo/auth at import time", () => {
+      vi.stubEnv("APP_SELF_ENROLL_SLUGS", "");
+      vi.stubEnv("NODE_ENV", "production");
+      try {
+        for (const app of getAllApps().filter((a) => a.tier === "free")) {
+          expect(
+            isSelfEnrollAllowedForSlug(app.slug),
+            `free-tier ${app.slug} must self-enroll without env-var override`,
+          ).toBe(true);
+        }
+        for (const app of getAllApps().filter((a) => a.tier !== "free")) {
+          expect(
+            isSelfEnrollAllowedForSlug(app.slug),
+            `${app.tier}-tier ${app.slug} must NOT self-enroll without override`,
+          ).toBe(false);
+        }
+      } finally {
+        vi.unstubAllEnvs();
       }
     });
 
