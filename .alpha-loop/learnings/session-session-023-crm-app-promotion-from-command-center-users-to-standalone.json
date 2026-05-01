@@ -1,0 +1,207 @@
+{
+  "name": "session/023-crm-app-promotion-from-command-center-users-to-standalone",
+  "branch": "session/023-crm-app-promotion-from-command-center-users-to-standalone",
+  "completed": "2026-05-01T18:19:18.597Z",
+  "results": [
+    {
+      "issueNum": 328,
+      "title": "Add scripts/audit-contacts-schema.ts for live-schema drift detection",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/672",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 195,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 329,
+      "title": "Run live-schema audit and reconcile drift before writing migration",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/672",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 195,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 330,
+      "title": "Scaffold crm app via pnpm create-app and verify registry entry",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/672",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 195,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 331,
+      "title": "Add paired contacts migration (RLS, trigger, indexes) — idempotent",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/672",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 195,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 332,
+      "title": "Port lib/types.ts and lib/queries.ts from users sub-app to crm",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/672",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 195,
+      "filesChanged": 4
+    },
+    {
+      "issueNum": 333,
+      "title": "Add lib/schemas.ts with zod schemas for ContactInput and ContactInsights",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/673",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 218,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 334,
+      "title": "Add lib/actions.ts: createContact, updateContact, deleteContact server actions",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/673",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 218,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 335,
+      "title": "Add lib/enrich.ts: AI enrichment via @ai-sdk/anthropic generateObject",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/673",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 218,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 336,
+      "title": "Add api/enrich/route.ts: POST endpoint with auth, rate limit, persistence",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/673",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 218,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 337,
+      "title": "Port users-app.tsx to crm-app.tsx with rename and CRM header",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/673",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 218,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 338,
+      "title": "Add components/contact-form.tsx (shared create + edit form)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/674",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 209,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 339,
+      "title": "Port contact-detail.tsx with Edit toggle, Delete, and Re-research actions",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/674",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 209,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 340,
+      "title": "Wire CRUD UI into crm-app.tsx (New Contact dialog)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/674",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 209,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 341,
+      "title": "Update apps/crm/page.tsx to render CrmApp",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/674",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 209,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 342,
+      "title": "Port users smoke test → crm-app.test.tsx and add page.test.tsx coverage",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/674",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 209,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 343,
+      "title": "Add actions.test.ts: server-action contracts",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/675",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 173,
+      "filesChanged": 5
+    },
+    {
+      "issueNum": 344,
+      "title": "Add enrich.test.ts: enrichment endpoint with mocked AI client",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/675",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 173,
+      "filesChanged": 5
+    },
+    {
+      "issueNum": 345,
+      "title": "Identify and disable existing external insights writer",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/675",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 173,
+      "filesChanged": 5
+    },
+    {
+      "issueNum": 346,
+      "title": "Remove users sub-app from command-center and add redirect stub",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/675",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 173,
+      "filesChanged": 5
+    },
+    {
+      "issueNum": 347,
+      "title": "Final verification: pnpm lint, pnpm test, manual proxy + auth + enrich smoke",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/675",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 173,
+      "filesChanged": 5
+    }
+  ]
+}
