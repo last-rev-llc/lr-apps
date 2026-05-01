@@ -30,15 +30,30 @@ beforeAll(() => {
     fillText: vi.fn(),
     strokeText: vi.fn(),
     measureText: vi.fn().mockReturnValue({ width: 0 }),
+    drawImage: vi.fn(),
   });
 
-  HTMLCanvasElement.prototype.toDataURL = vi.fn().mockReturnValue("data:image/png;base64,mock");
-  HTMLCanvasElement.prototype.toBlob = vi.fn().mockImplementation((cb) => cb(new Blob()));
+  HTMLCanvasElement.prototype.toDataURL = vi
+    .fn()
+    .mockReturnValue("data:image/png;base64,mock");
+  HTMLCanvasElement.prototype.toBlob = vi
+    .fn()
+    .mockImplementation((cb) => cb(new Blob()));
 });
 
 vi.mock("next/link", () => ({
-  default: ({ href, children, ...props }: { href: string; children: React.ReactNode; className?: string }) => (
-    <a href={href} {...props}>{children}</a>
+  default: ({
+    href,
+    children,
+    ...props
+  }: {
+    href: string;
+    children: React.ReactNode;
+    className?: string;
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
   ),
 }));
 
@@ -49,17 +64,20 @@ describe("MemeGeneratorApp", () => {
     renderWithProviders(<MemeGeneratorApp />);
 
     expect(screen.getByText("😂 Meme Generator")).toBeInTheDocument();
-    expect(screen.getByText("Create instant memes — no server needed")).toBeInTheDocument();
+    expect(
+      screen.getByText("Create instant memes — no server needed"),
+    ).toBeInTheDocument();
   });
 
-  it("renders text input controls with default values", () => {
+  it("renders dynamic zone inputs labeled by the zone label", () => {
     renderWithProviders(<MemeGeneratorApp />);
 
-    expect(screen.getByPlaceholderText("Top text…")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Bottom text…")).toBeInTheDocument();
-
-    const topInput = screen.getByPlaceholderText("Top text…") as HTMLInputElement;
-    const bottomInput = screen.getByPlaceholderText("Bottom text…") as HTMLInputElement;
+    // Zone labels (NOT placeholder strings) — selecting by label gives us the
+    // input regardless of how many zones the active template defines.
+    const topInput = screen.getByLabelText("Top text") as HTMLInputElement;
+    const bottomInput = screen.getByLabelText(
+      "Bottom text",
+    ) as HTMLInputElement;
     expect(topInput.value).toBe("WHEN YOU FINALLY");
     expect(bottomInput.value).toBe("SHIP THE FEATURE");
   });

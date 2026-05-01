@@ -70,6 +70,56 @@ export type IdeaSource = "generated" | "community" | "manual";
 
 export type IdeaEffort = "Low" | "Medium" | "High";
 
+// Mirrors `supabase/migrations/20260430_meme_templates.sql`. `textZones` is
+// a structured JSON array — `MemeTextZone[]` — defining the text-bearing
+// rectangles drawn on top of the template image (or coloured background).
+export type MemeTextZone = {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  align: "left" | "center" | "right";
+  fontSize?: number;
+  color?: string;
+  uppercase?: boolean;
+  defaultText?: string;
+};
+
+export type MemeTemplateRow = {
+  id: string;
+  name: string;
+  description: string | null;
+  category: string;
+  imagePath: string | null;
+  imageWidth: number;
+  imageHeight: number;
+  backgroundColor: string | null;
+  defaultTextColor: string;
+  textZones: MemeTextZone[];
+  isActive: boolean;
+  displayOrder: number;
+  createdAt: string;
+};
+
+// Mirrors `supabase/migrations/20260430_meme_creations.sql`. `textZones` is
+// keyed by zone id with the user-entered text per zone (NOT the template's
+// zone definitions, which live on `meme_templates.textZones`).
+export type MemeCreationRow = {
+  id: string;
+  user_id: string;
+  title: string;
+  templateId: string;
+  textZones: Record<string, string>;
+  fontSize: number;
+  storagePath: string;
+  widthPx: number;
+  heightPx: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type IdeaRow = {
   id: string;
   user_id: string;
@@ -143,6 +193,31 @@ export interface Database {
             >
           >;
         Update: Partial<Omit<IdeaRow, "id" | "user_id" | "createdAt">>;
+        Relationships: [];
+      };
+      meme_creations: {
+        Row: MemeCreationRow;
+        Insert: Pick<
+          MemeCreationRow,
+          "user_id" | "title" | "templateId" | "storagePath"
+        > &
+          Partial<
+            Omit<
+              MemeCreationRow,
+              "id" | "user_id" | "title" | "templateId" | "storagePath" | "createdAt" | "updatedAt"
+            >
+          >;
+        Update: Partial<Omit<MemeCreationRow, "id" | "user_id" | "createdAt">>;
+        Relationships: [];
+      };
+      meme_templates: {
+        Row: MemeTemplateRow;
+        Insert: Pick<
+          MemeTemplateRow,
+          "id" | "name" | "category" | "imageWidth" | "imageHeight" | "textZones"
+        > &
+          Partial<Omit<MemeTemplateRow, "id" | "name" | "category" | "imageWidth" | "imageHeight" | "textZones" | "createdAt">>;
+        Update: Partial<Omit<MemeTemplateRow, "id" | "createdAt">>;
         Relationships: [];
       };
     };

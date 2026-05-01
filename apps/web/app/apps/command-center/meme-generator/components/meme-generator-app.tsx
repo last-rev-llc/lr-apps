@@ -2,116 +2,164 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Button, Card, CardContent, PageHeader } from "@repo/ui";
+import { renderMeme } from "../lib/render-meme";
+import { loadTemplateImage } from "../lib/image-cache";
+import type { MemeTemplate, TextZone } from "../lib/types";
 
-interface MemeTemplate {
-  id: string;
-  name: string;
-  emoji: string;
-  bg: string;
-  textColor: string;
+const W = 600;
+const H = 450;
+
+function legacyZones(): TextZone[] {
+  return [
+    {
+      id: "top",
+      label: "Top text",
+      x: 20,
+      y: 20,
+      width: 560,
+      height: 90,
+      align: "center",
+      vAlign: "top",
+      uppercase: true,
+      defaultText: "WHEN YOU FINALLY",
+    },
+    {
+      id: "bottom",
+      label: "Bottom text",
+      x: 20,
+      y: 20,
+      width: 560,
+      height: H - 40,
+      align: "center",
+      vAlign: "bottom",
+      uppercase: true,
+      defaultText: "SHIP THE FEATURE",
+    },
+  ];
 }
 
 const TEMPLATES: MemeTemplate[] = [
-  { id: "dark",     name: "Dark Mode",    emoji: "🌑", bg: "#0d0d0d",   textColor: "#ffffff" },
-  { id: "matrix",   name: "Matrix",       emoji: "🟢", bg: "#001a00",   textColor: "#00ff41" },
-  { id: "vaporwave",name: "Vaporwave",    emoji: "🌸", bg: "#1a0533",   textColor: "#ff71ce" },
-  { id: "fire",     name: "Fire",         emoji: "🔥", bg: "#1a0a00",   textColor: "#ff6b35" },
-  { id: "ice",      name: "Ice Cold",     emoji: "❄️", bg: "#001a2e",   textColor: "#7dd8ff" },
-  { id: "classic",  name: "Classic",      emoji: "😂", bg: "#ffffff",   textColor: "#000000" },
+  {
+    id: "dark",
+    name: "Dark Mode",
+    imageWidth: W,
+    imageHeight: H,
+    backgroundColor: "#0d0d0d",
+    defaultTextColor: "#ffffff",
+    legacyEmoji: "🌑",
+    textZones: legacyZones(),
+  },
+  {
+    id: "matrix",
+    name: "Matrix",
+    imageWidth: W,
+    imageHeight: H,
+    backgroundColor: "#001a00",
+    defaultTextColor: "#00ff41",
+    legacyEmoji: "🟢",
+    textZones: legacyZones(),
+  },
+  {
+    id: "vaporwave",
+    name: "Vaporwave",
+    imageWidth: W,
+    imageHeight: H,
+    backgroundColor: "#1a0533",
+    defaultTextColor: "#ff71ce",
+    legacyEmoji: "🌸",
+    textZones: legacyZones(),
+  },
+  {
+    id: "fire",
+    name: "Fire",
+    imageWidth: W,
+    imageHeight: H,
+    backgroundColor: "#1a0a00",
+    defaultTextColor: "#ff6b35",
+    legacyEmoji: "🔥",
+    textZones: legacyZones(),
+  },
+  {
+    id: "ice",
+    name: "Ice Cold",
+    imageWidth: W,
+    imageHeight: H,
+    backgroundColor: "#001a2e",
+    defaultTextColor: "#7dd8ff",
+    legacyEmoji: "❄️",
+    textZones: legacyZones(),
+  },
+  {
+    id: "classic",
+    name: "Classic",
+    imageWidth: W,
+    imageHeight: H,
+    backgroundColor: "#ffffff",
+    defaultTextColor: "#000000",
+    legacyEmoji: "😂",
+    textZones: legacyZones(),
+  },
 ];
+
+function defaultZoneText(zones: TextZone[]): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const z of zones) {
+    out[z.id] = z.defaultText ?? "";
+  }
+  return out;
+}
 
 export function MemeGeneratorApp() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [topText, setTopText] = useState("WHEN YOU FINALLY");
-  const [bottomText, setBottomText] = useState("SHIP THE FEATURE");
   const [selectedTemplate, setSelectedTemplate] = useState<string>("dark");
   const [fontSize, setFontSize] = useState(48);
   const [generated, setGenerated] = useState(false);
 
-  const template = TEMPLATES.find((t) => t.id === selectedTemplate) ?? TEMPLATES[0];
+  const template =
+    TEMPLATES.find((t) => t.id === selectedTemplate) ?? TEMPLATES[0];
 
-  const drawMeme = useCallback(() => {
+  const [zoneText, setZoneText] = useState<Record<string, string>>(() =>
+    defaultZoneText(template.textZones),
+  );
+
+  // When the template changes, reseed any zones that don't yet have a value
+  // for the new template. Preserve existing user edits where the zone id
+  // overlaps so changing template doesn't wipe their text.
+  useEffect(() => {
+    setZoneText((prev) => {
+      const seeded = defaultZoneText(template.textZones);
+      const merged: Record<string, string> = {};
+      for (const z of template.textZones) {
+        merged[z.id] = prev[z.id] ?? seeded[z.id] ?? "";
+      }
+      return merged;
+    });
+  }, [template]);
+
+  const drawMeme = useCallback(async () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const W = 600;
-    const H = 450;
-    canvas.width = W;
-    canvas.height = H;
+    canvas.width = template.imageWidth;
+    canvas.height = template.imageHeight;
 
-    // Background
-    ctx.fillStyle = template.bg;
-    ctx.fillRect(0, 0, W, H);
-
-    // Grid/pattern overlay
-    ctx.strokeStyle = template.textColor + "12";
-    ctx.lineWidth = 1;
-    for (let x = 0; x < W; x += 40) {
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-    }
-    for (let y = 0; y < H; y += 40) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-    }
-
-    // Center emoji
-    ctx.font = "120px serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.globalAlpha = 0.15;
-    ctx.fillStyle = template.textColor;
-    ctx.fillText(template.emoji, W / 2, H / 2);
-    ctx.globalAlpha = 1;
-
-    // Text function
-    function drawText(text: string, y: number, stroke = true) {
-      if (!text.trim()) return;
-      ctx!.font = `900 ${fontSize}px Impact, Arial Black, sans-serif`;
-      ctx!.textAlign = "center";
-      ctx!.textBaseline = "top";
-      const maxW = W - 40;
-      // Word wrap
-      const words = text.split(" ");
-      const lines: string[] = [];
-      let current = "";
-      for (const word of words) {
-        const test = current ? `${current} ${word}` : word;
-        if (ctx!.measureText(test).width > maxW && current) {
-          lines.push(current);
-          current = word;
-        } else {
-          current = test;
-        }
+    let image: HTMLImageElement | undefined;
+    if (template.imagePath) {
+      try {
+        image = await loadTemplateImage(template.imagePath);
+      } catch {
+        image = undefined;
       }
-      if (current) lines.push(current);
-
-      const lineH = fontSize * 1.2;
-      const totalH = lines.length * lineH;
-      let startY = y === 0 ? 20 : H - totalH - 20;
-
-      lines.forEach((line) => {
-        if (stroke) {
-          ctx!.strokeStyle = "#000000";
-          ctx!.lineWidth = fontSize / 8;
-          ctx!.lineJoin = "round";
-          ctx!.strokeText(line, W / 2, startY);
-        }
-        ctx!.fillStyle = template.textColor;
-        ctx!.fillText(line, W / 2, startY);
-        startY += lineH;
-      });
     }
 
-    drawText(topText.toUpperCase(), 0);
-    drawText(bottomText.toUpperCase(), 1);
-
+    renderMeme(ctx, { template, zoneText, fontSize, image });
     setGenerated(true);
-  }, [topText, bottomText, template, fontSize]);
+  }, [template, zoneText, fontSize]);
 
-  // Auto-draw on changes
   useEffect(() => {
-    drawMeme();
+    void drawMeme();
   }, [drawMeme]);
 
   function downloadMeme() {
@@ -128,10 +176,14 @@ export function MemeGeneratorApp() {
     if (!canvas) return;
     canvas.toBlob((blob) => {
       if (!blob) return;
-      navigator.clipboard.write([
-        new ClipboardItem({ "image/png": blob }),
-      ]).catch(console.error);
+      navigator.clipboard
+        .write([new ClipboardItem({ "image/png": blob })])
+        .catch(console.error);
     });
+  }
+
+  function setZoneValue(id: string, value: string) {
+    setZoneText((prev) => ({ ...prev, [id]: value }));
   }
 
   return (
@@ -144,34 +196,34 @@ export function MemeGeneratorApp() {
       <div className="grid sm:grid-cols-2 gap-4">
         {/* Controls */}
         <div className="space-y-4">
-          {/* Text inputs */}
           <Card className="p-4">
             <CardContent className="p-0 space-y-3">
-              <h3 className="text-sm font-semibold text-white">Text</h3>
+              <h3 className="text-sm font-semibold text-foreground">Text</h3>
+              {template.textZones.map((zone) => {
+                const inputId = `meme-zone-${zone.id}`;
+                return (
+                  <div key={zone.id}>
+                    <label
+                      htmlFor={inputId}
+                      className="text-xs text-muted-foreground mb-1 block"
+                    >
+                      {zone.label}
+                    </label>
+                    <input
+                      id={inputId}
+                      type="text"
+                      value={zoneText[zone.id] ?? ""}
+                      onChange={(e) => setZoneValue(zone.id, e.target.value)}
+                      placeholder={`${zone.label}…`}
+                      className="w-full px-3 py-2 rounded-lg bg-surface border border-surface-border text-foreground text-sm outline-none focus:border-amber-500/50 transition-colors"
+                    />
+                  </div>
+                );
+              })}
               <div>
-                <label htmlFor="meme-top-text" className="text-xs text-white/40 mb-1 block">Top text</label>
-                <input
-                  id="meme-top-text"
-                  type="text"
-                  value={topText}
-                  onChange={(e) => setTopText(e.target.value)}
-                  placeholder="Top text…"
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white text-sm outline-none focus:border-amber-500/50 transition-colors"
-                />
-              </div>
-              <div>
-                <label htmlFor="meme-bottom-text" className="text-xs text-white/40 mb-1 block">Bottom text</label>
-                <input
-                  id="meme-bottom-text"
-                  type="text"
-                  value={bottomText}
-                  onChange={(e) => setBottomText(e.target.value)}
-                  placeholder="Bottom text…"
-                  className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/15 text-white text-sm outline-none focus:border-amber-500/50 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-xs text-white/40 mb-1 block">Font size: {fontSize}px</label>
+                <label className="text-xs text-muted-foreground mb-1 block">
+                  Font size: {fontSize}px
+                </label>
                 <input
                   type="range"
                   min={20}
@@ -187,7 +239,9 @@ export function MemeGeneratorApp() {
           {/* Template selector */}
           <Card className="p-4">
             <CardContent className="p-0">
-              <h3 className="text-sm font-semibold text-white mb-3">Style</h3>
+              <h3 className="text-sm font-semibold text-foreground mb-3">
+                Style
+              </h3>
               <div className="grid grid-cols-3 gap-2">
                 {TEMPLATES.map((t) => (
                   <Button
@@ -198,13 +252,10 @@ export function MemeGeneratorApp() {
                     className={`flex flex-col items-center gap-1 h-auto p-2 ${
                       selectedTemplate === t.id
                         ? "border-amber-500/60 bg-amber-500/10 text-amber-400"
-                        : ""
+                        : "bg-surface hover:bg-surface-hover"
                     }`}
-                    style={{
-                      background: selectedTemplate === t.id ? undefined : t.bg + "40",
-                    }}
                   >
-                    <span className="text-lg">{t.emoji}</span>
+                    <span className="text-lg">{t.legacyEmoji ?? "🖼️"}</span>
                     <span>{t.name}</span>
                   </Button>
                 ))}
@@ -235,8 +286,8 @@ export function MemeGeneratorApp() {
 
         {/* Canvas preview */}
         <div className="space-y-2">
-          <h3 className="text-sm font-semibold text-white">Preview</h3>
-          <div className="rounded-xl overflow-hidden border border-white/10">
+          <h3 className="text-sm font-semibold text-foreground">Preview</h3>
+          <div className="rounded-xl overflow-hidden border border-surface-border">
             <canvas
               ref={canvasRef}
               className="w-full h-auto block"
@@ -244,7 +295,9 @@ export function MemeGeneratorApp() {
             />
           </div>
           {generated && (
-            <div className="text-xs text-white/25 text-center">Live preview — updates as you type</div>
+            <div className="text-xs text-muted-foreground text-center">
+              Live preview — updates as you type
+            </div>
           )}
         </div>
       </div>
