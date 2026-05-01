@@ -24,7 +24,7 @@ describe("GEN_X_MAP", () => {
   });
 
   it("all values are non-empty strings", () => {
-    for (const [key, val] of Object.entries(GEN_X_MAP)) {
+    for (const [, val] of Object.entries(GEN_X_MAP)) {
       expect(typeof val).toBe("string");
       expect(val.length).toBeGreaterThan(0);
     }

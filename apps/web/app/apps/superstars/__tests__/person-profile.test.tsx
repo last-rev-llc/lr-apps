@@ -2,7 +2,7 @@
 import { describe, it, expect, vi } from "vitest";
 import React from "react";
 globalThis.React = React;
-import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
+import { renderWithProviders, screen } from "@repo/test-utils";
 import { PersonProfile } from "../components/person-profile";
 
 vi.mock("../superstars.css", () => ({}));

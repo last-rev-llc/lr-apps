@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "summary": "Issue #287 paired ideas migration with per-user RLS is correct and complete; no blocking issues found.",
+  "findings": [
+    {
+      "severity": "info",
+      "description": "Columns use mixed quoted camelCase (e.g. \"compositeScore\", \"createdAt\") instead of standard Postgres snake_case. The migration includes a comment explaining this avoids TS adapter logic for the existing Idea type, so this is an intentional trade-off.",
+      "fixed": false,
+      "file": "supabase/migrations/20260429_ideas.sql"
+    },
+    {
+      "severity": "info",
+      "description": "tags is stored as jsonb rather than text[]. Either works for a string[] payload; jsonb is more flexible but text[] would be more idiomatic for plain tag lists.",
+      "fixed": false,
+      "file": "supabase/migrations/20260429_ideas.sql"
+    },
+    {
+      "severity": "info",
+      "description": "Status 'archived' has no dedicated archivedAt timestamp, only completedAt. A later commit in the same session preserves completedAt across archive transitions — adequate, but a future enhancement could add archivedAt explicitly.",
+      "fixed": false,
+      "file": "supabase/migrations/20260429_ideas.sql"
+    }
+  ]
+}

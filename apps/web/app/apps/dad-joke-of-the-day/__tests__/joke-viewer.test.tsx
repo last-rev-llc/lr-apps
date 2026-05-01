@@ -30,7 +30,7 @@ vi.mock("@repo/ui", () => ({
 
 // ── Mock @repo/db/client ───────────────────────────────────────────────────
 
-const { mockDbBuilder, mockDbClient } = vi.hoisted(() => {
+const { mockDbClient } = vi.hoisted(() => {
   const builder: Record<string, any> = {};
   const chainMethods = ["select", "update", "eq", "order"];
   for (const m of chainMethods) builder[m] = vi.fn().mockReturnValue(builder);

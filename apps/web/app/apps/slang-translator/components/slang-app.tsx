@@ -7,7 +7,6 @@ import {
   TabsTrigger,
   TabsContent,
   Input,
-  Badge,
   Button,
   Card,
   CardContent,

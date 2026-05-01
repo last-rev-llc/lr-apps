@@ -64,7 +64,7 @@ jobs:
         run: pnpm test
 
       - name: Test with coverage
-        run: pnpm --filter @repo/web run test -- --coverage
+        run: pnpm --filter @repo/web run test --coverage
 
       - name: Upload coverage report
         uses: davelosert/vitest-coverage-report-action@v2

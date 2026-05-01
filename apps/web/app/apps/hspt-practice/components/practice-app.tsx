@@ -79,14 +79,6 @@ function loadSessions(): Session[] {
   }
 }
 
-function persistSession(session: Session) {
-  const existing = loadSessions();
-  const updated = [session, ...existing].slice(0, 50);
-  try {
-    localStorage.setItem("hspt_sessions", JSON.stringify(updated));
-  } catch {}
-}
-
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function SectionMenu({
@@ -614,12 +606,6 @@ function HistoryView({
     (a, b) =>
       new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
   );
-  const chartData = allSorted.map((s) => ({
-    date: new Date(s.created_at).toLocaleDateString(),
-    section: s.section,
-    percentage: s.percentage,
-  }));
-
   // For recharts: one entry per session, keyed by section
   const chartRows = allSorted.map((s) => {
     const row: Record<string, number | string> = {
@@ -816,7 +802,9 @@ export function PracticeApp({ data }: { data: HSPTData }) {
         const updated = [session, ...prev].slice(0, 50);
         try {
           localStorage.setItem("hspt_sessions", JSON.stringify(updated));
-        } catch {}
+        } catch {
+          // ignore storage failures (quota exceeded, private browsing, etc.)
+        }
         return updated;
       });
       setAppState("results");

@@ -11,7 +11,7 @@
 
 import { test, expect } from "../fixtures/auth.fixture";
 import { deletePermission, seedPermission } from "../helpers/db";
-import winsData from "../../../app/apps/alpha-wins/data/wins.json";
+import winsData from "../../../app/apps/alpha-wins/data/wins.json" with { type: "json" };
 
 const APP_SLUG = "alpha-wins";
 const APP_ROUTE = "/apps/alpha-wins";

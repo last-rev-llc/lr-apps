@@ -1,0 +1,8 @@
+id: captured-1013-verify-whatsapp-boot-disable-line-is-pre
+description: Verify WhatsApp boot disable line is present in entrypoint.sh
+tags: []
+source: auto-captured
+captured_from:
+  issue: 1013
+  session: session/20260430-103612
+  date: 2026-04-30

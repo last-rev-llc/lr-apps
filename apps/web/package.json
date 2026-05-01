@@ -54,6 +54,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitest/coverage-v8": "^4.1.5",
+    "eslint": "^10.1.0",
     "jsdom": "^29",
     "tailwindcss": "^4",
     "typescript": "^5",

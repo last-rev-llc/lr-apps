@@ -1,6 +1,9 @@
 import { test as base, type BrowserContext, type Page } from "@playwright/test";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const AUTH_STATE_PATH = path.join(__dirname, "../.auth/user.json");
 const BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";

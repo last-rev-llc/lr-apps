@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "summary": "Docs-only change for #263 is correct: CLAUDE.md Overview/Non-Negotiables rewritten around <slug>.apps.lastrev.com with app-host.ts as canonical builder; ideas/meme-generator plan URLs updated; lib-listing in sync; all referenced helpers/exports verified against code; check-claude-md-lib-sync.ts passes.",
+  "findings": []
+}
