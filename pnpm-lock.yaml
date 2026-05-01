@@ -56,6 +56,9 @@ importers:
       '@repo/logger':
         specifier: workspace:*
         version: link:../../packages/logger
+      '@repo/storage':
+        specifier: workspace:*
+        version: link:../../packages/storage
       '@repo/theme':
         specifier: workspace:*
         version: link:../../packages/theme
