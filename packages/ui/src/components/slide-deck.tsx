@@ -76,7 +76,8 @@ export function SlideDeck({
   }
 
   const slideBase = cn(
-    "absolute inset-0 flex flex-col items-center justify-center px-20 py-16 text-center overflow-y-auto",
+    "absolute inset-0 flex flex-col items-center justify-center px-4 py-10 text-center overflow-y-auto",
+    "sm:px-12 sm:py-14 md:px-20 md:py-16",
     "opacity-0 pointer-events-none transition-[opacity,transform] duration-500",
   );
 

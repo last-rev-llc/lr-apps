@@ -5,6 +5,7 @@ import { Topbar } from "../components/topbar";
 import { AppNav } from "../components/app-nav";
 import { Card, CardContent, CardHeader } from "../components/card";
 import { DataGrid, type DataGridColumn } from "../components/data-grid";
+import { SlideDeck } from "../components/slide-deck";
 
 describe("Topbar — mobile hamburger", () => {
   it("renders title and nav children", () => {
@@ -163,5 +164,22 @@ describe("DataGrid — compact size variant", () => {
     // The mobile listview duplicates labels — at least 2 occurrences (header + listview header)
     expect(screen.getAllByText("Name").length).toBeGreaterThanOrEqual(2);
     expect(screen.getAllByText("Alpha").length).toBeGreaterThanOrEqual(1);
+  });
+});
+
+describe("SlideDeck — responsive padding", () => {
+  it("uses tighter horizontal padding on mobile and ramps up at sm/md", () => {
+    const { container } = render(
+      <SlideDeck slides={[<div key="0">slide one</div>]} />,
+    );
+    const slide = container.querySelector(".absolute.inset-0");
+    expect(slide).toBeTruthy();
+    const cls = slide!.className;
+    // Mobile baseline keeps content reachable at 375px
+    expect(cls).toMatch(/\bpx-4\b/);
+    expect(cls).toMatch(/\bpy-10\b/);
+    // Larger viewports get the original generous padding
+    expect(cls).toMatch(/sm:px-12/);
+    expect(cls).toMatch(/md:px-20/);
   });
 });
