@@ -15,6 +15,7 @@ const FEATURE_TIER: Record<string, Tier> = {
   generations: "pro",
   sentiment: "pro",
   "ideas:ai-plan": "pro",
+  "memes:ai-caption": "pro",
 };
 
 const ALLOWED_STATUSES = new Set<SubscriptionStatus>(["active", "trialing"]);

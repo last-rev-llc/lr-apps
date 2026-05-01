@@ -85,6 +85,7 @@ const apps: AppConfig[] = [
   { slug: "brommie-quake", name: "Brommie Quake", subdomain: "brommie", routeGroup: "apps/brommie-quake", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "age-of-apes", name: "Age of Apes", subdomain: "apes", routeGroup: "apps/age-of-apes", auth: true, permission: "view", template: "minimal", tier: "free", features: {} },
   { slug: "ideas", name: "Ideas", subdomain: "ideas", routeGroup: "apps/ideas", auth: true, permission: "view", template: "full", tier: "free", features: {} },
+  { slug: "meme-generator", name: "Meme Generator", subdomain: "meme-generator", routeGroup: "apps/meme-generator", auth: true, permission: "view", template: "full", tier: "free", features: {} },
 ];
 
 const subdomainIndex = new Map(apps.map((app) => [app.subdomain, app]));

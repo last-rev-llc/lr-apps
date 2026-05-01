@@ -69,10 +69,11 @@ function alignedX(zone: TextZone): number {
   return zone.x + zone.width / 2;
 }
 
-function startYForVAlign(
-  zone: TextZone,
-  totalHeight: number,
-): number {
+interface ZoneWithVAlign extends TextZone {
+  vAlign?: "top" | "middle" | "bottom";
+}
+
+function startYForVAlign(zone: ZoneWithVAlign, totalHeight: number): number {
   const vAlign = zone.vAlign ?? "top";
   if (vAlign === "bottom") return zone.y + zone.height - totalHeight;
   if (vAlign === "middle")
@@ -101,34 +102,6 @@ export function renderMeme(
   } else if (template.backgroundColor) {
     ctx.fillStyle = template.backgroundColor;
     ctx.fillRect(0, 0, W, H);
-
-    if (template.legacyEmoji) {
-      // Append "12" alpha hex onto the foreground colour for the low-opacity
-      // grid — mirrors the legacy renderer without baking another hex
-      // literal into the source.
-      ctx.strokeStyle = `${template.defaultTextColor}12`;
-      ctx.lineWidth = 1;
-      for (let x = 0; x < W; x += 40) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, H);
-        ctx.stroke();
-      }
-      for (let y = 0; y < H; y += 40) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(W, y);
-        ctx.stroke();
-      }
-
-      ctx.font = "120px serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.globalAlpha = 0.15;
-      ctx.fillStyle = template.defaultTextColor;
-      ctx.fillText(template.legacyEmoji, W / 2, H / 2);
-      ctx.globalAlpha = 1;
-    }
   }
 
   for (const zone of template.textZones) {
