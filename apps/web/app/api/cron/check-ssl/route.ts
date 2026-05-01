@@ -31,6 +31,10 @@ async function fanoutExpiryAlerts(
   db: SupabaseClient,
   results: SslCheckResult[],
 ): Promise<void> {
+  // Issue #286: only successful handshakes are eligible to enqueue
+  // ssl-expiring/ssl-expired alerts. Failures (Cloudflare front, unusual
+  // SNI, etc.) surface in the UI as "SSL data unavailable" and are NOT
+  // paged — they only emit a warning log from check-url.ts.
   const okResults = results.filter(
     (r): r is Extract<SslCheckResult, { ok: true }> => r.ok,
   );

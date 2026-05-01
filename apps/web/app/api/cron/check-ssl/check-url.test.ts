@@ -1,6 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { EventEmitter } from "node:events";
 
+const logWarnMock = vi.fn();
+const logErrorMock = vi.fn();
+vi.mock("@repo/logger", () => ({
+  log: {
+    warn: (...args: unknown[]) => logWarnMock(...args),
+    error: (...args: unknown[]) => logErrorMock(...args),
+    info: vi.fn(),
+    debug: vi.fn(),
+  },
+}));
+
 // Build a mock TLS socket that fires `secureConnect` synchronously after the
 // connect callback runs. Tests control its peer-cert via the cert argument.
 type MockSocket = EventEmitter & {
@@ -73,6 +84,8 @@ function makeDb() {
 beforeEach(() => {
   scenario = null;
   upsertCalls.length = 0;
+  logWarnMock.mockClear();
+  logErrorMock.mockClear();
 });
 
 afterEach(() => {
@@ -158,6 +171,37 @@ describe("checkSslForUrl", () => {
     expect(call).not.toHaveProperty("sslExpiry");
     expect(call).not.toHaveProperty("sslIssuer");
     expect(call.sslLastError).toBe("tls handshake timeout");
+  });
+
+  it("issue #286: handshake failure logs warn (not error) and does NOT page", async () => {
+    scenario = { type: "error", message: "tls handshake timeout" };
+    const db = makeDb();
+    await checkSslForUrl("https://broken.example.com", db);
+
+    // Must use warn for handshake failures so on-call isn't woken up.
+    expect(logWarnMock).toHaveBeenCalledWith(
+      "ssl check failed",
+      expect.objectContaining({ url: "https://broken.example.com" }),
+    );
+    // The only allowed log.error path is a DB upsert failure, which the
+    // mock returns ok for in this test.
+    expect(logErrorMock).not.toHaveBeenCalled();
+  });
+
+  it("issue #286: consecutive handshake failures do not clobber prior sslExpiry/sslIssuer", async () => {
+    scenario = { type: "error", message: "ECONNREFUSED" };
+    const db = makeDb();
+    await checkSslForUrl("https://example.com", db);
+    await checkSslForUrl("https://example.com", db);
+
+    // Two upsert calls, neither sends sslExpiry/sslIssuer (so existing
+    // values are preserved by the partial-column upsert).
+    expect(upsertCalls).toHaveLength(2);
+    for (const call of upsertCalls) {
+      expect(call).not.toHaveProperty("sslExpiry");
+      expect(call).not.toHaveProperty("sslIssuer");
+      expect(call.sslLastError).toBe("ECONNREFUSED");
+    }
   });
 
   it("records an expired cert without rejecting (notAfter in the past)", async () => {

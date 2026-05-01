@@ -120,6 +120,9 @@ export async function checkSslForUrl(
       };
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
+      // Issue #286: handshake failures must NOT page — they surface in the
+      // UI as "SSL data unavailable" via the sslLastError field. Use
+      // log.warn (not log.error) so on-call is not woken up.
       log.warn("ssl check failed", { url, err: message });
       // Record the failure but leave prior sslExpiry/sslIssuer values intact.
       const { error } = await db.from("site_metadata").upsert(

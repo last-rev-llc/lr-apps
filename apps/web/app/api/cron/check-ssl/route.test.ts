@@ -237,6 +237,47 @@ describe("GET /api/cron/check-ssl", () => {
     expect(upsertCalls).toHaveLength(1);
   });
 
+  it("issue #286: handshake failures do not enqueue alerts", async () => {
+    mockIsAuthorized.mockReturnValue(true);
+    sitesRows = [
+      { url: "https://broken1.example.com" },
+      { url: "https://broken2.example.com" },
+    ];
+    certMockMap.set("https://broken1.example.com", { error: "ECONNREFUSED" });
+    certMockMap.set("https://broken2.example.com", {
+      error: "tls handshake timeout",
+    });
+    // Wire up matching client_sites rows so a fan-out *would* be possible
+    // if the route mistakenly tried to alert on failures.
+    clientSitesDetail = [
+      {
+        user_id: "u1",
+        client_id: "c1",
+        client_name: "Client One",
+        url: "https://broken1.example.com",
+      },
+      {
+        user_id: "u1",
+        client_id: "c1",
+        client_name: "Client One",
+        url: "https://broken2.example.com",
+      },
+    ];
+
+    const res = await GET(makeRequest());
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({ checked: 2, ok: 0, failed: 2 });
+
+    // Both upserts wrote sslLastError. No alert insert calls should have
+    // been issued because okResults was empty.
+    expect(upsertCalls).toHaveLength(2);
+    for (const call of upsertCalls) {
+      expect(call.payload).not.toHaveProperty("sslExpiry");
+      expect(call.payload.sslLastError).toBeTruthy();
+    }
+  });
+
   it("processes multiple distinct URLs with mixed outcomes", async () => {
     mockIsAuthorized.mockReturnValue(true);
     sitesRows = [
