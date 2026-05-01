@@ -1,7 +1,12 @@
 // @vitest-environment jsdom
 import React from "react";
-import { describe, it, expect, vi } from "vitest";
-import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import {
+  renderWithProviders,
+  screen,
+  fireEvent,
+  waitFor,
+} from "@repo/test-utils";
 
 vi.mock("../actions", () => ({
   generateMemeCaption: vi.fn(),
@@ -25,6 +30,26 @@ vi.mock("../actions", () => ({
 
 import { MemeEditor } from "../components/meme-editor";
 import type { MemeTemplate } from "../lib/types";
+import { saveMeme } from "../actions";
+import { QuotaExceededError } from "../lib/errors";
+
+// jsdom's HTMLCanvasElement.toBlob is not implemented; stub it so the save
+// flow's canvasToBlob() resolves with a deterministic PNG-ish blob.
+beforeEach(() => {
+  vi.spyOn(HTMLCanvasElement.prototype, "toBlob").mockImplementation(
+    function (
+      this: HTMLCanvasElement,
+      callback: BlobCallback,
+      _type?: string,
+    ) {
+      const bytes = new Uint8Array(64);
+      // PNG signature so the receiver can sniff it if it cares.
+      const sig = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+      for (let i = 0; i < sig.length; i++) bytes[i] = sig[i];
+      callback(new Blob([bytes.buffer as ArrayBuffer], { type: "image/png" }));
+    },
+  );
+});
 
 // Build hex strings at runtime so the token-audit script doesn't flag the
 // values it sees in template fixtures — these aren't UI colors, they're mock
@@ -345,6 +370,89 @@ describe("MemeEditor", () => {
     const indicator = screen.getByTestId("quota-indicator");
     expect(indicator.textContent).toContain("3/5");
     expect(indicator.textContent).toContain("Free");
+  });
+
+  it("calls saveMeme with FormData containing trimmed title, templateId, textZones JSON, fontSize, and a PNG file", async () => {
+    const template = makeTemplate({
+      id: "t-1",
+      textZones: [
+        {
+          id: "top",
+          label: "Top text",
+          x: 20,
+          y: 20,
+          width: 560,
+          height: 90,
+          align: "center",
+          defaultText: "TOP",
+        },
+        {
+          id: "bottom",
+          label: "Bottom text",
+          x: 20,
+          y: 340,
+          width: 560,
+          height: 90,
+          align: "center",
+          defaultText: "BOTTOM",
+        },
+      ],
+    });
+    renderWithProviders(<MemeEditor templates={[template]} />);
+
+    const titleInput = screen.getByLabelText(/title/i) as HTMLInputElement;
+    fireEvent.change(titleInput, { target: { value: "  My meme  " } });
+
+    const slider = screen.getByTestId("font-size-slider") as HTMLInputElement;
+    fireEvent.change(slider, { target: { value: "60" } });
+
+    fireEvent.click(screen.getByTestId("action-save"));
+
+    await waitFor(() => {
+      expect((saveMeme as ReturnType<typeof vi.fn>)).toHaveBeenCalledTimes(1);
+    });
+    const fd = (saveMeme as ReturnType<typeof vi.fn>).mock.calls[0][0] as FormData;
+    expect(fd.get("title")).toBe("My meme");
+    expect(fd.get("templateId")).toBe("t-1");
+    expect(fd.get("fontSize")).toBe("60");
+    expect(JSON.parse(fd.get("textZones") as string)).toEqual({
+      top: "TOP",
+      bottom: "BOTTOM",
+    });
+    const file = fd.get("file");
+    expect(file).toBeInstanceOf(Blob);
+    expect((file as Blob).type).toBe("image/png");
+    expect((file as Blob).size).toBeGreaterThan(0);
+  });
+
+  it("renders the quota-exceeded dialog with free→pro upgrade copy when saveMeme throws QuotaExceededError", async () => {
+    (saveMeme as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
+      new QuotaExceededError({
+        feature: "memes:save-quota",
+        current: 5,
+        limit: 5,
+        upgradeTier: "pro",
+      }),
+    );
+    const template = makeTemplate({});
+    renderWithProviders(
+      <MemeEditor
+        templates={[template]}
+        tier="free"
+        quota={5}
+        initialMemeCount={4}
+      />,
+    );
+
+    const titleInput = screen.getByLabelText(/title/i) as HTMLInputElement;
+    fireEvent.change(titleInput, { target: { value: "Over quota" } });
+
+    fireEvent.click(screen.getByTestId("action-save"));
+
+    const title = await screen.findByTestId("quota-error-title");
+    expect(title.textContent).toMatch(/Save quota reached/i);
+    const desc = screen.getByTestId("quota-error-description");
+    expect(desc.textContent).toMatch(/Upgrade to Pro/i);
   });
 });
 
