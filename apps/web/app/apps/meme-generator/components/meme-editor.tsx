@@ -32,9 +32,17 @@ import { publicMemeTemplateUrl } from "../lib/template-thumbnail";
 import { quotaUpgradeCopyForTier } from "../lib/upgrade-copy";
 import type { MemeTemplate } from "../lib/types";
 
+export interface InitialMeme {
+  templateId: string;
+  title: string;
+  textZones: Record<string, string>;
+  fontSize: number;
+}
+
 export interface MemeEditorProps {
   templates: MemeTemplate[];
   initialTemplateId?: string;
+  initialMeme?: InitialMeme;
   canUseAiCaption?: boolean;
   tier?: Tier;
   quota?: number;
@@ -95,13 +103,16 @@ function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
 export function MemeEditor({
   templates,
   initialTemplateId,
+  initialMeme,
   canUseAiCaption = false,
   tier = "free",
   quota,
   initialMemeCount = 0,
 }: MemeEditorProps) {
+  const initialSelectedId =
+    initialMeme?.templateId ?? initialTemplateId ?? templates[0]?.id;
   const [selectedId, setSelectedId] = useState<string | undefined>(
-    initialTemplateId ?? templates[0]?.id,
+    initialSelectedId,
   );
 
   const selected = useMemo(
@@ -109,11 +120,22 @@ export function MemeEditor({
     [templates, selectedId],
   );
 
-  const [zoneText, setZoneText] = useState<Record<string, string>>(() =>
-    selected ? defaultZoneText(selected) : {},
+  const [zoneText, setZoneText] = useState<Record<string, string>>(() => {
+    if (initialMeme) {
+      const initialSelected = templates.find(
+        (t) => t.id === initialMeme.templateId,
+      );
+      if (initialSelected) {
+        return { ...defaultZoneText(initialSelected), ...initialMeme.textZones };
+      }
+      return { ...initialMeme.textZones };
+    }
+    return selected ? defaultZoneText(selected) : {};
+  });
+  const [title, setTitle] = useState(initialMeme?.title ?? "");
+  const [fontSize, setFontSize] = useState<number>(
+    initialMeme ? clampFontSize(initialMeme.fontSize) : FONT_SIZE_DEFAULT,
   );
-  const [title, setTitle] = useState("");
-  const [fontSize, setFontSize] = useState<number>(FONT_SIZE_DEFAULT);
   const [aiOpen, setAiOpen] = useState(false);
   const [upgradeAiOpen, setUpgradeAiOpen] = useState(false);
   const [memeCount, setMemeCount] = useState(initialMemeCount);

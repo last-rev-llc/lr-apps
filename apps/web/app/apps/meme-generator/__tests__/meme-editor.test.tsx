@@ -272,6 +272,66 @@ describe("MemeEditor", () => {
     expect(btn.textContent).not.toContain("🔒");
   });
 
+  it("preloads template, zone text, title, and font size from initialMeme", () => {
+    const a = makeTemplate({
+      id: "a",
+      name: "Alpha",
+      textZones: [
+        {
+          id: "top",
+          label: "Top",
+          x: 0,
+          y: 0,
+          width: 100,
+          height: 100,
+          align: "center",
+        },
+        {
+          id: "bottom",
+          label: "Bottom",
+          x: 0,
+          y: 0,
+          width: 100,
+          height: 100,
+          align: "center",
+        },
+      ],
+    });
+    const b = makeTemplate({
+      id: "b",
+      name: "Bravo",
+      textZones: [
+        {
+          id: "panel-1",
+          label: "Panel 1",
+          x: 0,
+          y: 0,
+          width: 100,
+          height: 100,
+          align: "center",
+        },
+      ],
+    });
+    renderWithProviders(
+      <MemeEditor
+        templates={[a, b]}
+        initialMeme={{
+          templateId: "b",
+          title: "Restored",
+          textZones: { "panel-1": "RESTORED CAPTION" },
+          fontSize: 72,
+        }}
+      />,
+    );
+
+    const titleInput = screen.getByLabelText(/title/i) as HTMLInputElement;
+    expect(titleInput.value).toBe("Restored");
+    const panel = screen.getByLabelText("Panel 1") as HTMLInputElement;
+    expect(panel.value).toBe("RESTORED CAPTION");
+    expect(screen.queryByLabelText("Top")).toBeNull();
+    expect(screen.getByText(/Font size: 72px/)).toBeTruthy();
+  });
+
   it("renders the quota indicator with the provided count, limit, and tier", () => {
     const template = makeTemplate({});
     renderWithProviders(
