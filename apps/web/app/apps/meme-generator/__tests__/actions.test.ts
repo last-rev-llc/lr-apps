@@ -208,10 +208,13 @@ import {
   listMyMemes,
   getMemeSignedUrl,
   saveMeme,
+  updateMemeTitle,
+  deleteMeme,
   TEMPLATE_LIST_CACHE_KEY,
 } from "../actions";
 import { QuotaExceededError } from "../lib/errors";
 import { SAVE_QUOTAS } from "../lib/quotas";
+import { log } from "@repo/logger";
 
 beforeEach(() => {
   templateStore = [];
@@ -714,4 +717,150 @@ describe("meme-generator server actions", () => {
     });
   });
 
+  describe("updateMemeTitle", () => {
+    it("rejects empty/whitespace title without hitting db", async () => {
+      memeStore = [
+        { id: VALID_UUID, user_id: TEST_USER_ID, title: "old" },
+      ];
+      const result = await updateMemeTitle(VALID_UUID, "   ");
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+      expect(memeStore[0].title).toBe("old");
+    });
+
+    it("rejects titles >200 chars", async () => {
+      memeStore = [
+        { id: VALID_UUID, user_id: TEST_USER_ID, title: "old" },
+      ];
+      const result = await updateMemeTitle(VALID_UUID, "x".repeat(201));
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("rejects malformed id", async () => {
+      const result = await updateMemeTitle(INVALID_UUID, "fine title");
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+    });
+
+    it("updates title for an owned row and returns it (trimmed)", async () => {
+      memeStore = [
+        {
+          id: VALID_UUID,
+          user_id: TEST_USER_ID,
+          title: "old",
+          storagePath: `${TEST_USER_ID}/x.png`,
+        },
+      ];
+      const result = await updateMemeTitle(VALID_UUID, "  fresh title  ");
+      expect(result.ok).toBe(true);
+      if (!result.ok) throw new Error("expected ok");
+      expect(result.meme.title).toBe("fresh title");
+      expect(memeStore[0].title).toBe("fresh title");
+    });
+
+    it("returns not-found for cross-user update (cannot modify another user's row)", async () => {
+      memeStore = [
+        {
+          id: VALID_UUID,
+          user_id: OTHER_USER_ID,
+          title: "theirs",
+        },
+      ];
+      const result = await updateMemeTitle(VALID_UUID, "hijacked");
+      expect(result).toEqual({ ok: false, error: "not found" });
+      expect(memeStore[0].title).toBe("theirs");
+    });
+
+    it("emits a span named meme-generator.updateMemeTitle", async () => {
+      memeStore = [{ id: VALID_UUID, user_id: TEST_USER_ID, title: "old" }];
+      await updateMemeTitle(VALID_UUID, "new");
+      expect(withSpanMock).toHaveBeenCalledWith(
+        "meme-generator.updateMemeTitle",
+        expect.objectContaining({ "app.slug": "meme-generator" }),
+        expect.any(Function),
+      );
+    });
+  });
+
+  describe("deleteMeme", () => {
+    it("removes both row and blob in the happy path", async () => {
+      memeStore = [
+        {
+          id: VALID_UUID,
+          user_id: TEST_USER_ID,
+          storagePath: `${TEST_USER_ID}/x.png`,
+        },
+      ];
+      const result = await deleteMeme(VALID_UUID);
+      expect(result).toEqual({ ok: true });
+      expect(memeStore).toHaveLength(0);
+      expect(deleteFilesMock).toHaveBeenCalledWith({
+        bucket: "memes",
+        paths: [`${TEST_USER_ID}/x.png`],
+      });
+    });
+
+    it("returns not-found for cross-user delete (cannot delete another user's row)", async () => {
+      memeStore = [
+        {
+          id: VALID_UUID,
+          user_id: OTHER_USER_ID,
+          storagePath: `${OTHER_USER_ID}/y.png`,
+        },
+      ];
+      const result = await deleteMeme(VALID_UUID);
+      expect(result).toEqual({ ok: false, error: "not found" });
+      expect(memeStore).toHaveLength(1);
+      expect(deleteFilesMock).not.toHaveBeenCalled();
+    });
+
+    it("rejects malformed id without hitting db", async () => {
+      const result = await deleteMeme(INVALID_UUID);
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+      expect(deleteFilesMock).not.toHaveBeenCalled();
+    });
+
+    it("still resolves ok and logs a needs-sweep warning when blob delete fails", async () => {
+      memeStore = [
+        {
+          id: VALID_UUID,
+          user_id: TEST_USER_ID,
+          storagePath: `${TEST_USER_ID}/x.png`,
+        },
+      ];
+      deleteFilesMock.mockRejectedValueOnce(new Error("storage down"));
+      const warnSpy = vi.spyOn(log, "warn").mockImplementation(() => {});
+
+      const result = await deleteMeme(VALID_UUID);
+      expect(result).toEqual({ ok: true });
+      expect(memeStore).toHaveLength(0);
+      const sweepCall = warnSpy.mock.calls.find(
+        (c) =>
+          (c[1] as Record<string, unknown> | undefined)?.phase ===
+          "delete-blob",
+      );
+      expect(sweepCall).toBeDefined();
+      expect(sweepCall?.[1]).toMatchObject({
+        feature: "meme-generator",
+        phase: "delete-blob",
+        memeId: VALID_UUID,
+        storagePath: `${TEST_USER_ID}/x.png`,
+      });
+      warnSpy.mockRestore();
+    });
+
+    it("emits a span named meme-generator.deleteMeme", async () => {
+      memeStore = [
+        {
+          id: VALID_UUID,
+          user_id: TEST_USER_ID,
+          storagePath: `${TEST_USER_ID}/x.png`,
+        },
+      ];
+      await deleteMeme(VALID_UUID);
+      expect(withSpanMock).toHaveBeenCalledWith(
+        "meme-generator.deleteMeme",
+        expect.objectContaining({ "app.slug": "meme-generator" }),
+        expect.any(Function),
+      );
+    });
+  });
 });

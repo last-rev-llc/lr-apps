@@ -17,6 +17,7 @@ import { CACHE_VERSION, cacheGet, cacheSet } from "@repo/db/cache";
 import {
   createSignedUrl,
   uploadFile,
+  deleteFiles,
   StorageValidationError,
 } from "@repo/storage";
 import { getSubscription, type Tier } from "@repo/billing";
@@ -54,8 +55,23 @@ const SaveMemeInputSchema = z
   })
   .strict();
 
+const UpdateTitleSchema = z
+  .object({
+    id: IdSchema,
+    title: TitleSchema,
+  })
+  .strict();
+
 export type SaveMemeResult =
   | { ok: true; meme: MemeCreation }
+  | { ok: false; error: string };
+
+export type UpdateMemeResult =
+  | { ok: true; meme: MemeCreation }
+  | { ok: false; error: string };
+
+export type DeleteMemeResult =
+  | { ok: true }
   | { ok: false; error: string };
 
 interface PngDimensions {
@@ -468,6 +484,135 @@ export async function getMemeSignedUrl(id: string): Promise<SignedUrlResult> {
         });
         return { ok: false, error: "failed to sign url" };
       }
+    },
+  );
+}
+
+export async function updateMemeTitle(
+  id: string,
+  title: string,
+): Promise<UpdateMemeResult> {
+  return withSpan(
+    "meme-generator.updateMemeTitle",
+    { "app.slug": APP_SLUG, "meme.id": id },
+    async () => {
+      const { user } = await requireAccess(APP_SLUG);
+      const userId = user.id;
+
+      const parsed = UpdateTitleSchema.safeParse({ id, title });
+      if (!parsed.success) {
+        log.warn("meme-generator.updateMemeTitle invalid input", {
+          action: "updateMemeTitle",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const supabase = await createClient();
+      const { data: row, error } = await supabase
+        .from("meme_creations")
+        .update({ title: parsed.data.title })
+        // RLS already scopes updates to auth.uid(); the explicit eq is a
+        // belt-and-suspenders guard against future service-role refactors.
+        .eq("id", parsed.data.id)
+        .eq("user_id", userId)
+        .select("*")
+        .single();
+
+      if (error || !row) {
+        log.warn("meme-generator.updateMemeTitle not found", {
+          action: "updateMemeTitle",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "not found" };
+      }
+
+      log.debug("meme-generator.updateMemeTitle ok", {
+        action: "updateMemeTitle",
+        userId,
+      });
+      return { ok: true, meme: row as unknown as MemeCreation };
+    },
+  );
+}
+
+export async function deleteMeme(id: string): Promise<DeleteMemeResult> {
+  return withSpan(
+    "meme-generator.deleteMeme",
+    { "app.slug": APP_SLUG, "meme.id": id },
+    async () => {
+      const { user } = await requireAccess(APP_SLUG);
+      const userId = user.id;
+
+      const parsedId = IdSchema.safeParse(id);
+      if (!parsedId.success) {
+        log.warn("meme-generator.deleteMeme invalid input", {
+          action: "deleteMeme",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const supabase = await createClient();
+      const { data: existing, error: fetchError } = await supabase
+        .from("meme_creations")
+        .select("storagePath")
+        .eq("id", parsedId.data)
+        .eq("user_id", userId)
+        .maybeSingle();
+
+      if (fetchError) {
+        log.error("meme-generator.deleteMeme fetch error", {
+          action: "deleteMeme",
+          userId,
+          err: fetchError,
+        });
+        return { ok: false, error: "delete failed" };
+      }
+      if (!existing) {
+        return { ok: false, error: "not found" };
+      }
+      const storagePath = (existing as { storagePath: string }).storagePath;
+
+      const { error: deleteError } = await supabase
+        .from("meme_creations")
+        .delete()
+        .eq("id", parsedId.data)
+        .eq("user_id", userId);
+      if (deleteError) {
+        log.error("meme-generator.deleteMeme row delete error", {
+          action: "deleteMeme",
+          userId,
+          err: deleteError,
+        });
+        return { ok: false, error: "delete failed" };
+      }
+
+      // Ordered cleanup: row first, blob second. If the blob delete fails,
+      // we leave the orphaned blob behind and surface a structured warning
+      // so a future cron sweep can pick it up. Do NOT roll back the row
+      // delete — the user already saw "deleted" and the contract is
+      // weighted toward not resurrecting rows.
+      try {
+        await deleteFiles({ bucket: MEMES_BUCKET, paths: [storagePath] });
+      } catch (err) {
+        log.warn("meme-generator.deleteMeme blob delete failed — needs sweep", {
+          action: "deleteMeme",
+          feature: "meme-generator",
+          phase: "delete-blob",
+          userId,
+          memeId: parsedId.data,
+          storagePath,
+          err,
+        });
+      }
+
+      log.debug("meme-generator.deleteMeme ok", {
+        action: "deleteMeme",
+        userId,
+      });
+      return { ok: true };
     },
   );
 }
