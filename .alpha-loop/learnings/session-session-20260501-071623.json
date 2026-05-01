@@ -1,0 +1,57 @@
+{
+  "name": "session/20260501-071623",
+  "branch": "session/20260501-071623",
+  "completed": "2026-05-01T14:24:48.522Z",
+  "results": [
+    {
+      "issueNum": 1011,
+      "title": "Fix workspace-init.sh: seed Telegram as enabled: false",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/665",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 75,
+      "filesChanged": 1
+    },
+    {
+      "issueNum": 1012,
+      "title": "Fix entrypoint.sh: preserve Telegram enabled/removed state across restarts",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/665",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 75,
+      "filesChanged": 1
+    },
+    {
+      "issueNum": 1013,
+      "title": "Verify WhatsApp boot disable line is present in entrypoint.sh",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/665",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 75,
+      "filesChanged": 1
+    },
+    {
+      "issueNum": 1014,
+      "title": "Add Telegram explicit activation path in dashboard",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/665",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 75,
+      "filesChanged": 1
+    },
+    {
+      "issueNum": 1015,
+      "title": "Add boot-config integration tests for channel startup isolation",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/665",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 75,
+      "filesChanged": 1
+    }
+  ]
+}
