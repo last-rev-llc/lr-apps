@@ -20,12 +20,22 @@ vi.mock("../components/contact-detail", () => ({
   ContactTypeBadge: ({ type }: { type: string }) => <span>{type}</span>,
 }));
 
+vi.mock("../lib/actions", () => ({
+  createContact: vi.fn(),
+  updateContact: vi.fn(),
+  deleteContact: vi.fn(),
+}));
+
 import CrmPage from "../page";
 
 describe("CrmPage", () => {
-  it("renders the CRM header via CrmApp", async () => {
+  it("renders the CRM contact list shell via CrmApp", async () => {
     const ui = await CrmPage();
     renderWithProviders(ui);
     expect(screen.getByText("CRM")).toBeInTheDocument();
+    expect(screen.getByText(/0 contacts/)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /new contact/i }),
+    ).toBeInTheDocument();
   });
 });
