@@ -113,7 +113,7 @@ describe("crm server actions", () => {
 
     it("revalidates the crm path", async () => {
       await createContact({ name: "X" });
-      expect(revalidatePathMock).toHaveBeenCalled();
+      expect(revalidatePathMock).toHaveBeenCalledWith("/apps/crm");
     });
 
     it("throws when validation fails (empty name)", async () => {
@@ -152,7 +152,7 @@ describe("crm server actions", () => {
     it("revalidates the crm path", async () => {
       store.push({ id: "abc", name: "Old" });
       await updateContact("abc", { name: "New" });
-      expect(revalidatePathMock).toHaveBeenCalled();
+      expect(revalidatePathMock).toHaveBeenCalledWith("/apps/crm");
     });
 
     it("rejects an invalid url field", async () => {
@@ -168,7 +168,7 @@ describe("crm server actions", () => {
       store.push({ id: "abc", name: "X" });
       await deleteContact("abc");
       expect(store).toHaveLength(0);
-      expect(revalidatePathMock).toHaveBeenCalled();
+      expect(revalidatePathMock).toHaveBeenCalledWith("/apps/crm");
     });
   });
 });

@@ -7,7 +7,7 @@ import { withSpan } from "@/lib/otel";
 import { ContactInputSchema, type ContactInput } from "./schemas";
 import type { Contact } from "./types";
 
-const CRM_PATH = "/";
+const CRM_PATH = "/apps/crm";
 
 function buildContactRow(input: ContactInput | Partial<ContactInput>) {
   const row: Record<string, unknown> = {};
