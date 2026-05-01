@@ -8,7 +8,7 @@ vi.mock("@ai-sdk/anthropic", () => ({
   anthropic: (model: string) => ({ provider: "anthropic", model }),
 }));
 
-import { generateCaption, CAPTION_MODEL_ID } from "../lib/ai-caption";
+import { generateCaption, captionSchema, CAPTION_MODEL_ID } from "../lib/ai-caption";
 import { log } from "@repo/logger";
 import type { MemeTemplate } from "../lib/types";
 
@@ -97,6 +97,42 @@ describe("generateCaption", () => {
       for (const value of Object.values(result)) {
         expect(value.length).toBeLessThanOrEqual(80);
       }
+    });
+  });
+
+  describe("captionSchema (dynamic builder)", () => {
+    it("accepts an object with one string per provided zone id", () => {
+      const schema = captionSchema(["top", "bottom", "panel-3"]);
+      const parsed = schema.safeParse({
+        top: "TOP CAPTION",
+        bottom: "BOTTOM CAPTION",
+        "panel-3": "THIRD PANEL",
+      });
+      expect(parsed.success).toBe(true);
+    });
+
+    it("rejects an object missing a required zone key", () => {
+      const schema = captionSchema(["top", "bottom"]);
+      const parsed = schema.safeParse({ top: "ONLY TOP" });
+      expect(parsed.success).toBe(false);
+    });
+
+    it("rejects values longer than 80 characters", () => {
+      const schema = captionSchema(["top"]);
+      const parsed = schema.safeParse({ top: "x".repeat(81) });
+      expect(parsed.success).toBe(false);
+    });
+
+    it("accepts captions exactly 80 characters long", () => {
+      const schema = captionSchema(["top"]);
+      const parsed = schema.safeParse({ top: "x".repeat(80) });
+      expect(parsed.success).toBe(true);
+    });
+
+    it("builds an empty-shape schema for an empty zone list", () => {
+      const schema = captionSchema([]);
+      const parsed = schema.safeParse({});
+      expect(parsed.success).toBe(true);
     });
   });
 

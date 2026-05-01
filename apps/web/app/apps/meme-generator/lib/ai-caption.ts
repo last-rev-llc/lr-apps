@@ -61,7 +61,7 @@ export interface GenerateCaptionInput {
 
 export type CaptionMap = Record<string, string>;
 
-function buildSchema(zoneIds: string[]): z.ZodType<CaptionMap> {
+export function captionSchema(zoneIds: string[]): z.ZodType<CaptionMap> {
   const shape: Record<string, z.ZodString> = {};
   for (const id of zoneIds) {
     shape[id] = z.string().max(80);
@@ -96,7 +96,7 @@ export async function generateCaption(
     return out;
   }
 
-  const schema = buildSchema(zoneIds);
+  const schema = captionSchema(zoneIds);
 
   const promptParts = [
     `Topic: ${input.topic}`,
