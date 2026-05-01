@@ -23,7 +23,7 @@ export async function createContact(input: ContactInput): Promise<Contact> {
     const data = ContactInputSchema.parse(input);
 
     const supabase = await createClient();
-    const { data: row, error } = await supabase
+    const { data: row, error } = await (supabase as any)
       .from("contacts")
       .insert(buildContactRow(data))
       .select("*")
@@ -47,7 +47,7 @@ export async function updateContact(
     const data = ContactInputSchema.partial().parse(input);
 
     const supabase = await createClient();
-    const { data: row, error } = await supabase
+    const { data: row, error } = await (supabase as any)
       .from("contacts")
       .update(buildContactRow(data))
       .eq("id", id)
@@ -67,7 +67,7 @@ export async function updateContact(
 export async function deleteContact(id: string): Promise<void> {
   return withSpan("crm.deleteContact", { contactId: id }, async () => {
     const supabase = await createClient();
-    const { error } = await supabase.from("contacts").delete().eq("id", id);
+    const { error } = await (supabase as any).from("contacts").delete().eq("id", id);
 
     if (error) {
       log.error("crm.deleteContact db error", { err: error, contactId: id });

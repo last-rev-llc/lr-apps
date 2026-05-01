@@ -64,7 +64,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       const insights = await enrichContact(contact);
       const supabase = await createClient();
       const now = new Date().toISOString();
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("contacts")
         .update({ insights, last_researched_at: now })
         .eq("id", contact.id);
