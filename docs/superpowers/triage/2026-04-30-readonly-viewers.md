@@ -237,3 +237,12 @@ overall app bucket follows the §3c rule.
 5. **Delete `scripts/triage-readonly-viewers.ts`** per [#5 of the seed plan](../plans/2026-04-30-readonly-viewer-triage.md#7-out-of-scope)
    once the prod re-run is also captured. Keeping the script around long-term turns a one-off audit into
    shadow infrastructure.
+
+## Action log
+
+Per-app follow-ups opened in response to this report (issues #481, #487, etc.):
+
+| App | Issue | Bucket | Backlog entry | Plan-PR comment |
+|---|---|---|---|---|
+| Accounts | [#481](https://github.com/last-rev-llc/lr-apps/issues/481) | stalled (dev-only) | [#641](https://github.com/last-rev-llc/lr-apps/issues/641) | [PR #385 comment](https://github.com/last-rev-llc/lr-apps/pull/385#issuecomment-4356981777) |
+| Uptime | [#487](https://github.com/last-rev-llc/lr-apps/issues/487) | abandoned (dev-only) | _pending_ | _pending_ |
