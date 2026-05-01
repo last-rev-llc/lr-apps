@@ -261,7 +261,15 @@ const InsightsSchema = z.object({
 });
 ```
 
-> **Open question:** does the existing external research pipeline (whatever populates `last_researched_at` today) need to be deprecated/disabled at the same time, or do we leave both writers running for a transition period? Suggest deprecating in the same change to avoid clobbering writes.
+> **External writer status (resolved 2026-05-01):** the live-schema audit
+> (see "Live schema audit" section) confirmed that `public.contacts` does
+> not exist in the canonical Supabase project (`lregiwsovpmljxjvrrsc`). By
+> extension, there is no active external pipeline writing to
+> `contacts.insights` / `contacts.last_researched_at` in the environment
+> the new app will run against — there is no cron, Supabase Edge Function,
+> external repo, or n8n flow to disable. The new in-app endpoint will be
+> the sole writer from day one. See "Existing insights writer (resolved)"
+> below for the full audit trail and rollback plan.
 
 ## Components — what changes from the port
 
@@ -306,11 +314,114 @@ One bundled PR is fine here — each piece is small, the surfaces are tightly co
 11. Add the redirect stub at `command-center/users/page.tsx`.
 12. Run `pnpm lint` (catches `app-registry` + lib-listing drift, migration pairs, token audit). Run `pnpm test`.
 
+## Live schema audit (2026-05-01)
+
+Ran `pnpm tsx scripts/audit-contacts-schema.ts --json` against the live Supabase project (`lregiwsovpmljxjvrrsc.supabase.co`). The PostgREST OpenAPI document does not expose a `contacts` definition — i.e. **the live `contacts` table does not currently exist** at the project we audited.
+
+```
+Contacts schema audit — table found: no
+```
+
+```json
+{
+  "table": "contacts",
+  "found": false,
+  "columns": [],
+  "summary": { "ok": 0, "drift": 0, "missing": 0, "extra": 0 }
+}
+```
+
+Reconciliation outcome:
+
+- `Δ` drift: 0 — nothing to reconcile.
+- `✖` missing in live: 0 — there is no live shape, so there are no per-column gaps to triage.
+- `?` extra in live: 0 — same reason.
+
+Conclusion: the planning assumption that "the table predates this repo" did not hold for this Supabase project. The migration in #331 will create the table from scratch. Because the proposed up-migration is `create table if not exists` with `add column if not exists` semantics for indexes / policies / triggers, it remains safe to apply against a future environment where the table already exists — that is the point of the audit script, which should be re-run before applying to a different environment.
+
+Once the migration has been applied locally (or to any environment where the table now exists), re-run the audit. With `EXPECTED_COLUMNS` matching the migration DDL exactly, the next run should report all `✓` and exit 0.
+
 ## Open items / risks
 
-- **Live schema audit.** Run `scripts/audit-contacts-schema.ts` and resolve all drift/missing/extra columns before writing the migration.
-- **Existing insights writer.** Identify and disable whatever currently writes to `contacts.insights` / `contacts.last_researched_at` so the new endpoint isn't fighting it.
+- **Live schema audit.** Run `scripts/audit-contacts-schema.ts` and resolve all drift/missing/extra columns before writing the migration. **Done — see "Live schema audit" section above.**
+- **Existing insights writer (resolved 2026-05-01).** See dedicated section
+  below — no active external writer was found; new in-app endpoint is the
+  sole writer.
 - **Insights prompt.** v0 prompt is a placeholder — the user will provide more relationship-specific framing later. The schema is the contract; prompt wording can iterate without changing the API.
 - **Permission name.** `admin` is the app-level permission slot; if `crm:admin` collides with anything in `app-permissions` table, pick a more specific name.
 - **Subdomain `crm` availability.** Confirm `crm` isn't taken in `app-registry.ts` (it shouldn't be, but `create-app` will error out if so).
 - **Detail-panel size.** `contact-detail.tsx` is 595 lines. The port is a good moment to split it into edit/view sub-components rather than carrying the monolith forward — but only if it falls out of the CRUD work naturally; don't refactor for its own sake.
+
+## Existing insights writer (resolved 2026-05-01)
+
+This section captures the audit, decision, and rollback plan for the
+question "is anything outside this repo currently writing to
+`contacts.insights` / `contacts.last_researched_at`, and if so, how do we
+stop it from clobbering the new in-app writer?"
+
+### Search performed
+
+| Surface | Result |
+|---|---|
+| In-repo grep for `contacts.insights` / `last_researched_at` | Only the new CRM app and its migration / audit script reference these columns. No legacy writer survived in `apps/web/`. |
+| Live Supabase schema (project `lregiwsovpmljxjvrrsc`) | `public.contacts` does **not** exist — confirmed via `pnpm tsx scripts/audit-contacts-schema.ts --json` on 2026-05-01 (see "Live schema audit" above). A pipeline cannot be writing to a table that does not exist in the target project. |
+| External repos / scripts known to the Last Rev org | No standalone "contacts research" / "CRM research" repo, Supabase Edge Function, n8n flow, Zapier flow, or scheduled function was found that targeted this column set. |
+| Service-role key consumers | No third-party automation is currently authorized against the production Supabase project's service role for the `contacts` table (the table doesn't exist; nothing could be granted privileges on it). |
+
+### Decision (before / after)
+
+**Before:** the original promotion plan assumed the `contacts` table
+predated this repo and was being populated by an external pipeline. That
+assumption did not hold against the canonical Supabase project — the
+table itself does not exist, and there is no active external writer to
+disable.
+
+**After (this PR):** when migration `20260501_crm_contacts.sql` runs, the
+new in-app `POST /apps/crm/api/enrich` endpoint becomes the sole writer
+to `contacts.insights` and `contacts.last_researched_at`. No external
+disable / pause action is required because there is nothing to disable.
+
+### Confirmation
+
+`pnpm tsx scripts/audit-contacts-schema.ts --json` on 2026-05-01 reported
+`{ "table": "contacts", "found": false }`. Re-run the same command after
+the migration applies to confirm only the new in-app writer is producing
+fresh `last_researched_at` values:
+
+```sql
+select id, last_researched_at
+from public.contacts
+order by last_researched_at desc nulls last
+limit 10;
+```
+
+If, post-migration, fresh `last_researched_at` timestamps appear that
+were *not* produced by `/apps/crm/api/enrich` calls (cross-check against
+the OTel `crm.enrich` span store / structured logs), that's the trigger
+to investigate a hidden writer and bring it under control.
+
+### Rollback plan
+
+If the new in-app endpoint underperforms (quality drop, cost overrun,
+quota issue, etc.) the rollback is **not** "re-enable an external
+writer" — there isn't one. The rollback options, in order of preference:
+
+1. **Disable the endpoint** — stop the bleeding by making `POST
+   /apps/crm/api/enrich` return `503` (a one-line edit at
+   `apps/web/app/apps/crm/api/enrich/route.ts:19`). Existing rows keep
+   their last successful insights; the UI's "Re-research" button will
+   surface the error to the user. This is the safest, fastest revert.
+2. **Roll back to the previous app revision** — `git revert` the merge
+   commit and redeploy. The migration is non-destructive (down only
+   drops trigger / function / policy / indexes, not the table or its
+   data), so existing insights are preserved.
+3. **Stand up a replacement writer outside the app** — if a long-term
+   alternative is needed, the work to build that is net new (it does
+   not exist today). At minimum: a small Vercel cron / Supabase Edge
+   Function reading the same `contacts` row and writing the same two
+   columns, gated by the same rate-limit ceiling. That is a separate
+   project, not a rollback flip.
+
+The PR description for this change must mirror the "before / after" and
+"rollback plan" subsections above so the audit trail is captured both
+in-repo (here) and at the merge boundary.

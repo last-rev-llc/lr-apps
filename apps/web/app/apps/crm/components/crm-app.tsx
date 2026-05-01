@@ -6,6 +6,10 @@ import {
   Button,
   Card,
   CardContent,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
   EmptyState,
   PageHeader,
   Search,
@@ -16,7 +20,9 @@ import {
 } from "@repo/ui";
 import type { ViewToggleView } from "@repo/ui";
 import type { Contact, ContactType, SortKey, SortDir } from "../lib/types";
+import { createContact } from "../lib/actions";
 import { ContactDetail, ContactTypeBadge } from "./contact-detail";
+import { ContactForm } from "./contact-form";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -54,12 +60,16 @@ function hasInsights(c: Contact): boolean {
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-interface UsersAppProps {
+interface CrmAppProps {
   initialContacts: Contact[];
 }
 
-export function UsersApp({ initialContacts }: UsersAppProps) {
-  const [contacts] = useState<Contact[]>(initialContacts);
+export function CrmApp({ initialContacts }: CrmAppProps) {
+  // Read contacts straight from props so the page's server-side
+  // revalidatePath after createContact / updateContact / deleteContact
+  // actually refreshes the rendered list. A `useState(initialContacts)`
+  // captures the value once and silently ignores re-fetched props.
+  const contacts = initialContacts;
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<ContactType | "all">("all");
   const [companyFilter, setCompanyFilter] = useState("all");
@@ -67,6 +77,7 @@ export function UsersApp({ initialContacts }: UsersAppProps) {
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [view, setView] = useState<ViewToggleView>("grid");
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [newOpen, setNewOpen] = useState(false);
 
   // Derived company list
   const companies = useMemo(() => {
@@ -126,10 +137,13 @@ export function UsersApp({ initialContacts }: UsersAppProps) {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <PageHeader
-        title="👥 Contacts"
-        subtitle={`${contacts.length} contacts · ${contacts.filter(hasInsights).length} with insights`}
-      />
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <PageHeader
+          title="CRM"
+          subtitle={`${contacts.length} contacts · ${contacts.filter(hasInsights).length} with insights`}
+        />
+        <Button onClick={() => setNewOpen(true)}>+ New Contact</Button>
+      </div>
 
       {/* Controls row */}
       <div className="flex flex-wrap items-center gap-3">
@@ -230,6 +244,23 @@ export function UsersApp({ initialContacts }: UsersAppProps) {
         contact={selectedContact}
         onClose={() => setSelectedContact(null)}
       />
+
+      {/* New Contact dialog */}
+      <Dialog open={newOpen} onOpenChange={setNewOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>New contact</DialogTitle>
+          </DialogHeader>
+          <ContactForm
+            submitLabel="Create contact"
+            onCancel={() => setNewOpen(false)}
+            onSubmit={async (input) => {
+              await createContact(input);
+              setNewOpen(false);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

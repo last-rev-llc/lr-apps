@@ -1,10 +1,8 @@
-import { getContacts } from "./lib/queries";
-import { UsersApp } from "./components/users-app";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+import { getAppLaunchUrl } from "@/lib/platform-urls";
 
-export const dynamic = "force-dynamic";
-
-export default async function UsersPage() {
-  const contacts = await getContacts();
-
-  return <UsersApp initialContacts={contacts} />;
+export default async function UsersRedirect() {
+  const h = await headers();
+  redirect(getAppLaunchUrl("crm", h.get("host") ?? ""));
 }

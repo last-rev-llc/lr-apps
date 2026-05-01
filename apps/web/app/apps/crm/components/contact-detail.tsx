@@ -1,18 +1,21 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   Badge,
+  Button,
   Avatar,
   AvatarImage,
   AvatarFallback,
 } from "@repo/ui";
 import type { Contact, ContactInsights } from "../lib/types";
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
+import { deleteContact, updateContact } from "../lib/actions";
+import { ContactForm } from "./contact-form";
 
 function initials(name: string): string {
   return name
@@ -50,8 +53,6 @@ const CONFIDENCE_COLORS: Record<string, { text: string; bg: string; border: stri
   },
 };
 
-// ── Sub-components ────────────────────────────────────────────────────────────
-
 function InsightSection({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-2">
@@ -83,7 +84,6 @@ function InsightsPanel({ insights }: { insights: ContactInsights }) {
 
   return (
     <div className="space-y-5">
-      {/* Confidence badge */}
       {insights.confidence && (
         <div className="flex items-center gap-2">
           <span className="text-xs text-white/40">Confidence:</span>
@@ -100,14 +100,12 @@ function InsightsPanel({ insights }: { insights: ContactInsights }) {
         </div>
       )}
 
-      {/* Summary */}
       {insights.summary && (
         <InsightSection label="Summary">
           <p className="text-sm text-white/60 leading-relaxed">{insights.summary}</p>
         </InsightSection>
       )}
 
-      {/* Best approach */}
       {insights.bestApproach && (
         <InsightSection label="Best Approach">
           <div className="rounded-lg border border-amber-500/25 bg-amber-500/8 px-3 py-2">
@@ -116,7 +114,6 @@ function InsightsPanel({ insights }: { insights: ContactInsights }) {
         </InsightSection>
       )}
 
-      {/* Communication style */}
       {(comm.formality || comm.tone || comm.responseSpeed || comm.preferredChannel) && (
         <InsightSection label="Communication Style">
           <div className="flex flex-wrap gap-1.5">
@@ -128,7 +125,6 @@ function InsightsPanel({ insights }: { insights: ContactInsights }) {
         </InsightSection>
       )}
 
-      {/* Personality */}
       {(pers.decisionStyle || pers.detailOrientation || pers.conflictStyle ||
         (pers.motivators?.length ?? 0) > 0 || (pers.stressors?.length ?? 0) > 0) && (
         <InsightSection label="Personality">
@@ -174,7 +170,6 @@ function InsightsPanel({ insights }: { insights: ContactInsights }) {
         </InsightSection>
       )}
 
-      {/* Interests */}
       {((interests.professional?.length ?? 0) > 0 ||
         (interests.personal?.length ?? 0) > 0 ||
         (interests.sharedWithAdam?.length ?? 0) > 0) && (
@@ -220,7 +215,6 @@ function InsightsPanel({ insights }: { insights: ContactInsights }) {
         </InsightSection>
       )}
 
-      {/* Conversation starters */}
       {starters.length > 0 && (
         <InsightSection label="Conversation Starters">
           <ul className="space-y-1.5">
@@ -237,7 +231,6 @@ function InsightsPanel({ insights }: { insights: ContactInsights }) {
         </InsightSection>
       )}
 
-      {/* Topics to avoid */}
       {(insights.topicsToAvoid?.length ?? 0) > 0 && (
         <InsightSection label="Topics to Avoid">
           <div className="flex flex-wrap gap-1.5">
@@ -253,15 +246,80 @@ function InsightsPanel({ insights }: { insights: ContactInsights }) {
   );
 }
 
-// ── Contact Detail ────────────────────────────────────────────────────────────
-
-interface ContactDetailProps {
+export interface ContactDetailProps {
   contact: Contact | null;
   onClose: () => void;
 }
 
 export function ContactDetail({ contact, onClose }: ContactDetailProps) {
   const open = contact !== null;
+  const [mode, setMode] = useState<"view" | "edit">("view");
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [enriching, setEnriching] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [liveInsights, setLiveInsights] = useState<ContactInsights | null>(null);
+  const [liveResearchedAt, setLiveResearchedAt] = useState<string | null>(null);
+
+  useEffect(() => {
+    setMode("view");
+    setConfirmDelete(false);
+    setDeleting(false);
+    setEnriching(false);
+    setActionError(null);
+    setLiveInsights(null);
+    setLiveResearchedAt(null);
+  }, [contact?.id]);
+
+  async function handleDelete() {
+    if (!contact) return;
+    setDeleting(true);
+    setActionError(null);
+    try {
+      await deleteContact(contact.id);
+      setConfirmDelete(false);
+      onClose();
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Failed to delete contact");
+    } finally {
+      setDeleting(false);
+    }
+  }
+
+  async function handleReResearch() {
+    if (!contact) return;
+    setEnriching(true);
+    setActionError(null);
+    try {
+      const res = await fetch("/api/enrich", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contactId: contact.id }),
+      });
+      if (res.status === 429) {
+        setActionError("Rate limited — try again later");
+        return;
+      }
+      if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as { error?: string } | null;
+        setActionError(body?.error ?? "Re-research failed");
+        return;
+      }
+      const data = (await res.json()) as {
+        insights: ContactInsights;
+        last_researched_at: string;
+      };
+      setLiveInsights(data.insights);
+      setLiveResearchedAt(data.last_researched_at);
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Re-research failed");
+    } finally {
+      setEnriching(false);
+    }
+  }
+
+  const insights = liveInsights ?? contact?.insights ?? null;
+  const researchedAt = liveResearchedAt ?? contact?.last_researched_at ?? null;
 
   return (
     <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
@@ -294,164 +352,246 @@ export function ContactDetail({ contact, onClose }: ContactDetailProps) {
                   )}
                 </div>
               </div>
+
+              {mode === "view" && (
+                <div className="flex flex-wrap gap-2 pt-3">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setMode("edit")}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={handleReResearch}
+                    disabled={enriching}
+                  >
+                    {enriching ? "Researching…" : "Re-research"}
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setConfirmDelete(true)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              )}
             </DialogHeader>
 
-            <div className="space-y-6 pt-2">
-              {/* Contact info grid */}
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {contact.email && (
-                  <DetailRow icon="✉️" label="Email">
-                    <a
-                      href={`mailto:${contact.email}`}
-                      className="text-amber-400 hover:text-amber-300 transition-colors break-all"
-                    >
-                      {contact.email}
-                    </a>
-                  </DetailRow>
-                )}
-                {contact.phone && (
-                  <DetailRow icon="📞" label="Phone">
-                    <span className="text-white/70">{contact.phone}</span>
-                  </DetailRow>
-                )}
-                {contact.location && (
-                  <DetailRow icon="📍" label="Location">
-                    <span className="text-white/70">{contact.location}</span>
-                  </DetailRow>
-                )}
-                {contact.timezone && (
-                  <DetailRow icon="🕐" label="Timezone">
-                    <span className="text-white/70">{contact.timezone}</span>
-                  </DetailRow>
-                )}
+            {mode === "edit" ? (
+              <div className="pt-2">
+                <ContactForm
+                  initialValues={contact}
+                  submitLabel="Save"
+                  onCancel={() => setMode("view")}
+                  onSubmit={async (input) => {
+                    await updateContact(contact.id, input);
+                    setMode("view");
+                  }}
+                />
               </div>
-
-              {/* Social links */}
-              {(contact.linkedin_url || contact.github_handle || contact.twitter_handle ||
-                contact.slack_handle || contact.website) && (
-                <div>
-                  <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-2">
-                    Social & Links
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {contact.linkedin_url && (
-                      <SocialLink
-                        href={contact.linkedin_url}
-                        label="LinkedIn"
-                        color="text-brand-linkedin"
-                        bg="bg-brand-linkedin/12 border-brand-linkedin/30"
-                      >
-                        in
-                      </SocialLink>
-                    )}
-                    {contact.github_handle && (
-                      <SocialLink
-                        href={`https://github.com/${contact.github_handle}`}
-                        label={`@${contact.github_handle}`}
-                        color="text-white/70"
-                        bg="bg-white/8 border-white/15"
-                      >
-                        <GithubIcon /> @{contact.github_handle}
-                      </SocialLink>
-                    )}
-                    {contact.twitter_handle && (
-                      <SocialLink
-                        href={`https://twitter.com/${contact.twitter_handle}`}
-                        label={`@${contact.twitter_handle}`}
-                        color="text-sky-400"
-                        bg="bg-sky-500/10 border-sky-500/25"
-                      >
-                        𝕏 @{contact.twitter_handle}
-                      </SocialLink>
-                    )}
-                    {contact.slack_handle && (
-                      <SocialLink
-                        href={
-                          contact.slack_id
-                            ? `https://lastrev.slack.com/team/${contact.slack_id}`
-                            : "#"
-                        }
-                        label={`@${contact.slack_handle}`}
-                        color="text-brand-slack"
-                        bg="bg-brand-slack-accent/10 border-brand-slack-accent/25"
-                      >
-                        <SlackIcon /> @{contact.slack_handle}
-                      </SocialLink>
-                    )}
-                    {contact.website && (
-                      <SocialLink
-                        href={contact.website}
-                        label="Website"
-                        color="text-white/60"
-                        bg="bg-white/6 border-white/12"
-                      >
-                        🌐 {contact.website.replace(/^https?:\/\//, "")}
-                      </SocialLink>
-                    )}
+            ) : (
+              <div className="space-y-6 pt-2">
+                {actionError && (
+                  <div
+                    role="alert"
+                    className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+                  >
+                    {actionError}
                   </div>
-                </div>
-              )}
-
-              {/* Tags */}
-              {(contact.tags?.length ?? 0) > 0 && (
-                <div>
-                  <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-2">
-                    Tags
-                  </h4>
-                  <div className="flex flex-wrap gap-1.5">
-                    {contact.tags!.map((tag, i) => (
-                      <Badge
-                        key={i}
-                        className="border-white/15 bg-white/8 text-white/60 text-xs"
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Insights */}
-              {contact.insights && (
-                <div>
-                  <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-3">
-                    Personality Insights
-                  </h4>
-                  <div className="rounded-xl border border-white/8 bg-white/3 p-4">
-                    <InsightsPanel insights={contact.insights} />
-                  </div>
-                </div>
-              )}
-
-              {/* Notes */}
-              {contact.notes && (
-                <div>
-                  <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-2">
-                    Notes
-                  </h4>
-                  <p className="text-sm text-white/60 leading-relaxed whitespace-pre-wrap">
-                    {contact.notes}
-                  </p>
-                </div>
-              )}
-
-              {/* Footer meta */}
-              <div className="flex flex-wrap gap-4 pt-2 border-t border-white/8 text-[11px] text-white/25">
-                {contact.last_researched_at && (
-                  <span>Last researched {relDate(contact.last_researched_at)}</span>
                 )}
-                {contact.source && <span>· Source: {contact.source}</span>}
-                {contact.created_at && <span>· Added {relDate(contact.created_at)}</span>}
+
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  {contact.email && (
+                    <DetailRow icon="✉️" label="Email">
+                      <a
+                        href={`mailto:${contact.email}`}
+                        className="text-amber-400 hover:text-amber-300 transition-colors break-all"
+                      >
+                        {contact.email}
+                      </a>
+                    </DetailRow>
+                  )}
+                  {contact.phone && (
+                    <DetailRow icon="📞" label="Phone">
+                      <span className="text-white/70">{contact.phone}</span>
+                    </DetailRow>
+                  )}
+                  {contact.location && (
+                    <DetailRow icon="📍" label="Location">
+                      <span className="text-white/70">{contact.location}</span>
+                    </DetailRow>
+                  )}
+                  {contact.timezone && (
+                    <DetailRow icon="🕐" label="Timezone">
+                      <span className="text-white/70">{contact.timezone}</span>
+                    </DetailRow>
+                  )}
+                </div>
+
+                {(contact.linkedin_url || contact.github_handle || contact.twitter_handle ||
+                  contact.slack_handle || contact.website) && (
+                  <div>
+                    <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-2">
+                      Social & Links
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {contact.linkedin_url && (
+                        <SocialLink
+                          href={contact.linkedin_url}
+                          label="LinkedIn"
+                          color="text-brand-linkedin"
+                          bg="bg-brand-linkedin/12 border-brand-linkedin/30"
+                        >
+                          in
+                        </SocialLink>
+                      )}
+                      {contact.github_handle && (
+                        <SocialLink
+                          href={`https://github.com/${contact.github_handle}`}
+                          label={`@${contact.github_handle}`}
+                          color="text-white/70"
+                          bg="bg-white/8 border-white/15"
+                        >
+                          <GithubIcon /> @{contact.github_handle}
+                        </SocialLink>
+                      )}
+                      {contact.twitter_handle && (
+                        <SocialLink
+                          href={`https://twitter.com/${contact.twitter_handle}`}
+                          label={`@${contact.twitter_handle}`}
+                          color="text-sky-400"
+                          bg="bg-sky-500/10 border-sky-500/25"
+                        >
+                          𝕏 @{contact.twitter_handle}
+                        </SocialLink>
+                      )}
+                      {contact.slack_handle && (
+                        <SocialLink
+                          href={
+                            contact.slack_id
+                              ? `https://lastrev.slack.com/team/${contact.slack_id}`
+                              : "#"
+                          }
+                          label={`@${contact.slack_handle}`}
+                          color="text-brand-slack"
+                          bg="bg-brand-slack-accent/10 border-brand-slack-accent/25"
+                        >
+                          <SlackIcon /> @{contact.slack_handle}
+                        </SocialLink>
+                      )}
+                      {contact.website && (
+                        <SocialLink
+                          href={contact.website}
+                          label="Website"
+                          color="text-white/60"
+                          bg="bg-white/6 border-white/12"
+                        >
+                          🌐 {contact.website.replace(/^https?:\/\//, "")}
+                        </SocialLink>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {(contact.tags?.length ?? 0) > 0 && (
+                  <div>
+                    <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-2">
+                      Tags
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {contact.tags!.map((tag, i) => (
+                        <Badge
+                          key={i}
+                          className="border-white/15 bg-white/8 text-white/60 text-xs"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {insights && (
+                  <div>
+                    <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-3">
+                      Personality Insights
+                    </h4>
+                    <div className="rounded-xl border border-white/8 bg-white/3 p-4">
+                      <InsightsPanel insights={insights} />
+                    </div>
+                  </div>
+                )}
+
+                {contact.notes && (
+                  <div>
+                    <h4 className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-2">
+                      Notes
+                    </h4>
+                    <p className="text-sm text-white/60 leading-relaxed whitespace-pre-wrap">
+                      {contact.notes}
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap gap-4 pt-2 border-t border-white/8 text-[11px] text-white/25">
+                  {researchedAt && (
+                    <span>Last researched {relDate(researchedAt)}</span>
+                  )}
+                  {contact.source && <span>· Source: {contact.source}</span>}
+                  {contact.created_at && <span>· Added {relDate(contact.created_at)}</span>}
+                </div>
               </div>
-            </div>
+            )}
           </>
         )}
       </DialogContent>
+
+      <Dialog
+        open={confirmDelete}
+        onOpenChange={(v) => !v && !deleting && setConfirmDelete(false)}
+      >
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Delete contact?</DialogTitle>
+          </DialogHeader>
+          <p className="text-sm text-muted-foreground">
+            {contact ? `This will permanently remove ${contact.name}.` : ""}
+          </p>
+          {actionError && (
+            <p role="alert" className="text-xs text-destructive">
+              {actionError}
+            </p>
+          )}
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setConfirmDelete(false)}
+              disabled={deleting}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={deleting}
+            >
+              {deleting ? "Deleting…" : "Delete"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Dialog>
   );
 }
-
-// ── Micro-components ──────────────────────────────────────────────────────────
 
 function DetailRow({
   icon,
@@ -563,8 +703,6 @@ export function ContactTypeBadge({ type }: { type: string }) {
     </span>
   );
 }
-
-// ── SVG Icons ─────────────────────────────────────────────────────────────────
 
 function GithubIcon() {
   return (

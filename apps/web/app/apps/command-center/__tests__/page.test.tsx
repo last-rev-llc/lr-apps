@@ -37,7 +37,6 @@ const EXPECTED_MODULES = [
   { slug: "leads", label: "Leads", icon: "🎯", category: "Sales" },
   { slug: "agents", label: "Agents", icon: "🤖", category: "AI" },
   { slug: "recipes", label: "Recipes", icon: "📋", category: "Ops" },
-  { slug: "users", label: "Users", icon: "👥", category: "Admin" },
   { slug: "crons", label: "Crons", icon: "⏰", category: "Ops" },
   { slug: "gallery", label: "Gallery", icon: "🖼️", category: "Content" },
   { slug: "architecture", label: "Architecture", icon: "🏗️", category: "Dev" },

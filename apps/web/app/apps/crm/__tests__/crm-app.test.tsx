@@ -31,12 +31,18 @@ vi.mock("next/link", () => ({
 
 vi.mock("@repo/db/client", () => ({ createClient: vi.fn(() => ({})) }));
 
-vi.mock("../users/components/contact-detail", () => ({
+vi.mock("../components/contact-detail", () => ({
   ContactDetail: () => null,
   ContactTypeBadge: ({ type }: { type: string }) => <span>{type}</span>,
 }));
 
-import { UsersApp } from "../users/components/users-app";
+vi.mock("../lib/actions", () => ({
+  createContact: vi.fn(),
+  updateContact: vi.fn(),
+  deleteContact: vi.fn(),
+}));
+
+import { CrmApp } from "../components/crm-app";
 
 const FIXTURE_CONTACTS = [
   {
@@ -57,28 +63,45 @@ const FIXTURE_CONTACTS = [
   },
 ];
 
-describe("UsersApp", () => {
-  it("renders empty state when no contacts", () => {
-    renderWithProviders(<UsersApp initialContacts={[]} />);
+describe("CrmApp", () => {
+  it("renders the CRM header (no Contacts emoji)", () => {
+    renderWithProviders(<CrmApp initialContacts={[]} />);
+    expect(screen.getByText("CRM")).toBeInTheDocument();
+    expect(screen.queryByText(/👥/)).toBeNull();
+  });
+
+  it("preserves the {n} contacts · {m} with insights subtitle", () => {
+    renderWithProviders(<CrmApp initialContacts={FIXTURE_CONTACTS} />);
+    expect(screen.getByText(/2 contacts · 0 with insights/)).toBeInTheDocument();
+  });
+
+  it("renders the no-contacts-match empty state when filtered list is empty", () => {
+    renderWithProviders(<CrmApp initialContacts={[]} />);
     expect(screen.getByText("No contacts match")).toBeInTheDocument();
   });
 
-  it("renders contact cards with names", () => {
-    renderWithProviders(<UsersApp initialContacts={FIXTURE_CONTACTS} />);
+  it("renders contact cards with names from a populated list", () => {
+    renderWithProviders(<CrmApp initialContacts={FIXTURE_CONTACTS} />);
     expect(screen.getByText("Alice Johnson")).toBeInTheDocument();
     expect(screen.getByText("Bob Smith")).toBeInTheDocument();
   });
 
-  it("renders type filter buttons", () => {
-    renderWithProviders(<UsersApp initialContacts={FIXTURE_CONTACTS} />);
+  it("renders type filter buttons for each populated type", () => {
+    renderWithProviders(<CrmApp initialContacts={FIXTURE_CONTACTS} />);
     expect(screen.getByText("Team")).toBeInTheDocument();
     expect(screen.getByText("Client")).toBeInTheDocument();
   });
 
   it("shows contact avatar initials", () => {
-    renderWithProviders(<UsersApp initialContacts={FIXTURE_CONTACTS} />);
-    // initials = first char of each name word: "Alice Johnson" → "AJ", "Bob Smith" → "BS"
+    renderWithProviders(<CrmApp initialContacts={FIXTURE_CONTACTS} />);
     expect(screen.getAllByText("AJ").length).toBeGreaterThan(0);
     expect(screen.getAllByText("BS").length).toBeGreaterThan(0);
+  });
+
+  it("renders a + New Contact button", () => {
+    renderWithProviders(<CrmApp initialContacts={[]} />);
+    expect(
+      screen.getByRole("button", { name: /new contact/i }),
+    ).toBeInTheDocument();
   });
 });
