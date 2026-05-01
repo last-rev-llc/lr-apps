@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Button,
   Dialog,
@@ -44,6 +44,11 @@ export function AiCaptionModal({
   const [style, setStyle] = useState("any");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const topicRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (open) topicRef.current?.focus();
+  }, [open]);
 
   function reset() {
     setTopic("");
@@ -110,7 +115,7 @@ export function AiCaptionModal({
             </Label>
             <Input
               id="ai-caption-topic"
-              autoFocus
+              ref={topicRef}
               required
               maxLength={200}
               value={topic}

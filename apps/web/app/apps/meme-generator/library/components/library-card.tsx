@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Button,
@@ -45,6 +45,11 @@ export function LibraryCard({
   const [error, setError] = useState<string | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const titleInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (editing) titleInputRef.current?.focus();
+  }, [editing]);
 
   async function commitTitle() {
     const trimmed = title.trim();
@@ -122,7 +127,7 @@ export function LibraryCard({
         <div className="space-y-1">
           {editing ? (
             <Input
-              autoFocus
+              ref={titleInputRef}
               value={title}
               disabled={pending}
               onChange={(e) => setTitle(e.target.value)}
