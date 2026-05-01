@@ -1,9 +1,8 @@
 // @vitest-environment jsdom
-import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderWithProviders, screen } from "@repo/test-utils";
 
-const { mockBuilder, mockSupabase } = vi.hoisted(() => {
+const { mockSupabase } = vi.hoisted(() => {
   const builder: Record<string, any> = {};
   const chainMethods = ["select", "insert", "update", "delete", "upsert", "eq", "neq", "in", "order", "limit"];
   for (const m of chainMethods) builder[m] = vi.fn().mockReturnValue(builder);

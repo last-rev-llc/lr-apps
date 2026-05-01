@@ -5,7 +5,6 @@ import {
   renderWithProviders,
   screen,
   fireEvent,
-  within,
 } from "@repo/test-utils";
 import { StandupApp } from "../components/standup-app";
 import type { StandupDay } from "../lib/types";

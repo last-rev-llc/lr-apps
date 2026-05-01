@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "summary": "#204 implements the Zod-validated env loader correctly: required vars promoted, cold-start guard wired into apps/web/app/layout.tsx, and per-var rejection tests added. No blocking issues; a few info-level follow-ups noted.",
+  "findings": [
+    {
+      "severity": "info",
+      "description": "AUTH0_BASE_URL / AUTH0_ISSUER_BASE_URL from the issue text are mapped to the codebase's APP_BASE_URL and AUTH0_DOMAIN. The deviation is documented in a comment at the top of env.ts with rationale (avoids refactoring every getAuth0ClientForHost call site).",
+      "fixed": false,
+      "file": "apps/web/lib/env.ts"
+    },
+    {
+      "severity": "info",
+      "description": "Several packages still read process.env directly instead of going through env(): packages/auth/src/auth0-factory.ts, packages/db/src/{server,client,service-role,middleware}.ts, packages/billing/src/{stripe-client,webhook-handler}.ts, and apps/web/app/api/checkout/session/route.ts. They can't import apps/web/lib/env (cross-package). The cold-start guard in layout.tsx still catches missing vars at boot, so this is a follow-up (extract @repo/env), not a defect for #204.",
+      "fixed": false,
+      "file": "packages/auth/src/auth0-factory.ts"
+    },
+    {
+      "severity": "info",
+      "description": "Promoting STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, SUPABASE_SERVICE_ROLE_KEY, AUTH0_CLIENT_ID, AUTH0_CLIENT_SECRET to required means a fresh checkout cannot boot apps/web without all 10 keys present. .env.example documents them and the batched a11y/mobile CI workflows pass them through, but other workflows that import apps/web server modules will need to set the same set. Worth surfacing in CONTRIBUTING.md or onboarding docs.",
+      "fixed": false,
+      "file": "apps/web/app/layout.tsx"
+    }
+  ]
+}

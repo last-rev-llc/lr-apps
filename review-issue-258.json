@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "summary": "Issue #258 work (docs-only DNS/TLS runbook) is on branch agent/issue-258 commit 33b24cf and is functionally complete; current branch agent/issue-217 has no #258-related changes.",
+  "findings": [
+    {
+      "severity": "info",
+      "description": "Review was requested against branch agent/issue-217, which contains analytics work for issues #217-#221 (no DNS/TLS changes). The actual #258 work lives on branch agent/issue-258 (commit 33b24cf), and the diff is exclusively docs/ops/environments.md (+49/-1).",
+      "fixed": false,
+      "file": ""
+    },
+    {
+      "severity": "info",
+      "description": "Issue is operational ('add wildcard cert + DNS record'), not code — actual provisioning happens in Vercel dashboard + DNS provider. The PR delivers a runbook (provisioning steps, CNAME target cname.vercel-dns.com, verification curl, renewal/troubleshooting), which is the deliverable a code change can produce. References ROTATION_HISTORY.md, which exists at docs/ops/ROTATION_HISTORY.md.",
+      "fixed": false,
+      "file": "docs/ops/environments.md"
+    },
+    {
+      "severity": "info",
+      "description": "Documentation correctly notes that wildcards do not traverse a label (i.e. *.lastrev.com does not cover *.apps.lastrev.com), which is the technical justification for the new cert. Env table updated to reflect both apps.lastrev.com and *.apps.lastrev.com on production.",
+      "fixed": false,
+      "file": "docs/ops/environments.md"
+    }
+  ]
+}

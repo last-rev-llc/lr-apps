@@ -171,7 +171,7 @@ export function PersonProfile({ person }: PersonProfileProps) {
   const renderStats = () => {
     if (!person.stats) return null;
     const stats = person.stats;
-    let entries: Array<{ value: string | number; label: string; suffix: string }> = [];
+    let entries: Array<{ value: string | number; label: string; suffix: string }>;
 
     if (stats.proYears !== undefined) {
       entries = PRO_STAT_KEYS

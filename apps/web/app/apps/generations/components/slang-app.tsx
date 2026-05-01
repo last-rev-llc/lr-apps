@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@repo/ui";
 import type { SlangTerm, GenerationConfig } from "../lib/types";
 import { SlangDictionary } from "./slang-dictionary";

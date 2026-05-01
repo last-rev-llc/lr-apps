@@ -1,11 +1,9 @@
 // @vitest-environment jsdom
-import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { createMockSupabase } from "@repo/test-utils";
 import { renderWithProviders, screen } from "@repo/test-utils";
 import type { Site } from "../lib/types";
 
-const { mockBuilder, mockSupabase } = vi.hoisted(() => {
+const { mockSupabase } = vi.hoisted(() => {
   const builder: Record<string, any> = {};
   const chainMethods = ["select", "insert", "update", "delete", "upsert", "eq", "neq", "in", "order", "limit"];
   for (const m of chainMethods) builder[m] = vi.fn().mockReturnValue(builder);
@@ -57,7 +55,7 @@ beforeEach(() => {
 describe("UptimePage", () => {
   describe("status banner", () => {
     it("shows 'All Systems Operational' when all sites are up", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({
           data: [makeSite(), makeSite({ id: "site-2", name: "Docs Site" })],
           error: null,
@@ -71,7 +69,7 @@ describe("UptimePage", () => {
     });
 
     it("shows issue count when some sites are not up", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({
           data: [
             makeSite(),
@@ -91,7 +89,7 @@ describe("UptimePage", () => {
     });
 
     it("shows singular 'System' when exactly one site has issues", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({
           data: [
             makeSite(),
@@ -112,7 +110,7 @@ describe("UptimePage", () => {
 
   describe("site list", () => {
     it("renders site names and URLs", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({
           data: [
             makeSite(),
@@ -132,7 +130,7 @@ describe("UptimePage", () => {
     });
 
     it("renders correct status labels for each status", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({
           data: [
             makeSite({ id: "s1", name: "Site A", status: "up" }),
@@ -152,7 +150,7 @@ describe("UptimePage", () => {
     });
 
     it("renders response time and uptime percentage", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({
           data: [makeSite({ responseTimeMs: 250, uptimePercent: 98.5 })],
           error: null,
@@ -167,7 +165,7 @@ describe("UptimePage", () => {
     });
 
     it("shows Unknown label for unrecognized status", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({
           data: [makeSite({ status: "maintenance" as Site["status"] })],
           error: null,
@@ -187,7 +185,7 @@ describe("UptimePage", () => {
         { date: "2025-04-07", status: "up" as const, responseTimeMs: 100 },
         { date: "2025-04-06", status: "down" as const },
       ];
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({
           data: [makeSite({ history })],
           error: null,
@@ -211,7 +209,7 @@ describe("UptimePage", () => {
         { date: "2025-04-06", status: "down" as const },
         { date: "2025-04-05", status: "degraded" as const },
       ];
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({
           data: [makeSite({ history })],
           error: null,
@@ -230,7 +228,7 @@ describe("UptimePage", () => {
     });
 
     it("renders no bars when site has no history", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({
           data: [makeSite({ history: [] })],
           error: null,
@@ -248,7 +246,7 @@ describe("UptimePage", () => {
 
   describe("empty state", () => {
     it("renders empty state when no sites returned", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({ data: [], error: null }).then(resolve),
       );
 
@@ -261,7 +259,7 @@ describe("UptimePage", () => {
     });
 
     it("still shows All Systems Operational banner with no sites", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({ data: [], error: null }).then(resolve),
       );
 
@@ -274,7 +272,7 @@ describe("UptimePage", () => {
 
   describe("error handling", () => {
     it("renders empty state when supabase returns an error", async () => {
-      mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+      mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
         Promise.resolve({ data: null, error: { message: "DB error" } }).then(resolve),
       );
 

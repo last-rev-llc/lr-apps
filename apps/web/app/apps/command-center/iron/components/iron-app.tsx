@@ -56,9 +56,7 @@ const STATUS_STYLE = {
   },
 };
 
-interface IronAppProps {}
-
-export function IronApp({}: IronAppProps) {
+export function IronApp() {
   const allUp = INFRA_SERVICES.every((s) => s.status === "up");
 
   return (

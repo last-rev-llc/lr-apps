@@ -41,17 +41,20 @@ jobs:
       - name: Run accessibility audit
         run: pnpm test:a11y
         env:
-          AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
-          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
-          AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
-          AUTH0_SECRET: ${{ secrets.AUTH0_SECRET }}
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
-          APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+          # Fall back to non-empty mock values so the dev server can boot when
+          # repo secrets are unset. The audit only inspects rendered HTML, so
+          # bogus keys are fine — auth-gated routes simply skip per the spec.
+          AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN || 'mock.auth0.com' }}
+          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID || 'mock-client-id' }}
+          AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET || 'mock-client-secret' }}
+          AUTH0_SECRET: ${{ secrets.AUTH0_SECRET || 'mock-secret-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://mock.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'mock-anon-key' }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || 'mock-service-role-key' }}
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_mock' }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_mock' }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET || 'whsec_mock' }}
+          APP_BASE_URL: ${{ secrets.APP_BASE_URL || 'http://localhost:3000' }}
           APP_SELF_ENROLL_SLUGS: "command-center,standup"
 
       - name: Upload axe reports

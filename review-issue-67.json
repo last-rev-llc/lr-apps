@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "summary": "CI pipeline (#67) is functionally complete and merged in main (PR #236). No critical or blocking issues; only minor efficiency/clarity notes.",
+  "findings": [
+    {
+      "severity": "info",
+      "description": "playwright.config.ts comment (line 39-41) claims 'CI runs next build + next start' but the webServer command is hardcoded to 'pnpm dev'. Comment is misleading; behavior works.",
+      "fixed": false,
+      "file": "apps/web/playwright.config.ts"
+    },
+    {
+      "severity": "info",
+      "description": "Coverage step duplicates work: line 64 runs 'pnpm test' (all workspace tests), then line 67 runs 'pnpm --filter @repo/web run test -- --coverage' which re-runs the web tests. Could be consolidated to a single coverage-enabled run.",
+      "fixed": false,
+      "file": ".github/workflows/ci.yml"
+    },
+    {
+      "severity": "info",
+      "description": "No 'pnpm build' step — CI verifies lint/typecheck/test but never the production Next.js build. tsc --noEmit catches most issues, but build-time errors (next-config validation, MDX, server-component constraints) would only surface on Vercel.",
+      "fixed": false,
+      "file": ".github/workflows/ci.yml"
+    },
+    {
+      "severity": "info",
+      "description": "node_modules cache key is based only on lockfile hash and caches workspace node_modules folders. For pnpm a more effective strategy is caching the pnpm store directory (~/.local/share/pnpm/store or 'pnpm config get store-dir'). Works as-is, just slower restores on cache miss.",
+      "fixed": false,
+      "file": ".github/workflows/ci.yml"
+    },
+    {
+      "severity": "info",
+      "description": "E2E job gates on 'github.ref == refs/heads/main && github.event_name == push' — PRs never run E2E. Deliberate trade-off (faster PRs) but breakages only surface post-merge.",
+      "fixed": false,
+      "file": ".github/workflows/ci.yml"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ vi.mock("next/link", () => ({
 // ── Mock @repo/ui ──────────────────────────────────────────────────────────
 
 vi.mock("@repo/ui", () => ({
-  Button: ({ children, asChild, className, variant }: any) => (
+  Button: ({ children, className }: any) => (
     <button className={className ?? ""}>{children}</button>
   ),
   Card: ({ children, className }: any) => (
