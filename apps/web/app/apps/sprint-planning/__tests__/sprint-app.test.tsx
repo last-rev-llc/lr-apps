@@ -57,10 +57,10 @@ const mockSprintData: SprintData = {
   ],
 };
 
-// Dates relative to 2026-04-09 (today) to pass the default 30-day filter
-const TODAY = new Date("2026-04-09");
+// Dates relative to real "today" so the component's wall-clock filters always agree
+// with the fixture math, regardless of when the suite runs.
 function daysAgo(n: number) {
-  const d = new Date(TODAY);
+  const d = new Date();
   d.setDate(d.getDate() - n);
   return d.toISOString().slice(0, 10);
 }
