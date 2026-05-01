@@ -306,9 +306,36 @@ One bundled PR is fine here — each piece is small, the surfaces are tightly co
 11. Add the redirect stub at `command-center/users/page.tsx`.
 12. Run `pnpm lint` (catches `app-registry` + lib-listing drift, migration pairs, token audit). Run `pnpm test`.
 
+## Live schema audit (2026-05-01)
+
+Ran `pnpm tsx scripts/audit-contacts-schema.ts --json` against the live Supabase project (`lregiwsovpmljxjvrrsc.supabase.co`). The PostgREST OpenAPI document does not expose a `contacts` definition — i.e. **the live `contacts` table does not currently exist** at the project we audited.
+
+```
+Contacts schema audit — table found: no
+```
+
+```json
+{
+  "table": "contacts",
+  "found": false,
+  "columns": [],
+  "summary": { "ok": 0, "drift": 0, "missing": 0, "extra": 0 }
+}
+```
+
+Reconciliation outcome:
+
+- `Δ` drift: 0 — nothing to reconcile.
+- `✖` missing in live: 0 — there is no live shape, so there are no per-column gaps to triage.
+- `?` extra in live: 0 — same reason.
+
+Conclusion: the planning assumption that "the table predates this repo" did not hold for this Supabase project. The migration in #331 will create the table from scratch. Because the proposed up-migration is `create table if not exists` with `add column if not exists` semantics for indexes / policies / triggers, it remains safe to apply against a future environment where the table already exists — that is the point of the audit script, which should be re-run before applying to a different environment.
+
+Once the migration has been applied locally (or to any environment where the table now exists), re-run the audit. With `EXPECTED_COLUMNS` matching the migration DDL exactly, the next run should report all `✓` and exit 0.
+
 ## Open items / risks
 
-- **Live schema audit.** Run `scripts/audit-contacts-schema.ts` and resolve all drift/missing/extra columns before writing the migration.
+- **Live schema audit.** Run `scripts/audit-contacts-schema.ts` and resolve all drift/missing/extra columns before writing the migration. **Done — see "Live schema audit" section above.**
 - **Existing insights writer.** Identify and disable whatever currently writes to `contacts.insights` / `contacts.last_researched_at` so the new endpoint isn't fighting it.
 - **Insights prompt.** v0 prompt is a placeholder — the user will provide more relationship-specific framing later. The schema is the contract; prompt wording can iterate without changing the API.
 - **Permission name.** `admin` is the app-level permission slot; if `crm:admin` collides with anything in `app-permissions` table, pick a more specific name.
