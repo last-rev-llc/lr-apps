@@ -1,0 +1,137 @@
+{
+  "name": "session/037-read-only-viewer-triage",
+  "branch": "session/037-read-only-viewer-triage",
+  "completed": "2026-05-01T01:01:51.022Z",
+  "results": [
+    {
+      "issueNum": 466,
+      "title": "Confirm Supabase triage target and resolve exec_sql RPC vs multi-roundtrip fallback",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/643",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 405,
+      "filesChanged": 17
+    },
+    {
+      "issueNum": 471,
+      "title": "Add scripts/triage-readonly-viewers.ts",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/643",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 405,
+      "filesChanged": 17
+    },
+    {
+      "issueNum": 476,
+      "title": "Run triage and produce annotated report at docs/superpowers/triage/2026-04-30-readonly-viewers.md",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/643",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 405,
+      "filesChanged": 17
+    },
+    {
+      "issueNum": 481,
+      "title": "Process triage outcome — Accounts (clients table)",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/643",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 405,
+      "filesChanged": 17
+    },
+    {
+      "issueNum": 487,
+      "title": "Process triage outcome — Uptime (sites table)",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/643",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 405,
+      "filesChanged": 17
+    },
+    {
+      "issueNum": 493,
+      "title": "Process triage outcome — Standup (days table)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/650",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 190,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 499,
+      "title": "Process triage outcome — Sprint Planning (daily_digests, daily_overviews, weekly_summaries)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/650",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 190,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 505,
+      "title": "Process triage outcome — Summaries (summaries_zoom, summaries_slack, summaries_jira)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/650",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 190,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 512,
+      "title": "Process triage outcome — Daily Updates (daily_updates, daily_update_profiles)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/650",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 190,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 517,
+      "title": "Process triage outcome — Meeting Summaries (zoom_transcripts table)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/650",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 190,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 523,
+      "title": "Process triage outcome — Sales (leads table, external-writer perspective)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/653",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 366,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 530,
+      "title": "Process triage outcome — Lighthouse audits (lighthouse_audits table)",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/653",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 366,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 535,
+      "title": "Delete scripts/triage-readonly-viewers.ts after report and follow-ups land",
+      "status": "success",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/653",
+      "testsPassing": true,
+      "verifyPassing": true,
+      "duration": 366,
+      "filesChanged": 3
+    }
+  ]
+}

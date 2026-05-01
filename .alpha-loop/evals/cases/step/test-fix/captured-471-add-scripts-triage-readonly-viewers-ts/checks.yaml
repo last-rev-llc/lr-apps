@@ -1,0 +1,10 @@
+type: step
+step: test-fix
+eval_method: pending
+status: needs-annotation
+source: auto-captured
+captured_from:
+  issue: 471
+  session: session/037-read-only-viewer-triage
+  date: 2026-05-01
+checks: []

@@ -39,7 +39,10 @@ const { mockDbBuilder, mockDbClient } = vi.hoisted(() => {
     Promise.resolve({ data: null, error: null }).then(resolve),
   );
 
-  const client = { from: vi.fn().mockReturnValue(builder) };
+  const client = {
+    from: vi.fn().mockReturnValue(builder),
+    rpc: vi.fn().mockResolvedValue({ data: null, error: null }),
+  };
   return { mockDbBuilder: builder, mockDbClient: client };
 });
 

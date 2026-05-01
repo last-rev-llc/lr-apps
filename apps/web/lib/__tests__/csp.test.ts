@@ -37,6 +37,20 @@ describe("buildCspHeader", () => {
     expect(scriptSrc).toContain("'unsafe-inline'");
   });
 
+  it("allows 'unsafe-eval' for script-src in dev (Turbopack/HMR/React DevTools)", () => {
+    vi.stubEnv("NODE_ENV", "development");
+    const header = buildCspHeader({ nonce: "abc123" });
+    const scriptSrc = header.split(";").find((d) => d.trim().startsWith("script-src"));
+    expect(scriptSrc).toContain("'unsafe-eval'");
+  });
+
+  it("blocks 'unsafe-eval' for script-src in production", () => {
+    vi.stubEnv("NODE_ENV", "production");
+    const header = buildCspHeader({ nonce: "abc123" });
+    const scriptSrc = header.split(";").find((d) => d.trim().startsWith("script-src"));
+    expect(scriptSrc).not.toContain("'unsafe-eval'");
+  });
+
   it("uses nonce + 'strict-dynamic' for script-src when nonce is provided", () => {
     vi.stubEnv("NODE_ENV", "production");
     const header = buildCspHeader({ nonce: "abc123" });

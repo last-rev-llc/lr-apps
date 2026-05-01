@@ -1,0 +1,8 @@
+id: captured-471-add-scripts-triage-readonly-viewers-ts
+description: Add scripts/triage-readonly-viewers.ts
+tags: []
+source: auto-captured
+captured_from:
+  issue: 471
+  session: session/037-read-only-viewer-triage
+  date: 2026-05-01

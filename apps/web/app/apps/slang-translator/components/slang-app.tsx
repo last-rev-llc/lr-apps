@@ -553,7 +553,7 @@ function buildQuiz(allSlang: SlangEntry[]): QuizQuestion[] {
     [...arr].sort(() => Math.random() - 0.5);
 
   // Alpha → X questions
-  for (const s of shuffle(genAlpha).slice(0, 5)) {
+  for (const s of shuffle(genAlpha).slice(0, 8)) {
     const correct = GEN_X_MAP[s.id];
     const wrongs = shuffle(
       Object.values(GEN_X_MAP).filter((v) => v !== correct)
@@ -567,7 +567,7 @@ function buildQuiz(allSlang: SlangEntry[]): QuizQuestion[] {
   }
 
   // X → Alpha questions
-  for (const s of shuffle(genX).slice(0, 5)) {
+  for (const s of shuffle(genX).slice(0, 8)) {
     const correct = s.equivalents!.genAlpha!;
     const others = genX
       .filter((x) => x.id !== s.id && x.equivalents?.genAlpha)
@@ -592,7 +592,7 @@ function buildQuiz(allSlang: SlangEntry[]): QuizQuestion[] {
     });
   }
 
-  return shuffle(pool).slice(0, 10);
+  return shuffle(pool).slice(0, 15);
 }
 
 function QuizTab({ allSlang }: { allSlang: SlangEntry[] }) {
