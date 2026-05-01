@@ -46,7 +46,6 @@ const EXPECTED_MODULES = [
   { slug: "contentful", label: "Contentful", icon: "📦", category: "Dev" },
   { slug: "iron", label: "Iron", icon: "🔩", category: "Dev" },
   { slug: "meeting-summaries", label: "Meeting Summaries", icon: "📝", category: "Ops" },
-  { slug: "meme-generator", label: "Meme Generator", icon: "😂", category: "Fun" },
   { slug: "pr-review", label: "PR Review", icon: "🔍", category: "Dev" },
   { slug: "rizz-guide", label: "Rizz Guide", icon: "✨", category: "Fun" },
   { slug: "shopping-list", label: "Shopping List", icon: "🛒", category: "Personal" },

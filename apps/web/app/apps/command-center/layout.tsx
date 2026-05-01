@@ -23,7 +23,6 @@ const MODULES = [
   { slug: "contentful", label: "Contentful", icon: "📦" },
   { slug: "iron", label: "Iron", icon: "🔩" },
   { slug: "meeting-summaries", label: "Meeting Summaries", icon: "📝" },
-  { slug: "meme-generator", label: "Meme Generator", icon: "😂" },
   { slug: "pr-review", label: "PR Review", icon: "🔍" },
   { slug: "rizz-guide", label: "Rizz Guide", icon: "✨" },
   { slug: "shopping-list", label: "Shopping List", icon: "🛒" },
