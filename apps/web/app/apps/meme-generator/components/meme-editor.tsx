@@ -7,8 +7,18 @@ import {
   useRef,
   useState,
 } from "react";
-import { Button, Card, CardContent, Input, Label } from "@repo/ui";
+import {
+  Button,
+  Card,
+  CardContent,
+  Dialog,
+  DialogContent,
+  Input,
+  Label,
+} from "@repo/ui";
+import UpgradePrompt from "@/components/UpgradePrompt";
 import { TemplateGallery } from "./template-gallery";
+import { AiCaptionModal } from "./ai-caption-modal";
 import { renderMeme } from "../lib/render-meme";
 import { loadTemplateImage } from "../lib/image-cache";
 import { publicMemeTemplateUrl } from "../lib/template-thumbnail";
@@ -17,6 +27,7 @@ import type { MemeTemplate } from "../lib/types";
 export interface MemeEditorProps {
   templates: MemeTemplate[];
   initialTemplateId?: string;
+  canUseAiCaption?: boolean;
 }
 
 const FONT_SIZE_MIN = 12;
@@ -36,7 +47,11 @@ function clampFontSize(value: number): number {
   return Math.max(FONT_SIZE_MIN, Math.min(FONT_SIZE_MAX, value));
 }
 
-export function MemeEditor({ templates, initialTemplateId }: MemeEditorProps) {
+export function MemeEditor({
+  templates,
+  initialTemplateId,
+  canUseAiCaption = false,
+}: MemeEditorProps) {
   const [selectedId, setSelectedId] = useState<string | undefined>(
     initialTemplateId ?? templates[0]?.id,
   );
@@ -51,6 +66,8 @@ export function MemeEditor({ templates, initialTemplateId }: MemeEditorProps) {
   );
   const [title, setTitle] = useState("");
   const [fontSize, setFontSize] = useState<number>(FONT_SIZE_DEFAULT);
+  const [aiOpen, setAiOpen] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -127,6 +144,30 @@ export function MemeEditor({ templates, initialTemplateId }: MemeEditorProps) {
               />
             </div>
 
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                data-testid="ai-caption-button"
+                aria-label="Generate caption with AI"
+                onClick={() => {
+                  if (canUseAiCaption) {
+                    setAiOpen(true);
+                  } else {
+                    setUpgradeOpen(true);
+                  }
+                }}
+              >
+                {canUseAiCaption ? null : (
+                  <span aria-hidden className="mr-1">
+                    🔒
+                  </span>
+                )}
+                Generate caption with AI
+              </Button>
+            </div>
+
             {selected.textZones.map((zone) => {
               const inputId = `zone-${zone.id}`;
               return (
@@ -184,6 +225,26 @@ export function MemeEditor({ templates, initialTemplateId }: MemeEditorProps) {
           </CardContent>
         </Card>
       )}
+
+      {selected && canUseAiCaption && (
+        <AiCaptionModal
+          open={aiOpen}
+          onOpenChange={setAiOpen}
+          templateId={selected.id}
+          onCaptions={(captions) =>
+            setZoneText((prev) => ({ ...prev, ...captions }))
+          }
+        />
+      )}
+
+      <Dialog
+        open={upgradeOpen}
+        onOpenChange={(next) => setUpgradeOpen(next)}
+      >
+        <DialogContent>
+          <UpgradePrompt requiredTier="pro" />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

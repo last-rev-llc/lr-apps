@@ -2,6 +2,11 @@
 import React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
+
+vi.mock("../actions", () => ({
+  generateMemeCaption: vi.fn(),
+}));
+
 import { MemeEditor } from "../components/meme-editor";
 import type { MemeTemplate } from "../lib/types";
 
@@ -229,6 +234,26 @@ describe("MemeEditor", () => {
     expect(() =>
       renderWithProviders(<MemeEditor templates={[template]} />),
     ).not.toThrow();
+  });
+
+  it("renders the AI caption button with a lock icon when canUseAiCaption is false", () => {
+    const template = makeTemplate({});
+    renderWithProviders(
+      <MemeEditor templates={[template]} canUseAiCaption={false} />,
+    );
+    const btn = screen.getByTestId("ai-caption-button");
+    expect(btn).toBeTruthy();
+    // 🔒 lock icon present for free-tier users
+    expect(btn.textContent).toContain("🔒");
+  });
+
+  it("renders the AI caption button without a lock icon when canUseAiCaption is true", () => {
+    const template = makeTemplate({});
+    renderWithProviders(
+      <MemeEditor templates={[template]} canUseAiCaption={true} />,
+    );
+    const btn = screen.getByTestId("ai-caption-button");
+    expect(btn.textContent).not.toContain("🔒");
   });
 });
 
