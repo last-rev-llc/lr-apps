@@ -16,6 +16,7 @@
     "test:a11y": "pnpm --filter @repo/web test:a11y",
     "create-app": "node --experimental-strip-types scripts/create-app.ts",
     "audit:tokens": "npx tsx scripts/audit-tokens.ts",
+    "audit:contacts": "npx tsx scripts/audit-contacts-schema.ts",
     "db:check-migration-pairs": "node --experimental-strip-types scripts/check-migration-pairs.ts",
     "db:rollback": "node --experimental-strip-types scripts/db-rollback.ts",
     "db:seed": "node --experimental-strip-types scripts/db-seed.ts",
