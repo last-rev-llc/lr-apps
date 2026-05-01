@@ -5,6 +5,22 @@ import { renderWithProviders, screen, fireEvent } from "@repo/test-utils";
 
 vi.mock("../actions", () => ({
   generateMemeCaption: vi.fn(),
+  saveMeme: vi.fn().mockResolvedValue({
+    ok: true,
+    meme: {
+      id: "new-id",
+      user_id: "u",
+      title: "t",
+      templateId: "t-1",
+      textZones: {},
+      fontSize: 48,
+      storagePath: "u/x.png",
+      widthPx: 600,
+      heightPx: 450,
+      createdAt: "2026-04-30T00:00:00Z",
+      updatedAt: "2026-04-30T00:00:00Z",
+    },
+  }),
 }));
 
 import { MemeEditor } from "../components/meme-editor";
@@ -100,7 +116,7 @@ describe("MemeEditor", () => {
   it("requires a non-empty title before Save can be enabled", () => {
     const template = makeTemplate({});
     renderWithProviders(<MemeEditor templates={[template]} />);
-    const saveBtn = screen.getByTestId("save-meme-button") as HTMLButtonElement;
+    const saveBtn = screen.getByTestId("action-save") as HTMLButtonElement;
 
     expect(saveBtn.disabled).toBe(true);
 
@@ -254,6 +270,21 @@ describe("MemeEditor", () => {
     );
     const btn = screen.getByTestId("ai-caption-button");
     expect(btn.textContent).not.toContain("🔒");
+  });
+
+  it("renders the quota indicator with the provided count, limit, and tier", () => {
+    const template = makeTemplate({});
+    renderWithProviders(
+      <MemeEditor
+        templates={[template]}
+        tier="free"
+        quota={5}
+        initialMemeCount={3}
+      />,
+    );
+    const indicator = screen.getByTestId("quota-indicator");
+    expect(indicator.textContent).toContain("3/5");
+    expect(indicator.textContent).toContain("Free");
   });
 });
 

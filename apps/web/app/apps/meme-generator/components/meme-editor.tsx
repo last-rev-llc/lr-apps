@@ -7,27 +7,38 @@ import {
   useRef,
   useState,
 } from "react";
+import Link from "next/link";
 import {
   Button,
   Card,
   CardContent,
   Dialog,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
   Input,
   Label,
 } from "@repo/ui";
 import UpgradePrompt from "@/components/UpgradePrompt";
+import type { Tier } from "@repo/billing";
 import { TemplateGallery } from "./template-gallery";
 import { AiCaptionModal } from "./ai-caption-modal";
+import { ActionBar } from "./action-bar";
+import { QuotaIndicator } from "./quota-indicator";
+import { saveMeme } from "../actions";
 import { renderMeme } from "../lib/render-meme";
 import { loadTemplateImage } from "../lib/image-cache";
 import { publicMemeTemplateUrl } from "../lib/template-thumbnail";
+import { quotaUpgradeCopyForTier } from "../lib/upgrade-copy";
 import type { MemeTemplate } from "../lib/types";
 
 export interface MemeEditorProps {
   templates: MemeTemplate[];
   initialTemplateId?: string;
   canUseAiCaption?: boolean;
+  tier?: Tier;
+  quota?: number;
+  initialMemeCount?: number;
 }
 
 const FONT_SIZE_MIN = 12;
@@ -47,10 +58,47 @@ function clampFontSize(value: number): number {
   return Math.max(FONT_SIZE_MIN, Math.min(FONT_SIZE_MAX, value));
 }
 
+function downloadCanvas(canvas: HTMLCanvasElement, filename: string) {
+  const link = document.createElement("a");
+  link.download = filename;
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+function copyCanvasToClipboard(canvas: HTMLCanvasElement): Promise<void> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error("Failed to capture canvas"));
+        return;
+      }
+      navigator.clipboard
+        .write([new ClipboardItem({ "image/png": blob })])
+        .then(() => resolve())
+        .catch(reject);
+    }, "image/png");
+  });
+}
+
+function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        reject(new Error("Failed to encode canvas"));
+        return;
+      }
+      resolve(blob);
+    }, "image/png");
+  });
+}
+
 export function MemeEditor({
   templates,
   initialTemplateId,
   canUseAiCaption = false,
+  tier = "free",
+  quota,
+  initialMemeCount = 0,
 }: MemeEditorProps) {
   const [selectedId, setSelectedId] = useState<string | undefined>(
     initialTemplateId ?? templates[0]?.id,
@@ -67,16 +115,19 @@ export function MemeEditor({
   const [title, setTitle] = useState("");
   const [fontSize, setFontSize] = useState<number>(FONT_SIZE_DEFAULT);
   const [aiOpen, setAiOpen] = useState(false);
-  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [upgradeAiOpen, setUpgradeAiOpen] = useState(false);
+  const [memeCount, setMemeCount] = useState(initialMemeCount);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [quotaError, setQuotaError] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const effectiveQuota = quota ?? Number.POSITIVE_INFINITY;
 
   function onSelect(templateId: string) {
     const next = templates.find((t) => t.id === templateId);
     if (!next) return;
     setSelectedId(templateId);
-    // Resetting zones to the new template's defaults — zone ids may differ
-    // between templates so a per-template seed is correct, not a merge.
     setZoneText(defaultZoneText(next));
   }
 
@@ -112,6 +163,53 @@ export function MemeEditor({
   }, [drawMeme]);
 
   const titleIsValid = title.trim().length > 0;
+
+  async function handleSave() {
+    const canvas = canvasRef.current;
+    if (!canvas || !selected || !titleIsValid) return;
+    setSaving(true);
+    setSaveError(null);
+    try {
+      const blob = await canvasToBlob(canvas);
+      const fd = new FormData();
+      fd.set("title", title.trim());
+      fd.set("templateId", selected.id);
+      fd.set("textZones", JSON.stringify(zoneText));
+      fd.set("fontSize", String(fontSize));
+      fd.set("file", blob, "meme.png");
+      const result = await saveMeme(fd);
+      if (!result.ok) {
+        setSaveError(result.error || "Failed to save meme");
+        return;
+      }
+      setMemeCount((c) => c + 1);
+    } catch (err) {
+      const e = err as { name?: string; message?: string };
+      if (e?.name === "QuotaExceededError") {
+        setQuotaError(true);
+        return;
+      }
+      setSaveError(e?.message || "Failed to save meme");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function handleDownload() {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    downloadCanvas(canvas, `${title.trim() || "meme"}.png`);
+  }
+
+  function handleCopy() {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    void copyCanvasToClipboard(canvas).catch((err) => {
+      setSaveError(err?.message || "Failed to copy");
+    });
+  }
+
+  const quotaCopy = quotaUpgradeCopyForTier(tier);
 
   return (
     <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
@@ -155,7 +253,7 @@ export function MemeEditor({
                   if (canUseAiCaption) {
                     setAiOpen(true);
                   } else {
-                    setUpgradeOpen(true);
+                    setUpgradeAiOpen(true);
                   }
                 }}
               >
@@ -212,16 +310,35 @@ export function MemeEditor({
               </div>
             </div>
 
-            <div className="flex justify-end">
-              <Button
-                type="button"
-                disabled={!titleIsValid}
-                aria-disabled={!titleIsValid}
-                data-testid="save-meme-button"
+            {saveError && (
+              <p
+                role="alert"
+                data-testid="save-error"
+                className="text-sm text-destructive"
               >
-                Save
-              </Button>
+                {saveError}
+              </p>
+            )}
+
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              {quota !== undefined ? (
+                <QuotaIndicator
+                  count={memeCount}
+                  limit={quota}
+                  tier={tier}
+                />
+              ) : (
+                <span />
+              )}
+              <ActionBar
+                onSave={handleSave}
+                onDownload={handleDownload}
+                onCopy={handleCopy}
+                saveDisabled={!titleIsValid || memeCount >= effectiveQuota}
+                saving={saving}
+              />
             </div>
+
           </CardContent>
         </Card>
       )}
@@ -237,12 +354,38 @@ export function MemeEditor({
         />
       )}
 
-      <Dialog
-        open={upgradeOpen}
-        onOpenChange={(next) => setUpgradeOpen(next)}
-      >
+      <Dialog open={upgradeAiOpen} onOpenChange={setUpgradeAiOpen}>
         <DialogContent>
           <UpgradePrompt requiredTier="pro" />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={quotaError}
+        onOpenChange={(next) => setQuotaError(next)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle data-testid="quota-error-title">
+              {quotaCopy.title}
+            </DialogTitle>
+          </DialogHeader>
+          <p
+            data-testid="quota-error-description"
+            className="text-sm text-muted-foreground"
+          >
+            {quotaCopy.description}
+          </p>
+          {quotaCopy.ctaHref && quotaCopy.ctaLabel && (
+            <div className="flex justify-end">
+              <Link
+                href={quotaCopy.ctaHref}
+                className="inline-block px-4 py-2 bg-accent text-accent-foreground rounded-md text-sm font-semibold"
+              >
+                {quotaCopy.ctaLabel}
+              </Link>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
