@@ -2,6 +2,23 @@
 
 You are implementing a GitHub issue in the lr-apps monorepo. Follow these instructions precisely.
 
+## Step 0: Issue Applicability Precheck (RUN FIRST, BEFORE PLANNING)
+
+**Before any planning or implementation, validate that this issue can be implemented in this repo.** Five consecutive runs (#1011, #1012, #1013, #1014, #1015) wasted 30+ minutes of compute and produced misleading `status=success` reports because issues referenced paths from a different project (`docker/workspace-init.sh`, `docker/entrypoint.sh`, `dashboard/spa/src/...`, `dashboard/server/__tests__/...`) that do not exist in lr-apps.
+
+**Required precheck:**
+1. Extract every file path mentioned in the issue body (acceptance criteria, code blocks, line references like `lines 976/1076 of docker/workspace-init.sh`).
+2. For each path, run `ls <path>` or `Glob <pattern>`. If the parent directory also doesn't exist (e.g., `docker/`, `dashboard/`), this is a strong cross-repo signal.
+3. If **none** of the referenced paths exist AND their parent directories don't exist, **HALT immediately**:
+   - Do NOT enter the implementation loop.
+   - Do NOT make unrelated edits to CLAUDE.md, workflows, or other apps.
+   - Do NOT commit anything.
+   - Report `status: blocked` with reason `wrong_repo` and list the missing paths.
+   - Exit. Do not produce a diff.
+4. If **some** referenced paths exist (the issue is partially applicable), proceed with planning but explicitly flag the missing paths in your output and scope the work to only the existing paths.
+
+This precheck has no false-positive cost: if paths exist, you proceed normally. If they don't, the failure mode without this check is shipping unrelated work under a misleading branch name (e.g., `agent/issue-1014` containing #276/#277/#278 SSL monitoring work).
+
 ## Scope Discipline (CRITICAL)
 
 **Only modify files directly required by this issue's acceptance criteria.** This is the single most important rule — scope creep was flagged in 15+ of 56 runs.
@@ -48,6 +65,23 @@ Before committing, re-read the issue's acceptance criteria and ask: **"Does my d
 ### For all issues:
 1. Read the acceptance criteria carefully. Each one must be explicitly met or explicitly flagged as blocked.
 2. Check for existing patterns in the codebase (e.g., how other apps handle the same task).
+
+## Pre-existing Test Failures vs. Regressions (CRITICAL)
+
+When `pnpm test` fails, distinguish failures **you caused** from failures that **already existed on `main`** before you touched anything. Issues #471, #481, and #487 all reported `status: failure` with **0 test-fix retries** because two pre-existing sprint-planning Archive tests (`getByText("Weekly")` matches `"Weekly Summaries"` button) blocked the run — but those tests had nothing to do with the issue scope (triage script, accounts bucket, Uptime work). The agent neither fixed them, skipped them with explanation, nor identified them as pre-existing.
+
+**When a test fails:**
+1. **First, determine ownership.** Check whether the failing test exercises code your diff touched: `git diff --name-only origin/main...HEAD` and cross-reference with the failing test file's imports. If the failing test imports a module you didn't change and asserts behavior you didn't touch, it is most likely pre-existing.
+2. **Verify on origin/main.** Run the same failing test against the unmodified base branch:
+   ```bash
+   git stash && git checkout origin/main -- <failing-test-file>
+   pnpm --filter @repo/web test -- --run <failing-test-file>
+   ```
+   If it fails on `origin/main` too, it is pre-existing — restore your changes and proceed.
+3. **For pre-existing failures:** Document them in the PR description under "Pre-existing test failures (not caused by this PR)" with the test file, test name, and a one-line note that they exist on `main`. Do not attempt to fix them in this PR (that would be scope creep). Do not silently report `status: failure` — the report should be `status: success_with_pre_existing_failures` or include explicit notes so the orchestrator doesn't treat them as your regression.
+4. **For genuine regressions you introduced:** Fix them. Do not commit code that breaks tests you caused to break.
+
+The sprint-planning `"Weekly"` failure has now blocked 3+ unrelated runs over multiple sessions. If you encounter it (or any test that fails the same way across unrelated PRs), flag it explicitly so a follow-up issue can fix the test fixture rather than letting it gate every future run.
 
 ## Implementation Rules
 
@@ -121,10 +155,11 @@ If prior runs produced `review-issue-*.json` files that are present in the repo,
 
 ## Pre-Commit Checklist
 
+0. **Issue applicability** (Step 0): all referenced paths exist in this repo; if not, you should have halted with `status: blocked` and not reached this checklist.
 1. `git diff --name-only` — every file must be in scope for this issue. Run `git checkout -- <file>` on any that aren't.
 2. **Primary deliverable check**: for each named artifact in the acceptance criteria (migration file, index name, function, route), `grep`/`ls` to confirm it exists in the diff.
 3. `pnpm build` passes
-4. `pnpm test` passes (or `pnpm --filter @repo/web test -- --run`)
+4. `pnpm test` passes (or `pnpm --filter @repo/web test -- --run`). For any failing test, classify as pre-existing (verify on `origin/main`) or regression (you caused it). Document pre-existing failures in PR description; fix regressions before commit.
 5. No unrelated files staged (check for .env.compose, next-env.d.ts, test files for other apps)
 6. Every acceptance criterion is either met or explicitly flagged as blocked with a reason
 7. No speculative/dead code — every new component or function must be used by this issue's changes
@@ -147,6 +182,8 @@ If prior runs produced `review-issue-*.json` files that are present in the repo,
 3. Suggest a follow-up action
 
 **Never silently skip an acceptance criterion.** Never rationalize that a criterion doesn't apply. If it's listed, it must be addressed. This was the cause of 3 of the 4 failures across 56 runs.
+
+**Never report `status: success` when no acceptance criteria were met.** If the issue was unimplementable in this repo (cross-repo, missing paths) or you produced no diff against the named artifacts, report `status: blocked` with a clear reason. A `success` flag on an empty/unrelated diff corrupts metrics and learning logs (#1011–#1015 all shipped this exact pattern).
 
 ## Commit Message Format
 
