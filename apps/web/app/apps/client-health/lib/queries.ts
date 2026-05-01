@@ -53,8 +53,12 @@ export async function getAlertSettings(userId: string): Promise<AlertSettings> {
 
 /**
  * Lists the user's alerts most-recent-first, capped at `limit` rows.
- * Joins client name from `client_sites` since `client_health_alerts.client_id`
- * is a free-form id and `clients` table is not in the generated type union.
+ * Joins client name from `public.clients` via the alert's `clientId` FK.
+ *
+ * Column names match the migration schema (20260429e_client_health_alerts.sql,
+ * 20260429b_client_sites.sql, 20260429a_clients.sql): camelCase columns are
+ * quoted in DDL and surfaced through PostgREST under the same case-sensitive
+ * names.
  */
 export async function listAlertsForUser(
   userId: string,
@@ -64,7 +68,7 @@ export async function listAlertsForUser(
   const { data, error } = await db
     .from("client_health_alerts")
     .select(
-      "id, type, payload, client_id, deliveredAt, acknowledgedAt, createdAt",
+      "id, type, severity, title, message, clientId, deliveredAt, acknowledgedAt, createdAt",
     )
     .eq("user_id", userId)
     .order("createdAt", { ascending: false })
@@ -72,49 +76,47 @@ export async function listAlertsForUser(
 
   if (error || !data) return [];
 
-  // Best-effort client_name lookup. Skip if no client ids.
+  const rows = data as Array<{
+    id: string;
+    type: string;
+    severity: string | null;
+    title: string | null;
+    message: string | null;
+    clientId: string | null;
+    deliveredAt: string | null;
+    acknowledgedAt: string | null;
+    createdAt: string;
+  }>;
+
   const clientIds = Array.from(
     new Set(
-      (data as Array<{ client_id: string | null }>)
-        .map((r) => r.client_id)
+      rows
+        .map((r) => r.clientId)
         .filter((id): id is string => typeof id === "string" && id.length > 0),
     ),
   );
 
   const nameById = new Map<string, string>();
   if (clientIds.length > 0) {
-    const sites = await db
-      .from("client_sites")
-      .select("client_id, client_name")
-      .in("client_id", clientIds);
-    for (const row of (sites.data ?? []) as Array<{
-      client_id: string | null;
-      client_name: string | null;
+    const clients = await db
+      .from("clients")
+      .select("id, name")
+      .in("id", clientIds);
+    for (const row of (clients.data ?? []) as Array<{
+      id: string | null;
+      name: string | null;
     }>) {
-      if (row.client_id && row.client_name && !nameById.has(row.client_id)) {
-        nameById.set(row.client_id, row.client_name);
-      }
+      if (row.id && row.name) nameById.set(row.id, row.name);
     }
   }
 
-  return (
-    data as Array<{
-      id: string;
-      type: string;
-      payload: { summary?: string; severity?: string } | null;
-      client_id: string | null;
-      deliveredAt: string | null;
-      acknowledgedAt: string | null;
-      createdAt: string;
-    }>
-  ).map((row) => ({
+  return rows.map((row) => ({
     id: row.id,
     type: row.type,
-    severity:
-      typeof row.payload?.severity === "string" ? row.payload.severity : "critical",
-    message: row.payload?.summary ?? "",
-    clientId: row.client_id,
-    clientName: row.client_id ? nameById.get(row.client_id) ?? null : null,
+    severity: row.severity ?? "critical",
+    message: row.message ?? row.title ?? "",
+    clientId: row.clientId,
+    clientName: row.clientId ? nameById.get(row.clientId) ?? null : null,
     deliveredAt: row.deliveredAt,
     acknowledgedAt: row.acknowledgedAt,
     createdAt: row.createdAt,

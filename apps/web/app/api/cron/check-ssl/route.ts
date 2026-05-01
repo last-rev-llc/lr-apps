@@ -22,8 +22,7 @@ const CONCURRENCY = 10;
 
 interface ClientSiteRow {
   user_id: string | null;
-  client_id: string | null;
-  client_name: string | null;
+  clientId: string | null;
   url: string | null;
 }
 
@@ -45,11 +44,35 @@ async function fanoutExpiryAlerts(
 
   const sites = await db
     .from("client_sites")
-    .select("user_id, client_id, client_name, url")
+    .select("user_id, clientId, url")
     .in("url", Array.from(okByUrl.keys()));
   if (sites.error) {
     log.warn("ssl alerting: client_sites lookup failed", { err: sites.error.message });
     return;
+  }
+
+  const siteRows = (sites.data ?? []) as ClientSiteRow[];
+
+  // Look up display names for the referenced clients in a single query.
+  const clientIds = Array.from(
+    new Set(
+      siteRows
+        .map((r) => r.clientId)
+        .filter((id): id is string => typeof id === "string" && id.length > 0),
+    ),
+  );
+  const nameById = new Map<string, string>();
+  if (clientIds.length > 0) {
+    const clients = await db
+      .from("clients")
+      .select("id, name")
+      .in("id", clientIds);
+    for (const row of (clients.data ?? []) as Array<{
+      id: string | null;
+      name: string | null;
+    }>) {
+      if (row.id && row.name) nameById.set(row.id, row.name);
+    }
   }
 
   // Group sites by user and bin per-client by status.
@@ -60,20 +83,20 @@ async function fanoutExpiryAlerts(
   };
   const byUser = new Map<string, Map<string, Bucket>>();
 
-  for (const row of (sites.data ?? []) as ClientSiteRow[]) {
-    if (!row.user_id || !row.client_id || !row.url) continue;
+  for (const row of siteRows) {
+    if (!row.user_id || !row.clientId || !row.url) continue;
     const r = okByUrl.get(row.url);
     if (!r) continue;
     const userMap = byUser.get(row.user_id) ?? new Map<string, Bucket>();
-    const bucket = userMap.get(row.client_id) ?? {
-      clientName: row.client_name ?? row.client_id,
+    const bucket = userMap.get(row.clientId) ?? {
+      clientName: nameById.get(row.clientId) ?? row.clientId,
       expired: [],
       expiring: [],
     };
     if (r.daysUntilExpiry <= 0) {
       bucket.expired.push({ url: row.url, sslExpiry: r.sslExpiry });
     }
-    userMap.set(row.client_id, bucket);
+    userMap.set(row.clientId, bucket);
     byUser.set(row.user_id, userMap);
   }
 
@@ -87,11 +110,11 @@ async function fanoutExpiryAlerts(
     for (const [clientId, bucket] of userMap) {
       const expiringForUser: Array<{ url: string; sslExpiry: string }> = [];
       for (const [url, r] of okByUrl) {
-        const matches = (sites.data ?? []).some(
+        const matches = siteRows.some(
           (s) =>
-            (s as ClientSiteRow).user_id === userId &&
-            (s as ClientSiteRow).client_id === clientId &&
-            (s as ClientSiteRow).url === url,
+            s.user_id === userId &&
+            s.clientId === clientId &&
+            s.url === url,
         );
         if (!matches) continue;
         if (r.daysUntilExpiry > 0 && r.daysUntilExpiry <= settings.sslWarnDays) {

@@ -4,12 +4,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 let sitesRows: Array<{ url: string }> = [];
 let clientSitesDetail: Array<{
   user_id: string | null;
-  client_id: string | null;
-  client_name: string | null;
+  clientId: string | null;
   url: string;
 }> = [];
+let clientsRows: Array<{ id: string; name: string | null }> = [];
 let usersRows: Array<{ id: string; email: string | null }> = [];
-let alertsRows: Array<{ user_id: string; client_id: string; type: string }> = [];
+let alertsRows: Array<{ user_id: string; clientId: string; type: string }> = [];
 const upsertCalls: Array<{
   url: string;
   payload: Record<string, unknown>;
@@ -53,6 +53,9 @@ function makeFromMock() {
           return makeQuery(clientSitesDetail);
         }),
       };
+    }
+    if (table === "clients") {
+      return { select: () => makeQuery(clientsRows) };
     }
     if (table === "users") {
       return { select: () => makeQuery(usersRows) };
@@ -136,6 +139,7 @@ beforeEach(() => {
   process.env = { ...ORIGINAL_ENV };
   sitesRows = [];
   clientSitesDetail = [];
+  clientsRows = [];
   usersRows = [];
   alertsRows = [];
   upsertCalls.length = 0;
@@ -252,17 +256,16 @@ describe("GET /api/cron/check-ssl", () => {
     clientSitesDetail = [
       {
         user_id: "u1",
-        client_id: "c1",
-        client_name: "Client One",
+        clientId: "c1",
         url: "https://broken1.example.com",
       },
       {
         user_id: "u1",
-        client_id: "c1",
-        client_name: "Client One",
+        clientId: "c1",
         url: "https://broken2.example.com",
       },
     ];
+    clientsRows = [{ id: "c1", name: "Client One" }];
 
     const res = await GET(makeRequest());
     expect(res.status).toBe(200);

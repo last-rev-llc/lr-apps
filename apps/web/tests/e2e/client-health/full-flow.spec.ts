@@ -50,7 +50,8 @@ function credentialsPresent(): boolean {
 }
 
 const RUN_ID = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-const CLIENT_ID = `e2e-${RUN_ID}`;
+// clients.id is a uuid PK — generate one per run so the seed never collides.
+const CLIENT_ID = crypto.randomUUID();
 const CLIENT_NAME = `E2E Client ${RUN_ID}`;
 const SITE_URL = `https://e2e-${RUN_ID}.example.com`;
 

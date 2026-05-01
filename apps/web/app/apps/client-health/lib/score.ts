@@ -27,12 +27,16 @@ export type Signals = {
   contract: number | null;
 };
 
+// Locked weights from docs/guides/promote-client-health-to-app.md decision #13
+// (uptime 0.30 / responseTime 0.10 / ssl 0.20 / ticketLoad 0.20 / contract 0.20).
+// Stored as integers — the helper normalizes by total weight so the absolute
+// scale doesn't matter, only the ratios.
 export const SIGNAL_WEIGHTS: Record<SignalKey, number> = {
   uptime: 30,
-  responseTime: 15,
-  ssl: 15,
-  ticketLoad: 25,
-  contract: 15,
+  responseTime: 10,
+  ssl: 20,
+  ticketLoad: 20,
+  contract: 20,
 };
 
 /**

@@ -13,7 +13,9 @@ function getServiceClient(): SupabaseClient {
 
 export interface SeedSiteInput {
   userId: string;
+  /** UUID for the public.clients row. */
   clientId: string;
+  /** Display name for the client. Persisted on public.clients.name. */
   clientName: string;
   url: string;
   /** ISO date for sslExpiry; null/undefined leaves it absent. */
@@ -21,18 +23,28 @@ export interface SeedSiteInput {
   sslLastError?: string | null;
 }
 
-/** Inserts client_sites + site_metadata rows for a single test site. */
+/**
+ * Inserts a clients row, a client_sites row that references it, and a
+ * site_metadata row for the URL. Column names match the migration schema:
+ * client_sites uses camelCase "clientId" (FK to clients.id); the human-
+ * readable name lives on clients.name.
+ */
 export async function seedSite(input: SeedSiteInput): Promise<void> {
   const db = getServiceClient();
+
+  const clients = await db
+    .from("clients")
+    .upsert({ id: input.clientId, name: input.clientName }, { onConflict: "id" });
+  if (clients.error) throw new Error(`seedSite/clients: ${clients.error.message}`);
 
   const sites = await db.from("client_sites").upsert(
     {
       user_id: input.userId,
-      client_id: input.clientId,
-      client_name: input.clientName,
+      clientId: input.clientId,
+      label: "primary",
       url: input.url,
     },
-    { onConflict: "user_id,url" },
+    { onConflict: 'user_id,clientId,url' },
   );
   if (sites.error) throw new Error(`seedSite/client_sites: ${sites.error.message}`);
 
@@ -65,13 +77,11 @@ export async function seedAlert(input: SeedAlertInput): Promise<string> {
     .from("client_health_alerts")
     .insert({
       user_id: input.userId,
-      client_id: input.clientId,
+      clientId: input.clientId,
       type: input.type,
-      payload: {
-        summary: input.summary,
-        severity: input.severity ?? "critical",
-        offenders: [],
-      },
+      severity: input.severity ?? "critical",
+      title: input.summary,
+      message: input.summary,
     })
     .select("id")
     .single();
@@ -91,4 +101,5 @@ export async function cleanupSeed(input: {
   await db.from("client_health_alerts").delete().eq("user_id", input.userId);
   await db.from("client_sites").delete().eq("user_id", input.userId);
   await db.from("site_metadata").delete().eq("url", input.url);
+  await db.from("clients").delete().eq("id", input.clientId);
 }

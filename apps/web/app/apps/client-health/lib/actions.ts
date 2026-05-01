@@ -39,8 +39,8 @@ export async function updateAlertSettings(
   return withSpan("client-health.updateAlertSettings", {}, async () => {
     const { user } = await requireAccess("client-health");
 
-    const allowed = await enforceFeatureTier(user.id, "client-health:alerting");
-    if (!allowed) throw new FeatureAccessError("client-health:alerting");
+    const allowed = await enforceFeatureTier(user.id, "client-health:settings");
+    if (!allowed) throw new FeatureAccessError("client-health:settings");
 
     const parsed = settingsSchema.safeParse(input);
     if (!parsed.success) {

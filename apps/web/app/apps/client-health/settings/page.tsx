@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export default async function ClientHealthSettingsPage() {
   const { user } = await requireAccess("client-health");
-  const hasAccess = await enforceFeatureTier(user.id, "client-health:alerting");
+  const hasAccess = await enforceFeatureTier(user.id, "client-health:settings");
   if (!hasAccess) return <UpgradePrompt requiredTier="pro" />;
 
   const initial = await getAlertSettings(user.id);
