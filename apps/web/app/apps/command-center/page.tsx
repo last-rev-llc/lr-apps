@@ -89,13 +89,6 @@ const MODULES = [
     category: "Ops",
   },
   {
-    slug: "meme-generator",
-    label: "Meme Generator",
-    icon: "😂",
-    description: "Generate memes for fun and profit",
-    category: "Fun",
-  },
-  {
     slug: "pr-review",
     label: "PR Review",
     icon: "🔍",
