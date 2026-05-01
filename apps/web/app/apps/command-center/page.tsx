@@ -26,13 +26,6 @@ const MODULES = [
     category: "Ops",
   },
   {
-    slug: "users",
-    label: "Users",
-    icon: "👥",
-    description: "User management and access control",
-    category: "Admin",
-  },
-  {
     slug: "crons",
     label: "Crons",
     icon: "⏰",

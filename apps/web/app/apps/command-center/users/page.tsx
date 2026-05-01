@@ -1,10 +1,5 @@
-import { getContacts } from "./lib/queries";
-import { UsersApp } from "./components/users-app";
+import { redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-
-export default async function UsersPage() {
-  const contacts = await getContacts();
-
-  return <UsersApp initialContacts={contacts} />;
+export default function UsersRedirect() {
+  redirect("https://crm.apps.lastrev.com");
 }

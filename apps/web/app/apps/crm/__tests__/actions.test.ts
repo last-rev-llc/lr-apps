@@ -85,6 +85,15 @@ vi.mock("@repo/logger", () => ({
   },
 }));
 
+const withSpanMock = vi.fn(
+  async (_name: string, _attrs: Record<string, unknown>, fn: () => unknown) =>
+    fn(),
+);
+vi.mock("@/lib/otel", () => ({
+  withSpan: (name: string, attrs: Record<string, unknown>, fn: () => unknown) =>
+    withSpanMock(name, attrs, fn),
+}));
+
 import { createContact, updateContact, deleteContact } from "../lib/actions";
 
 beforeEach(() => {
@@ -169,6 +178,37 @@ describe("crm server actions", () => {
       await deleteContact("abc");
       expect(store).toHaveLength(0);
       expect(revalidatePathMock).toHaveBeenCalledWith("/apps/crm");
+    });
+  });
+
+  describe("span instrumentation", () => {
+    it("wraps createContact in a crm.createContact span", async () => {
+      await createContact({ name: "Spanned" });
+      expect(withSpanMock).toHaveBeenCalledWith(
+        "crm.createContact",
+        expect.any(Object),
+        expect.any(Function),
+      );
+    });
+
+    it("wraps updateContact in a crm.updateContact span with contactId", async () => {
+      store.push({ id: "abc", name: "X" });
+      await updateContact("abc", { name: "Y" });
+      expect(withSpanMock).toHaveBeenCalledWith(
+        "crm.updateContact",
+        expect.objectContaining({ contactId: "abc" }),
+        expect.any(Function),
+      );
+    });
+
+    it("wraps deleteContact in a crm.deleteContact span with contactId", async () => {
+      store.push({ id: "abc", name: "X" });
+      await deleteContact("abc");
+      expect(withSpanMock).toHaveBeenCalledWith(
+        "crm.deleteContact",
+        expect.objectContaining({ contactId: "abc" }),
+        expect.any(Function),
+      );
     });
   });
 });
