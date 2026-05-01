@@ -65,7 +65,11 @@ interface CrmAppProps {
 }
 
 export function CrmApp({ initialContacts }: CrmAppProps) {
-  const [contacts] = useState<Contact[]>(initialContacts);
+  // Read contacts straight from props so the page's server-side
+  // revalidatePath after createContact / updateContact / deleteContact
+  // actually refreshes the rendered list. A `useState(initialContacts)`
+  // captures the value once and silently ignores re-fetched props.
+  const contacts = initialContacts;
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<ContactType | "all">("all");
   const [companyFilter, setCompanyFilter] = useState("all");
