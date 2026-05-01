@@ -14,7 +14,12 @@ import { z } from "zod";
 import { requireAccess } from "@repo/auth/server";
 import { createClient } from "@repo/db/server";
 import { CACHE_VERSION, cacheGet, cacheSet } from "@repo/db/cache";
-import { createSignedUrl } from "@repo/storage";
+import {
+  createSignedUrl,
+  uploadFile,
+  StorageValidationError,
+} from "@repo/storage";
+import { getSubscription, type Tier } from "@repo/billing";
 import { log } from "@repo/logger";
 import { withSpan } from "@/lib/otel";
 import type {
@@ -22,15 +27,64 @@ import type {
   MemeCreationRow,
 } from "@repo/db/types";
 import type { MemeTemplate, MemeCreation } from "./lib/types";
+import { QuotaExceededError } from "./lib/errors";
+import { SAVE_QUOTAS, UPGRADE_TIER } from "./lib/quotas";
 
 const APP_SLUG = "meme-generator";
 const TEMPLATES_TTL_SECONDS = 300;
 const SIGNED_URL_TTL_SECONDS = 3600;
 const MEMES_BUCKET = "memes";
+const MAX_PNG_BYTES = 1_048_576;
+const MAX_PNG_DIMENSION = 4096;
 
 export const TEMPLATE_LIST_CACHE_KEY = `meme:templates:active:${CACHE_VERSION}`;
 
 const IdSchema = z.string().uuid();
+const TitleSchema = z.string().trim().min(1).max(200);
+const FontSizeSchema = z.coerce.number().int().min(12).max(200);
+const TemplateIdSchema = z.string().min(1).max(200);
+const TextZonesSchema = z.record(z.string(), z.string());
+
+const SaveMemeInputSchema = z
+  .object({
+    title: TitleSchema,
+    templateId: TemplateIdSchema,
+    textZones: TextZonesSchema,
+    fontSize: FontSizeSchema,
+  })
+  .strict();
+
+export type SaveMemeResult =
+  | { ok: true; meme: MemeCreation }
+  | { ok: false; error: string };
+
+interface PngDimensions {
+  width: number;
+  height: number;
+}
+
+function readPngDimensions(bytes: Uint8Array): PngDimensions | null {
+  // PNG signature (8 bytes) + 4-byte chunk length + 4-byte "IHDR" + 4-byte
+  // width + 4-byte height. We only need the first 24 bytes to read sizes.
+  if (bytes.length < 24) return null;
+  const sig = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+  for (let i = 0; i < sig.length; i++) {
+    if (bytes[i] !== sig[i]) return null;
+  }
+  if (
+    bytes[12] !== 0x49 ||
+    bytes[13] !== 0x48 ||
+    bytes[14] !== 0x44 ||
+    bytes[15] !== 0x52
+  ) {
+    return null;
+  }
+  const width =
+    (bytes[16] << 24) | (bytes[17] << 16) | (bytes[18] << 8) | bytes[19];
+  const height =
+    (bytes[20] << 24) | (bytes[21] << 16) | (bytes[22] << 8) | bytes[23];
+  return { width: width >>> 0, height: height >>> 0 };
+}
 
 export type MemeWithSignedUrl = MemeCreation & { signedUrl: string };
 
@@ -137,6 +191,218 @@ export async function listMyMemes(): Promise<MemeWithSignedUrl[]> {
         signed: visible.length,
       });
       return visible;
+    },
+  );
+}
+
+async function resolveTier(userId: string): Promise<Tier> {
+  const subscription = await getSubscription(userId);
+  return subscription?.tier ?? "free";
+}
+
+export async function saveMeme(formData: FormData): Promise<SaveMemeResult> {
+  return withSpan(
+    "meme-generator.saveMeme",
+    { "app.slug": APP_SLUG },
+    async () => {
+      const { user } = await requireAccess(APP_SLUG);
+      const userId = user.id;
+
+      const rawTextZones = formData.get("textZones");
+      let parsedTextZones: unknown;
+      if (typeof rawTextZones === "string") {
+        try {
+          parsedTextZones = JSON.parse(rawTextZones);
+        } catch {
+          parsedTextZones = undefined;
+        }
+      }
+
+      const inputResult = SaveMemeInputSchema.safeParse({
+        title: formData.get("title"),
+        templateId: formData.get("templateId"),
+        textZones: parsedTextZones,
+        fontSize: formData.get("fontSize"),
+      });
+      if (!inputResult.success) {
+        log.warn("meme-generator.saveMeme invalid input", {
+          action: "saveMeme",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+      const { title, templateId, textZones, fontSize } = inputResult.data;
+
+      const file = formData.get("file");
+      if (!(file instanceof Blob)) {
+        log.warn("meme-generator.saveMeme missing file", {
+          action: "saveMeme",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+      if (file.type !== "image/png") {
+        log.warn("meme-generator.saveMeme bad mime", {
+          action: "saveMeme",
+          userId,
+          contentType: file.type,
+        });
+        return { ok: false, error: "file must be image/png" };
+      }
+      if (file.size > MAX_PNG_BYTES) {
+        log.warn("meme-generator.saveMeme oversize", {
+          action: "saveMeme",
+          userId,
+          size: file.size,
+        });
+        return { ok: false, error: "file too large" };
+      }
+
+      const buffer = new Uint8Array(await file.arrayBuffer());
+      const dims = readPngDimensions(buffer);
+      if (
+        !dims ||
+        dims.width <= 0 ||
+        dims.height <= 0 ||
+        dims.width > MAX_PNG_DIMENSION ||
+        dims.height > MAX_PNG_DIMENSION
+      ) {
+        log.warn("meme-generator.saveMeme bad dimensions", {
+          action: "saveMeme",
+          userId,
+          dims,
+        });
+        return { ok: false, error: "invalid PNG" };
+      }
+
+      const supabase = await createClient();
+      const { data: templateRow, error: templateError } = await supabase
+        .from("meme_templates")
+        .select("id, isActive, textZones")
+        .eq("id", templateId)
+        .maybeSingle();
+      if (templateError) {
+        log.error("meme-generator.saveMeme template lookup error", {
+          action: "saveMeme",
+          userId,
+          err: templateError,
+        });
+        return { ok: false, error: "template lookup failed" };
+      }
+      const template = templateRow as
+        | { id: string; isActive: boolean; textZones: { id: string }[] }
+        | null;
+      if (!template || !template.isActive) {
+        return { ok: false, error: "template not found" };
+      }
+
+      const allowedZoneIds = new Set(template.textZones.map((z) => z.id));
+      for (const zoneId of Object.keys(textZones)) {
+        if (!allowedZoneIds.has(zoneId)) {
+          log.warn("meme-generator.saveMeme unknown zone", {
+            action: "saveMeme",
+            userId,
+            zoneId,
+          });
+          return { ok: false, error: "invalid zone id" };
+        }
+      }
+
+      const tier = await resolveTier(userId);
+      const limit = SAVE_QUOTAS[tier];
+
+      // Benign race: two concurrent saves can both observe count = limit-1
+      // and both pass the check, ending at count = limit+1. We accept this
+      // — the per-tier limits are loose UX guardrails, not security
+      // boundaries, and exact counting would require a transaction or DB
+      // trigger we don't want to maintain. Don't "fix" without context.
+      const { count, error: countError } = await supabase
+        .from("meme_creations")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", userId);
+      if (countError) {
+        log.error("meme-generator.saveMeme count error", {
+          action: "saveMeme",
+          userId,
+          err: countError,
+        });
+        return { ok: false, error: "quota check failed" };
+      }
+      const current = count ?? 0;
+      if (current >= limit) {
+        log.warn("meme-generator.saveMeme quota exceeded", {
+          action: "saveMeme",
+          userId,
+          tier,
+          current,
+          limit,
+        });
+        throw new QuotaExceededError({
+          feature: "memes:save-quota",
+          current,
+          limit,
+          upgradeTier: UPGRADE_TIER[tier],
+        });
+      }
+
+      const storagePath = `${userId}/${crypto.randomUUID()}.png`;
+      try {
+        await uploadFile(
+          {
+            bucket: MEMES_BUCKET,
+            path: storagePath,
+            file: buffer,
+            contentType: "image/png",
+          },
+          { maxBytes: MAX_PNG_BYTES, allowedMimeTypes: ["image/png"] },
+        );
+      } catch (err) {
+        if (err instanceof StorageValidationError) {
+          log.warn("meme-generator.saveMeme storage validation", {
+            action: "saveMeme",
+            userId,
+            err: err.message,
+          });
+          return { ok: false, error: "invalid upload" };
+        }
+        log.error("meme-generator.saveMeme upload error", {
+          action: "saveMeme",
+          userId,
+          err,
+        });
+        return { ok: false, error: "upload failed" };
+      }
+
+      const { data: row, error } = await supabase
+        .from("meme_creations")
+        .insert({
+          user_id: userId,
+          title,
+          templateId,
+          textZones,
+          fontSize,
+          storagePath,
+          widthPx: dims.width,
+          heightPx: dims.height,
+        })
+        .select("*")
+        .single();
+
+      if (error || !row) {
+        log.error("meme-generator.saveMeme insert error", {
+          action: "saveMeme",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "failed to save meme" };
+      }
+
+      log.debug("meme-generator.saveMeme ok", {
+        action: "saveMeme",
+        userId,
+        memeId: (row as MemeCreationRow).id,
+      });
+      return { ok: true, meme: row as unknown as MemeCreation };
     },
   );
 }
