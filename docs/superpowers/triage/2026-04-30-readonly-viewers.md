@@ -245,4 +245,4 @@ Per-app follow-ups opened in response to this report (issues #481, #487, etc.):
 | App | Issue | Bucket | Backlog entry | Plan-PR comment |
 |---|---|---|---|---|
 | Accounts | [#481](https://github.com/last-rev-llc/lr-apps/issues/481) | stalled (dev-only) | [#641](https://github.com/last-rev-llc/lr-apps/issues/641) | [PR #385 comment](https://github.com/last-rev-llc/lr-apps/pull/385#issuecomment-4356981777) |
-| Uptime | [#487](https://github.com/last-rev-llc/lr-apps/issues/487) | abandoned (dev-only) | _pending_ | _pending_ |
+| Uptime | [#487](https://github.com/last-rev-llc/lr-apps/issues/487) | abandoned (dev-only; manually overridden to stalled per §4) | [#642](https://github.com/last-rev-llc/lr-apps/issues/642) | [PR #388 comment](https://github.com/last-rev-llc/lr-apps/pull/388#issuecomment-4356987795) |
