@@ -1,5 +1,4 @@
 import { createClient } from "@repo/db/server";
-import { Badge } from "@repo/ui";
 import { Card, CardContent, CardHeader } from "@repo/ui";
 import type { Site } from "./lib/types";
 

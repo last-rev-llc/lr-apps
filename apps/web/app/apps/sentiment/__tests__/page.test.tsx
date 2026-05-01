@@ -1,10 +1,9 @@
 // @vitest-environment jsdom
-import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderWithProviders, screen } from "@repo/test-utils";
 import type { SentimentEntry } from "../lib/types";
 
-const { mockBuilder, mockSupabase } = vi.hoisted(() => {
+const { mockSupabase } = vi.hoisted(() => {
   const builder: Record<string, any> = {};
   const chainMethods = ["select", "insert", "update", "delete", "upsert", "eq", "neq", "in", "order", "limit"];
   for (const m of chainMethods) builder[m] = vi.fn().mockReturnValue(builder);
@@ -64,7 +63,7 @@ beforeEach(() => {
 
 describe("SentimentPage", () => {
   it("renders 'Team Sentiment' heading and subtitle", async () => {
-    mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+    mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
       Promise.resolve({ data: [], error: null }).then(resolve),
     );
 
@@ -78,7 +77,7 @@ describe("SentimentPage", () => {
   });
 
   it("passes fetched entries to SentimentDashboard", async () => {
-    mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+    mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
       Promise.resolve({
         data: [
           makeEntry(),
@@ -100,7 +99,7 @@ describe("SentimentPage", () => {
   });
 
   it("renders empty dashboard state when no data", async () => {
-    mockSupabase._builder.then.mockImplementation((resolve: Function) =>
+    mockSupabase._builder.then.mockImplementation((resolve: (value: unknown) => unknown) =>
       Promise.resolve({ data: [], error: null }).then(resolve),
     );
 

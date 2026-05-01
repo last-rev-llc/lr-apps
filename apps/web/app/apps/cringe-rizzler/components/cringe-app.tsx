@@ -12,10 +12,10 @@ import {
   CardContent,
   Input,
 } from "@repo/ui";
-import { SLANG_GLOSSARY, SLANG_MAP, SCENARIOS, CATEGORIES } from "../data/slang";
+import { SLANG_GLOSSARY, SCENARIOS, CATEGORIES } from "../data/slang";
 import { generatePhrase, generateMemeCaption } from "../lib/actions";
 import { getRandomTerms } from "../lib/utils";
-import type { GeneratedPhrase, SavedItem, FilterType } from "../lib/types";
+import type { GeneratedPhrase, SavedItem } from "../lib/types";
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 

@@ -97,7 +97,9 @@ function saveQuizRecord(record: QuizRecord) {
     const existing = loadQuizHistory();
     const updated = [record, ...existing].slice(0, 100);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-  } catch {}
+  } catch {
+    // ignore storage failures (quota exceeded, private browsing, etc.)
+  }
 }
 
 function computeTopicStats(quizHistory: QuizRecord[]): Map<string, TopicStat> {
@@ -128,12 +130,6 @@ function getPctColor(pct: number): string {
   if (pct >= 75) return "text-green";
   if (pct >= 50) return "text-accent";
   return "text-red";
-}
-
-function getPctBorderColor(pct: number): string {
-  if (pct >= 75) return "border-green";
-  if (pct >= 50) return "border-accent";
-  return "border-red";
 }
 
 function getPctBarColor(pct: number): string {

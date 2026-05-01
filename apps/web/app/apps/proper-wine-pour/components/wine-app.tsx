@@ -38,8 +38,6 @@ const GLASS_TYPES = pourSizesData.glassTypes as GlassTypeConfig[];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Tab = "guide" | "calculator" | "tracker" | "knowledge" | "wall";
-
 interface Props {
   restaurants: Restaurant[];
   initialPourLogs: WinePour[];

@@ -97,7 +97,7 @@ export async function addUserOverride(
   if (!parsedEmail.success) return { ok: false, error: "invalid email" };
 
   const db = createServiceRoleClient();
-  let userId: string | null = null;
+  let userId: string | null;
   try {
     const { data: list } = await db.auth.admin.listUsers();
     const match = list?.users?.find(

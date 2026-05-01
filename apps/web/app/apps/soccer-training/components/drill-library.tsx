@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Badge, Button, Card, CardContent, Input } from "@repo/ui";
+import { Button, Card, CardContent, Input } from "@repo/ui";
 import type { Drill, FilterTab } from "../data/drills";
 import { FILTER_TABS, CATEGORY_LABELS } from "../data/drills";
 
