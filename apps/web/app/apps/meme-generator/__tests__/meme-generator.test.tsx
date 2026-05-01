@@ -42,7 +42,7 @@ vi.mock("next/link", () => ({
   ),
 }));
 
-import { MemeGeneratorApp } from "../meme-generator/components/meme-generator-app";
+import { MemeGeneratorApp } from "../components/meme-generator-app";
 
 describe("MemeGeneratorApp", () => {
   it("renders the page header", () => {
