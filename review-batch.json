@@ -1,0 +1,68 @@
+{
+  "passed": false,
+  "summary": "Misrouted batch — issues #1011-#1015 target an OpenClaw/AlphaAgent Docker codebase, but this worktree is the LR Apps Next.js 16 SaaS monorepo. None of the referenced files exist here. The findings cannot be code-fixed; the batch must be re-routed at the orchestration level.",
+  "requiredAction": "OPERATOR ACTION REQUIRED: Re-route issues #1011, #1012, #1013, #1014, #1015 to the correct repository (OpenClaw/AlphaAgent — the project containing docker/entrypoint.sh, docker/workspace-init.sh, dashboard/server/, dashboard/spa/). Stop retrying in lr-apps. Each retry loop produces no code changes because none of the referenced files exist in this Next.js monorepo. Fabricating them here would create dead code that violates the architecture documented in CLAUDE.md (single Next.js deployable under apps/web/, no docker/ or dashboard/ trees).",
+  "fixableInThisRepo": false,
+  "verification": {
+    "gitDiff": "git diff origin/main...HEAD: only review-batch.json itself changes; zero source code changes on this branch",
+    "fileSearches": [
+      "Glob **/workspace-init* → no matches",
+      "Glob **/entrypoint.sh → no matches",
+      "Glob **/useChannels.* → no matches",
+      "Glob dashboard/** → no matches",
+      "ls docker/ dashboard/ → both directories do not exist"
+    ],
+    "repoIdentity": "LR Apps: Next.js 16 + React 19 + Auth0 + Stripe + Supabase. Single deployable under apps/web/. CLAUDE.md forbids new apps/ entries and does not describe any docker/ or dashboard/ tree.",
+    "loopHistory": "Branch agent/issue-1011 has cycled through: fca4c9a (deleted gate file), 88ebdad (re-created with misrouted verdict), fbd4860 (deleted gate file again). The findings are operational, not code-fixable; further retries will keep producing the same null result."
+  },
+  "findings": [
+    {
+      "severity": "critical",
+      "description": "Issue #1011 — docker/workspace-init.sh does not exist in this repository. The file is part of an OpenClaw/AlphaAgent Docker entrypoint system that is not present in this Next.js SaaS monorepo. No code change can satisfy this acceptance criteria from within lr-apps. Operator must re-route the issue.",
+      "fixed": false,
+      "fixable": false,
+      "file": "docker/workspace-init.sh",
+      "issueNum": 1011
+    },
+    {
+      "severity": "critical",
+      "description": "Issue #1012 — docker/entrypoint.sh does not exist in this repository. The jq null-guarded telegram state expression has no host file to live in. Operator must re-route the issue.",
+      "fixed": false,
+      "fixable": false,
+      "file": "docker/entrypoint.sh",
+      "issueNum": 1012
+    },
+    {
+      "severity": "critical",
+      "description": "Issue #1013 — docker/entrypoint.sh does not exist in this repository. The WhatsApp boot-disable line cannot be verified because the host file is absent. Operator must re-route the issue.",
+      "fixed": false,
+      "fixable": false,
+      "file": "docker/entrypoint.sh",
+      "issueNum": 1013
+    },
+    {
+      "severity": "critical",
+      "description": "Issue #1014 — dashboard/spa/src/api/hooks/useChannels.ts, dashboard/spa/src/sections/Channels.tsx, and dashboard/server/routes/channels.ts do not exist in this repository. The Telegram explicit-activation path requires an Express dashboard server and React SPA that this Next.js monorepo does not contain (and is forbidden from containing per CLAUDE.md). Operator must re-route the issue.",
+      "fixed": false,
+      "fixable": false,
+      "file": "dashboard/spa/src/api/hooks/useChannels.ts",
+      "issueNum": 1014
+    },
+    {
+      "severity": "critical",
+      "description": "Issue #1015 — dashboard/server/__tests__/integration/boot-config.test.js cannot be authored meaningfully because dashboard/server/ and its installGatewayMock helper do not exist in this repository. Operator must re-route the issue.",
+      "fixed": false,
+      "fixable": false,
+      "file": "dashboard/server/__tests__/integration/boot-config.test.js",
+      "issueNum": 1015
+    },
+    {
+      "severity": "critical",
+      "description": "ROOT CAUSE: batch is misrouted to the wrong codebase. This is an orchestration-level error, not a code defect. No retry from within lr-apps can resolve it. The required action is operator/operational: assign issues #1011-#1015 to the OpenClaw/AlphaAgent repository and stop retrying here.",
+      "fixed": false,
+      "fixable": false,
+      "file": "(repository mismatch — operational issue, not a code issue)",
+      "issueNum": 0
+    }
+  ]
+}
