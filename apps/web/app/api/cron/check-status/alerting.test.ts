@@ -13,7 +13,7 @@ import {
   type AlertCandidate,
 } from "./alerting";
 
-type AlertRow = { user_id: string; client_id: string; type: string; acknowledged_at: string | null };
+type AlertRow = { user_id: string; clientId: string; type: string; acknowledgedAt: string | null };
 
 let alertRows: AlertRow[] = [];
 let settingsRow: Record<string, unknown> | null = null;
@@ -91,15 +91,18 @@ describe("evaluateAndAlert", () => {
     expect(insertCalls).toHaveLength(1);
     expect(insertCalls[0]).toMatchObject({
       user_id: "user-1",
-      client_id: "client-1",
+      clientId: "client-1",
       type: "status-down",
+      severity: "critical",
+      title: "Acme",
+      message: "1 site is down",
     });
     expect(sendEmailMock).toHaveBeenCalledOnce();
     expect(sendEmailMock.mock.calls[0]![0]).toMatchObject({ to: "user@example.com" });
   });
 
   it("dedupes against an unacknowledged alert of the same (type, clientId)", async () => {
-    alertRows = [{ user_id: "user-1", client_id: "client-1", type: "status-down", acknowledged_at: null }];
+    alertRows = [{ user_id: "user-1", clientId: "client-1", type: "status-down", acknowledgedAt: null }];
     const decisions = await evaluateAndAlert({
       db: makeDb(),
       userId: "user-1",

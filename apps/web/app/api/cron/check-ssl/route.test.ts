@@ -4,12 +4,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 let sitesRows: Array<{ url: string }> = [];
 let clientSitesDetail: Array<{
   user_id: string | null;
-  client_id: string | null;
-  client_name: string | null;
+  clientId: string | null;
   url: string;
 }> = [];
+let clientsRows: Array<{ id: string; name: string | null }> = [];
 let usersRows: Array<{ id: string; email: string | null }> = [];
-let alertsRows: Array<{ user_id: string; client_id: string; type: string }> = [];
+let alertsRows: Array<{ user_id: string; clientId: string; type: string }> = [];
 const upsertCalls: Array<{
   url: string;
   payload: Record<string, unknown>;
@@ -53,6 +53,9 @@ function makeFromMock() {
           return makeQuery(clientSitesDetail);
         }),
       };
+    }
+    if (table === "clients") {
+      return { select: () => makeQuery(clientsRows) };
     }
     if (table === "users") {
       return { select: () => makeQuery(usersRows) };
@@ -136,6 +139,7 @@ beforeEach(() => {
   process.env = { ...ORIGINAL_ENV };
   sitesRows = [];
   clientSitesDetail = [];
+  clientsRows = [];
   usersRows = [];
   alertsRows = [];
   upsertCalls.length = 0;
@@ -235,6 +239,46 @@ describe("GET /api/cron/check-ssl", () => {
     const body = await res.json();
     expect(body.checked).toBe(1);
     expect(upsertCalls).toHaveLength(1);
+  });
+
+  it("issue #286: handshake failures do not enqueue alerts", async () => {
+    mockIsAuthorized.mockReturnValue(true);
+    sitesRows = [
+      { url: "https://broken1.example.com" },
+      { url: "https://broken2.example.com" },
+    ];
+    certMockMap.set("https://broken1.example.com", { error: "ECONNREFUSED" });
+    certMockMap.set("https://broken2.example.com", {
+      error: "tls handshake timeout",
+    });
+    // Wire up matching client_sites rows so a fan-out *would* be possible
+    // if the route mistakenly tried to alert on failures.
+    clientSitesDetail = [
+      {
+        user_id: "u1",
+        clientId: "c1",
+        url: "https://broken1.example.com",
+      },
+      {
+        user_id: "u1",
+        clientId: "c1",
+        url: "https://broken2.example.com",
+      },
+    ];
+    clientsRows = [{ id: "c1", name: "Client One" }];
+
+    const res = await GET(makeRequest());
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({ checked: 2, ok: 0, failed: 2 });
+
+    // Both upserts wrote sslLastError. No alert insert calls should have
+    // been issued because okResults was empty.
+    expect(upsertCalls).toHaveLength(2);
+    for (const call of upsertCalls) {
+      expect(call.payload).not.toHaveProperty("sslExpiry");
+      expect(call.payload.sslLastError).toBeTruthy();
+    }
   });
 
   it("processes multiple distinct URLs with mixed outcomes", async () => {

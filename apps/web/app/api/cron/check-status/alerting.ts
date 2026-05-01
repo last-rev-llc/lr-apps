@@ -82,13 +82,14 @@ export async function evaluateAndAlert({
     const { type, clientId } = candidate;
 
     // Dedupe against unacknowledged alerts of the same (type, clientId).
+    // Column names match the migration schema (camelCase quoted in DDL).
     const existing = await db
       .from("client_health_alerts")
       .select("id")
       .eq("user_id", userId)
       .eq("type", type)
-      .eq("client_id", clientId)
-      .is("acknowledged_at", null)
+      .eq("clientId", clientId)
+      .is("acknowledgedAt", null)
       .limit(1);
 
     if (existing.error) {
@@ -117,16 +118,16 @@ export async function evaluateAndAlert({
       continue;
     }
 
+    // Persist only the columns defined in the migration schema. The richer
+    // candidate fields (score, scoreDelta, offenders) are surfaced in the
+    // email but not stored — the alert row is just a dedupe + history record.
     const insertResult = await db.from("client_health_alerts").insert({
       user_id: userId,
-      client_id: clientId,
+      clientId: clientId,
       type,
-      payload: {
-        summary: candidate.summary,
-        score: candidate.score ?? null,
-        scoreDelta: candidate.scoreDelta ?? null,
-        offenders: candidate.offenders,
-      },
+      severity: "critical",
+      title: candidate.clientName,
+      message: candidate.summary,
     });
 
     if (insertResult.error) {
