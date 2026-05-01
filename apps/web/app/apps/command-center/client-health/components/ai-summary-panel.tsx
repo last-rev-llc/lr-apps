@@ -93,7 +93,7 @@ export function AISummaryPanel({ clientId }: AISummaryPanelProps) {
         <CardTitle className="text-base">AI Health Summary</CardTitle>
         <div className="flex items-center gap-2">
           {state.kind === "success" && (
-            <span className="text-[11px] text-white/50">
+            <span className="text-[11px] text-muted-foreground">
               {state.cached ? "Cached · " : ""}
               {formatRelative(state.cachedAt)}
             </span>
@@ -118,29 +118,29 @@ export function AISummaryPanel({ clientId }: AISummaryPanelProps) {
         )}
 
         {state.kind === "rate_limited" && (
-          <p className="text-sm text-amber-400" role="alert">
+          <p className="text-sm text-accent" role="alert">
             Rate limit reached. Try again in {formatResetIn(state.resetAt)}.
           </p>
         )}
 
         {state.kind === "error" && (
-          <p className="text-sm text-red-400" role="alert">
+          <p className="text-sm text-destructive" role="alert">
             Failed to load summary: {state.message}
           </p>
         )}
 
         {state.kind === "success" && (
           <>
-            <p className="text-sm text-white/85 leading-relaxed">
+            <p className="text-sm text-foreground leading-relaxed">
               {state.summary.headline}
             </p>
 
             {state.summary.positives.length > 0 && (
               <section>
-                <h3 className="text-[11px] font-bold uppercase tracking-wider text-white/60 mb-2">
+                <h3 className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
                   Positives
                 </h3>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-white/80">
+                <ul className="list-disc pl-5 space-y-1 text-sm text-foreground">
                   {state.summary.positives.map((item, i) => (
                     <li key={i}>{item}</li>
                   ))}
@@ -150,10 +150,10 @@ export function AISummaryPanel({ clientId }: AISummaryPanelProps) {
 
             {state.summary.concerns.length > 0 && (
               <section>
-                <h3 className="text-[11px] font-bold uppercase tracking-wider text-amber-400 mb-2">
+                <h3 className="text-[11px] font-bold uppercase tracking-wider text-accent mb-2">
                   Concerns
                 </h3>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-white/80">
+                <ul className="list-disc pl-5 space-y-1 text-sm text-foreground">
                   {state.summary.concerns.map((item, i) => (
                     <li key={i}>{item}</li>
                   ))}
@@ -163,10 +163,10 @@ export function AISummaryPanel({ clientId }: AISummaryPanelProps) {
 
             {state.summary.recommendations.length > 0 && (
               <section>
-                <h3 className="text-[11px] font-bold uppercase tracking-wider text-white/60 mb-2">
+                <h3 className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-2">
                   Recommendations
                 </h3>
-                <ul className="list-disc pl-5 space-y-1 text-sm text-white/80">
+                <ul className="list-disc pl-5 space-y-1 text-sm text-foreground">
                   {state.summary.recommendations.map((item, i) => (
                     <li key={i}>{item}</li>
                   ))}

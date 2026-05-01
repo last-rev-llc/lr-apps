@@ -1,34 +1,27 @@
 {
-  "passed": true,
-  "summary": "All 5 issues implemented correctly. Fixed missing leads table migration (#74) that would have made pipeline view non-functional.",
+  "passed": false,
+  "summary": "Issues #279/#280/#281 implemented and tested. Color-token finding (#281) fixed. #1014/#1015 not implemented — they target a dashboard/ tree that lives in alpha-claw, not lr-apps; cannot be fixed from this worktree.",
   "findings": [
     {
       "severity": "critical",
-      "description": "No database migration existed for the `leads` table or its `stage` column. The sales pipeline dashboard queries `supabase.from('leads')` and orders by `stage`, but without a migration the table doesn't exist and the pipeline view would be completely non-functional. Added migration 20260409_leads.sql with full table schema, RLS policy, and index.",
+      "description": "Issue #1014 is not implemented. The issue references dashboard/spa/src/api/hooks/useChannels.ts, dashboard/spa/src/sections/Channels.tsx, and dashboard/server/routes/channels.ts — none of which exist in this repository. The dashboard/ tree lives in the separate alpha-claw repo. The batch-implement commit (572ca3c) only modified tsconfig.tsbuildinfo. The agent_loop_failed comment on the issue confirms the failure. Cannot be fixed in this worktree because the target files belong to a different codebase.",
+      "fixed": false,
+      "file": "(missing) dashboard/spa/src/api/hooks/useChannels.ts",
+      "issueNum": 1014
+    },
+    {
+      "severity": "critical",
+      "description": "Issue #1015 is not implemented. The acceptance criteria call for a new dashboard/server/__tests__/integration/boot-config.test.js using installGatewayMock() — but the dashboard/server tree does not exist in this repository. As with #1014, this issue belongs to the alpha-claw repo and cannot be implemented here.",
+      "fixed": false,
+      "file": "(missing) dashboard/server/__tests__/integration/boot-config.test.js",
+      "issueNum": 1015
+    },
+    {
+      "severity": "info",
+      "description": "AISummaryPanel and the new client detail page used Tailwind utility colors (text-amber-400, text-red-400, text-white/60, text-white/85, text-white/50) instead of @repo/theme tokens. Replaced with text-accent, text-destructive, text-muted-foreground, and text-foreground. 18 client-health tests still pass; tsc reports no new errors in the modified files.",
       "fixed": true,
-      "file": "supabase/migrations/20260409_leads.sql",
-      "issueNum": 74
-    },
-    {
-      "severity": "info",
-      "description": "Sales leads types.ts and queries.ts duplicate CC leads module code with addition of PipelineStage/stage. Acceptable for now since they're separate apps with diverging requirements, but could be refactored into a shared package later.",
-      "fixed": false,
-      "file": "apps/web/app/apps/sales/lib/types.ts",
-      "issueNum": 74
-    },
-    {
-      "severity": "info",
-      "description": "Brommie Quake and Alpha Wins tests don't include explicit auth gate tests (acceptance criteria). Auth is enforced at the proxy/routing level via app registry config, not at the component level, so component-level auth gate tests aren't applicable here — those belong in M7 (Deep Test Coverage).",
-      "fixed": false,
-      "file": "apps/web/app/apps/brommie-quake/__tests__/page.test.tsx",
-      "issueNum": 76
-    },
-    {
-      "severity": "info",
-      "description": "Radix DialogContent in Alpha Wins WinsGallery triggers 'Missing Description or aria-describedby' warning. Cosmetic accessibility warning, not a functional issue.",
-      "fixed": false,
-      "file": "apps/web/app/apps/alpha-wins/components/wins-gallery.tsx",
-      "issueNum": 77
+      "file": "apps/web/app/apps/command-center/client-health/components/ai-summary-panel.tsx",
+      "issueNum": 281
     }
   ]
 }

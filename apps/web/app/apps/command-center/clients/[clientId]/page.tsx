@@ -18,7 +18,7 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
       />
       <Link
         href="/apps/command-center/client-health"
-        className="text-xs text-white/60 hover:text-amber-400 transition-colors"
+        className="text-xs text-muted-foreground hover:text-accent transition-colors"
       >
         ← Back to Client Health
       </Link>
