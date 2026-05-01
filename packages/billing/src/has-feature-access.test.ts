@@ -74,4 +74,19 @@ describe("hasFeatureAccess", () => {
     mockGetSubscription.mockResolvedValue({ tier: "enterprise", status: "active" });
     expect(await hasFeatureAccess("user-1", "ideas:ai-plan")).toBe(true);
   });
+
+  it("denies free-tier users access to memes:ai-caption", async () => {
+    mockGetSubscription.mockResolvedValue({ tier: "free", status: "active" });
+    expect(await hasFeatureAccess("user-1", "memes:ai-caption")).toBe(false);
+  });
+
+  it("grants pro-tier users access to memes:ai-caption", async () => {
+    mockGetSubscription.mockResolvedValue({ tier: "pro", status: "active" });
+    expect(await hasFeatureAccess("user-1", "memes:ai-caption")).toBe(true);
+  });
+
+  it("grants enterprise-tier users access to memes:ai-caption", async () => {
+    mockGetSubscription.mockResolvedValue({ tier: "enterprise", status: "active" });
+    expect(await hasFeatureAccess("user-1", "memes:ai-caption")).toBe(true);
+  });
 });

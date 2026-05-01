@@ -14,23 +14,114 @@ import { z } from "zod";
 import { requireAccess } from "@repo/auth/server";
 import { createClient } from "@repo/db/server";
 import { CACHE_VERSION, cacheGet, cacheSet } from "@repo/db/cache";
-import { createSignedUrl } from "@repo/storage";
+import {
+  createSignedUrl,
+  uploadFile,
+  deleteFiles,
+  StorageValidationError,
+} from "@repo/storage";
+import {
+  getSubscription,
+  hasFeatureAccess,
+  FeatureAccessError,
+  type Tier,
+} from "@repo/billing";
 import { log } from "@repo/logger";
 import { withSpan } from "@/lib/otel";
+import { rateLimit } from "@/lib/rate-limit";
 import type {
   MemeTemplateRow,
   MemeCreationRow,
 } from "@repo/db/types";
 import type { MemeTemplate, MemeCreation } from "./lib/types";
+import { QuotaExceededError, RateLimitedError } from "./lib/errors";
+import { SAVE_QUOTAS, UPGRADE_TIER } from "./lib/quotas";
+import { generateCaption, type CaptionMap } from "./lib/ai-caption";
 
 const APP_SLUG = "meme-generator";
 const TEMPLATES_TTL_SECONDS = 300;
 const SIGNED_URL_TTL_SECONDS = 3600;
 const MEMES_BUCKET = "memes";
+const MAX_PNG_BYTES = 1_048_576;
+const MAX_PNG_DIMENSION = 4096;
+const CAPTION_RATE_LIMIT = 30;
+const CAPTION_RATE_WINDOW_MS = 60 * 60 * 1000;
 
 export const TEMPLATE_LIST_CACHE_KEY = `meme:templates:active:${CACHE_VERSION}`;
 
 const IdSchema = z.string().uuid();
+const TitleSchema = z.string().trim().min(1).max(200);
+const FontSizeSchema = z.coerce.number().int().min(12).max(200);
+const TemplateIdSchema = z.string().min(1).max(200);
+const TextZonesSchema = z.record(z.string(), z.string());
+
+const SaveMemeInputSchema = z
+  .object({
+    title: TitleSchema,
+    templateId: TemplateIdSchema,
+    textZones: TextZonesSchema,
+    fontSize: FontSizeSchema,
+  })
+  .strict();
+
+const UpdateTitleSchema = z
+  .object({
+    id: IdSchema,
+    title: TitleSchema,
+  })
+  .strict();
+
+const GenerateCaptionInputSchema = z
+  .object({
+    topic: z.string().trim().min(1).max(200),
+    templateId: TemplateIdSchema,
+    style: z.string().trim().min(1).max(80).optional(),
+  })
+  .strict();
+
+export type SaveMemeResult =
+  | { ok: true; meme: MemeCreation }
+  | { ok: false; error: string };
+
+export type UpdateMemeResult =
+  | { ok: true; meme: MemeCreation }
+  | { ok: false; error: string };
+
+export type DeleteMemeResult =
+  | { ok: true }
+  | { ok: false; error: string };
+
+export type GenerateCaptionResult =
+  | { ok: true; captions: CaptionMap }
+  | { ok: false; error: string };
+
+interface PngDimensions {
+  width: number;
+  height: number;
+}
+
+function readPngDimensions(bytes: Uint8Array): PngDimensions | null {
+  // PNG signature (8 bytes) + 4-byte chunk length + 4-byte "IHDR" + 4-byte
+  // width + 4-byte height. We only need the first 24 bytes to read sizes.
+  if (bytes.length < 24) return null;
+  const sig = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a];
+  for (let i = 0; i < sig.length; i++) {
+    if (bytes[i] !== sig[i]) return null;
+  }
+  if (
+    bytes[12] !== 0x49 ||
+    bytes[13] !== 0x48 ||
+    bytes[14] !== 0x44 ||
+    bytes[15] !== 0x52
+  ) {
+    return null;
+  }
+  const width =
+    (bytes[16] << 24) | (bytes[17] << 16) | (bytes[18] << 8) | bytes[19];
+  const height =
+    (bytes[20] << 24) | (bytes[21] << 16) | (bytes[22] << 8) | bytes[23];
+  return { width: width >>> 0, height: height >>> 0 };
+}
 
 export type MemeWithSignedUrl = MemeCreation & { signedUrl: string };
 
@@ -141,6 +232,218 @@ export async function listMyMemes(): Promise<MemeWithSignedUrl[]> {
   );
 }
 
+async function resolveTier(userId: string): Promise<Tier> {
+  const subscription = await getSubscription(userId);
+  return subscription?.tier ?? "free";
+}
+
+export async function saveMeme(formData: FormData): Promise<SaveMemeResult> {
+  return withSpan(
+    "meme-generator.saveMeme",
+    { "app.slug": APP_SLUG },
+    async () => {
+      const { user } = await requireAccess(APP_SLUG);
+      const userId = user.id;
+
+      const rawTextZones = formData.get("textZones");
+      let parsedTextZones: unknown;
+      if (typeof rawTextZones === "string") {
+        try {
+          parsedTextZones = JSON.parse(rawTextZones);
+        } catch {
+          parsedTextZones = undefined;
+        }
+      }
+
+      const inputResult = SaveMemeInputSchema.safeParse({
+        title: formData.get("title"),
+        templateId: formData.get("templateId"),
+        textZones: parsedTextZones,
+        fontSize: formData.get("fontSize"),
+      });
+      if (!inputResult.success) {
+        log.warn("meme-generator.saveMeme invalid input", {
+          action: "saveMeme",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+      const { title, templateId, textZones, fontSize } = inputResult.data;
+
+      const file = formData.get("file");
+      if (!(file instanceof Blob)) {
+        log.warn("meme-generator.saveMeme missing file", {
+          action: "saveMeme",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+      if (file.type !== "image/png") {
+        log.warn("meme-generator.saveMeme bad mime", {
+          action: "saveMeme",
+          userId,
+          contentType: file.type,
+        });
+        return { ok: false, error: "file must be image/png" };
+      }
+      if (file.size > MAX_PNG_BYTES) {
+        log.warn("meme-generator.saveMeme oversize", {
+          action: "saveMeme",
+          userId,
+          size: file.size,
+        });
+        return { ok: false, error: "file too large" };
+      }
+
+      const buffer = new Uint8Array(await file.arrayBuffer());
+      const dims = readPngDimensions(buffer);
+      if (
+        !dims ||
+        dims.width <= 0 ||
+        dims.height <= 0 ||
+        dims.width > MAX_PNG_DIMENSION ||
+        dims.height > MAX_PNG_DIMENSION
+      ) {
+        log.warn("meme-generator.saveMeme bad dimensions", {
+          action: "saveMeme",
+          userId,
+          dims,
+        });
+        return { ok: false, error: "invalid PNG" };
+      }
+
+      const supabase = await createClient();
+      const { data: templateRow, error: templateError } = await supabase
+        .from("meme_templates")
+        .select("id, isActive, textZones")
+        .eq("id", templateId)
+        .maybeSingle();
+      if (templateError) {
+        log.error("meme-generator.saveMeme template lookup error", {
+          action: "saveMeme",
+          userId,
+          err: templateError,
+        });
+        return { ok: false, error: "template lookup failed" };
+      }
+      const template = templateRow as
+        | { id: string; isActive: boolean; textZones: { id: string }[] }
+        | null;
+      if (!template || !template.isActive) {
+        return { ok: false, error: "template not found" };
+      }
+
+      const allowedZoneIds = new Set(template.textZones.map((z) => z.id));
+      for (const zoneId of Object.keys(textZones)) {
+        if (!allowedZoneIds.has(zoneId)) {
+          log.warn("meme-generator.saveMeme unknown zone", {
+            action: "saveMeme",
+            userId,
+            zoneId,
+          });
+          return { ok: false, error: "invalid zone id" };
+        }
+      }
+
+      const tier = await resolveTier(userId);
+      const limit = SAVE_QUOTAS[tier];
+
+      // Benign race: two concurrent saves can both observe count = limit-1
+      // and both pass the check, ending at count = limit+1. We accept this
+      // — the per-tier limits are loose UX guardrails, not security
+      // boundaries, and exact counting would require a transaction or DB
+      // trigger we don't want to maintain. Don't "fix" without context.
+      const { count, error: countError } = await supabase
+        .from("meme_creations")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", userId);
+      if (countError) {
+        log.error("meme-generator.saveMeme count error", {
+          action: "saveMeme",
+          userId,
+          err: countError,
+        });
+        return { ok: false, error: "quota check failed" };
+      }
+      const current = count ?? 0;
+      if (current >= limit) {
+        log.warn("meme-generator.saveMeme quota exceeded", {
+          action: "saveMeme",
+          userId,
+          tier,
+          current,
+          limit,
+        });
+        throw new QuotaExceededError({
+          feature: "memes:save-quota",
+          current,
+          limit,
+          upgradeTier: UPGRADE_TIER[tier],
+        });
+      }
+
+      const storagePath = `${userId}/${crypto.randomUUID()}.png`;
+      try {
+        await uploadFile(
+          {
+            bucket: MEMES_BUCKET,
+            path: storagePath,
+            file: buffer,
+            contentType: "image/png",
+          },
+          { maxBytes: MAX_PNG_BYTES, allowedMimeTypes: ["image/png"] },
+        );
+      } catch (err) {
+        if (err instanceof StorageValidationError) {
+          log.warn("meme-generator.saveMeme storage validation", {
+            action: "saveMeme",
+            userId,
+            err: err.message,
+          });
+          return { ok: false, error: "invalid upload" };
+        }
+        log.error("meme-generator.saveMeme upload error", {
+          action: "saveMeme",
+          userId,
+          err,
+        });
+        return { ok: false, error: "upload failed" };
+      }
+
+      const { data: row, error } = await supabase
+        .from("meme_creations")
+        .insert({
+          user_id: userId,
+          title,
+          templateId,
+          textZones,
+          fontSize,
+          storagePath,
+          widthPx: dims.width,
+          heightPx: dims.height,
+        })
+        .select("*")
+        .single();
+
+      if (error || !row) {
+        log.error("meme-generator.saveMeme insert error", {
+          action: "saveMeme",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "failed to save meme" };
+      }
+
+      log.debug("meme-generator.saveMeme ok", {
+        action: "saveMeme",
+        userId,
+        memeId: (row as MemeCreationRow).id,
+      });
+      return { ok: true, meme: row as unknown as MemeCreation };
+    },
+  );
+}
+
 export async function getMemeSignedUrl(id: string): Promise<SignedUrlResult> {
   return withSpan(
     "memeGenerator.getMemeSignedUrl",
@@ -202,6 +505,210 @@ export async function getMemeSignedUrl(id: string): Promise<SignedUrlResult> {
         });
         return { ok: false, error: "failed to sign url" };
       }
+    },
+  );
+}
+
+export async function updateMemeTitle(
+  id: string,
+  title: string,
+): Promise<UpdateMemeResult> {
+  return withSpan(
+    "meme-generator.updateMemeTitle",
+    { "app.slug": APP_SLUG, "meme.id": id },
+    async () => {
+      const { user } = await requireAccess(APP_SLUG);
+      const userId = user.id;
+
+      const parsed = UpdateTitleSchema.safeParse({ id, title });
+      if (!parsed.success) {
+        log.warn("meme-generator.updateMemeTitle invalid input", {
+          action: "updateMemeTitle",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const supabase = await createClient();
+      const { data: row, error } = await supabase
+        .from("meme_creations")
+        .update({ title: parsed.data.title })
+        // RLS already scopes updates to auth.uid(); the explicit eq is a
+        // belt-and-suspenders guard against future service-role refactors.
+        .eq("id", parsed.data.id)
+        .eq("user_id", userId)
+        .select("*")
+        .single();
+
+      if (error || !row) {
+        log.warn("meme-generator.updateMemeTitle not found", {
+          action: "updateMemeTitle",
+          userId,
+          err: error,
+        });
+        return { ok: false, error: "not found" };
+      }
+
+      log.debug("meme-generator.updateMemeTitle ok", {
+        action: "updateMemeTitle",
+        userId,
+      });
+      return { ok: true, meme: row as unknown as MemeCreation };
+    },
+  );
+}
+
+export async function deleteMeme(id: string): Promise<DeleteMemeResult> {
+  return withSpan(
+    "meme-generator.deleteMeme",
+    { "app.slug": APP_SLUG, "meme.id": id },
+    async () => {
+      const { user } = await requireAccess(APP_SLUG);
+      const userId = user.id;
+
+      const parsedId = IdSchema.safeParse(id);
+      if (!parsedId.success) {
+        log.warn("meme-generator.deleteMeme invalid input", {
+          action: "deleteMeme",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const supabase = await createClient();
+      const { data: existing, error: fetchError } = await supabase
+        .from("meme_creations")
+        .select("storagePath")
+        .eq("id", parsedId.data)
+        .eq("user_id", userId)
+        .maybeSingle();
+
+      if (fetchError) {
+        log.error("meme-generator.deleteMeme fetch error", {
+          action: "deleteMeme",
+          userId,
+          err: fetchError,
+        });
+        return { ok: false, error: "delete failed" };
+      }
+      if (!existing) {
+        return { ok: false, error: "not found" };
+      }
+      const storagePath = (existing as { storagePath: string }).storagePath;
+
+      const { error: deleteError } = await supabase
+        .from("meme_creations")
+        .delete()
+        .eq("id", parsedId.data)
+        .eq("user_id", userId);
+      if (deleteError) {
+        log.error("meme-generator.deleteMeme row delete error", {
+          action: "deleteMeme",
+          userId,
+          err: deleteError,
+        });
+        return { ok: false, error: "delete failed" };
+      }
+
+      // Ordered cleanup: row first, blob second. If the blob delete fails,
+      // we leave the orphaned blob behind and surface a structured warning
+      // so a future cron sweep can pick it up. Do NOT roll back the row
+      // delete — the user already saw "deleted" and the contract is
+      // weighted toward not resurrecting rows.
+      try {
+        await deleteFiles({ bucket: MEMES_BUCKET, paths: [storagePath] });
+      } catch (err) {
+        log.warn("meme-generator.deleteMeme blob delete failed — needs sweep", {
+          action: "deleteMeme",
+          feature: "meme-generator",
+          phase: "delete-blob",
+          userId,
+          memeId: parsedId.data,
+          storagePath,
+          err,
+        });
+      }
+
+      log.debug("meme-generator.deleteMeme ok", {
+        action: "deleteMeme",
+        userId,
+      });
+      return { ok: true };
+    },
+  );
+}
+
+export async function generateMemeCaption(input: {
+  topic: string;
+  templateId: string;
+  style?: string;
+}): Promise<GenerateCaptionResult> {
+  return withSpan(
+    "meme-generator.generateMemeCaption",
+    { "app.slug": APP_SLUG },
+    async () => {
+      const { user } = await requireAccess(APP_SLUG);
+      const userId = user.id;
+
+      const parsed = GenerateCaptionInputSchema.safeParse(input);
+      if (!parsed.success) {
+        log.warn("meme-generator.generateMemeCaption invalid input", {
+          action: "generateMemeCaption",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const allowed = await hasFeatureAccess(userId, "memes:ai-caption");
+      if (!allowed) {
+        throw new FeatureAccessError("memes:ai-caption");
+      }
+
+      const limit = rateLimit(
+        `meme-caption:${userId}`,
+        CAPTION_RATE_LIMIT,
+        CAPTION_RATE_WINDOW_MS,
+      );
+      if (!limit.allowed) {
+        log.warn("meme-generator.generateMemeCaption rate limited", {
+          action: "generateMemeCaption",
+          userId,
+          resetAt: limit.reset,
+        });
+        throw new RateLimitedError(limit.reset);
+      }
+
+      const supabase = await createClient();
+      const { data: templateRow, error: templateError } = await supabase
+        .from("meme_templates")
+        .select("*")
+        .eq("id", parsed.data.templateId)
+        .maybeSingle();
+      if (templateError) {
+        log.error("meme-generator.generateMemeCaption template error", {
+          action: "generateMemeCaption",
+          userId,
+          err: templateError,
+        });
+        return { ok: false, error: "template lookup failed" };
+      }
+      const template = templateRow as unknown as MemeTemplate | null;
+      if (!template || !template.isActive) {
+        return { ok: false, error: "template not found" };
+      }
+
+      const captions = await generateCaption({
+        topic: parsed.data.topic,
+        template,
+        style: parsed.data.style,
+      });
+
+      log.debug("meme-generator.generateMemeCaption ok", {
+        action: "generateMemeCaption",
+        userId,
+        templateId: parsed.data.templateId,
+      });
+      return { ok: true, captions };
     },
   );
 }

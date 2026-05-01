@@ -58,4 +58,8 @@ export interface FeatureLabel {
 
 export const FEATURE_LABELS: Record<string, FeatureLabel> = {
   "ideas:ai-plan": { requiredTier: "pro", label: "AI idea planning & scoring" },
+  "memes:ai-caption": {
+    requiredTier: "pro",
+    label: "AI meme caption suggestions",
+  },
 };
