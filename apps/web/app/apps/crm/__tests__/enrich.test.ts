@@ -46,7 +46,9 @@ vi.mock("@repo/auth/server", () => ({
 }));
 
 const updateEqMock = vi.fn();
-const updateMock = vi.fn(() => ({ eq: updateEqMock }));
+const updateMock: ReturnType<
+  typeof vi.fn<(arg: Record<string, unknown>) => { eq: typeof updateEqMock }>
+> = vi.fn((_arg: Record<string, unknown>) => ({ eq: updateEqMock }));
 const fromMock = vi.fn(() => ({ update: updateMock }));
 vi.mock("@repo/db/server", () => ({
   createClient: vi.fn(async () => ({ from: fromMock })),
