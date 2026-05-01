@@ -3,7 +3,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const sendEmailMock = vi.fn();
 vi.mock("@repo/email", () => ({
   sendEmail: (...args: unknown[]) => sendEmailMock(...args),
-  clientHealthAlertEmail: { subject: () => "x", html: () => "x" },
+  clientHealthAlertEmail: {
+    subject: () => "x",
+    html: (data: { dashboardUrl?: string | null }) =>
+      data.dashboardUrl ? `<a href="${data.dashboardUrl}">View dashboard</a>` : "x",
+  },
 }));
 
 import {
@@ -151,6 +155,45 @@ describe("evaluateAndAlert", () => {
       { status: "skipped", reason: "no_recipient", type: "status-down", clientId: "client-1" },
     ]);
     expect(sendEmailMock).not.toHaveBeenCalled();
+  });
+
+  it("renders a dashboard deep-link when dashboardOrigin is supplied", async () => {
+    sendEmailMock.mockResolvedValue({ id: "email-3" });
+    await evaluateAndAlert({
+      db: makeDb(),
+      userId: "user-1",
+      userEmail: "user@example.com",
+      settings: { ...DEFAULT_ALERT_SETTINGS },
+      candidates: [baseCandidate],
+      dashboardOrigin: "https://command-center.apps.lastrev.com",
+    });
+    expect(sendEmailMock).toHaveBeenCalledOnce();
+    const sendArgs = sendEmailMock.mock.calls[0]![0] as {
+      data: { dashboardUrl: string | null };
+      template: { html: (d: { dashboardUrl?: string | null }) => string };
+    };
+    expect(sendArgs.data.dashboardUrl).toBe(
+      "https://command-center.apps.lastrev.com/clients/client-1",
+    );
+    expect(sendArgs.template.html(sendArgs.data)).toContain(
+      "https://command-center.apps.lastrev.com/clients/client-1",
+    );
+  });
+
+  it("leaves dashboardUrl null when dashboardOrigin is omitted", async () => {
+    sendEmailMock.mockResolvedValue({ id: "email-4" });
+    await evaluateAndAlert({
+      db: makeDb(),
+      userId: "user-1",
+      userEmail: "user@example.com",
+      settings: { ...DEFAULT_ALERT_SETTINGS },
+      candidates: [baseCandidate],
+    });
+    expect(sendEmailMock).toHaveBeenCalledOnce();
+    const sendArgs = sendEmailMock.mock.calls[0]![0] as {
+      data: { dashboardUrl: string | null };
+    };
+    expect(sendArgs.data.dashboardUrl).toBeNull();
   });
 });
 

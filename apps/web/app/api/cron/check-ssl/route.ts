@@ -6,6 +6,7 @@ import { log, withRequestContext } from "@repo/logger";
 import { isAuthorizedCronRequest } from "@/lib/cron-auth";
 import { pLimit } from "@/lib/concurrent";
 import { withSpan } from "@/lib/otel";
+import { appOrigin } from "@/lib/app-host";
 import { checkSslForUrl, type SslCheckResult } from "./check-url";
 import {
   DEFAULT_ALERT_SETTINGS,
@@ -30,6 +31,7 @@ interface ClientSiteRow {
 async function fanoutExpiryAlerts(
   db: SupabaseClient,
   results: SslCheckResult[],
+  dashboardOrigin: string | null,
 ): Promise<void> {
   const okResults = results.filter(
     (r): r is Extract<SslCheckResult, { ok: true }> => r.ok,
@@ -132,7 +134,14 @@ async function fanoutExpiryAlerts(
     const userEmail =
       userInfo.data && typeof userInfo.data.email === "string" ? userInfo.data.email : null;
 
-    await evaluateAndAlert({ db, userId, userEmail, settings, candidates });
+    await evaluateAndAlert({
+      db,
+      userId,
+      userEmail,
+      settings,
+      candidates,
+      dashboardOrigin,
+    });
   }
 }
 
@@ -174,9 +183,18 @@ export async function GET(request: Request): Promise<Response> {
         const ok = results.filter((r) => r.ok).length;
         const failed = results.length - ok;
 
+        const hostHeader =
+          request.headers.get("x-forwarded-host") ??
+          request.headers.get("host") ??
+          "";
+        // client-health is a sub-route of command-center (see app-registry.ts:44).
+        const dashboardOrigin = hostHeader
+          ? appOrigin({ subdomain: "command-center" }, hostHeader)
+          : null;
+
         // Fire alerts for any cert that is expired or within sslWarnDays. We
         // group by user so each user pays at most one DB read for settings.
-        await fanoutExpiryAlerts(db, results).catch((err) => {
+        await fanoutExpiryAlerts(db, results, dashboardOrigin).catch((err) => {
           log.warn("ssl alerting fan-out failed", {
             err: err instanceof Error ? err.message : String(err),
           });

@@ -5,6 +5,7 @@ import { log, withRequestContext } from "@repo/logger";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { isAuthorizedCronRequest } from "@/lib/cron-auth";
 import { withSpan } from "@/lib/otel";
+import { appOrigin } from "@/lib/app-host";
 import {
   DEFAULT_ALERT_SETTINGS,
   evaluateAndAlert,
@@ -55,12 +56,20 @@ export async function GET(request: Request): Promise<Response> {
         ),
       );
 
+      const hostHeader =
+        request.headers.get("x-forwarded-host") ?? request.headers.get("host") ?? "";
+      // client-health is a sub-route of command-center (see app-registry.ts:44),
+      // so we resolve the deep-link host from the command-center subdomain.
+      const dashboardOrigin = hostHeader
+        ? appOrigin({ subdomain: "command-center" }, hostHeader)
+        : null;
+
       const allDecisions: AlertDecision[] = [];
       for (const userId of userIds) {
         const decisions = await withSpan(
           "cron.check-status.user",
           { "user.id": userId },
-          () => processUser(db, userId),
+          () => processUser(db, userId, dashboardOrigin),
         );
         allDecisions.push(...decisions);
       }
@@ -72,7 +81,11 @@ export async function GET(request: Request): Promise<Response> {
   });
 }
 
-async function processUser(db: SupabaseClient, userId: string): Promise<AlertDecision[]> {
+async function processUser(
+  db: SupabaseClient,
+  userId: string,
+  dashboardOrigin: string | null,
+): Promise<AlertDecision[]> {
   const settings = await getAlertSettingsForUser(userId, db).catch(() => ({
     ...DEFAULT_ALERT_SETTINGS,
   }));
@@ -97,7 +110,14 @@ async function processUser(db: SupabaseClient, userId: string): Promise<AlertDec
   const candidates = buildCandidates((sites.data ?? []) as SiteRow[], settings);
   if (candidates.length === 0) return [];
 
-  return evaluateAndAlert({ db, userId, userEmail, settings, candidates });
+  return evaluateAndAlert({
+    db,
+    userId,
+    userEmail,
+    settings,
+    candidates,
+    dashboardOrigin,
+  });
 }
 
 export function buildCandidates(

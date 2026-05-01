@@ -67,6 +67,11 @@ export interface EvaluateAndAlertParams {
   userEmail: string | null;
   settings: AlertSettings;
   candidates: AlertCandidate[];
+  /**
+   * Origin (`scheme://host[:port]`) for the client-health host. When supplied,
+   * the email's "View dashboard" link points at `${origin}/clients/${clientId}`.
+   */
+  dashboardOrigin?: string | null;
 }
 
 export async function evaluateAndAlert({
@@ -75,6 +80,7 @@ export async function evaluateAndAlert({
   userEmail,
   settings,
   candidates,
+  dashboardOrigin,
 }: EvaluateAndAlertParams): Promise<AlertDecision[]> {
   const decisions: AlertDecision[] = [];
 
@@ -146,7 +152,9 @@ export async function evaluateAndAlert({
       score: candidate.score ?? null,
       scoreDelta: candidate.scoreDelta ?? null,
       offenders: candidate.offenders,
-      dashboardUrl: null,
+      dashboardUrl: dashboardOrigin
+        ? `${dashboardOrigin}/clients/${candidate.clientId}`
+        : null,
     };
 
     try {

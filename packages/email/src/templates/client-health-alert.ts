@@ -1,5 +1,7 @@
 import type { EmailTemplate } from "../types";
-import { escapeHtml, renderLayout } from "./layout";
+// BRAND mirrors @repo/theme tokens — email clients strip <link>/<style>, so
+// these inline style colors stand in for the design tokens.
+import { BRAND, escapeHtml, renderLayout } from "./layout";
 
 export type ClientHealthAlertSeverity = "critical" | "warning";
 export type ClientHealthAlertType =
@@ -35,11 +37,11 @@ function renderOffenders(offenders: ClientHealthAlertOffender[]): string {
   const items = offenders
     .map(
       (o) =>
-        `<li style="margin:0 0 8px;font-size:13px;line-height:1.5;"><strong>${escapeHtml(o.name)}</strong> &mdash; <a href="${escapeHtml(o.url)}" style="color:#a1a8c4;">${escapeHtml(o.url)}</a><br /><span style="color:#a1a8c4;">${escapeHtml(o.detail)}</span></li>`,
+        `<li style="margin:0 0 8px;font-size:13px;line-height:1.5;"><strong>${escapeHtml(o.name)}</strong> &mdash; <a href="${escapeHtml(o.url)}" style="color:${BRAND.muted};">${escapeHtml(o.url)}</a><br /><span style="color:${BRAND.muted};">${escapeHtml(o.detail)}</span></li>`,
     )
     .join("");
   return `
-        <h2 style="margin:24px 0 12px;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:#a1a8c4;">Affected sites</h2>
+        <h2 style="margin:24px 0 12px;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:${BRAND.muted};">Affected sites</h2>
         <ul style="margin:0 0 16px;padding:0 0 0 18px;">${items}</ul>`;
 }
 
@@ -56,7 +58,7 @@ export const clientHealthAlertEmail: EmailTemplate<ClientHealthAlertEmailData> =
         </h1>
         <p style="margin:0 0 16px;font-size:14px;line-height:1.6;">${escapeHtml(data.summary)}</p>
         ${typeof data.score === "number"
-          ? `<p style="margin:0 0 16px;font-size:13px;line-height:1.5;color:#a1a8c4;">Score: <strong style="color:#f8fafc;">${data.score}</strong>${
+          ? `<p style="margin:0 0 16px;font-size:13px;line-height:1.5;color:${BRAND.muted};">Score: <strong style="color:${BRAND.text};">${data.score}</strong>${
               typeof data.scoreDelta === "number"
                 ? ` (${data.scoreDelta > 0 ? "+" : ""}${data.scoreDelta})`
                 : ""
@@ -64,7 +66,7 @@ export const clientHealthAlertEmail: EmailTemplate<ClientHealthAlertEmailData> =
           : ""}
         ${renderOffenders(data.offenders)}
         ${data.dashboardUrl
-          ? `<p style="margin:24px 0 0;font-size:13px;line-height:1.5;"><a href="${escapeHtml(data.dashboardUrl)}" style="color:#f59e0b;">View dashboard</a></p>`
+          ? `<p style="margin:24px 0 0;font-size:13px;line-height:1.5;"><a href="${escapeHtml(data.dashboardUrl)}" style="color:${BRAND.accent};">View dashboard</a></p>`
           : ""}
       `,
     }),

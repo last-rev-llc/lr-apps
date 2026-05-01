@@ -111,4 +111,28 @@ describe("clientHealthAlertEmail", () => {
     expect(text).toContain("Acme");
     expect(text).toContain("https://acme.example/a");
   });
+
+  it("matches the snapshot for a critical status-down alert", () => {
+    expect(clientHealthAlertEmail.html(baseData)).toMatchSnapshot();
+  });
+
+  it("matches the snapshot for a warning ssl-expiring alert", () => {
+    const data = {
+      ...baseData,
+      alertType: "ssl-expiring" as const,
+      severity: "warning" as const,
+      summary: "1 certificate expiring within 14 days for Acme.",
+      score: undefined,
+      scoreDelta: undefined,
+      offenders: [
+        {
+          name: "https://acme.example/a",
+          url: "https://acme.example/a",
+          detail: "expires 2026-05-14",
+        },
+      ],
+      dashboardUrl: "https://command-center.apps.lastrev.com/clients/c-123",
+    };
+    expect(clientHealthAlertEmail.html(data)).toMatchSnapshot();
+  });
 });
