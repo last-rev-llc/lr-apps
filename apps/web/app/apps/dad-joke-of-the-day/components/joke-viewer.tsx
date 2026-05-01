@@ -32,17 +32,7 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
       const supabase = createClient();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const db = supabase as any;
-      const { data: joke } = await db
-        .from("dad_jokes")
-        .select("times_shown")
-        .eq("id", jokeId)
-        .single();
-      if (joke) {
-        await db
-          .from("dad_jokes")
-          .update({ times_shown: (joke.times_shown ?? 0) + 1 })
-          .eq("id", jokeId);
-      }
+      await db.rpc("increment_dad_joke_shown", { p_joke_id: jokeId });
     } catch {
       // silent — tracking is best-effort
     }
@@ -87,24 +77,18 @@ export function JokeViewer({ jokes, initialJoke, categories }: JokeViewerProps) 
         const supabase = createClient();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const db = supabase as any;
-        const { data: joke } = await db
-          .from("dad_jokes")
-          .select("rating, times_rated")
-          .eq("id", currentJoke.id)
-          .single();
-        if (joke) {
-          const timesRated = (joke.times_rated ?? 0) + 1;
-          const numericRating = RATING_MAP[ratingKey] ?? 2;
-          const newRating =
-            (((joke.rating ?? 0) * (timesRated - 1)) + numericRating) /
-            timesRated;
-          await db
-            .from("dad_jokes")
-            .update({
-              rating: Math.round(newRating * 100) / 100,
-              times_rated: timesRated,
-            })
-            .eq("id", currentJoke.id);
+        const numericRating = RATING_MAP[ratingKey] ?? 2;
+        const { data } = await db.rpc("rate_dad_joke", {
+          p_joke_id: currentJoke.id,
+          p_numeric_rating: numericRating,
+        });
+        const updated = Array.isArray(data) ? data[0] : null;
+        if (updated) {
+          setCurrentJoke((j) => ({
+            ...j,
+            rating: updated.rating ?? j.rating,
+            times_rated: updated.times_rated ?? j.times_rated,
+          }));
         }
       } catch {
         // silent

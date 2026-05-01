@@ -1,0 +1,9 @@
+id: captured-466-confirm-supabase-triage-target-and-resol
+description: Confirm Supabase triage target and resolve exec_sql RPC vs
+  multi-roundtrip fallback
+tags: []
+source: auto-captured
+captured_from:
+  issue: 466
+  session: session/037-read-only-viewer-triage
+  date: 2026-05-01
