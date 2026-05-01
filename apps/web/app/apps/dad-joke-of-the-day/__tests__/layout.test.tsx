@@ -7,6 +7,8 @@ vi.mock("@/lib/require-app-layout-access", () => ({
 
 vi.mock("next-intl/server", () => ({
   getTranslations: vi.fn(async () => (key: string) => key),
+  getLocale: vi.fn(async () => "en"),
+  getMessages: vi.fn(async () => ({})),
 }));
 
 import { requireAppLayoutAccess } from "@/lib/require-app-layout-access";

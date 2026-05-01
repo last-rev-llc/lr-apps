@@ -19,6 +19,8 @@ vi.mock("next-intl/server", () => ({
       return cursor?.[key] ?? `${namespace}.${key}`;
     };
   }),
+  getLocale: vi.fn(async () => "en"),
+  getMessages: vi.fn(async () => I18N_MESSAGES),
 }));
 
 vi.mock("next/navigation", () => ({
