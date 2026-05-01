@@ -226,7 +226,9 @@ if (isEntrypoint) {
       } else {
         printHuman(report);
       }
-      const hasIssues = !report.found || report.summary.drift + report.summary.missing > 0;
+      const hasIssues =
+        !report.found ||
+        report.summary.drift + report.summary.missing + report.summary.extra > 0;
       process.exit(hasIssues ? 1 : 0);
     })
     .catch((err) => fail(err instanceof Error ? err.message : String(err)));
