@@ -18,7 +18,10 @@
 
 import { test, expect, type Page } from "@playwright/test";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { getAllApps, type AppConfig } from "../../lib/app-registry";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
 
