@@ -74,4 +74,33 @@ describe("hasFeatureAccess", () => {
     mockGetSubscription.mockResolvedValue({ tier: "enterprise", status: "active" });
     expect(await hasFeatureAccess("user-1", "ideas:ai-plan")).toBe(true);
   });
+
+  describe.each([
+    "client-health:ai-summary",
+    "client-health:alerting",
+    "client-health:settings",
+  ])("client-health pro feature %s", (feature) => {
+    it("denies free-tier users", async () => {
+      mockGetSubscription.mockResolvedValue({ tier: "free", status: "active" });
+      expect(await hasFeatureAccess("user-1", feature)).toBe(false);
+    });
+
+    it("grants pro-tier users", async () => {
+      mockGetSubscription.mockResolvedValue({ tier: "pro", status: "active" });
+      expect(await hasFeatureAccess("user-1", feature)).toBe(true);
+    });
+
+    it("grants enterprise-tier users", async () => {
+      mockGetSubscription.mockResolvedValue({
+        tier: "enterprise",
+        status: "active",
+      });
+      expect(await hasFeatureAccess("user-1", feature)).toBe(true);
+    });
+
+    it("denies pro users with past_due subscription", async () => {
+      mockGetSubscription.mockResolvedValue({ tier: "pro", status: "past_due" });
+      expect(await hasFeatureAccess("user-1", feature)).toBe(false);
+    });
+  });
 });
