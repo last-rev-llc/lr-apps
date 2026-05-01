@@ -20,16 +20,23 @@ import {
   deleteFiles,
   StorageValidationError,
 } from "@repo/storage";
-import { getSubscription, type Tier } from "@repo/billing";
+import {
+  getSubscription,
+  hasFeatureAccess,
+  FeatureAccessError,
+  type Tier,
+} from "@repo/billing";
 import { log } from "@repo/logger";
 import { withSpan } from "@/lib/otel";
+import { rateLimit } from "@/lib/rate-limit";
 import type {
   MemeTemplateRow,
   MemeCreationRow,
 } from "@repo/db/types";
 import type { MemeTemplate, MemeCreation } from "./lib/types";
-import { QuotaExceededError } from "./lib/errors";
+import { QuotaExceededError, RateLimitedError } from "./lib/errors";
 import { SAVE_QUOTAS, UPGRADE_TIER } from "./lib/quotas";
+import { generateCaption, type CaptionMap } from "./lib/ai-caption";
 
 const APP_SLUG = "meme-generator";
 const TEMPLATES_TTL_SECONDS = 300;
@@ -37,6 +44,8 @@ const SIGNED_URL_TTL_SECONDS = 3600;
 const MEMES_BUCKET = "memes";
 const MAX_PNG_BYTES = 1_048_576;
 const MAX_PNG_DIMENSION = 4096;
+const CAPTION_RATE_LIMIT = 30;
+const CAPTION_RATE_WINDOW_MS = 60 * 60 * 1000;
 
 export const TEMPLATE_LIST_CACHE_KEY = `meme:templates:active:${CACHE_VERSION}`;
 
@@ -62,6 +71,14 @@ const UpdateTitleSchema = z
   })
   .strict();
 
+const GenerateCaptionInputSchema = z
+  .object({
+    topic: z.string().trim().min(1).max(200),
+    templateId: TemplateIdSchema,
+    style: z.string().trim().min(1).max(80).optional(),
+  })
+  .strict();
+
 export type SaveMemeResult =
   | { ok: true; meme: MemeCreation }
   | { ok: false; error: string };
@@ -72,6 +89,10 @@ export type UpdateMemeResult =
 
 export type DeleteMemeResult =
   | { ok: true }
+  | { ok: false; error: string };
+
+export type GenerateCaptionResult =
+  | { ok: true; captions: CaptionMap }
   | { ok: false; error: string };
 
 interface PngDimensions {
@@ -613,6 +634,81 @@ export async function deleteMeme(id: string): Promise<DeleteMemeResult> {
         userId,
       });
       return { ok: true };
+    },
+  );
+}
+
+export async function generateMemeCaption(input: {
+  topic: string;
+  templateId: string;
+  style?: string;
+}): Promise<GenerateCaptionResult> {
+  return withSpan(
+    "meme-generator.generateMemeCaption",
+    { "app.slug": APP_SLUG },
+    async () => {
+      const { user } = await requireAccess(APP_SLUG);
+      const userId = user.id;
+
+      const parsed = GenerateCaptionInputSchema.safeParse(input);
+      if (!parsed.success) {
+        log.warn("meme-generator.generateMemeCaption invalid input", {
+          action: "generateMemeCaption",
+          userId,
+        });
+        return { ok: false, error: "invalid input" };
+      }
+
+      const allowed = await hasFeatureAccess(userId, "memes:ai-caption");
+      if (!allowed) {
+        throw new FeatureAccessError("memes:ai-caption");
+      }
+
+      const limit = rateLimit(
+        `meme-caption:${userId}`,
+        CAPTION_RATE_LIMIT,
+        CAPTION_RATE_WINDOW_MS,
+      );
+      if (!limit.allowed) {
+        log.warn("meme-generator.generateMemeCaption rate limited", {
+          action: "generateMemeCaption",
+          userId,
+          resetAt: limit.reset,
+        });
+        throw new RateLimitedError(limit.reset);
+      }
+
+      const supabase = await createClient();
+      const { data: templateRow, error: templateError } = await supabase
+        .from("meme_templates")
+        .select("*")
+        .eq("id", parsed.data.templateId)
+        .maybeSingle();
+      if (templateError) {
+        log.error("meme-generator.generateMemeCaption template error", {
+          action: "generateMemeCaption",
+          userId,
+          err: templateError,
+        });
+        return { ok: false, error: "template lookup failed" };
+      }
+      const template = templateRow as unknown as MemeTemplate | null;
+      if (!template || !template.isActive) {
+        return { ok: false, error: "template not found" };
+      }
+
+      const captions = await generateCaption({
+        topic: parsed.data.topic,
+        template,
+        style: parsed.data.style,
+      });
+
+      log.debug("meme-generator.generateMemeCaption ok", {
+        action: "generateMemeCaption",
+        userId,
+        templateId: parsed.data.templateId,
+      });
+      return { ok: true, captions };
     },
   );
 }

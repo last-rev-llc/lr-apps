@@ -47,10 +47,38 @@ vi.mock("@repo/storage", () => {
   };
 });
 
-const getSubscriptionMock = vi.fn();
-vi.mock("@repo/billing", () => ({
-  getSubscription: (...args: unknown[]) => getSubscriptionMock(...args),
+const { getSubscriptionMock, hasFeatureAccessMock } = vi.hoisted(() => ({
+  getSubscriptionMock: vi.fn(),
+  hasFeatureAccessMock: vi.fn(),
 }));
+vi.mock("@repo/billing", () => {
+  class FeatureAccessError extends Error {
+    readonly feature: string;
+    constructor(feature: string) {
+      super(`feature access denied: ${feature}`);
+      this.name = "FeatureAccessError";
+      this.feature = feature;
+    }
+  }
+  return {
+    getSubscription: (...args: unknown[]) => getSubscriptionMock(...args),
+    hasFeatureAccess: (...args: unknown[]) => hasFeatureAccessMock(...args),
+    FeatureAccessError,
+  };
+});
+
+const generateCaptionLibMock = vi.fn();
+vi.mock("../lib/ai-caption", async () => {
+  const actual = await vi.importActual<typeof import("../lib/ai-caption")>(
+    "../lib/ai-caption",
+  );
+  return {
+    ...actual,
+    generateCaption: (
+      ...args: Parameters<typeof actual.generateCaption>
+    ) => generateCaptionLibMock(...args),
+  };
+});
 
 const withSpanMock = vi.fn(
   async <T,>(
@@ -210,10 +238,13 @@ import {
   saveMeme,
   updateMemeTitle,
   deleteMeme,
+  generateMemeCaption,
   TEMPLATE_LIST_CACHE_KEY,
 } from "../actions";
-import { QuotaExceededError } from "../lib/errors";
+import { QuotaExceededError, RateLimitedError } from "../lib/errors";
 import { SAVE_QUOTAS } from "../lib/quotas";
+import { FeatureAccessError } from "@repo/billing";
+import { _resetRateLimitStore } from "@/lib/rate-limit";
 import { log } from "@repo/logger";
 
 beforeEach(() => {
@@ -230,6 +261,10 @@ beforeEach(() => {
   deleteFilesMock.mockResolvedValue({ bucket: "memes", deleted: [] });
   getSubscriptionMock.mockReset();
   getSubscriptionMock.mockResolvedValue(null);
+  hasFeatureAccessMock.mockReset();
+  hasFeatureAccessMock.mockResolvedValue(true);
+  generateCaptionLibMock.mockReset();
+  _resetRateLimitStore();
 });
 
 const TEMPLATE_ID = "classic";
@@ -861,6 +896,83 @@ describe("meme-generator server actions", () => {
         expect.objectContaining({ "app.slug": "meme-generator" }),
         expect.any(Function),
       );
+    });
+  });
+
+  describe("generateMemeCaption", () => {
+    beforeEach(() => {
+      seedClassicTemplate();
+      generateCaptionLibMock.mockResolvedValue({
+        top: "WHEN YOU FINALLY",
+        bottom: "SHIP THE FEATURE",
+      });
+    });
+
+    it("rejects empty topic without invoking the model", async () => {
+      const result = await generateMemeCaption({
+        topic: "  ",
+        templateId: TEMPLATE_ID,
+      });
+      expect(result).toEqual({ ok: false, error: "invalid input" });
+      expect(generateCaptionLibMock).not.toHaveBeenCalled();
+    });
+
+    it("throws FeatureAccessError for free-tier callers", async () => {
+      hasFeatureAccessMock.mockResolvedValueOnce(false);
+      await expect(
+        generateMemeCaption({ topic: "shipping", templateId: TEMPLATE_ID }),
+      ).rejects.toBeInstanceOf(FeatureAccessError);
+      expect(generateCaptionLibMock).not.toHaveBeenCalled();
+    });
+
+    it("returns captions keyed by zone id (pro-tier)", async () => {
+      const result = await generateMemeCaption({
+        topic: "shipping a feature",
+        templateId: TEMPLATE_ID,
+      });
+      expect(result.ok).toBe(true);
+      if (!result.ok) throw new Error("expected ok");
+      expect(Object.keys(result.captions).sort()).toEqual(["bottom", "top"]);
+      expect(result.captions.top).toBe("WHEN YOU FINALLY");
+      expect(result.captions.bottom).toBe("SHIP THE FEATURE");
+    });
+
+    it("rate-limits to 30/hour/user — 31st throws RateLimitedError without invoking the model", async () => {
+      for (let i = 0; i < 30; i++) {
+        const r = await generateMemeCaption({
+          topic: `t-${i}`,
+          templateId: TEMPLATE_ID,
+        });
+        expect(r.ok).toBe(true);
+      }
+      expect(generateCaptionLibMock).toHaveBeenCalledTimes(30);
+      generateCaptionLibMock.mockClear();
+      await expect(
+        generateMemeCaption({ topic: "after-limit", templateId: TEMPLATE_ID }),
+      ).rejects.toBeInstanceOf(RateLimitedError);
+      expect(generateCaptionLibMock).not.toHaveBeenCalled();
+    });
+
+    it("emits a span named meme-generator.generateMemeCaption", async () => {
+      await generateMemeCaption({
+        topic: "anything",
+        templateId: TEMPLATE_ID,
+      });
+      expect(withSpanMock).toHaveBeenCalledWith(
+        "meme-generator.generateMemeCaption",
+        expect.objectContaining({ "app.slug": "meme-generator" }),
+        expect.any(Function),
+      );
+    });
+
+    it("returns not-found if template is inactive", async () => {
+      templateStore = [{ ...templateStore[0], isActive: false }] as Row[];
+      const result = await generateMemeCaption({
+        topic: "x",
+        templateId: TEMPLATE_ID,
+      });
+      expect(result).toEqual({ ok: false, error: "template not found" });
+      expect(generateCaptionLibMock).not.toHaveBeenCalled();
     });
   });
 });
