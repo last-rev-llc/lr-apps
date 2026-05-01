@@ -3,6 +3,30 @@ Rewrote `CLAUDE.md` with actual instructions (the prior file was meta-commentary
 
 Key corrections vs. the old summary:
 - **Packages** — now lists all 10 (`auth`, `billing`, `config`, `db`, `email`, `logger`, `storage`, `test-utils`, `theme`, `ui`); the old file said 7 and missed `email`, `logger`, `storage`.
-- **lib-listing block** — added the `<!-- lib-listing:start -->`/`<!-- lib-listing:end -->` markers required by `scripts/check-claude-md-lib-sync.ts`. Without them `pnpm lint` fails. Verified in sync.
+- **lib-listing block** — added the lib-listing start/end markers required by `scripts/check-claude-md-lib-sync.ts`. Without them `pnpm lint` fails. Verified in sync.
 - **Tech stack** — added Sentry 10, OpenTelemetry, Resend (email), Upstash Redis, Stripe v17, exact pnpm version.
 - **Non-negotiables** — kept the registry/proxy/`requireAppLayoutAccess`/`getAuth0ClientForHost`/`turbo.json globalEnv`/append-only-migrations/billing rules, and added the explicit migration-pair-lint and lib-listing-lint rules surfaced from the codebase.
+
+## apps/web/lib/
+
+<!-- lib-listing:start -->
+- `app-card-media.ts`
+- `app-host.ts`
+- `app-registry.ts`
+- `auth-login-redirect.ts`
+- `concurrent.ts`
+- `cron-auth.ts`
+- `csp.ts`
+- `csrf.ts`
+- `enforce-feature-tier.ts`
+- `env.ts`
+- `health-checks.ts`
+- `otel-sdk.ts`
+- `otel.ts`
+- `platform-urls.ts`
+- `proxy-utils.ts`
+- `rate-limit.ts`
+- `require-app-layout-access.ts`
+- `tier-config.ts`
+- `validate-request.ts`
+<!-- lib-listing:end -->
