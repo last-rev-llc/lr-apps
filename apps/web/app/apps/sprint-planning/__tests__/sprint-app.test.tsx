@@ -1,10 +1,19 @@
 // @vitest-environment jsdom
 import React from "react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterAll } from "vitest";
 import { act } from "react";
 import { renderWithProviders, screen, fireEvent, waitFor } from "@repo/test-utils";
 import type { SprintData, ArchiveRecord } from "../lib/types";
 import { SprintApp } from "../components/sprint-app";
+
+// Freeze the clock so date-window filters in the Archives view (Last 7/30 days)
+// are evaluated against a known "today" — otherwise the hardcoded archive dates
+// drift out of range as real-world time advances.
+vi.useFakeTimers({ shouldAdvanceTime: true });
+vi.setSystemTime(new Date("2026-04-09T12:00:00Z"));
+afterAll(() => {
+  vi.useRealTimers();
+});
 
 // ── Mock data ──────────────────────────────────────────────────────────────
 
