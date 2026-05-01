@@ -36,6 +36,12 @@ vi.mock("../components/contact-detail", () => ({
   ContactTypeBadge: ({ type }: { type: string }) => <span>{type}</span>,
 }));
 
+vi.mock("../lib/actions", () => ({
+  createContact: vi.fn(),
+  updateContact: vi.fn(),
+  deleteContact: vi.fn(),
+}));
+
 import { CrmApp } from "../components/crm-app";
 
 const FIXTURE_CONTACTS = [
@@ -90,5 +96,12 @@ describe("CrmApp", () => {
     renderWithProviders(<CrmApp initialContacts={FIXTURE_CONTACTS} />);
     expect(screen.getAllByText("AJ").length).toBeGreaterThan(0);
     expect(screen.getAllByText("BS").length).toBeGreaterThan(0);
+  });
+
+  it("renders a + New Contact button", () => {
+    renderWithProviders(<CrmApp initialContacts={[]} />);
+    expect(
+      screen.getByRole("button", { name: /new contact/i }),
+    ).toBeInTheDocument();
   });
 });
