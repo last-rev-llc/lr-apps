@@ -135,7 +135,7 @@ describe("CommandCenterLayout", () => {
     const moduleLabels = [
       "Leads", "Agents", "Recipes", "Users", "Crons",
       "Gallery", "Architecture", "Client Health", "Concerts",
-      "Contentful", "Iron", "Meeting Summaries", "Meme Generator",
+      "Contentful", "Iron", "Meeting Summaries",
       "PR Review", "Rizz Guide", "Shopping List", "Team USF",
       "AI Scripts", "App Access", "AlphaClaw",
     ];
@@ -144,8 +144,10 @@ describe("CommandCenterLayout", () => {
       expect(screen.getByText(label)).toBeInTheDocument();
     }
 
-    // Ideas was promoted to its own subdomain — no longer a CC sub-route.
+    // Ideas and Meme Generator were promoted to their own subdomains —
+    // no longer CC sub-routes.
     expect(screen.queryByText("Ideas")).toBeNull();
+    expect(screen.queryByText("Meme Generator")).toBeNull();
   });
 
   it("propagates auth error when requireAccess rejects", async () => {
