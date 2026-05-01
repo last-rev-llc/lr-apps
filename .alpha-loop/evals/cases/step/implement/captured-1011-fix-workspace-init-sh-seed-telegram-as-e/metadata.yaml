@@ -1,0 +1,8 @@
+id: captured-1011-fix-workspace-init-sh-seed-telegram-as-e
+description: "Fix workspace-init.sh: seed Telegram as enabled: false"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 1011
+  session: session/20260430-103612
+  date: 2026-04-30

@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "summary": "client_health_alerts migration meets all acceptance criteria; paired up/down files, nullable cascading FK, type/severity enum checks, deliveredAt/acknowledgedAt/createdAt columns, per-user RLS for all four ops, and the (user_id, createdAt desc) index. Migration pair check passes.",
+  "findings": []
+}
