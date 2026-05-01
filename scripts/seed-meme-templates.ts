@@ -20,11 +20,17 @@
 // Usage: pnpm seed:meme-templates [--dryRun] [--top=<N>]
 import { Buffer } from "node:buffer";
 import { createServiceRoleClient } from "../packages/db/src/service-role.ts";
+import { CACHE_VERSION, cacheDel } from "../packages/db/src/cache.ts";
 import { uploadFile } from "../packages/storage/src/upload.ts";
 import type {
   MemeTemplateRow,
   MemeTextZone,
 } from "../packages/db/src/types.ts";
+
+// Mirrors `TEMPLATE_LIST_CACHE_KEY` in
+// apps/web/app/apps/meme-generator/actions.ts. Bumping `CACHE_VERSION`
+// already busts it on deploy; this keeps the local seed run in sync.
+const TEMPLATE_LIST_CACHE_KEY = `meme:templates:active:${CACHE_VERSION}`;
 
 const DEFAULT_TOP_N = 30;
 const MAX_RETRIES = 3;
@@ -491,6 +497,10 @@ export async function seed(
       console.warn(`  error on ${label}: ${message}`);
       summary.errors++;
     }
+  }
+
+  if (!flags.dryRun && (summary.added > 0 || summary.updated > 0)) {
+    await cacheDel([TEMPLATE_LIST_CACHE_KEY]);
   }
 
   return summary;
