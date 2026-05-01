@@ -27,6 +27,11 @@ export function buildCspHeader(opts: BuildCspOptions = {}): string {
   } else if (!isProd) {
     scriptSrc.push("'unsafe-inline'");
   }
+  if (!isProd) {
+    // Next.js dev (Turbopack/HMR) and React DevTools rely on eval() for
+    // source maps and stack reconstruction. Prod never needs this.
+    scriptSrc.push("'unsafe-eval'");
+  }
 
   const directives: Record<string, string[]> = {
     "default-src": ["'self'"],

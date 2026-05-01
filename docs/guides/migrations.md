@@ -130,6 +130,53 @@ that has already been applied to the production Supabase project:
    normally be followed by a corrected forward migration — never edit
    the original up file in place.
 
+## Data migrations
+
+`supabase/seed.sql` is **local-dev only** — `supabase db push` does not run it.
+For seed data that must reach preview / staging / prod, ship it as a
+**data migration** under `supabase/migrations/`.
+
+### Convention
+
+- **Filename:** `<date>_<topic>_data.sql` (paired `.down.sql` is required).
+  Examples: `20260430_dad_jokes_data.sql`, `20260430_slang_data.sql`.
+- **Tag every row with `seed_source`.** Add a nullable `seed_source text`
+  column to the target table (idempotent `add column if not exists`) and
+  stamp every inserted row with a unique batch label such as
+  `'dad_jokes_v1'` or `'gen_alpha_v1'`. The label is the rollback handle —
+  the down migration deletes by `seed_source = '<batch>'` so user-created
+  rows are preserved.
+- **Make the up idempotent.** Use `on conflict (...) do update set ... = excluded.<col>`
+  (preferred — also "claims" any pre-existing rows seeded from the legacy
+  `seed.sql`) or wrap in a `do $$ if not exists (...) then ... end $$;`
+  guard. Re-running the migration must never duplicate rows.
+- **Prefer a natural unique key for `on conflict`.** If the table doesn't
+  have one, add a unique constraint inside the data migration via a
+  `do $$` guard (see `20260430_dad_jokes_data.sql` for the pattern that
+  guards `add constraint` against re-applies).
+- **Down migrations only delete data.** Leave the `seed_source` column,
+  its index, and any added unique constraint in place — they're reusable
+  scaffolding for future batches. To fully reverse the schema additions,
+  ship a separate cleanup migration.
+
+### Adding more rows later
+
+Don't edit the original up file. Author a new migration with a new
+`seed_source` label (e.g. `dad_jokes_v2`) that contains only the additions.
+Each batch is independently rollback-able.
+
+### Removing seeded rows
+
+Either run the original migration's `.down.sql` (rolls back the whole
+batch), or ship a focused removal migration:
+
+```sql
+-- 20260601_dad_jokes_remove_offensive.sql
+delete from public.dad_jokes
+where seed_source = 'dad_jokes_v1'
+  and id in (...);
+```
+
 ## Related
 
 - [Secrets rotation runbook](../ops/secrets-rotation.md)
