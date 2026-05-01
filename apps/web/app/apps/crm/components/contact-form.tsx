@@ -157,7 +157,6 @@ export function ContactForm({
             onChange={(e) => update("name", e.target.value)}
             required
             maxLength={200}
-            autoFocus
           />
         </Field>
 
