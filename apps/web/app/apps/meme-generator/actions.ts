@@ -13,7 +13,7 @@
 import { z } from "zod";
 import { requireAccess } from "@repo/auth/server";
 import { createClient } from "@repo/db/server";
-import { CACHE_VERSION, cacheGet, cacheSet } from "@repo/db/cache";
+import { cacheGet, cacheSet } from "@repo/db/cache";
 import {
   createSignedUrl,
   uploadFile,
@@ -37,6 +37,7 @@ import type { MemeTemplate, MemeCreation } from "./lib/types";
 import { QuotaExceededError, RateLimitedError } from "./lib/errors";
 import { SAVE_QUOTAS, UPGRADE_TIER } from "./lib/quotas";
 import { generateCaption, type CaptionMap } from "./lib/ai-caption";
+import { TEMPLATE_LIST_CACHE_KEY } from "./lib/cache-keys";
 
 const APP_SLUG = "meme-generator";
 const TEMPLATES_TTL_SECONDS = 300;
@@ -46,8 +47,6 @@ const MAX_PNG_BYTES = 1_048_576;
 const MAX_PNG_DIMENSION = 4096;
 const CAPTION_RATE_LIMIT = 30;
 const CAPTION_RATE_WINDOW_MS = 60 * 60 * 1000;
-
-export const TEMPLATE_LIST_CACHE_KEY = `meme:templates:active:${CACHE_VERSION}`;
 
 const IdSchema = z.string().uuid();
 const TitleSchema = z.string().trim().min(1).max(200);

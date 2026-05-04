@@ -1,190 +1,102 @@
 {
   "vision": null,
-  "milestones": [],
+  "milestones": [
+    {
+      "title": "052 - AI Eval Shared Package & Foundation",
+      "description": "Lands the shared @repo/ai-eval package, four paired Supabase migrations (chatflow_targets with pgsodium encryption, question_sets/items, chatflow_runs/rows, storage buckets), pgsodium key provisioning, and the core engine (chatflow-client, rolling-concurrency queue, csv parser, langfuse links, target-store with encrypt/decrypt, run-store, tier-limits, zod schemas) plus shared UI components (TargetEditor, TargetPicker, StatusBar, ProgressOverlay, ResultsTable). Nothing user-visible — pure plumbing for the two follow-on apps. Includes unit/integration coverage of the encryption round-trip and queue semantics before any UI lands.",
+      "dueOn": "2026-05-18",
+      "order": 1
+    },
+    {
+      "title": "053 - Chatflow Eval App Promotion",
+      "description": "Promote the EvalQuestions tab from ~/Documents/repos/ai-scripts into a standalone mini-app at chatflow-eval.apps.lastrev.com. Free tier for read/configure; pro tier for run-execution via chatflow-eval:run feature gate. Lands the app via pnpm create-app, server actions for question-set CRUD + import + run lifecycle (startEvalRun/cancelRun/exportRunCSV/listRuns/getRunWithRows), the page composition (TargetPicker + QuestionSetPicker + RunControls + ResultsTable), Realtime progress channel with polling fallback, /runs history route, and full unit/component/e2e coverage. Depends on 052.",
+      "dueOn": "2026-05-29",
+      "order": 2
+    },
+    {
+      "title": "054 - CSV Chatflow App Promotion",
+      "description": "Promote the CSVChatflow tab from ~/Documents/repos/ai-scripts into a standalone mini-app at csv-chatflow.apps.lastrev.com. Free tier for upload/configure; pro tier for run-execution via csv-chatflow:run feature gate. Lands the app via pnpm create-app, server actions for CSV upload + per-row run lifecycle (uploadCSVForChatflow/startCSVRun/cancelRun/exportRunCSV), per-target prompt_template editor with {{rowJson}} interpolation, the page composition, /runs history, and full unit/component/e2e coverage. Depends on 052.",
+      "dueOn": "2026-06-09",
+      "order": 3
+    }
+  ],
   "issues": [
     {
       "id": 1,
-      "title": "Add data-testid hooks to Ideas app components",
-      "body": "## Summary\nAdd stable `data-testid` selectors to high-traffic Ideas UI elements before writing specs. Selector-by-text is fragile against copy/style changes; this is a small, surgical, no-behavior-change PR that the rest of the e2e effort depends on.\n\n## Scope\nUpdate the following components in `apps/web/app/apps/ideas/`:\n- `ideas-app.tsx`\n- `idea-form-modal.tsx`\n- `row-menu.tsx`\n- `status-dropdown.tsx`\n- card/list view components\n\n## Acceptance Criteria\n- [ ] `idea-card`, `idea-card-title`, `idea-card-score` testids present on the card surface\n- [ ] `new-idea-button`, `idea-form`, `idea-form-title-input`, `idea-form-submit` testids on form/modal\n- [ ] `quick-filter-${key}` testids on each Quick Filter button (needs-rating, quick-wins, top-rated, new-today)\n- [ ] `category-pill-${name}`, `show-filter-${key}`, `sort-${key}` testids on filter/sort controls\n- [ ] `view-toggle-grid` and `view-toggle-list` testids on the view switcher\n- [ ] `snooze-menu`, `snooze-1d`, `snooze-1w`, `snooze-2w`, `snooze-1mo`, `snooze-show` testids on the snooze submenu\n- [ ] `hide-button`, `restore-button`, `delete-confirm` testids on row-menu actions\n- [ ] No visual regression — manually verify on `/apps/ideas` that the page renders identically\n- [ ] No new behavior, no new dependencies, no test changes in this PR",
+      "title": "Migration: chatflow_targets with pgsodium-encrypted api_token",
+      "body": "## Summary\nLand `supabase/migrations/20260505_chatflow_01_targets.sql` (+ `.down.sql`) creating `public.chatflow_targets` with per-user RLS and a pgsodium-encrypted `api_token_encrypted` column. This is the first table in the repo to use `pgsodium` for at-rest secret storage; nothing else here decrypts at the SQL layer — decryption happens server-side in `@repo/ai-eval/target-store` only.\n\nSchema (per plan):\n- `id uuid pk default gen_random_uuid()`\n- `user_id uuid not null references auth.users(id) on delete cascade`\n- `name text not null check (length(trim(name)) > 0)`\n- `api_host text not null`\n- `chatflow_id text not null`\n- `api_token_encrypted text not null`\n- `api_token_key_id uuid not null`\n- `base_trace_url text` (optional Langfuse base)\n- `default_tag text`\n- `prompt_template text` (csv-chatflow only; null for eval-only)\n- `streaming boolean not null default false`\n- `\"createdAt\" / \"updatedAt\" timestamptz`\n- `updated_at` trigger following meme-generator precedent\n- `idx_chatflow_targets_user(user_id)`\n\nRLS: own-only SELECT/INSERT/UPDATE/DELETE keyed on `auth.uid() = user_id`.\n\n## Acceptance Criteria\n- [ ] `create extension if not exists pgsodium;` is in the migration (idempotent)\n- [ ] Up + down migrations land as a pair; `pnpm lint` (`scripts/check-migration-pairs.ts`) passes\n- [ ] All four RLS policies present and named per the plan\n- [ ] `updatedAt` trigger function follows the `set_chatflow_*_updated_at()` pattern from meme-generator\n- [ ] `pnpm db:reset` succeeds locally and the table exists with RLS enabled\n- [ ] Cross-user SELECT rejected when querying via the anon-role client (verified in a test or manual repro documented on the PR)",
       "labels": [
-        "test",
-        "ideas"
+        "enhancement",
+        "database",
+        "security"
       ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p1",
-      "complexity": "small",
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "medium",
       "dependsOn": [],
       "selected": true
     },
     {
       "id": 2,
-      "title": "Create tests/e2e/helpers/ideas.ts DB seed/cleanup helpers",
-      "body": "## Summary\nAdd service-role Supabase helpers that let specs reach a deterministic starting state (e.g. \"5 ideas with mixed status/rating/snooze\") without driving the UI. Reaching that state through the UI is slow and brittle.\n\n## Location\n`apps/web/tests/e2e/helpers/ideas.ts`\n\n## API\n```ts\nexport async function seedIdea(userId: string, partial?: Partial<IdeaRow>): Promise<Idea>\nexport async function seedIdeas(userId: string, count: number, factoryFn?: (i: number) => Partial<IdeaRow>): Promise<Idea[]>\nexport async function getIdea(id: string): Promise<Idea | null>\nexport async function listIdeasForUser(userId: string): Promise<Idea[]>\nexport async function deleteIdeasForUser(userId: string): Promise<void>\n```\n\n## Acceptance Criteria\n- [ ] Uses the existing service-role client pattern from `tests/e2e/helpers/db.ts` (do not duplicate the client)\n- [ ] `seedIdea` returns the inserted row with all fields hydrated, accepts overrides for title/description/category/tags/sourceUrl/status/rating/feasibility/impact/effort/snoozedUntil/hiddenAt\n- [ ] `seedIdeas` supports a factory callback for varied fixtures and resolves in parallel\n- [ ] `getIdea` and `listIdeasForUser` return current DB state for read-after-write assertions\n- [ ] `deleteIdeasForUser` removes all rows for the user; safe to call when user has zero ideas\n- [ ] All helpers respect RLS by using service role; never call from the browser or test page context\n- [ ] Types come from `@repo/db` (no hand-rolled `IdeaRow`)\n- [ ] Smoke unit test: insert → read → delete round-trip against a real DB",
+      "title": "Migration: question_sets and question_set_items",
+      "body": "## Summary\nLand `supabase/migrations/20260505_chatflow_02_question_sets.sql` (+ `.down.sql`) creating `public.question_sets` and `public.question_set_items` for the chatflow-eval app. Per-user RLS on `question_sets`; on `question_set_items` RLS goes through an `EXISTS` subquery against the parent set.\n\nSchema (per plan):\n- `question_sets`: `id`, `user_id` (cascade), `target_id` references `chatflow_targets(id) on delete cascade`, `name text not null`, `tag text`, `\"createdAt\" / \"updatedAt\"`\n- `question_set_items`: `id`, `set_id` references `question_sets(id) on delete cascade`, `uid text not null`, `question text not null`, `position integer not null default 0`, `unique (set_id, uid)`\n\n## Acceptance Criteria\n- [ ] Up + down migrations paired; `pnpm lint` passes\n- [ ] All eight RLS policies (4 per table) present and named per the plan\n- [ ] `unique (set_id, uid)` enforced — duplicate uid in same set rejected\n- [ ] Cascade behavior: deleting a `chatflow_target` removes its sets and items; deleting a set removes its items\n- [ ] `updatedAt` trigger on `question_sets`",
       "labels": [
-        "test",
-        "ideas"
+        "enhancement",
+        "database"
       ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p1",
-      "complexity": "small",
-      "dependsOn": [],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "medium",
+      "dependsOn": [
+        1
+      ],
       "selected": true
     },
     {
       "id": 3,
-      "title": "Provision pro-tier E2E user and entitlement env vars",
-      "body": "## Summary\nAdd a second Auth0 test user that holds the `ideas:ai-plan` entitlement so we can exercise both upgrade-dialog and entitled-user paths in `ai-plan.spec.ts`. The free-tier user is already wired up in `auth.fixture.ts`.\n\n## Acceptance Criteria\n- [ ] New env vars declared and consumed: `E2E_TEST_USER_PRO_EMAIL`, `E2E_TEST_USER_PRO_PASSWORD`, `E2E_TEST_USER_PRO_ID`\n- [ ] Vars added to `turbo.json` `globalEnv` (per CLAUDE.md non-negotiable)\n- [ ] Vars added to `.env.local.example` with placeholder values and a comment\n- [ ] GitHub Actions secrets created for CI (note for reviewer; not committed)\n- [ ] New `loggedInProPage` fixture in `tests/e2e/fixtures/auth.fixture.ts` that authenticates as the pro user with its own `storageState` file (e.g. `.auth/pro-user.json`)\n- [ ] Pro user provisioned in Auth0 (manual step documented in `tests/e2e/README.md` or equivalent)\n- [ ] `seedPermission` for `ideas:ai-plan` entitlement helper covers the pro user flow\n- [ ] No secrets committed",
+      "title": "Migration: chatflow_runs and chatflow_run_rows",
+      "body": "## Summary\nLand `supabase/migrations/20260505_chatflow_03_runs.sql` (+ `.down.sql`) creating the run-history tables shared by both apps. `mode` enum distinguishes eval vs csv runs; `status` enum tracks queued/running/completed/cancelled/errored.\n\nSchema (per plan):\n- enums: `chatflow_run_mode ('eval','csv')`, `chatflow_run_status ('queued','running','completed','cancelled','errored')`\n- `chatflow_runs`: `id`, `user_id` (cascade), `target_id` references `chatflow_targets(id) on delete restrict`, `mode`, `status default 'queued'`, `question_set_id` (eval mode), `upload_storage_path` (csv mode), `prompt_template` snapshot, `tag`, `concurrency`, `total_rows`, `completed_rows`, `errored_rows`, `results_storage_path`, `\"startedAt\" / \"finishedAt\"`, `error`\n- `chatflow_run_rows`: `id`, `run_id` (cascade), `position`, `uid`, `input jsonb`, `status`, `response_text`, `response_json`, `langfuse_link`, `error`, `\"startedAt\" / \"finishedAt\"`, `unique (run_id, uid)`\n- Indexes: `idx_chatflow_runs_user_started(user_id, \"startedAt\" desc)`, `idx_chatflow_run_rows_run(run_id, position)`\n\n## Acceptance Criteria\n- [ ] Up + down migrations paired; `pnpm lint` passes\n- [ ] Both enums created (idempotent if re-run)\n- [ ] All RLS policies present per the plan (own runs; row policies via `EXISTS` against parent run)\n- [ ] `target_id ... on delete restrict` (so deleting a target with active history fails loudly — never silently orphan run rows)\n- [ ] Indexes created for the two hot read paths (run history list, row-by-position fetch)",
       "labels": [
-        "test",
-        "infra",
-        "ideas"
+        "enhancement",
+        "database"
       ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p2",
-      "complexity": "small",
-      "dependsOn": [],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "medium",
+      "dependsOn": [
+        1,
+        2
+      ],
       "selected": true
     },
     {
       "id": 4,
-      "title": "E2E spec: Ideas access & gating (Group A)",
-      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/access.spec.ts` covering authentication, permission, and entitlement gating for `/apps/ideas`.\n\n## Test cases\n1. Unauth visitor → `/apps/ideas` redirects to login\n2. Auth user without `ideas` permission → unauthorized page renders\n3. Auth user with `ideas:edit` permission → page renders with header `💡 Ideas`\n4. User without `ideas:ai-plan` entitlement → clicking `✨ Plan & score with AI` opens the upgrade dialog\n5. User with `ideas:ai-plan` entitlement → button does NOT show upgrade dialog\n\n## Acceptance Criteria\n- [ ] `beforeAll` uses `seedPermission(userId, \"ideas\", \"edit\")`; `afterAll` removes it\n- [ ] Reuses `loggedInPage` and `loggedInProPage` fixtures (no new auth fixtures invented)\n- [ ] Unauth case uses an unauthenticated context (fresh `browser.newContext()`)\n- [ ] Selectors use the testids added in #1, fall back to role/aria where testid is not warranted\n- [ ] Each test passes locally and against `next start` in CI mode\n- [ ] No flake on 10 consecutive runs (`--repeat-each=10`)",
+      "title": "Migration: chatflow-uploads and chatflow-results storage buckets + RLS",
+      "body": "## Summary\nLand `supabase/migrations/20260505_chatflow_04_storage.sql` (+ `.down.sql`) creating two private Supabase Storage buckets and their per-user RLS policies, following the meme-generator precedent.\n\nBuckets:\n- `chatflow-uploads` — user-uploaded CSVs, `public=false`, 25 MB cap, mime `text/csv`/`application/csv`\n- `chatflow-results` — generated result CSVs, `public=false`, 50 MB cap, mime `text/csv`\n\nPath layout: `<user_id>/<run_id>/<filename>.csv`.\n\nPolicies:\n- `chatflow-uploads`: users can SELECT/INSERT/DELETE their own folder (`storage.foldername(name))[1] = auth.uid()::text`)\n- `chatflow-results`: users can SELECT/DELETE their own folder. **No INSERT policy** — only the service role (server actions running `exportRunCSV`) writes to this bucket\n\n## Acceptance Criteria\n- [ ] Up + down migrations paired; `pnpm lint` passes\n- [ ] Bucket inserts are idempotent (`on conflict (id) do nothing`)\n- [ ] Cross-user upload-folder reads rejected (verified via a manual repro or test)\n- [ ] Anon/auth-role inserts to `chatflow-results` rejected (no policy = denied by default)\n- [ ] Down migration drops policies and buckets cleanly",
       "labels": [
-        "test",
-        "ideas",
-        "e2e"
+        "enhancement",
+        "database",
+        "security"
       ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p1",
-      "complexity": "small",
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "medium",
       "dependsOn": [
-        1,
-        3
+        1
       ],
       "selected": true
     },
     {
       "id": 5,
-      "title": "E2E spec: Ideas CRUD (Group B)",
-      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/crud.spec.ts` covering Create, Edit, and Delete server-action flows end-to-end (UI → action → DB).\n\n## Test cases\n6. Open `+ New Idea` modal → modal renders centered, title field empty\n7. Submit empty title → inline error \"Title is required\"; assert no DB row created\n8. Create with title only → row appears in grid; assert DB row exists via `getIdea`\n9. Create with full payload (title/description/category/tags/sourceUrl) → all fields persisted; tags parsed CSV → array\n10. Open edit modal on existing idea → fields populated, including feasibility/impact/effort\n11. Edit and save → DB updated; optimistic UI shows new values immediately\n12. Cancel edit → no DB write; modal closes\n13. Delete via row menu → confirm dialog → DB row removed\n\n## Acceptance Criteria\n- [ ] `beforeAll` seeds `ideas:edit` permission; `afterEach` calls `deleteIdeasForUser` for isolation\n- [ ] Read-after-write assertions go through `getIdea` / `listIdeasForUser` (don't trust the UI alone)\n- [ ] Tag CSV parsing assertion compares array equality, not string equality\n- [ ] Confirm dialog interaction uses the `delete-confirm` testid from #1\n- [ ] No flake on 10 consecutive runs",
+      "title": "pgsodium key provisioning script + PGSODIUM_KEY_ID env wiring",
+      "body": "## Summary\nProvision the pgsodium key used to encrypt `chatflow_targets.api_token_encrypted` and wire its id through env config.\n\nLands:\n- `scripts/seed-pgsodium-key.ts` — one-shot script that runs `select pgsodium.create_key()` (via service-role psql / supabase admin client) and prints the resulting key id\n- `docs/ops/chatflow-eval-rotation.md` — operator doc covering key creation, the `PGSODIUM_KEY_ID` env var, rotation procedure (re-encrypt all rows under a new key), and the v1 limitation (no automated rotation)\n- `.env.example` — add `PGSODIUM_KEY_ID=`\n- `turbo.json` `globalEnv` — add `PGSODIUM_KEY_ID`\n- `apps/web/lib/env.ts` — add typed read of `PGSODIUM_KEY_ID` (server-only)\n\n## Acceptance Criteria\n- [ ] Script runs against a fresh local Supabase and prints a UUID\n- [ ] Re-running the script does not create a duplicate key (idempotent: detect by name/comment, or print the existing id)\n- [ ] `PGSODIUM_KEY_ID` listed in `turbo.json` `globalEnv`\n- [ ] `.env.example` has the new var\n- [ ] `apps/web/lib/env.ts` reads it server-side; missing value throws at startup with a clear message\n- [ ] Rotation doc exists at `docs/ops/chatflow-eval-rotation.md` and covers the manual re-encrypt procedure",
       "labels": [
-        "test",
-        "ideas",
-        "e2e"
+        "enhancement",
+        "ops",
+        "security"
       ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [
-        1,
-        2
-      ],
-      "selected": true
-    },
-    {
-      "id": 6,
-      "title": "E2E spec: Ideas status & rating (Group C)",
-      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/status-rating.spec.ts` covering the inline status dropdown and star-rating control, plus the optimistic-update rollback path.\n\n## Test cases\n14. Status change new → in-progress → persisted, visible in card label\n15. Click 4 stars → rating persists, derived score updates\n16. Click same star count twice → rating clears to 0/null\n17. Optimistic-update rollback on server error — mock action failure, assert UI reverts and error toast/inline message\n\n## Acceptance Criteria\n- [ ] Seed a single idea per test via `seedIdea`; assert state via `getIdea`\n- [ ] Star widget tested both via mouse and keyboard activation\n- [ ] Test 17 mocks the server action response (e.g. via `page.route` on the action endpoint, or by temporarily bad-stating the row so the action throws)\n- [ ] After rollback, DB state matches pre-click state\n- [ ] `afterEach` cleans up via `deleteIdeasForUser`\n- [ ] No flake on 10 consecutive runs",
-      "labels": [
-        "test",
-        "ideas",
-        "e2e"
-      ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p1",
-      "complexity": "medium",
-      "dependsOn": [
-        1,
-        2
-      ],
-      "selected": true
-    },
-    {
-      "id": 7,
-      "title": "E2E spec: Ideas hide & snooze (Group D)",
-      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/hide-snooze.spec.ts` covering hide/restore and snooze/show-now flows including the snoozed indicator.\n\n## Test cases\n18. Hide via `✕` → idea moves out of Active view, lands in Hidden (n) filter\n19. Restore from hidden → returns to active\n20. Snooze 1 week → idea moves to Snoozed view, `snoozedUntil` set ~7 days out\n21. `Show Now` from snooze menu → returns to active, `snoozedUntil` cleared\n22. Snoozed indicator/opacity rendered on the card while snoozed\n\n## Acceptance Criteria\n- [ ] `snoozedUntil` assertion allows for clock skew (within ±1 hour of expected)\n- [ ] Hidden filter count assertion matches DB count for hidden rows\n- [ ] Test 22 uses computed-style assertion on the card's opacity (not a screenshot diff)\n- [ ] Seed varied state (some active, some snoozed, some hidden) in `beforeEach`\n- [ ] `afterEach` cleans up via `deleteIdeasForUser`",
-      "labels": [
-        "test",
-        "ideas",
-        "e2e"
-      ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p2",
-      "complexity": "medium",
-      "dependsOn": [
-        1,
-        2
-      ],
-      "selected": true
-    },
-    {
-      "id": 8,
-      "title": "E2E spec: Ideas filters, search & sort (Group E)",
-      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/filters-search.spec.ts` covering search, quick filters, category pills, sort, and show-filter counts.\n\n## Test cases\n23. Search by title → list narrows to matches\n24. Search by tag → matched\n25. Search empty state — no match → EmptyState component renders\n26. Quick filter `Needs Rating` → only rows with null/0 rating\n27. Quick filter `Quick Wins` → feasibility ≥ 7 + Low effort\n28. Quick filter `Top Rated` → sorted by rating desc\n29. Quick filter `New Today` → only items created < 24h ago\n30. Category pill `Product` → only Product rows\n31. Sort by Rating → toggle asc/desc, arrow indicator + DB-verified order\n32. Show filter Snoozed/Completed/Hidden/All counts match DB counts\n\n## Acceptance Criteria\n- [ ] Seed a deterministic mix of ~10 ideas in `beforeEach` covering edges (low/high feasibility, varied effort, multiple categories, mix of timestamps)\n- [ ] Use `seedIdea` overrides for `createdAt` to deterministically populate `New Today` and \"older than today\" buckets — no `setTimeout` or wall-clock hacks\n- [ ] Filter assertions check count AND identities (so a wrong-but-same-cardinality result still fails)\n- [ ] No flake on 10 consecutive runs",
-      "labels": [
-        "test",
-        "ideas",
-        "e2e"
-      ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p2",
-      "complexity": "large",
-      "dependsOn": [
-        1,
-        2
-      ],
-      "selected": true
-    },
-    {
-      "id": 9,
-      "title": "E2E spec: Ideas view modes (Group F)",
-      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/views.spec.ts` covering the grid ↔ list view toggle and confirming actions still work in both.\n\n## Test cases\n33. Toggle list view → list rows render with same row actions (status, rating, hide, snooze)\n34. Toggle back to grid → cards render\n\n## Acceptance Criteria\n- [ ] In list view, exercise at least one mutating action (e.g. status change) and read back via `getIdea`\n- [ ] Assert preferred-view persistence if implemented (otherwise document as not-applicable)\n- [ ] Uses `view-toggle-grid` / `view-toggle-list` testids from #1\n- [ ] No flake on 10 consecutive runs",
-      "labels": [
-        "test",
-        "ideas",
-        "e2e"
-      ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p3",
-      "complexity": "small",
-      "dependsOn": [
-        1,
-        2
-      ],
-      "selected": true
-    },
-    {
-      "id": 10,
-      "title": "E2E spec: Ideas AI plan & rate-limit (Group G)",
-      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/ai-plan.spec.ts` covering the entitled AI-plan path and the rate-limit error surface. Gated by the pro-user fixture from #3.\n\n## Test cases\n35. With `ideas:ai-plan` entitlement: trigger plan on an idea → plan section populates. Either mock the model response, or run against a fixed prompt with stable assertion targets via `data-testid=\"plan-caption\"`.\n36. Rate-limited path → user-visible error after N invocations (matches `RateLimitedError` from the Ideas plan action)\n\n## Acceptance Criteria\n- [ ] Uses `loggedInProPage` from #3\n- [ ] Either: (a) mock the AI provider via `page.route` on the AI Gateway endpoint, or (b) use the local-dev stub fallback documented in milestone 021. Document the choice in the spec header.\n- [ ] Test 35 asserts on the plan markdown rendering (`data-testid=\"plan-caption\"` or equivalent), not on raw model output\n- [ ] Test 36 deterministically triggers the rate limit (e.g. by seeding the rate-limit Redis key, or by burst-invoking until threshold) and asserts the error surface text is user-visible\n- [ ] Skipped (not failed) in CI when `E2E_TEST_USER_PRO_*` env vars are missing — log a clear message\n- [ ] `afterEach` cleans up the seeded idea and any rate-limit state",
-      "labels": [
-        "test",
-        "ideas",
-        "e2e",
-        "ai"
-      ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p2",
-      "complexity": "large",
-      "dependsOn": [
-        1,
-        2,
-        3
-      ],
-      "selected": true
-    },
-    {
-      "id": 11,
-      "title": "E2E spec: Ideas modal centering & a11y regression (Group H)",
-      "body": "## Summary\nWrite `apps/web/tests/e2e/ideas/modal-centering.spec.ts` as an explicit regression guard for the modal-centering bug fixed 2026-04-30 (Tailwind scan caused the modal to render misaligned). Also covers keyboard a11y for the form modal.\n\n## Test cases\n37. Open `+ New Idea` modal → assert computed-style centering: modal's bounding rect is horizontally and vertically centered within the viewport (within ±2px tolerance)\n38. Keyboard: pressing `Esc` closes modal; `Tab` order through form fields matches the visual order; first focusable element receives focus when modal opens\n\n## Acceptance Criteria\n- [ ] Centering uses `page.evaluate(() => getBoundingClientRect())` against the modal element, not a screenshot diff\n- [ ] Asserts at two viewport sizes (e.g. 1280×800 and 375×812) so a regression at one breakpoint is caught\n- [ ] Tab order test does not rely on `waitForTimeout` — uses focus-change events / `expect.poll` if needed\n- [ ] Spec header comment links back to the fix commit/PR for the 2026-04-30 bug\n- [ ] No flake on 10 consecutive runs",
-      "labels": [
-        "test",
-        "ideas",
-        "e2e",
-        "a11y"
-      ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
-      "priority": "p1",
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
       "complexity": "small",
       "dependsOn": [
         1
@@ -192,26 +104,401 @@
       "selected": true
     },
     {
+      "id": 6,
+      "title": "Scaffold @repo/ai-eval package + workspace wiring",
+      "body": "## Summary\nCreate the `packages/ai-eval/` workspace package skeleton and wire it into the monorepo so subsequent issues can populate the implementation files. Per the plan structure:\n\n```\npackages/ai-eval/\n  src/\n    index.ts\n    chatflow-client.ts\n    queue.ts\n    schema.ts\n    langfuse.ts\n    csv.ts\n    tier-limits.ts\n    target-store.ts\n    run-store.ts\n    ui/\n      TargetEditor.tsx\n      TargetPicker.tsx\n      StatusBar.tsx\n      ProgressOverlay.tsx\n      ResultsTable.tsx\n  package.json\n  tsconfig.json\n```\n\nFiles can be empty stubs at this stage; subsequent issues fill them.\n\n## Acceptance Criteria\n- [ ] `packages/ai-eval/package.json` declares the package as `@repo/ai-eval`, ESM, exports per-subpath (e.g. `./client`, `./server`, `./ui`, `./schema`) — no barrel-only export so server-only modules cannot leak into client bundles\n- [ ] Server-only entry points marked with `\"use server\"` directive or `import \"server-only\"` so client imports trip the build\n- [ ] `tsconfig.json` extends `@repo/config/tsconfig`\n- [ ] `apps/web/package.json` adds `\"@repo/ai-eval\": \"workspace:*\"`\n- [ ] `pnpm install` resolves the workspace edge cleanly\n- [ ] `pnpm typecheck` passes with empty stubs",
+      "labels": [
+        "enhancement",
+        "infrastructure"
+      ],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "small",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 7,
+      "title": "@repo/ai-eval: zod schemas + tier-limits constants",
+      "body": "## Summary\nImplement `packages/ai-eval/src/schema.ts` with zod schemas covering ChatflowTarget (input/output), QuestionSet, QuestionSetItem, ChatflowRun, ChatflowRunRow, and StartRunInput. Implement `packages/ai-eval/src/tier-limits.ts` with the quota/concurrency constants per the plan.\n\n```ts\nexport const QUESTION_SET_QUOTA = { free: 3, pro: 50, enterprise: -1 } as const;\nexport const CONCURRENCY_CAP    = { free: 3, pro: 10, enterprise: 25 } as const;\nexport const RUNS_PER_DAY       = { free: 5, pro: 200, enterprise: 2000 } as const;\nexport const PROMPT_TEMPLATE_MAX_BYTES = 16 * 1024;\n```\n\n## Acceptance Criteria\n- [ ] All schemas use zod v4 syntax matching repo convention\n- [ ] `ChatflowTargetInput` schema validates `api_host` as URL, `api_token` as non-empty string (write-only — never on the output schema), `base_trace_url` as optional URL, `prompt_template` length ≤ 16 KiB\n- [ ] `ChatflowTargetOutput` schema explicitly does NOT include `api_token_encrypted` or `api_token_key_id` — server projections will omit these fields\n- [ ] Quota/concurrency constants exported as `as const` so callers get literal types\n- [ ] Helper `enforceConcurrencyCap(tier, requested): number` clamps requested concurrency to tier max\n- [ ] Unit tests cover the URL validation, the prompt-template length cap, and the concurrency clamp helper",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "small",
+      "dependsOn": [
+        6
+      ],
+      "selected": true
+    },
+    {
+      "id": 8,
+      "title": "@repo/ai-eval: chatflow-client.ts (outbound POST + abort + token redaction)",
+      "body": "## Summary\nImplement `packages/ai-eval/src/chatflow-client.ts` — the single place we hit the chatflow API. Signature per the plan:\n\n```ts\nexport async function callChatflow(opts: {\n  apiHost: string;\n  apiToken: string;\n  chatflowId: string;\n  question: string;\n  chatId: string;\n  trackingMetadata: Record<string, unknown>;\n  signal?: AbortSignal;\n}): Promise<{ text: string; raw: unknown }>;\n```\n\nPOSTs to `{apiHost}/api/v1/prediction/{chatflowId}` with `Authorization: Bearer {apiToken}`. Body includes `question`, `streaming: false`, `chatId`, `trackingMetadata`. Throws `ChatflowHTTPError` on non-2xx with `status` + `bodyExcerpt` (first 500 chars, with the bearer token regex-redacted). Propagates `AbortSignal`.\n\n## Acceptance Criteria\n- [ ] `apiHost` trailing slash normalized\n- [ ] `ChatflowHTTPError` class with `status`, `bodyExcerpt`, `cause` — `bodyExcerpt` runs the input through a regex that strips any `Bearer xxx` and any literal occurrence of the apiToken value\n- [ ] Network errors map to `ChatflowNetworkError` with redacted message\n- [ ] `signal` propagation tested (calling abort cancels in-flight fetch)\n- [ ] `text` extraction prefers `data.text`, then `data.response`, then `JSON.stringify(data)` fallback\n- [ ] Unit tests: happy path, 4xx, 5xx, abort, malformed JSON, **token-never-in-error-message regression** (assert error.message and error.bodyExcerpt do not contain the input token even when the upstream echoes it back)\n- [ ] Module marked server-only — accidental client import trips the build",
+      "labels": [
+        "enhancement",
+        "security"
+      ],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "medium",
+      "dependsOn": [
+        6,
+        7
+      ],
+      "selected": true
+    },
+    {
+      "id": 9,
+      "title": "@repo/ai-eval: queue.ts (rolling-concurrency engine)",
+      "body": "## Summary\nImplement `packages/ai-eval/src/queue.ts` — one rolling-concurrency engine reused by both apps' run processors. Replaces the duplicated logic in the source repo's `useQuestions.js` and `useCSVChatflow.js`.\n\nShape:\n```ts\nexport async function runRollingQueue<TInput, TResult>(opts: {\n  items: TInput[];\n  concurrency: number;\n  signal?: AbortSignal;\n  shouldCancel?: () => Promise<boolean> | boolean; // checked between rows\n  process: (item: TInput, index: number, signal: AbortSignal) => Promise<TResult>;\n  onComplete?: (item: TInput, index: number, result: TResult | { error: unknown }) => Promise<void>;\n}): Promise<{ completed: number; errored: number; cancelled: boolean }>;\n```\n\nGuarantees:\n- Never more than `concurrency` in-flight at once\n- Each row's `process` receives a per-row AbortSignal that fires when either the outer signal aborts or `shouldCancel()` returns true\n- `onComplete` runs exactly once per item, even on error\n- Errors in one item do not abort the others (caller decides via `onComplete`)\n\n## Acceptance Criteria\n- [ ] In-flight cap never exceeded under any input size (verified by recording max concurrency in test)\n- [ ] Abort signal propagates to in-flight items and prevents new ones from starting\n- [ ] `shouldCancel()` checked at least once per row gap; returning true stops new dispatches\n- [ ] `onComplete` called for every item that started, including ones that errored\n- [ ] Returns accurate `completed` / `errored` / `cancelled` counts\n- [ ] Unit tests cover: cap enforcement, abort, mid-run cancel, all-errors case, empty-input edge case, concurrency=1 (sequential) edge case",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "medium",
+      "dependsOn": [
+        6
+      ],
+      "selected": true
+    },
+    {
+      "id": 10,
+      "title": "@repo/ai-eval: csv.ts (parse/format with multi-line quoted fields)",
+      "body": "## Summary\nImplement `packages/ai-eval/src/csv.ts`. Port `parseCSVFile` from the source repo verbatim — it handles multi-line quoted fields, escaped quotes (`\"\"`), and CRLF/LF normalization correctly. Add a matching `formatCSV(rows, headers)` that round-trips: any value containing `,`, `\"`, `\\n`, or `\\r` is wrapped in quotes with internal quotes escaped.\n\nAlso provide:\n- `parseQuestionSetCSV(text): { uid: string; question: string }[]` — accepts headers `Question` (required) and optional `UID`; auto-generates uid when missing (e.g. `q1`, `q2`, ...)\n- `formatEvalRunCSV(rows): string` — columns `Question, UID, ResponseText, ResponseJSON, LangfuseLink, Tag` (matches source-repo on-disk format for round-trip sanity)\n- `formatCSVRunOutputCSV(headers, rows): string` — original CSV headers + appended `ResponseJSON` column\n\n## Acceptance Criteria\n- [ ] Port the source repo's `parseCSVFile` test suite into `packages/ai-eval/src/__tests__/csv.test.ts` and they all pass\n- [ ] Multi-line quoted field round-trips: parse(format(rows)) === rows\n- [ ] `parseQuestionSetCSV` rejects empty `Question` rows with a row-number-bearing error\n- [ ] `parseQuestionSetCSV` deduplicates explicit UIDs (rejects duplicates with row numbers)\n- [ ] CRLF and LF inputs both parse identically\n- [ ] BOM at the start of the input is stripped",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        6
+      ],
+      "selected": true
+    },
+    {
+      "id": 11,
+      "title": "@repo/ai-eval: langfuse.ts link generation",
+      "body": "## Summary\nImplement `packages/ai-eval/src/langfuse.ts` exporting `generateLangfuseLink(opts: { baseUrl?: string; tag?: string; uid: string }): string | null`.\n\nWhen `baseUrl` is set: returns `${baseUrl}/traces?tag=${encodeURIComponent(\"${tag}_${uid}\")}` (when tag set) or `${baseUrl}/traces?tag=${encodeURIComponent(uid)}` (no tag). When `baseUrl` is unset: returns `null`.\n\n## Acceptance Criteria\n- [ ] Trailing slash on `baseUrl` normalized\n- [ ] Tag containing reserved URL chars (e.g. `&`, `=`, space) encoded correctly\n- [ ] Empty/whitespace `baseUrl` treated as unset → returns null\n- [ ] Unit tests cover: with-tag, without-tag, null-base, encoding cases, trailing-slash normalization",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p2",
+      "complexity": "trivial",
+      "dependsOn": [
+        6
+      ],
+      "selected": true
+    },
+    {
       "id": 12,
-      "title": "Wire Ideas e2e into pnpm script and CI workflow",
-      "body": "## Summary\nAdd a runnable `test:e2e` script and integrate the Ideas e2e suite into the existing CI workflow so it runs on every PR.\n\n## Acceptance Criteria\n- [ ] `apps/web/package.json` exposes `test:e2e` → `playwright test` (only add if not already present)\n- [ ] `pnpm --filter web test:e2e` runs the full Ideas suite locally against a reused dev server\n- [ ] CI workflow runs `next build && next start` per the existing `webServer.command` flow and executes the suite\n- [ ] CI surfaces Playwright HTML report on failure (artifact upload)\n- [ ] `APP_SELF_ENROLL_SLUGS` env in CI either includes `ideas` OR the workflow explicitly relies on `seedPermission` — pick one approach and document it in `tests/e2e/README.md`\n- [ ] Pro-user specs are conditionally skipped when `E2E_TEST_USER_PRO_*` env vars are absent (no hard CI failure)\n- [ ] CI run time for the Ideas suite is documented in the PR description\n- [ ] Suite passes 3 consecutive CI runs with no flake before merge",
+      "title": "@repo/ai-eval: target-store.ts (encrypt/decrypt + per-user CRUD)",
+      "body": "## Summary\nImplement `packages/ai-eval/src/target-store.ts` — server-only module that wraps Supabase service-role queries against `chatflow_targets`, encrypting the api_token via pgsodium on insert/update and decrypting only at outbound-call time.\n\nExports:\n- `listTargets(userId): Promise<ChatflowTargetOutput[]>` — explicit projection, omits `api_token_encrypted` / `api_token_key_id`\n- `getTarget(userId, id): Promise<ChatflowTargetOutput | null>` — same projection\n- `createTarget(userId, input): Promise<ChatflowTargetOutput>` — encrypts api_token via `pgsodium.crypto_aead_det_encrypt(plaintext, additional_data, key_id)`, stores encrypted bytes + `PGSODIUM_KEY_ID`\n- `updateTarget(userId, id, input): Promise<ChatflowTargetOutput>` — re-encrypts only when `api_token` is present in input; if absent, leaves existing encrypted column intact\n- `deleteTarget(userId, id): Promise<void>`\n- `decryptTokenForOutboundCall(userId, id): Promise<string>` — used **only** by the run processor; decrypts via `pgsodium.crypto_aead_det_decrypt`; the returned string MUST flow straight into `callChatflow`'s Authorization header and never be logged or returned to a client component\n\n## Acceptance Criteria\n- [ ] All queries are scoped on `user_id = auth.uid()` (or service-role + explicit user_id check)\n- [ ] No public-facing function returns the encrypted column or the decrypted token\n- [ ] `import \"server-only\"` at the top of the file — accidental client import trips the build\n- [ ] No `console.log` / no `logger.info` / no `logger.error` of the api_token (verified by a grep test in CI: assertion that the file contains no logging of `apiToken` / `api_token` / `Authorization`)\n- [ ] Unit/integration tests:\n  - [ ] Encrypt → decrypt round-trip\n  - [ ] Cross-user fetch returns null (RLS)\n  - [ ] Update without `api_token` does not change the encrypted column (compare bytes before/after)\n  - [ ] Update with `api_token` rotates the encrypted column and decrypts back to the new value\n  - [ ] Listing a target never includes `api_token_encrypted` in the returned shape (object key not present)",
+      "labels": [
+        "enhancement",
+        "security"
+      ],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "large",
+      "dependsOn": [
+        1,
+        5,
+        6,
+        7
+      ],
+      "selected": true
+    },
+    {
+      "id": 13,
+      "title": "@repo/ai-eval: run-store.ts (run + run-row CRUD)",
+      "body": "## Summary\nImplement `packages/ai-eval/src/run-store.ts` — server-only Supabase wrapper for `chatflow_runs` and `chatflow_run_rows`.\n\nExports (signatures sketched):\n- `createRun(userId, init): Promise<ChatflowRun>` — single transaction that inserts the run + materializes one row per input with stable `uid` and `position`; sets `total_rows`\n- `getRunWithRows(userId, runId, opts?): Promise<{ run, rows }>` — paginated rows by `position`\n- `listRuns(userId, opts?): Promise<{ runs, total }>` — filterable by mode/target, ordered by `\"startedAt\" desc`\n- `updateRowResult(runId, rowId, patch): Promise<void>` — used by the processor as each row finishes\n- `setRunStatus(runId, status, patch?): Promise<void>` — sets `running` / `completed` / `cancelled` / `errored` and bumps counters\n- `markRunCancelled(userId, runId): Promise<void>` — set status=cancelled if the run belongs to the user and is queued/running\n- `incrementRunCounters(runId, completed?, errored?): Promise<void>` — atomic increments\n\n## Acceptance Criteria\n- [ ] `createRun` is transactional (run + rows succeed or fail together)\n- [ ] Counter updates are atomic (use rpc or `update ... set completed_rows = completed_rows + 1`)\n- [ ] `markRunCancelled` is a no-op for already-terminal runs (completed/cancelled/errored)\n- [ ] All read paths user-scoped via `user_id = $userId`\n- [ ] Unit/integration tests cover the transactional create, cross-user read rejection, terminal-state guard on cancel, and the increment-counter atomicity",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "medium",
+      "dependsOn": [
+        3,
+        6,
+        7
+      ],
+      "selected": true
+    },
+    {
+      "id": 14,
+      "title": "@repo/ai-eval/ui: shared client components (theme-token clean)",
+      "body": "## Summary\nLand the five shared React client components in `packages/ai-eval/src/ui/`. All styles use `@repo/theme` tokens — no raw hex, no CSS variables from the source repo's stylesheet. The source repo's `--bg-primary`/`--text-primary`/`bg-red-500/10`/`text-accent-error` etc. all map to repo theme tokens; `pnpm audit:tokens` enforces.\n\nComponents:\n- `<TargetEditor>` — modal/drawer form with name, apiHost, chatflowId, **write-only** apiToken (placeholder `•••••••` when editing existing; the existing value is never read into state), baseTraceUrl, defaultTag, promptTemplate (csv mode only). Validates URL, masks token field, surfaces \"Leave blank to keep existing token\" hint.\n- `<TargetPicker>` — dropdown of user's targets + \"+ New target\" button.\n- `<StatusBar>` — total / completed / errored / active counts + auto-save indicator.\n- `<ProgressOverlay>` — modal with progress bar + cancel button.\n- `<ResultsTable>` — virtualized; per-row status pill, response (JSON pretty-printed if applicable), Langfuse link, error message, single-row re-run button.\n\n## Acceptance Criteria\n- [ ] All components use `@repo/theme` tokens; `pnpm audit:tokens` passes\n- [ ] `<TargetEditor>` apiToken `<input>` has no `defaultValue` and no `value` derived from server data — it is always controlled-empty on open. A separate read-only \"Token: ••• (leave blank to keep)\" indicator may show that an existing token is set, but the existing value is never sent to the client.\n- [ ] `<TargetEditor>` URL fields validated; submit disabled until valid\n- [ ] `<ResultsTable>` is virtualized (e.g. react-window or equivalent already used in repo) and renders 1k rows without jank\n- [ ] `<ResultsTable>` Langfuse link only renders when row's `langfuse_link` is non-null\n- [ ] Component tests:\n  - [ ] `<TargetEditor>` write-only token field — even when `existingTarget` prop passed, the input never has a non-empty value\n  - [ ] `<ResultsTable>` JSON-pretty-print fallback when `response_json` parses, else plain text from `response_text`\n  - [ ] `<ResultsTable>` Langfuse link visibility tied to `base_trace_url` presence",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [
+        6,
+        7
+      ],
+      "selected": true
+    },
+    {
+      "id": 15,
+      "title": "Update tier-config.ts: chatflow-eval:run and csv-chatflow:run feature gates",
+      "body": "## Summary\nAdd the two new per-feature gates to `apps/web/lib/tier-config.ts` so `@repo/billing/has-feature-access` recognizes them. Both default to `pro` minimum tier. Free users can read/configure but cannot launch runs.\n\n## Acceptance Criteria\n- [ ] `chatflow-eval:run` declared with `pro` minimum\n- [ ] `csv-chatflow:run` declared with `pro` minimum\n- [ ] Existing tier-config tests still pass\n- [ ] `hasFeatureAccess(user, 'chatflow-eval:run')` returns false for free, true for pro/enterprise (covered by an added unit test)",
+      "labels": [
+        "enhancement",
+        "billing"
+      ],
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "trivial",
+      "dependsOn": [],
+      "selected": true
+    },
+    {
+      "id": 16,
+      "title": "@repo/ai-eval: integration test for pgsodium round-trip and cross-user RLS",
+      "body": "## Summary\nLand `packages/ai-eval/src/__tests__/target-store.integration.test.ts` exercising the encryption boundary against a real local Supabase. This is the highest-stakes change in the milestone — secret storage. We want the integration test in place before any UI wires up.\n\nCases:\n- Seed two users (A and B); A creates a target; service-role decrypt round-trips to plaintext\n- Anon-role select on the table omits `api_token_encrypted` even from A's own row (we never expose it on the wire — projection + RLS combined)\n- B cannot read A's target row (RLS)\n- B cannot decrypt A's token even with a manually-issued service-role query that includes `user_id = A` filter (validates the function-level user_id check inside `decryptTokenForOutboundCall`)\n- Rotation: re-encrypting under a new key id leaves prior rows decryptable under the old key (or fails loudly with a clear error — document which behavior we want)\n\n## Acceptance Criteria\n- [ ] Test runs against a local Supabase started by the existing test harness\n- [ ] All five cases above pass\n- [ ] Cross-user decrypt rejection produces a clear error (no silent return of empty string)\n- [ ] CI runs this test on every PR that touches `packages/ai-eval/`",
       "labels": [
         "test",
-        "ci",
-        "ideas"
+        "security"
       ],
-      "milestone": "021 - Ideas App — Promotion to Standalone Mini-App",
+      "milestone": "052 - AI Eval Shared Package & Foundation",
+      "priority": "p0",
+      "complexity": "medium",
+      "dependsOn": [
+        12
+      ],
+      "selected": true
+    },
+    {
+      "id": 17,
+      "title": "Scaffold chatflow-eval app via pnpm create-app",
+      "body": "## Summary\nScaffold the new `chatflow-eval` mini-app and add the registry entry. Run:\n\n```\npnpm create-app chatflow-eval \\\n  --name=\"Chatflow Eval\" \\\n  --subdomain=chatflow-eval \\\n  --tier=free \\\n  --template=full \\\n  --permission=view \\\n  --auth=true\n```\n\nThen edit the generated registry entry to add `features: { \"chatflow-eval:run\": \"pro\" }` and `showcaseGroup: \"ai-tools\"`.\n\n## Acceptance Criteria\n- [ ] `apps/web/app/apps/chatflow-eval/` route group exists (page.tsx, layout.tsx)\n- [ ] `apps/web/lib/app-registry.ts` entry per the plan, including `features` and `showcaseGroup`\n- [ ] Layout uses `requireAppLayoutAccess('chatflow-eval', pathname)` per non-negotiable #2\n- [ ] App shows up under \"AI Tools\" group on the apps showcase grid\n- [ ] Visiting `chatflow-eval.apps.adam-harris.alphaclaw.app` loads the placeholder page after auth\n- [ ] `pnpm lint` passes (registry sync, lib listing, etc.)",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "053 - Chatflow Eval App Promotion",
+      "priority": "p0",
+      "complexity": "small",
+      "dependsOn": [
+        15
+      ],
+      "selected": true
+    },
+    {
+      "id": 18,
+      "title": "chatflow-eval: server actions (target/question-set CRUD + import)",
+      "body": "## Summary\nImplement the non-run server actions in `apps/web/app/apps/chatflow-eval/actions.ts`. All `\"use server\"`, all zod-validated, all auth-scoped via `auth.uid()`, all logged via `@repo/logger`. Free tier; `createQuestionSet` and `importQuestionSetCSV` enforce the per-tier quota (free=3 / pro=50 / enterprise=∞).\n\nActions:\n- `listTargets()` — thin wrapper over `target-store.listTargets`\n- `createTarget(input)` — encrypted insert\n- `updateTarget(id, input)` — re-encrypts only if api_token provided\n- `deleteTarget(id)` — cascades\n- `listQuestionSets(targetId)`\n- `createQuestionSet(input)` — quota-gated; bulk-insert items in one txn\n- `updateQuestionSet(id, input)` — replace items in one txn\n- `deleteQuestionSet(id)`\n- `importQuestionSetCSV(targetId, csvText)` — parses via `@repo/ai-eval/csv` and creates a fresh question_set; quota-gated\n\n## Acceptance Criteria\n- [ ] All actions zod-validated at the boundary; reject with field-level errors\n- [ ] Quota check uses a count query, not in-memory state\n- [ ] `QuotaExceededError` raised with clear message; UI maps to upgrade prompt (issue handles UI)\n- [ ] Each action logged with `@repo/logger` at info level (start/finish, with duration), error level on throw\n- [ ] Unit tests for boundary validation, quota enforcement, RLS scoping\n- [ ] Quota race documented in code comment with link to meme-generator's same caveat (acceptable for v1)",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "053 - Chatflow Eval App Promotion",
+      "priority": "p0",
+      "complexity": "medium",
+      "dependsOn": [
+        12,
+        17
+      ],
+      "selected": true
+    },
+    {
+      "id": 19,
+      "title": "chatflow-eval: startEvalRun + processor with `after()` dispatch",
+      "body": "## Summary\nImplement the run-launch and processor server actions in `apps/web/app/apps/chatflow-eval/actions.ts` (or under a sibling `run.ts` re-exported from `actions.ts`). This is the load-bearing piece — it owns the queue execution lifecycle.\n\n`startEvalRun(input)`:\n- Tier-gated by `chatflow-eval:run` (pro) via `@repo/billing/has-feature-access`\n- Validates input, clamps concurrency to tier cap (`enforceConcurrencyCap`)\n- Cap run size to fit in a single 300 s Fluid Compute invocation: reject when `rows > min(rows, concurrency * 30)` with clear UI error \"Split your set into smaller batches.\" (per the plan's MVP decision)\n- Inside one transaction: creates the `chatflow_runs` row in `queued`, materializes one `chatflow_run_rows` per question with stable `uid` and `position`, snapshots `tag` from input or target, returns `runId`\n- Dispatches the processor via `after()` from `next/server` so the action returns immediately\n\nProcessor (same file, kept private):\n- Looks up `decryptTokenForOutboundCall` once at the start; in-memory only\n- Sets run status to `running`\n- Iterates rows via `runRollingQueue`; calls `callChatflow` per row; updates each row with response_text/response_json/langfuse_link/error\n- Increments run counters atomically as rows finish\n- Between rows: checks `chatflow_runs.status` — if `cancelled`, exits cleanly\n- Maintains `Map<runId, AbortController>` in module scope for best-effort fetch abort on cancel\n- On finish: sets status=completed (or errored if all rows errored)\n- On uncaught throw: sets status=errored, persists message\n\n`cancelRun(runId)`: sets status=cancelled (idempotent for terminal runs); aborts the in-memory controller if present.\n\n## Acceptance Criteria\n- [ ] `startEvalRun` returns immediately with `runId` (does not block on processor completion)\n- [ ] Tier gate enforced server-side; free user receives a `FeatureAccessDeniedError`\n- [ ] Concurrency clamped to tier cap; UI input cannot raise above (validated server-side regardless)\n- [ ] Run-size cap enforced with clear error message\n- [ ] Processor wrapped in `withSpan('chatflow-eval.startEvalRun')` for OTel tracing\n- [ ] Decrypted token is never logged (verified by code review and a regex-based CI check on the file)\n- [ ] `cancelRun` idempotent on terminal runs; aborts in-flight when controller present\n- [ ] Processor recovers from `chatflow-client` errors per-row (one bad row does not kill the run)\n- [ ] Unit tests:\n  - [ ] startEvalRun creates run + rows transactionally\n  - [ ] startEvalRun rejects oversize runs with the documented error\n  - [ ] cancelRun flips status; subsequent processor checkpoint observes and exits\n  - [ ] Free-tier startEvalRun denied without ever touching the DB",
+      "labels": [
+        "enhancement",
+        "security"
+      ],
+      "milestone": "053 - Chatflow Eval App Promotion",
+      "priority": "p0",
+      "complexity": "large",
+      "dependsOn": [
+        8,
+        9,
+        12,
+        13,
+        18
+      ],
+      "selected": true
+    },
+    {
+      "id": 20,
+      "title": "chatflow-eval: listRuns / getRunWithRows / exportRunCSV",
+      "body": "## Summary\nImplement the read-side and export server actions in `chatflow-eval/actions.ts`.\n\n- `listRuns(opts?)` — paginated history for current user, filterable by mode/target\n- `getRunWithRows(runId, opts?)` — paginated rows for the results view; used by the polling fallback as well as the run-detail page\n- `exportRunCSV(runId)` — formats rows via `@repo/ai-eval/csv.formatEvalRunCSV` (columns `Question, UID, ResponseText, ResponseJSON, LangfuseLink, Tag` for round-trip with the source-repo format), uploads to `chatflow-results/<user_id>/<run_id>/eval-results.csv` via service-role client, returns a signed URL (5 min TTL)\n\n## Acceptance Criteria\n- [ ] All actions zod-validated and user-scoped\n- [ ] `exportRunCSV` writes via service role (no insert policy on the bucket; only service-role can write)\n- [ ] Signed URL TTL ≤ 5 minutes\n- [ ] `withSpan('chatflow-eval.exportRunCSV')` on the export\n- [ ] Existing run with eval results round-trips through export → re-import → matches original question set on `Question` + `UID` columns\n- [ ] Unit tests: pagination, mode/target filter, signed-URL TTL bound",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "053 - Chatflow Eval App Promotion",
       "priority": "p1",
       "complexity": "medium",
       "dependsOn": [
         4,
-        5,
-        6,
-        7,
+        10,
+        13,
+        19
+      ],
+      "selected": true
+    },
+    {
+      "id": 21,
+      "title": "chatflow-eval: page composition (TargetPicker + QuestionSetPicker + RunControls + ResultsTable)",
+      "body": "## Summary\nBuild the chatflow-eval page using shared `@repo/ai-eval/ui` components plus app-local glue:\n\n- Header: `<TargetPicker>` + \"Manage targets\" button (opens `<TargetEditor>` modal)\n- Question-set bar: `<QuestionSetPicker>` (with \"Import CSV…\" and \"+ New set\") + tag override input\n- Run controls: concurrency input (max=tier cap), tag override, Run All / Run Selected / Stop / Export CSV buttons\n- `<StatusBar>` + `<ResultsTable>` + `<ProgressOverlay>` (during active run)\n- Free-tier Run button shows `<UpgradePrompt feature=\"chatflow-eval:run\" />` instead of launching\n\nApp-local components (live under `app/apps/chatflow-eval/components/`):\n- `target-picker.tsx` — thin wrapper over package picker that wires the create flow\n- `question-set-picker.tsx`\n- `run-controls.tsx` — owns the start/stop server-action calls\n- `results-table.tsx` — thin wrapper that adds re-run-row interaction\n- `run-history.tsx`\n\n## Acceptance Criteria\n- [ ] Page renders without console warnings\n- [ ] `requireAppLayoutAccess('chatflow-eval', pathname)` wraps the layout (non-negotiable #2)\n- [ ] All visual elements use `@repo/theme` tokens; `pnpm audit:tokens` passes\n- [ ] Concurrency input `max` attribute reads from `CONCURRENCY_CAP[tier]`\n- [ ] Free user sees upgrade prompt instead of Run button (no client-side bypass possible — Run All button is a server action that gates again)\n- [ ] Pro user can run, see live progress, and export — covered by e2e in a follow-up issue\n- [ ] `<TargetEditor>` apiToken field write-only — manually verified plus a component test in the package",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "053 - Chatflow Eval App Promotion",
+      "priority": "p0",
+      "complexity": "large",
+      "dependsOn": [
+        14,
+        17,
+        18,
+        19,
+        20
+      ],
+      "selected": true
+    },
+    {
+      "id": 22,
+      "title": "chatflow-eval: Realtime channel subscription + polling fallback",
+      "body": "## Summary\nWire the live-progress UI to the Supabase Realtime channel `chatflow:run:<runId>` published by the processor. Build an explicit polling fallback (per the plan risk note: realtime delivery is not guaranteed).\n\nClient (`run-controls.tsx` or a dedicated hook):\n- After `startEvalRun` returns `runId`, subscribe via `@supabase/ssr` browser client\n- Merge inbound row updates into local state\n- While a run is active and visible on the tab, poll `getRunWithRows(runId)` every 5 s as a fallback (skipped while tab is hidden, resumed on visibilitychange)\n- On reload: rebuild state from `getRunWithRows` then resubscribe to the channel\n- On run finish (status terminal): unsubscribe and stop polling\n\nServer (processor in issue 19): publish `{ type: 'row', position, status, response_text?, response_json?, langfuse_link?, error? }` after each row finishes; publish `{ type: 'run', status }` on terminal transition.\n\n## Acceptance Criteria\n- [ ] Channel name exactly `chatflow:run:<runId>`\n- [ ] Polling fallback fires every 5 s while run is non-terminal and tab is visible\n- [ ] Reload mid-run rebuilds state correctly (rows already done show their results; queued rows still queued)\n- [ ] Unsubscribe on run terminal (no leaked subscriptions)\n- [ ] Polling pause on `visibilitychange` to hidden, resume on visible (saves quota)\n- [ ] Component test (or playwright) covers reload-mid-run reconciliation",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "053 - Chatflow Eval App Promotion",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        19,
+        20,
+        21
+      ],
+      "selected": true
+    },
+    {
+      "id": 23,
+      "title": "chatflow-eval: /runs history route + /runs/[id] detail",
+      "body": "## Summary\nAdd two routes under the chatflow-eval app:\n- `/apps/chatflow-eval/runs` — paginated table of prior runs (uses `listRuns`), with mode (always 'eval' here, but reuse the package list) and target filters, with a \"Re-run from here\" action that recreates a run from the same question_set + target + concurrency\n- `/apps/chatflow-eval/runs/[id]` — full run detail (`getRunWithRows`); reuses `<ResultsTable>` and shows total/completed/errored counters; export-CSV button\n\n## Acceptance Criteria\n- [ ] Both routes inside the registry-driven layout (`requireAppLayoutAccess` covers them)\n- [ ] `runs` page paginated server-side; back/forward links functional\n- [ ] `runs/[id]` 404s on someone else's run id (RLS + explicit nullcheck)\n- [ ] \"Re-run from here\" calls `startEvalRun` with the same input; tier-gated identically\n- [ ] Export CSV from the detail page produces a downloadable signed URL",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "053 - Chatflow Eval App Promotion",
+      "priority": "p1",
+      "complexity": "medium",
+      "dependsOn": [
+        20,
+        21
+      ],
+      "selected": true
+    },
+    {
+      "id": 24,
+      "title": "chatflow-eval: e2e tests (Playwright)",
+      "body": "## Summary\nLand `apps/web/tests/e2e/chatflow-eval/` with Playwright specs per the plan. Mock the chatflow API in these specs (we don't want to hit a real Flowise endpoint in CI).\n\nSpecs:\n- `access.spec.ts` — unauth → login redirect; authed without permission → /unauthorized; authed with view → page renders\n- `target-and-import.spec.ts` — pro user creates target → imports a 5-question CSV via `importQuestionSetCSV` → set appears in picker\n- `eval-run.spec.ts` — pro user starts run with mocked chatflow returning 5 results → `<ResultsTable>` populates → exportRunCSV downloads with expected columns (`Question, UID, ResponseText, ResponseJSON, LangfuseLink, Tag`)\n- `tier-gate.spec.ts` — free user attempts Start Run → sees `<UpgradePrompt>`; no `chatflow_runs` row created (verified via DB read-back)\n- `cancel-run.spec.ts` — start run, cancel mid-run → row count stops growing; final status='cancelled'\n\nFixtures: reuse existing `loggedInPage` / `unauthPage` from the established e2e infra. Add a `chatflow-eval` slug to `APP_SELF_ENROLL_SLUGS` only in the e2e env (never in production) so the test user gets `view` permission automatically; or use the existing `seedPermission` helper.\n\n## Acceptance Criteria\n- [ ] All five specs pass locally and in CI\n- [ ] Mocked chatflow uses Playwright `page.route()` (or a stand-in service worker) so no real network call escapes\n- [ ] DB read-back assertions for tier-gate and cancel specs prove the server-side enforcement, not just UI\n- [ ] Specs wired into `pnpm --filter web test:e2e` script\n- [ ] CI runs them on every PR touching the app or the package",
+      "labels": [
+        "test"
+      ],
+      "milestone": "053 - Chatflow Eval App Promotion",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [
+        21,
+        22,
+        23
+      ],
+      "selected": true
+    },
+    {
+      "id": 25,
+      "title": "Scaffold csv-chatflow app via pnpm create-app",
+      "body": "## Summary\nScaffold the second mini-app and add its registry entry. Mirrors issue 17 but for the CSV processor.\n\n```\npnpm create-app csv-chatflow \\\n  --name=\"CSV Chatflow\" \\\n  --subdomain=csv-chatflow \\\n  --tier=free \\\n  --template=full \\\n  --permission=view \\\n  --auth=true\n```\n\nThen edit registry: `features: { \"csv-chatflow:run\": \"pro\" }`, `showcaseGroup: \"ai-tools\"`.\n\n## Acceptance Criteria\n- [ ] Route group exists with page/layout\n- [ ] Registry entry per the plan\n- [ ] Layout uses `requireAppLayoutAccess('csv-chatflow', pathname)`\n- [ ] App shows up under \"AI Tools\" showcase group\n- [ ] `pnpm lint` passes",
+      "labels": [
+        "enhancement"
+      ],
+      "milestone": "054 - CSV Chatflow App Promotion",
+      "priority": "p0",
+      "complexity": "small",
+      "dependsOn": [
+        15
+      ],
+      "selected": true
+    },
+    {
+      "id": 26,
+      "title": "csv-chatflow: server actions (uploadCSVForChatflow + run lifecycle)",
+      "body": "## Summary\nImplement the csv-chatflow server actions in `apps/web/app/apps/csv-chatflow/actions.ts`.\n\n- `uploadCSVForChatflow(file)` — free tier; streams upload to `chatflow-uploads/<user_id>/<uuid>.csv` via service-role storage client; parses the first row as headers + first 5 rows as preview using `@repo/ai-eval/csv`; returns `{ storagePath, headers, sampleRows }`. Validates ≤25 MB and `text/csv` mime.\n- `startCSVRun(input)` — pro tier (`csv-chatflow:run`); reads the uploaded CSV from storage, snapshots `target.prompt_template` into the run, materializes one `chatflow_run_rows` per CSV row (`input = { row: {...} }`), schedules processor (same dispatch pattern as issue 19, using `after()`).\n- Processor: per row, interpolates `{{rowJson}}` into the snapshot prompt_template (length-bounded), calls `callChatflow` with that as `question`. Persists response_text and response_json (parsed if response is JSON, else null). Updates row + run counters.\n- `cancelRun` (re-export of the package action / shared with chatflow-eval)\n- `listRuns` / `getRunWithRows` (re-exports)\n- `exportRunCSV` — uses `@repo/ai-eval/csv.formatCSVRunOutputCSV` (original headers + appended `ResponseJSON` column), uploads to `chatflow-results/`, returns signed URL\n\n## Acceptance Criteria\n- [ ] Upload validates mime + size at the boundary\n- [ ] Upload writes to user's own folder; cross-user upload via crafted path rejected by storage RLS (verify with a regression test)\n- [ ] `startCSVRun` snapshots `prompt_template` from the target at run time (changes to the target after run start do not affect the run)\n- [ ] Run-size cap enforced same as eval app (`min(rows, concurrency * 30)`)\n- [ ] Prompt-template interpolation length-bounded (≤16 KiB after substitution; reject otherwise)\n- [ ] Decrypted token never logged (same redaction as chatflow-eval)\n- [ ] `withSpan('csv-chatflow.startCSVRun')` and `withSpan('csv-chatflow.exportRunCSV')`\n- [ ] Unit tests cover boundary validation, prompt interpolation, snapshot semantics, tier gate",
+      "labels": [
+        "enhancement",
+        "security"
+      ],
+      "milestone": "054 - CSV Chatflow App Promotion",
+      "priority": "p0",
+      "complexity": "large",
+      "dependsOn": [
+        4,
         8,
         9,
         10,
-        11
+        12,
+        13,
+        25
+      ],
+      "selected": true
+    },
+    {
+      "id": 27,
+      "title": "csv-chatflow: page composition (CsvUpload + TargetPicker + PromptEditor + ResultsTable)",
+      "body": "## Summary\nBuild the csv-chatflow page using shared `@repo/ai-eval/ui` components plus app-local glue.\n\n- Header: `<TargetPicker>` + \"Manage targets\" (opens `<TargetEditor>` from the package)\n- Upload area: drag-and-drop CSV (calls `uploadCSVForChatflow`); on success show a small preview table of headers + first 5 rows; show \"Edit prompt template\" link (pro only) that opens `<PromptTemplateEditor>` with `{{rowJson}}` interpolation preview\n- Run controls: concurrency input (capped per tier), Run All / Run Selected / Stop / Download Results\n- Results table showing input (compact JSON of original row), output (parsed array if JSON, else text), error, langfuse link\n- Realtime + polling-fallback wiring as in issue 22 (subscribe to `chatflow:run:<runId>`)\n- Run history sidebar / `/apps/csv-chatflow/runs` route mirroring chatflow-eval\n\nApp-local components (`apps/web/app/apps/csv-chatflow/components/`):\n- `csv-upload.tsx`\n- `target-picker.tsx` (wrapper around package picker)\n- `prompt-template-editor.tsx` — pro-gated; live preview substitutes `{{rowJson}}` from a sample row\n- `run-controls.tsx`\n- `results-table.tsx`\n\n## Acceptance Criteria\n- [ ] All components use `@repo/theme` tokens; `pnpm audit:tokens` passes\n- [ ] Free user sees upload + preview but Run button shows `<UpgradePrompt feature=\"csv-chatflow:run\" />`\n- [ ] Pro user can edit prompt template; preview updates as they type\n- [ ] Concurrency input `max` reads from `CONCURRENCY_CAP[tier]`\n- [ ] Reload mid-run reconciles via `getRunWithRows` then resubscribes\n- [ ] Run history at `/apps/csv-chatflow/runs` and detail at `/apps/csv-chatflow/runs/[id]`\n- [ ] Server-action call sites preserve user input on error (form state not nuked)",
+      "labels": [
+        "enhancement",
+        "ui"
+      ],
+      "milestone": "054 - CSV Chatflow App Promotion",
+      "priority": "p0",
+      "complexity": "large",
+      "dependsOn": [
+        14,
+        25,
+        26
+      ],
+      "selected": true
+    },
+    {
+      "id": 28,
+      "title": "csv-chatflow: e2e tests (Playwright)",
+      "body": "## Summary\nLand `apps/web/tests/e2e/csv-chatflow/` with Playwright specs per the plan. Mock the chatflow API.\n\nSpecs:\n- `access.spec.ts` — unauth → login redirect; authed without permission → /unauthorized; authed with view → page renders\n- `upload.spec.ts` — pro user uploads 10-row CSV → preview shows headers + sample → no run created yet (verified via DB read-back)\n- `csv-run.spec.ts` — pro user starts run with mocked chatflow → results visible in table → download CSV → ResponseJSON column populated and round-trips through `parseCSVFile`\n- `tier-gate.spec.ts` — free user attempts Start Run → upgrade prompt; no `chatflow_runs` row created (DB read-back)\n- `prompt-template.spec.ts` — pro user edits prompt template, runs, mocked chatflow echoes a substring of the template back, results reflect that substring (proves the snapshot was used)\n- `cancel-run.spec.ts` — cancel mid-run; final status='cancelled'\n\n## Acceptance Criteria\n- [ ] All six specs pass locally and in CI\n- [ ] Mocked chatflow via Playwright `page.route()`\n- [ ] DB read-back assertions for tier-gate, upload-no-run, and cancel specs\n- [ ] Specs wired into `pnpm --filter web test:e2e`\n- [ ] CI runs them on every PR touching the app or the package",
+      "labels": [
+        "test"
+      ],
+      "milestone": "054 - CSV Chatflow App Promotion",
+      "priority": "p1",
+      "complexity": "large",
+      "dependsOn": [
+        27
+      ],
+      "selected": true
+    },
+    {
+      "id": 29,
+      "title": "Docs: bump app count + update CLAUDE.md lib listing if needed",
+      "body": "## Summary\nFinal docs pass after both apps land:\n- Update CLAUDE.md app-count line (\"27+ micro-apps\" → \"29+\") in the Overview section\n- Verify `apps/web/lib/` listing in CLAUDE.md still matches the filesystem (most code lives in the package, but if either app added anything to `apps/web/lib/`, the lib-listing block needs updating — `scripts/check-claude-md-lib-sync.ts` enforces)\n- Audit hardcoded route counts in marketing components (per the meme-generator plan note about `MODULES.length`)\n- Update `docs/guides/promote-ai-scripts-to-apps.md` (already exists in working tree) with the final implementation status section\n\n## Acceptance Criteria\n- [ ] CLAUDE.md app count bumped\n- [ ] `pnpm lint` passes (lib-listing sync check)\n- [ ] No hardcoded route count in marketing components is wrong\n- [ ] `docs/guides/promote-ai-scripts-to-apps.md` updated with \"Implemented in PRs #x, #y, #z\" footer",
+      "labels": [
+        "documentation"
+      ],
+      "milestone": "054 - CSV Chatflow App Promotion",
+      "priority": "p2",
+      "complexity": "trivial",
+      "dependsOn": [
+        21,
+        27
       ],
       "selected": true
     }
