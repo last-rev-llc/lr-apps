@@ -1,0 +1,45 @@
+{
+  "name": "@repo/ai-eval",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run --passWithNoTests"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./langfuse": "./src/langfuse.ts",
+    "./schema": "./src/schema.ts",
+    "./target-store": "./src/target-store.ts",
+    "./run-store": "./src/run-store.ts",
+    "./ui": "./src/ui/index.ts"
+  },
+  "dependencies": {
+    "@repo/db": "workspace:*",
+    "server-only": "^0.0.1",
+    "zod": "^4"
+  },
+  "peerDependencies": {
+    "react": "^19"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@testing-library/jest-dom": "^6",
+    "@testing-library/react": "^16",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "jsdom": "^29.1.0",
+    "react": "^19",
+    "react-dom": "^19",
+    "react-window": "^1.8.10",
+    "@types/react-window": "^1.8.8",
+    "typescript": "^5",
+    "vitest": "^4.1.5"
+  }
+}
