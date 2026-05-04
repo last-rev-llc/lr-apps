@@ -1,0 +1,167 @@
+{
+  "name": "session/052-ai-eval-shared-package-foundation",
+  "branch": "session/052-ai-eval-shared-package-foundation",
+  "completed": "2026-05-04T21:26:41.005Z",
+  "results": [
+    {
+      "issueNum": 677,
+      "title": "Migration: chatflow_targets with pgsodium-encrypted api_token",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/708",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 322,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 678,
+      "title": "Migration: question_sets and question_set_items",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/708",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 322,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 679,
+      "title": "Migration: chatflow_runs and chatflow_run_rows",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/708",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 322,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 680,
+      "title": "Migration: chatflow-uploads and chatflow-results storage buckets + RLS",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/708",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 322,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 681,
+      "title": "pgsodium key provisioning script + PGSODIUM_KEY_ID env wiring",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/708",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 322,
+      "filesChanged": 8
+    },
+    {
+      "issueNum": 682,
+      "title": "Scaffold @repo/ai-eval package + workspace wiring",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/709",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 318,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 683,
+      "title": "@repo/ai-eval: zod schemas + tier-limits constants",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/709",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 318,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 684,
+      "title": "@repo/ai-eval: chatflow-client.ts (outbound POST + abort + token redaction)",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/709",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 318,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 685,
+      "title": "@repo/ai-eval: queue.ts (rolling-concurrency engine)",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/709",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 318,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 686,
+      "title": "@repo/ai-eval: csv.ts (parse/format with multi-line quoted fields)",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/709",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 318,
+      "filesChanged": 2
+    },
+    {
+      "issueNum": 687,
+      "title": "@repo/ai-eval: langfuse.ts link generation",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/710",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 327,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 688,
+      "title": "@repo/ai-eval: target-store.ts (encrypt/decrypt + per-user CRUD)",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/710",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 327,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 689,
+      "title": "@repo/ai-eval: run-store.ts (run + run-row CRUD)",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/710",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 327,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 690,
+      "title": "@repo/ai-eval/ui: shared client components (theme-token clean)",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/710",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 327,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 691,
+      "title": "Update tier-config.ts: chatflow-eval:run and csv-chatflow:run feature gates",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/710",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 327,
+      "filesChanged": 3
+    },
+    {
+      "issueNum": 692,
+      "title": "@repo/ai-eval: integration test for pgsodium round-trip and cross-user RLS",
+      "status": "failure",
+      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/711",
+      "testsPassing": false,
+      "verifyPassing": true,
+      "duration": 1024,
+      "filesChanged": 2
+    }
+  ]
+}
