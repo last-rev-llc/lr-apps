@@ -1,0 +1,94 @@
+name: ai-eval integration
+
+on:
+  pull_request:
+    paths:
+      - "packages/ai-eval/**"
+      - "supabase/migrations/**"
+      - "scripts/seed-pgsodium-key.ts"
+      - ".github/workflows/ai-eval-integration.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "packages/ai-eval/**"
+      - "supabase/migrations/**"
+      - "scripts/seed-pgsodium-key.ts"
+      - ".github/workflows/ai-eval-integration.yml"
+
+jobs:
+  ai-eval-integration:
+    name: ai-eval integration tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start local Supabase
+        run: supabase start --workdir .
+
+      - name: Capture Supabase status
+        id: supabase
+        run: |
+          STATUS=$(supabase status --workdir . --output env)
+          # Convert `KEY="value"` lines to step outputs.
+          echo "$STATUS" | while IFS='=' read -r k v; do
+            v=${v%\"}
+            v=${v#\"}
+            echo "$k=$v" >> "$GITHUB_OUTPUT"
+          done
+
+      - name: Seed pgsodium key
+        id: seed
+        env:
+          SUPABASE_DB_URL: ${{ steps.supabase.outputs.DB_URL }}
+        run: |
+          OUT=$(pnpm tsx scripts/seed-pgsodium-key.ts)
+          echo "$OUT"
+          KEY_ID=$(echo "$OUT" | sed -n 's/^PGSODIUM_KEY_ID=//p' | tail -1)
+          if [ -z "$KEY_ID" ]; then
+            echo "::error::seed-pgsodium-key.ts did not print PGSODIUM_KEY_ID"
+            exit 1
+          fi
+          echo "PGSODIUM_KEY_ID=$KEY_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Run @repo/ai-eval tests
+        env:
+          SUPABASE_TEST_URL: ${{ steps.supabase.outputs.API_URL }}
+          SUPABASE_TEST_SERVICE_ROLE_KEY: ${{ steps.supabase.outputs.SERVICE_ROLE_KEY }}
+          SUPABASE_TEST_ANON_KEY: ${{ steps.supabase.outputs.ANON_KEY }}
+          SUPABASE_TEST_DB_URL: ${{ steps.supabase.outputs.DB_URL }}
+          PGSODIUM_KEY_ID: ${{ steps.seed.outputs.PGSODIUM_KEY_ID }}
+        run: pnpm --filter @repo/ai-eval test
+
+      - name: Stop local Supabase
+        if: always()
+        run: supabase stop --workdir . || true
