@@ -239,8 +239,8 @@ import {
   updateMemeTitle,
   deleteMeme,
   generateMemeCaption,
-  TEMPLATE_LIST_CACHE_KEY,
 } from "../actions";
+import { TEMPLATE_LIST_CACHE_KEY } from "../lib/cache-keys";
 import { QuotaExceededError, RateLimitedError } from "../lib/errors";
 import { SAVE_QUOTAS } from "../lib/quotas";
 import { FeatureAccessError } from "@repo/billing";
