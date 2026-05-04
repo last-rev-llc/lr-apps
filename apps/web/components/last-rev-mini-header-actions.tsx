@@ -35,10 +35,13 @@ function initials(name: string | undefined, email: string | undefined): string {
 export function LastRevMiniHeaderActions({
   platformBaseUrl,
   catalogUrl,
+  signInHref,
   user,
 }: {
   platformBaseUrl: string;
   catalogUrl: string;
+  /** Auth0 login URL (`/auth/login?returnTo=…`), not the marketing `/login` shell. */
+  signInHref: string;
   user: MiniHeaderUser | null;
 }) {
   const myAppsHref = `${platformBaseUrl}/my-apps`;
@@ -47,7 +50,7 @@ export function LastRevMiniHeaderActions({
   if (!user?.email && !user?.name) {
     return (
       <Link
-        href={`${platformBaseUrl}/login`}
+        href={signInHref}
         className="inline-flex items-center px-6 py-2.5 rounded-[10px] bg-[image:var(--gradient-accent)] text-black font-bold text-[13px] shadow-[0_0_30px_rgba(245,158,11,0.15)] transition-all hover:-translate-y-px hover:shadow-[0_0_40px_rgba(245,158,11,0.3)]"
       >
         Sign in

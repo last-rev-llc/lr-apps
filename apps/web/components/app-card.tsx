@@ -9,7 +9,8 @@ type Tier = "free" | "pro" | "enterprise";
 interface AppCardProps {
   href: string;
   name: string;
-  subdomain: string;
+  /** Brief subtitle shown under the title (replacing bare subdomain slug). */
+  description: string;
   imageSrc?: string;
   videoSrc?: string;
   alt?: string;
@@ -30,7 +31,7 @@ const TIER_TONE: Record<Tier, string> = {
 export function AppCard({
   href,
   name,
-  subdomain,
+  description,
   imageSrc,
   videoSrc,
   alt,
@@ -140,7 +141,7 @@ export function AppCard({
               </div>
             )}
           </div>
-          <CardDescription className="text-xs">{subdomain}</CardDescription>
+          <CardDescription className="text-xs line-clamp-2">{description}</CardDescription>
         </CardHeader>
       </Card>
     </a>

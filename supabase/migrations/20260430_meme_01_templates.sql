@@ -22,6 +22,7 @@ create table if not exists public.meme_templates (
 
 alter table public.meme_templates enable row level security;
 
+drop policy if exists "meme_templates_select_authenticated" on public.meme_templates;
 create policy "meme_templates_select_authenticated"
   on public.meme_templates for select
   using (auth.role() = 'authenticated');

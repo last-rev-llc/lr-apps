@@ -12,6 +12,8 @@
 //     --template=minimal|full  default: minimal
 //     --permission=view|edit|admin  default: view
 //     --auth=true|false        default: true
+//     --tagline=<one line>     default: "<Name> on the Last Rev platform."
+//     --showcase-group=operations|ai-tools|fun-consumer|culture  default: operations
 //
 // Example:
 //   pnpm create-app widget --name="Widget Studio" --tier=pro
@@ -20,14 +22,25 @@ import * as path from "node:path";
 
 const KEBAB_CASE_RE = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 
+const SHOWCASE_GROUP_VALUES = [
+  "operations",
+  "ai-tools",
+  "fun-consumer",
+  "culture",
+] as const;
+
+export type CreateAppShowcaseGroup = (typeof SHOWCASE_GROUP_VALUES)[number];
+
 export interface CreateAppArgs {
   slug: string;
   name: string;
+  tagline: string;
   subdomain: string;
   tier: "free" | "pro" | "enterprise";
   template: "minimal" | "full";
   permission: "view" | "edit" | "admin";
   auth: boolean;
+  showcaseGroup: CreateAppShowcaseGroup;
 }
 
 export interface CreateAppPaths {
@@ -95,6 +108,14 @@ export function parseArgs(argv: string[]): CreateAppArgs {
 
   const auth = (flags.auth ?? "true") !== "false";
 
+  const showcaseGroupRaw = flags["showcase-group"] ?? flags.showcaseGroup ?? "operations";
+  if (!(SHOWCASE_GROUP_VALUES as readonly string[]).includes(showcaseGroupRaw)) {
+    throw new Error(
+      `Invalid --showcase-group "${showcaseGroupRaw}". Expected ${SHOWCASE_GROUP_VALUES.join("|")}.`,
+    );
+  }
+  const showcaseGroup = showcaseGroupRaw as CreateAppShowcaseGroup;
+
   const subdomain = flags.subdomain ?? slug;
   if (!KEBAB_CASE_RE.test(subdomain)) {
     throw new Error(
@@ -109,7 +130,9 @@ export function parseArgs(argv: string[]): CreateAppArgs {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
 
-  return { slug, name, subdomain, tier, template, permission, auth };
+  const tagline = flags.tagline ?? `${name} on the Last Rev platform.`;
+
+  return { slug, name, tagline, subdomain, tier, template, permission, auth, showcaseGroup };
 }
 
 export function defaultPaths(repoRoot: string, slug: string): CreateAppPaths {
@@ -147,7 +170,20 @@ export function insertRegistryEntry(source: string, args: CreateAppArgs): string
   }
 
   const routeGroup = `apps/${args.slug}`;
-  const entry = `  { slug: "${args.slug}", name: "${args.name}", subdomain: "${args.subdomain}", routeGroup: "${routeGroup}", auth: ${args.auth}, permission: "${args.permission}", template: "${args.template}", tier: "${args.tier}", features: {} },\n`;
+  const entry = `  {
+    slug: "${args.slug}",
+    name: "${args.name}",
+    tagline: ${JSON.stringify(args.tagline)},
+    subdomain: "${args.subdomain}",
+    routeGroup: "${routeGroup}",
+    auth: ${args.auth},
+    permission: "${args.permission}",
+    template: "${args.template}",
+    tier: "${args.tier}",
+    features: {},
+    showcaseGroup: "${args.showcaseGroup}",
+  },
+`;
 
   return source.replace(arrayClosePattern, `\n${entry}];\n\nconst subdomainIndex`);
 }

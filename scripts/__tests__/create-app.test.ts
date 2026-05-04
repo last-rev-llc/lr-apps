@@ -10,9 +10,12 @@ import {
   type CreateAppFs,
 } from "../create-app";
 
-const FAKE_REGISTRY = `export interface AppConfig {
+const FAKE_REGISTRY = `export type AppShowcaseGroup = "operations" | "ai-tools" | "fun-consumer" | "culture";
+
+export interface AppConfig {
   slug: string;
   name: string;
+  tagline: string;
   subdomain: string;
   routeGroup: string;
   auth: boolean;
@@ -20,11 +23,12 @@ const FAKE_REGISTRY = `export interface AppConfig {
   template: "full" | "minimal";
   tier: "free" | "pro" | "enterprise";
   features: Record<string, "free" | "pro" | "enterprise">;
+  showcaseGroup: AppShowcaseGroup;
 }
 
 const apps: AppConfig[] = [
-  { slug: "auth", name: "Auth", subdomain: "auth", routeGroup: "(auth)", auth: false, permission: "view", template: "full", tier: "free", features: {} },
-  { slug: "accounts", name: "Accounts", subdomain: "accounts", routeGroup: "apps/accounts", auth: true, permission: "view", template: "full", tier: "free", features: {} },
+  { slug: "auth", name: "Auth", tagline: "Auth hub", subdomain: "auth", routeGroup: "(auth)", auth: false, permission: "view", template: "full", tier: "free", features: {}, showcaseGroup: "operations" },
+  { slug: "accounts", name: "Accounts", tagline: "Accounts app", subdomain: "accounts", routeGroup: "apps/accounts", auth: true, permission: "view", template: "full", tier: "free", features: {}, showcaseGroup: "operations" },
 ];
 
 const subdomainIndex = new Map(apps.map((app) => [app.subdomain, app]));
@@ -104,22 +108,45 @@ describe("parseArgs", () => {
     expect(parseArgs(["w"]).auth).toBe(true);
     expect(parseArgs(["w", "--auth=false"]).auth).toBe(false);
   });
+
+  it("defaults tagline from display name", () => {
+    expect(parseArgs(["my-widget"]).tagline).toBe("My Widget on the Last Rev platform.");
+  });
+
+  it("accepts --tagline override", () => {
+    expect(parseArgs(["w", "--tagline=Ship faster."]).tagline).toBe("Ship faster.");
+  });
+
+  it("defaults showcaseGroup=operations", () => {
+    expect(parseArgs(["w"]).showcaseGroup).toBe("operations");
+  });
+
+  it("accepts --showcase-group override", () => {
+    expect(parseArgs(["w", "--showcase-group=fun-consumer"]).showcaseGroup).toBe("fun-consumer");
+  });
+
+  it("rejects invalid showcase-group", () => {
+    expect(() => parseArgs(["w", "--showcase-group=invalid"])).toThrow(/Invalid --showcase-group/);
+  });
 });
 
 describe("insertRegistryEntry", () => {
   const baseArgs: CreateAppArgs = {
     slug: "widget",
     name: "Widget",
+    tagline: "Widget on the Last Rev platform.",
     subdomain: "widget",
     tier: "free",
     template: "minimal",
     permission: "view",
     auth: true,
+    showcaseGroup: "operations",
   };
 
   it("inserts new entry before the closing `];`", () => {
     const next = insertRegistryEntry(FAKE_REGISTRY, baseArgs);
     expect(next).toContain(`slug: "widget"`);
+    expect(next).toContain(`tagline: "Widget on the Last Rev platform."`);
     expect(next.indexOf(`slug: "widget"`)).toBeLessThan(next.indexOf("subdomainIndex"));
     expect(next.indexOf(`slug: "widget"`)).toBeGreaterThan(next.indexOf(`slug: "accounts"`));
   });
@@ -148,7 +175,17 @@ describe("insertRegistryEntry", () => {
       tier: "pro",
       auth: false,
     });
-    expect(next).toMatch(/slug: "pro-widget".*auth: false.*tier: "pro"/);
+    expect(next).toMatch(/slug: "pro-widget"[\s\S]*auth: false[\s\S]*tier: "pro"/);
+  });
+
+  it("writes showcaseGroup into the registry literal", () => {
+    const next = insertRegistryEntry(FAKE_REGISTRY, {
+      ...baseArgs,
+      slug: "z",
+      subdomain: "z",
+      showcaseGroup: "culture",
+    });
+    expect(next).toContain(`showcaseGroup: "culture"`);
   });
 });
 
@@ -157,11 +194,13 @@ describe("renderPage", () => {
     const out = renderPage({
       slug: "my-widget",
       name: "My Widget",
+      tagline: "x",
       subdomain: "my-widget",
       tier: "free",
       template: "minimal",
       permission: "view",
       auth: true,
+      showcaseGroup: "operations",
     });
     expect(out).toContain("export default function MyWidgetPage()");
     expect(out).toContain("My Widget");
@@ -173,11 +212,13 @@ describe("renderLayout", () => {
     const out = renderLayout({
       slug: "widget",
       name: "Widget",
+      tagline: "x",
       subdomain: "widget",
       tier: "free",
       template: "minimal",
       permission: "view",
       auth: true,
+      showcaseGroup: "operations",
     });
     expect(out).toContain(`await requireAppLayoutAccess("widget")`);
     expect(out).toContain("export default async function WidgetLayout");
@@ -187,11 +228,13 @@ describe("renderLayout", () => {
     const out = renderLayout({
       slug: "widget",
       name: "Widget",
+      tagline: "x",
       subdomain: "widget",
       tier: "free",
       template: "minimal",
       permission: "view",
       auth: false,
+      showcaseGroup: "operations",
     });
     expect(out).not.toContain("requireAppLayoutAccess");
     expect(out).toContain("export default function WidgetLayout");
@@ -203,11 +246,13 @@ describe("renderPageTest", () => {
     const out = renderPageTest({
       slug: "widget",
       name: "Widget",
+      tagline: "x",
       subdomain: "widget",
       tier: "free",
       template: "minimal",
       permission: "view",
       auth: true,
+      showcaseGroup: "operations",
     });
     expect(out).toContain('import WidgetPage from "../page"');
     expect(out).toContain('@repo/test-utils');
@@ -228,11 +273,13 @@ describe("createApp (integration, fake fs)", () => {
       {
         slug: "widget",
         name: "Widget",
+        tagline: "Widget on the Last Rev platform.",
         subdomain: "widget",
         tier: "free",
         template: "minimal",
         permission: "view",
         auth: true,
+        showcaseGroup: "operations",
       },
       io.fs,
     );
@@ -252,11 +299,13 @@ describe("createApp (integration, fake fs)", () => {
         {
           slug: "widget",
           name: "Widget",
+          tagline: "x",
           subdomain: "widget",
           tier: "free",
           template: "minimal",
           permission: "view",
           auth: true,
+          showcaseGroup: "operations",
         },
         io.fs,
       ),
@@ -270,11 +319,13 @@ describe("createApp (integration, fake fs)", () => {
         {
           slug: "accounts",
           name: "Accounts",
+          tagline: "x",
           subdomain: "accounts-2",
           tier: "free",
           template: "minimal",
           permission: "view",
           auth: true,
+          showcaseGroup: "operations",
         },
         io.fs,
       ),

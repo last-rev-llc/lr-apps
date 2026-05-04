@@ -189,6 +189,18 @@ async function proxyImpl(request: NextRequest): Promise<NextResponse> {
         );
       }
 
+      // Login, signup, my-apps, etc. live at URL paths like `/login`, not under
+      // `/apps/<slug>/...`. Prefixing (e.g. `/apps/meme-generator/login`) 404s.
+      // Dev/preview already skip this via `isHubOnlyPath`; production subdomains
+      // must do the same.
+      if (isHubOnlyPath) {
+        return withAuth(
+          NextResponse.next({
+            request: { headers: withNonceHeader(request, nonce) },
+          }),
+        );
+      }
+
       const originalPathname = request.nextUrl.pathname;
       const url = request.nextUrl.clone();
       url.pathname = `${routePath}${url.pathname}`;

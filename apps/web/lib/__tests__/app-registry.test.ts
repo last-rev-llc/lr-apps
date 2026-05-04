@@ -5,8 +5,11 @@ import {
   getAppBySubdomain,
   getAppBySlug,
   getAllApps,
+  getShowcaseSections,
   isPublicRoute,
+  APP_SHOWCASE_GROUP_ORDER,
   type AppConfig,
+  type AppShowcaseGroup,
 } from "../app-registry";
 import { isSelfEnrollAllowedForSlug } from "@repo/auth/self-enroll";
 
@@ -39,7 +42,7 @@ describe("app-registry", () => {
   it("lists all apps", () => {
     const apps = getAllApps();
     expect(apps.length).toBeGreaterThan(0);
-    expect(apps.every((a: AppConfig) => a.slug && a.subdomain)).toBe(true);
+    expect(apps.every((a: AppConfig) => a.slug && a.subdomain && a.tagline)).toBe(true);
   });
 
   it("distinguishes auth-required from public apps", () => {
@@ -100,6 +103,21 @@ describe("app-registry", () => {
     }
   });
 
+  it("every app declares a showcaseGroup from the marketing category set", () => {
+    const valid = new Set<AppShowcaseGroup>(APP_SHOWCASE_GROUP_ORDER);
+    for (const app of getAllApps()) {
+      expect(valid.has(app.showcaseGroup), `${app.slug} showcaseGroup`).toBe(true);
+    }
+  });
+
+  it("getShowcaseSections preserves category order and sorts by name within a category", () => {
+    const a = getAppBySlug("uptime")!;
+    const b = getAppBySlug("accounts")!;
+    const sections = getShowcaseSections([a, b]);
+    expect(sections[0]?.group).toBe("operations");
+    expect(sections[0]?.apps.map((x) => x.slug)).toEqual(["accounts", "uptime"]);
+  });
+
   describe("registry integrity", () => {
     it("registers at least 27 apps", () => {
       expect(getAllApps().length).toBeGreaterThanOrEqual(27);
@@ -124,6 +142,12 @@ describe("app-registry", () => {
           `${app.slug}.subdomain must be a leftmost DNS label, not a full host`,
         ).toBe(false);
         expect(app.subdomain.length).toBeGreaterThan(0);
+      }
+    });
+
+    it("every app has a non-empty tagline for directory cards", () => {
+      for (const app of getAllApps()) {
+        expect(app.tagline.trim().length).toBeGreaterThan(0);
       }
     });
 

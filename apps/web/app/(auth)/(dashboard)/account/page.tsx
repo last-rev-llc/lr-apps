@@ -4,6 +4,7 @@ import {
   getAuth0ClientForHost,
   getHostFromRequestHeaders,
 } from "@repo/auth/auth0-factory";
+import { buildAuthLoginHref } from "@/lib/auth-login-redirect";
 import { getSubscription } from "@repo/billing";
 import { SubscriptionCard } from "./components/SubscriptionCard";
 import type { Metadata } from "next";
@@ -22,7 +23,12 @@ export default async function AccountPage() {
   const session = await auth0.getSession();
 
   if (!session?.user) {
-    redirect("/auth/login");
+    redirect(
+      buildAuthLoginHref({
+        host,
+        defaultReturnTo: "/account",
+      }),
+    );
   }
 
   const userId = session.user.sub as string;

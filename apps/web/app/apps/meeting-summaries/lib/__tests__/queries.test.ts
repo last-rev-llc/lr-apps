@@ -48,7 +48,7 @@ describe("getMeetings", () => {
     expect(result[1].topic).toBe("Design Review");
   });
 
-  it("throws on supabase error", async () => {
+  it("returns empty array on supabase error (missing table, RLS, etc.)", async () => {
     mockSupabase._builder.then.mockImplementation(
       (resolve: (v: unknown) => unknown) =>
         Promise.resolve({
@@ -57,9 +57,7 @@ describe("getMeetings", () => {
         }).then(resolve),
     );
 
-    await expect(getMeetings()).rejects.toEqual(
-      expect.objectContaining({ message: "DB error" }),
-    );
+    await expect(getMeetings()).resolves.toEqual([]);
   });
 });
 

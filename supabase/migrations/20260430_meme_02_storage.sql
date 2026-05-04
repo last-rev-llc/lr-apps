@@ -6,6 +6,7 @@ insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_typ
 values ('memes', 'memes', false, 1048576, array['image/png'])
 on conflict (id) do nothing;
 
+drop policy if exists "memes_select_own" on storage.objects;
 create policy "memes_select_own"
   on storage.objects for select
   using (
@@ -13,6 +14,7 @@ create policy "memes_select_own"
     and auth.uid()::text = (storage.foldername(name))[1]
   );
 
+drop policy if exists "memes_insert_own" on storage.objects;
 create policy "memes_insert_own"
   on storage.objects for insert
   with check (
@@ -20,6 +22,7 @@ create policy "memes_insert_own"
     and auth.uid()::text = (storage.foldername(name))[1]
   );
 
+drop policy if exists "memes_delete_own" on storage.objects;
 create policy "memes_delete_own"
   on storage.objects for delete
   using (
@@ -37,6 +40,7 @@ values (
 )
 on conflict (id) do nothing;
 
+drop policy if exists "meme_templates_storage_select_public" on storage.objects;
 create policy "meme_templates_storage_select_public"
   on storage.objects for select
   using (bucket_id = 'meme-templates');
