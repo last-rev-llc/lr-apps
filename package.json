@@ -20,7 +20,8 @@
     "db:check-migration-pairs": "node --experimental-strip-types scripts/check-migration-pairs.ts",
     "db:rollback": "node --experimental-strip-types scripts/db-rollback.ts",
     "db:seed": "node --experimental-strip-types scripts/db-seed.ts",
-    "seed:meme-templates": "node --experimental-strip-types scripts/seed-meme-templates.ts"
+    "seed:meme-templates": "node --experimental-strip-types scripts/seed-meme-templates.ts",
+    "seed:pgsodium-key": "node --experimental-strip-types scripts/seed-pgsodium-key.ts"
   },
   "devDependencies": {
     "punchlist-qa": "^0.2.1",
