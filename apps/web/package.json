@@ -23,6 +23,7 @@
     "@opentelemetry/resources": "^2.7.1",
     "@opentelemetry/sdk-node": "^0.216.0",
     "@opentelemetry/semantic-conventions": "^1.40.0",
+    "@repo/ai-eval": "workspace:*",
     "@repo/analytics": "workspace:*",
     "@repo/auth": "workspace:*",
     "@repo/billing": "workspace:*",
