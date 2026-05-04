@@ -299,15 +299,20 @@ describe("run-store", () => {
   });
 
   it("createRun rolls back when the RPC rejects (no partial run, no orphan rows)", async () => {
+    // Force the RPC layer to fail before any state is written. The TS wrapper
+    // calls the SECURITY DEFINER plpgsql RPC; if that rejects, neither the run
+    // nor any of its rows should appear.
+    const original = fake.rpc.bind(fake);
+    fake.rpc = async () => ({ data: null, error: { message: "boom" } });
     const { createRun } = await import("../run-store");
     await expect(
       createRun("user-A", {
         target_id: "target-1",
         mode: "eval",
-        // @ts-expect-error force-bad uid to trip the simulated tx guard
-        inputs: [{ uid: "ok", position: 0, prompt: "Q" }, { uid: "", position: 1, prompt: "Bad" }],
+        inputs: [{ uid: "u-1", position: 0, prompt: "Q" }],
       }),
     ).rejects.toThrow();
+    fake.rpc = original;
     expect(fake.runs).toHaveLength(0);
     expect(fake.rows).toHaveLength(0);
   });
