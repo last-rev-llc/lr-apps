@@ -89,4 +89,34 @@ describe("hasFeatureAccess", () => {
     mockGetSubscription.mockResolvedValue({ tier: "enterprise", status: "active" });
     expect(await hasFeatureAccess("user-1", "memes:ai-caption")).toBe(true);
   });
+
+  it("denies free-tier users access to chatflow-eval:run", async () => {
+    mockGetSubscription.mockResolvedValue({ tier: "free", status: "active" });
+    expect(await hasFeatureAccess("user-1", "chatflow-eval:run")).toBe(false);
+  });
+
+  it("grants pro-tier users access to chatflow-eval:run", async () => {
+    mockGetSubscription.mockResolvedValue({ tier: "pro", status: "active" });
+    expect(await hasFeatureAccess("user-1", "chatflow-eval:run")).toBe(true);
+  });
+
+  it("grants enterprise-tier users access to chatflow-eval:run", async () => {
+    mockGetSubscription.mockResolvedValue({ tier: "enterprise", status: "active" });
+    expect(await hasFeatureAccess("user-1", "chatflow-eval:run")).toBe(true);
+  });
+
+  it("denies free-tier users access to csv-chatflow:run", async () => {
+    mockGetSubscription.mockResolvedValue({ tier: "free", status: "active" });
+    expect(await hasFeatureAccess("user-1", "csv-chatflow:run")).toBe(false);
+  });
+
+  it("grants pro-tier users access to csv-chatflow:run", async () => {
+    mockGetSubscription.mockResolvedValue({ tier: "pro", status: "active" });
+    expect(await hasFeatureAccess("user-1", "csv-chatflow:run")).toBe(true);
+  });
+
+  it("grants enterprise-tier users access to csv-chatflow:run", async () => {
+    mockGetSubscription.mockResolvedValue({ tier: "enterprise", status: "active" });
+    expect(await hasFeatureAccess("user-1", "csv-chatflow:run")).toBe(true);
+  });
 });

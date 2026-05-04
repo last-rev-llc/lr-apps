@@ -16,6 +16,8 @@ const FEATURE_TIER: Record<string, Tier> = {
   sentiment: "pro",
   "ideas:ai-plan": "pro",
   "memes:ai-caption": "pro",
+  "chatflow-eval:run": "pro",
+  "csv-chatflow:run": "pro",
 };
 
 const ALLOWED_STATUSES = new Set<SubscriptionStatus>(["active", "trialing"]);
