@@ -21,19 +21,23 @@ create table if not exists public.meme_creations (
 
 alter table public.meme_creations enable row level security;
 
+drop policy if exists "meme_creations_select" on public.meme_creations;
 create policy "meme_creations_select"
   on public.meme_creations for select
   using (auth.uid() = user_id);
 
+drop policy if exists "meme_creations_insert" on public.meme_creations;
 create policy "meme_creations_insert"
   on public.meme_creations for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "meme_creations_update" on public.meme_creations;
 create policy "meme_creations_update"
   on public.meme_creations for update
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
+drop policy if exists "meme_creations_delete" on public.meme_creations;
 create policy "meme_creations_delete"
   on public.meme_creations for delete
   using (auth.uid() = user_id);
@@ -48,6 +52,7 @@ begin
 end;
 $$;
 
+drop trigger if exists trg_meme_creations_updated_at on public.meme_creations;
 create trigger trg_meme_creations_updated_at
   before update on public.meme_creations
   for each row

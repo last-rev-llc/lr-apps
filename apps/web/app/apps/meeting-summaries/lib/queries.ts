@@ -1,4 +1,5 @@
 import { createClient } from "@repo/db/server";
+import { log } from "@repo/logger";
 import type { ZoomTranscript, MeetingStats } from "./types";
 
 function parseJsonField<T>(val: unknown): T[] {
@@ -18,7 +19,15 @@ export async function getMeetings(): Promise<ZoomTranscript[]> {
     .select("*")
     .order("start_time", { ascending: false });
 
-  if (error) throw error;
+  if (error) {
+    log.error("meeting-summaries: zoom_transcripts fetch failed", {
+      code: error.code,
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+    });
+    return [];
+  }
   return (data ?? []) as unknown as ZoomTranscript[];
 }
 

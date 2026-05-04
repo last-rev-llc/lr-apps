@@ -7,9 +7,11 @@ import {
   getHostFromRequestHeaders,
 } from "@repo/auth/auth0-factory";
 import { getAllApps } from "@/lib/app-registry";
+import { buildAuthLoginHref } from "@/lib/auth-login-redirect";
 import { getAppLaunchUrl } from "@/lib/platform-urls";
 import { appCardMedia } from "@/lib/app-card-media";
 import { AppCard } from "@/components/app-card";
+import { AppShowcaseGroupedGrids } from "@/components/app-showcase-grouped-grids";
 
 export default async function MyAppsPage() {
   const h = await headers();
@@ -17,7 +19,12 @@ export default async function MyAppsPage() {
   const session = await auth0.getSession();
 
   if (!session?.user) {
-    redirect("/auth/login");
+    redirect(
+      buildAuthLoginHref({
+        host: getHostFromRequestHeaders(h),
+        defaultReturnTo: "/my-apps",
+      }),
+    );
   }
 
   const userId = session.user.sub;
@@ -64,8 +71,10 @@ export default async function MyAppsPage() {
             ({myApps.length} {myApps.length === 1 ? "app" : "apps"})
           </span>
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-          {myApps.map((app) => {
+        <AppShowcaseGroupedGrids
+          apps={myApps}
+          headingLevel={3}
+          renderCard={(app) => {
             const isPublic = !app.auth;
             const isOpenEntry = app.auth && Boolean(app.publicRoutes?.length);
             const permission = permMap.get(app.slug);
@@ -79,17 +88,16 @@ export default async function MyAppsPage() {
 
             return (
               <AppCard
-                key={app.slug}
                 href={getAppLaunchUrl(app.subdomain, host)}
                 name={app.name}
-                subdomain={app.subdomain}
+                description={app.tagline}
                 tier={app.tier}
                 badge={badge}
                 {...appCardMedia(app.slug)}
               />
             );
-          })}
-        </div>
+          }}
+        />
       </section>
 
       {otherApps.length > 0 ? (
@@ -104,20 +112,21 @@ export default async function MyAppsPage() {
             These tools require permission. Opening one without access may show
             an unauthorized page.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-            {otherApps.map((app) => (
+          <AppShowcaseGroupedGrids
+            apps={otherApps}
+            headingLevel={3}
+            renderCard={(app) => (
               <AppCard
-                key={app.slug}
                 href={getAppLaunchUrl(app.subdomain, host)}
                 name={app.name}
-                subdomain={app.subdomain}
+                description={app.tagline}
                 tier={app.tier}
                 badge={{ label: "access required", tone: "muted" }}
                 locked
                 {...appCardMedia(app.slug)}
               />
-            ))}
-          </div>
+            )}
+          />
         </section>
       ) : null}
     </div>

@@ -4,8 +4,9 @@ import {
   getAuth0ClientForHost,
   getHostFromRequestHeaders,
 } from "@repo/auth/auth0-factory";
+import { buildAuthLoginHref } from "@/lib/auth-login-redirect";
 import { getAppsCatalogUrl, getPlatformBaseUrl } from "@/lib/platform-urls";
-import { LastRevLogo } from "./last-rev-logo";
+import { LastRevAppsLogo } from "./last-rev-apps-logo";
 import { LastRevMiniHeaderActions } from "./last-rev-mini-header-actions";
 
 export async function LastRevMiniHeader() {
@@ -13,6 +14,10 @@ export async function LastRevMiniHeader() {
   const host = getHostFromRequestHeaders(h);
   const platformBaseUrl = getPlatformBaseUrl(host);
   const catalogUrl = getAppsCatalogUrl(host);
+  const signInHref = buildAuthLoginHref({
+    host,
+    defaultReturnTo: "/my-apps",
+  });
 
   const auth0 = getAuth0ClientForHost(host);
   const session = await auth0.getSession();
@@ -37,7 +42,7 @@ export async function LastRevMiniHeader() {
             className="text-white shrink-0 inline-flex items-center"
             aria-label="Last Rev"
           >
-            <LastRevLogo className="h-8 w-auto" />
+            <LastRevAppsLogo className="h-8 w-auto" />
           </Link>
           <nav className="hidden sm:flex items-center gap-8 text-sm min-w-0">
             <Link
@@ -51,6 +56,7 @@ export async function LastRevMiniHeader() {
         <LastRevMiniHeaderActions
           platformBaseUrl={platformBaseUrl}
           catalogUrl={catalogUrl}
+          signInHref={signInHref}
           user={user}
         />
       </div>

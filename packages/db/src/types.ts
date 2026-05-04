@@ -70,7 +70,7 @@ export type IdeaSource = "generated" | "community" | "manual";
 
 export type IdeaEffort = "Low" | "Medium" | "High";
 
-// Mirrors `supabase/migrations/20260430_meme_templates.sql`. `textZones` is
+// Mirrors `supabase/migrations/20260430_meme_01_templates.sql`. `textZones` is
 // a structured JSON array — `MemeTextZone[]` — defining the text-bearing
 // rectangles drawn on top of the template image (or coloured background).
 export type MemeTextZone = {
@@ -103,7 +103,7 @@ export type MemeTemplateRow = {
   createdAt: string;
 };
 
-// Mirrors `supabase/migrations/20260430_meme_creations.sql`. `textZones` is
+// Mirrors `supabase/migrations/20260430_meme_03_creations.sql`. `textZones` is
 // keyed by zone id with the user-entered text per zone (NOT the template's
 // zone definitions, which live on `meme_templates.textZones`).
 export type MemeCreationRow = {
