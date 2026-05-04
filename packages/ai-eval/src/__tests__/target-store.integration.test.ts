@@ -4,9 +4,9 @@
 //
 // Skipped unless SUPABASE_TEST_URL is set, so the default `pnpm test` stays
 // hermetic. A dedicated CI job (`ai-eval-integration` in
-// .github/workflows/ci.yml) starts a local Supabase, applies migrations, seeds
-// a pgsodium key via `pnpm seed:pgsodium-key`, exports the env vars below,
-// then runs this suite.
+// .github/workflows/ai-eval-integration.yml) starts a local Supabase, applies
+// migrations, seeds a pgsodium key via `pnpm tsx scripts/seed-pgsodium-key.ts`,
+// exports the env vars below, then runs this suite.
 //
 // Required env vars (all set by the CI job; locally use `supabase start` +
 // `pnpm tsx scripts/seed-pgsodium-key.ts`):
