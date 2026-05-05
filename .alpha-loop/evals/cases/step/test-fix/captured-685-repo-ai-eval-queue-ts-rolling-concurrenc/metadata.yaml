@@ -1,0 +1,8 @@
+id: captured-685-repo-ai-eval-queue-ts-rolling-concurrenc
+description: "@repo/ai-eval: queue.ts (rolling-concurrency engine)"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 685
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

@@ -1,0 +1,8 @@
+id: captured-677-migration-chatflow-targets-with-pgsodium
+description: "Migration: chatflow_targets with pgsodium-encrypted api_token"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 677
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

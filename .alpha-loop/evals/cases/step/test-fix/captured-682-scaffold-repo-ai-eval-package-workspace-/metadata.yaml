@@ -1,0 +1,8 @@
+id: captured-682-scaffold-repo-ai-eval-package-workspace-
+description: Scaffold @repo/ai-eval package + workspace wiring
+tags: []
+source: auto-captured
+captured_from:
+  issue: 682
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

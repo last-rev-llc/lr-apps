@@ -1,0 +1,8 @@
+id: captured-681-pgsodium-key-provisioning-script-pgsodiu
+description: pgsodium key provisioning script + PGSODIUM_KEY_ID env wiring
+tags: []
+source: auto-captured
+captured_from:
+  issue: 681
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

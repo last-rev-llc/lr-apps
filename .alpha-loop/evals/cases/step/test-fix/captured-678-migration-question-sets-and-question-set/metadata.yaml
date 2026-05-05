@@ -1,0 +1,8 @@
+id: captured-678-migration-question-sets-and-question-set
+description: "Migration: question_sets and question_set_items"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 678
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

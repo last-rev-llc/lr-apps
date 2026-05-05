@@ -1,0 +1,8 @@
+id: captured-679-migration-chatflow-runs-and-chatflow-run
+description: "Migration: chatflow_runs and chatflow_run_rows"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 679
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

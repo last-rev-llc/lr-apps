@@ -1,0 +1,8 @@
+id: captured-686-repo-ai-eval-csv-ts-parse-format-with-mu
+description: "@repo/ai-eval: csv.ts (parse/format with multi-line quoted fields)"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 686
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

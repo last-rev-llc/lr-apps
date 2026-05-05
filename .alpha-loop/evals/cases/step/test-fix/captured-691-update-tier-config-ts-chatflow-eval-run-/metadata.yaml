@@ -1,0 +1,8 @@
+id: captured-691-update-tier-config-ts-chatflow-eval-run-
+description: "Update tier-config.ts: chatflow-eval:run and csv-chatflow:run feature gates"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 691
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

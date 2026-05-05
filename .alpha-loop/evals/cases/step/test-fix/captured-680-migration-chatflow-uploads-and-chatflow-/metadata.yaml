@@ -1,0 +1,8 @@
+id: captured-680-migration-chatflow-uploads-and-chatflow-
+description: "Migration: chatflow-uploads and chatflow-results storage buckets + RLS"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 680
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

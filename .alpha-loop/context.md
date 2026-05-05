@@ -1,23 +1,23 @@
 ## Architecture
-- Single Next.js 16 host (`apps/web/`) with `proxy.ts` (Routing Middleware) dispatching 29 micro-apps by subdomain via `apps/web/lib/app-registry.ts` → `app/apps/<slug>/` route groups.
-- Database: Supabase (Postgres). Migrations in `supabase/migrations/` as paired `NNN_<name>.sql` + `NNN_<name>.down.sql`. Local stack via `pnpm db:local:start`. Query through `@repo/db`; service-role from server, anon from browser.
-- Workspace packages (11): `@repo/{analytics, auth, billing, config, db, email, logger, storage, test-utils, theme, ui}`. Shared turbo task graph in `turbo.json` with explicit `globalEnv`.
-- Auth0 v4 (`getAuth0ClientForHost` per tenant), Stripe v17 billing, Sentry 10 + OpenTelemetry 0.216 observability, Upstash Redis rate-limit/cache, Resend for email, AI SDK v6 + `@ai-sdk/anthropic`.
-- Entry points: `apps/web/proxy.ts` (host routing/CSP/CSRF/rate-limit/Auth0), `apps/web/app/layout.tsx`, `apps/web/instrumentation.ts` (OTel/Sentry init), `apps/web/app/api/**` (route handlers).
+- Single Next.js 16 app at `apps/web/` hosts 27+ micro-apps; `proxy.ts` routes by subdomain (host header or `?app=<slug>`) using `lib/app-registry.ts` + `lib/proxy-utils.ts` to rewrite into `app/apps/<slug>/`.
+- API routes under `app/api/` (`checkout`, `cron`, `daily-updates`, `health`, `vitals`, `webhooks`); auth callbacks under `app/(auth)/`.
+- Database: Supabase (Postgres). Migrations in `supabase/migrations/` as paired `NNN_*.sql` + `NNN_*.down.sql`; access via `@repo/db` package.
+- Shared workspace packages: `@repo/auth` (Auth0), `@repo/billing` (Stripe), `@repo/db`, `@repo/ui`, `@repo/theme`, `@repo/config`, `@repo/analytics`, `@repo/email`, `@repo/logger`, `@repo/storage`, `@repo/test-utils`.
+- Turborepo + pnpm workspaces; `vitest.workspace.ts` aggregates test projects; `apps/web/proxy.ts` (not middleware) handles request interception.
 
 ## Conventions
-- TypeScript strict, ESM (`"type": "module"`), Next.js 16 App Router + Turbopack, React 19, Tailwind 4, Zod 4, pnpm 9.15.4, Node 24+.
-- Tests: Vitest 4 unit (`vitest.workspace.ts` aggregates), Playwright e2e in `apps/web/tests/`, a11y/mobile via `pnpm test:a11y` / `test:mobile`. Top-level: `pnpm test`, `pnpm typecheck`, `pnpm lint`.
-- New app: add `AppConfig` in `apps/web/lib/app-registry.ts`, create `app/apps/<slug>/` matching `routeGroup`, gate pages with `requireAppLayoutAccess`. New env vars must be added to `turbo.json` `globalEnv`.
-- Migrations are append-only and must ship with a paired `.down.sql`; `scripts/check-migration-pairs.ts` enforces this in `pnpm lint`.
-- Per-package subpath exports — import from `@repo/<pkg>/<entry>` (e.g. `@repo/auth/auth0-factory`), not deep relative paths.
+- TypeScript everywhere; React 19 + Next 16 App Router with Turbopack; Tailwind v4; Zod v4 for validation; AI SDK v6 with `@ai-sdk/anthropic`.
+- Tests: Vitest unit tests in `__tests__/` co-located + `apps/web/__tests__/`; Playwright e2e in `apps/web/tests/` (`test:e2e`, `test:mobile`, `test:a11y`); coverage via `@vitest/coverage-v8`.
+- New app: add `AppConfig` to `apps/web/lib/app-registry.ts`, create `apps/web/app/apps/<slug>/`, gate pages with `requireAppLayoutAccess` from `apps/web/lib/`.
+- New migration: always commit a `.down.sql` pair; CI runs `scripts/check-migration-pairs.ts` via `pnpm lint`.
+- OTEL via `instrumentation.ts` / `lib/otel-sdk.ts`; Sentry via `sentry.{client,edge,server}.config.ts`.
 
 ## Critical Rules
-- Never bypass `getAuth0ClientForHost` for per-tenant Auth0 client selection or `requireAppLayoutAccess` for tier gating — these enforce multi-tenant isolation.
-- Do not edit historical migrations; only add new pairs. Don't drop `.down.sql` files. Don't seed via app code — use `scripts/db-seed.ts`.
-- `apps/web/proxy.ts` + `app-registry.ts` + Auth0 callback wildcards must be updated together when adding hosts; subdomain routing breaks otherwise.
-- Don't add env vars without listing them in `turbo.json` `globalEnv` — turbo will silently drop them from build cache keys.
-- Billing: Stripe webhook handler depends on `STRIPE_WEBHOOK_SECRET` and the `webhook_events` table for idempotency — don't refactor without preserving the dedupe path.
+- Don't delete the `<!-- managed by alpha-loop -->` marker on line 1 of `CLAUDE.md`, or the `lib-listing` markers — `scripts/check-claude-md-lib-sync.ts` enforces sync against the 19 files in `apps/web/lib/`.
+- Every forward migration in `supabase/migrations/` must ship with a matching `.down.sql`; the lint pair-check fails the build otherwise.
+- `proxy.ts` side-effect-imports `./lib/app-registry` to register the tier resolver — don't tree-shake or reorder; `/auth/callback` self-enroll depends on it.
+- Three isolated environments (local/staging/prod) with separate Supabase, Auth0, Stripe — never mix env vars; consult `docs/ops/environments.md`.
+- Use Vercel Fluid Compute defaults; don't reach for Edge runtime. Default function timeout is 300s.
 
 ## Active State
 - Test status: (will be filled in by the loop)
