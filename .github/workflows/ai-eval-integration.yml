@@ -66,12 +66,28 @@ jobs:
             echo "$k=$v" >> "$GITHUB_OUTPUT"
           done
 
+      - name: Apply migrations via psql
+        env:
+          SUPABASE_DB_URL: ${{ steps.supabase.outputs.DB_URL }}
+        run: |
+          # supabase/config.toml disables [db.migrations] (the bundled
+          # applier rejects duplicate numeric prefixes and paired .down.sql
+          # files), so apply each migration with psql in alphabetical order.
+          # Mirrors scripts/dev-local.sh's apply_migrations function.
+          for f in supabase/migrations/*.sql; do
+            case "$f" in
+              *.down.sql) continue ;;
+            esac
+            echo "→ $f"
+            psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f "$f" >/dev/null
+          done
+
       - name: Seed pgsodium key
         id: seed
         env:
           SUPABASE_DB_URL: ${{ steps.supabase.outputs.DB_URL }}
         run: |
-          OUT=$(pnpm tsx scripts/seed-pgsodium-key.ts)
+          OUT=$(node --experimental-strip-types scripts/seed-pgsodium-key.ts)
           echo "$OUT"
           KEY_ID=$(echo "$OUT" | sed -n 's/^PGSODIUM_KEY_ID=//p' | tail -1)
           if [ -z "$KEY_ID" ]; then

@@ -5,11 +5,12 @@
 // Skipped unless SUPABASE_TEST_URL is set, so the default `pnpm test` stays
 // hermetic. A dedicated CI job (`ai-eval-integration` in
 // .github/workflows/ai-eval-integration.yml) starts a local Supabase, applies
-// migrations, seeds a pgsodium key via `pnpm tsx scripts/seed-pgsodium-key.ts`,
-// exports the env vars below, then runs this suite.
+// migrations via psql, seeds a pgsodium key via
+// `node --experimental-strip-types scripts/seed-pgsodium-key.ts`, exports the
+// env vars below, then runs this suite.
 //
 // Required env vars (all set by the CI job; locally use `supabase start` +
-// `pnpm tsx scripts/seed-pgsodium-key.ts`):
+// `node --experimental-strip-types scripts/seed-pgsodium-key.ts`):
 //   SUPABASE_TEST_URL                — local Supabase URL (e.g. http://127.0.0.1:54321)
 //   SUPABASE_TEST_SERVICE_ROLE_KEY   — service-role key for admin ops
 //   SUPABASE_TEST_ANON_KEY           — anon key (for RLS-bound clients)
@@ -21,6 +22,14 @@
 //   key id until they're explicitly rewritten. Deleting an old key would
 //   cause decrypts to fail loudly — that branch is documented but not
 //   exercised here so we don't leave a half-broken key in the test DB.
+//
+// Schema layout (see supabase/migrations/20260502_ai_eval_chatflow_targets.sql):
+//   * Base table lives in the `ai_eval` schema. anon/authenticated have no
+//     USAGE on that schema, so they cannot reference it directly.
+//   * `public.chatflow_targets` is a security_invoker view projecting only
+//     the non-secret columns. PostgREST exposes `public`, so the SDK's
+//     `from("chatflow_targets").select("*")` reads the projection.
+//   * Encrypt/decrypt RPCs are in `public`, restricted to service_role.
 
 import { spawnSync } from "node:child_process";
 
