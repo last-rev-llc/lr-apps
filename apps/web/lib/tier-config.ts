@@ -62,4 +62,12 @@ export const FEATURE_LABELS: Record<string, FeatureLabel> = {
     requiredTier: "pro",
     label: "AI meme caption suggestions",
   },
+  "chatflow-eval:run": {
+    requiredTier: "pro",
+    label: "Run chatflow evaluations",
+  },
+  "csv-chatflow:run": {
+    requiredTier: "pro",
+    label: "Run CSV-driven chatflow batches",
+  },
 };
