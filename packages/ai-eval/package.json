@@ -1,0 +1,38 @@
+{
+  "name": "@repo/ai-eval",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run --passWithNoTests"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema.ts",
+    "./tier-limits": "./src/tier-limits.ts",
+    "./csv": "./src/csv.ts",
+    "./client": "./src/chatflow-client.ts",
+    "./queue": "./src/queue.ts",
+    "./langfuse": "./src/langfuse.ts",
+    "./target-store": "./src/target-store.ts",
+    "./run-store": "./src/run-store.ts",
+    "./ui/TargetEditor": "./src/ui/TargetEditor.tsx",
+    "./ui/TargetPicker": "./src/ui/TargetPicker.tsx",
+    "./ui/StatusBar": "./src/ui/StatusBar.tsx",
+    "./ui/ProgressOverlay": "./src/ui/ProgressOverlay.tsx",
+    "./ui/ResultsTable": "./src/ui/ResultsTable.tsx"
+  },
+  "dependencies": {
+    "@repo/billing": "workspace:*",
+    "react": "^19",
+    "server-only": "^0.0.1",
+    "zod": "^4.4.1"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@repo/test-utils": "workspace:*",
+    "@types/react": "^19",
+    "typescript": "^5",
+    "vitest": "^4.1.5"
+  }
+}
