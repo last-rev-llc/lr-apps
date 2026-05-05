@@ -1,0 +1,8 @@
+id: captured-684-repo-ai-eval-chatflow-client-ts-outbound
+description: "@repo/ai-eval: chatflow-client.ts (outbound POST + abort + token redaction)"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 684
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

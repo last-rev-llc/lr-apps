@@ -1,2 +1,2 @@
 <!-- managed by alpha-loop -->
-88 lines, both lint guards pass. The new `CLAUDE.md` replaces the meta-commentary placeholder with real instructions across the required 5 sections (Overview, Tech Stack, Directory Structure, Code Style, Non-Negotiables), preserves the `<!-- managed by alpha-loop -->` marker on line 1, and keeps the `lib-listing` markers/contents in sync with the 19 files in `apps/web/lib/`.
+125 lines, lib-listing guard passes. Updated `CLAUDE.md` with real instructions across the required 5 sections (Overview, Tech Stack, Directory Structure, Code Style, Non-Negotiables), kept the `<!-- managed by alpha-loop -->` first-line marker, and synced the `<!-- lib-listing:* -->` block with all 19 files in `apps/web/lib/`.

@@ -1,0 +1,10 @@
+type: step
+step: test-fix
+eval_method: pending
+status: needs-annotation
+source: auto-captured
+captured_from:
+  issue: 681
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05
+checks: []

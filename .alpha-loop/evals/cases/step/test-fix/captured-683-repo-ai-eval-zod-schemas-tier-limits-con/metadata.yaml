@@ -1,0 +1,8 @@
+id: captured-683-repo-ai-eval-zod-schemas-tier-limits-con
+description: "@repo/ai-eval: zod schemas + tier-limits constants"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 683
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05

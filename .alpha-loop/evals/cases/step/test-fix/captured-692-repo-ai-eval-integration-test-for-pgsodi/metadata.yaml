@@ -1,0 +1,8 @@
+id: captured-692-repo-ai-eval-integration-test-for-pgsodi
+description: "@repo/ai-eval: integration test for pgsodium round-trip and cross-user RLS"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 692
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-04

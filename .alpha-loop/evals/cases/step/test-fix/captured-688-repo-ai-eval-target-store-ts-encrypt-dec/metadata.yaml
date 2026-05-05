@@ -1,0 +1,8 @@
+id: captured-688-repo-ai-eval-target-store-ts-encrypt-dec
+description: "@repo/ai-eval: target-store.ts (encrypt/decrypt + per-user CRUD)"
+tags: []
+source: auto-captured
+captured_from:
+  issue: 688
+  session: session/052-ai-eval-shared-package-foundation
+  date: 2026-05-05
