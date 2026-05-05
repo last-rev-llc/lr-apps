@@ -12,6 +12,7 @@ const minimum = {
   APP_BASE_URL: "http://localhost:3000",
   STRIPE_SECRET_KEY: "sk_test_x",
   STRIPE_WEBHOOK_SECRET: "whsec_x",
+  PGSODIUM_KEY_ID: "00000000-0000-4000-8000-000000000000",
 };
 
 describe("env schema", () => {
@@ -62,10 +63,17 @@ describe("env schema", () => {
     "APP_BASE_URL",
     "STRIPE_SECRET_KEY",
     "STRIPE_WEBHOOK_SECRET",
+    "PGSODIUM_KEY_ID",
   ] as const)("rejects when %s is missing and names it in the error", (key) => {
     const partial: Record<string, string> = { ...minimum };
     delete partial[key];
     expect(() => parseEnv(partial)).toThrow(new RegExp(key));
+  });
+
+  it("rejects a non-UUID PGSODIUM_KEY_ID value", () => {
+    expect(() =>
+      parseEnv({ ...minimum, PGSODIUM_KEY_ID: "not-a-uuid" }),
+    ).toThrow(/PGSODIUM_KEY_ID/);
   });
 
   it("schema enumerates only the three known deployment environments", () => {

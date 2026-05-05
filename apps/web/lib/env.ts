@@ -43,6 +43,11 @@ export const envSchema = z.object({
   // Anthropic API key for the ideas AI planning action.
   // Optional because local dev / unset deployments fall back gracefully.
   ANTHROPIC_API_KEY: optional,
+
+  // pgsodium key id used to encrypt chatflow_targets.api_token_encrypted.
+  // Provisioned via `pnpm seed:pgsodium-key`. Required server-side; missing
+  // value would silently break encryption, so we hard-fail on parseEnv().
+  PGSODIUM_KEY_ID: z.string().uuid(),
 });
 
 export type Env = z.infer<typeof envSchema>;

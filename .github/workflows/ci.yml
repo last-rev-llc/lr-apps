@@ -128,6 +128,7 @@ jobs:
           E2E_TEST_USER_EMAIL: ${{ secrets.E2E_TEST_USER_EMAIL }}
           E2E_TEST_USER_PASSWORD: ${{ secrets.E2E_TEST_USER_PASSWORD }}
           E2E_TEST_USER_ID: ${{ secrets.E2E_TEST_USER_ID }}
+          PGSODIUM_KEY_ID: ${{ secrets.PGSODIUM_KEY_ID }}
           APP_SELF_ENROLL_SLUGS: "command-center,standup"
 
       - name: Upload Playwright report

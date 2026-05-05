@@ -49,7 +49,8 @@
     "ANALYTICS_DISABLED",
     "POSTHOG_PROJECT_ID",
     "POSTHOG_PERSONAL_API_KEY",
-    "ANTHROPIC_API_KEY"
+    "ANTHROPIC_API_KEY",
+    "PGSODIUM_KEY_ID"
   ],
   "tasks": {
     "build": {

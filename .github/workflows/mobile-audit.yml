@@ -59,6 +59,7 @@ jobs:
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_mock' }}
           STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET || 'whsec_mock' }}
           APP_BASE_URL: ${{ secrets.APP_BASE_URL || 'http://localhost:3000' }}
+          PGSODIUM_KEY_ID: ${{ secrets.PGSODIUM_KEY_ID || '00000000-0000-4000-8000-000000000000' }}
           APP_SELF_ENROLL_SLUGS: "command-center,standup"
 
       - name: Upload mobile audit screenshots
