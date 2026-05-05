@@ -1,7 +1,7 @@
 {
   "name": "session/052-ai-eval-shared-package-foundation",
   "branch": "session/052-ai-eval-shared-package-foundation",
-  "completed": "2026-05-04T21:26:41.005Z",
+  "completed": "2026-05-05T01:05:42.682Z",
   "results": [
     {
       "issueNum": 677,
@@ -10,7 +10,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/708",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 322,
+      "duration": 1171,
       "filesChanged": 8
     },
     {
@@ -20,7 +20,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/708",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 322,
+      "duration": 1171,
       "filesChanged": 8
     },
     {
@@ -30,7 +30,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/708",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 322,
+      "duration": 1171,
       "filesChanged": 8
     },
     {
@@ -40,7 +40,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/708",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 322,
+      "duration": 1171,
       "filesChanged": 8
     },
     {
@@ -50,7 +50,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/708",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 322,
+      "duration": 1171,
       "filesChanged": 8
     },
     {
@@ -60,7 +60,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/709",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 318,
+      "duration": 107,
       "filesChanged": 2
     },
     {
@@ -70,7 +70,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/709",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 318,
+      "duration": 107,
       "filesChanged": 2
     },
     {
@@ -80,7 +80,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/709",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 318,
+      "duration": 107,
       "filesChanged": 2
     },
     {
@@ -90,7 +90,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/709",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 318,
+      "duration": 107,
       "filesChanged": 2
     },
     {
@@ -100,7 +100,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/709",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 318,
+      "duration": 107,
       "filesChanged": 2
     },
     {
@@ -110,7 +110,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/710",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 327,
+      "duration": 123,
       "filesChanged": 3
     },
     {
@@ -120,7 +120,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/710",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 327,
+      "duration": 123,
       "filesChanged": 3
     },
     {
@@ -130,7 +130,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/710",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 327,
+      "duration": 123,
       "filesChanged": 3
     },
     {
@@ -140,7 +140,7 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/710",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 327,
+      "duration": 123,
       "filesChanged": 3
     },
     {
@@ -150,18 +150,8 @@
       "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/710",
       "testsPassing": false,
       "verifyPassing": true,
-      "duration": 327,
+      "duration": 123,
       "filesChanged": 3
-    },
-    {
-      "issueNum": 692,
-      "title": "@repo/ai-eval: integration test for pgsodium round-trip and cross-user RLS",
-      "status": "failure",
-      "prUrl": "https://github.com/last-rev-llc/lr-apps/pull/711",
-      "testsPassing": false,
-      "verifyPassing": true,
-      "duration": 1024,
-      "filesChanged": 2
     }
   ]
 }
