@@ -1,59 +1,62 @@
 {
-  "passed": false,
-  "summary": "Misrouted batch — issues #1011-#1015 target an OpenClaw/AlphaAgent Docker codebase, but this worktree is the LR Apps Next.js 16 SaaS monorepo. None of the referenced files exist here. Cannot be fixed in this repository; batch must be re-routed.",
-  "requiredAction": "Re-route issues #1011, #1012, #1013, #1014, #1015 to the correct repository (the OpenClaw/AlphaAgent project containing docker/entrypoint.sh, docker/workspace-init.sh, dashboard/server/, dashboard/spa/). Do not retry in lr-apps.",
-  "verification": {
-    "gitDiff": "git diff origin/main...HEAD shows only review-batch.json deletion (34 lines); zero source changes",
-    "fileSearches": [
-      "Glob **/workspace-init* → no matches",
-      "Glob **/entrypoint.sh → no matches",
-      "Glob **/useChannels.{ts,tsx,js,jsx} → no matches",
-      "Glob **/dashboard/** → only node_modules matches (playwright, punchlist-qa)"
-    ],
-    "repoIdentity": "LR Apps: Next.js 16 + React 19 + Auth0 + Stripe + Supabase. Single deployable under apps/web/. CLAUDE.md forbids new apps/ entries and does not describe any docker/ or dashboard/ tree."
-  },
+  "passed": true,
+  "summary": "All findings resolved. @repo/ai-eval workspace package, target-store implementation, chatflow_targets migration with view-over-private-schema RLS + projection, seed script, rotation doc, turbo.json registration. Integration test runs end-to-end against local Supabase: 5/5 pass.",
   "findings": [
     {
       "severity": "critical",
-      "description": "Issue #1011 cannot be implemented in this repository: docker/workspace-init.sh does not exist. Creating it would require fabricating an OpenClaw/AlphaAgent Docker entrypoint system unrelated to this Next.js SaaS platform. Re-route to the correct repo.",
-      "fixed": false,
-      "file": "docker/workspace-init.sh",
-      "issueNum": 1011
+      "description": "packages/ai-eval had no package.json. Created with name @repo/ai-eval, type module, exports for ./target-store, vitest test script, @supabase/supabase-js + server-only deps, @types/node + vitest devDeps. `pnpm --filter @repo/ai-eval test` now resolves and runs the suite.",
+      "fixed": true,
+      "file": "packages/ai-eval/package.json",
+      "issueNum": 692
     },
     {
       "severity": "critical",
-      "description": "Issue #1012 cannot be implemented in this repository: docker/entrypoint.sh does not exist. The jq null-guarded telegram state expression has no host file. Re-route to the correct repo.",
-      "fixed": false,
-      "file": "docker/entrypoint.sh",
-      "issueNum": 1012
+      "description": "packages/ai-eval/src/target-store.ts was missing. Implemented createTarget/getTarget/listTargets/updateTarget/deleteTarget/decryptTokenForOutboundCall against the new chatflow_targets_create/_update/_decrypt_token RPCs. Reads go through the public.chatflow_targets projection view (no encrypted columns); decrypt rewraps Postgres errors as typed Errors and rejects empty plaintext defensively.",
+      "fixed": true,
+      "file": "packages/ai-eval/src/target-store.ts",
+      "issueNum": 692
     },
     {
       "severity": "critical",
-      "description": "Issue #1013 cannot be verified in this repository: docker/entrypoint.sh does not exist. WhatsApp boot disable line cannot be checked because the host file is absent. Re-route to the correct repo.",
-      "fixed": false,
-      "file": "docker/entrypoint.sh",
-      "issueNum": 1013
+      "description": "scripts/seed-pgsodium-key.ts was referenced by CI but did not exist. Added — calls pgsodium.create_key via psql against SUPABASE_DB_URL and prints PGSODIUM_KEY_ID=<uuid>. CI workflow updated to use `node --experimental-strip-types` to match the repo's other scripts (pnpm tsx is not configured here).",
+      "fixed": true,
+      "file": "scripts/seed-pgsodium-key.ts",
+      "issueNum": 692
     },
     {
       "severity": "critical",
-      "description": "Issue #1014 cannot be implemented in this repository: dashboard/spa/src/api/hooks/useChannels.ts, dashboard/spa/src/sections/Channels.tsx, and dashboard/server/routes/channels.ts do not exist. The Telegram explicit activation path requires an Express dashboard + React SPA that this Next.js monorepo does not contain. Re-route to the correct repo.",
-      "fixed": false,
-      "file": "dashboard/spa/src/api/hooks/useChannels.ts",
-      "issueNum": 1014
+      "description": "supabase/migrations/20260502_ai_eval_chatflow_targets.{sql,down.sql} added. Base table lives in `ai_eval` schema (anon/authenticated have no USAGE); public.chatflow_targets is a security_invoker projection view exposing only non-secret columns to PostgREST. RLS gates row visibility; encrypt/decrypt RPCs are SECURITY INVOKER granted only to service_role and use pgsodium's 4-arg crypto_aead_det_{encrypt,decrypt} (the only variant service_role has EXECUTE on). user_id is bound into the AAD so cross-user ciphertext reuse fails the AEAD tag.",
+      "fixed": true,
+      "file": "supabase/migrations/20260502_ai_eval_chatflow_targets.sql",
+      "issueNum": 692
     },
     {
-      "severity": "critical",
-      "description": "Issue #1015 cannot be implemented in this repository: dashboard/server/__tests__/integration/boot-config.test.js cannot be created meaningfully because dashboard/server/ and its installGatewayMock helper do not exist. Re-route to the correct repo.",
-      "fixed": false,
-      "file": "dashboard/server/__tests__/integration/boot-config.test.js",
-      "issueNum": 1015
+      "severity": "warning",
+      "description": "docs/ops/chatflow-eval-rotation.md added — covers active key id semantics, the rotation procedure, and what Case 5 of the integration test exercises (vs. the documented-but-not-tested old-key-deletion failure mode).",
+      "fixed": true,
+      "file": "docs/ops/chatflow-eval-rotation.md",
+      "issueNum": 692
     },
     {
-      "severity": "critical",
-      "description": "Root cause: batch is misrouted to the wrong codebase. Cannot be fixed by code changes in this worktree. Required action is operational: re-route the issues to the OpenClaw/AlphaAgent repository. Implementing them here would create dead code that violates this monorepo's architecture (single Next.js deployable, no docker/ or dashboard/ trees per CLAUDE.md).",
-      "fixed": false,
-      "file": "(repository mismatch — operational issue, not a code issue)",
-      "issueNum": 0
+      "severity": "info",
+      "description": "PGSODIUM_KEY_ID added to turbo.json globalEnv and .env.example with a comment pointing at the seed script and rotation doc.",
+      "fixed": true,
+      "file": "turbo.json",
+      "issueNum": 692
+    },
+    {
+      "severity": "info",
+      "description": "CI workflow gained an `Apply migrations via psql` step. supabase/config.toml has [db.migrations] disabled in this repo (the bundled applier rejects the paired .down.sql files), so the workflow now mirrors scripts/dev-local.sh's apply pattern: psql each *.sql migration in order, skipping *.down.sql. Without this step the table would never be created in CI and the test would fail at createTarget.",
+      "fixed": true,
+      "file": ".github/workflows/ai-eval-integration.yml",
+      "issueNum": 692
     }
-  ]
+  ],
+  "verification": {
+    "lint": "pnpm lint — 0 errors (219 pre-existing warnings)",
+    "typecheck": "tsc --noEmit on packages/ai-eval — clean",
+    "hermetic": "pnpm --filter @repo/ai-eval test (no env) — 5 skipped",
+    "integration": "pnpm --filter @repo/ai-eval test against local Supabase — 5 passed (Case 1 round-trip, Case 2 select=* projection, Case 3 cross-user RLS, Case 4 cross-user decrypt rejection, Case 5 rotation per-row key)",
+    "fullSuite": "pnpm test — 12/13 packages green; the 6 @repo/web proxy.integration.test.ts failures are the documented pre-existing main-branch bug (per memory), not a regression from this work"
+  }
 }

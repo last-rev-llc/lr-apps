@@ -1,0 +1,23 @@
+{
+  "name": "@repo/ai-eval",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./target-store": "./src/target-store.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.1",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@types/node": "^25.6.0",
+    "typescript": "^5",
+    "vitest": "^4.1.5"
+  }
+}
