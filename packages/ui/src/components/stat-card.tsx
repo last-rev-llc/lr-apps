@@ -11,6 +11,8 @@ export interface StatCardProps {
   size?: "sm" | "md" | "lg";
   href?: string;
   className?: string;
+  /** Test id for the card root; the value and label carry `stat-card-value` / `stat-card-label`. */
+  "data-testid"?: string;
 }
 
 const ACCENT_PALETTES = [
@@ -82,6 +84,7 @@ export function StatCard({
   size = "md",
   href,
   className,
+  "data-testid": testId,
 }: StatCardProps) {
   const ref = React.useRef<HTMLDivElement>(null);
   const [visible, setVisible] = React.useState(!hasIntersectionObserver);
@@ -131,6 +134,7 @@ export function StatCard({
   const inner = (
     <div
       ref={ref}
+      data-testid={testId}
       className={cn(
         "rounded-2xl border text-center backdrop-blur-md",
         "transition-all duration-250",
@@ -145,6 +149,7 @@ export function StatCard({
     >
       <div
         className={cn("font-extrabold leading-tight", s.value)}
+        data-testid="stat-card-value"
         style={{
           background: palette.grad,
           WebkitBackgroundClip: "text",
@@ -155,7 +160,7 @@ export function StatCard({
         {icon && <span style={{ WebkitTextFillColor: "initial" }}>{icon} </span>}
         {displayValue}
       </div>
-      <div className={cn("mt-1 text-white/50", s.label)}>{label}</div>
+      <div className={cn("mt-1 text-white/50", s.label)} data-testid="stat-card-label">{label}</div>
       {trend && (
         <div className={cn("mt-1 text-xs font-medium", TREND_COLORS[trend])}>
           {TREND_ICONS[trend]}

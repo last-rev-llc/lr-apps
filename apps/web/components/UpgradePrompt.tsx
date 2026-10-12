@@ -8,7 +8,7 @@ export default function UpgradePrompt({ requiredTier }: UpgradePromptProps) {
   const tierLabel = requiredTier === "enterprise" ? "Enterprise" : "Pro";
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center" data-testid="upgrade-prompt">
       <div className="max-w-md w-full mx-auto px-6 py-12 text-center space-y-6 bg-surface-raised rounded-2xl border border-surface-border">
         <div className="text-4xl">🔒</div>
         <h1 className="font-heading text-2xl text-foreground">
@@ -21,6 +21,7 @@ export default function UpgradePrompt({ requiredTier }: UpgradePromptProps) {
         </p>
         <Link
           href="/pricing"
+          data-testid="upgrade-prompt-cta"
           className="inline-block px-6 py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:opacity-90 transition-opacity"
         >
           View Pricing

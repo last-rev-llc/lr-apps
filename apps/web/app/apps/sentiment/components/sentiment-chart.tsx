@@ -37,7 +37,7 @@ export function SentimentChart({ entries, selectedMember }: SentimentChartProps)
     }));
 
     return (
-      <Card className="glass-sm">
+      <Card className="glass-sm" data-testid="sentiment-chart-card">
         <CardContent className="p-4">
           <h3 className="text-sm font-medium mb-4">Sentiment Trend — {selectedMember}</h3>
           <ResponsiveContainer width="100%" height={250}>
@@ -52,7 +52,14 @@ export function SentimentChart({ entries, selectedMember }: SentimentChartProps)
                   borderRadius: "8px",
                 }}
               />
-              <Line type="monotone" dataKey="score" stroke="var(--color-accent)" strokeWidth={2} dot={{ r: 4 }} />
+              <Line
+                type="monotone"
+                dataKey="score"
+                stroke="var(--color-accent)"
+                strokeWidth={2}
+                dot={{ r: 4 }}
+                data-testid="sentiment-chart-line-score"
+              />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
@@ -73,7 +80,7 @@ export function SentimentChart({ entries, selectedMember }: SentimentChartProps)
   });
 
   return (
-    <Card className="glass-sm">
+    <Card className="glass-sm" data-testid="sentiment-chart-card">
       <CardContent className="p-4">
         <h3 className="text-sm font-medium mb-4">Team Sentiment Trends</h3>
         <ResponsiveContainer width="100%" height={300}>
@@ -98,6 +105,7 @@ export function SentimentChart({ entries, selectedMember }: SentimentChartProps)
                 strokeWidth={2}
                 dot={{ r: 3 }}
                 connectNulls
+                data-testid={`sentiment-chart-line-${member}`}
               />
             ))}
           </LineChart>

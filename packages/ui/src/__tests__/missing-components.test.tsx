@@ -253,4 +253,25 @@ describe("StatCard", () => {
     const { container } = render(<StatCard value="N/A" label="Status" />);
     expect(container.textContent).toContain("N/A");
   });
+
+  it("forwards data-testid to the card root and tags value and label", () => {
+    render(<StatCard value="N/A" label="Status" data-testid="stat-card-status" />);
+    const card = screen.getByTestId("stat-card-status");
+    expect(card.querySelector('[data-testid="stat-card-value"]')?.textContent).toBe("N/A");
+    expect(card.querySelector('[data-testid="stat-card-label"]')?.textContent).toBe("Status");
+  });
+
+  it("keeps the test id on the inner card when rendered as a link", () => {
+    const { container } = render(
+      <StatCard value={5} label="Link" href="https://example.com" data-testid="stat-card-link" />,
+    );
+    const link = container.querySelector("a");
+    expect(link?.getAttribute("data-testid")).toBeNull();
+    expect(link?.querySelector('[data-testid="stat-card-link"]')).not.toBeNull();
+  });
+
+  it("omits the root test id when none is given", () => {
+    const { container } = render(<StatCard value={1} label="Plain" />);
+    expect((container.firstChild as HTMLElement).hasAttribute("data-testid")).toBe(false);
+  });
 });

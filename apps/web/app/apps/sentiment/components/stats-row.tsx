@@ -22,17 +22,23 @@ export function StatsRow({ entries }: StatsRowProps) {
   );
 
   const stats = [
-    { label: "Avg Sentiment", value: avgSentiment },
-    { label: "Total Entries", value: entries.length },
-    { label: "Team Members", value: uniqueMembers },
-    { label: "Blocked Days", value: blockedDays },
-    { label: "Highlights", value: totalHighlights },
+    { key: "avgSentiment", label: "Avg Sentiment", value: avgSentiment },
+    { key: "totalEntries", label: "Total Entries", value: entries.length },
+    { key: "teamMembers", label: "Team Members", value: uniqueMembers },
+    { key: "blockedDays", label: "Blocked Days", value: blockedDays },
+    { key: "highlights", label: "Highlights", value: totalHighlights },
   ];
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
       {stats.map((stat) => (
-        <StatCard key={stat.label} value={stat.value} label={stat.label} size="sm" />
+        <StatCard
+          key={stat.key}
+          value={stat.value}
+          label={stat.label}
+          size="sm"
+          data-testid={`stat-card-${stat.key}`}
+        />
       ))}
     </div>
   );

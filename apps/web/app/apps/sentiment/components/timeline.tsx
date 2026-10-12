@@ -10,7 +10,7 @@ export function Timeline({ groups }: TimelineProps) {
   return (
     <div className="space-y-6">
       {groups.map((group) => (
-        <div key={group.date}>
+        <div key={group.date} data-testid={`timeline-day-${group.date}`}>
           <h3 className="text-sm font-medium text-muted-foreground mb-3">
             {new Date(group.date + "T00:00:00").toLocaleDateString("en-US", {
               weekday: "long",
@@ -21,7 +21,7 @@ export function Timeline({ groups }: TimelineProps) {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {group.entries.map((entry) => (
-              <Card key={entry.id} className="glass-sm">
+              <Card key={entry.id} className="glass-sm" data-testid={`timeline-entry-${entry.id}`}>
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-medium text-sm">
@@ -38,12 +38,12 @@ export function Timeline({ groups }: TimelineProps) {
                     {entry.work_summary}
                   </p>
                   {entry.highlights?.length > 0 && (
-                    <p className="text-xs text-green">
+                    <p className="text-xs text-green" data-testid="timeline-entry-highlights">
                       Highlights: {entry.highlights.join(", ")}
                     </p>
                   )}
                   {entry.blockers?.length > 0 && (
-                    <p className="text-xs text-red">
+                    <p className="text-xs text-red" data-testid="timeline-entry-blockers">
                       Blockers: {entry.blockers.join(", ")}
                     </p>
                   )}

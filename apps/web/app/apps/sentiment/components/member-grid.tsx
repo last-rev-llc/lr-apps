@@ -10,11 +10,11 @@ export function MemberGrid({ members }: MemberGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {members.map((m) => (
-        <Card key={m.name} className="glass-sm">
+        <Card key={m.name} className="glass-sm" data-testid={`member-card-${m.name}`}>
           <CardHeader className="pb-2">
             <div className="flex items-center justify-between">
               <CardTitle className="text-sm">{m.name}</CardTitle>
-              <MoodBadge mood={m.latestMood} />
+              <MoodBadge mood={m.latestMood} testId="member-card-latest-mood" />
             </div>
           </CardHeader>
           <CardContent>
@@ -25,7 +25,7 @@ export function MemberGrid({ members }: MemberGridProps) {
                   style={{ width: `${(m.latestScore / 10) * 100}%` }}
                 />
               </div>
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-muted-foreground" data-testid="member-card-latest-score">
                 {m.latestScore}/10
               </span>
             </div>

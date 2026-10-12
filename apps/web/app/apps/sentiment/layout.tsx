@@ -21,10 +21,10 @@ export default async function SentimentLayout({
           <div className="flex items-center gap-6">
             <h1 className="font-heading text-xl text-accent">Sentiment</h1>
             <nav className="flex gap-4 text-sm">
-              <a href="/" className="text-foreground hover:text-accent">Dashboard</a>
-              <a href="/about" className="text-muted-foreground hover:text-accent">About</a>
-              <a href="/docs" className="text-muted-foreground hover:text-accent">Docs</a>
-              <a href="/changelog" className="text-muted-foreground hover:text-accent">Changelog</a>
+              <a href="/" className="text-foreground hover:text-accent" data-testid="nav-dashboard">Dashboard</a>
+              <a href="/about" className="text-muted-foreground hover:text-accent" data-testid="nav-about">About</a>
+              <a href="/docs" className="text-muted-foreground hover:text-accent" data-testid="nav-docs">Docs</a>
+              <a href="/changelog" className="text-muted-foreground hover:text-accent" data-testid="nav-changelog">Changelog</a>
             </nav>
           </div>
         </div>

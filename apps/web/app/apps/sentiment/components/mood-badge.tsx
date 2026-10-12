@@ -8,7 +8,13 @@ const moodStyles: Record<string, string> = {
   blocked: "bg-red/20 text-red border-red/30",
 };
 
-export function MoodBadge({ mood }: { mood: string }) {
+interface MoodBadgeProps {
+  mood: string;
+  /** Overrides the default `mood-badge` test id (e.g. for a badge with a more specific role). */
+  testId?: string;
+}
+
+export function MoodBadge({ mood, testId = "mood-badge" }: MoodBadgeProps) {
   const style = moodStyles[mood] ?? "bg-zinc-500/10 text-zinc-500 border-zinc-500/20";
   return (
     <span
@@ -16,6 +22,8 @@ export function MoodBadge({ mood }: { mood: string }) {
         "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold capitalize",
         style,
       )}
+      data-testid={testId}
+      data-mood={mood}
     >
       {mood}
     </span>
